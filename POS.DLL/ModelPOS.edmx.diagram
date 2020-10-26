@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4ce19e41ab38472db95cab2b73dcade7" Name="Diagram1">
+        <EntityTypeShape EntityType="POSModel.AccountsReceivable" Width="1.5" PointX="15" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Bank" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.BankCreditCard" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Brand" Width="1.5" PointX="7.5" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.City" Width="1.5" PointX="5.25" PointY="39" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ClosingCashLine" Width="1.5" PointX="14.25" PointY="44.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ClosingCashMoney" Width="1.5" PointX="16.5" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ClosingCashTable" Width="1.5" PointX="12" PointY="41" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Company" Width="1.5" PointX="7.5" PointY="39.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ConsumerCardLine" Width="1.5" PointX="16.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ConsumerCardTable" Width="1.5" PointX="14.25" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.CountCashLine" Width="1.5" PointX="14.25" PointY="48.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.CountCashMoney" Width="1.5" PointX="16.5" PointY="51.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.CountCashTable" Width="1.5" PointX="12" PointY="45.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Country" Width="1.5" PointX="0.75" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.CreditCard" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Customer" Width="1.5" PointX="12" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.CustomerType" Width="1.5" PointX="9.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.EmissionPoint" Width="1.5" PointX="14.25" PointY="53.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.IdentType" Width="1.5" PointX="5.25" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InventLocation" Width="1.5" PointX="12" PointY="63.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InventProductLocation" Width="1.5" PointX="17.25" PointY="48" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InventTableModule" Width="1.5" PointX="12" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InventTransType" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InventUnit" Width="1.5" PointX="7.5" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InvoiceLine" Width="1.5" PointX="21.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InvoicePaymMode" Width="1.5" PointX="19.25" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InvoicePromotion" Width="1.5" PointX="24.75" PointY="47.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.InvoiceTable" Width="1.5" PointX="19.5" PointY="42" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Location" Width="1.5" PointX="9.75" PointY="38.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.OrderLine" Width="1.5" PointX="24.75" PointY="36.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.OrderPaymMode" Width="1.5" PointX="24.75" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.OrderPromotion" Width="1.5" PointX="27.75" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.OrderTable" Width="1.5" PointX="22.5" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.OrderText" Width="1.5" PointX="24.75" PointY="56.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PaymMode" Width="1.5" PointX="17" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Product" Width="1.5" PointX="9.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ProductBarcode" Width="1.5" PointX="12" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ProductCategory" Width="1.5" PointX="7.5" PointY="43.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.ProductGroup" Width="1.5" PointX="7.5" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionCustomer" Width="1.5" PointX="17.25" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionPaymMode" Width="1.5" PointX="19.25" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionProducts" Width="1.5" PointX="17.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionReward" Width="1.5" PointX="17.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionTable" Width="1.5" PointX="15" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.PromotionType" Width="1.5" PointX="12.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Province" Width="1.5" PointX="3" PointY="39.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Salesman" Width="1.5" PointX="17.25" PointY="55.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Server" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.User" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POSModel.Vendor" Width="1.5" PointX="7.5" PointY="33.5" IsExpanded="true" />
+        <AssociationConnector Association="POSModel.FK__AccountsReceivable_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__AccountsReceivable_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__BankCreditCard_Bank" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__BankCreditCard_CreditCard" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Product_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__City_Province" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Company_City" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Customer_City" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Location_City" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Vendor_City" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ClosingCashLine_ClosingCashTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ClosingCashLine_PaymMode" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ClosingCashMoney_ClosingCashLine" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.PK__ClosingCashLine_EmissionPoint" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ClosingCashTable_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Location_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ConsumerCardLine_ConsumerCardTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ConsumerCardLine_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ConsumerCardTable_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__CountCashLine_CountCashTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__CountCashLine_PaymMode" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__CountCashMoney_CountCashLine" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.PK__CountCashLine_EmissionPoint" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__CountCashTable_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Province_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Customer_CustomerType" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Customer_IdentType" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Customer_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderTable_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionCustomer_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__EmissionPoint_InventLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__EmissionPoint_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_EmissionPoint" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderTable_EmissionPoint" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Vendor_CustIdType" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InventLocation_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InventProductLocation_InventLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InventProductLocation_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InventTableModule_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceLine_InventUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderLine_InventUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Product_InventUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceLine_InvoiceTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceLine_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_InvoiceTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_PaymMode" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePromotion_InvoiceTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoicePromotion_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderTable_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderLine_OrderTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderLine_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderPaymMode_OrderTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderPaymMode_PaymMode" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderPromotion_OrderTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderPromotion_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderTable_Salesman" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__OrderText_FACTrPedidoCab" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionPaymMode_PaymMode" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Product_ProductCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Product_ProductGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__Product_VendorId" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__ProductBarcode_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionCustomer_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionPaymMode_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionProducts_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionReward_PromotionTable" ManuallyRouted="false" />
+        <AssociationConnector Association="POSModel.FK__PromotionTable_PromotionType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A1D9A7F-96E2-4FEA-9A25-8B200BB28BCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>POS.DLL</RootNamespace>
+    <AssemblyName>POS.DLL</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountsReceivable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Bank.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankCreditCard.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Brand.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="City.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClosingCashLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClosingCashMoney.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClosingCashTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumerCardLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumerCardTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountCashLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountCashMoney.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountCashTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCard.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmissionPoint.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IdentType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventLocation.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventProductLocation.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventTableModule.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventTransType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InventUnit.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoicePaymMode.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoicePromotion.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelPOS.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPOS.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelPOS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelPOS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPOS.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderPaymMode.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderPromotion.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderText.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymMode.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductBarcode.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategory.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductGroup.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionCustomer.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionPaymMode.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionProducts.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionReward.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Province.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Salesman.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Server.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vendor.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="ModelPOS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelPOS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="ModelPOS.edmx.diagram">
+      <DependentUpon>ModelPOS.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModelPOS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelPOS.Context.cs</LastGenOutput>
+      <DependentUpon>ModelPOS.edmx</DependentUpon>
+    </Content>
+    <Content Include="ModelPOS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelPOS.edmx</DependentUpon>
+      <LastGenOutput>ModelPOS.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,615 @@
+﻿namespace POS
+{
+    partial class FrmMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            this.BtnCancelSale = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnSuspendSale = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnLogOut = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnProductSearch = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnPayment = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn8 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn7 = new DevExpress.XtraEditors.SimpleButton();
+            this.LblBarcode = new System.Windows.Forms.Label();
+            this.Btn6 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn5 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn1 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn4 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn2 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn3 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnEnter = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
+            this.GrdSalesDetail = new DevExpress.XtraGrid.GridControl();
+            this.GrvSalesDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
+            this.ImgLogo = new System.Windows.Forms.PictureBox();
+            this.LblInvoiceNumber = new System.Windows.Forms.Label();
+            this.LblTitleCustomer = new System.Windows.Forms.Label();
+            this.LblTitleCustomerName = new System.Windows.Forms.Label();
+            this.LblEmissionPoint = new System.Windows.Forms.Label();
+            this.LblTitleCustomerAddress = new System.Windows.Forms.Label();
+            this.LblLine2 = new System.Windows.Forms.Label();
+            this.LblLine1 = new System.Windows.Forms.Label();
+            this.LblEstablishment = new System.Windows.Forms.Label();
+            this.LblCustomer = new System.Windows.Forms.Label();
+            this.LblCutomerName = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BtnCustomer = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnQty = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnRemove = new DevExpress.XtraEditors.SimpleButton();
+            ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // BtnCancelSale
+            // 
+            this.BtnCancelSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnCancelSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnCancelSale.Appearance.Options.UseBackColor = true;
+            this.BtnCancelSale.Appearance.Options.UseFont = true;
+            this.BtnCancelSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnCancelSale.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancelSale.ImageOptions.SvgImage")));
+            this.BtnCancelSale.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnCancelSale.Location = new System.Drawing.Point(1130, 451);
+            this.BtnCancelSale.Name = "BtnCancelSale";
+            this.BtnCancelSale.Size = new System.Drawing.Size(220, 80);
+            this.BtnCancelSale.TabIndex = 137;
+            this.BtnCancelSale.Text = "Anular Venta";
+            // 
+            // BtnSuspendSale
+            // 
+            this.BtnSuspendSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnSuspendSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnSuspendSale.Appearance.Options.UseBackColor = true;
+            this.BtnSuspendSale.Appearance.Options.UseFont = true;
+            this.BtnSuspendSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnSuspendSale.ImageOptions.SvgImage = global::POS.Properties.Resources.SuspendSale;
+            this.BtnSuspendSale.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnSuspendSale.Location = new System.Drawing.Point(1130, 365);
+            this.BtnSuspendSale.Name = "BtnSuspendSale";
+            this.BtnSuspendSale.Size = new System.Drawing.Size(220, 80);
+            this.BtnSuspendSale.TabIndex = 136;
+            this.BtnSuspendSale.Text = "Suspender";
+            // 
+            // BtnLogOut
+            // 
+            this.BtnLogOut.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnLogOut.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnLogOut.Appearance.Options.UseBackColor = true;
+            this.BtnLogOut.Appearance.Options.UseFont = true;
+            this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
+            this.BtnLogOut.Location = new System.Drawing.Point(1102, 639);
+            this.BtnLogOut.Name = "BtnLogOut";
+            this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
+            this.BtnLogOut.TabIndex = 135;
+            this.BtnLogOut.Text = "Cerrar Sesion";
+            // 
+            // BtnProductSearch
+            // 
+            this.BtnProductSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnProductSearch.Appearance.Options.UseBackColor = true;
+            this.BtnProductSearch.Appearance.Options.UseFont = true;
+            this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch;
+            this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnProductSearch.Location = new System.Drawing.Point(1130, 279);
+            this.BtnProductSearch.Name = "BtnProductSearch";
+            this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
+            this.BtnProductSearch.TabIndex = 134;
+            this.BtnProductSearch.Text = "Productos";
+            // 
+            // Btn9
+            // 
+            this.Btn9.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn9.Appearance.Options.UseBackColor = true;
+            this.Btn9.Appearance.Options.UseFont = true;
+            this.Btn9.Location = new System.Drawing.Point(1028, 271);
+            this.Btn9.Margin = new System.Windows.Forms.Padding(8);
+            this.Btn9.Name = "Btn9";
+            this.Btn9.Size = new System.Drawing.Size(75, 65);
+            this.Btn9.TabIndex = 132;
+            this.Btn9.Text = "9";
+            this.Btn9.Click += new System.EventHandler(this.Btn9_Click);
+            // 
+            // BtnPayment
+            // 
+            this.BtnPayment.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPayment.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnPayment.Appearance.Options.UseBackColor = true;
+            this.BtnPayment.Appearance.Options.UseFont = true;
+            this.BtnPayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPayment.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
+            this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnPayment.Location = new System.Drawing.Point(1130, 193);
+            this.BtnPayment.Name = "BtnPayment";
+            this.BtnPayment.Size = new System.Drawing.Size(220, 80);
+            this.BtnPayment.TabIndex = 133;
+            this.BtnPayment.Text = "Pagos";
+            this.BtnPayment.Click += new System.EventHandler(this.BtnPayment_Click);
+            // 
+            // Btn8
+            // 
+            this.Btn8.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn8.Appearance.Options.UseBackColor = true;
+            this.Btn8.Appearance.Options.UseFont = true;
+            this.Btn8.Location = new System.Drawing.Point(942, 271);
+            this.Btn8.Margin = new System.Windows.Forms.Padding(8);
+            this.Btn8.Name = "Btn8";
+            this.Btn8.Size = new System.Drawing.Size(75, 65);
+            this.Btn8.TabIndex = 131;
+            this.Btn8.Text = "8";
+            this.Btn8.Click += new System.EventHandler(this.Btn8_Click);
+            // 
+            // Btn7
+            // 
+            this.Btn7.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn7.Appearance.Options.UseBackColor = true;
+            this.Btn7.Appearance.Options.UseFont = true;
+            this.Btn7.Location = new System.Drawing.Point(858, 271);
+            this.Btn7.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn7.Name = "Btn7";
+            this.Btn7.Size = new System.Drawing.Size(75, 65);
+            this.Btn7.TabIndex = 130;
+            this.Btn7.Text = "7";
+            this.Btn7.Click += new System.EventHandler(this.Btn7_Click);
+            // 
+            // LblBarcode
+            // 
+            this.LblBarcode.AutoSize = true;
+            this.LblBarcode.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.LblBarcode.Location = new System.Drawing.Point(852, 191);
+            this.LblBarcode.Name = "LblBarcode";
+            this.LblBarcode.Size = new System.Drawing.Size(170, 22);
+            this.LblBarcode.TabIndex = 119;
+            this.LblBarcode.Text = "Codigo de Barras";
+            // 
+            // Btn6
+            // 
+            this.Btn6.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn6.Appearance.Options.UseBackColor = true;
+            this.Btn6.Appearance.Options.UseFont = true;
+            this.Btn6.Location = new System.Drawing.Point(1028, 347);
+            this.Btn6.Margin = new System.Windows.Forms.Padding(8);
+            this.Btn6.Name = "Btn6";
+            this.Btn6.Size = new System.Drawing.Size(75, 65);
+            this.Btn6.TabIndex = 129;
+            this.Btn6.Text = "6";
+            this.Btn6.Click += new System.EventHandler(this.Btn6_Click);
+            // 
+            // Btn5
+            // 
+            this.Btn5.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn5.Appearance.Options.UseBackColor = true;
+            this.Btn5.Appearance.Options.UseFont = true;
+            this.Btn5.Location = new System.Drawing.Point(942, 347);
+            this.Btn5.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn5.Name = "Btn5";
+            this.Btn5.Size = new System.Drawing.Size(75, 65);
+            this.Btn5.TabIndex = 128;
+            this.Btn5.Text = "5";
+            this.Btn5.Click += new System.EventHandler(this.Btn5_Click);
+            // 
+            // Btn1
+            // 
+            this.Btn1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn1.Appearance.Options.UseBackColor = true;
+            this.Btn1.Appearance.Options.UseFont = true;
+            this.Btn1.Location = new System.Drawing.Point(858, 421);
+            this.Btn1.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn1.Name = "Btn1";
+            this.Btn1.Size = new System.Drawing.Size(75, 65);
+            this.Btn1.TabIndex = 124;
+            this.Btn1.Text = "1";
+            this.Btn1.Click += new System.EventHandler(this.Btn1_Click);
+            // 
+            // Btn4
+            // 
+            this.Btn4.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn4.Appearance.Options.UseBackColor = true;
+            this.Btn4.Appearance.Options.UseFont = true;
+            this.Btn4.Location = new System.Drawing.Point(858, 347);
+            this.Btn4.Margin = new System.Windows.Forms.Padding(5);
+            this.Btn4.Name = "Btn4";
+            this.Btn4.Size = new System.Drawing.Size(75, 65);
+            this.Btn4.TabIndex = 127;
+            this.Btn4.Text = "4";
+            this.Btn4.Click += new System.EventHandler(this.Btn4_Click);
+            // 
+            // Btn2
+            // 
+            this.Btn2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn2.Appearance.Options.UseBackColor = true;
+            this.Btn2.Appearance.Options.UseFont = true;
+            this.Btn2.Location = new System.Drawing.Point(942, 421);
+            this.Btn2.Margin = new System.Windows.Forms.Padding(5);
+            this.Btn2.Name = "Btn2";
+            this.Btn2.Size = new System.Drawing.Size(75, 65);
+            this.Btn2.TabIndex = 125;
+            this.Btn2.Text = "2";
+            this.Btn2.Click += new System.EventHandler(this.Btn2_Click);
+            // 
+            // BtnDelete
+            // 
+            this.BtnDelete.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnDelete.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnDelete.Appearance.Options.UseBackColor = true;
+            this.BtnDelete.Appearance.Options.UseFont = true;
+            this.BtnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnDelete.ImageOptions.SvgImage")));
+            this.BtnDelete.Location = new System.Drawing.Point(858, 571);
+            this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(159, 45);
+            this.BtnDelete.TabIndex = 122;
+            this.BtnDelete.Text = "Borrar";
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
+            // Btn3
+            // 
+            this.Btn3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn3.Appearance.Options.UseBackColor = true;
+            this.Btn3.Appearance.Options.UseFont = true;
+            this.Btn3.Location = new System.Drawing.Point(1028, 421);
+            this.Btn3.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn3.Name = "Btn3";
+            this.Btn3.Size = new System.Drawing.Size(75, 65);
+            this.Btn3.TabIndex = 126;
+            this.Btn3.Text = "3";
+            this.Btn3.Click += new System.EventHandler(this.Btn3_Click);
+            // 
+            // BtnEnter
+            // 
+            this.BtnEnter.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnEnter.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnEnter.Appearance.Options.UseBackColor = true;
+            this.BtnEnter.Appearance.Options.UseFont = true;
+            this.BtnEnter.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnEnter.ImageOptions.SvgImage")));
+            this.BtnEnter.Location = new System.Drawing.Point(1029, 495);
+            this.BtnEnter.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnEnter.Name = "BtnEnter";
+            this.BtnEnter.Size = new System.Drawing.Size(75, 121);
+            this.BtnEnter.TabIndex = 121;
+            this.BtnEnter.Click += new System.EventHandler(this.BtnEnter_Click);
+            // 
+            // Btn0
+            // 
+            this.Btn0.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.Btn0.Appearance.Options.UseBackColor = true;
+            this.Btn0.Appearance.Options.UseFont = true;
+            this.Btn0.Location = new System.Drawing.Point(858, 495);
+            this.Btn0.Margin = new System.Windows.Forms.Padding(5);
+            this.Btn0.Name = "Btn0";
+            this.Btn0.Size = new System.Drawing.Size(159, 65);
+            this.Btn0.TabIndex = 123;
+            this.Btn0.Text = "0";
+            this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
+            // 
+            // GrdSalesDetail
+            // 
+            this.GrdSalesDetail.Location = new System.Drawing.Point(12, 159);
+            this.GrdSalesDetail.MainView = this.GrvSalesDetail;
+            this.GrdSalesDetail.Name = "GrdSalesDetail";
+            this.GrdSalesDetail.Size = new System.Drawing.Size(823, 417);
+            this.GrdSalesDetail.TabIndex = 138;
+            this.GrdSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.GrvSalesDetail});
+            // 
+            // GrvSalesDetail
+            // 
+            this.GrvSalesDetail.GridControl = this.GrdSalesDetail;
+            this.GrvSalesDetail.Name = "GrvSalesDetail";
+            this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
+            // 
+            // TxtBarcode
+            // 
+            this.TxtBarcode.Location = new System.Drawing.Point(858, 218);
+            this.TxtBarcode.Name = "TxtBarcode";
+            this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
+            this.TxtBarcode.Size = new System.Drawing.Size(245, 44);
+            this.TxtBarcode.TabIndex = 1;
+            // 
+            // ImgLogo
+            // 
+            this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola;
+            this.ImgLogo.Location = new System.Drawing.Point(1, -7);
+            this.ImgLogo.Margin = new System.Windows.Forms.Padding(0);
+            this.ImgLogo.Name = "ImgLogo";
+            this.ImgLogo.Size = new System.Drawing.Size(196, 160);
+            this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ImgLogo.TabIndex = 139;
+            this.ImgLogo.TabStop = false;
+            // 
+            // LblInvoiceNumber
+            // 
+            this.LblInvoiceNumber.AutoSize = true;
+            this.LblInvoiceNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
+            this.LblInvoiceNumber.Location = new System.Drawing.Point(337, 18);
+            this.LblInvoiceNumber.Name = "LblInvoiceNumber";
+            this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
+            this.LblInvoiceNumber.TabIndex = 140;
+            this.LblInvoiceNumber.Text = "000000569";
+            // 
+            // LblTitleCustomer
+            // 
+            this.LblTitleCustomer.AutoSize = true;
+            this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.LblTitleCustomer.Location = new System.Drawing.Point(200, 55);
+            this.LblTitleCustomer.Name = "LblTitleCustomer";
+            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
+            this.LblTitleCustomer.TabIndex = 141;
+            this.LblTitleCustomer.Text = "Cliente:";
+            // 
+            // LblTitleCustomerName
+            // 
+            this.LblTitleCustomerName.AutoSize = true;
+            this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.LblTitleCustomerName.Location = new System.Drawing.Point(200, 82);
+            this.LblTitleCustomerName.Name = "LblTitleCustomerName";
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
+            this.LblTitleCustomerName.TabIndex = 142;
+            this.LblTitleCustomerName.Text = "Nombre:";
+            // 
+            // LblEmissionPoint
+            // 
+            this.LblEmissionPoint.AutoSize = true;
+            this.LblEmissionPoint.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
+            this.LblEmissionPoint.Location = new System.Drawing.Point(274, 18);
+            this.LblEmissionPoint.Name = "LblEmissionPoint";
+            this.LblEmissionPoint.Size = new System.Drawing.Size(57, 28);
+            this.LblEmissionPoint.TabIndex = 143;
+            this.LblEmissionPoint.Text = "001";
+            // 
+            // LblTitleCustomerAddress
+            // 
+            this.LblTitleCustomerAddress.AutoSize = true;
+            this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.LblTitleCustomerAddress.Location = new System.Drawing.Point(200, 109);
+            this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
+            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
+            this.LblTitleCustomerAddress.TabIndex = 144;
+            this.LblTitleCustomerAddress.Text = "Direccion:";
+            // 
+            // LblLine2
+            // 
+            this.LblLine2.AutoSize = true;
+            this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.LblLine2.Location = new System.Drawing.Point(322, 18);
+            this.LblLine2.Name = "LblLine2";
+            this.LblLine2.Size = new System.Drawing.Size(19, 26);
+            this.LblLine2.TabIndex = 145;
+            this.LblLine2.Text = "-";
+            // 
+            // LblLine1
+            // 
+            this.LblLine1.AutoSize = true;
+            this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.LblLine1.Location = new System.Drawing.Point(255, 18);
+            this.LblLine1.Name = "LblLine1";
+            this.LblLine1.Size = new System.Drawing.Size(19, 26);
+            this.LblLine1.TabIndex = 146;
+            this.LblLine1.Text = "-";
+            // 
+            // LblEstablishment
+            // 
+            this.LblEstablishment.AutoSize = true;
+            this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
+            this.LblEstablishment.Location = new System.Drawing.Point(201, 18);
+            this.LblEstablishment.Name = "LblEstablishment";
+            this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
+            this.LblEstablishment.TabIndex = 147;
+            this.LblEstablishment.Text = "003";
+            // 
+            // LblCustomer
+            // 
+            this.LblCustomer.AutoSize = true;
+            this.LblCustomer.Location = new System.Drawing.Point(282, 55);
+            this.LblCustomer.Name = "LblCustomer";
+            this.LblCustomer.Size = new System.Drawing.Size(88, 16);
+            this.LblCustomer.TabIndex = 148;
+            this.LblCustomer.Text = "0908773873";
+            // 
+            // LblCutomerName
+            // 
+            this.LblCutomerName.AutoSize = true;
+            this.LblCutomerName.Location = new System.Drawing.Point(282, 82);
+            this.LblCutomerName.Name = "LblCutomerName";
+            this.LblCutomerName.Size = new System.Drawing.Size(220, 16);
+            this.LblCutomerName.TabIndex = 149;
+            this.LblCutomerName.Text = "ALFREDO RODRIGUEZ NOBOA";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(282, 109);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(222, 16);
+            this.label1.TabIndex = 150;
+            this.label1.Text = "LA JOYA, URB. PLATINO MZ 12";
+            // 
+            // BtnCustomer
+            // 
+            this.BtnCustomer.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnCustomer.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCustomer.Appearance.Options.UseBackColor = true;
+            this.BtnCustomer.Appearance.Options.UseFont = true;
+            this.BtnCustomer.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnCustomer.ImageOptions.SvgImage = global::POS.Properties.Resources.user4;
+            this.BtnCustomer.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnCustomer.Location = new System.Drawing.Point(215, 639);
+            this.BtnCustomer.Name = "BtnCustomer";
+            this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
+            this.BtnCustomer.TabIndex = 151;
+            this.BtnCustomer.Text = "Cliente";
+            // 
+            // BtnQty
+            // 
+            this.BtnQty.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnQty.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnQty.Appearance.Options.UseBackColor = true;
+            this.BtnQty.Appearance.Options.UseFont = true;
+            this.BtnQty.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
+            this.BtnQty.ImageOptions.SvgImage = global::POS.Properties.Resources.calculator2;
+            this.BtnQty.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnQty.Location = new System.Drawing.Point(15, 592);
+            this.BtnQty.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnQty.Name = "BtnQty";
+            this.BtnQty.Size = new System.Drawing.Size(80, 92);
+            this.BtnQty.TabIndex = 152;
+            this.BtnQty.Text = "Cant";
+            // 
+            // BtnRemove
+            // 
+            this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnRemove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRemove.Appearance.Options.UseBackColor = true;
+            this.BtnRemove.Appearance.Options.UseFont = true;
+            this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
+            this.BtnRemove.ImageOptions.SvgImage = global::POS.Properties.Resources.remove;
+            this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
+            this.BtnRemove.Location = new System.Drawing.Point(107, 592);
+            this.BtnRemove.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnRemove.Name = "BtnRemove";
+            this.BtnRemove.Size = new System.Drawing.Size(80, 92);
+            this.BtnRemove.TabIndex = 153;
+            this.BtnRemove.Text = "Anul";
+            // 
+            // FrmMain
+            // 
+            this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.Appearance.Options.UseBackColor = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1364, 706);
+            this.Controls.Add(this.BtnRemove);
+            this.Controls.Add(this.BtnQty);
+            this.Controls.Add(this.BtnCustomer);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LblCutomerName);
+            this.Controls.Add(this.LblCustomer);
+            this.Controls.Add(this.LblEstablishment);
+            this.Controls.Add(this.LblLine1);
+            this.Controls.Add(this.LblLine2);
+            this.Controls.Add(this.LblTitleCustomerAddress);
+            this.Controls.Add(this.LblEmissionPoint);
+            this.Controls.Add(this.LblTitleCustomerName);
+            this.Controls.Add(this.LblTitleCustomer);
+            this.Controls.Add(this.LblInvoiceNumber);
+            this.Controls.Add(this.ImgLogo);
+            this.Controls.Add(this.TxtBarcode);
+            this.Controls.Add(this.GrdSalesDetail);
+            this.Controls.Add(this.BtnCancelSale);
+            this.Controls.Add(this.BtnSuspendSale);
+            this.Controls.Add(this.BtnLogOut);
+            this.Controls.Add(this.BtnProductSearch);
+            this.Controls.Add(this.Btn9);
+            this.Controls.Add(this.BtnPayment);
+            this.Controls.Add(this.Btn8);
+            this.Controls.Add(this.Btn7);
+            this.Controls.Add(this.LblBarcode);
+            this.Controls.Add(this.Btn6);
+            this.Controls.Add(this.Btn5);
+            this.Controls.Add(this.Btn1);
+            this.Controls.Add(this.Btn4);
+            this.Controls.Add(this.Btn2);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.Btn3);
+            this.Controls.Add(this.BtnEnter);
+            this.Controls.Add(this.Btn0);
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.MaximizeBox = false;
+            this.Name = "FrmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "POS";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private DevExpress.XtraEditors.SimpleButton BtnCancelSale;
+        private DevExpress.XtraEditors.SimpleButton BtnSuspendSale;
+        private DevExpress.XtraEditors.SimpleButton BtnLogOut;
+        private DevExpress.XtraEditors.SimpleButton BtnProductSearch;
+        private DevExpress.XtraEditors.SimpleButton Btn9;
+        private DevExpress.XtraEditors.SimpleButton BtnPayment;
+        private DevExpress.XtraEditors.SimpleButton Btn8;
+        private DevExpress.XtraEditors.SimpleButton Btn7;
+        private System.Windows.Forms.Label LblBarcode;
+        private DevExpress.XtraEditors.SimpleButton Btn6;
+        private DevExpress.XtraEditors.SimpleButton Btn5;
+        private DevExpress.XtraEditors.SimpleButton Btn1;
+        private DevExpress.XtraEditors.SimpleButton Btn4;
+        private DevExpress.XtraEditors.SimpleButton Btn2;
+        private DevExpress.XtraEditors.SimpleButton BtnDelete;
+        private DevExpress.XtraEditors.SimpleButton Btn3;
+        private DevExpress.XtraEditors.SimpleButton BtnEnter;
+        private DevExpress.XtraEditors.SimpleButton Btn0;
+        private DevExpress.XtraGrid.GridControl GrdSalesDetail;
+        private DevExpress.XtraGrid.Views.Grid.GridView GrvSalesDetail;
+        private DevExpress.XtraEditors.TextEdit TxtBarcode;
+        private System.Windows.Forms.PictureBox ImgLogo;
+        private System.Windows.Forms.Label LblInvoiceNumber;
+        private System.Windows.Forms.Label LblTitleCustomer;
+        private System.Windows.Forms.Label LblTitleCustomerName;
+        private System.Windows.Forms.Label LblEmissionPoint;
+        private System.Windows.Forms.Label LblTitleCustomerAddress;
+        private System.Windows.Forms.Label LblLine2;
+        private System.Windows.Forms.Label LblLine1;
+        private System.Windows.Forms.Label LblEstablishment;
+        private System.Windows.Forms.Label LblCustomer;
+        private System.Windows.Forms.Label LblCutomerName;
+        private System.Windows.Forms.Label label1;
+        private DevExpress.XtraEditors.SimpleButton BtnCustomer;
+        private DevExpress.XtraEditors.SimpleButton BtnQty;
+        private DevExpress.XtraEditors.SimpleButton BtnRemove;
+    }
+}
