@@ -189,6 +189,7 @@
     <Compile Include="ProductGroup.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Product\Product.cs" />
     <Compile Include="PromotionCustomer.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
