@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="POSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="POSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountsReceivable">
           <Key>
             <PropertyRef Name="AccountsReceivableId" />
@@ -223,6 +223,8 @@
           <Property Name="CreditCardId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsDebit" Type="bit" />
+          <Property Name="IsCredit" Type="bit" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="Customer">
@@ -277,6 +279,7 @@
           <Property Name="Point" Type="smallint" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="DocNumber" Type="bigint" Nullable="false" />
+          <Property Name="AddressIP" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
@@ -824,6 +827,8 @@
           <Property Name="ModifiedDatetime" Type="datetime" />
           <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POSDB.dbo.VW_CreditCard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK__AccountsReceivable_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="AccountsReceivable" Type="Self.AccountsReceivable" Multiplicity="*" />
@@ -2033,8 +2038,7 @@
             <End Role="CountCashLine" EntitySet="CountCashLine" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="POSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2084,7 +2088,7 @@
           <Property Name="CreditCardId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Bank" Relationship="Self.FK__BankCreditCard_Bank" FromRole="BankCreditCard" ToRole="Bank" />
-          <NavigationProperty Name="CreditCard" Relationship="Self.FK__BankCreditCard_CreditCard" FromRole="BankCreditCard" ToRole="CreditCard" />
+          <NavigationProperty Name="CreditCard" Relationship="POSModel.FK__BankCreditCard_CreditCard" FromRole="BankCreditCard" ToRole="CreditCard" />
         </EntityType>
         <EntityType Name="Brand">
           <Key>
@@ -2281,16 +2285,6 @@
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Province" Relationship="Self.FK__Province_Country" FromRole="Country" ToRole="Province" />
         </EntityType>
-        <EntityType Name="CreditCard">
-          <Key>
-            <PropertyRef Name="CreditCardId" />
-          </Key>
-          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="BankCreditCard" Relationship="Self.FK__BankCreditCard_CreditCard" FromRole="CreditCard" ToRole="BankCreditCard" />
-        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerId" />
@@ -2366,6 +2360,7 @@
           <NavigationProperty Name="Location" Relationship="Self.FK__EmissionPoint_Location" FromRole="EmissionPoint" ToRole="Location" />
           <NavigationProperty Name="InvoiceTable" Relationship="Self.FK__InvoiceTable_EmissionPoint" FromRole="EmissionPoint" ToRole="InvoiceTable" />
           <NavigationProperty Name="OrderTable" Relationship="Self.FK__OrderTable_EmissionPoint" FromRole="EmissionPoint" ToRole="OrderTable" />
+          <Property Name="AddressIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IdentType">
           <Key>
@@ -3034,18 +3029,6 @@
             </Principal>
             <Dependent Role="BankCreditCard">
               <PropertyRef Name="BankId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__BankCreditCard_CreditCard">
-          <End Role="CreditCard" Type="Self.CreditCard" Multiplicity="1" />
-          <End Role="BankCreditCard" Type="Self.BankCreditCard" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CreditCard">
-              <PropertyRef Name="CreditCardId" />
-            </Principal>
-            <Dependent Role="BankCreditCard">
-              <PropertyRef Name="CreditCardId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3885,7 +3868,6 @@
           <EntitySet Name="CountCashMoney" EntityType="Self.CountCashMoney" />
           <EntitySet Name="CountCashTable" EntityType="Self.CountCashTable" />
           <EntitySet Name="Country" EntityType="Self.Country" />
-          <EntitySet Name="CreditCard" EntityType="Self.CreditCard" />
           <EntitySet Name="Customer" EntityType="Self.Customer" />
           <EntitySet Name="CustomerType" EntityType="Self.CustomerType" />
           <EntitySet Name="EmissionPoint" EntityType="Self.EmissionPoint" />
@@ -3931,10 +3913,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__BankCreditCard_Bank" Association="Self.FK__BankCreditCard_Bank">
             <End Role="Bank" EntitySet="Bank" />
-            <End Role="BankCreditCard" EntitySet="BankCreditCard" />
-          </AssociationSet>
-          <AssociationSet Name="FK__BankCreditCard_CreditCard" Association="Self.FK__BankCreditCard_CreditCard">
-            <End Role="CreditCard" EntitySet="CreditCard" />
             <End Role="BankCreditCard" EntitySet="BankCreditCard" />
           </AssociationSet>
           <AssociationSet Name="FK__Product_Brand" Association="Self.FK__Product_Brand">
@@ -4209,7 +4187,36 @@
             <End Role="PromotionType" EntitySet="PromotionType" />
             <End Role="PromotionTable" EntitySet="PromotionTable" />
           </AssociationSet>
+          <EntitySet Name="CreditCard" EntityType="POSModel.CreditCard" />
+          <AssociationSet Name="FK__BankCreditCard_CreditCard" Association="POSModel.FK__BankCreditCard_CreditCard">
+            <End Role="CreditCard" EntitySet="CreditCard" />
+            <End Role="BankCreditCard" EntitySet="BankCreditCard" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CreditCard">
+          <Key>
+            <PropertyRef Name="CreditCardId" />
+          </Key>
+          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsDebit" Type="Boolean" />
+          <Property Name="IsCredit" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="BankCreditCard" Relationship="POSModel.FK__BankCreditCard_CreditCard" FromRole="CreditCard" ToRole="BankCreditCard" />
+        </EntityType>
+        <Association Name="FK__BankCreditCard_CreditCard">
+          <End Type="POSModel.CreditCard" Role="CreditCard" Multiplicity="1" />
+          <End Type="POSModel.BankCreditCard" Role="BankCreditCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditCard">
+              <PropertyRef Name="CreditCardId" />
+            </Principal>
+            <Dependent Role="BankCreditCard">
+              <PropertyRef Name="CreditCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4434,16 +4441,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CreditCard">
-            <EntityTypeMapping TypeName="POSModel.CreditCard">
-              <MappingFragment StoreEntitySet="CreditCard">
-                <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="POSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
@@ -4490,6 +4487,7 @@
           <EntitySetMapping Name="EmissionPoint">
             <EntityTypeMapping TypeName="POSModel.EmissionPoint">
               <MappingFragment StoreEntitySet="EmissionPoint">
+                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
                 <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="InventLocationId" ColumnName="InventLocationId" />
@@ -5063,6 +5061,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CreditCard">
+            <EntityTypeMapping TypeName="POSModel.CreditCard">
+              <MappingFragment StoreEntitySet="CreditCard">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsCredit" ColumnName="IsCredit" />
+                <ScalarProperty Name="IsDebit" ColumnName="IsDebit" />
+                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -5078,7 +5088,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

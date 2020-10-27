@@ -75,7 +75,8 @@ namespace POS
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(TxtBarcode.Text);
+            Functions functions = new Functions();
+            functions.ShowMessage(TxtBarcode.Text);
             TxtBarcode.Text = "";
         }
 

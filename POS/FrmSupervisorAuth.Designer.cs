@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class FrmMessage
+    partial class FrmSupervisorAuth
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.LblAuthorization = new System.Windows.Forms.Label();
+            this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
-            this.LblMessage = new System.Windows.Forms.Label();
-            this.ImgSvgMessage = new DevExpress.XtraEditors.SvgImageBox();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgSvgMessage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             this.SuspendLayout();
+            // 
+            // LblAuthorization
+            // 
+            this.LblAuthorization.AutoSize = true;
+            this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.LblAuthorization.Location = new System.Drawing.Point(54, 82);
+            this.LblAuthorization.Name = "LblAuthorization";
+            this.LblAuthorization.Size = new System.Drawing.Size(64, 18);
+            this.LblAuthorization.TabIndex = 7;
+            this.LblAuthorization.Text = "Codigo";
+            // 
+            // TxtAuthorization
+            // 
+            this.TxtAuthorization.EditValue = "";
+            this.TxtAuthorization.Location = new System.Drawing.Point(132, 71);
+            this.TxtAuthorization.Name = "TxtAuthorization";
+            this.TxtAuthorization.Properties.PasswordChar = '•';
+            this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
+            this.TxtAuthorization.Size = new System.Drawing.Size(220, 38);
+            this.TxtAuthorization.TabIndex = 1;
             // 
             // BtnAccept
             // 
-            this.BtnAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnAccept.Appearance.Options.UseBackColor = true;
@@ -49,33 +66,12 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(319, 216);
+            this.BtnAccept.Location = new System.Drawing.Point(299, 191);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 1;
+            this.BtnAccept.TabIndex = 9;
             this.BtnAccept.Text = "Aceptar";
-            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
-            // 
-            // LblMessage
-            // 
-            this.LblMessage.AutoSize = true;
-            this.LblMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblMessage.Location = new System.Drawing.Point(101, 82);
-            this.LblMessage.MaximumSize = new System.Drawing.Size(400, 200);
-            this.LblMessage.Name = "LblMessage";
-            this.LblMessage.Size = new System.Drawing.Size(178, 22);
-            this.LblMessage.TabIndex = 2;
-            this.LblMessage.Text = "Mensaje a mostrar";
-            this.LblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ImgSvgMessage
-            // 
-            this.ImgSvgMessage.Location = new System.Drawing.Point(30, 59);
-            this.ImgSvgMessage.Name = "ImgSvgMessage";
-            this.ImgSvgMessage.Size = new System.Drawing.Size(65, 65);
-            this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Squeeze;
-            this.ImgSvgMessage.TabIndex = 4;
             // 
             // BtnCancel
             // 
@@ -88,30 +84,28 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(149, 216);
+            this.BtnCancel.Location = new System.Drawing.Point(129, 191);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 2;
+            this.BtnCancel.TabIndex = 8;
             this.BtnCancel.Text = "Cancelar";
-            this.BtnCancel.Visible = false;
             // 
-            // FrmMessage
+            // FrmSupervisorAuth
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 280);
+            this.ClientSize = new System.Drawing.Size(473, 255);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.ImgSvgMessage);
-            this.Controls.Add(this.LblMessage);
+            this.Controls.Add(this.LblAuthorization);
+            this.Controls.Add(this.TxtAuthorization);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "FrmMessage";
+            this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mensaje";
-            this.Load += new System.EventHandler(this.FrmMessage_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.ImgSvgMessage)).EndInit();
+            this.Text = "Autorizacion de Supervisor";
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -119,9 +113,9 @@
 
         #endregion
 
+        private System.Windows.Forms.Label LblAuthorization;
+        private DevExpress.XtraEditors.TextEdit TxtAuthorization;
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
-        private System.Windows.Forms.Label LblMessage;
-        private DevExpress.XtraEditors.SvgImageBox ImgSvgMessage;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
     }
 }

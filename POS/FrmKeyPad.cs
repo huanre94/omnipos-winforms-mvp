@@ -104,7 +104,8 @@ namespace POS
             }
             else
             {
-                MessageBox.Show("Debe ingresar un valor diferente a vacio"); 
+                Functions functions = new Functions();
+                functions.ShowMessage("Debe ingresar un numero", "Warning");
             }
         }
     }

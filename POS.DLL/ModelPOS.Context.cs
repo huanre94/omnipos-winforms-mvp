@@ -40,7 +40,6 @@ namespace POS.DLL
         public virtual DbSet<CountCashMoney> CountCashMoney { get; set; }
         public virtual DbSet<CountCashTable> CountCashTable { get; set; }
         public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<CustomerType> CustomerType { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
@@ -76,5 +75,6 @@ namespace POS.DLL
         public virtual DbSet<Server> Server { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
+        public virtual DbSet<CreditCard> CreditCard { get; set; }
     }
 }

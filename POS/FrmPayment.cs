@@ -19,7 +19,9 @@ namespace POS
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
         DataTable dataTable = new DataTable();
-        decimal invoiceAmount = 0;
+        public decimal invoiceAmount;
+        decimal paidAmount = 0;
+        decimal pendingAmount = 0;
 
         public FrmPayment()
         {
@@ -28,26 +30,28 @@ namespace POS
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
+            invoiceAmount = 42.69M;
             LblTotal.Text = invoiceAmount.ToString();
+            TxtAmount.Text = invoiceAmount.ToString();
 
-            var db = new POSEntities();
-            var customer = from cust in db.Customer
-                           select cust;
-            MessageBox.Show(customer.First().Lastname);
+            //var db = new POSEntities();
+            //var customer = from cust in db.Customer
+            //               select cust;
+            //MessageBox.Show(customer.First().Lastname);
 
 
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (GrvPayment.RowCount > 0)
+            if (GrvPayment.RowCount > 1)
             {
-                FrmMessage message = new FrmMessage();
-                message.messagetype = "Confirm";
-                message.messageText = "Existen pagos registrados. Desea continuar?";
-                message.ShowDialog();
+                bool response;
+                
+                Functions functions = new Functions();
+                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", "Confirm");
 
-                if (message.messageResponse)
+                if (response)
                 {
                     GrcPayment.DataSource = null;
                     GrvPayment.Columns.Clear();
@@ -135,10 +139,8 @@ namespace POS
             }
             else
             {
-                FrmMessage frmMessage = new FrmMessage();
-                frmMessage.messagetype = "Warning";
-                frmMessage.messageText = "Debe ingresar un valor obligatoriamente";
-                frmMessage.ShowDialog();
+                Functions functions = new Functions();
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", "Warning");
             }
         }
 
@@ -172,7 +174,8 @@ namespace POS
             dataTable.Rows.Add(NewRow);
 
             GrcPayment.DataSource = dataTable;
-            TxtAmount.Text = "";
+
+            this.CalculatePayment();
         }
 
         private void CreditCard()
@@ -181,30 +184,52 @@ namespace POS
             FrmPaymentCard paymentCard = new FrmPaymentCard();
             paymentCard.ShowDialog();
 
-            DataRow NewRow = dataTable.NewRow();
+            if (paymentCard.processResponse)
+            {
+                DataRow NewRow = dataTable.NewRow();
+                NewRow[0] = "Tarjeta";
+                NewRow[1] = decimal.Parse(TxtAmount.Text);
+                dataTable.Rows.Add(NewRow);
 
-            NewRow[0] = "Tarjeta";
-            NewRow[1] = decimal.Parse(TxtAmount.Text);
-            dataTable.Rows.Add(NewRow);
+                GrcPayment.DataSource = dataTable;
 
-            GrcPayment.DataSource = dataTable;
-            TxtAmount.Text = "";            
+                this.CalculatePayment();
+            }
         }
 
         private void Check()
         {
+            CheckGridView();
             FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
             paymentCheck.ShowDialog();
+
+            if (paymentCheck.processResponse)
+            {
+                DataRow NewRow = dataTable.NewRow();
+                NewRow[0] = "Cheque";
+                NewRow[1] = decimal.Parse(TxtAmount.Text); 
+                dataTable.Rows.Add(NewRow);
+
+                GrcPayment.DataSource = dataTable;
+
+                this.CalculatePayment();
+            }
         }
 
         private void EmployeeCredit()
         {
-            //do something
+            CheckGridView();
+            FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
+            paymentCredit.ShowDialog();
+
+            this.CalculatePayment();
         }
 
         private void GiftCard()
         {
+            CheckGridView();
             //do something
+            this.CalculatePayment();
         }
 
         private void CheckGridView()
@@ -226,6 +251,23 @@ namespace POS
             //GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, Amount, decimal.Parse(TxtAmount.Text));
         }
 
-        
+        private void CalculatePayment()
+        {
+            paidAmount += decimal.Parse(TxtAmount.Text);
+            pendingAmount = invoiceAmount - paidAmount;
+
+            LblPaid.Text = paidAmount.ToString();
+            LblPending.Text = pendingAmount.ToString();
+
+            if (paidAmount >= invoiceAmount)
+            {
+                //close invoice process
+                this.Close();
+            }
+            else
+            {
+                TxtAmount.Text = pendingAmount.ToString();
+            }
+        }
     }
 }

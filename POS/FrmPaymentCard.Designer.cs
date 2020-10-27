@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentCard));
             this.CmbCardType = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.CmbCardBrand = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.CmbCardBank = new DevExpress.XtraEditors.ComboBoxEdit();
             this.LblCardType = new System.Windows.Forms.Label();
             this.LblCardBank = new System.Windows.Forms.Label();
             this.LblCardBrand = new System.Windows.Forms.Label();
@@ -40,72 +38,68 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
+            this.CmbCardBank = new DevExpress.XtraEditors.ImageComboBoxEdit();
+            this.CmbCardBrand = new DevExpress.XtraEditors.ImageComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbCardType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBrand.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBank.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBank.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBrand.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // CmbCardType
             // 
             this.CmbCardType.Location = new System.Drawing.Point(147, 47);
             this.CmbCardType.Name = "CmbCardType";
+            this.CmbCardType.Properties.AutoComplete = false;
             this.CmbCardType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbCardType.Properties.CycleOnDblClick = false;
+            this.CmbCardType.Properties.DropDownRows = 5;
+            this.CmbCardType.Properties.Items.AddRange(new object[] {
+            "CREDITO",
+            "DEBITO"});
+            this.CmbCardType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.CmbCardType.Size = new System.Drawing.Size(151, 38);
-            this.CmbCardType.TabIndex = 0;
-            // 
-            // CmbCardBrand
-            // 
-            this.CmbCardBrand.Location = new System.Drawing.Point(147, 135);
-            this.CmbCardBrand.Name = "CmbCardBrand";
-            this.CmbCardBrand.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbCardBrand.Size = new System.Drawing.Size(151, 38);
-            this.CmbCardBrand.TabIndex = 1;
-            // 
-            // CmbCardBank
-            // 
-            this.CmbCardBank.Location = new System.Drawing.Point(147, 91);
-            this.CmbCardBank.Name = "CmbCardBank";
-            this.CmbCardBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbCardBank.Size = new System.Drawing.Size(151, 38);
-            this.CmbCardBank.TabIndex = 2;
+            this.CmbCardType.TabIndex = 1;
+            this.CmbCardType.SelectedIndexChanged += new System.EventHandler(this.CmbCardType_SelectedIndexChanged);
             // 
             // LblCardType
             // 
             this.LblCardType.AutoSize = true;
-            this.LblCardType.Location = new System.Drawing.Point(30, 58);
+            this.LblCardType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.LblCardType.Location = new System.Drawing.Point(30, 56);
             this.LblCardType.Name = "LblCardType";
-            this.LblCardType.Size = new System.Drawing.Size(38, 16);
+            this.LblCardType.Size = new System.Drawing.Size(42, 18);
             this.LblCardType.TabIndex = 3;
             this.LblCardType.Text = "Tipo";
             // 
             // LblCardBank
             // 
             this.LblCardBank.AutoSize = true;
+            this.LblCardBank.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblCardBank.Location = new System.Drawing.Point(30, 102);
             this.LblCardBank.Name = "LblCardBank";
-            this.LblCardBank.Size = new System.Drawing.Size(50, 16);
+            this.LblCardBank.Size = new System.Drawing.Size(60, 18);
             this.LblCardBank.TabIndex = 4;
             this.LblCardBank.Text = "Banco";
             // 
             // LblCardBrand
             // 
             this.LblCardBrand.AutoSize = true;
+            this.LblCardBrand.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblCardBrand.Location = new System.Drawing.Point(30, 146);
             this.LblCardBrand.Name = "LblCardBrand";
-            this.LblCardBrand.Size = new System.Drawing.Size(50, 16);
+            this.LblCardBrand.Size = new System.Drawing.Size(58, 18);
             this.LblCardBrand.TabIndex = 5;
             this.LblCardBrand.Text = "Marca";
             // 
             // LblAuthorization
             // 
             this.LblAuthorization.AutoSize = true;
-            this.LblAuthorization.Location = new System.Drawing.Point(30, 194);
+            this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.LblAuthorization.Location = new System.Drawing.Point(30, 188);
             this.LblAuthorization.Name = "LblAuthorization";
-            this.LblAuthorization.Size = new System.Drawing.Size(92, 16);
+            this.LblAuthorization.Size = new System.Drawing.Size(109, 18);
             this.LblAuthorization.TabIndex = 6;
             this.LblAuthorization.Text = "Autorizacion";
             // 
@@ -123,7 +117,7 @@
             this.BtnKeyPad.Name = "BtnKeyPad";
             this.BtnKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyPad.Size = new System.Drawing.Size(82, 50);
-            this.BtnKeyPad.TabIndex = 135;
+            this.BtnKeyPad.TabIndex = 5;
             this.BtnKeyPad.Click += new System.EventHandler(this.BtnKeyPad_Click);
             // 
             // BtnCancel
@@ -140,7 +134,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 150;
+            this.BtnCancel.TabIndex = 7;
             this.BtnCancel.Text = "Cancelar";
             // 
             // BtnAccept
@@ -158,7 +152,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 151;
+            this.BtnAccept.TabIndex = 6;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -167,7 +161,29 @@
             this.TxtAuthorization.Location = new System.Drawing.Point(147, 179);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(151, 38);
-            this.TxtAuthorization.TabIndex = 152;
+            this.TxtAuthorization.TabIndex = 4;
+            // 
+            // CmbCardBank
+            // 
+            this.CmbCardBank.Location = new System.Drawing.Point(147, 91);
+            this.CmbCardBank.Name = "CmbCardBank";
+            this.CmbCardBank.Properties.AutoComplete = false;
+            this.CmbCardBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbCardBank.Properties.DropDownRows = 10;
+            this.CmbCardBank.Size = new System.Drawing.Size(237, 38);
+            this.CmbCardBank.TabIndex = 8;
+            this.CmbCardBank.SelectedIndexChanged += new System.EventHandler(this.CmbCardBank_SelectedIndexChanged);
+            // 
+            // CmbCardBrand
+            // 
+            this.CmbCardBrand.Location = new System.Drawing.Point(147, 135);
+            this.CmbCardBrand.Name = "CmbCardBrand";
+            this.CmbCardBrand.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbCardBrand.Properties.DropDownRows = 10;
+            this.CmbCardBrand.Size = new System.Drawing.Size(237, 38);
+            this.CmbCardBrand.TabIndex = 9;
             // 
             // FrmPaymentCard
             // 
@@ -175,6 +191,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(458, 315);
             this.ControlBox = false;
+            this.Controls.Add(this.CmbCardBrand);
+            this.Controls.Add(this.CmbCardBank);
             this.Controls.Add(this.TxtAuthorization);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
@@ -183,27 +201,22 @@
             this.Controls.Add(this.LblCardBrand);
             this.Controls.Add(this.LblCardBank);
             this.Controls.Add(this.LblCardType);
-            this.Controls.Add(this.CmbCardBank);
-            this.Controls.Add(this.CmbCardBrand);
             this.Controls.Add(this.CmbCardType);
             this.MaximizeBox = false;
             this.Name = "FrmPaymentCard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tarjetas de Credito";
+            this.Load += new System.EventHandler(this.FrmPaymentCard_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CmbCardType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBrand.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBank.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBank.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCardBrand.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private DevExpress.XtraEditors.ComboBoxEdit CmbCardType;
-        private DevExpress.XtraEditors.ComboBoxEdit CmbCardBrand;
-        private DevExpress.XtraEditors.ComboBoxEdit CmbCardBank;
         private System.Windows.Forms.Label LblCardType;
         private System.Windows.Forms.Label LblCardBank;
         private System.Windows.Forms.Label LblCardBrand;
@@ -212,5 +225,8 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private DevExpress.XtraEditors.TextEdit TxtAuthorization;
+        private DevExpress.XtraEditors.ImageComboBoxEdit CmbCardBank;
+        private DevExpress.XtraEditors.ImageComboBoxEdit CmbCardBrand;
+        public DevExpress.XtraEditors.ComboBoxEdit CmbCardType;
     }
 }

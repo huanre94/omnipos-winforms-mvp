@@ -189,7 +189,6 @@
     <Compile Include="ProductGroup.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product\Product.cs" />
     <Compile Include="PromotionCustomer.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -252,6 +251,10 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Catalog\" />
+    <Folder Include="Transaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

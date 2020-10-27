@@ -8,11 +8,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
 
 namespace POS
 {
     public partial class FrmPaymentCheck : DevExpress.XtraEditors.XtraForm
     {
+        public bool processResponse;
+
         public FrmPaymentCheck()
         {
             InitializeComponent();
@@ -48,6 +51,40 @@ namespace POS
             keyBoard.fromOption = "CheckOwnerName";
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
+        }
+
+        private void FrmPaymentCheck_Load(object sender, EventArgs e)
+        {
+            LoadBanks();
+        }
+
+        private void LoadBanks()
+        {
+            var db = new DLL.POSEntities();
+            var banks = from ba in db.Bank
+                        where ba.Status == "A"
+                        select ba;
+
+            foreach (var item in banks.ToList())
+            {
+                CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = item.BankId, Description = item.Name });
+            }
+        }
+
+        private void BtnAccept_Click(object sender, EventArgs e)
+        {
+            if (TxtOwnerName.Text != "" && CmbCheckBank.EditValue != null
+                && TxtCheckDate.EditValue != null && TxtAuthorization.Text != ""
+                && TxtAccountNumber.Text != "" && TxtCheckNumber.Text != "")
+            {
+                processResponse = true;
+            }
+            else
+            {
+                Functions functions = new Functions();
+                functions.ShowMessage("Debe llenar todos los campos", "Warning");
+                this.DialogResult = DialogResult.None;
+            }
         }
     }
 }

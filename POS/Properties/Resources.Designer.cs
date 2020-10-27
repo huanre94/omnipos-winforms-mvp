@@ -83,6 +83,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage bankCheck {
+            get {
+                object obj = ResourceManager.GetObject("bankCheck", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage calculator {
             get {
                 object obj = ResourceManager.GetObject("calculator", resourceCulture);
@@ -176,6 +186,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage internCredit {
+            get {
+                object obj = ResourceManager.GetObject("internCredit", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }

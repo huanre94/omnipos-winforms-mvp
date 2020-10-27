@@ -11,17 +11,11 @@ using DevExpress.XtraEditors;
 
 namespace POS
 {
-    public partial class FrmPaymentCredit : DevExpress.XtraEditors.XtraForm
+    public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
-        public FrmPaymentCredit()
+        public FrmSupervisorAuth()
         {
             InitializeComponent();
-        }
-
-        private void FrmPaymentCredit_Load(object sender, EventArgs e)
-        {
-            FrmMain main = new FrmMain();
-            LblHolderName.Text = main.LblCustomerName.Text;
         }
     }
 }

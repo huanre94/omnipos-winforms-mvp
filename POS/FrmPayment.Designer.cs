@@ -54,7 +54,7 @@
             this.BtnEmployeeCredit = new DevExpress.XtraEditors.SimpleButton();
             this.LblPaid = new System.Windows.Forms.Label();
             this.LblTitlePaid = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LblPending = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TxtAmount = new DevExpress.XtraEditors.TextEdit();
             this.BtnGiftcard = new DevExpress.XtraEditors.SimpleButton();
@@ -247,9 +247,8 @@
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.LblTotal.Location = new System.Drawing.Point(145, 37);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(96, 34);
+            this.LblTotal.Size = new System.Drawing.Size(0, 34);
             this.LblTotal.TabIndex = 148;
-            this.LblTotal.Text = "42.69";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BtnCancel
@@ -334,8 +333,8 @@
             this.BtnCash.Appearance.Options.UseBackColor = true;
             this.BtnCash.Appearance.Options.UseFont = true;
             this.BtnCash.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCash.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCash.ImageOptions.SvgImage")));
-            this.BtnCash.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnCash.ImageOptions.SvgImage = global::POS.Properties.Resources.cash;
+            this.BtnCash.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnCash.Location = new System.Drawing.Point(285, 1);
             this.BtnCash.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCash.Name = "BtnCash";
@@ -353,7 +352,7 @@
             this.BtnCreditCard.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCreditCard.ImageOptions.SvgImage = global::POS.Properties.Resources.creditCard;
             this.BtnCreditCard.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
-            this.BtnCreditCard.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 55);
+            this.BtnCreditCard.ImageOptions.SvgImageSize = new System.Drawing.Size(75, 75);
             this.BtnCreditCard.Location = new System.Drawing.Point(285, 91);
             this.BtnCreditCard.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCreditCard.Name = "BtnCreditCard";
@@ -369,8 +368,9 @@
             this.BtnCheck.Appearance.Options.UseBackColor = true;
             this.BtnCheck.Appearance.Options.UseFont = true;
             this.BtnCheck.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCheck.ImageOptions.SvgImage = global::POS.Properties.Resources.cash;
+            this.BtnCheck.ImageOptions.SvgImage = global::POS.Properties.Resources.bankCheck;
             this.BtnCheck.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
+            this.BtnCheck.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnCheck.Location = new System.Drawing.Point(285, 181);
             this.BtnCheck.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCheck.Name = "BtnCheck";
@@ -386,7 +386,7 @@
             this.BtnEmployeeCredit.Appearance.Options.UseBackColor = true;
             this.BtnEmployeeCredit.Appearance.Options.UseFont = true;
             this.BtnEmployeeCredit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnEmployeeCredit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnEmployeeCredit.ImageOptions.SvgImage")));
+            this.BtnEmployeeCredit.ImageOptions.SvgImage = global::POS.Properties.Resources.internCredit;
             this.BtnEmployeeCredit.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
             this.BtnEmployeeCredit.Location = new System.Drawing.Point(285, 271);
             this.BtnEmployeeCredit.Margin = new System.Windows.Forms.Padding(5);
@@ -402,9 +402,8 @@
             this.LblPaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblPaid.Location = new System.Drawing.Point(742, 271);
             this.LblPaid.Name = "LblPaid";
-            this.LblPaid.Size = new System.Drawing.Size(60, 22);
+            this.LblPaid.Size = new System.Drawing.Size(0, 22);
             this.LblPaid.TabIndex = 156;
-            this.LblPaid.Text = "42.69";
             this.LblPaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LblTitlePaid
@@ -417,16 +416,15 @@
             this.LblTitlePaid.TabIndex = 155;
             this.LblTitlePaid.Text = "Pagado: $";
             // 
-            // label2
+            // LblPending
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.label2.Location = new System.Drawing.Point(742, 302);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 22);
-            this.label2.TabIndex = 158;
-            this.label2.Text = "0.00";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LblPending.AutoSize = true;
+            this.LblPending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.LblPending.Location = new System.Drawing.Point(742, 302);
+            this.LblPending.Name = "LblPending";
+            this.LblPending.Size = new System.Drawing.Size(0, 22);
+            this.LblPending.TabIndex = 158;
+            this.LblPending.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -440,7 +438,7 @@
             // 
             // TxtAmount
             // 
-            this.TxtAmount.EditValue = "42.69";
+            this.TxtAmount.EditValue = "";
             this.TxtAmount.Location = new System.Drawing.Point(19, 101);
             this.TxtAmount.Name = "TxtAmount";
             this.TxtAmount.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
@@ -457,13 +455,13 @@
             this.BtnGiftcard.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnGiftcard.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
             this.BtnGiftcard.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
-            this.BtnGiftcard.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 25);
+            this.BtnGiftcard.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
             this.BtnGiftcard.Location = new System.Drawing.Point(285, 366);
             this.BtnGiftcard.Margin = new System.Windows.Forms.Padding(5);
             this.BtnGiftcard.Name = "BtnGiftcard";
             this.BtnGiftcard.Size = new System.Drawing.Size(220, 80);
             this.BtnGiftcard.TabIndex = 163;
-            this.BtnGiftcard.Text = "Gift Card";
+            this.BtnGiftcard.Text = "Gift Card ";
             this.BtnGiftcard.Click += new System.EventHandler(this.BtnGiftcard_Click);
             // 
             // FrmPayment
@@ -475,7 +473,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.LblPending);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.LblPaid);
             this.Controls.Add(this.LblTitlePaid);
@@ -538,7 +536,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnEmployeeCredit;
         private System.Windows.Forms.Label LblPaid;
         private System.Windows.Forms.Label LblTitlePaid;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblPending;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.TextEdit TxtAmount;
         private DevExpress.XtraGrid.Columns.GridColumn Description;

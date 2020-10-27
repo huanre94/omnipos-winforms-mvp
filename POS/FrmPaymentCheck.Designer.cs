@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentCheck));
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.CmbBank = new DevExpress.XtraEditors.ComboBoxEdit();
             this.TxtOwnerName = new DevExpress.XtraEditors.TextEdit();
             this.TxtAccountNumber = new DevExpress.XtraEditors.TextEdit();
             this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
@@ -47,13 +46,14 @@
             this.BtnKeypadAccount = new DevExpress.XtraEditors.SimpleButton();
             this.BtnKeypadCheck = new DevExpress.XtraEditors.SimpleButton();
             this.BtnKeypadAuth = new DevExpress.XtraEditors.SimpleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.CmbBank.Properties)).BeginInit();
+            this.CmbCheckBank = new DevExpress.XtraEditors.ImageComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtOwnerName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAccountNumber.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckNumber.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCheckBank.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnAccept
@@ -73,6 +73,7 @@
             this.BtnAccept.Size = new System.Drawing.Size(160, 49);
             this.BtnAccept.TabIndex = 153;
             this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
@@ -90,15 +91,6 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 49);
             this.BtnCancel.TabIndex = 152;
             this.BtnCancel.Text = "Cancelar";
-            // 
-            // CmbBank
-            // 
-            this.CmbBank.Location = new System.Drawing.Point(166, 74);
-            this.CmbBank.Name = "CmbBank";
-            this.CmbBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbBank.Size = new System.Drawing.Size(376, 38);
-            this.CmbBank.TabIndex = 2;
             // 
             // TxtOwnerName
             // 
@@ -268,12 +260,22 @@
             this.BtnKeypadAuth.TabIndex = 170;
             this.BtnKeypadAuth.Click += new System.EventHandler(this.BtnKeypadAuth_Click);
             // 
+            // CmbCheckBank
+            // 
+            this.CmbCheckBank.Location = new System.Drawing.Point(166, 77);
+            this.CmbCheckBank.Name = "CmbCheckBank";
+            this.CmbCheckBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbCheckBank.Size = new System.Drawing.Size(376, 38);
+            this.CmbCheckBank.TabIndex = 171;
+            // 
             // FrmPaymentCheck
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 504);
             this.ControlBox = false;
+            this.Controls.Add(this.CmbCheckBank);
             this.Controls.Add(this.BtnKeypadAuth);
             this.Controls.Add(this.BtnKeypadCheck);
             this.Controls.Add(this.BtnKeypadAccount);
@@ -288,7 +290,6 @@
             this.Controls.Add(this.TxtAuthorization);
             this.Controls.Add(this.TxtAccountNumber);
             this.Controls.Add(this.TxtOwnerName);
-            this.Controls.Add(this.CmbBank);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.TxtCheckDate);
@@ -296,13 +297,14 @@
             this.Name = "FrmPaymentCheck";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cheques";
-            ((System.ComponentModel.ISupportInitialize)(this.CmbBank.Properties)).EndInit();
+            this.Load += new System.EventHandler(this.FrmPaymentCheck_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtOwnerName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAccountNumber.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCheckNumber.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbCheckBank.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,21 +314,21 @@
 
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
-        private DevExpress.XtraEditors.ComboBoxEdit CmbBank;
-        private DevExpress.XtraEditors.TextEdit TxtOwnerName;
-        private DevExpress.XtraEditors.TextEdit TxtAccountNumber;
-        private DevExpress.XtraEditors.TextEdit TxtAuthorization;
-        private DevExpress.XtraEditors.DateEdit TxtCheckDate;
         private System.Windows.Forms.Label LblOwnerName;
         private System.Windows.Forms.Label LblBank;
         private System.Windows.Forms.Label LblCheckDate;
         private System.Windows.Forms.Label LblAccountNumber;
-        private DevExpress.XtraEditors.TextEdit TxtCheckNumber;
         private System.Windows.Forms.Label LblCheckNumber;
         private System.Windows.Forms.Label LblAuthorization;
         private DevExpress.XtraEditors.SimpleButton BtnKeyboardOwner;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadAccount;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadCheck;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadAuth;
+        public DevExpress.XtraEditors.TextEdit TxtOwnerName;
+        public DevExpress.XtraEditors.TextEdit TxtAccountNumber;
+        public DevExpress.XtraEditors.TextEdit TxtAuthorization;
+        public DevExpress.XtraEditors.DateEdit TxtCheckDate;
+        public DevExpress.XtraEditors.TextEdit TxtCheckNumber;
+        public DevExpress.XtraEditors.ImageComboBoxEdit CmbCheckBank;
     }
 }
