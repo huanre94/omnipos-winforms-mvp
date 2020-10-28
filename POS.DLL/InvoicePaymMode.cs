@@ -43,8 +43,8 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual Location Location { get; set; }
         public virtual PaymMode PaymMode { get; set; }
+        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }

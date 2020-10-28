@@ -72,6 +72,7 @@
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 9;
             this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
@@ -81,7 +82,7 @@
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel;
+            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(129, 191);

@@ -20,7 +20,7 @@ namespace POS.DLL
         public decimal Amount { get; set; }
         public string Reference { get; set; }
     
-        public virtual OrderTable OrderTable { get; set; }
         public virtual PaymMode PaymMode { get; set; }
+        public virtual OrderTable OrderTable { get; set; }
     }
 }

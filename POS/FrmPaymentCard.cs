@@ -11,6 +11,7 @@ using DevExpress.XtraEditors;
 using POS.DLL;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.Utils.Extensions;
+using POS.Classes;
 
 namespace POS
 {
@@ -103,8 +104,8 @@ namespace POS
             }
             else
             {
-                Functions functions = new Functions();
-                functions.ShowMessage("Debe llenar todos los campos", "Warning");
+                ClsFunctions functions = new ClsFunctions();
+                functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }
         }

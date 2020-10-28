@@ -74,7 +74,7 @@
             this.ImgSvgMessage.Location = new System.Drawing.Point(30, 59);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
             this.ImgSvgMessage.Size = new System.Drawing.Size(65, 65);
-            this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Squeeze;
+            this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
             this.ImgSvgMessage.TabIndex = 4;
             // 
             // BtnCancel
@@ -85,7 +85,7 @@
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel;
+            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(149, 216);

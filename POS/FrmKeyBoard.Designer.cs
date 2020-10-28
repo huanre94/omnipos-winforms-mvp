@@ -428,7 +428,7 @@
             this.BtnExit.Appearance.Options.UseFont = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel;
+            this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(747, 289);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);

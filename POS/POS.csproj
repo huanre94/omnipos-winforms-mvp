@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClsEnums.cs" />
     <Compile Include="FrmKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,13 +118,19 @@
     <Compile Include="FrmPaymentCredit.Designer.cs">
       <DependentUpon>FrmPaymentCredit.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmPaymentGiftcard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPaymentGiftcard.Designer.cs">
+      <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmSupervisorAuth.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmSupervisorAuth.Designer.cs">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
     </Compile>
-    <Compile Include="Functions.cs" />
+    <Compile Include="Classes\ClsFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmKeyBoard.resx">
@@ -149,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentCredit.resx">
       <DependentUpon>FrmPaymentCredit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPaymentGiftcard.resx">
+      <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSupervisorAuth.resx">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
@@ -214,6 +224,7 @@
     <None Include="Resources\giftcard.svg" />
     <None Include="Resources\internCredit.svg" />
     <None Include="Resources\bankCheck.svg" />
+    <None Include="Resources\info2.svg" />
     <Content Include="Resources\moneyCheck.png" />
   </ItemGroup>
   <ItemGroup>

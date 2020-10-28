@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using System.Runtime.CompilerServices;
+using POS.Classes;
 
 namespace POS
 {
     public partial class FrmMessage : DevExpress.XtraEditors.XtraForm
     {
         public string messageText = "";
-        public string messagetype;
+        public ClsEnums.MessageType messagetype;
         public bool messageResponse;
 
         public FrmMessage()
@@ -30,22 +31,24 @@ namespace POS
 
         private void CreateMessage()
         {
-            DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();
-            image = POS.Properties.Resources.info;
-           
-            if (messagetype == "Warning")
+            DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();            
+
+            switch (messagetype)
             {
-                image = POS.Properties.Resources.warning;
-            }
-            else if (messagetype == "Error")
-            {
-                image = POS.Properties.Resources.cancel3;
-            }
-            else if (messagetype == "Confirm")
-            {
-                BtnCancel.Visible = true;
-                image = POS.Properties.Resources.warning;
-            }
+                case ClsEnums.MessageType.INFO:
+                    image = POS.Properties.Resources.info2;
+                    break;
+                case ClsEnums.MessageType.WARNING:
+                    image = POS.Properties.Resources.warning;
+                    break;
+                case ClsEnums.MessageType.ERROR:
+                    image = POS.Properties.Resources.cancel3;
+                    break;
+                case ClsEnums.MessageType.CONFIRM:                    
+                    image = POS.Properties.Resources.warning;
+                    BtnCancel.Visible = true;
+                    break;
+            }                      
 
             ImgSvgMessage.SvgImage = image;
             LblMessage.Text = messageText;

@@ -66,6 +66,7 @@
     <Compile Include="Brand.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Catalog\ClsProduct.cs" />
     <Compile Include="City.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -79,12 +80,6 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Company.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ConsumerCardLine.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ConsumerCardTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="CountCashLine.cs">
@@ -112,6 +107,12 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="IdentType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InternalCreditCard.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InternalCreditCardLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="InventLocation.cs">
@@ -217,6 +218,20 @@
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Supervisor_Validate_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Supervisor.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaxTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\ClsAuthorization.cs" />
+    <Compile Include="Transaction\ClsCustomer.cs" />
     <Compile Include="User.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -252,9 +267,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Catalog\" />
-    <Folder Include="Transaction\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

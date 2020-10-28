@@ -12,22 +12,21 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class ConsumerCardTable
+    public partial class InternalCreditCard
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ConsumerCardTable()
+        public InternalCreditCard()
         {
-            this.ConsumerCardLine = new HashSet<ConsumerCardLine>();
+            this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
         }
     
-        public long ConsumerCardId { get; set; }
-        public long ConsumerCardIdLocal { get; set; }
+        public long InternalCreditCardId { get; set; }
+        public long InternalCreditCardIdLocal { get; set; }
         public string Barcode { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public System.DateTime Vigence { get; set; }
         public System.DateTime Expiration { get; set; }
-        public long CustomerId { get; set; }
         public long EmployeeId { get; set; }
         public decimal Quota { get; set; }
         public decimal Consumed { get; set; }
@@ -39,8 +38,8 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConsumerCardLine> ConsumerCardLine { get; set; }
         public virtual Customer Customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
     }
 }

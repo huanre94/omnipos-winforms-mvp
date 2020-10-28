@@ -10,17 +10,11 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class OrderPromotion
+    public partial class SP_Supervisor_Validate_Result
     {
-        public long OrderId { get; set; }
-        public int Sequence { get; set; }
-        public long ProductId { get; set; }
-        public long PromotionId { get; set; }
-        public decimal QuantityReward { get; set; }
-    
-        public virtual PromotionTable PromotionTable { get; set; }
-        public virtual OrderTable OrderTable { get; set; }
+        public Nullable<long> UserId { get; set; }
+        public Nullable<long> PasswordId { get; set; }
+        public string Name { get; set; }
     }
 }

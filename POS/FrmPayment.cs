@@ -13,15 +13,18 @@ using DevExpress.ClipboardSource.SpreadsheetML;
 using System.Xml.Linq;
 using DevExpress.XtraGrid.Views.Grid;
 using POS.DLL;
+using POS.Classes;
 
 namespace POS
 {
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
+        ClsFunctions functions = new ClsFunctions();
         DataTable dataTable = new DataTable();
         public decimal invoiceAmount;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
+        decimal changeAmount = 0;
 
         public FrmPayment()
         {
@@ -33,23 +36,16 @@ namespace POS
             invoiceAmount = 42.69M;
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
-
-            //var db = new POSEntities();
-            //var customer = from cust in db.Customer
-            //               select cust;
-            //MessageBox.Show(customer.First().Lastname);
-
-
+            pendingAmount = invoiceAmount;           
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             if (GrvPayment.RowCount > 1)
             {
-                bool response;
+                bool response;                
                 
-                Functions functions = new Functions();
-                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", "Confirm");
+                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.WARNING);
 
                 if (response)
                 {
@@ -135,47 +131,74 @@ namespace POS
         {
             if (TxtAmount.Text != "")
             {
-                this.Cash();
+                Cash();
             }
             else
-            {
-                Functions functions = new Functions();
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", "Warning");
+            {                
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
 
         private void BtnCreditCard_Click(object sender, EventArgs e)
-        {
-            this.CreditCard();
+        {            
+            if (TxtAmount.Text != "")
+            {
+                CreditCard();
+            }
+            else
+            {                
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
         }
 
         private void BtnCheck_Click(object sender, EventArgs e)
         {
-            this.Check();
+            if (TxtAmount.Text != "")
+            {
+                Check();
+            }
+            else
+            {                
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
         }
 
-        private void BtnEmployeeCredit_Click(object sender, EventArgs e)
+        private void BtnInternalCredit_Click(object sender, EventArgs e)
         {
-            this.EmployeeCredit();
+            if (TxtAmount.Text != "")
+            {
+                InternalCredit();
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
         }
 
         private void BtnGiftcard_Click(object sender, EventArgs e)
         {
-            this.GiftCard();
+            if (TxtAmount.Text != "")
+            {
+                GiftCard();
+            }
+            else
+            {                
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
         }
 
         private void Cash()
         {
             CheckGridView();
+            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);
+
             DataRow NewRow = dataTable.NewRow();
 
             NewRow[0] = "Efectivo";
-            NewRow[1] = decimal.Parse(TxtAmount.Text);
+            NewRow[1] = paidAmount;
             dataTable.Rows.Add(NewRow);
 
             GrcPayment.DataSource = dataTable;
-
-            this.CalculatePayment();
         }
 
         private void CreditCard()
@@ -186,14 +209,14 @@ namespace POS
 
             if (paymentCard.processResponse)
             {
+                CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CREDITO);
+
                 DataRow NewRow = dataTable.NewRow();
                 NewRow[0] = "Tarjeta";
-                NewRow[1] = decimal.Parse(TxtAmount.Text);
+                NewRow[1] = paidAmount;
                 dataTable.Rows.Add(NewRow);
 
                 GrcPayment.DataSource = dataTable;
-
-                this.CalculatePayment();
             }
         }
 
@@ -205,31 +228,44 @@ namespace POS
 
             if (paymentCheck.processResponse)
             {
+                CalculatePayment(ClsEnums.PaymModeEnum.CHEQUE_DIA);
+
                 DataRow NewRow = dataTable.NewRow();
                 NewRow[0] = "Cheque";
-                NewRow[1] = decimal.Parse(TxtAmount.Text); 
+                NewRow[1] = paidAmount; 
                 dataTable.Rows.Add(NewRow);
 
                 GrcPayment.DataSource = dataTable;
-
-                this.CalculatePayment();
             }
         }
 
-        private void EmployeeCredit()
+        private void InternalCredit()
         {
             CheckGridView();
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
+            paymentCredit.invoiceAmount = invoiceAmount;
             paymentCredit.ShowDialog();
+            
+            if (paymentCredit.formActionResult)
+            {    
+                if (functions.RequestSupervisorAuth())
+                {
+                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
 
-            this.CalculatePayment();
+                    DataRow NewRow = dataTable.NewRow();
+                    NewRow[0] = "Credito";
+                    NewRow[1] = paidAmount;
+                    dataTable.Rows.Add(NewRow);
+
+                    GrcPayment.DataSource = dataTable;                    
+                }
+            }            
         }
 
         private void GiftCard()
         {
             CheckGridView();
-            //do something
-            this.CalculatePayment();
+            CalculatePayment(ClsEnums.PaymModeEnum.BONO);
         }
 
         private void CheckGridView()
@@ -244,30 +280,43 @@ namespace POS
                 dataTable.Columns.Add("Monto", typeof(decimal));
 
                 GrcPayment.DataSource = dataTable;
-            }            
-
-            //GrvPayment.AddNewRow();
-            //GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, Description, "Efectivo");
-            //GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, Amount, decimal.Parse(TxtAmount.Text));
+            }             
         }
 
-        private void CalculatePayment()
+        private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
         {
             paidAmount += decimal.Parse(TxtAmount.Text);
+
+            if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)                
+            {
+                if (paidAmount > invoiceAmount)
+                {
+                    changeAmount = paidAmount - invoiceAmount;
+                    functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
+                    paidAmount = invoiceAmount;
+                }
+            }
+            else if (_paymModeId == ClsEnums.PaymModeEnum.TARJETA_CONSUMO)
+            {
+
+            }
+
             pendingAmount = invoiceAmount - paidAmount;
 
             LblPaid.Text = paidAmount.ToString();
             LblPending.Text = pendingAmount.ToString();
 
             if (paidAmount >= invoiceAmount)
-            {
+            {                
                 //close invoice process
-                this.Close();
+                Close();
             }
             else
             {
                 TxtAmount.Text = pendingAmount.ToString();
             }
         }
+
+        
     }
 }

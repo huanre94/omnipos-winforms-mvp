@@ -20,7 +20,7 @@ namespace POS.DLL
         public long PromotionId { get; set; }
         public decimal QuantityReward { get; set; }
     
-        public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual PromotionTable PromotionTable { get; set; }
+        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }

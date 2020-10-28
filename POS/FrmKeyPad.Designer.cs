@@ -208,7 +208,7 @@
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel;
+            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(32, 432);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);

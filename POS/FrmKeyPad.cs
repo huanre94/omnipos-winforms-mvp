@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using POS.Classes;
 
 namespace POS
 {
@@ -104,8 +105,8 @@ namespace POS
             }
             else
             {
-                Functions functions = new Functions();
-                functions.ShowMessage("Debe ingresar un numero", "Warning");
+                ClsFunctions functions = new ClsFunctions();
+                functions.ShowMessage("Debe ingresar un numero", ClsEnums.MessageType.WARNING);
             }
         }
     }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using POS.Classes;
 
 namespace POS
 {
@@ -81,8 +82,8 @@ namespace POS
             }
             else
             {
-                Functions functions = new Functions();
-                functions.ShowMessage("Debe llenar todos los campos", "Warning");
+                ClsFunctions functions = new ClsFunctions();
+                functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }
         }

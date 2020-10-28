@@ -12,13 +12,16 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class ConsumerCardLine
+    public partial class TaxTable
     {
-        public long ConsumerCardId { get; set; }
-        public int Sequence { get; set; }
-        public long PromotionId { get; set; }
-    
-        public virtual ConsumerCardTable ConsumerCardTable { get; set; }
-        public virtual PromotionTable PromotionTable { get; set; }
+        public int TaxId { get; set; }
+        public string Name { get; set; }
+        public decimal TaxValue { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     }
 }

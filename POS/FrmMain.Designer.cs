@@ -558,7 +558,6 @@
             this.Controls.Add(this.Btn3);
             this.Controls.Add(this.BtnEnter);
             this.Controls.Add(this.Btn0);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MaximizeBox = false;
             this.Name = "FrmMain";

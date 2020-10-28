@@ -24,15 +24,11 @@ namespace POS.DLL
     
         public long InvoiceId { get; set; }
         public long InvoiceIdLocal { get; set; }
-        public short LocationId { get; set; }
         public short TypeDoc { get; set; }
         public long InvoiceIdOrigin { get; set; }
-        public int EmissionPointId { get; set; }
         public long DocNumber { get; set; }
         public string AuthorizationSRI { get; set; }
         public string StatusSRI { get; set; }
-        public long CustomerId { get; set; }
-        public int SalesmanId { get; set; }
         public bool IsCredit { get; set; }
         public System.DateTime Registration { get; set; }
         public System.DateTime Expiration { get; set; }
@@ -50,7 +46,7 @@ namespace POS.DLL
         public decimal Received { get; set; }
         public decimal Change { get; set; }
         public decimal Returned { get; set; }
-        public long ConsumerCardId { get; set; }
+        public long InternalCreditCardId { get; set; }
         public long OrderId { get; set; }
         public int ClosingCashId { get; set; }
         public string Observation { get; set; }

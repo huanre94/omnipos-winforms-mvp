@@ -36,7 +36,7 @@ namespace POS.DLL
         public decimal Total { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
-        public virtual OrderTable OrderTable { get; set; }
         public virtual Product Product { get; set; }
+        public virtual OrderTable OrderTable { get; set; }
     }
 }

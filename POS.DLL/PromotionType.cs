@@ -23,9 +23,9 @@ namespace POS.DLL
         public int PromotionTypeId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public bool ControlStock { get; set; }
         public bool UseCoupon { get; set; }
         public bool UseReward { get; set; }
+        public bool ControlCoupon { get; set; }
         public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

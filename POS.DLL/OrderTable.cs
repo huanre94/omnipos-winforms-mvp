@@ -25,10 +25,6 @@ namespace POS.DLL
     
         public long OrderId { get; set; }
         public long OrderIdLocal { get; set; }
-        public short LocationId { get; set; }
-        public int EmissionPointId { get; set; }
-        public long CustomerId { get; set; }
-        public int SalesmanId { get; set; }
         public System.DateTime Registration { get; set; }
         public string SalesChannel { get; set; }
         public bool IsECommerce { get; set; }
@@ -45,7 +41,7 @@ namespace POS.DLL
         public bool ShippingFree { get; set; }
         public decimal ShippingAmount { get; set; }
         public decimal Total { get; set; }
-        public long ConsumerCardId { get; set; }
+        public long InternalCreditCardId { get; set; }
         public long InvoiceId { get; set; }
         public string Observation { get; set; }
         public string Status { get; set; }

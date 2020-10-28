@@ -12,6 +12,8 @@ namespace POS.DLL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class POSEntities : DbContext
     {
@@ -34,8 +36,6 @@ namespace POS.DLL
         public virtual DbSet<ClosingCashMoney> ClosingCashMoney { get; set; }
         public virtual DbSet<ClosingCashTable> ClosingCashTable { get; set; }
         public virtual DbSet<Company> Company { get; set; }
-        public virtual DbSet<ConsumerCardLine> ConsumerCardLine { get; set; }
-        public virtual DbSet<ConsumerCardTable> ConsumerCardTable { get; set; }
         public virtual DbSet<CountCashLine> CountCashLine { get; set; }
         public virtual DbSet<CountCashMoney> CountCashMoney { get; set; }
         public virtual DbSet<CountCashTable> CountCashTable { get; set; }
@@ -52,12 +52,10 @@ namespace POS.DLL
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<InvoicePaymMode> InvoicePaymMode { get; set; }
         public virtual DbSet<InvoicePromotion> InvoicePromotion { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<OrderLine> OrderLine { get; set; }
         public virtual DbSet<OrderPaymMode> OrderPaymMode { get; set; }
         public virtual DbSet<OrderPromotion> OrderPromotion { get; set; }
-        public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<OrderText> OrderText { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<Product> Product { get; set; }
@@ -69,12 +67,52 @@ namespace POS.DLL
         public virtual DbSet<PromotionProducts> PromotionProducts { get; set; }
         public virtual DbSet<PromotionReward> PromotionReward { get; set; }
         public virtual DbSet<PromotionTable> PromotionTable { get; set; }
-        public virtual DbSet<PromotionType> PromotionType { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<Salesman> Salesman { get; set; }
         public virtual DbSet<Server> Server { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
+        public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
+        public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<Supervisor> Supervisor { get; set; }
+        public virtual DbSet<TaxTable> TaxTable { get; set; }
+        public virtual DbSet<OrderTable> OrderTable { get; set; }
+        public virtual DbSet<PromotionType> PromotionType { get; set; }
+    
+        public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
+        {
+            var internalCreditCardIdParameter = internalCreditCardId.HasValue ?
+                new ObjectParameter("InternalCreditCardId", internalCreditCardId) :
+                new ObjectParameter("InternalCreditCardId", typeof(long));
+    
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("Barcode", barcode) :
+                new ObjectParameter("Barcode", typeof(string));
+    
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            var cActivacionParameter = cActivacion != null ?
+                new ObjectParameter("CActivacion", cActivacion) :
+                new ObjectParameter("CActivacion", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InternalCreditCard_Consult_Result>("SP_InternalCreditCard_Consult", internalCreditCardIdParameter, barcodeParameter, typeParameter, cActivacionParameter, statusParameter);
+        }
+    
+        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
+        {
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("barcode", barcode) :
+                new ObjectParameter("barcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
+        }
     }
 }
