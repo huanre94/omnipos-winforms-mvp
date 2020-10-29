@@ -59,7 +59,7 @@
             "CREDITO",
             "DEBITO"});
             this.CmbCardType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.CmbCardType.Size = new System.Drawing.Size(151, 38);
+            this.CmbCardType.Size = new System.Drawing.Size(286, 38);
             this.CmbCardType.TabIndex = 1;
             this.CmbCardType.SelectedIndexChanged += new System.EventHandler(this.CmbCardType_SelectedIndexChanged);
             // 
@@ -77,7 +77,7 @@
             // 
             this.LblCardBank.AutoSize = true;
             this.LblCardBank.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblCardBank.Location = new System.Drawing.Point(30, 102);
+            this.LblCardBank.Location = new System.Drawing.Point(30, 110);
             this.LblCardBank.Name = "LblCardBank";
             this.LblCardBank.Size = new System.Drawing.Size(60, 18);
             this.LblCardBank.TabIndex = 4;
@@ -87,7 +87,7 @@
             // 
             this.LblCardBrand.AutoSize = true;
             this.LblCardBrand.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblCardBrand.Location = new System.Drawing.Point(30, 146);
+            this.LblCardBrand.Location = new System.Drawing.Point(30, 162);
             this.LblCardBrand.Name = "LblCardBrand";
             this.LblCardBrand.Size = new System.Drawing.Size(58, 18);
             this.LblCardBrand.TabIndex = 5;
@@ -97,7 +97,7 @@
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(30, 188);
+            this.LblAuthorization.Location = new System.Drawing.Point(30, 212);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(109, 18);
             this.LblAuthorization.TabIndex = 6;
@@ -112,7 +112,7 @@
             this.BtnKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyPad.ImageOptions.SvgImage")));
             this.BtnKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyPad.Location = new System.Drawing.Point(302, 178);
+            this.BtnKeyPad.Location = new System.Drawing.Point(359, 202);
             this.BtnKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeyPad.Name = "BtnKeyPad";
             this.BtnKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -130,7 +130,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(114, 251);
+            this.BtnCancel.Location = new System.Drawing.Point(174, 316);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -148,7 +148,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(284, 251);
+            this.BtnAccept.Location = new System.Drawing.Point(344, 316);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
@@ -158,38 +158,38 @@
             // 
             // TxtAuthorization
             // 
-            this.TxtAuthorization.Location = new System.Drawing.Point(147, 179);
+            this.TxtAuthorization.Location = new System.Drawing.Point(147, 203);
             this.TxtAuthorization.Name = "TxtAuthorization";
-            this.TxtAuthorization.Size = new System.Drawing.Size(151, 38);
+            this.TxtAuthorization.Size = new System.Drawing.Size(202, 38);
             this.TxtAuthorization.TabIndex = 4;
             // 
             // CmbCardBank
             // 
-            this.CmbCardBank.Location = new System.Drawing.Point(147, 91);
+            this.CmbCardBank.Location = new System.Drawing.Point(147, 99);
             this.CmbCardBank.Name = "CmbCardBank";
             this.CmbCardBank.Properties.AutoComplete = false;
             this.CmbCardBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbCardBank.Properties.DropDownRows = 10;
-            this.CmbCardBank.Size = new System.Drawing.Size(237, 38);
+            this.CmbCardBank.Size = new System.Drawing.Size(286, 38);
             this.CmbCardBank.TabIndex = 8;
             this.CmbCardBank.SelectedIndexChanged += new System.EventHandler(this.CmbCardBank_SelectedIndexChanged);
             // 
             // CmbCardBrand
             // 
-            this.CmbCardBrand.Location = new System.Drawing.Point(147, 135);
+            this.CmbCardBrand.Location = new System.Drawing.Point(147, 151);
             this.CmbCardBrand.Name = "CmbCardBrand";
             this.CmbCardBrand.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbCardBrand.Properties.DropDownRows = 10;
-            this.CmbCardBrand.Size = new System.Drawing.Size(237, 38);
+            this.CmbCardBrand.Size = new System.Drawing.Size(286, 38);
             this.CmbCardBrand.TabIndex = 9;
             // 
             // FrmPaymentCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 315);
+            this.ClientSize = new System.Drawing.Size(518, 380);
             this.ControlBox = false;
             this.Controls.Add(this.CmbCardBrand);
             this.Controls.Add(this.CmbCardBank);
@@ -202,6 +202,7 @@
             this.Controls.Add(this.LblCardBank);
             this.Controls.Add(this.LblCardType);
             this.Controls.Add(this.CmbCardType);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "FrmPaymentCard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -45,7 +45,6 @@
             this.BtnKeyboardOwner = new DevExpress.XtraEditors.SimpleButton();
             this.BtnKeypadAccount = new DevExpress.XtraEditors.SimpleButton();
             this.BtnKeypadCheck = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnKeypadAuth = new DevExpress.XtraEditors.SimpleButton();
             this.CmbCheckBank = new DevExpress.XtraEditors.ImageComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtOwnerName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAccountNumber.Properties)).BeginInit();
@@ -67,7 +66,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(472, 441);
+            this.BtnAccept.Location = new System.Drawing.Point(494, 441);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 49);
@@ -85,7 +84,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(302, 441);
+            this.BtnCancel.Location = new System.Drawing.Point(324, 441);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 49);
@@ -94,21 +93,21 @@
             // 
             // TxtOwnerName
             // 
-            this.TxtOwnerName.Location = new System.Drawing.Point(166, 12);
+            this.TxtOwnerName.Location = new System.Drawing.Point(175, 12);
             this.TxtOwnerName.Name = "TxtOwnerName";
             this.TxtOwnerName.Size = new System.Drawing.Size(376, 38);
             this.TxtOwnerName.TabIndex = 1;
             // 
             // TxtAccountNumber
             // 
-            this.TxtAccountNumber.Location = new System.Drawing.Point(166, 203);
+            this.TxtAccountNumber.Location = new System.Drawing.Point(175, 203);
             this.TxtAccountNumber.Name = "TxtAccountNumber";
             this.TxtAccountNumber.Size = new System.Drawing.Size(219, 38);
             this.TxtAccountNumber.TabIndex = 4;
             // 
             // TxtAuthorization
             // 
-            this.TxtAuthorization.Location = new System.Drawing.Point(166, 333);
+            this.TxtAuthorization.Location = new System.Drawing.Point(175, 333);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(219, 38);
             this.TxtAuthorization.TabIndex = 6;
@@ -116,7 +115,7 @@
             // TxtCheckDate
             // 
             this.TxtCheckDate.EditValue = null;
-            this.TxtCheckDate.Location = new System.Drawing.Point(166, 140);
+            this.TxtCheckDate.Location = new System.Drawing.Point(175, 140);
             this.TxtCheckDate.Name = "TxtCheckDate";
             this.TxtCheckDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -128,48 +127,52 @@
             this.TxtCheckDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.TxtCheckDate.Properties.Mask.EditMask = "";
             this.TxtCheckDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
-            this.TxtCheckDate.Size = new System.Drawing.Size(219, 38);
+            this.TxtCheckDate.Size = new System.Drawing.Size(376, 38);
             this.TxtCheckDate.TabIndex = 3;
             // 
             // LblOwnerName
             // 
             this.LblOwnerName.AutoSize = true;
+            this.LblOwnerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblOwnerName.Location = new System.Drawing.Point(33, 23);
             this.LblOwnerName.Name = "LblOwnerName";
-            this.LblOwnerName.Size = new System.Drawing.Size(62, 16);
+            this.LblOwnerName.Size = new System.Drawing.Size(71, 18);
             this.LblOwnerName.TabIndex = 1;
             this.LblOwnerName.Text = "Nombre";
             // 
             // LblBank
             // 
             this.LblBank.AutoSize = true;
+            this.LblBank.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblBank.Location = new System.Drawing.Point(33, 85);
             this.LblBank.Name = "LblBank";
-            this.LblBank.Size = new System.Drawing.Size(50, 16);
+            this.LblBank.Size = new System.Drawing.Size(60, 18);
             this.LblBank.TabIndex = 161;
             this.LblBank.Text = "Banco";
             // 
             // LblCheckDate
             // 
             this.LblCheckDate.AutoSize = true;
+            this.LblCheckDate.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblCheckDate.Location = new System.Drawing.Point(33, 151);
             this.LblCheckDate.Name = "LblCheckDate";
-            this.LblCheckDate.Size = new System.Drawing.Size(103, 16);
+            this.LblCheckDate.Size = new System.Drawing.Size(124, 18);
             this.LblCheckDate.TabIndex = 162;
             this.LblCheckDate.Text = "Fecha Cheque";
             // 
             // LblAccountNumber
             // 
             this.LblAccountNumber.AutoSize = true;
+            this.LblAccountNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblAccountNumber.Location = new System.Drawing.Point(33, 214);
             this.LblAccountNumber.Name = "LblAccountNumber";
-            this.LblAccountNumber.Size = new System.Drawing.Size(112, 16);
+            this.LblAccountNumber.Size = new System.Drawing.Size(133, 18);
             this.LblAccountNumber.TabIndex = 163;
             this.LblAccountNumber.Text = "Numero Cuenta";
             // 
             // TxtCheckNumber
             // 
-            this.TxtCheckNumber.Location = new System.Drawing.Point(166, 268);
+            this.TxtCheckNumber.Location = new System.Drawing.Point(175, 268);
             this.TxtCheckNumber.Name = "TxtCheckNumber";
             this.TxtCheckNumber.Size = new System.Drawing.Size(219, 38);
             this.TxtCheckNumber.TabIndex = 5;
@@ -177,31 +180,35 @@
             // LblCheckNumber
             // 
             this.LblCheckNumber.AutoSize = true;
+            this.LblCheckNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblCheckNumber.Location = new System.Drawing.Point(33, 279);
             this.LblCheckNumber.Name = "LblCheckNumber";
-            this.LblCheckNumber.Size = new System.Drawing.Size(116, 16);
+            this.LblCheckNumber.Size = new System.Drawing.Size(137, 18);
             this.LblCheckNumber.TabIndex = 165;
             this.LblCheckNumber.Text = "Numero Cheque";
             // 
             // LblAuthorization
             // 
             this.LblAuthorization.AutoSize = true;
+            this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblAuthorization.Location = new System.Drawing.Point(33, 344);
             this.LblAuthorization.Name = "LblAuthorization";
-            this.LblAuthorization.Size = new System.Drawing.Size(92, 16);
+            this.LblAuthorization.Size = new System.Drawing.Size(109, 18);
             this.LblAuthorization.TabIndex = 166;
             this.LblAuthorization.Text = "Autorizacion";
             // 
             // BtnKeyboardOwner
             // 
+            this.BtnKeyboardOwner.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnKeyboardOwner.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeyboardOwner.Appearance.Options.UseBackColor = true;
             this.BtnKeyboardOwner.Appearance.Options.UseFont = true;
             this.BtnKeyboardOwner.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeyboardOwner.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeyboardOwner.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardOwner.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardOwner.ImageOptions.SvgImage")));
             this.BtnKeyboardOwner.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardOwner.Location = new System.Drawing.Point(551, 8);
+            this.BtnKeyboardOwner.Location = new System.Drawing.Point(560, 8);
             this.BtnKeyboardOwner.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeyboardOwner.Name = "BtnKeyboardOwner";
             this.BtnKeyboardOwner.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -211,14 +218,16 @@
             // 
             // BtnKeypadAccount
             // 
+            this.BtnKeypadAccount.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnKeypadAccount.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeypadAccount.Appearance.Options.UseBackColor = true;
             this.BtnKeypadAccount.Appearance.Options.UseFont = true;
             this.BtnKeypadAccount.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadAccount.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadAccount.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadAccount.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadAccount.ImageOptions.SvgImage")));
             this.BtnKeypadAccount.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadAccount.Location = new System.Drawing.Point(394, 199);
+            this.BtnKeypadAccount.Location = new System.Drawing.Point(403, 199);
             this.BtnKeypadAccount.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeypadAccount.Name = "BtnKeypadAccount";
             this.BtnKeypadAccount.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -228,14 +237,16 @@
             // 
             // BtnKeypadCheck
             // 
+            this.BtnKeypadCheck.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnKeypadCheck.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeypadCheck.Appearance.Options.UseBackColor = true;
             this.BtnKeypadCheck.Appearance.Options.UseFont = true;
             this.BtnKeypadCheck.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadCheck.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadCheck.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadCheck.ImageOptions.SvgImage")));
             this.BtnKeypadCheck.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadCheck.Location = new System.Drawing.Point(394, 264);
+            this.BtnKeypadCheck.Location = new System.Drawing.Point(403, 264);
             this.BtnKeypadCheck.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeypadCheck.Name = "BtnKeypadCheck";
             this.BtnKeypadCheck.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -243,26 +254,9 @@
             this.BtnKeypadCheck.TabIndex = 169;
             this.BtnKeypadCheck.Click += new System.EventHandler(this.BtnKeypadCheck_Click);
             // 
-            // BtnKeypadAuth
-            // 
-            this.BtnKeypadAuth.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnKeypadAuth.Appearance.Options.UseFont = true;
-            this.BtnKeypadAuth.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
-            this.BtnKeypadAuth.AppearanceHovered.Options.UseBackColor = true;
-            this.BtnKeypadAuth.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadAuth.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadAuth.ImageOptions.SvgImage")));
-            this.BtnKeypadAuth.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadAuth.Location = new System.Drawing.Point(394, 329);
-            this.BtnKeypadAuth.Margin = new System.Windows.Forms.Padding(6);
-            this.BtnKeypadAuth.Name = "BtnKeypadAuth";
-            this.BtnKeypadAuth.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadAuth.Size = new System.Drawing.Size(80, 50);
-            this.BtnKeypadAuth.TabIndex = 170;
-            this.BtnKeypadAuth.Click += new System.EventHandler(this.BtnKeypadAuth_Click);
-            // 
             // CmbCheckBank
             // 
-            this.CmbCheckBank.Location = new System.Drawing.Point(166, 77);
+            this.CmbCheckBank.Location = new System.Drawing.Point(175, 77);
             this.CmbCheckBank.Name = "CmbCheckBank";
             this.CmbCheckBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -273,10 +267,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 504);
+            this.ClientSize = new System.Drawing.Size(668, 504);
             this.ControlBox = false;
             this.Controls.Add(this.CmbCheckBank);
-            this.Controls.Add(this.BtnKeypadAuth);
             this.Controls.Add(this.BtnKeypadCheck);
             this.Controls.Add(this.BtnKeypadAccount);
             this.Controls.Add(this.BtnKeyboardOwner);
@@ -323,7 +316,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnKeyboardOwner;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadAccount;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadCheck;
-        private DevExpress.XtraEditors.SimpleButton BtnKeypadAuth;
         public DevExpress.XtraEditors.TextEdit TxtOwnerName;
         public DevExpress.XtraEditors.TextEdit TxtAccountNumber;
         public DevExpress.XtraEditors.TextEdit TxtAuthorization;

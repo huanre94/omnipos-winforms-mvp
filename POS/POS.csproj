@@ -204,6 +204,7 @@
     <None Include="Resources\cash.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\productSearch2.svg" />
     <None Include="Resources\warning.svg" />
     <None Include="Resources\remove.svg" />
     <None Include="Resources\user4.svg" />
@@ -225,6 +226,7 @@
     <None Include="Resources\internCredit.svg" />
     <None Include="Resources\bankCheck.svg" />
     <None Include="Resources\info2.svg" />
+    <None Include="Resources\find.svg" />
     <Content Include="Resources\moneyCheck.png" />
   </ItemGroup>
   <ItemGroup>

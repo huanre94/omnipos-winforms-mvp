@@ -50,7 +50,6 @@ namespace POS.DLL
         public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
-        public virtual DbSet<InvoicePaymMode> InvoicePaymMode { get; set; }
         public virtual DbSet<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<OrderLine> OrderLine { get; set; }
@@ -80,6 +79,7 @@ namespace POS.DLL
         public virtual DbSet<TaxTable> TaxTable { get; set; }
         public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<PromotionType> PromotionType { get; set; }
+        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -113,6 +113,15 @@ namespace POS.DLL
                 new ObjectParameter("barcode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
+        }
+    
+        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(Nullable<long> giftCardNumber)
+        {
+            var giftCardNumberParameter = giftCardNumber.HasValue ?
+                new ObjectParameter("GiftCardNumber", giftCardNumber) :
+                new ObjectParameter("GiftCardNumber", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     }
 }

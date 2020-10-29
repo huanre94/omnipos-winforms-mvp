@@ -79,7 +79,7 @@
             this.BtnCancelSale.Appearance.Options.UseFont = true;
             this.BtnCancelSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelSale.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancelSale.ImageOptions.SvgImage")));
-            this.BtnCancelSale.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnCancelSale.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
             this.BtnCancelSale.Location = new System.Drawing.Point(1130, 451);
             this.BtnCancelSale.Name = "BtnCancelSale";
             this.BtnCancelSale.Size = new System.Drawing.Size(220, 80);
@@ -94,7 +94,7 @@
             this.BtnSuspendSale.Appearance.Options.UseFont = true;
             this.BtnSuspendSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSuspendSale.ImageOptions.SvgImage = global::POS.Properties.Resources.SuspendSale;
-            this.BtnSuspendSale.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnSuspendSale.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 55);
             this.BtnSuspendSale.Location = new System.Drawing.Point(1130, 365);
             this.BtnSuspendSale.Name = "BtnSuspendSale";
             this.BtnSuspendSale.Size = new System.Drawing.Size(220, 80);
@@ -122,8 +122,8 @@
             this.BtnProductSearch.Appearance.Options.UseBackColor = true;
             this.BtnProductSearch.Appearance.Options.UseFont = true;
             this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch;
-            this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch2;
+            this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnProductSearch.Location = new System.Drawing.Point(1130, 279);
             this.BtnProductSearch.Name = "BtnProductSearch";
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
@@ -152,7 +152,7 @@
             this.BtnPayment.Appearance.Options.UseFont = true;
             this.BtnPayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPayment.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
-            this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
             this.BtnPayment.Location = new System.Drawing.Point(1130, 193);
             this.BtnPayment.Name = "BtnPayment";
             this.BtnPayment.Size = new System.Drawing.Size(220, 80);

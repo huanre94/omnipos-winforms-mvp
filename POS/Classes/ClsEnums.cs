@@ -15,6 +15,7 @@ namespace POS.Classes
             ,ERROR
             ,CONFIRM
         }
+
         public enum PaymModeEnum
         {
             BONO
@@ -31,6 +32,15 @@ namespace POS.Classes
             , RETENCION
             , TARJETA_CREDITO
             , TARJETA_CONSUMO
+        }
+
+        public enum InputFromOption
+        {
+            CHECK_ACCOUNTNUMBER
+           , CHECK_NUMBER
+           , CHECK_OWNERNAME
+           , CREDITCARD_AUTHORIZATION
+           , GIFTCARD_NUMBER
         }
     }
 }

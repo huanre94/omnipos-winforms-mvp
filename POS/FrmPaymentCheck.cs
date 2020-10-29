@@ -25,7 +25,7 @@ namespace POS
         private void BtnKeypadAccount_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.fromOption = "CheckAccountNumber";
+            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER;
             keyPad.ShowDialog();
             TxtAccountNumber.Text = keyPad.checkAccountNumber;
         }
@@ -33,23 +33,15 @@ namespace POS
         private void BtnKeypadCheck_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.fromOption = "CheckNumber";
+            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
             keyPad.ShowDialog();
             TxtCheckNumber.Text = keyPad.checkNumber;
         }
-
-        private void BtnKeypadAuth_Click(object sender, EventArgs e)
-        {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.fromOption = "CheckAuthorization";
-            keyPad.ShowDialog();
-            TxtAuthorization.Text = keyPad.checkAuthorization;
-        }
-
+               
         private void BtnKeyboardOwner_Click(object sender, EventArgs e)
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.fromOption = "CheckOwnerName";
+            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
         }

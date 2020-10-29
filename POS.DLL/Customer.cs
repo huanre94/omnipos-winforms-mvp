@@ -18,7 +18,6 @@ namespace POS.DLL
         public Customer()
         {
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
-            this.InvoicePaymMode = new HashSet<InvoicePaymMode>();
             this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.InternalCreditCard = new HashSet<InternalCreditCard>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
@@ -58,8 +57,6 @@ namespace POS.DLL
         public virtual CustomerType CustomerType { get; set; }
         public virtual IdentType IdentType { get; set; }
         public virtual Location Location { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePaymMode> InvoicePaymMode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

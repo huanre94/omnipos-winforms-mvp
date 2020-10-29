@@ -17,7 +17,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public decimal creditLimit;
-        public decimal invoiceAmount;
+        public decimal paidAmount;
 
         public FrmPaymentCredit()
         {
@@ -48,6 +48,7 @@ namespace POS
                             else
                             {
                                 functions.ShowMessage("No existe titular asociado a la tarjeta ingresada.", ClsEnums.MessageType.WARNING);
+                                TxtCreditCardCode.Text = "";
                             }
                         }
                     }
@@ -61,16 +62,23 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (TxtCreditCardCode.Text != "" && LblCreditLimit.Text != "")
+            if (TxtCreditCardCode.Text != "")
             {
-                if (creditLimit >= invoiceAmount)
+                if (creditLimit > 0)
                 {
-                    TxtCreditCardCode.Text = "";
-                    formActionResult = true;
+                    if (creditLimit >= paidAmount)
+                    {
+                        TxtCreditCardCode.Text = "";
+                        formActionResult = true;
+                    }
+                    else
+                    {
+                        functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
+                    }
                 }
                 else
                 {
-                    functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", ClsEnums.MessageType.WARNING);
                 }
             }
             else

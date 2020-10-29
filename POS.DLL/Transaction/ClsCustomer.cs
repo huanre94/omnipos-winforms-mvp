@@ -25,5 +25,22 @@ namespace POS.DLL.Transaction
 
             return result;
         }
+
+        public List<SP_GiftCard_Consult_Result> GetGiftCard(long _giftCard)
+        {
+            var db = new POSEntities();
+            List<SP_GiftCard_Consult_Result> result = null;
+
+            try
+            {
+                result = db.SP_GiftCard_Consult(_giftCard).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return result;
+        }
     }
 }

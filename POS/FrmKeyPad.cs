@@ -14,17 +14,18 @@ namespace POS
 {
     public partial class FrmKeyPad : DevExpress.XtraEditors.XtraForm
     {
-        public string fromOption;
+        public ClsEnums.InputFromOption inputFromOption;
         public string creditCardAuthorization;
         public string checkAccountNumber;
         public string checkNumber;
-        public string checkAuthorization;
+        public string giftcardNumber;
 
         public FrmKeyPad()
         {
             InitializeComponent();
         }
 
+        #region KeyPad Buttons
         private void Btn0_Click(object sender, EventArgs e)
         {
             TxtValue.Text += "0";
@@ -79,29 +80,31 @@ namespace POS
         {
             TxtValue.Text = "";
         }
+        #endregion
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
             if (TxtValue.Text != "")
             {
-                if (fromOption == "CheckAccountNumber")
+                switch (inputFromOption)
                 {
-                    checkAccountNumber = TxtValue.Text;
-                }
-                else if (fromOption == "CheckNumber")
-                { 
-                    checkNumber = TxtValue.Text;
-                }
-                else if (fromOption == "CheckAuthorization")
-                {
-                    checkAuthorization = TxtValue.Text;
-                }
-                else if (fromOption == "CreditCardAuthorization")
-                {
-                    creditCardAuthorization = TxtValue.Text;
-                }
+                    case ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER:
+                        checkAccountNumber = TxtValue.Text;
+                        break;                    
+                    case ClsEnums.InputFromOption.CHECK_NUMBER:
+                        checkNumber = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION:
+                        creditCardAuthorization = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.GIFTCARD_NUMBER:
+                        giftcardNumber = TxtValue.Text;
+                        break;
+                    default:
+                        break;
+                }                
 
-                this.Close();
+                Close();
             }
             else
             {

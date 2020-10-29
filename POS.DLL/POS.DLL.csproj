@@ -133,7 +133,7 @@
     <Compile Include="InvoiceLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="InvoicePaymMode.cs">
+    <Compile Include="InvoicePayment.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="InvoicePromotion.cs">
@@ -216,6 +216,9 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Server.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GiftCard_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">

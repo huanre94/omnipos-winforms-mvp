@@ -243,11 +243,11 @@
             // 
             // LblTotal
             // 
-            this.LblTotal.AutoSize = true;
+            this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.LblTotal.Location = new System.Drawing.Point(145, 37);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(0, 34);
+            this.LblTotal.Size = new System.Drawing.Size(119, 34);
             this.LblTotal.TabIndex = 148;
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -398,11 +398,10 @@
             // 
             // LblPaid
             // 
-            this.LblPaid.AutoSize = true;
             this.LblPaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPaid.Location = new System.Drawing.Point(742, 271);
+            this.LblPaid.Location = new System.Drawing.Point(733, 271);
             this.LblPaid.Name = "LblPaid";
-            this.LblPaid.Size = new System.Drawing.Size(0, 22);
+            this.LblPaid.Size = new System.Drawing.Size(84, 22);
             this.LblPaid.TabIndex = 156;
             this.LblPaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -410,7 +409,7 @@
             // 
             this.LblTitlePaid.AutoSize = true;
             this.LblTitlePaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePaid.Location = new System.Drawing.Point(625, 271);
+            this.LblTitlePaid.Location = new System.Drawing.Point(627, 271);
             this.LblTitlePaid.Name = "LblTitlePaid";
             this.LblTitlePaid.Size = new System.Drawing.Size(102, 22);
             this.LblTitlePaid.TabIndex = 155;
@@ -418,11 +417,10 @@
             // 
             // LblPending
             // 
-            this.LblPending.AutoSize = true;
             this.LblPending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPending.Location = new System.Drawing.Point(742, 302);
+            this.LblPending.Location = new System.Drawing.Point(733, 302);
             this.LblPending.Name = "LblPending";
-            this.LblPending.Size = new System.Drawing.Size(0, 22);
+            this.LblPending.Size = new System.Drawing.Size(84, 22);
             this.LblPending.TabIndex = 158;
             this.LblPending.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -430,7 +428,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.label3.Location = new System.Drawing.Point(603, 302);
+            this.label3.Location = new System.Drawing.Point(605, 302);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(124, 22);
             this.label3.TabIndex = 157;
@@ -443,8 +441,11 @@
             this.TxtAmount.Name = "TxtAmount";
             this.TxtAmount.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtAmount.Properties.Appearance.Options.UseFont = true;
+            this.TxtAmount.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.TxtAmount.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.TxtAmount.Size = new System.Drawing.Size(159, 44);
-            this.TxtAmount.TabIndex = 162;
+            this.TxtAmount.TabIndex = 1;
+            this.TxtAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtAmount_KeyPress);
             // 
             // BtnGiftcard
             // 
@@ -461,7 +462,7 @@
             this.BtnGiftcard.Name = "BtnGiftcard";
             this.BtnGiftcard.Size = new System.Drawing.Size(220, 80);
             this.BtnGiftcard.TabIndex = 163;
-            this.BtnGiftcard.Text = "Gift Card ";
+            this.BtnGiftcard.Text = "Bono ";
             this.BtnGiftcard.Click += new System.EventHandler(this.BtnGiftcard_Click);
             // 
             // FrmPayment

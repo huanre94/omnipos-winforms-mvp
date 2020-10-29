@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4ce19e41ab38472db95cab2b73dcade7" Name="Diagram1" ZoomLevel="59">
+      <Diagram DiagramId="4ce19e41ab38472db95cab2b73dcade7" Name="Diagram1" ZoomLevel="66">
         <EntityTypeShape EntityType="POSModel.AccountsReceivable" Width="1.5" PointX="15" PointY="38.375" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.Bank" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.BankCreditCard" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
@@ -28,7 +28,6 @@
         <EntityTypeShape EntityType="POSModel.InventTransType" Width="1.5" PointX="5.375" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.InventUnit" Width="1.5" PointX="7.5" PointY="24.125" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.InvoiceLine" Width="1.5" PointX="21.75" PointY="34.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="POSModel.InvoicePaymMode" Width="1.5" PointX="19.25" PointY="34.125" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.InvoicePromotion" Width="1.5" PointX="24.75" PointY="47.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.Location" Width="1.5" PointX="9.75" PointY="38.5" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.OrderLine" Width="1.5" PointX="24.75" PointY="36.875" IsExpanded="true" />
@@ -74,7 +73,6 @@
         <AssociationConnector Association="POSModel.FK__Customer_CustomerType" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Customer_IdentType" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Customer_Location" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__PromotionCustomer_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__EmissionPoint_InventLocation" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__EmissionPoint_Location" ManuallyRouted="false" />
@@ -87,8 +85,6 @@
         <AssociationConnector Association="POSModel.FK__OrderLine_InventUnit" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Product_InventUnit" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__InvoiceLine_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_Location" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_PaymMode" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__InvoicePromotion_PromotionTable" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__OrderLine_Product" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__OrderPaymMode_PaymMode" ManuallyRouted="false" />
@@ -115,7 +111,6 @@
         <AssociationConnector Association="POSModel.FK__InternalCreditCardLine_InternalCreditCard" />
         <AssociationConnector Association="POSModel.FK__InternalCreditCardLine_PromotionTable" />
         <AssociationConnector Association="POSModel.FK__InvoiceLine_InvoiceTable" />
-        <AssociationConnector Association="POSModel.FK__InvoicePaymMode_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoicePromotion_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
@@ -131,6 +126,10 @@
         <AssociationConnector Association="POSModel.FK__OrderText_FACTrPedidoCab" />
         <EntityTypeShape EntityType="POSModel.PromotionType" Width="1.5" PointX="12.75" PointY="18.625" />
         <AssociationConnector Association="POSModel.FK__PromotionTable_PromotionType" />
+        <EntityTypeShape EntityType="POSModel.InvoicePayment" Width="1.5" PointX="27.125" PointY="36" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

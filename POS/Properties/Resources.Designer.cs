@@ -173,6 +173,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage find {
+            get {
+                object obj = ResourceManager.GetObject("find", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage giftcard {
             get {
                 object obj = ResourceManager.GetObject("giftcard", resourceCulture);
@@ -246,6 +256,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage productSearch {
             get {
                 object obj = ResourceManager.GetObject("productSearch", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage productSearch2 {
+            get {
+                object obj = ResourceManager.GetObject("productSearch2", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }

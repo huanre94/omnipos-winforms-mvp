@@ -19,17 +19,20 @@ namespace POS
 {
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
+        #region Global Definitions
         ClsFunctions functions = new ClsFunctions();
         DataTable dataTable = new DataTable();
+        XElement payment = new XElement("payment");
         public decimal invoiceAmount;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
         decimal changeAmount = 0;
-
+        
         public FrmPayment()
         {
             InitializeComponent();
         }
+        #endregion
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
@@ -37,30 +40,9 @@ namespace POS
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;           
-        }
+        }        
 
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            if (GrvPayment.RowCount > 1)
-            {
-                bool response;                
-                
-                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.WARNING);
-
-                if (response)
-                {
-                    GrcPayment.DataSource = null;
-                    GrvPayment.Columns.Clear();
-                    this.Close();
-                }
-                else
-                {
-                    this.DialogResult = DialogResult.None;
-                }                
-            }
-        }
-
-        #region Keypad
+        #region Keypad Buttons
         private void Btn0_Click(object sender, EventArgs e)
         {
             TxtAmount.Text += "0";
@@ -127,6 +109,7 @@ namespace POS
 
         #endregion
 
+        #region Payment Buttons
         private void BtnCash_Click(object sender, EventArgs e)
         {
             if (TxtAmount.Text != "")
@@ -187,18 +170,33 @@ namespace POS
             }
         }
 
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            if (GrvPayment.RowCount > 1)
+            {
+                bool response;
+
+                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.WARNING);
+
+                if (response)
+                {
+                    GrcPayment.DataSource = null;
+                    GrvPayment.Columns.Clear();
+                    this.Close();
+                }
+                else
+                {
+                    this.DialogResult = DialogResult.None;
+                }
+            }
+        }
+        #endregion
+
         private void Cash()
         {
             CheckGridView();
-            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);
-
-            DataRow NewRow = dataTable.NewRow();
-
-            NewRow[0] = "Efectivo";
-            NewRow[1] = paidAmount;
-            dataTable.Rows.Add(NewRow);
-
-            GrcPayment.DataSource = dataTable;
+            AddRecordToSource(ClsEnums.PaymModeEnum.EFECTIVO);
+            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);            
         }
 
         private void CreditCard()
@@ -209,14 +207,8 @@ namespace POS
 
             if (paymentCard.processResponse)
             {
-                CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CREDITO);
-
-                DataRow NewRow = dataTable.NewRow();
-                NewRow[0] = "Tarjeta";
-                NewRow[1] = paidAmount;
-                dataTable.Rows.Add(NewRow);
-
-                GrcPayment.DataSource = dataTable;
+                AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CREDITO);
+                CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CREDITO);                
             }
         }
 
@@ -228,14 +220,8 @@ namespace POS
 
             if (paymentCheck.processResponse)
             {
-                CalculatePayment(ClsEnums.PaymModeEnum.CHEQUE_DIA);
-
-                DataRow NewRow = dataTable.NewRow();
-                NewRow[0] = "Cheque";
-                NewRow[1] = paidAmount; 
-                dataTable.Rows.Add(NewRow);
-
-                GrcPayment.DataSource = dataTable;
+                AddRecordToSource(ClsEnums.PaymModeEnum.CHEQUE_DIA);
+                CalculatePayment(ClsEnums.PaymModeEnum.CHEQUE_DIA);               
             }
         }
 
@@ -243,21 +229,15 @@ namespace POS
         {
             CheckGridView();
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
-            paymentCredit.invoiceAmount = invoiceAmount;
+            paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.ShowDialog();
             
             if (paymentCredit.formActionResult)
             {    
                 if (functions.RequestSupervisorAuth())
                 {
-                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
-
-                    DataRow NewRow = dataTable.NewRow();
-                    NewRow[0] = "Credito";
-                    NewRow[1] = paidAmount;
-                    dataTable.Rows.Add(NewRow);
-
-                    GrcPayment.DataSource = dataTable;                    
+                    AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
+                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);                  
                 }
             }            
         }
@@ -265,22 +245,29 @@ namespace POS
         private void GiftCard()
         {
             CheckGridView();
-            CalculatePayment(ClsEnums.PaymModeEnum.BONO);
-        }
+            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard();
+            giftcard.paidAmount = decimal.Parse(TxtAmount.Text);
+            giftcard.ShowDialog();
 
-        private void CheckGridView()
-        {                       
-            if (dataTable.Columns.Count == 0)
+            if (giftcard.formActionResult)
             {
-                GrcPayment.DataSource = null;
-                GrvPayment.Columns.Clear();
-                GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+                AddRecordToSource(ClsEnums.PaymModeEnum.BONO);
+                CalculatePayment(ClsEnums.PaymModeEnum.BONO);             
+            }
+        }        
 
-                dataTable.Columns.Add("Descripcion", typeof(string));
-                dataTable.Columns.Add("Monto", typeof(decimal));
+        private void AddRecordToSource(ClsEnums.PaymModeEnum _paymModeId)
+        {
+            DataRow NewRow = dataTable.NewRow();
+            NewRow[0] = _paymModeId;
+            NewRow[1] = decimal.Parse(TxtAmount.Text);
+            dataTable.Rows.Add(NewRow);
+            GrcPayment.DataSource = dataTable;
 
-                GrcPayment.DataSource = dataTable;
-            }             
+            XElement paymentDetail = new XElement("paymentDetail");
+            paymentDetail.Add(new XElement("PaymModeId", (int)_paymModeId));
+            paymentDetail.Add(new XElement("Amount", decimal.Parse(TxtAmount.Text)));
+            payment.Add(paymentDetail);            
         }
 
         private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
@@ -295,10 +282,6 @@ namespace POS
                     functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
                     paidAmount = invoiceAmount;
                 }
-            }
-            else if (_paymModeId == ClsEnums.PaymModeEnum.TARJETA_CONSUMO)
-            {
-
             }
 
             pendingAmount = invoiceAmount - paidAmount;
@@ -317,6 +300,29 @@ namespace POS
             }
         }
 
-        
+        private void CheckGridView()
+        {
+            if (dataTable.Columns.Count == 0)
+            {
+                GrcPayment.DataSource = null;
+                GrvPayment.Columns.Clear();
+                GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+                dataTable.Columns.Add("Descripcion", typeof(string));
+                dataTable.Columns.Add("Monto", typeof(decimal));
+
+                GrcPayment.DataSource = dataTable;
+            }
+        }
+
+        private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // allows 0-9, backspace, and decimal
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
     }
 }

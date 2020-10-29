@@ -8,20 +8,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using POS.Classes;
 
 namespace POS
 {
     public partial class FrmKeyBoard : DevExpress.XtraEditors.XtraForm
     {
-        public string fromOption;
+        public ClsEnums.InputFromOption inputFromOption;
         public string checkOwnerName;
         public string customerName;
 
         public FrmKeyBoard()
         {
             InitializeComponent();
-        }       
+        }
 
+        #region Keyboard Buttons
         private void BtnQ_Click(object sender, EventArgs e)
         {
             TxtValue.Text += "Q";
@@ -184,19 +186,23 @@ namespace POS
                 TxtValue.Text = TxtValue.Text.Remove(TxtValue.Text.Length - 1);
             }
         }
+        #endregion
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
             if (TxtValue.Text != "")
             {
-                if (fromOption == "CheckOwnerName")
+                switch (inputFromOption)
                 {
-                    checkOwnerName = TxtValue.Text.ToUpper();
-                }
-                else if (fromOption == "CustomerName")
-                {
-                    customerName = TxtValue.Text.ToUpper();
-                }
+                    case ClsEnums.InputFromOption.CHECK_OWNERNAME:
+                        checkOwnerName = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CHECK_AUTHORIZATION:
+                        customerName = TxtValue.Text;
+                        break;
+                    default:
+                        break;
+                }               
 
                 this.Close();
             }

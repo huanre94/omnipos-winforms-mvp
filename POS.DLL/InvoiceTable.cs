@@ -18,8 +18,8 @@ namespace POS.DLL
         public InvoiceTable()
         {
             this.InvoiceLine = new HashSet<InvoiceLine>();
-            this.InvoicePaymMode = new HashSet<InvoicePaymMode>();
             this.InvoicePromotion = new HashSet<InvoicePromotion>();
+            this.InvoicePayment = new HashSet<InvoicePayment>();
         }
     
         public long InvoiceId { get; set; }
@@ -62,10 +62,10 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePaymMode> InvoicePaymMode { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual Location Location { get; set; }
         public virtual Salesman Salesman { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
     }
 }

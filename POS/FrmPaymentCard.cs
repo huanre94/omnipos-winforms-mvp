@@ -27,7 +27,7 @@ namespace POS
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.fromOption = "CreditCardAuthorization";
+            keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.creditCardAuthorization;
         }            
