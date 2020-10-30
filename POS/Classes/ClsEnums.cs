@@ -37,10 +37,13 @@ namespace POS.Classes
         public enum InputFromOption
         {
             CHECK_ACCOUNTNUMBER
-           , CHECK_NUMBER
-           , CHECK_OWNERNAME
-           , CREDITCARD_AUTHORIZATION
-           , GIFTCARD_NUMBER
+            , CHECK_NUMBER
+            , CHECK_OWNERNAME
+            , CHECK_OWNERIDENTIFICATION
+            , CHECK_PHONE
+            , CREDITCARD_AUTHORIZATION
+            , GIFTCARD_NUMBER
+            , CUSTOMER_NAME
         }
     }
 }

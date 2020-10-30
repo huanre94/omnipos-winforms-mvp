@@ -123,5 +123,42 @@ namespace POS.DLL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
+    
+        public virtual ObjectResult<SP_GaranCheck_Authorize_Result> SP_GaranCheck_Authorize(Nullable<int> bankId, string accountNumber, Nullable<int> ckeckNumber, Nullable<decimal> ckeckAmount, string identification, string name, string phone, string reference)
+        {
+            var bankIdParameter = bankId.HasValue ?
+                new ObjectParameter("BankId", bankId) :
+                new ObjectParameter("BankId", typeof(int));
+    
+            var accountNumberParameter = accountNumber != null ?
+                new ObjectParameter("AccountNumber", accountNumber) :
+                new ObjectParameter("AccountNumber", typeof(string));
+    
+            var ckeckNumberParameter = ckeckNumber.HasValue ?
+                new ObjectParameter("CkeckNumber", ckeckNumber) :
+                new ObjectParameter("CkeckNumber", typeof(int));
+    
+            var ckeckAmountParameter = ckeckAmount.HasValue ?
+                new ObjectParameter("CkeckAmount", ckeckAmount) :
+                new ObjectParameter("CkeckAmount", typeof(decimal));
+    
+            var identificationParameter = identification != null ?
+                new ObjectParameter("Identification", identification) :
+                new ObjectParameter("Identification", typeof(string));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("Phone", phone) :
+                new ObjectParameter("Phone", typeof(string));
+    
+            var referenceParameter = reference != null ?
+                new ObjectParameter("Reference", reference) :
+                new ObjectParameter("Reference", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GaranCheck_Authorize_Result>("SP_GaranCheck_Authorize", bankIdParameter, accountNumberParameter, ckeckNumberParameter, ckeckAmountParameter, identificationParameter, nameParameter, phoneParameter, referenceParameter);
+        }
     }
 }

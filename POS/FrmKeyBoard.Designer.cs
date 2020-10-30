@@ -59,12 +59,24 @@
             this.BtnN = new DevExpress.XtraEditors.SimpleButton();
             this.BtnM = new DevExpress.XtraEditors.SimpleButton();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnAt = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnHyphen = new DevExpress.XtraEditors.SimpleButton();
             this.BtnSpace = new DevExpress.XtraEditors.SimpleButton();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
             this.BtnComma = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnSlash = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnUnderscore = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn3 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn2 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn1 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnDot2 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn6 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn5 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn4 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn8 = new DevExpress.XtraEditors.SimpleButton();
+            this.Btn7 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnAt = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.TxtValue.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,7 +88,7 @@
             this.BtnEnter.Appearance.Options.UseFont = true;
             this.BtnEnter.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnEnter.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnEnter.ImageOptions.SvgImage")));
-            this.BtnEnter.Location = new System.Drawing.Point(776, 146);
+            this.BtnEnter.Location = new System.Drawing.Point(776, 154);
             this.BtnEnter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnEnter.Name = "BtnEnter";
             this.BtnEnter.Size = new System.Drawing.Size(91, 133);
@@ -106,7 +118,7 @@
             // 
             this.BtnQ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnQ.Appearance.Options.UseFont = true;
-            this.BtnQ.Location = new System.Drawing.Point(35, 71);
+            this.BtnQ.Location = new System.Drawing.Point(35, 79);
             this.BtnQ.Name = "BtnQ";
             this.BtnQ.Size = new System.Drawing.Size(70, 60);
             this.BtnQ.TabIndex = 162;
@@ -117,7 +129,7 @@
             // 
             this.BtnW.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnW.Appearance.Options.UseFont = true;
-            this.BtnW.Location = new System.Drawing.Point(111, 71);
+            this.BtnW.Location = new System.Drawing.Point(111, 79);
             this.BtnW.Name = "BtnW";
             this.BtnW.Size = new System.Drawing.Size(70, 60);
             this.BtnW.TabIndex = 163;
@@ -128,7 +140,7 @@
             // 
             this.BtnE.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnE.Appearance.Options.UseFont = true;
-            this.BtnE.Location = new System.Drawing.Point(187, 71);
+            this.BtnE.Location = new System.Drawing.Point(187, 79);
             this.BtnE.Name = "BtnE";
             this.BtnE.Size = new System.Drawing.Size(70, 60);
             this.BtnE.TabIndex = 164;
@@ -139,7 +151,7 @@
             // 
             this.BtnR.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnR.Appearance.Options.UseFont = true;
-            this.BtnR.Location = new System.Drawing.Point(263, 71);
+            this.BtnR.Location = new System.Drawing.Point(263, 79);
             this.BtnR.Name = "BtnR";
             this.BtnR.Size = new System.Drawing.Size(70, 60);
             this.BtnR.TabIndex = 165;
@@ -150,7 +162,7 @@
             // 
             this.BtnT.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnT.Appearance.Options.UseFont = true;
-            this.BtnT.Location = new System.Drawing.Point(339, 71);
+            this.BtnT.Location = new System.Drawing.Point(339, 79);
             this.BtnT.Name = "BtnT";
             this.BtnT.Size = new System.Drawing.Size(70, 60);
             this.BtnT.TabIndex = 166;
@@ -161,7 +173,7 @@
             // 
             this.BtnY.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnY.Appearance.Options.UseFont = true;
-            this.BtnY.Location = new System.Drawing.Point(415, 71);
+            this.BtnY.Location = new System.Drawing.Point(415, 79);
             this.BtnY.Name = "BtnY";
             this.BtnY.Size = new System.Drawing.Size(70, 60);
             this.BtnY.TabIndex = 167;
@@ -172,7 +184,7 @@
             // 
             this.BtnU.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnU.Appearance.Options.UseFont = true;
-            this.BtnU.Location = new System.Drawing.Point(491, 71);
+            this.BtnU.Location = new System.Drawing.Point(491, 79);
             this.BtnU.Name = "BtnU";
             this.BtnU.Size = new System.Drawing.Size(70, 60);
             this.BtnU.TabIndex = 168;
@@ -183,7 +195,7 @@
             // 
             this.BtnI.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnI.Appearance.Options.UseFont = true;
-            this.BtnI.Location = new System.Drawing.Point(567, 71);
+            this.BtnI.Location = new System.Drawing.Point(567, 79);
             this.BtnI.Name = "BtnI";
             this.BtnI.Size = new System.Drawing.Size(70, 60);
             this.BtnI.TabIndex = 169;
@@ -194,7 +206,7 @@
             // 
             this.BtnO.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnO.Appearance.Options.UseFont = true;
-            this.BtnO.Location = new System.Drawing.Point(643, 71);
+            this.BtnO.Location = new System.Drawing.Point(643, 79);
             this.BtnO.Name = "BtnO";
             this.BtnO.Size = new System.Drawing.Size(70, 60);
             this.BtnO.TabIndex = 170;
@@ -205,7 +217,7 @@
             // 
             this.BtnP.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnP.Appearance.Options.UseFont = true;
-            this.BtnP.Location = new System.Drawing.Point(719, 71);
+            this.BtnP.Location = new System.Drawing.Point(719, 79);
             this.BtnP.Name = "BtnP";
             this.BtnP.Size = new System.Drawing.Size(70, 60);
             this.BtnP.TabIndex = 171;
@@ -216,7 +228,7 @@
             // 
             this.BtnA.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnA.Appearance.Options.UseFont = true;
-            this.BtnA.Location = new System.Drawing.Point(70, 145);
+            this.BtnA.Location = new System.Drawing.Point(70, 153);
             this.BtnA.Name = "BtnA";
             this.BtnA.Size = new System.Drawing.Size(70, 60);
             this.BtnA.TabIndex = 172;
@@ -227,7 +239,7 @@
             // 
             this.BtnS.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnS.Appearance.Options.UseFont = true;
-            this.BtnS.Location = new System.Drawing.Point(146, 145);
+            this.BtnS.Location = new System.Drawing.Point(146, 153);
             this.BtnS.Name = "BtnS";
             this.BtnS.Size = new System.Drawing.Size(70, 60);
             this.BtnS.TabIndex = 173;
@@ -238,7 +250,7 @@
             // 
             this.BtnD.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnD.Appearance.Options.UseFont = true;
-            this.BtnD.Location = new System.Drawing.Point(222, 145);
+            this.BtnD.Location = new System.Drawing.Point(222, 153);
             this.BtnD.Name = "BtnD";
             this.BtnD.Size = new System.Drawing.Size(70, 60);
             this.BtnD.TabIndex = 174;
@@ -249,7 +261,7 @@
             // 
             this.BtnF.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnF.Appearance.Options.UseFont = true;
-            this.BtnF.Location = new System.Drawing.Point(298, 145);
+            this.BtnF.Location = new System.Drawing.Point(298, 153);
             this.BtnF.Name = "BtnF";
             this.BtnF.Size = new System.Drawing.Size(70, 60);
             this.BtnF.TabIndex = 175;
@@ -260,7 +272,7 @@
             // 
             this.BtnG.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnG.Appearance.Options.UseFont = true;
-            this.BtnG.Location = new System.Drawing.Point(374, 145);
+            this.BtnG.Location = new System.Drawing.Point(374, 153);
             this.BtnG.Name = "BtnG";
             this.BtnG.Size = new System.Drawing.Size(70, 60);
             this.BtnG.TabIndex = 176;
@@ -271,7 +283,7 @@
             // 
             this.BtnH.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnH.Appearance.Options.UseFont = true;
-            this.BtnH.Location = new System.Drawing.Point(450, 145);
+            this.BtnH.Location = new System.Drawing.Point(450, 153);
             this.BtnH.Name = "BtnH";
             this.BtnH.Size = new System.Drawing.Size(70, 60);
             this.BtnH.TabIndex = 177;
@@ -282,7 +294,7 @@
             // 
             this.BtnJ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnJ.Appearance.Options.UseFont = true;
-            this.BtnJ.Location = new System.Drawing.Point(526, 145);
+            this.BtnJ.Location = new System.Drawing.Point(526, 153);
             this.BtnJ.Name = "BtnJ";
             this.BtnJ.Size = new System.Drawing.Size(70, 60);
             this.BtnJ.TabIndex = 178;
@@ -293,7 +305,7 @@
             // 
             this.BtnK.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnK.Appearance.Options.UseFont = true;
-            this.BtnK.Location = new System.Drawing.Point(602, 145);
+            this.BtnK.Location = new System.Drawing.Point(602, 153);
             this.BtnK.Name = "BtnK";
             this.BtnK.Size = new System.Drawing.Size(70, 60);
             this.BtnK.TabIndex = 179;
@@ -304,7 +316,7 @@
             // 
             this.BtnL.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnL.Appearance.Options.UseFont = true;
-            this.BtnL.Location = new System.Drawing.Point(678, 145);
+            this.BtnL.Location = new System.Drawing.Point(678, 153);
             this.BtnL.Name = "BtnL";
             this.BtnL.Size = new System.Drawing.Size(70, 60);
             this.BtnL.TabIndex = 180;
@@ -315,7 +327,7 @@
             // 
             this.BtnZ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnZ.Appearance.Options.UseFont = true;
-            this.BtnZ.Location = new System.Drawing.Point(91, 218);
+            this.BtnZ.Location = new System.Drawing.Point(91, 226);
             this.BtnZ.Name = "BtnZ";
             this.BtnZ.Size = new System.Drawing.Size(70, 60);
             this.BtnZ.TabIndex = 181;
@@ -326,7 +338,7 @@
             // 
             this.BtnX.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnX.Appearance.Options.UseFont = true;
-            this.BtnX.Location = new System.Drawing.Point(167, 218);
+            this.BtnX.Location = new System.Drawing.Point(167, 226);
             this.BtnX.Name = "BtnX";
             this.BtnX.Size = new System.Drawing.Size(70, 60);
             this.BtnX.TabIndex = 182;
@@ -337,7 +349,7 @@
             // 
             this.BtnC.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnC.Appearance.Options.UseFont = true;
-            this.BtnC.Location = new System.Drawing.Point(243, 218);
+            this.BtnC.Location = new System.Drawing.Point(243, 226);
             this.BtnC.Name = "BtnC";
             this.BtnC.Size = new System.Drawing.Size(70, 60);
             this.BtnC.TabIndex = 183;
@@ -348,7 +360,7 @@
             // 
             this.BtnV.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnV.Appearance.Options.UseFont = true;
-            this.BtnV.Location = new System.Drawing.Point(319, 218);
+            this.BtnV.Location = new System.Drawing.Point(319, 226);
             this.BtnV.Name = "BtnV";
             this.BtnV.Size = new System.Drawing.Size(70, 60);
             this.BtnV.TabIndex = 184;
@@ -359,7 +371,7 @@
             // 
             this.BtnB.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnB.Appearance.Options.UseFont = true;
-            this.BtnB.Location = new System.Drawing.Point(395, 218);
+            this.BtnB.Location = new System.Drawing.Point(395, 226);
             this.BtnB.Name = "BtnB";
             this.BtnB.Size = new System.Drawing.Size(70, 60);
             this.BtnB.TabIndex = 185;
@@ -370,7 +382,7 @@
             // 
             this.BtnN.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnN.Appearance.Options.UseFont = true;
-            this.BtnN.Location = new System.Drawing.Point(471, 218);
+            this.BtnN.Location = new System.Drawing.Point(471, 226);
             this.BtnN.Name = "BtnN";
             this.BtnN.Size = new System.Drawing.Size(70, 60);
             this.BtnN.TabIndex = 186;
@@ -381,7 +393,7 @@
             // 
             this.BtnM.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnM.Appearance.Options.UseFont = true;
-            this.BtnM.Location = new System.Drawing.Point(547, 218);
+            this.BtnM.Location = new System.Drawing.Point(547, 226);
             this.BtnM.Name = "BtnM";
             this.BtnM.Size = new System.Drawing.Size(70, 60);
             this.BtnM.TabIndex = 187;
@@ -392,31 +404,31 @@
             // 
             this.BtnDot.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnDot.Appearance.Options.UseFont = true;
-            this.BtnDot.Location = new System.Drawing.Point(699, 218);
+            this.BtnDot.Location = new System.Drawing.Point(699, 226);
             this.BtnDot.Name = "BtnDot";
             this.BtnDot.Size = new System.Drawing.Size(70, 60);
             this.BtnDot.TabIndex = 188;
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
             // 
-            // BtnAt
+            // BtnHyphen
             // 
-            this.BtnAt.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.BtnAt.Appearance.Options.UseFont = true;
-            this.BtnAt.Location = new System.Drawing.Point(593, 288);
-            this.BtnAt.Name = "BtnAt";
-            this.BtnAt.Size = new System.Drawing.Size(70, 60);
-            this.BtnAt.TabIndex = 189;
-            this.BtnAt.Text = "@";
-            this.BtnAt.Click += new System.EventHandler(this.BtnAt_Click);
+            this.BtnHyphen.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.BtnHyphen.Appearance.Options.UseFont = true;
+            this.BtnHyphen.Location = new System.Drawing.Point(593, 296);
+            this.BtnHyphen.Name = "BtnHyphen";
+            this.BtnHyphen.Size = new System.Drawing.Size(70, 60);
+            this.BtnHyphen.TabIndex = 189;
+            this.BtnHyphen.Text = "-";
+            this.BtnHyphen.Click += new System.EventHandler(this.BtnHyphen_Click);
             // 
             // BtnSpace
             // 
             this.BtnSpace.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnSpace.Appearance.Options.UseFont = true;
-            this.BtnSpace.Location = new System.Drawing.Point(152, 288);
+            this.BtnSpace.Location = new System.Drawing.Point(167, 296);
             this.BtnSpace.Name = "BtnSpace";
-            this.BtnSpace.Size = new System.Drawing.Size(435, 60);
+            this.BtnSpace.Size = new System.Drawing.Size(420, 60);
             this.BtnSpace.TabIndex = 190;
             this.BtnSpace.Click += new System.EventHandler(this.BtnSpace_Click);
             // 
@@ -430,7 +442,7 @@
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnExit.Location = new System.Drawing.Point(747, 289);
+            this.BtnExit.Location = new System.Drawing.Point(747, 297);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(120, 59);
@@ -444,7 +456,7 @@
             this.BtnDelete.Appearance.Options.UseBackColor = true;
             this.BtnDelete.Appearance.Options.UseFont = true;
             this.BtnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnDelete.ImageOptions.SvgImage")));
-            this.BtnDelete.Location = new System.Drawing.Point(797, 71);
+            this.BtnDelete.Location = new System.Drawing.Point(797, 79);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(70, 59);
@@ -455,36 +467,180 @@
             // 
             this.BtnComma.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnComma.Appearance.Options.UseFont = true;
-            this.BtnComma.Location = new System.Drawing.Point(623, 218);
+            this.BtnComma.Location = new System.Drawing.Point(623, 226);
             this.BtnComma.Name = "BtnComma";
             this.BtnComma.Size = new System.Drawing.Size(70, 60);
             this.BtnComma.TabIndex = 194;
             this.BtnComma.Text = ",";
             this.BtnComma.Click += new System.EventHandler(this.BtnComma_Click);
             // 
-            // BtnSlash
+            // BtnUnderscore
             // 
-            this.BtnSlash.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.BtnSlash.Appearance.Options.UseFont = true;
-            this.BtnSlash.Location = new System.Drawing.Point(669, 288);
-            this.BtnSlash.Name = "BtnSlash";
-            this.BtnSlash.Size = new System.Drawing.Size(70, 60);
-            this.BtnSlash.TabIndex = 195;
-            this.BtnSlash.Text = "/";
-            this.BtnSlash.Click += new System.EventHandler(this.BtnSlash_Click);
+            this.BtnUnderscore.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.BtnUnderscore.Appearance.Options.UseFont = true;
+            this.BtnUnderscore.Location = new System.Drawing.Point(669, 296);
+            this.BtnUnderscore.Name = "BtnUnderscore";
+            this.BtnUnderscore.Size = new System.Drawing.Size(70, 60);
+            this.BtnUnderscore.TabIndex = 195;
+            this.BtnUnderscore.Text = "_";
+            this.BtnUnderscore.Click += new System.EventHandler(this.BtnUnderscore_Click);
+            // 
+            // Btn3
+            // 
+            this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn3.Appearance.Options.UseFont = true;
+            this.Btn3.Location = new System.Drawing.Point(1045, 227);
+            this.Btn3.Name = "Btn3";
+            this.Btn3.Size = new System.Drawing.Size(70, 60);
+            this.Btn3.TabIndex = 198;
+            this.Btn3.Text = "3";
+            this.Btn3.Click += new System.EventHandler(this.Btn3_Click);
+            // 
+            // Btn2
+            // 
+            this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn2.Appearance.Options.UseFont = true;
+            this.Btn2.Location = new System.Drawing.Point(969, 227);
+            this.Btn2.Name = "Btn2";
+            this.Btn2.Size = new System.Drawing.Size(70, 60);
+            this.Btn2.TabIndex = 197;
+            this.Btn2.Text = "2";
+            this.Btn2.Click += new System.EventHandler(this.Btn2_Click);
+            // 
+            // Btn1
+            // 
+            this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn1.Appearance.Options.UseFont = true;
+            this.Btn1.Location = new System.Drawing.Point(893, 227);
+            this.Btn1.Name = "Btn1";
+            this.Btn1.Size = new System.Drawing.Size(70, 60);
+            this.Btn1.TabIndex = 196;
+            this.Btn1.Text = "1";
+            this.Btn1.Click += new System.EventHandler(this.Btn1_Click);
+            // 
+            // BtnDot2
+            // 
+            this.BtnDot2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.BtnDot2.Appearance.Options.UseFont = true;
+            this.BtnDot2.Location = new System.Drawing.Point(1045, 297);
+            this.BtnDot2.Name = "BtnDot2";
+            this.BtnDot2.Size = new System.Drawing.Size(70, 60);
+            this.BtnDot2.TabIndex = 200;
+            this.BtnDot2.Text = ".";
+            this.BtnDot2.Click += new System.EventHandler(this.BtnDot2_Click);
+            // 
+            // Btn0
+            // 
+            this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn0.Appearance.Options.UseFont = true;
+            this.Btn0.Location = new System.Drawing.Point(893, 297);
+            this.Btn0.Name = "Btn0";
+            this.Btn0.Size = new System.Drawing.Size(146, 60);
+            this.Btn0.TabIndex = 199;
+            this.Btn0.Text = "0";
+            this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
+            // 
+            // Btn6
+            // 
+            this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn6.Appearance.Options.UseFont = true;
+            this.Btn6.Location = new System.Drawing.Point(1045, 154);
+            this.Btn6.Name = "Btn6";
+            this.Btn6.Size = new System.Drawing.Size(70, 60);
+            this.Btn6.TabIndex = 203;
+            this.Btn6.Text = "6";
+            this.Btn6.Click += new System.EventHandler(this.Btn6_Click);
+            // 
+            // Btn5
+            // 
+            this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn5.Appearance.Options.UseFont = true;
+            this.Btn5.Location = new System.Drawing.Point(969, 154);
+            this.Btn5.Name = "Btn5";
+            this.Btn5.Size = new System.Drawing.Size(70, 60);
+            this.Btn5.TabIndex = 202;
+            this.Btn5.Text = "5";
+            this.Btn5.Click += new System.EventHandler(this.Btn5_Click);
+            // 
+            // Btn4
+            // 
+            this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn4.Appearance.Options.UseFont = true;
+            this.Btn4.Location = new System.Drawing.Point(893, 154);
+            this.Btn4.Name = "Btn4";
+            this.Btn4.Size = new System.Drawing.Size(70, 60);
+            this.Btn4.TabIndex = 201;
+            this.Btn4.Text = "4";
+            this.Btn4.Click += new System.EventHandler(this.Btn4_Click);
+            // 
+            // Btn9
+            // 
+            this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn9.Appearance.Options.UseFont = true;
+            this.Btn9.Location = new System.Drawing.Point(1045, 79);
+            this.Btn9.Name = "Btn9";
+            this.Btn9.Size = new System.Drawing.Size(70, 60);
+            this.Btn9.TabIndex = 206;
+            this.Btn9.Text = "9";
+            this.Btn9.Click += new System.EventHandler(this.Btn9_Click);
+            // 
+            // Btn8
+            // 
+            this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn8.Appearance.Options.UseFont = true;
+            this.Btn8.Location = new System.Drawing.Point(969, 79);
+            this.Btn8.Name = "Btn8";
+            this.Btn8.Size = new System.Drawing.Size(70, 60);
+            this.Btn8.TabIndex = 205;
+            this.Btn8.Text = "8";
+            this.Btn8.Click += new System.EventHandler(this.Btn8_Click);
+            // 
+            // Btn7
+            // 
+            this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.Btn7.Appearance.Options.UseFont = true;
+            this.Btn7.Location = new System.Drawing.Point(893, 79);
+            this.Btn7.Name = "Btn7";
+            this.Btn7.Size = new System.Drawing.Size(70, 60);
+            this.Btn7.TabIndex = 204;
+            this.Btn7.Text = "7";
+            this.Btn7.Click += new System.EventHandler(this.Btn7_Click);
+            // 
+            // BtnAt
+            // 
+            this.BtnAt.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.BtnAt.Appearance.Options.UseFont = true;
+            this.BtnAt.Location = new System.Drawing.Point(91, 295);
+            this.BtnAt.Name = "BtnAt";
+            this.BtnAt.Size = new System.Drawing.Size(70, 60);
+            this.BtnAt.TabIndex = 207;
+            this.BtnAt.Text = "@";
+            this.BtnAt.Click += new System.EventHandler(this.BtnAt_Click);
             // 
             // FrmKeyBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(933, 400);
+            this.ClientSize = new System.Drawing.Size(1144, 396);
             this.ControlBox = false;
-            this.Controls.Add(this.BtnSlash);
+            this.Controls.Add(this.BtnAt);
+            this.Controls.Add(this.Btn9);
+            this.Controls.Add(this.Btn8);
+            this.Controls.Add(this.Btn7);
+            this.Controls.Add(this.Btn6);
+            this.Controls.Add(this.Btn5);
+            this.Controls.Add(this.Btn4);
+            this.Controls.Add(this.BtnDot2);
+            this.Controls.Add(this.Btn0);
+            this.Controls.Add(this.Btn3);
+            this.Controls.Add(this.Btn2);
+            this.Controls.Add(this.Btn1);
+            this.Controls.Add(this.BtnUnderscore);
             this.Controls.Add(this.BtnComma);
             this.Controls.Add(this.BtnDelete);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnSpace);
-            this.Controls.Add(this.BtnAt);
+            this.Controls.Add(this.BtnHyphen);
             this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.BtnM);
             this.Controls.Add(this.BtnN);
@@ -518,7 +674,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmKeyBoard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Teclado";
+            this.Text = "Teclado Alfanumerico";
             ((System.ComponentModel.ISupportInitialize)(this.TxtValue.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -557,11 +713,23 @@
         private DevExpress.XtraEditors.SimpleButton BtnN;
         private DevExpress.XtraEditors.SimpleButton BtnM;
         private DevExpress.XtraEditors.SimpleButton BtnDot;
-        private DevExpress.XtraEditors.SimpleButton BtnAt;
+        private DevExpress.XtraEditors.SimpleButton BtnHyphen;
         private DevExpress.XtraEditors.SimpleButton BtnSpace;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
         private DevExpress.XtraEditors.SimpleButton BtnDelete;
         private DevExpress.XtraEditors.SimpleButton BtnComma;
-        private DevExpress.XtraEditors.SimpleButton BtnSlash;
+        private DevExpress.XtraEditors.SimpleButton BtnUnderscore;
+        private DevExpress.XtraEditors.SimpleButton Btn3;
+        private DevExpress.XtraEditors.SimpleButton Btn2;
+        private DevExpress.XtraEditors.SimpleButton Btn1;
+        private DevExpress.XtraEditors.SimpleButton BtnDot2;
+        private DevExpress.XtraEditors.SimpleButton Btn0;
+        private DevExpress.XtraEditors.SimpleButton Btn6;
+        private DevExpress.XtraEditors.SimpleButton Btn5;
+        private DevExpress.XtraEditors.SimpleButton Btn4;
+        private DevExpress.XtraEditors.SimpleButton Btn9;
+        private DevExpress.XtraEditors.SimpleButton Btn8;
+        private DevExpress.XtraEditors.SimpleButton Btn7;
+        private DevExpress.XtraEditors.SimpleButton BtnAt;
     }
 }

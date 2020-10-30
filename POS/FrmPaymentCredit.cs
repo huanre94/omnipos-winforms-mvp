@@ -54,7 +54,12 @@ namespace POS
                     }
                     catch (Exception ex)
                     {                        
-                        functions.ShowMessage(ex.Message, ClsEnums.MessageType.ERROR);
+                        functions.ShowMessage(
+                                                "Ocurrio un problema al consultar tarjeta de consumo."
+                                                ,ClsEnums.MessageType.ERROR
+                                                ,true
+                                                ,ex.Message
+                                                );
                     }
                 }
             }            

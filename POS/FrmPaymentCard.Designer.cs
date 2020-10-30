@@ -77,7 +77,7 @@
             // 
             this.LblCardBank.AutoSize = true;
             this.LblCardBank.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblCardBank.Location = new System.Drawing.Point(30, 110);
+            this.LblCardBank.Location = new System.Drawing.Point(30, 115);
             this.LblCardBank.Name = "LblCardBank";
             this.LblCardBank.Size = new System.Drawing.Size(60, 18);
             this.LblCardBank.TabIndex = 4;
@@ -87,7 +87,7 @@
             // 
             this.LblCardBrand.AutoSize = true;
             this.LblCardBrand.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblCardBrand.Location = new System.Drawing.Point(30, 162);
+            this.LblCardBrand.Location = new System.Drawing.Point(30, 172);
             this.LblCardBrand.Name = "LblCardBrand";
             this.LblCardBrand.Size = new System.Drawing.Size(58, 18);
             this.LblCardBrand.TabIndex = 5;
@@ -97,7 +97,7 @@
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(30, 212);
+            this.LblAuthorization.Location = new System.Drawing.Point(30, 227);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(109, 18);
             this.LblAuthorization.TabIndex = 6;
@@ -112,7 +112,7 @@
             this.BtnKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyPad.ImageOptions.SvgImage")));
             this.BtnKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyPad.Location = new System.Drawing.Point(359, 202);
+            this.BtnKeyPad.Location = new System.Drawing.Point(359, 217);
             this.BtnKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeyPad.Name = "BtnKeyPad";
             this.BtnKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -158,14 +158,14 @@
             // 
             // TxtAuthorization
             // 
-            this.TxtAuthorization.Location = new System.Drawing.Point(147, 203);
+            this.TxtAuthorization.Location = new System.Drawing.Point(147, 218);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(202, 38);
             this.TxtAuthorization.TabIndex = 4;
             // 
             // CmbCardBank
             // 
-            this.CmbCardBank.Location = new System.Drawing.Point(147, 99);
+            this.CmbCardBank.Location = new System.Drawing.Point(147, 104);
             this.CmbCardBank.Name = "CmbCardBank";
             this.CmbCardBank.Properties.AutoComplete = false;
             this.CmbCardBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -177,7 +177,7 @@
             // 
             // CmbCardBrand
             // 
-            this.CmbCardBrand.Location = new System.Drawing.Point(147, 151);
+            this.CmbCardBrand.Location = new System.Drawing.Point(147, 161);
             this.CmbCardBrand.Name = "CmbCardBrand";
             this.CmbCardBrand.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});

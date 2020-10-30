@@ -17,6 +17,11 @@ namespace POS
 {
     public partial class FrmPaymentCard : DevExpress.XtraEditors.XtraForm
     {
+        ClsFunctions functions = new ClsFunctions();
+        public ClsEnums.PaymModeEnum paymModeEnum;
+        public int bankId;
+        public int creditCardId;
+        public string authorization;
         public bool processResponse;
 
         public FrmPaymentCard()
@@ -39,15 +44,28 @@ namespace POS
 
         private void LoadBanks()
         {
-            var db = new DLL.POSEntities();
-            var banks = from ba in db.Bank
-                        where ba.Status == "A"
-                        select ba;
-
-            foreach (var item in banks.ToList())
+            try
             {
-                CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = item.BankId, Description = item.Name});
-            }                    
+                var db = new DLL.POSEntities();
+                var banks = from ba in db.Bank
+                            where ba.Status == "A"
+                            select ba;
+
+                foreach (var item in banks.ToList())
+                {
+                    CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = item.BankId, Description = item.Name });
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar lista de Bancos."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+
         }
 
         private void CmbCardBank_SelectedIndexChanged(object sender, EventArgs e)
@@ -62,35 +80,51 @@ namespace POS
 
             if (CmbCardType.SelectedItem != null)
             {
-                if (CmbCardType.SelectedItem.ToString() == "DEBITO")
+                try
                 {
-                    var brands = from cre in db.CreditCard
-                                 join ban in db.BankCreditCard
-                                 on cre.CreditCardId equals ban.CreditCardId
-                                 where cre.Status == "A"
-                                 && ban.BankId == _BankId
-                                 && cre.IsDebit == true
-                                 select cre;
-
-                    foreach (var item in brands.ToList())
+                    if (CmbCardType.SelectedItem.ToString() == "DEBITO")
                     {
-                        CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
+                        paymModeEnum = ClsEnums.PaymModeEnum.DEBITO_BANCARIO;
+
+                        var brands = from cre in db.CreditCard
+                                     join ban in db.BankCreditCard
+                                     on cre.CreditCardId equals ban.CreditCardId
+                                     where cre.Status == "A"
+                                     && ban.BankId == _BankId
+                                     && cre.IsDebit == true
+                                     select cre;
+
+                        foreach (var item in brands.ToList())
+                        {
+                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
+                        }
+                    }
+                    else
+                    {
+                        paymModeEnum = ClsEnums.PaymModeEnum.TARJETA_CREDITO;
+
+                        var brands = from cre in db.CreditCard
+                                     join ban in db.BankCreditCard
+                                     on cre.CreditCardId equals ban.CreditCardId
+                                     where cre.Status == "A"
+                                     && ban.BankId == _BankId
+                                     && cre.IsCredit == true
+                                     select cre;
+
+                        foreach (var item in brands.ToList())
+                        {
+                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
+                        }
                     }
                 }
-                else
+                catch(Exception ex)
                 {
-                    var brands = from cre in db.CreditCard
-                                 join ban in db.BankCreditCard
-                                 on cre.CreditCardId equals ban.CreditCardId
-                                 where cre.Status == "A"
-                                 && ban.BankId == _BankId
-                                 && cre.IsCredit == true
-                                 select cre;
-
-                    foreach (var item in brands.ToList())
-                    {
-                        CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
-                    }
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al cargar lista de Marcas de Tarjeta."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
                 }
             }
         }
@@ -100,11 +134,15 @@ namespace POS
             if (CmbCardType.SelectedItem != null && CmbCardBank.EditValue != null 
                 && CmbCardBrand.EditValue != null && TxtAuthorization.Text != "")
             {
+                bankId = int.Parse(CmbCardBank.EditValue.ToString());
+                creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
+                authorization = TxtAuthorization.Text;
+
                 processResponse = true;
             }
             else
             {
-                ClsFunctions functions = new ClsFunctions();
+                
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }

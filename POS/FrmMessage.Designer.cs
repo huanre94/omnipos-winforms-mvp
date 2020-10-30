@@ -32,6 +32,7 @@
             this.LblMessage = new System.Windows.Forms.Label();
             this.ImgSvgMessage = new DevExpress.XtraEditors.SvgImageBox();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.LnkViewDetail = new DevExpress.XtraEditors.HyperlinkLabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ImgSvgMessage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,7 +74,7 @@
             // 
             this.ImgSvgMessage.Location = new System.Drawing.Point(30, 59);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
-            this.ImgSvgMessage.Size = new System.Drawing.Size(65, 65);
+            this.ImgSvgMessage.Size = new System.Drawing.Size(70, 65);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
             this.ImgSvgMessage.TabIndex = 4;
             // 
@@ -96,12 +97,23 @@
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Visible = false;
             // 
+            // LnkViewDetail
+            // 
+            this.LnkViewDetail.Location = new System.Drawing.Point(30, 233);
+            this.LnkViewDetail.Name = "LnkViewDetail";
+            this.LnkViewDetail.Size = new System.Drawing.Size(74, 16);
+            this.LnkViewDetail.TabIndex = 5;
+            this.LnkViewDetail.Text = "Ver detalle";
+            this.LnkViewDetail.Visible = false;
+            this.LnkViewDetail.Click += new System.EventHandler(this.LnkViewDetail_Click);
+            // 
             // FrmMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(493, 280);
             this.ControlBox = false;
+            this.Controls.Add(this.LnkViewDetail);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.ImgSvgMessage);
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Label LblMessage;
         private DevExpress.XtraEditors.SvgImageBox ImgSvgMessage;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
+        private DevExpress.XtraEditors.HyperlinkLabelControl LnkViewDetail;
     }
 }

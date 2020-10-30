@@ -14,6 +14,9 @@ using System.Xml.Linq;
 using DevExpress.XtraGrid.Views.Grid;
 using POS.DLL;
 using POS.Classes;
+using System.Reflection;
+using DevExpress.Utils.Extensions;
+using DevExpress.Data.Helpers;
 
 namespace POS
 {
@@ -40,7 +43,19 @@ namespace POS
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;           
-        }        
+        }
+
+        #region Control Validations
+        private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // allows 0-9, backspace, and decimal
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+        #endregion
 
         #region Keypad Buttons
         private void Btn0_Click(object sender, EventArgs e)
@@ -176,7 +191,7 @@ namespace POS
             {
                 bool response;
 
-                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.WARNING);
+                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
 
                 if (response)
                 {
@@ -192,10 +207,17 @@ namespace POS
         }
         #endregion
 
+        #region Payment Functions
         private void Cash()
         {
             CheckGridView();
-            AddRecordToSource(ClsEnums.PaymModeEnum.EFECTIVO);
+            InvoicePayment invoicePayment = new InvoicePayment
+            {
+                PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
+                Amount = decimal.Parse(TxtAmount.Text)
+            };
+            
+            AddRecordToSource(invoicePayment);
             CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);            
         }
 
@@ -207,21 +229,50 @@ namespace POS
 
             if (paymentCard.processResponse)
             {
-                AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CREDITO);
-                CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CREDITO);                
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)paymentCard.paymModeEnum,
+                    BankId = paymentCard.bankId,
+                    CreditCardId = paymentCard.creditCardId,
+                    Authorization = paymentCard.authorization
+                };
+
+                AddRecordToSource(invoicePayment);
+                CalculatePayment(paymentCard.paymModeEnum);                
             }
         }
 
         private void Check()
         {
             CheckGridView();
+            ClsEnums.PaymModeEnum paymModeEnum;
             FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
+            paymentCheck.checkAmount = decimal.Parse(TxtAmount.Text);
             paymentCheck.ShowDialog();
 
             if (paymentCheck.processResponse)
             {
-                AddRecordToSource(ClsEnums.PaymModeEnum.CHEQUE_DIA);
-                CalculatePayment(ClsEnums.PaymModeEnum.CHEQUE_DIA);               
+                if (paymentCheck.checkDate > DateTime.Now)
+                {
+                    paymModeEnum = ClsEnums.PaymModeEnum.CHEQUE_POST;
+                }
+                else
+                {
+                    paymModeEnum = ClsEnums.PaymModeEnum.CHEQUE_DIA;
+                }
+
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    CheckOwner = paymentCheck.checkOwnerName,
+                    BankId = paymentCheck.checkBankId,
+                    CkeckDate = paymentCheck.checkDate,
+                    AccountNumber = paymentCheck.checkAccountNumber,
+                    CkeckNumber = paymentCheck.checkNumber,
+                    Authorization = paymentCheck.checkAuthorization
+                };
+
+                AddRecordToSource(invoicePayment);
+                CalculatePayment(paymModeEnum);               
             }
         }
 
@@ -236,7 +287,7 @@ namespace POS
             {    
                 if (functions.RequestSupervisorAuth())
                 {
-                    AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
+                    //AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
                     CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);                  
                 }
             }            
@@ -251,52 +302,8 @@ namespace POS
 
             if (giftcard.formActionResult)
             {
-                AddRecordToSource(ClsEnums.PaymModeEnum.BONO);
+                //AddRecordToSource(ClsEnums.PaymModeEnum.BONO);
                 CalculatePayment(ClsEnums.PaymModeEnum.BONO);             
-            }
-        }        
-
-        private void AddRecordToSource(ClsEnums.PaymModeEnum _paymModeId)
-        {
-            DataRow NewRow = dataTable.NewRow();
-            NewRow[0] = _paymModeId;
-            NewRow[1] = decimal.Parse(TxtAmount.Text);
-            dataTable.Rows.Add(NewRow);
-            GrcPayment.DataSource = dataTable;
-
-            XElement paymentDetail = new XElement("paymentDetail");
-            paymentDetail.Add(new XElement("PaymModeId", (int)_paymModeId));
-            paymentDetail.Add(new XElement("Amount", decimal.Parse(TxtAmount.Text)));
-            payment.Add(paymentDetail);            
-        }
-
-        private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
-        {
-            paidAmount += decimal.Parse(TxtAmount.Text);
-
-            if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)                
-            {
-                if (paidAmount > invoiceAmount)
-                {
-                    changeAmount = paidAmount - invoiceAmount;
-                    functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
-                    paidAmount = invoiceAmount;
-                }
-            }
-
-            pendingAmount = invoiceAmount - paidAmount;
-
-            LblPaid.Text = paidAmount.ToString();
-            LblPending.Text = pendingAmount.ToString();
-
-            if (paidAmount >= invoiceAmount)
-            {                
-                //close invoice process
-                Close();
-            }
-            else
-            {
-                TxtAmount.Text = pendingAmount.ToString();
             }
         }
 
@@ -315,14 +322,77 @@ namespace POS
             }
         }
 
-        private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+        private void AddRecordToSource(InvoicePayment _invoicePayment)
+        {           
+            DataRow NewRow = dataTable.NewRow();
+            NewRow[0] = _invoicePayment.PaymModeId;
+            NewRow[1] = _invoicePayment.Amount;
+            dataTable.Rows.Add(NewRow);
+            GrcPayment.DataSource = dataTable;
+            
+            Type t = _invoicePayment.GetType();
+            PropertyInfo[] properties = t.GetProperties();
+            XElement paymentDetail = new XElement("paymentDetail");
+
+            foreach (var prop in properties)
             {
-                e.Handled = true;
-                return;
+                if (prop.Name != "InvoiceTable" && prop.Name != "Location" && prop.Name != "PaymMode")
+                {
+                    var name = prop.Name;
+                    var value = prop.GetValue(_invoicePayment);
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    
+                    paymentDetail.Add(new XElement(name, value));
+                    
+                }                
+            }
+
+            payment.Add(paymentDetail);
+        }
+
+        private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
+        {
+            paidAmount += decimal.Parse(TxtAmount.Text);
+
+            if (paidAmount > invoiceAmount)
+            {
+                if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)
+                {
+                    changeAmount = paidAmount - invoiceAmount;
+                    functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
+                    paidAmount = invoiceAmount;
+                }
+                else
+                {
+                    functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
+                }
+            }
+            else
+            {
+                pendingAmount = invoiceAmount - paidAmount;
+
+                LblPaid.Text = paidAmount.ToString();
+                LblPending.Text = pendingAmount.ToString();
+
+                if (paidAmount >= invoiceAmount)
+                {
+                    //closing invoice process
+                    Close();
+                }
+                else
+                {
+                    TxtAmount.Text = pendingAmount.ToString();
+                }
             }
         }
+        #endregion
+
+        
+
     }
 }

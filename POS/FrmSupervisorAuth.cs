@@ -14,6 +14,7 @@ namespace POS
 {
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
+        ClsFunctions functions = new ClsFunctions();
         public bool formActionResult; 
 
         public FrmSupervisorAuth()
@@ -24,8 +25,7 @@ namespace POS
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtAuthorization.Text != "")
-            {
-                ClsFunctions functions = new ClsFunctions();
+            {                
                 DLL.Transaction.ClsAuthorization authorization = new DLL.Transaction.ClsAuthorization();
                 List<DLL.SP_Supervisor_Validate_Result> result;
 
@@ -42,18 +42,22 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("El codigo ingresado no retorno valores.", ClsEnums.MessageType.ERROR);
+                            functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
                         }
                     }                    
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(ex.Message, ClsEnums.MessageType.ERROR);
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al verificar codigo de autorizacion."
+                                            ,ClsEnums.MessageType.ERROR
+                                            ,true
+                                            ,ex.Message
+                                            );
                 }                
             }
             else
-            {
-                ClsFunctions functions = new ClsFunctions();
+            {                
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }

@@ -18,6 +18,8 @@ namespace POS
         public string creditCardAuthorization;
         public string checkAccountNumber;
         public string checkNumber;
+        public string checkOwnerIdentification;
+        public string checkPhone;
         public string giftcardNumber;
 
         public FrmKeyPad()
@@ -93,6 +95,12 @@ namespace POS
                         break;                    
                     case ClsEnums.InputFromOption.CHECK_NUMBER:
                         checkNumber = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION:
+                        checkOwnerIdentification = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CHECK_PHONE:
+                        checkPhone = TxtValue.Text;
                         break;
                     case ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION:
                         creditCardAuthorization = TxtValue.Text;

@@ -1722,6 +1722,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_GaranCheck_Authorize" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BankId" Type="int" Mode="In" />
+          <Parameter Name="AccountNumber" Type="varchar" Mode="In" />
+          <Parameter Name="CkeckNumber" Type="int" Mode="In" />
+          <Parameter Name="CkeckAmount" Type="money" Mode="In" />
+          <Parameter Name="Identification" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="Reference" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_GiftCard_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GiftCardNumber" Type="bigint" Mode="In" />
         </Function>
@@ -3798,7 +3808,17 @@
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
           </AssociationSet>
           <FunctionImport Name="SP_GiftCard_Consult" ReturnType="Collection(POSModel.SP_GiftCard_Consult_Result)">
-            <Parameter Name="GiftCardNumber" Mode="In" Type="Int64" />
+          <Parameter Name="GiftCardNumber" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GaranCheck_Authorize" ReturnType="Collection(POSModel.SP_GaranCheck_Authorize_Result)">
+            <Parameter Name="BankId" Mode="In" Type="Int32" />
+            <Parameter Name="AccountNumber" Mode="In" Type="String" />
+            <Parameter Name="CkeckNumber" Mode="In" Type="Int32" />
+            <Parameter Name="CkeckAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="Identification" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="CreditCard">
@@ -4250,6 +4270,10 @@
           <Property Type="Int64" Name="CustomerId" Nullable="true" />
           <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="DocNumber" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_GaranCheck_Authorize_Result">
+          <Property Type="Int32" Name="Response" Nullable="true" />
+          <Property Type="String" Name="Result" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5251,6 +5275,14 @@
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="DocNumber" ColumnName="DocNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GaranCheck_Authorize" FunctionName="POSModel.Store.SP_GaranCheck_Authorize">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_GaranCheck_Authorize_Result">
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -16,6 +16,7 @@ namespace POS
     {
         public ClsEnums.InputFromOption inputFromOption;
         public string checkOwnerName;
+        public string checkOwnerIdentification;
         public string customerName;
 
         public FrmKeyBoard()
@@ -169,14 +170,74 @@ namespace POS
             TxtValue.Text += "@";
         }
 
-        private void BtnSlash_Click(object sender, EventArgs e)
+        private void BtnHyphen_Click(object sender, EventArgs e)
         {
-            TxtValue.Text += "/";
+            TxtValue.Text += "-";
+        }
+
+        private void BtnUnderscore_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "_";
         }
 
         private void BtnSpace_Click(object sender, EventArgs e)
         {
             TxtValue.Text += " ";
+        }
+
+        private void Btn0_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "0";
+        }
+
+        private void Btn1_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "1";
+        }
+
+        private void Btn2_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "2";
+        }
+
+        private void Btn3_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "3";
+        }
+
+        private void Btn4_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "4";
+        }
+
+        private void Btn5_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "5";
+        }
+
+        private void Btn6_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "6";
+        }
+
+        private void Btn7_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "7";
+        }
+
+        private void Btn8_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "8";
+        }
+
+        private void Btn9_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += "9";
+        }
+
+        private void BtnDot2_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += ".";
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -197,8 +258,11 @@ namespace POS
                     case ClsEnums.InputFromOption.CHECK_OWNERNAME:
                         checkOwnerName = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CHECK_AUTHORIZATION:
+                    case ClsEnums.InputFromOption.CUSTOMER_NAME:
                         customerName = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION:
+                        checkOwnerIdentification = TxtValue.Text;
                         break;
                     default:
                         break;
@@ -208,5 +272,6 @@ namespace POS
             }
         }
 
+        
     }
 }

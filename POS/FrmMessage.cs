@@ -16,8 +16,10 @@ namespace POS
     public partial class FrmMessage : DevExpress.XtraEditors.XtraForm
     {
         public string messageText = "";
+        public string messageTextDetail = "";
+        public bool showMessageDetail;
         public ClsEnums.MessageType messagetype;
-        public bool messageResponse;
+        public bool messageResponse;        
 
         public FrmMessage()
         {
@@ -25,13 +27,18 @@ namespace POS
         }
 
         private void FrmMessage_Load(object sender, EventArgs e)
-        {
-            this.CreateMessage();
+        {     
+            CreateMessage();
         }
 
         private void CreateMessage()
         {
-            DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();            
+            DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();
+
+            if (showMessageDetail)
+            {
+                LnkViewDetail.Visible = true;
+            }
 
             switch (messagetype)
             {
@@ -57,6 +64,11 @@ namespace POS
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             messageResponse = true;
+        }
+
+        private void LnkViewDetail_Click(object sender, EventArgs e)
+        {
+            XtraMessageBox.Show(messageTextDetail);
         }
     }
 }

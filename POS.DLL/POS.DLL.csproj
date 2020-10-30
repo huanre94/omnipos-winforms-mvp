@@ -218,6 +218,9 @@
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GaranCheck_Authorize_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GiftCard_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
