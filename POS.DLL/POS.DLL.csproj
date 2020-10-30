@@ -106,6 +106,24 @@
     <Compile Include="EmissionPoint.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiftCardBlockTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardTemplateLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardTemplateTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardTrans.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="IdentType.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -238,6 +256,7 @@
     </Compile>
     <Compile Include="Transaction\ClsAuthorization.cs" />
     <Compile Include="Transaction\ClsCustomer.cs" />
+    <Compile Include="Transaction\ClsInvoice.cs" />
     <Compile Include="User.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

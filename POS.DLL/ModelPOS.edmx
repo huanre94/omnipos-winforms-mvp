@@ -255,6 +255,109 @@
           <Property Name="ModifiedDatetime" Type="datetime" />
           <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="GiftCardBlockTable">
+          <Key>
+            <PropertyRef Name="GiftCardBlockId" />
+          </Key>
+          <Property Name="GiftCardBlockId" Type="bigint" Nullable="false" />
+          <Property Name="LocationId" Type="smallint" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Observation" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+          <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiftCardLine">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="GiftCardId" Type="bigint" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="GiftCardNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustomerId" Type="bigint" Nullable="false" />
+          <Property Name="AssignedCustomer" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Amount" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="AmountConsumed" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="StatusLine" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiftCardTable">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+          </Key>
+          <Property Name="GiftCardId" Type="bigint" Nullable="false" />
+          <Property Name="GiftCardIdLocal" Type="bigint" Nullable="false" />
+          <Property Name="LocationId" Type="smallint" Nullable="false" />
+          <Property Name="LocationIdOrigin" Type="smallint" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="GiftCardBlockId" Type="bigint" Nullable="false" />
+          <Property Name="Registration" Type="datetime" Nullable="false" />
+          <Property Name="Expiration" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="UseCode" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="CustomerId" Type="bigint" Nullable="false" />
+          <Property Name="InvoiceId" Type="bigint" Nullable="false" />
+          <Property Name="GiftCardNumberStart" Type="bigint" Nullable="false" />
+          <Property Name="GiftCardNumberFinal" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Total" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Observation" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+          <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiftCardTemplateLine">
+          <Key>
+            <PropertyRef Name="GiftCardTemplateId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="GiftCardTemplateId" Type="bigint" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="StatusLine" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="GiftCardTemplateTable">
+          <Key>
+            <PropertyRef Name="GiftCardTemplateId" />
+          </Key>
+          <Property Name="GiftCardTemplateId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="Observation" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+          <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiftCardTrans">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="TrnsSeq" />
+          </Key>
+          <Property Name="GiftCardId" Type="bigint" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="TrnsSeq" Type="int" Nullable="false" />
+          <Property Name="LocationIdWithdrawn" Type="smallint" Nullable="false" />
+          <Property Name="Withdrawal" Type="datetime" Nullable="false" />
+          <Property Name="TrnsType" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="TrnsStatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TrnsId" Type="bigint" Nullable="false" />
+          <Property Name="TrnsAmount" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="QuantityWithdrawn" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+        </EntityType>
         <EntityType Name="IdentType">
           <Key>
             <PropertyRef Name="IdentTypeId" />
@@ -391,7 +494,7 @@
           <Property Name="Sequence" Type="int" Nullable="false" />
           <Property Name="PaymModeId" Type="int" Nullable="false" />
           <Property Name="Amount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Registration" Type="datetime" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
           <Property Name="BankId" Type="int" Nullable="false" />
           <Property Name="CreditCardId" Type="int" Nullable="false" />
           <Property Name="AccountNumber" Type="varchar" MaxLength="20" Nullable="false" />
@@ -402,7 +505,7 @@
           <Property Name="Authorization" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="IsProtest" Type="bit" Nullable="false" />
           <Property Name="ProtestDate" Type="datetime" Nullable="false" />
-          <Property Name="GiftCardNumber" Type="int" Nullable="false" />
+          <Property Name="GiftCardNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="WithholdCode" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="WithholdNumber" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
@@ -1098,6 +1201,152 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__GiftCardBlockTable_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="GiftCardBlockTable" Type="Self.GiftCardBlockTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardBlockTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardLine_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="GiftCardLine" Type="Self.GiftCardLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardLine">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardLine_GiftCardTable">
+          <End Role="GiftCardTable" Type="Self.GiftCardTable" Multiplicity="1" />
+          <End Role="GiftCardLine" Type="Self.GiftCardLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardTable">
+              <PropertyRef Name="GiftCardId" />
+            </Principal>
+            <Dependent Role="GiftCardLine">
+              <PropertyRef Name="GiftCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="GiftCardTable" Type="Self.GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_GiftCardBlockTable">
+          <End Role="GiftCardBlockTable" Type="Self.GiftCardBlockTable" Multiplicity="1" />
+          <End Role="GiftCardTable" Type="Self.GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardBlockTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="GiftCardTable" Type="Self.GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_LocationOrigin">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="GiftCardTable" Type="Self.GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationIdOrigin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateLine_GiftCardTemplateTable">
+          <End Role="GiftCardTemplateTable" Type="Self.GiftCardTemplateTable" Multiplicity="1" />
+          <End Role="GiftCardTemplateLine" Type="Self.GiftCardTemplateLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardTemplateTable">
+              <PropertyRef Name="GiftCardTemplateId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateLine">
+              <PropertyRef Name="GiftCardTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateLine_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="GiftCardTemplateLine" Type="Self.GiftCardTemplateLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateTable_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="GiftCardTemplateTable" Type="Self.GiftCardTemplateTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateTable">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTrans_GiftCardLine">
+          <End Role="GiftCardLine" Type="Self.GiftCardLine" Multiplicity="1" />
+          <End Role="GiftCardTrans" Type="Self.GiftCardTrans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardLine">
+              <PropertyRef Name="GiftCardId" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="GiftCardTrans">
+              <PropertyRef Name="GiftCardId" />
+              <PropertyRef Name="Sequence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTrans_LocationWithdrawn">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="GiftCardTrans" Type="Self.GiftCardTrans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTrans">
+              <PropertyRef Name="LocationIdWithdrawn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__InternalCreditCard_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="InternalCreditCard" Type="Self.InternalCreditCard" Multiplicity="*" />
@@ -1733,7 +1982,7 @@
           <Parameter Name="Reference" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_GiftCard_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="GiftCardNumber" Type="bigint" Mode="In" />
+          <Parameter Name="GiftCardNumber" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_InternalCreditCard_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InternalCreditCardId" Type="bigint" Mode="In" />
@@ -1760,6 +2009,12 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerType" EntityType="Self.CustomerType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmissionPoint" EntityType="Self.EmissionPoint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardBlockTable" EntityType="Self.GiftCardBlockTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardLine" EntityType="Self.GiftCardLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardTable" EntityType="Self.GiftCardTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardTemplateLine" EntityType="Self.GiftCardTemplateLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardTemplateTable" EntityType="Self.GiftCardTemplateTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiftCardTrans" EntityType="Self.GiftCardTrans" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IdentType" EntityType="Self.IdentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InternalCreditCard" EntityType="Self.InternalCreditCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InternalCreditCardLine" EntityType="Self.InternalCreditCardLine" Schema="dbo" store:Type="Tables" />
@@ -1875,6 +2130,54 @@
           <AssociationSet Name="FK__EmissionPoint_Location" Association="Self.FK__EmissionPoint_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardBlockTable_Location" Association="Self.FK__GiftCardBlockTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardLine_Customer" Association="Self.FK__GiftCardLine_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardLine_GiftCardTable" Association="Self.FK__GiftCardLine_GiftCardTable">
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Customer" Association="Self.FK__GiftCardTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_GiftCardBlockTable" Association="Self.FK__GiftCardTable_GiftCardBlockTable">
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Location" Association="Self.FK__GiftCardTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_LocationOrigin" Association="Self.FK__GiftCardTable_LocationOrigin">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateLine_GiftCardTemplateTable" Association="Self.FK__GiftCardTemplateLine_GiftCardTemplateTable">
+            <End Role="GiftCardTemplateTable" EntitySet="GiftCardTemplateTable" />
+            <End Role="GiftCardTemplateLine" EntitySet="GiftCardTemplateLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateLine_Product" Association="Self.FK__GiftCardTemplateLine_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="GiftCardTemplateLine" EntitySet="GiftCardTemplateLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateTable_Product" Association="Self.FK__GiftCardTemplateTable_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="GiftCardTemplateTable" EntitySet="GiftCardTemplateTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTrans_GiftCardLine" Association="Self.FK__GiftCardTrans_GiftCardLine">
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+            <End Role="GiftCardTrans" EntitySet="GiftCardTrans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTrans_LocationWithdrawn" Association="Self.FK__GiftCardTrans_LocationWithdrawn">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTrans" EntitySet="GiftCardTrans" />
           </AssociationSet>
           <AssociationSet Name="FK__InternalCreditCard_Customer" Association="Self.FK__InternalCreditCard_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -2335,6 +2638,8 @@
           <NavigationProperty Name="InternalCreditCard" Relationship="POSModel.FK__InternalCreditCard_Customer" FromRole="Customer" ToRole="InternalCreditCard" />
           <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="Customer" ToRole="InvoiceTable" />
           <NavigationProperty Name="OrderTable" Relationship="POSModel.FK__OrderTable_Customer" FromRole="Customer" ToRole="OrderTable" />
+          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_Customer" FromRole="Customer" ToRole="GiftCardLine" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="Customer" ToRole="GiftCardTable" />
         </EntityType>
         <EntityType Name="CustomerType">
           <Key>
@@ -2516,6 +2821,10 @@
           <NavigationProperty Name="InventLocation" Relationship="Self.FK__InventLocation_Location" FromRole="Location" ToRole="InventLocation" />
           <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="Location" ToRole="InvoiceTable" />
           <NavigationProperty Name="OrderTable" Relationship="POSModel.FK__OrderTable_Location" FromRole="Location" ToRole="OrderTable" />
+          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="Location" ToRole="GiftCardBlockTable" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="Location" ToRole="GiftCardTable" />
+          <NavigationProperty Name="GiftCardTable1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="Location" ToRole="GiftCardTable" />
+          <NavigationProperty Name="GiftCardTrans" Relationship="POSModel.FK__GiftCardTrans_LocationWithdrawn" FromRole="Location" ToRole="GiftCardTrans" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="Location" ToRole="InvoicePayment" />
         </EntityType>
         <EntityType Name="OrderLine">
@@ -2637,6 +2946,8 @@
           <NavigationProperty Name="ProductGroup" Relationship="Self.FK__Product_ProductGroup" FromRole="Product" ToRole="ProductGroup" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK__Product_VendorId" FromRole="Product" ToRole="Vendor" />
           <NavigationProperty Name="ProductBarcode" Relationship="Self.FK__ProductBarcode_Product" FromRole="Product" ToRole="ProductBarcode" />
+          <NavigationProperty Name="GiftCardTemplateLine" Relationship="POSModel.FK__GiftCardTemplateLine_Product" FromRole="Product" ToRole="GiftCardTemplateLine" />
+          <NavigationProperty Name="GiftCardTemplateTable" Relationship="POSModel.FK__GiftCardTemplateTable_Product" FromRole="Product" ToRole="GiftCardTemplateTable" />
         </EntityType>
         <EntityType Name="ProductBarcode">
           <Key>
@@ -3794,7 +4105,71 @@
           <FunctionImport Name="SP_Supervisor_Validate" ReturnType="Collection(POSModel.SP_Supervisor_Validate_Result)">
             <Parameter Name="barcode" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GaranCheck_Authorize" ReturnType="Collection(POSModel.SP_GaranCheck_Authorize_Result)">
+            <Parameter Name="BankId" Mode="In" Type="Int32" />
+            <Parameter Name="AccountNumber" Mode="In" Type="String" />
+            <Parameter Name="CkeckNumber" Mode="In" Type="Int32" />
+            <Parameter Name="CkeckAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="Identification" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="GiftCardBlockTable" EntityType="POSModel.GiftCardBlockTable" />
+          <EntitySet Name="GiftCardLine" EntityType="POSModel.GiftCardLine" />
+          <EntitySet Name="GiftCardTable" EntityType="POSModel.GiftCardTable" />
+          <EntitySet Name="GiftCardTemplateLine" EntityType="POSModel.GiftCardTemplateLine" />
+          <EntitySet Name="GiftCardTemplateTable" EntityType="POSModel.GiftCardTemplateTable" />
+          <EntitySet Name="GiftCardTrans" EntityType="POSModel.GiftCardTrans" />
           <EntitySet Name="InvoicePayment" EntityType="POSModel.InvoicePayment" />
+          <AssociationSet Name="FK__GiftCardLine_Customer" Association="POSModel.FK__GiftCardLine_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Customer" Association="POSModel.FK__GiftCardTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardBlockTable_Location" Association="POSModel.FK__GiftCardBlockTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_GiftCardBlockTable" Association="POSModel.FK__GiftCardTable_GiftCardBlockTable">
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardLine_GiftCardTable" Association="POSModel.FK__GiftCardLine_GiftCardTable">
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTrans_GiftCardLine" Association="POSModel.FK__GiftCardTrans_GiftCardLine">
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+            <End Role="GiftCardTrans" EntitySet="GiftCardTrans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Location" Association="POSModel.FK__GiftCardTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_LocationOrigin" Association="POSModel.FK__GiftCardTable_LocationOrigin">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateLine_GiftCardTemplateTable" Association="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable">
+            <End Role="GiftCardTemplateTable" EntitySet="GiftCardTemplateTable" />
+            <End Role="GiftCardTemplateLine" EntitySet="GiftCardTemplateLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateLine_Product" Association="POSModel.FK__GiftCardTemplateLine_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="GiftCardTemplateLine" EntitySet="GiftCardTemplateLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTemplateTable_Product" Association="POSModel.FK__GiftCardTemplateTable_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="GiftCardTemplateTable" EntitySet="GiftCardTemplateTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTrans_LocationWithdrawn" Association="POSModel.FK__GiftCardTrans_LocationWithdrawn">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTrans" EntitySet="GiftCardTrans" />
+          </AssociationSet>
           <AssociationSet Name="FK__InvoicePayment_InvoiceTable" Association="POSModel.FK__InvoicePayment_InvoiceTable">
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
@@ -3808,17 +4183,7 @@
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
           </AssociationSet>
           <FunctionImport Name="SP_GiftCard_Consult" ReturnType="Collection(POSModel.SP_GiftCard_Consult_Result)">
-          <Parameter Name="GiftCardNumber" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="SP_GaranCheck_Authorize" ReturnType="Collection(POSModel.SP_GaranCheck_Authorize_Result)">
-            <Parameter Name="BankId" Mode="In" Type="Int32" />
-            <Parameter Name="AccountNumber" Mode="In" Type="String" />
-            <Parameter Name="CkeckNumber" Mode="In" Type="Int32" />
-            <Parameter Name="CkeckAmount" Mode="In" Type="Decimal" />
-            <Parameter Name="Identification" Mode="In" Type="String" />
-            <Parameter Name="Name" Mode="In" Type="String" />
-            <Parameter Name="Phone" Mode="In" Type="String" />
-            <Parameter Name="Reference" Mode="In" Type="String" />
+            <Parameter Name="GiftCardNumber" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="CreditCard">
@@ -4184,6 +4549,129 @@
           <Property Type="Int64" Name="PasswordId" Nullable="true" />
           <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
         </ComplexType>
+        <ComplexType Name="SP_GaranCheck_Authorize_Result">
+          <Property Type="Int32" Name="Response" Nullable="true" />
+          <Property Type="String" Name="Result" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="GiftCardBlockTable">
+          <Key>
+            <PropertyRef Name="GiftCardBlockId" />
+          </Key>
+          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="GiftCardBlockTable" ToRole="Location" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardBlockTable" ToRole="GiftCardTable" />
+        </EntityType>
+        <EntityType Name="GiftCardLine">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="GiftCardId" Type="Int64" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="GiftCardNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="AssignedCustomer" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="AmountConsumed" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="StatusLine" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardLine_Customer" FromRole="GiftCardLine" ToRole="Customer" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardLine_GiftCardTable" FromRole="GiftCardLine" ToRole="GiftCardTable" />
+          <NavigationProperty Name="GiftCardTrans" Relationship="POSModel.FK__GiftCardTrans_GiftCardLine" FromRole="GiftCardLine" ToRole="GiftCardTrans" />
+        </EntityType>
+        <EntityType Name="GiftCardTable">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+          </Key>
+          <Property Name="GiftCardId" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardIdLocal" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="LocationIdOrigin" Type="Int16" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
+          <Property Name="Registration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="UseCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardNumberStart" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardNumberFinal" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="GiftCardTable" ToRole="Customer" />
+          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardTable" ToRole="GiftCardBlockTable" />
+          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_GiftCardTable" FromRole="GiftCardTable" ToRole="GiftCardLine" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="GiftCardTable" ToRole="Location" />
+          <NavigationProperty Name="Location1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="GiftCardTable" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="GiftCardTemplateLine">
+          <Key>
+            <PropertyRef Name="GiftCardTemplateId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="GiftCardTemplateId" Type="Int64" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="StatusLine" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="GiftCardTemplateTable" Relationship="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable" FromRole="GiftCardTemplateLine" ToRole="GiftCardTemplateTable" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__GiftCardTemplateLine_Product" FromRole="GiftCardTemplateLine" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="GiftCardTemplateTable">
+          <Key>
+            <PropertyRef Name="GiftCardTemplateId" />
+          </Key>
+          <Property Name="GiftCardTemplateId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GiftCardTemplateLine" Relationship="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable" FromRole="GiftCardTemplateTable" ToRole="GiftCardTemplateLine" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__GiftCardTemplateTable_Product" FromRole="GiftCardTemplateTable" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="GiftCardTrans">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="TrnsSeq" />
+          </Key>
+          <Property Name="GiftCardId" Type="Int64" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="TrnsSeq" Type="Int32" Nullable="false" />
+          <Property Name="LocationIdWithdrawn" Type="Int16" Nullable="false" />
+          <Property Name="Withdrawal" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TrnsType" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TrnsStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TrnsId" Type="Int64" Nullable="false" />
+          <Property Name="TrnsAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="QuantityWithdrawn" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardTrans_GiftCardLine" FromRole="GiftCardTrans" ToRole="GiftCardLine" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardTrans_LocationWithdrawn" FromRole="GiftCardTrans" ToRole="Location" />
+        </EntityType>
         <EntityType Name="InvoicePayment">
           <Key>
             <PropertyRef Name="InvoiceId" />
@@ -4194,7 +4682,7 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <Property Name="PaymModeId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Registration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="BankId" Type="Int32" Nullable="false" />
           <Property Name="CreditCardId" Type="Int32" Nullable="false" />
           <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -4205,7 +4693,7 @@
           <Property Name="Authorization" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="IsProtest" Type="Boolean" Nullable="false" />
           <Property Name="ProtestDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GiftCardNumber" Type="Int32" Nullable="false" />
+          <Property Name="GiftCardNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="WithholdCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="WithholdNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -4218,6 +4706,152 @@
           <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="InvoicePayment" ToRole="Location" />
           <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="InvoicePayment" ToRole="PaymMode" />
         </EntityType>
+        <Association Name="FK__GiftCardLine_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.GiftCardLine" Role="GiftCardLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardLine">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardBlockTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardBlockTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_GiftCardBlockTable">
+          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardBlockTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardLine_GiftCardTable">
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="1" />
+          <End Type="POSModel.GiftCardLine" Role="GiftCardLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardTable">
+              <PropertyRef Name="GiftCardId" />
+            </Principal>
+            <Dependent Role="GiftCardLine">
+              <PropertyRef Name="GiftCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTrans_GiftCardLine">
+          <End Type="POSModel.GiftCardLine" Role="GiftCardLine" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTrans" Role="GiftCardTrans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardLine">
+              <PropertyRef Name="GiftCardId" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="GiftCardTrans">
+              <PropertyRef Name="GiftCardId" />
+              <PropertyRef Name="Sequence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_LocationOrigin">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationIdOrigin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateLine_GiftCardTemplateTable">
+          <End Type="POSModel.GiftCardTemplateTable" Role="GiftCardTemplateTable" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTemplateLine" Role="GiftCardTemplateLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardTemplateTable">
+              <PropertyRef Name="GiftCardTemplateId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateLine">
+              <PropertyRef Name="GiftCardTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateLine_Product">
+          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTemplateLine" Role="GiftCardTemplateLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTemplateTable_Product">
+          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTemplateTable" Role="GiftCardTemplateTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="GiftCardTemplateTable">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTrans_LocationWithdrawn">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTrans" Role="GiftCardTrans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTrans">
+              <PropertyRef Name="LocationIdWithdrawn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__InvoicePayment_InvoiceTable">
           <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
           <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
@@ -4256,7 +4890,7 @@
         </Association>
         <ComplexType Name="SP_GiftCard_Consult_Result">
           <Property Type="Int64" Name="GiftCardId" Nullable="true" />
-          <Property Type="Int64" Name="GiftCardNumber" Nullable="true" />
+          <Property Type="String" Name="GiftCardNumber" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="StatusLine" Nullable="true" MaxLength="1" />
           <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
@@ -4270,10 +4904,6 @@
           <Property Type="Int64" Name="CustomerId" Nullable="true" />
           <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="DocNumber" Nullable="true" MaxLength="20" />
-        </ComplexType>
-        <ComplexType Name="SP_GaranCheck_Authorize_Result">
-          <Property Type="Int32" Name="Response" Nullable="true" />
-          <Property Type="String" Name="Result" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5226,6 +5856,119 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GaranCheck_Authorize" FunctionName="POSModel.Store.SP_GaranCheck_Authorize">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_GaranCheck_Authorize_Result">
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GiftCardBlockTable">
+            <EntityTypeMapping TypeName="POSModel.GiftCardBlockTable">
+              <MappingFragment StoreEntitySet="GiftCardBlockTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardLine">
+            <EntityTypeMapping TypeName="POSModel.GiftCardLine">
+              <MappingFragment StoreEntitySet="GiftCardLine">
+                <ScalarProperty Name="StatusLine" ColumnName="StatusLine" />
+                <ScalarProperty Name="AmountConsumed" ColumnName="AmountConsumed" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AssignedCustomer" ColumnName="AssignedCustomer" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="GiftCardNumber" ColumnName="GiftCardNumber" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="GiftCardId" ColumnName="GiftCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardTable">
+            <EntityTypeMapping TypeName="POSModel.GiftCardTable">
+              <MappingFragment StoreEntitySet="GiftCardTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="GiftCardNumberFinal" ColumnName="GiftCardNumberFinal" />
+                <ScalarProperty Name="GiftCardNumberStart" ColumnName="GiftCardNumberStart" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="UseCode" ColumnName="UseCode" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
+                <ScalarProperty Name="Registration" ColumnName="Registration" />
+                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LocationIdOrigin" ColumnName="LocationIdOrigin" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="GiftCardIdLocal" ColumnName="GiftCardIdLocal" />
+                <ScalarProperty Name="GiftCardId" ColumnName="GiftCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardTemplateLine">
+            <EntityTypeMapping TypeName="POSModel.GiftCardTemplateLine">
+              <MappingFragment StoreEntitySet="GiftCardTemplateLine">
+                <ScalarProperty Name="StatusLine" ColumnName="StatusLine" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="GiftCardTemplateId" ColumnName="GiftCardTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardTemplateTable">
+            <EntityTypeMapping TypeName="POSModel.GiftCardTemplateTable">
+              <MappingFragment StoreEntitySet="GiftCardTemplateTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="GiftCardTemplateId" ColumnName="GiftCardTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardTrans">
+            <EntityTypeMapping TypeName="POSModel.GiftCardTrans">
+              <MappingFragment StoreEntitySet="GiftCardTrans">
+                <ScalarProperty Name="QuantityWithdrawn" ColumnName="QuantityWithdrawn" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="TrnsAmount" ColumnName="TrnsAmount" />
+                <ScalarProperty Name="TrnsId" ColumnName="TrnsId" />
+                <ScalarProperty Name="TrnsStatus" ColumnName="TrnsStatus" />
+                <ScalarProperty Name="TrnsType" ColumnName="TrnsType" />
+                <ScalarProperty Name="Withdrawal" ColumnName="Withdrawal" />
+                <ScalarProperty Name="LocationIdWithdrawn" ColumnName="LocationIdWithdrawn" />
+                <ScalarProperty Name="TrnsSeq" ColumnName="TrnsSeq" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="GiftCardId" ColumnName="GiftCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="InvoicePayment">
             <EntityTypeMapping TypeName="POSModel.InvoicePayment">
               <MappingFragment StoreEntitySet="InvoicePayment">
@@ -5248,7 +5991,7 @@
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
-                <ScalarProperty Name="Registration" ColumnName="Registration" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
@@ -5275,14 +6018,6 @@
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="DocNumber" ColumnName="DocNumber" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_GaranCheck_Authorize" FunctionName="POSModel.Store.SP_GaranCheck_Authorize">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_GaranCheck_Authorize_Result">
-                <ScalarProperty Name="Response" ColumnName="Response" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

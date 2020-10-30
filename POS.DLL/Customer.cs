@@ -22,6 +22,8 @@ namespace POS.DLL
             this.InternalCreditCard = new HashSet<InternalCreditCard>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
             this.OrderTable = new HashSet<OrderTable>();
+            this.GiftCardLine = new HashSet<GiftCardLine>();
+            this.GiftCardTable = new HashSet<GiftCardTable>();
         }
     
         public long CustomerId { get; set; }
@@ -65,5 +67,9 @@ namespace POS.DLL
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTable> OrderTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardLine> GiftCardLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardTable> GiftCardTable { get; set; }
     }
 }

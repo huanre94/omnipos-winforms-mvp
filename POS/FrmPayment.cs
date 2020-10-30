@@ -25,7 +25,7 @@ namespace POS
         #region Global Definitions
         ClsFunctions functions = new ClsFunctions();
         DataTable dataTable = new DataTable();
-        XElement payment = new XElement("payment");
+        XElement paymentXml = new XElement("payment");
         public decimal invoiceAmount;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
@@ -234,7 +234,8 @@ namespace POS
                     PaymModeId = (int)paymentCard.paymModeEnum,
                     BankId = paymentCard.bankId,
                     CreditCardId = paymentCard.creditCardId,
-                    Authorization = paymentCard.authorization
+                    Authorization = paymentCard.authorization,
+                    Amount = decimal.Parse(TxtAmount.Text)
                 };
 
                 AddRecordToSource(invoicePayment);
@@ -263,12 +264,14 @@ namespace POS
 
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
+                    PaymModeId = (int)paymModeEnum,
                     CheckOwner = paymentCheck.checkOwnerName,
                     BankId = paymentCheck.checkBankId,
                     CkeckDate = paymentCheck.checkDate,
                     AccountNumber = paymentCheck.checkAccountNumber,
                     CkeckNumber = paymentCheck.checkNumber,
-                    Authorization = paymentCheck.checkAuthorization
+                    Authorization = paymentCheck.checkAuthorization,
+                    Amount = decimal.Parse(TxtAmount.Text)
                 };
 
                 AddRecordToSource(invoicePayment);
@@ -287,7 +290,13 @@ namespace POS
             {    
                 if (functions.RequestSupervisorAuth())
                 {
-                    //AddRecordToSource(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
+                    InvoicePayment invoicePayment = new InvoicePayment
+                    {
+                        PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
+                        Amount = decimal.Parse(TxtAmount.Text)
+                    };
+
+                    AddRecordToSource(invoicePayment);
                     CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);                  
                 }
             }            
@@ -302,7 +311,14 @@ namespace POS
 
             if (giftcard.formActionResult)
             {
-                //AddRecordToSource(ClsEnums.PaymModeEnum.BONO);
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)ClsEnums.PaymModeEnum.BONO,
+                    GiftCardNumber = giftcard.giftcardNumber,
+                    Amount = decimal.Parse(TxtAmount.Text)
+                };
+
+                AddRecordToSource(invoicePayment);
                 CalculatePayment(ClsEnums.PaymModeEnum.BONO);             
             }
         }
@@ -323,16 +339,17 @@ namespace POS
         }
 
         private void AddRecordToSource(InvoicePayment _invoicePayment)
-        {           
+        {
+            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
             DataRow NewRow = dataTable.NewRow();
-            NewRow[0] = _invoicePayment.PaymModeId;
+            NewRow[0] = paymModeEnum;
             NewRow[1] = _invoicePayment.Amount;
             dataTable.Rows.Add(NewRow);
             GrcPayment.DataSource = dataTable;
             
-            Type t = _invoicePayment.GetType();
-            PropertyInfo[] properties = t.GetProperties();
-            XElement paymentDetail = new XElement("paymentDetail");
+            Type type = _invoicePayment.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            XElement paymentDetailXml = new XElement("paymentDetail");
 
             foreach (var prop in properties)
             {
@@ -345,49 +362,53 @@ namespace POS
                     {
                         value = "";
                     }
-
                     
-                    paymentDetail.Add(new XElement(name, value));
-                    
+                    paymentDetailXml.Add(new XElement(name, value));                    
                 }                
             }
 
-            payment.Add(paymentDetail);
+            paymentXml.Add(paymentDetailXml);
         }
 
         private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
         {
             paidAmount += decimal.Parse(TxtAmount.Text);
 
-            if (paidAmount > invoiceAmount)
+            if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)
             {
-                if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)
+                if (paidAmount > invoiceAmount)
                 {
                     changeAmount = paidAmount - invoiceAmount;
                     functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
                     paidAmount = invoiceAmount;
-                }
-                else
-                {
-                    functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
-                }
+                }                
             }
-            else
+
+            if (invoiceAmount >= paidAmount)
             {
                 pendingAmount = invoiceAmount - paidAmount;
 
                 LblPaid.Text = paidAmount.ToString();
                 LblPending.Text = pendingAmount.ToString();
 
-                if (paidAmount >= invoiceAmount)
+                if (paidAmount == invoiceAmount)
                 {
-                    //closing invoice process
-                    Close();
+                    //Here closing process function
+                    DLL.Transaction.ClsInvoice invoice = new DLL.Transaction.ClsInvoice();
+                    if (invoice.ClosingInvoice(paymentXml))
+                    {
+                        functions.ShowMessage("Venta finalizada exitosamente.");
+                        Close();
+                    }
                 }
                 else
                 {
                     TxtAmount.Text = pendingAmount.ToString();
-                }
+                }                
+            }
+            else
+            {
+                functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
             }
         }
         #endregion

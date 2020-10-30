@@ -79,6 +79,12 @@ namespace POS.DLL
         public virtual DbSet<TaxTable> TaxTable { get; set; }
         public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<PromotionType> PromotionType { get; set; }
+        public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
+        public virtual DbSet<GiftCardLine> GiftCardLine { get; set; }
+        public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
+        public virtual DbSet<GiftCardTemplateLine> GiftCardTemplateLine { get; set; }
+        public virtual DbSet<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
+        public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
@@ -113,15 +119,6 @@ namespace POS.DLL
                 new ObjectParameter("barcode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
-        }
-    
-        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(Nullable<long> giftCardNumber)
-        {
-            var giftCardNumberParameter = giftCardNumber.HasValue ?
-                new ObjectParameter("GiftCardNumber", giftCardNumber) :
-                new ObjectParameter("GiftCardNumber", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     
         public virtual ObjectResult<SP_GaranCheck_Authorize_Result> SP_GaranCheck_Authorize(Nullable<int> bankId, string accountNumber, Nullable<int> ckeckNumber, Nullable<decimal> ckeckAmount, string identification, string name, string phone, string reference)
@@ -159,6 +156,15 @@ namespace POS.DLL
                 new ObjectParameter("Reference", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GaranCheck_Authorize_Result>("SP_GaranCheck_Authorize", bankIdParameter, accountNumberParameter, ckeckNumberParameter, ckeckAmountParameter, identificationParameter, nameParameter, phoneParameter, referenceParameter);
+        }
+    
+        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
+        {
+            var giftCardNumberParameter = giftCardNumber != null ?
+                new ObjectParameter("GiftCardNumber", giftCardNumber) :
+                new ObjectParameter("GiftCardNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     }
 }

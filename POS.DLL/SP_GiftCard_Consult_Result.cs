@@ -14,7 +14,7 @@ namespace POS.DLL
     public partial class SP_GiftCard_Consult_Result
     {
         public Nullable<long> GiftCardId { get; set; }
-        public Nullable<long> GiftCardNumber { get; set; }
+        public string GiftCardNumber { get; set; }
         public string Status { get; set; }
         public string StatusLine { get; set; }
         public Nullable<decimal> Amount { get; set; }

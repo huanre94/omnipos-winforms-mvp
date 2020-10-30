@@ -126,7 +126,25 @@
         <AssociationConnector Association="POSModel.FK__OrderText_FACTrPedidoCab" />
         <EntityTypeShape EntityType="POSModel.PromotionType" Width="1.5" PointX="12.75" PointY="18.625" />
         <AssociationConnector Association="POSModel.FK__PromotionTable_PromotionType" />
+        <EntityTypeShape EntityType="POSModel.GiftCardBlockTable" Width="1.5" PointX="20" PointY="29.25" />
+        <EntityTypeShape EntityType="POSModel.GiftCardLine" Width="1.5" PointX="24.5" PointY="31.75" />
+        <EntityTypeShape EntityType="POSModel.GiftCardTable" Width="1.5" PointX="22.25" PointY="26.75" />
+        <EntityTypeShape EntityType="POSModel.GiftCardTemplateLine" Width="1.5" PointX="17.25" PointY="41.25" />
+        <EntityTypeShape EntityType="POSModel.GiftCardTemplateTable" Width="1.5" PointX="12" PointY="49.625" />
+        <EntityTypeShape EntityType="POSModel.GiftCardTrans" Width="1.5" PointX="29.75" PointY="36.125" />
         <EntityTypeShape EntityType="POSModel.InvoicePayment" Width="1.5" PointX="27.125" PointY="36" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLine_Customer" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTable_Customer" />
+        <AssociationConnector Association="POSModel.FK__GiftCardBlockTable_Location" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTable_GiftCardBlockTable" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLine_GiftCardTable" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTrans_GiftCardLine" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTable_Location" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTable_LocationOrigin" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_Product" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTemplateTable_Product" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTrans_LocationWithdrawn" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />

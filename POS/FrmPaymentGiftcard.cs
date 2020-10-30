@@ -17,6 +17,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public decimal giftcardAmount;
+        public string giftcardNumber;
         public decimal paidAmount;
 
         public FrmPaymentGiftcard()
@@ -42,6 +43,7 @@ namespace POS
                             LblDocument.Text = result.FirstOrDefault().DocNumber;
                             LblReference.Text = result.FirstOrDefault().CustomerNameInvoice;
                             giftcardAmount = (decimal)result.FirstOrDefault().Amount;
+                            giftcardNumber = result.FirstOrDefault().GiftCardNumber;
                             LblAmount.Text = giftcardAmount.ToString();                            
                         }
                         else
