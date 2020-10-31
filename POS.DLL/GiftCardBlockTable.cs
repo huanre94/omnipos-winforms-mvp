@@ -18,6 +18,7 @@ namespace POS.DLL
         public GiftCardBlockTable()
         {
             this.GiftCardTable = new HashSet<GiftCardTable>();
+            this.GiftCardBlockLine = new HashSet<GiftCardBlockLine>();
         }
     
         public long GiftCardBlockId { get; set; }
@@ -32,8 +33,10 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTable> GiftCardTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardBlockLine> GiftCardBlockLine { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

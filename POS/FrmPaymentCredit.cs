@@ -31,7 +31,7 @@ namespace POS
                 if (TxtCreditCardCode.Text != "")
                 {                    
                     List<DLL.SP_InternalCreditCard_Consult_Result> result;
-                    DLL.Transaction.ClsCustomer customer = new DLL.Transaction.ClsCustomer();
+                    DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
 
                     try
                     {

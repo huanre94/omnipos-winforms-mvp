@@ -66,6 +66,8 @@
     <Compile Include="Brand.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Catalog\ClsCustomer.cs" />
+    <Compile Include="Catalog\ClsPaymMode.cs" />
     <Compile Include="Catalog\ClsProduct.cs" />
     <Compile Include="City.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
@@ -104,6 +106,12 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="EmissionPoint.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FN_Identification_Validate_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCardBlockLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="GiftCardBlockTable.cs">
@@ -254,9 +262,9 @@
     <Compile Include="TaxTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\ClsAuthorization.cs" />
-    <Compile Include="Transaction\ClsCustomer.cs" />
-    <Compile Include="Transaction\ClsInvoice.cs" />
+    <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
+    <Compile Include="Transaction\ClsCustomerTrans.cs" />
+    <Compile Include="Transaction\ClsInvoiceTrans.cs" />
     <Compile Include="User.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

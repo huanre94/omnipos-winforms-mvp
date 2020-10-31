@@ -25,7 +25,13 @@ namespace POS.DLL
     
         public long OrderId { get; set; }
         public long OrderIdLocal { get; set; }
-        public System.DateTime Registration { get; set; }
+        public short LocationId { get; set; }
+        public int EmissionPointId { get; set; }
+        public short Establishment { get; set; }
+        public short EmissionPoint { get; set; }
+        public long CustomerId { get; set; }
+        public int SalesmanId { get; set; }
+        public System.DateTime OrderDate { get; set; }
         public string SalesChannel { get; set; }
         public bool IsECommerce { get; set; }
         public long OrderECommerce { get; set; }
@@ -41,7 +47,6 @@ namespace POS.DLL
         public bool ShippingFree { get; set; }
         public decimal ShippingAmount { get; set; }
         public decimal Total { get; set; }
-        public long InternalCreditCardId { get; set; }
         public long InvoiceId { get; set; }
         public string Observation { get; set; }
         public string Status { get; set; }
@@ -52,7 +57,7 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual EmissionPoint EmissionPoint1 { get; set; }
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderLine> OrderLine { get; set; }

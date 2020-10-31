@@ -20,7 +20,7 @@ namespace POS.DLL
         public decimal Percent { get; set; }
         public string StatusPromCust { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual PromotionTable PromotionTable { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

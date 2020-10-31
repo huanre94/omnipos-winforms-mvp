@@ -18,19 +18,23 @@ namespace POS.DLL
         public InvoiceTable()
         {
             this.InvoiceLine = new HashSet<InvoiceLine>();
-            this.InvoicePromotion = new HashSet<InvoicePromotion>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
+            this.InvoicePromotion = new HashSet<InvoicePromotion>();
         }
     
         public long InvoiceId { get; set; }
         public long InvoiceIdLocal { get; set; }
+        public short LocationId { get; set; }
         public short TypeDoc { get; set; }
-        public long InvoiceIdOrigin { get; set; }
-        public long DocNumber { get; set; }
-        public string AuthorizationSRI { get; set; }
-        public string StatusSRI { get; set; }
+        public long InvoiceIdReference { get; set; }
+        public int EmissionPointId { get; set; }
+        public short Establishment { get; set; }
+        public short EmissionPoint { get; set; }
+        public long InvoiceNumber { get; set; }
+        public long CustomerId { get; set; }
+        public int SalesmanId { get; set; }
         public bool IsCredit { get; set; }
-        public System.DateTime Registration { get; set; }
+        public System.DateTime InvoiceDate { get; set; }
         public System.DateTime Expiration { get; set; }
         public bool IsECommerce { get; set; }
         public decimal SubTotal { get; set; }
@@ -56,16 +60,18 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
+        public int SalesOriginId { get; set; }
+        public long SalesOrderId { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual EmissionPoint EmissionPoint1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual Location Location { get; set; }
         public virtual Salesman Salesman { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
     }
 }

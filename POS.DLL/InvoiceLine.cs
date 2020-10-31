@@ -18,7 +18,7 @@ namespace POS.DLL
         public int Sequence { get; set; }
         public long ProductId { get; set; }
         public string Barcode { get; set; }
-        public Nullable<bool> BDeducible { get; set; }
+        public bool IsDeductible { get; set; }
         public int InventUnitId { get; set; }
         public decimal Quantity { get; set; }
         public int QuantityCW { get; set; }
@@ -37,7 +37,7 @@ namespace POS.DLL
         public decimal Total { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
-        public virtual Product Product { get; set; }
         public virtual InvoiceTable InvoiceTable { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

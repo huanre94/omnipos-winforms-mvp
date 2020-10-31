@@ -17,12 +17,14 @@ using POS.Classes;
 using System.Reflection;
 using DevExpress.Utils.Extensions;
 using DevExpress.Data.Helpers;
+using POS.DLL.Transaction;
 
 namespace POS
 {
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
         #region Global Definitions
+
         ClsFunctions functions = new ClsFunctions();
         DataTable dataTable = new DataTable();
         XElement paymentXml = new XElement("payment");
@@ -30,20 +32,20 @@ namespace POS
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
         decimal changeAmount = 0;
-        
+
         public FrmPayment()
         {
             InitializeComponent();
         }
-        #endregion
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
-            invoiceAmount = 42.69M;
+            invoiceAmount = 42.69M; //Here the invoice total amount
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
-            pendingAmount = invoiceAmount;           
+            pendingAmount = invoiceAmount;
         }
+        #endregion
 
         #region Control Validations
         private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
@@ -132,19 +134,19 @@ namespace POS
                 Cash();
             }
             else
-            {                
+            {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
 
         private void BtnCreditCard_Click(object sender, EventArgs e)
-        {            
+        {
             if (TxtAmount.Text != "")
             {
                 CreditCard();
             }
             else
-            {                
+            {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
@@ -156,7 +158,7 @@ namespace POS
                 Check();
             }
             else
-            {                
+            {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
@@ -180,7 +182,7 @@ namespace POS
                 GiftCard();
             }
             else
-            {                
+            {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
@@ -216,9 +218,9 @@ namespace POS
                 PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
                 Amount = decimal.Parse(TxtAmount.Text)
             };
-            
+
             AddRecordToSource(invoicePayment);
-            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);            
+            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);
         }
 
         private void CreditCard()
@@ -239,7 +241,7 @@ namespace POS
                 };
 
                 AddRecordToSource(invoicePayment);
-                CalculatePayment(paymentCard.paymModeEnum);                
+                CalculatePayment(paymentCard.paymModeEnum);
             }
         }
 
@@ -275,7 +277,7 @@ namespace POS
                 };
 
                 AddRecordToSource(invoicePayment);
-                CalculatePayment(paymModeEnum);               
+                CalculatePayment(paymModeEnum);
             }
         }
 
@@ -285,9 +287,9 @@ namespace POS
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.ShowDialog();
-            
+
             if (paymentCredit.formActionResult)
-            {    
+            {
                 if (functions.RequestSupervisorAuth())
                 {
                     InvoicePayment invoicePayment = new InvoicePayment
@@ -297,9 +299,9 @@ namespace POS
                     };
 
                     AddRecordToSource(invoicePayment);
-                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);                  
+                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
                 }
-            }            
+            }
         }
 
         private void GiftCard()
@@ -319,7 +321,7 @@ namespace POS
                 };
 
                 AddRecordToSource(invoicePayment);
-                CalculatePayment(ClsEnums.PaymModeEnum.BONO);             
+                CalculatePayment(ClsEnums.PaymModeEnum.BONO);
             }
         }
 
@@ -346,7 +348,7 @@ namespace POS
             NewRow[1] = _invoicePayment.Amount;
             dataTable.Rows.Add(NewRow);
             GrcPayment.DataSource = dataTable;
-            
+
             Type type = _invoicePayment.GetType();
             PropertyInfo[] properties = type.GetProperties();
             XElement paymentDetailXml = new XElement("paymentDetail");
@@ -362,9 +364,9 @@ namespace POS
                     {
                         value = "";
                     }
-                    
-                    paymentDetailXml.Add(new XElement(name, value));                    
-                }                
+
+                    paymentDetailXml.Add(new XElement(name, value));
+                }
             }
 
             paymentXml.Add(paymentDetailXml);
@@ -381,7 +383,7 @@ namespace POS
                     changeAmount = paidAmount - invoiceAmount;
                     functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
                     paidAmount = invoiceAmount;
-                }                
+                }
             }
 
             if (invoiceAmount >= paidAmount)
@@ -393,18 +395,12 @@ namespace POS
 
                 if (paidAmount == invoiceAmount)
                 {
-                    //Here closing process function
-                    DLL.Transaction.ClsInvoice invoice = new DLL.Transaction.ClsInvoice();
-                    if (invoice.ClosingInvoice(paymentXml))
-                    {
-                        functions.ShowMessage("Venta finalizada exitosamente.");
-                        Close();
-                    }
+                    ClosingInvoice();
                 }
                 else
                 {
                     TxtAmount.Text = pendingAmount.ToString();
-                }                
+                }
             }
             else
             {
@@ -413,7 +409,34 @@ namespace POS
         }
         #endregion
 
-        
+        #region Invoicing Functions
+        private void ClosingInvoice()
+        {
+            try
+            {
+                ClsInvoiceTrans invoice = new ClsInvoiceTrans();
+
+                if (invoice.ClosingInvoice(paymentXml))
+                {
+                    functions.ShowMessage("Venta finalizada exitosamente.");
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ha ocurrido un problema al registrar la factura."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+        }
+    
+        #endregion
+       
+
+
 
     }
 }

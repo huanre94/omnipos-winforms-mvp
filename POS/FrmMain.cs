@@ -8,15 +8,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using POS.DLL.Catalog;
+using POS.DLL;
+using POS.Classes;
 
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
+        ClsFunctions functions = new ClsFunctions();
+
         public FrmMain()
         {
             InitializeComponent();
         }
+
+        #region Keypad Buttons
 
         private void Btn0_Click(object sender, EventArgs e)
         {
@@ -79,13 +86,72 @@ namespace POS
             functions.ShowMessage(TxtBarcode.Text);
             TxtBarcode.Text = "";
         }
+        #endregion
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            //Initial loading functions
+        }
+
+        private void BtnCustomer_Click(object sender, EventArgs e)
+        {
+            FrmKeyBoard keyBoard = new FrmKeyBoard();
+            keyBoard.inputFromOption = Classes.ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION;
+            keyBoard.ShowDialog();
+
+            if (keyBoard.customerIdentification != "")
+            {
+                ClsCustomer customer = new ClsCustomer();
+                Customer cust;
+
+                try 
+                {
+                    cust = customer.GetCustomerByIdentification(keyBoard.customerIdentification);
+
+                    if (cust != null)
+                    {
+                        if (cust.CustomerId > 0)
+                        {
+                            LblCustomerId.Text = cust.Identification;
+                            LblCustomerName.Text = cust.Firtsname + " " + cust.Lastname;
+                            LblCustomerAddress.Text = cust.Address;                            
+                        }                        
+                    }
+                    else
+                    {
+                        bool response = functions.ShowMessage("El cliente ingresado no existe, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
+
+                        if (response)
+                        {
+                            FrmCustomer frmCustomer = new FrmCustomer();
+                            frmCustomer.customerIdentification = keyBoard.customerIdentification;
+                            frmCustomer.ShowDialog();
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    functions.ShowMessage(
+                                        "Ocurrio un problema al cargar información del cliente."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+                }
+
+                
+            }
+        }
+
+            
+
+            
 
         private void BtnPayment_Click(object sender, EventArgs e)
-        {
+        {          
             FrmPayment payment = new FrmPayment();
             payment.ShowDialog();
         }
-
-      
+        
     }
 }

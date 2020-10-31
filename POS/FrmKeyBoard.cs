@@ -15,9 +15,13 @@ namespace POS
     public partial class FrmKeyBoard : DevExpress.XtraEditors.XtraForm
     {
         public ClsEnums.InputFromOption inputFromOption;
-        public string checkOwnerName;
-        public string checkOwnerIdentification;
-        public string customerName;
+        public string checkOwnerName = "";
+        public string checkOwnerIdentification = "";
+        public string customerIdentification = "";
+        public string customerFirstName = "";
+        public string customerLastName = "";
+        public string customerAddress = "";
+        public string customerEmail = "";
 
         public FrmKeyBoard()
         {
@@ -257,12 +261,24 @@ namespace POS
                 {
                     case ClsEnums.InputFromOption.CHECK_OWNERNAME:
                         checkOwnerName = TxtValue.Text;
-                        break;
-                    case ClsEnums.InputFromOption.CUSTOMER_NAME:
-                        customerName = TxtValue.Text;
-                        break;
+                        break;                    
                     case ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION:
                         checkOwnerIdentification = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION:
+                        customerIdentification = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME:
+                        customerFirstName = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_LASTNAME:
+                        customerLastName = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_ADDRESS:
+                        customerAddress = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_EMAIL:
+                        customerEmail = TxtValue.Text.ToLower();
                         break;
                     default:
                         break;

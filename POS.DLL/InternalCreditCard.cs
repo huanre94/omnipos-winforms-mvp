@@ -27,6 +27,7 @@ namespace POS.DLL
         public string Type { get; set; }
         public System.DateTime Vigence { get; set; }
         public System.DateTime Expiration { get; set; }
+        public long CustomerId { get; set; }
         public long EmployeeId { get; set; }
         public decimal Quota { get; set; }
         public decimal Consumed { get; set; }

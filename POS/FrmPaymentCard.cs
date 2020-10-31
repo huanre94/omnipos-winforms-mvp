@@ -12,6 +12,7 @@ using POS.DLL;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.Utils.Extensions;
 using POS.Classes;
+using POS.DLL.Catalog;
 
 namespace POS
 {
@@ -44,17 +45,23 @@ namespace POS
 
         private void LoadBanks()
         {
+            ClsPaymMode paymMode = new ClsPaymMode();
+            List<DLL.Bank> banks;
+
             try
             {
-                var db = new DLL.POSEntities();
-                var banks = from ba in db.Bank
-                            where ba.Status == "A"
-                            select ba;
+                banks = paymMode.GetBanks();
 
-                foreach (var item in banks.ToList())
+                if (banks != null)
                 {
-                    CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = item.BankId, Description = item.Name });
-                }
+                    if (banks.Count > 0)
+                    {
+                        foreach (var bank in banks)
+                        {
+                            CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
+                        }
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -71,12 +78,13 @@ namespace POS
         private void CmbCardBank_SelectedIndexChanged(object sender, EventArgs e)
         {
             CmbCardBrand.Properties.Items.Clear();
-            LoadBrands(int.Parse(CmbCardBank.EditValue.ToString()));
+            LoadCreditCards(int.Parse(CmbCardBank.EditValue.ToString()));
         }
 
-        private void LoadBrands(int _BankId)
+        private void LoadCreditCards(int _bankId)
         {
-            var db = new DLL.POSEntities();
+            DLL.Catalog.ClsPaymMode paymMode = new ClsPaymMode();
+            List<CreditCard> creditCards;
 
             if (CmbCardType.SelectedItem != null)
             {
@@ -86,34 +94,22 @@ namespace POS
                     {
                         paymModeEnum = ClsEnums.PaymModeEnum.DEBITO_BANCARIO;
 
-                        var brands = from cre in db.CreditCard
-                                     join ban in db.BankCreditCard
-                                     on cre.CreditCardId equals ban.CreditCardId
-                                     where cre.Status == "A"
-                                     && ban.BankId == _BankId
-                                     && cre.IsDebit == true
-                                     select cre;
+                        creditCards = paymMode.GetCreditCardsByBank(_bankId, false);
 
-                        foreach (var item in brands.ToList())
+                        foreach (var creditCard in creditCards)
                         {
-                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
+                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
                         }
                     }
                     else
                     {
                         paymModeEnum = ClsEnums.PaymModeEnum.TARJETA_CREDITO;
 
-                        var brands = from cre in db.CreditCard
-                                     join ban in db.BankCreditCard
-                                     on cre.CreditCardId equals ban.CreditCardId
-                                     where cre.Status == "A"
-                                     && ban.BankId == _BankId
-                                     && cre.IsCredit == true
-                                     select cre;
+                        creditCards = paymMode.GetCreditCardsByBank(_bankId);
 
-                        foreach (var item in brands.ToList())
+                        foreach (var creditCard in creditCards)
                         {
-                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = item.CreditCardId, Description = item.Name });
+                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
                         }
                     }
                 }

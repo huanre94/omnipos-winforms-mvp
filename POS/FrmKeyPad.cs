@@ -15,12 +15,12 @@ namespace POS
     public partial class FrmKeyPad : DevExpress.XtraEditors.XtraForm
     {
         public ClsEnums.InputFromOption inputFromOption;
-        public string creditCardAuthorization;
-        public string checkAccountNumber;
-        public string checkNumber;
-        public string checkOwnerIdentification;
-        public string checkPhone;
-        public string giftcardNumber;
+        public string creditCardAuthorization = "";
+        public string checkAccountNumber = "";
+        public string checkNumber = "";
+        public string checkOwnerIdentification = "";
+        public string checkPhone = "";
+        public string giftcardNumber = "";
 
         public FrmKeyPad()
         {

@@ -12,12 +12,13 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InternalCreditCardLine
+    public partial class GiftCardBlockLine
     {
-        public long InternalCreditCardId { get; set; }
+        public long GiftCardBlockId { get; set; }
         public int Sequence { get; set; }
+        public long GiftCardNumberStart { get; set; }
+        public long GiftCardNumberFinal { get; set; }
     
-        public virtual PromotionTable PromotionTable { get; set; }
-        public virtual InternalCreditCard InternalCreditCard { get; set; }
+        public virtual GiftCardBlockTable GiftCardBlockTable { get; set; }
     }
 }

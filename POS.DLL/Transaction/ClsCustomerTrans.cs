@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POS.DLL.Transaction
 {
-    public class ClsCustomer
+    public class ClsCustomerTrans
     {
         public List<SP_InternalCreditCard_Consult_Result> GetInternalCreditCard(string _creditCardCode)
         {
@@ -26,7 +26,7 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_GiftCard_Consult_Result> GetGiftCard(long _giftCard)
+        public List<SP_GiftCard_Consult_Result> GetGiftCard(string _giftCard)
         {
             var db = new POSEntities();
             List<SP_GiftCard_Consult_Result> result = null;

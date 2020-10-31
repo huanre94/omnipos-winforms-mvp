@@ -26,7 +26,7 @@ namespace POS
         {
             if (TxtAuthorization.Text != "")
             {                
-                DLL.Transaction.ClsAuthorization authorization = new DLL.Transaction.ClsAuthorization();
+                DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
                 List<DLL.SP_Supervisor_Validate_Result> result;
 
                 try

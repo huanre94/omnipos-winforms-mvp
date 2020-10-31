@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class ClsInvoice
+    public class ClsInvoiceTrans
     {
         public bool ClosingInvoice(XElement _invoiceXml)
         {

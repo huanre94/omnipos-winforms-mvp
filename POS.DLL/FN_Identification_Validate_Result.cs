@@ -10,14 +10,14 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class InternalCreditCardLine
+    public partial class FN_Identification_Validate_Result
     {
-        public long InternalCreditCardId { get; set; }
-        public int Sequence { get; set; }
-    
-        public virtual PromotionTable PromotionTable { get; set; }
-        public virtual InternalCreditCard InternalCreditCard { get; set; }
+        public string Identification { get; set; }
+        public Nullable<int> CheckDigit { get; set; }
+        public string IdentTypeId { get; set; }
+        public string PersonType { get; set; }
+        public Nullable<int> Validated { get; set; }
+        public string Text { get; set; }
     }
 }

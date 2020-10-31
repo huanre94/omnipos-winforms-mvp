@@ -30,11 +30,11 @@ namespace POS
             if (TxtGiftCard.Text != "")
             {
                 List<DLL.SP_GiftCard_Consult_Result> result;
-                DLL.Transaction.ClsCustomer customer = new DLL.Transaction.ClsCustomer();
+                DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
 
                 try
                 {
-                    result = customer.GetGiftCard(long.Parse(TxtGiftCard.Text));
+                    result = customer.GetGiftCard(TxtGiftCard.Text);
 
                     if (result != null)
                     {

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using POS.Classes;
+using POS.DLL.Catalog;
 
 namespace POS
 {
@@ -37,6 +38,7 @@ namespace POS
             TxtOwnerName.Text = main.LblCustomerName.Text;
             TxtIdentification.Text = main.LblCustomerId.Text;
             TxtCheckAmount.Text = checkAmount.ToString();
+            TxtCheckDate.DateTime = DateTime.Now;
 
             LoadBanks();
         }
@@ -84,16 +86,22 @@ namespace POS
 
         private void LoadBanks()
         {
+            ClsPaymMode paymMode = new ClsPaymMode();
+            List<DLL.Bank> banks;
+
             try
             {
-                var db = new DLL.POSEntities();
-                var banks = from ba in db.Bank
-                            where ba.Status == "A"
-                            select ba;
+                banks = paymMode.GetBanks();
 
-                foreach (var item in banks.ToList())
+                if (banks != null)
                 {
-                    CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = item.BankId, Description = item.Name });
+                    if (banks.Count > 0)
+                    {
+                        foreach (var bank in banks)
+                        {
+                            CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
+                        }
+                    }
                 }
             }
             catch(Exception ex)
@@ -111,7 +119,7 @@ namespace POS
         {
             if (ValidateCheckFields())
             {
-                DLL.Transaction.ClsAuthorization authorization = new DLL.Transaction.ClsAuthorization();
+                DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
                 List<DLL.SP_GaranCheck_Authorize_Result> authorizeResult;
 
                 try

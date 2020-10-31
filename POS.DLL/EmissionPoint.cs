@@ -27,16 +27,16 @@ namespace POS.DLL
         public short LocationId { get; set; }
         public int InventLocationId { get; set; }
         public short Establishment { get; set; }
-        public short Point { get; set; }
+        public short EmissionPoint1 { get; set; }
         public string Name { get; set; }
-        public long DocNumber { get; set; }
+        public long InvoiceNumber { get; set; }
+        public string AddressIP { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public string AddressIP { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashLine> ClosingCashLine { get; set; }

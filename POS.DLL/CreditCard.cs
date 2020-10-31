@@ -23,7 +23,6 @@ namespace POS.DLL
         public int CreditCardId { get; set; }
         public string Name { get; set; }
         public string SAPCode { get; set; }
-        public Nullable<bool> IsDebit { get; set; }
         public Nullable<bool> IsCredit { get; set; }
         public string Status { get; set; }
     

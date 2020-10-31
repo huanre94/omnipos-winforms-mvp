@@ -445,29 +445,29 @@
             // LblCustomerId
             // 
             this.LblCustomerId.AutoSize = true;
-            this.LblCustomerId.Location = new System.Drawing.Point(282, 55);
+            this.LblCustomerId.Location = new System.Drawing.Point(282, 56);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(88, 16);
+            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
             this.LblCustomerId.TabIndex = 148;
-            this.LblCustomerId.Text = "0908773873";
+            this.LblCustomerId.Text = "9999999999999";
             // 
             // LblCustomerName
             // 
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(282, 82);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(220, 16);
+            this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
             this.LblCustomerName.TabIndex = 149;
-            this.LblCustomerName.Text = "ALFREDO RODRIGUEZ NOBOA";
+            this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
             this.LblCustomerAddress.Location = new System.Drawing.Point(282, 109);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(222, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
             this.LblCustomerAddress.TabIndex = 150;
-            this.LblCustomerAddress.Text = "LA JOYA, URB. PLATINO MZ 12";
+            this.LblCustomerAddress.Text = "GUAYAQUIL";
             // 
             // BtnCustomer
             // 
@@ -483,6 +483,7 @@
             this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
             this.BtnCustomer.TabIndex = 151;
             this.BtnCustomer.Text = "Cliente";
+            this.BtnCustomer.Click += new System.EventHandler(this.BtnCustomer_Click);
             // 
             // BtnQty
             // 
@@ -564,6 +565,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();

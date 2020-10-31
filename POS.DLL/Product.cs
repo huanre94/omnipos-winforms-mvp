@@ -19,11 +19,11 @@ namespace POS.DLL
         {
             this.InventProductLocation = new HashSet<InventProductLocation>();
             this.InventTableModule = new HashSet<InventTableModule>();
-            this.InvoiceLine = new HashSet<InvoiceLine>();
             this.OrderLine = new HashSet<OrderLine>();
             this.ProductBarcode = new HashSet<ProductBarcode>();
             this.GiftCardTemplateLine = new HashSet<GiftCardTemplateLine>();
             this.GiftCardTemplateTable = new HashSet<GiftCardTemplateTable>();
+            this.InvoiceLine = new HashSet<InvoiceLine>();
         }
     
         public long ProductId { get; set; }
@@ -58,8 +58,6 @@ namespace POS.DLL
         public virtual ICollection<InventTableModule> InventTableModule { get; set; }
         public virtual InventUnit InventUnit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderLine> OrderLine { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
@@ -70,5 +68,7 @@ namespace POS.DLL
         public virtual ICollection<GiftCardTemplateLine> GiftCardTemplateLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
     }
 }

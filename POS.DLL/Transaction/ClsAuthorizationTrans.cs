@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS.DLL.Transaction
 {
-    public class ClsAuthorization
+    public class ClsAuthorizationTrans
     {
         public List<SP_Supervisor_Validate_Result> GetSupervisorAuth(string _barcode)
         {

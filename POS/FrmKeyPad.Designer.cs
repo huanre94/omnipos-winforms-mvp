@@ -57,7 +57,7 @@
             this.BtnEnter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnEnter.Name = "BtnEnter";
             this.BtnEnter.Size = new System.Drawing.Size(76, 121);
-            this.BtnEnter.TabIndex = 158;
+            this.BtnEnter.TabIndex = 2;
             this.BtnEnter.Click += new System.EventHandler(this.BtnEnter_Click);
             // 
             // Btn9
@@ -214,7 +214,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(244, 49);
-            this.BtnCancel.TabIndex = 159;
+            this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancelar";
             // 
             // BtnDelete
@@ -228,7 +228,7 @@
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(159, 46);
-            this.BtnDelete.TabIndex = 160;
+            this.BtnDelete.TabIndex = 3;
             this.BtnDelete.Text = "Borrar";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
@@ -239,7 +239,7 @@
             this.TxtValue.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
             this.TxtValue.Size = new System.Drawing.Size(244, 44);
-            this.TxtValue.TabIndex = 161;
+            this.TxtValue.TabIndex = 1;
             // 
             // FrmKeyPad
             // 
