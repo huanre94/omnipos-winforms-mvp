@@ -12,26 +12,26 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InternalCreditCard
+    public partial class SalesRemissionTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InternalCreditCard()
+        public SalesRemissionTable()
         {
-            this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
+            this.SalesRemissionLine = new HashSet<SalesRemissionLine>();
         }
     
-        public long InternalCreditCardId { get; set; }
-        public long InternalCreditCardIdLocal { get; set; }
-        public string Barcode { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public System.DateTime Vigence { get; set; }
-        public System.DateTime Expiration { get; set; }
-        public long CustomerId { get; set; }
-        public long EmployeeId { get; set; }
-        public decimal Quota { get; set; }
-        public decimal Consumed { get; set; }
-        public bool Printed { get; set; }
+        public long SalesRemissionId { get; set; }
+        public long SalesRemissionIdLocal { get; set; }
+        public short LocationId { get; set; }
+        public short TypeDoc { get; set; }
+        public int EmissionPointId { get; set; }
+        public string Establishment { get; set; }
+        public string Emission { get; set; }
+        public int TransportDriverId { get; set; }
+        public int TransportId { get; set; }
+        public int TransportReasonId { get; set; }
+        public System.DateTime SalesRemissionDate { get; set; }
+        public System.DateTime DeliveryDate { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
@@ -39,8 +39,11 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
+        public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
+        public virtual TransportDriver TransportDriver { get; set; }
+        public virtual TransportReason TransportReason { get; set; }
     }
 }

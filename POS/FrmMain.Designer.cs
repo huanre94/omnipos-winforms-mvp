@@ -65,6 +65,8 @@
             this.BtnCustomer = new DevExpress.XtraEditors.SimpleButton();
             this.BtnQty = new DevExpress.XtraEditors.SimpleButton();
             this.BtnRemove = new DevExpress.XtraEditors.SimpleButton();
+            this.LblTotal = new System.Windows.Forms.Label();
+            this.LblTitleTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -350,6 +352,7 @@
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
             this.TxtBarcode.Size = new System.Drawing.Size(245, 44);
             this.TxtBarcode.TabIndex = 1;
+            this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // ImgLogo
             // 
@@ -370,7 +373,7 @@
             this.LblInvoiceNumber.Name = "LblInvoiceNumber";
             this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
             this.LblInvoiceNumber.TabIndex = 140;
-            this.LblInvoiceNumber.Text = "000000569";
+            this.LblInvoiceNumber.Text = "999999999";
             // 
             // LblTitleCustomer
             // 
@@ -394,13 +397,12 @@
             // 
             // LblEmissionPoint
             // 
-            this.LblEmissionPoint.AutoSize = true;
             this.LblEmissionPoint.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblEmissionPoint.Location = new System.Drawing.Point(274, 18);
+            this.LblEmissionPoint.Location = new System.Drawing.Point(272, 18);
             this.LblEmissionPoint.Name = "LblEmissionPoint";
-            this.LblEmissionPoint.Size = new System.Drawing.Size(57, 28);
+            this.LblEmissionPoint.Size = new System.Drawing.Size(59, 28);
             this.LblEmissionPoint.TabIndex = 143;
-            this.LblEmissionPoint.Text = "001";
+            this.LblEmissionPoint.Text = "999";
             // 
             // LblTitleCustomerAddress
             // 
@@ -440,7 +442,7 @@
             this.LblEstablishment.Name = "LblEstablishment";
             this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
             this.LblEstablishment.TabIndex = 147;
-            this.LblEstablishment.Text = "003";
+            this.LblEstablishment.Text = "999";
             // 
             // LblCustomerId
             // 
@@ -517,6 +519,27 @@
             this.BtnRemove.TabIndex = 153;
             this.BtnRemove.Text = "Anul";
             // 
+            // LblTotal
+            // 
+            this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
+            this.LblTotal.Location = new System.Drawing.Point(1177, 14);
+            this.LblTotal.Name = "LblTotal";
+            this.LblTotal.Size = new System.Drawing.Size(161, 41);
+            this.LblTotal.TabIndex = 154;
+            this.LblTotal.Text = "42.69";
+            this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // LblTitleTotal
+            // 
+            this.LblTitleTotal.AutoSize = true;
+            this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F);
+            this.LblTitleTotal.Location = new System.Drawing.Point(1096, 25);
+            this.LblTitleTotal.Name = "LblTitleTotal";
+            this.LblTitleTotal.Size = new System.Drawing.Size(81, 32);
+            this.LblTitleTotal.TabIndex = 155;
+            this.LblTitleTotal.Text = "Total";
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -524,6 +547,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1364, 706);
+            this.Controls.Add(this.LblTitleTotal);
+            this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.BtnRemove);
             this.Controls.Add(this.BtnQty);
             this.Controls.Add(this.BtnCustomer);
@@ -613,5 +638,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnRemove;
         public System.Windows.Forms.Label LblCustomerId;
         public System.Windows.Forms.Label LblCustomerName;
+        private System.Windows.Forms.Label LblTotal;
+        private System.Windows.Forms.Label LblTitleTotal;
     }
 }

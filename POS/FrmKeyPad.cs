@@ -16,6 +16,7 @@ namespace POS
     {
         public ClsEnums.InputFromOption inputFromOption;
         public string creditCardAuthorization = "";
+        public string checkAuthorization = "";
         public string checkAccountNumber = "";
         public string checkNumber = "";
         public string checkOwnerIdentification = "";
@@ -92,7 +93,10 @@ namespace POS
                 {
                     case ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER:
                         checkAccountNumber = TxtValue.Text;
-                        break;                    
+                        break;
+                    case ClsEnums.InputFromOption.CHECK_AUTHORIZATION:
+                        checkAuthorization = TxtValue.Text;
+                        break;
                     case ClsEnums.InputFromOption.CHECK_NUMBER:
                         checkNumber = TxtValue.Text;
                         break;

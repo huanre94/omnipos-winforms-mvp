@@ -23,12 +23,14 @@ namespace POS
 {
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
-        #region Global Definitions
+        #region Global Load Definitions
 
         ClsFunctions functions = new ClsFunctions();
         DataTable dataTable = new DataTable();
         XElement paymentXml = new XElement("payment");
-        public decimal invoiceAmount;
+        public Customer customer = null;
+        //public GlobalParameter globalParameter = null;
+        public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
         decimal changeAmount = 0;
@@ -40,7 +42,12 @@ namespace POS
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
-            invoiceAmount = 42.69M; //Here the invoice total amount
+            GetPaymentInformation();
+        }
+
+        private void GetPaymentInformation()
+        {
+            //invoiceAmount = 42.69M; //Here the invoice total amount
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;
@@ -227,6 +234,8 @@ namespace POS
         {
             CheckGridView();
             FrmPaymentCard paymentCard = new FrmPaymentCard();
+            paymentCard.creditCardAmount = decimal.Parse(TxtAmount.Text);
+            paymentCard.customer = customer;
             paymentCard.ShowDialog();
 
             if (paymentCard.processResponse)
@@ -251,6 +260,7 @@ namespace POS
             ClsEnums.PaymModeEnum paymModeEnum;
             FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
             paymentCheck.checkAmount = decimal.Parse(TxtAmount.Text);
+            paymentCheck.customer = customer;
             paymentCheck.ShowDialog();
 
             if (paymentCheck.processResponse)
@@ -286,11 +296,19 @@ namespace POS
             CheckGridView();
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
+            paymentCredit.customer = customer;
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)
             {
-                if (functions.RequestSupervisorAuth())
+                bool responseAuthorization = true;
+
+                //if (globalParameter.InternalCreditSupAuth)  //Here ask for parameter about request authorization for internal credit
+                //{
+                //    responseAuthorization = functions.RequestSupervisorAuth();
+                //}
+
+                if (responseAuthorization)
                 {
                     InvoicePayment invoicePayment = new InvoicePayment
                     {
@@ -345,7 +363,7 @@ namespace POS
             ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
             DataRow NewRow = dataTable.NewRow();
             NewRow[0] = paymModeEnum;
-            NewRow[1] = _invoicePayment.Amount;
+            NewRow[1] = Math.Round(_invoicePayment.Amount * 1.00M, 2);
             dataTable.Rows.Add(NewRow);
             GrcPayment.DataSource = dataTable;
 
@@ -375,6 +393,8 @@ namespace POS
         private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
         {
             paidAmount += decimal.Parse(TxtAmount.Text);
+            paidAmount *= 1.00M;
+            paidAmount = Math.Round(paidAmount, 2);
 
             if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)
             {
@@ -433,10 +453,6 @@ namespace POS
             }
         }
     
-        #endregion
-       
-
-
-
+        #endregion   
     }
 }

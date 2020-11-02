@@ -18,9 +18,9 @@ namespace POS.DLL
         public City()
         {
             this.Company = new HashSet<Company>();
-            this.Vendor = new HashSet<Vendor>();
             this.Customer = new HashSet<Customer>();
             this.Location = new HashSet<Location>();
+            this.Vendor = new HashSet<Vendor>();
         }
     
         public int CityId { get; set; }
@@ -28,20 +28,15 @@ namespace POS.DLL
         public int CityCode { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
-        public int CreatedBy { get; set; }
-        public System.DateTime CreatedDatetime { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
-        public string Workstation { get; set; }
     
         public virtual Province Province { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Company> Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vendor> Vendor { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Location> Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vendor> Vendor { get; set; }
     }
 }

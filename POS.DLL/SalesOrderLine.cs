@@ -12,9 +12,9 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderLine
+    public partial class SalesOrderLine
     {
-        public long OrderId { get; set; }
+        public long SalesOrderId { get; set; }
         public int Sequence { get; set; }
         public long ProductId { get; set; }
         public string Barcode { get; set; }
@@ -37,6 +37,6 @@ namespace POS.DLL
     
         public virtual InventUnit InventUnit { get; set; }
         public virtual Product Product { get; set; }
-        public virtual OrderTable OrderTable { get; set; }
+        public virtual SalesOrder SalesOrder { get; set; }
     }
 }

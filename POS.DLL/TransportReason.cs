@@ -12,27 +12,20 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InventLocation
+    public partial class TransportReason
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InventLocation()
+        public TransportReason()
         {
-            this.InventProductLocation = new HashSet<InventProductLocation>();
-            this.EmissionPoint = new HashSet<EmissionPoint>();
+            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
         }
     
-        public int InventLocationId { get; set; }
+        public int TransportReasonId { get; set; }
         public string Name { get; set; }
         public string SAPCode { get; set; }
-        public short LocationId { get; set; }
-        public string Type { get; set; }
-        public bool IsMain { get; set; }
         public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InventProductLocation> InventProductLocation { get; set; }
-        public virtual Location Location { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
+        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
     }
 }

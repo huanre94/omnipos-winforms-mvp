@@ -31,7 +31,6 @@ namespace POS.DLL
         public virtual DbSet<Bank> Bank { get; set; }
         public virtual DbSet<BankCreditCard> BankCreditCard { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }
-        public virtual DbSet<City> City { get; set; }
         public virtual DbSet<ClosingCashLine> ClosingCashLine { get; set; }
         public virtual DbSet<ClosingCashMoney> ClosingCashMoney { get; set; }
         public virtual DbSet<ClosingCashTable> ClosingCashTable { get; set; }
@@ -45,13 +44,8 @@ namespace POS.DLL
         public virtual DbSet<InventLocation> InventLocation { get; set; }
         public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<InventTableModule> InventTableModule { get; set; }
-        public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
         public virtual DbSet<InvoicePromotion> InvoicePromotion { get; set; }
-        public virtual DbSet<OrderLine> OrderLine { get; set; }
-        public virtual DbSet<OrderPaymMode> OrderPaymMode { get; set; }
-        public virtual DbSet<OrderPromotion> OrderPromotion { get; set; }
-        public virtual DbSet<OrderText> OrderText { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
@@ -62,7 +56,6 @@ namespace POS.DLL
         public virtual DbSet<PromotionProducts> PromotionProducts { get; set; }
         public virtual DbSet<PromotionReward> PromotionReward { get; set; }
         public virtual DbSet<PromotionTable> PromotionTable { get; set; }
-        public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<Salesman> Salesman { get; set; }
         public virtual DbSet<Server> Server { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -78,15 +71,44 @@ namespace POS.DLL
         public virtual DbSet<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
+        public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
+        public virtual DbSet<SalesOrderPromotion> SalesOrderPromotion { get; set; }
+        public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
+        public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
+        public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<InventTransType> InventTransType { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Province> Province { get; set; }
+        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
+        public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
+        public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
+        public virtual DbSet<Transport> Transport { get; set; }
+        public virtual DbSet<TransportDriver> TransportDriver { get; set; }
+        public virtual DbSet<TransportReason> TransportReason { get; set; }
+        public virtual DbSet<SequenceTable> SequenceTable { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+    
+        [DbFunction("POSEntities", "FN_Identification_Validate")]
+        public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
+        {
+            var identificationParameter = identification != null ?
+                new ObjectParameter("Identification", identification) :
+                new ObjectParameter("Identification", typeof(string));
+    
+            var isPassportParameter = isPassport != null ?
+                new ObjectParameter("IsPassport", isPassport) :
+                new ObjectParameter("IsPassport", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
+        }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -111,15 +133,6 @@ namespace POS.DLL
                 new ObjectParameter("Status", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InternalCreditCard_Consult_Result>("SP_InternalCreditCard_Consult", internalCreditCardIdParameter, barcodeParameter, typeParameter, cActivacionParameter, statusParameter);
-        }
-    
-        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
-        {
-            var barcodeParameter = barcode != null ?
-                new ObjectParameter("barcode", barcode) :
-                new ObjectParameter("barcode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
         }
     
         public virtual ObjectResult<SP_GaranCheck_Authorize_Result> SP_GaranCheck_Authorize(Nullable<int> bankId, string accountNumber, Nullable<int> ckeckNumber, Nullable<decimal> ckeckAmount, string identification, string name, string phone, string reference)
@@ -159,6 +172,15 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GaranCheck_Authorize_Result>("SP_GaranCheck_Authorize", bankIdParameter, accountNumberParameter, ckeckNumberParameter, ckeckAmountParameter, identificationParameter, nameParameter, phoneParameter, referenceParameter);
         }
     
+        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
+        {
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("barcode", barcode) :
+                new ObjectParameter("barcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
+        }
+    
         public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
         {
             var giftCardNumberParameter = giftCardNumber != null ?
@@ -166,20 +188,6 @@ namespace POS.DLL
                 new ObjectParameter("GiftCardNumber", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
-        }
-    
-        [DbFunction("POSEntities", "FN_Identification_Validate")]
-        public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
-        {
-            var identificationParameter = identification != null ?
-                new ObjectParameter("Identification", identification) :
-                new ObjectParameter("Identification", typeof(string));
-    
-            var isPassportParameter = isPassport != null ?
-                new ObjectParameter("IsPassport", isPassport) :
-                new ObjectParameter("IsPassport", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
         }
     }
 }

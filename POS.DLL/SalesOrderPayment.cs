@@ -12,12 +12,15 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderText
+    public partial class SalesOrderPayment
     {
-        public long OrderId { get; set; }
+        public long SalesOrderId { get; set; }
         public int Sequence { get; set; }
-        public string OrderText1 { get; set; }
+        public int PaymModeId { get; set; }
+        public decimal Amount { get; set; }
+        public string Reference { get; set; }
     
-        public virtual OrderTable OrderTable { get; set; }
+        public virtual PaymMode PaymMode { get; set; }
+        public virtual SalesOrder SalesOrder { get; set; }
     }
 }

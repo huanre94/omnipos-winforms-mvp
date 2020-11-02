@@ -9,14 +9,14 @@ namespace POS.DLL.Transaction
 {
     public class ClsCustomerTrans
     {
-        public List<SP_InternalCreditCard_Consult_Result> GetInternalCreditCard(string _creditCardCode)
+        public SP_InternalCreditCard_Consult_Result GetInternalCreditCard(string _creditCardCode)
         {
             var db = new POSEntities();
-            List<SP_InternalCreditCard_Consult_Result> result = null;
+            SP_InternalCreditCard_Consult_Result result;
 
             try
             {
-                result = db.SP_InternalCreditCard_Consult(0, _creditCardCode, "", "", "").ToList();
+                result = db.SP_InternalCreditCard_Consult(0, _creditCardCode, "", "", "").FirstOrDefault();
             }
             catch(Exception ex)
             {
@@ -26,14 +26,13 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_GiftCard_Consult_Result> GetGiftCard(string _giftCard)
+        public SP_GiftCard_Consult_Result GetGiftCard(string _giftCard)
         {
             var db = new POSEntities();
-            List<SP_GiftCard_Consult_Result> result = null;
-
+            SP_GiftCard_Consult_Result result;
             try
             {
-                result = db.SP_GiftCard_Consult(_giftCard).ToList();
+                result = db.SP_GiftCard_Consult(_giftCard).FirstOrDefault();
             }
             catch (Exception ex)
             {

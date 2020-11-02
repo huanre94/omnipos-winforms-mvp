@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using POS.Classes;
+using POS.DLL;
 
 namespace POS
 {
@@ -18,11 +19,34 @@ namespace POS
         public bool formActionResult;
         public decimal creditLimit;
         public decimal paidAmount;
+        public Customer customer = null;
 
         public FrmPaymentCredit()
         {
             InitializeComponent();
-        }        
+        }
+
+        private void FrmPaymentCredit_Load(object sender, EventArgs e)
+        {
+            ValidateCustomerInformation();
+        }
+
+        private bool ValidateCustomerInformation()
+        {
+            bool response = false;
+
+            if (customer != null)
+            {                
+                response = true;
+            }
+            else
+            {
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                this.DialogResult = DialogResult.Cancel;
+            }
+
+            return response;
+        }
 
         private void TxtCreditCardCode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -30,26 +54,31 @@ namespace POS
             {
                 if (TxtCreditCardCode.Text != "")
                 {                    
-                    List<DLL.SP_InternalCreditCard_Consult_Result> result;
-                    DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
+                    DLL.SP_InternalCreditCard_Consult_Result result;
+                    DLL.Transaction.ClsCustomerTrans clsCustomer = new DLL.Transaction.ClsCustomerTrans();
 
                     try
                     {
-                        result = customer.GetInternalCreditCard(TxtCreditCardCode.Text);
+                        result = clsCustomer.GetInternalCreditCard(TxtCreditCardCode.Text);
 
                         if (result != null)
                         {
-                            if (result.Count > 0)
+                            if (result.CustomerId == customer.CustomerId)
                             {
-                                LblHolderName.Text = result.FirstOrDefault().Name;
-                                creditLimit = result.FirstOrDefault().Consumed;
+                                LblHolderName.Text = result.Name;
+                                creditLimit = result.Consumed;
                                 LblCreditLimit.Text = creditLimit.ToString();
                             }
                             else
                             {
-                                functions.ShowMessage("No existe titular asociado a la tarjeta ingresada.", ClsEnums.MessageType.WARNING);
+                                functions.ShowMessage("El cliente tiene que ser el titular de la tarjeta.", ClsEnums.MessageType.ERROR);
                                 TxtCreditCardCode.Text = "";
                             }
+                        }
+                        else
+                        {
+                            functions.ShowMessage("No existe titular asociado a la tarjeta ingresada.", ClsEnums.MessageType.WARNING);
+                            TxtCreditCardCode.Text = "";
                         }
                     }
                     catch (Exception ex)
@@ -67,7 +96,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (TxtCreditCardCode.Text != "")
+            if (ValidateInternalCreditFields())
             {
                 if (creditLimit > 0)
                 {
@@ -80,6 +109,23 @@ namespace POS
                     {
                         functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
                     }
+                } 
+                else
+                {
+                    functions.ShowMessage("La tarjeta no posee cupo.", ClsEnums.MessageType.WARNING);
+                }
+            }            
+        }
+
+        private bool ValidateInternalCreditFields()
+        {
+            bool response = false;
+
+            if (TxtCreditCardCode.Text != "")
+            {
+                if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
+                {
+                    response = true;
                 }
                 else
                 {
@@ -87,11 +133,16 @@ namespace POS
                 }
             }
             else
-            {                
-                functions.ShowMessage("Debe proporcionar el codigo de la tarjeta.", ClsEnums.MessageType.WARNING);
+            {
+                functions.ShowMessage("Debe proporcionar el codigo de la tarjeta.", ClsEnums.MessageType.WARNING);                
+            }
+
+            if (!response)
+            {
                 this.DialogResult = DialogResult.None;
             }
 
-        }
+            return response;
+        }        
     }
 }

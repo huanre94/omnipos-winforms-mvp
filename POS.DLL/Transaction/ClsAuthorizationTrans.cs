@@ -8,14 +8,14 @@ namespace POS.DLL.Transaction
 {
     public class ClsAuthorizationTrans
     {
-        public List<SP_Supervisor_Validate_Result> GetSupervisorAuth(string _barcode)
+        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode)
         {
             var db = new POSEntities();
-            List<SP_Supervisor_Validate_Result> result;
+            SP_Supervisor_Validate_Result result;
 
             try
             {
-                result = db.SP_Supervisor_Validate(_barcode).ToList();
+                result = db.SP_Supervisor_Validate(_barcode).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -25,19 +25,19 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_GaranCheck_Authorize_Result> GetGaranCheckAuth(
-                                                                        int _bankId
-                                                                        , string _accountNumber
-                                                                        , int _checkNumber                                                                    
-                                                                        , decimal _checkAmount
-                                                                        , string _identificacion
-                                                                        , string _ownerName
-                                                                        , string _phone
-                                                                        , string _reference
-                                                                    )
+        public SP_GaranCheck_Authorize_Result GetGaranCheckAuth(
+                                                                    int _bankId
+                                                                    ,string _accountNumber
+                                                                    ,int _checkNumber                                                                    
+                                                                    ,decimal _checkAmount
+                                                                    ,string _identificacion
+                                                                    ,string _ownerName
+                                                                    ,string _phone
+                                                                    ,string _reference
+                                                                )
         {
             var db = new POSEntities();
-            List<SP_GaranCheck_Authorize_Result> result;
+            SP_GaranCheck_Authorize_Result result;
 
             try
             {
@@ -50,7 +50,7 @@ namespace POS.DLL.Transaction
                                                     , _ownerName
                                                     , _phone
                                                     , _reference
-                                                    ).ToList();
+                                                    ).FirstOrDefault();
             }
             catch (Exception ex)
             {

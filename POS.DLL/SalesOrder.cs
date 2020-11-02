@@ -12,28 +12,27 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderTable
+    public partial class SalesOrder
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OrderTable()
+        public SalesOrder()
         {
-            this.OrderLine = new HashSet<OrderLine>();
-            this.OrderPaymMode = new HashSet<OrderPaymMode>();
-            this.OrderPromotion = new HashSet<OrderPromotion>();
-            this.OrderText = new HashSet<OrderText>();
+            this.SalesOrderLine = new HashSet<SalesOrderLine>();
+            this.SalesOrderPayment = new HashSet<SalesOrderPayment>();
+            this.SalesOrderPromotion = new HashSet<SalesOrderPromotion>();
+            this.SalesOrderText = new HashSet<SalesOrderText>();
         }
     
-        public long OrderId { get; set; }
-        public long OrderIdLocal { get; set; }
+        public long SalesOrderId { get; set; }
+        public long SalesOrderIdLocal { get; set; }
         public short LocationId { get; set; }
         public int EmissionPointId { get; set; }
-        public short Establishment { get; set; }
-        public short EmissionPoint { get; set; }
+        public string Establishment { get; set; }
+        public string Emission { get; set; }
         public long CustomerId { get; set; }
         public int SalesmanId { get; set; }
         public System.DateTime OrderDate { get; set; }
-        public string SalesChannel { get; set; }
-        public bool IsECommerce { get; set; }
+        public int SalesOriginId { get; set; }
         public long OrderECommerce { get; set; }
         public string Destination { get; set; }
         public string Recipient { get; set; }
@@ -57,16 +56,17 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual EmissionPoint EmissionPoint1 { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
         public virtual Location Location { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderLine> OrderLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderPaymMode> OrderPaymMode { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderPromotion> OrderPromotion { get; set; }
         public virtual Salesman Salesman { get; set; }
+        public virtual SalesOrigin SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderText> OrderText { get; set; }
+        public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderPayment> SalesOrderPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderPromotion> SalesOrderPromotion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderText> SalesOrderText { get; set; }
     }
 }

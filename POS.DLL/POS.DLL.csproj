@@ -67,6 +67,7 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Catalog\ClsCustomer.cs" />
+    <Compile Include="Catalog\ClsGeneral.cs" />
     <Compile Include="Catalog\ClsPaymMode.cs" />
     <Compile Include="Catalog\ClsProduct.cs" />
     <Compile Include="City.cs">
@@ -132,6 +133,9 @@
     <Compile Include="GiftCardTrans.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="GlobalParameter.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="IdentType.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -186,21 +190,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelPOS.edmx</DependentUpon>
     </Compile>
-    <Compile Include="OrderLine.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderPaymMode.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderPromotion.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderTable.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OrderText.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
     <Compile Include="PaymMode.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -241,6 +230,33 @@
     <Compile Include="Salesman.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SalesOrder.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrderLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrderPayment.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrderPromotion.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrderText.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesOrigin.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesRemissionLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesRemissionTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SequenceTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -265,6 +281,15 @@
     <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
     <Compile Include="Transaction\ClsCustomerTrans.cs" />
     <Compile Include="Transaction\ClsInvoiceTrans.cs" />
+    <Compile Include="Transport.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransportDriver.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransportReason.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

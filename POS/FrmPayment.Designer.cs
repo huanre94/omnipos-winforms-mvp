@@ -436,12 +436,17 @@
             // 
             // TxtAmount
             // 
+            this.TxtAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAmount.EditValue = "";
             this.TxtAmount.Location = new System.Drawing.Point(19, 101);
             this.TxtAmount.Name = "TxtAmount";
             this.TxtAmount.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtAmount.Properties.Appearance.Options.UseFont = true;
+            this.TxtAmount.Properties.Appearance.Options.UseTextOptions = true;
+            this.TxtAmount.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.TxtAmount.Properties.DisplayFormat.FormatString = "c2";
             this.TxtAmount.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.TxtAmount.Properties.EditFormat.FormatString = "c2";
             this.TxtAmount.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.TxtAmount.Size = new System.Drawing.Size(159, 44);
             this.TxtAmount.TabIndex = 1;

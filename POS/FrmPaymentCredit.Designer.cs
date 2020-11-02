@@ -153,6 +153,7 @@
             this.Name = "FrmPaymentCredit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credito Interno";
+            this.Load += new System.EventHandler(this.FrmPaymentCredit_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -11,6 +11,9 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using POS.Classes;
 using POS.DLL.Catalog;
+using POS.DLL;
+using DevExpress.XtraDashboardLayout;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace POS
 {
@@ -18,14 +21,14 @@ namespace POS
     {
         ClsFunctions functions = new ClsFunctions();        
         public bool processResponse;
-        public string checkOwnerName;       
-        public int checkBankId;
+        public string checkOwnerName = "";       
+        public int checkBankId = 0;
         public DateTime checkDate;
-        public string checkAccountNumber;
-        public int checkNumber;
-        public decimal checkAmount;
-        public string checkAuthorization;
-        
+        public string checkAccountNumber = "";
+        public int checkNumber = 0;
+        public decimal checkAmount = 0.00M;
+        public string checkAuthorization = "";
+        public Customer customer = null;
 
         public FrmPaymentCheck()
         {
@@ -34,13 +37,36 @@ namespace POS
 
         private void FrmPaymentCheck_Load(object sender, EventArgs e)
         {
-            FrmMain main = new FrmMain();
-            TxtOwnerName.Text = main.LblCustomerName.Text;
-            TxtIdentification.Text = main.LblCustomerId.Text;
+            if (ValidateCustomerInformation())
+            {
+                GetPaymentInformation();
+                LoadBanks();
+            }
+        }
+
+        private void GetPaymentInformation()
+        {
             TxtCheckAmount.Text = checkAmount.ToString();
             TxtCheckDate.DateTime = DateTime.Now;
+        }
 
-            LoadBanks();
+        private bool ValidateCustomerInformation()
+        {
+            bool response = false;
+
+            if (customer != null)
+            {
+                TxtIdentification.Text = customer.Identification;
+                TxtOwnerName.Text = customer.Firtsname + " " + customer.Lastname;
+                response = true;
+            }
+            else
+            {
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                this.DialogResult = DialogResult.Cancel;
+            }
+
+            return response;
         }
 
         #region Keypad Call Buttons
@@ -82,6 +108,14 @@ namespace POS
             keyPad.ShowDialog();
             TxtCheckNumber.Text = keyPad.checkNumber;
         }
+
+        private void BtnKeypadAuth_Click(object sender, EventArgs e)
+        {
+            FrmKeyPad keyPad = new FrmKeyPad();
+            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_AUTHORIZATION;
+            keyPad.ShowDialog();
+            TxtAuthorization.Text = keyPad.checkAuthorization;
+        }
         #endregion
 
         private void LoadBanks()
@@ -120,7 +154,7 @@ namespace POS
             if (ValidateCheckFields())
             {
                 DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
-                List<DLL.SP_GaranCheck_Authorize_Result> authorizeResult;
+                DLL.SP_GaranCheck_Authorize_Result authorizeResult;
 
                 try
                 {
@@ -137,25 +171,30 @@ namespace POS
 
                     if (authorizeResult != null)
                     {
-                        if (authorizeResult.Count > 0)
-                        {
-                            string result = authorizeResult.FirstOrDefault().Result;
+                       
+                        string result = authorizeResult.Result;
 
-                            if (authorizeResult.FirstOrDefault().Response == 0)
+                        if (authorizeResult.Response == 0)
+                        {
+                            TxtAuthorization.Text = result;
+                            functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
+                        }
+                        else
+                        {
+                            bool response = functions.ShowMessage(
+                                                                    "No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
+                                                                    , ClsEnums.MessageType.CONFIRM
+                                                                    , true
+                                                                    , result
+                                                                    );
+                            if (response)
                             {
-                                TxtAuthorization.Text = result;
-                                functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
-                            }
-                            else
-                            {
-                                functions.ShowMessage(
-                                                        "No se ha podido obtener autorizacion."
-                                                        , ClsEnums.MessageType.WARNING
-                                                        , true
-                                                        , result
-                                                        );
+                                BtnAuthorization.Visible = false;
+                                BtnKeypadAuth.Visible = true;
+                                TxtAuthorization.Enabled = true;
                             }
                         }
+                        
                     }
                 }
                 catch (Exception ex)
@@ -211,5 +250,7 @@ namespace POS
 
             return response;
         }
+
+        
     }
 }

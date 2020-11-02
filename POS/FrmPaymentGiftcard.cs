@@ -29,7 +29,7 @@ namespace POS
         {
             if (TxtGiftCard.Text != "")
             {
-                List<DLL.SP_GiftCard_Consult_Result> result;
+                DLL.SP_GiftCard_Consult_Result result;
                 DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
 
                 try
@@ -38,19 +38,16 @@ namespace POS
 
                     if (result != null)
                     {
-                        if (result.Count > 0)
-                        {
-                            LblDocument.Text = result.FirstOrDefault().DocNumber;
-                            LblReference.Text = result.FirstOrDefault().CustomerNameInvoice;
-                            giftcardAmount = (decimal)result.FirstOrDefault().Amount;
-                            giftcardNumber = result.FirstOrDefault().GiftCardNumber;
-                            LblAmount.Text = giftcardAmount.ToString();                            
-                        }
-                        else
-                        {
-                            functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
-                            TxtGiftCard.Text = "";
-                        }
+                        LblDocument.Text = result.InvoiceNumber;
+                        LblReference.Text = result.CustomerNameInvoice;
+                        giftcardAmount = (decimal)result.Amount;
+                        giftcardNumber = result.GiftCardNumber;
+                        LblAmount.Text = giftcardAmount.ToString();
+                    }
+                    else
+                    {
+                        functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
+                        TxtGiftCard.Text = "";
                     }
                 }
                 catch (Exception ex)
@@ -67,7 +64,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (TxtGiftCard.Text != "")
+            if (ValidateGiftCardFields())
             {
                 if (giftcardAmount > 0)
                 {
@@ -87,15 +84,38 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("Debe primero obtener informacion del bono.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("El bono no cuenta con cupo.", ClsEnums.MessageType.WARNING);
                     this.DialogResult = DialogResult.None;
+                }
+            }            
+        }
+
+        private bool ValidateGiftCardFields()
+        {
+            bool response = false;
+
+            if (TxtGiftCard.Text != "")
+            {
+                if (LblDocument.Text != "" && LblReference.Text != "")
+                {
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage("No se obtuvieron datos del bono.", ClsEnums.MessageType.WARNING);
                 }
             }
             else
             {
                 functions.ShowMessage("Debe proporcionar el numero del bono.", ClsEnums.MessageType.WARNING);
+            }
+
+            if (!response)
+            {
                 this.DialogResult = DialogResult.None;
             }
+
+            return response;
         }
 
         private void BtnKeypad_Click(object sender, EventArgs e)

@@ -55,6 +55,7 @@
             this.BtnAuthorization = new DevExpress.XtraEditors.SimpleButton();
             this.LblCheckAmount = new System.Windows.Forms.Label();
             this.TxtCheckAmount = new DevExpress.XtraEditors.TextEdit();
+            this.BtnKeypadAuth = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.TxtOwnerName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAccountNumber.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
@@ -108,14 +109,14 @@
             this.TxtOwnerName.Location = new System.Drawing.Point(175, 12);
             this.TxtOwnerName.Name = "TxtOwnerName";
             this.TxtOwnerName.Size = new System.Drawing.Size(376, 38);
-            this.TxtOwnerName.TabIndex = 1;
+            this.TxtOwnerName.TabIndex = 20;
             // 
             // TxtAccountNumber
             // 
             this.TxtAccountNumber.Location = new System.Drawing.Point(175, 298);
             this.TxtAccountNumber.Name = "TxtAccountNumber";
             this.TxtAccountNumber.Size = new System.Drawing.Size(219, 38);
-            this.TxtAccountNumber.TabIndex = 6;
+            this.TxtAccountNumber.TabIndex = 4;
             // 
             // TxtAuthorization
             // 
@@ -123,7 +124,7 @@
             this.TxtAuthorization.Location = new System.Drawing.Point(175, 469);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(219, 38);
-            this.TxtAuthorization.TabIndex = 8;
+            this.TxtAuthorization.TabIndex = 6;
             // 
             // TxtCheckDate
             // 
@@ -141,7 +142,7 @@
             this.TxtCheckDate.Properties.Mask.EditMask = "";
             this.TxtCheckDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
             this.TxtCheckDate.Size = new System.Drawing.Size(300, 38);
-            this.TxtCheckDate.TabIndex = 5;
+            this.TxtCheckDate.TabIndex = 3;
             // 
             // LblOwnerName
             // 
@@ -188,7 +189,7 @@
             this.TxtCheckNumber.Location = new System.Drawing.Point(175, 355);
             this.TxtCheckNumber.Name = "TxtCheckNumber";
             this.TxtCheckNumber.Size = new System.Drawing.Size(219, 38);
-            this.TxtCheckNumber.TabIndex = 7;
+            this.TxtCheckNumber.TabIndex = 5;
             // 
             // LblCheckNumber
             // 
@@ -274,7 +275,7 @@
             this.CmbCheckBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbCheckBank.Size = new System.Drawing.Size(300, 38);
-            this.CmbCheckBank.TabIndex = 4;
+            this.CmbCheckBank.TabIndex = 2;
             // 
             // BtnKeypadIdentification
             // 
@@ -285,7 +286,7 @@
             this.BtnKeypadIdentification.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadIdentification.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadIdentification.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadIdentification.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadIdentification.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadIdentification.ImageOptions.SvgImage")));
             this.BtnKeypadIdentification.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadIdentification.Location = new System.Drawing.Point(403, 66);
             this.BtnKeypadIdentification.Margin = new System.Windows.Forms.Padding(6);
@@ -310,7 +311,7 @@
             this.TxtIdentification.Location = new System.Drawing.Point(175, 69);
             this.TxtIdentification.Name = "TxtIdentification";
             this.TxtIdentification.Size = new System.Drawing.Size(219, 38);
-            this.TxtIdentification.TabIndex = 2;
+            this.TxtIdentification.TabIndex = 21;
             // 
             // BtnKeypadPhone
             // 
@@ -321,7 +322,7 @@
             this.BtnKeypadPhone.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadPhone.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadPhone.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadPhone.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage1")));
+            this.BtnKeypadPhone.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPhone.ImageOptions.SvgImage")));
             this.BtnKeypadPhone.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadPhone.Location = new System.Drawing.Point(403, 123);
             this.BtnKeypadPhone.Margin = new System.Windows.Forms.Padding(6);
@@ -346,7 +347,7 @@
             this.TxtPhone.Location = new System.Drawing.Point(175, 127);
             this.TxtPhone.Name = "TxtPhone";
             this.TxtPhone.Size = new System.Drawing.Size(219, 38);
-            this.TxtPhone.TabIndex = 3;
+            this.TxtPhone.TabIndex = 1;
             // 
             // BtnAuthorization
             // 
@@ -355,7 +356,7 @@
             this.BtnAuthorization.Appearance.Options.UseBackColor = true;
             this.BtnAuthorization.Appearance.Options.UseFont = true;
             this.BtnAuthorization.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.BtnAuthorization.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSearch.ImageOptions.SvgImage")));
+            this.BtnAuthorization.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnAuthorization.ImageOptions.SvgImage")));
             this.BtnAuthorization.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAuthorization.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnAuthorization.Location = new System.Drawing.Point(405, 464);
@@ -382,7 +383,27 @@
             this.TxtCheckAmount.Location = new System.Drawing.Point(175, 412);
             this.TxtCheckAmount.Name = "TxtCheckAmount";
             this.TxtCheckAmount.Size = new System.Drawing.Size(219, 38);
-            this.TxtCheckAmount.TabIndex = 180;
+            this.TxtCheckAmount.TabIndex = 0;
+            // 
+            // BtnKeypadAuth
+            // 
+            this.BtnKeypadAuth.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnKeypadAuth.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeypadAuth.Appearance.Options.UseBackColor = true;
+            this.BtnKeypadAuth.Appearance.Options.UseFont = true;
+            this.BtnKeypadAuth.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
+            this.BtnKeypadAuth.AppearanceHovered.Options.UseBackColor = true;
+            this.BtnKeypadAuth.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.BtnKeypadAuth.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadAuth.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnKeypadAuth.Location = new System.Drawing.Point(403, 465);
+            this.BtnKeypadAuth.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadAuth.Name = "BtnKeypadAuth";
+            this.BtnKeypadAuth.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnKeypadAuth.Size = new System.Drawing.Size(80, 50);
+            this.BtnKeypadAuth.TabIndex = 182;
+            this.BtnKeypadAuth.Visible = false;
+            this.BtnKeypadAuth.Click += new System.EventHandler(this.BtnKeypadAuth_Click);
             // 
             // FrmPaymentCheck
             // 
@@ -416,6 +437,7 @@
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.TxtCheckDate);
+            this.Controls.Add(this.BtnKeypadAuth);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmPaymentCheck";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -464,5 +486,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnAuthorization;
         private System.Windows.Forms.Label LblCheckAmount;
         public DevExpress.XtraEditors.TextEdit TxtCheckAmount;
+        private DevExpress.XtraEditors.SimpleButton BtnKeypadAuth;
     }
 }

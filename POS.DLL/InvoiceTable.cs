@@ -20,6 +20,7 @@ namespace POS.DLL
             this.InvoiceLine = new HashSet<InvoiceLine>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
             this.InvoicePromotion = new HashSet<InvoicePromotion>();
+            this.SalesRemissionLine = new HashSet<SalesRemissionLine>();
         }
     
         public long InvoiceId { get; set; }
@@ -28,15 +29,14 @@ namespace POS.DLL
         public short TypeDoc { get; set; }
         public long InvoiceIdReference { get; set; }
         public int EmissionPointId { get; set; }
-        public short Establishment { get; set; }
-        public short EmissionPoint { get; set; }
+        public string Establishment { get; set; }
+        public string Emission { get; set; }
         public long InvoiceNumber { get; set; }
         public long CustomerId { get; set; }
         public int SalesmanId { get; set; }
         public bool IsCredit { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public System.DateTime Expiration { get; set; }
-        public bool IsECommerce { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Discount { get; set; }
         public decimal TaxPercent { get; set; }
@@ -51,7 +51,9 @@ namespace POS.DLL
         public decimal Change { get; set; }
         public decimal Returned { get; set; }
         public long InternalCreditCardId { get; set; }
-        public long OrderId { get; set; }
+        public int SalesOriginId { get; set; }
+        public bool IsECommerce { get; set; }
+        public long SalesOrderId { get; set; }
         public int ClosingCashId { get; set; }
         public string Observation { get; set; }
         public string Status { get; set; }
@@ -60,11 +62,9 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public int SalesOriginId { get; set; }
-        public long SalesOrderId { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual EmissionPoint EmissionPoint1 { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -73,5 +73,8 @@ namespace POS.DLL
         public virtual ICollection<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual Location Location { get; set; }
         public virtual Salesman Salesman { get; set; }
+        public virtual SalesOrigin SalesOrigin { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
     }
 }

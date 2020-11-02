@@ -12,15 +12,15 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderPromotion
+    public partial class SalesRemissionLine
     {
-        public long OrderId { get; set; }
+        public long SalesRemissionId { get; set; }
         public int Sequence { get; set; }
-        public long ProductId { get; set; }
-        public long PromotionId { get; set; }
-        public decimal QuantityReward { get; set; }
+        public long InvoiceId { get; set; }
+        public long SalesRemissionNumber { get; set; }
+        public string Status { get; set; }
     
-        public virtual PromotionTable PromotionTable { get; set; }
-        public virtual OrderTable OrderTable { get; set; }
+        public virtual SalesRemissionTable SalesRemissionTable { get; set; }
+        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }

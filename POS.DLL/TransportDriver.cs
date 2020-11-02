@@ -12,26 +12,18 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InternalCreditCard
+    public partial class TransportDriver
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InternalCreditCard()
+        public TransportDriver()
         {
-            this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
+            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
         }
     
-        public long InternalCreditCardId { get; set; }
-        public long InternalCreditCardIdLocal { get; set; }
-        public string Barcode { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public System.DateTime Vigence { get; set; }
-        public System.DateTime Expiration { get; set; }
-        public long CustomerId { get; set; }
-        public long EmployeeId { get; set; }
-        public decimal Quota { get; set; }
-        public decimal Consumed { get; set; }
-        public bool Printed { get; set; }
+        public int TransportDriverId { get; set; }
+        public string Identification { get; set; }
+        public string Lastname { get; set; }
+        public string Firtsname { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
@@ -40,7 +32,6 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
     }
 }

@@ -12,25 +12,19 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class EmissionPoint
+    public partial class SalesOrigin
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EmissionPoint()
+        public SalesOrigin()
         {
-            this.ClosingCashLine = new HashSet<ClosingCashLine>();
-            this.CountCashLine = new HashSet<CountCashLine>();
+            this.SalesOrder = new HashSet<SalesOrder>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
-            this.OrderTable = new HashSet<OrderTable>();
         }
     
-        public int EmissionPointId { get; set; }
-        public short LocationId { get; set; }
-        public int InventLocationId { get; set; }
-        public short Establishment { get; set; }
-        public short EmissionPoint1 { get; set; }
+        public int SalesOriginId { get; set; }
         public string Name { get; set; }
-        public long InvoiceNumber { get; set; }
-        public string AddressIP { get; set; }
+        public int SalesmanId { get; set; }
+        public bool IsECommerce { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
@@ -38,15 +32,10 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
+        public virtual Salesman Salesman { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashLine> ClosingCashLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CountCashLine> CountCashLine { get; set; }
-        public virtual InventLocation InventLocation { get; set; }
-        public virtual Location Location { get; set; }
+        public virtual ICollection<SalesOrder> SalesOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderTable> OrderTable { get; set; }
     }
 }

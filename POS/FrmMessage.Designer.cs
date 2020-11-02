@@ -60,19 +60,19 @@
             // 
             // LblMessage
             // 
-            this.LblMessage.AutoSize = true;
+            this.LblMessage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LblMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblMessage.Location = new System.Drawing.Point(101, 82);
+            this.LblMessage.Location = new System.Drawing.Point(106, 33);
             this.LblMessage.MaximumSize = new System.Drawing.Size(400, 200);
             this.LblMessage.Name = "LblMessage";
-            this.LblMessage.Size = new System.Drawing.Size(178, 22);
+            this.LblMessage.Size = new System.Drawing.Size(368, 120);
             this.LblMessage.TabIndex = 2;
             this.LblMessage.Text = "Mensaje a mostrar";
             this.LblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ImgSvgMessage
             // 
-            this.ImgSvgMessage.Location = new System.Drawing.Point(30, 59);
+            this.ImgSvgMessage.Location = new System.Drawing.Point(27, 59);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
             this.ImgSvgMessage.Size = new System.Drawing.Size(70, 65);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;

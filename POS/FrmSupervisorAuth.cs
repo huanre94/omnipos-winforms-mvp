@@ -27,7 +27,7 @@ namespace POS
             if (TxtAuthorization.Text != "")
             {                
                 DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
-                List<DLL.SP_Supervisor_Validate_Result> result;
+                DLL.SP_Supervisor_Validate_Result result;
 
                 try
                 {
@@ -35,16 +35,13 @@ namespace POS
 
                     if (result != null)
                     {
-                        if (result.Count > 0)
-                        {
-                            formActionResult = true;
-                            TxtAuthorization.Text = "";
-                        }
-                        else
-                        {
-                            functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
-                        }
-                    }                    
+                        formActionResult = true;
+                        TxtAuthorization.Text = "";
+                    }
+                    else
+                    {
+                        functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                    }
                 }
                 catch (Exception ex)
                 {

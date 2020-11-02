@@ -22,13 +22,47 @@ namespace POS
         public ClsEnums.PaymModeEnum paymModeEnum;
         public int bankId;
         public int creditCardId;
-        public string authorization;
+        public decimal creditCardAmount = 0.00M;
+        public string authorization = "";
         public bool processResponse;
+        public Customer customer = null;
 
         public FrmPaymentCard()
         {
             InitializeComponent();
         }
+
+        private void FrmPaymentCard_Load(object sender, EventArgs e)
+        {
+            if (ValidateCustomerInformation())
+            {
+                GetPaymentInformation();
+                LoadBanks();
+            }
+        }
+
+        private void GetPaymentInformation()
+        {
+            LblAmount.Text = creditCardAmount.ToString();
+        }
+
+        private bool ValidateCustomerInformation()
+        {
+            bool response = false;
+
+            if (customer != null)
+            {                
+                LblCustomerName.Text = customer.Firtsname + " " + customer.Lastname;
+                response = true;
+            }
+            else
+            {
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                this.DialogResult = DialogResult.Cancel;
+            }
+
+            return response;
+        }        
 
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
@@ -36,12 +70,7 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.creditCardAuthorization;
-        }            
-        
-        private void FrmPaymentCard_Load(object sender, EventArgs e)
-        {
-            LoadBanks();
-        }
+        }    
 
         private void LoadBanks()
         {

@@ -27,6 +27,6 @@ namespace POS.DLL
         public string Type { get; set; }
         public Nullable<long> CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public string DocNumber { get; set; }
+        public string InvoiceNumber { get; set; }
     }
 }

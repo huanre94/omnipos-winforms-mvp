@@ -12,15 +12,16 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderPaymMode
+    public partial class SequenceTable
     {
-        public long OrderId { get; set; }
+        public short LocationId { get; set; }
+        public int SequenceId { get; set; }
+        public string SeqType { get; set; }
+        public Nullable<int> EmissionPointId { get; set; }
         public int Sequence { get; set; }
-        public int PaymModeId { get; set; }
-        public decimal Amount { get; set; }
-        public string Reference { get; set; }
+        public string Name { get; set; }
+        public string Status { get; set; }
     
-        public virtual PaymMode PaymMode { get; set; }
-        public virtual OrderTable OrderTable { get; set; }
+        public virtual Location Location { get; set; }
     }
 }
