@@ -47,7 +47,7 @@
             this.Btn3 = new DevExpress.XtraEditors.SimpleButton();
             this.BtnEnter = new DevExpress.XtraEditors.SimpleButton();
             this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
-            this.GrdSalesDetail = new DevExpress.XtraGrid.GridControl();
+            this.GrcSalesDetail = new DevExpress.XtraGrid.GridControl();
             this.GrvSalesDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             this.ImgLogo = new System.Windows.Forms.PictureBox();
@@ -67,7 +67,14 @@
             this.BtnRemove = new DevExpress.XtraEditors.SimpleButton();
             this.LblTotal = new System.Windows.Forms.Label();
             this.LblTitleTotal = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).BeginInit();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Qty = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Discount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.LineAmount = new DevExpress.XtraGrid.Columns.GridColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
@@ -82,7 +89,7 @@
             this.BtnCancelSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelSale.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancelSale.ImageOptions.SvgImage")));
             this.BtnCancelSale.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
-            this.BtnCancelSale.Location = new System.Drawing.Point(1130, 451);
+            this.BtnCancelSale.Location = new System.Drawing.Point(1132, 435);
             this.BtnCancelSale.Name = "BtnCancelSale";
             this.BtnCancelSale.Size = new System.Drawing.Size(220, 80);
             this.BtnCancelSale.TabIndex = 137;
@@ -97,7 +104,7 @@
             this.BtnSuspendSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSuspendSale.ImageOptions.SvgImage = global::POS.Properties.Resources.SuspendSale;
             this.BtnSuspendSale.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 55);
-            this.BtnSuspendSale.Location = new System.Drawing.Point(1130, 365);
+            this.BtnSuspendSale.Location = new System.Drawing.Point(1132, 349);
             this.BtnSuspendSale.Name = "BtnSuspendSale";
             this.BtnSuspendSale.Size = new System.Drawing.Size(220, 80);
             this.BtnSuspendSale.TabIndex = 136;
@@ -126,7 +133,7 @@
             this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch2;
             this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
-            this.BtnProductSearch.Location = new System.Drawing.Point(1130, 279);
+            this.BtnProductSearch.Location = new System.Drawing.Point(1132, 263);
             this.BtnProductSearch.Name = "BtnProductSearch";
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
             this.BtnProductSearch.TabIndex = 134;
@@ -155,7 +162,7 @@
             this.BtnPayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPayment.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
             this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
-            this.BtnPayment.Location = new System.Drawing.Point(1130, 193);
+            this.BtnPayment.Location = new System.Drawing.Point(1132, 177);
             this.BtnPayment.Name = "BtnPayment";
             this.BtnPayment.Size = new System.Drawing.Size(220, 80);
             this.BtnPayment.TabIndex = 133;
@@ -328,19 +335,25 @@
             this.Btn0.Text = "0";
             this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
             // 
-            // GrdSalesDetail
+            // GrcSalesDetail
             // 
-            this.GrdSalesDetail.Location = new System.Drawing.Point(12, 159);
-            this.GrdSalesDetail.MainView = this.GrvSalesDetail;
-            this.GrdSalesDetail.Name = "GrdSalesDetail";
-            this.GrdSalesDetail.Size = new System.Drawing.Size(823, 417);
-            this.GrdSalesDetail.TabIndex = 138;
-            this.GrdSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.GrcSalesDetail.Location = new System.Drawing.Point(12, 159);
+            this.GrcSalesDetail.MainView = this.GrvSalesDetail;
+            this.GrcSalesDetail.Name = "GrcSalesDetail";
+            this.GrcSalesDetail.Size = new System.Drawing.Size(823, 417);
+            this.GrcSalesDetail.TabIndex = 138;
+            this.GrcSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesDetail});
             // 
             // GrvSalesDetail
             // 
-            this.GrvSalesDetail.GridControl = this.GrdSalesDetail;
+            this.GrvSalesDetail.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.ProductName,
+            this.Qty,
+            this.Price,
+            this.Discount,
+            this.LineAmount});
+            this.GrvSalesDetail.GridControl = this.GrcSalesDetail;
             this.GrvSalesDetail.Name = "GrvSalesDetail";
             this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
             // 
@@ -523,22 +536,80 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
-            this.LblTotal.Location = new System.Drawing.Point(1177, 14);
+            this.LblTotal.Location = new System.Drawing.Point(1183, 20);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(161, 41);
             this.LblTotal.TabIndex = 154;
-            this.LblTotal.Text = "42.69";
+            this.LblTotal.Text = "9999.99";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LblTitleTotal
             // 
-            this.LblTitleTotal.AutoSize = true;
+            this.LblTitleTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(1096, 25);
+            this.LblTitleTotal.Location = new System.Drawing.Point(1075, 25);
             this.LblTitleTotal.Name = "LblTitleTotal";
-            this.LblTitleTotal.Size = new System.Drawing.Size(81, 32);
+            this.LblTitleTotal.Size = new System.Drawing.Size(105, 32);
             this.LblTitleTotal.TabIndex = 155;
-            this.LblTitleTotal.Text = "Total";
+            this.LblTitleTotal.Text = "Total $";
+            this.LblTitleTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.label1.Location = new System.Drawing.Point(1025, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(153, 32);
+            this.label1.TabIndex = 157;
+            this.label1.Text = "Descuento $";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(1187, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(154, 36);
+            this.label2.TabIndex = 156;
+            this.label2.Text = "9999.99";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // ProductName
+            // 
+            this.ProductName.Caption = "Producto";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.Visible = true;
+            this.ProductName.VisibleIndex = 0;
+            // 
+            // Qty
+            // 
+            this.Qty.Caption = "Cantidad";
+            this.Qty.Name = "Qty";
+            this.Qty.Visible = true;
+            this.Qty.VisibleIndex = 1;
+            // 
+            // Price
+            // 
+            this.Price.Caption = "Precio";
+            this.Price.Name = "Price";
+            this.Price.Visible = true;
+            this.Price.VisibleIndex = 2;
+            // 
+            // Discount
+            // 
+            this.Discount.Caption = "Descuento";
+            this.Discount.Name = "Discount";
+            this.Discount.Visible = true;
+            this.Discount.VisibleIndex = 3;
+            // 
+            // LineAmount
+            // 
+            this.LineAmount.Caption = "Total";
+            this.LineAmount.Name = "LineAmount";
+            this.LineAmount.Visible = true;
+            this.LineAmount.VisibleIndex = 4;
             // 
             // FrmMain
             // 
@@ -547,6 +618,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1364, 706);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.LblTitleTotal);
             this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.BtnRemove);
@@ -565,7 +638,7 @@
             this.Controls.Add(this.LblInvoiceNumber);
             this.Controls.Add(this.ImgLogo);
             this.Controls.Add(this.TxtBarcode);
-            this.Controls.Add(this.GrdSalesDetail);
+            this.Controls.Add(this.GrcSalesDetail);
             this.Controls.Add(this.BtnCancelSale);
             this.Controls.Add(this.BtnSuspendSale);
             this.Controls.Add(this.BtnLogOut);
@@ -591,7 +664,7 @@
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.GrdSalesDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
@@ -620,7 +693,7 @@
         private DevExpress.XtraEditors.SimpleButton Btn3;
         private DevExpress.XtraEditors.SimpleButton BtnEnter;
         private DevExpress.XtraEditors.SimpleButton Btn0;
-        private DevExpress.XtraGrid.GridControl GrdSalesDetail;
+        private DevExpress.XtraGrid.GridControl GrcSalesDetail;
         private DevExpress.XtraGrid.Views.Grid.GridView GrvSalesDetail;
         private DevExpress.XtraEditors.TextEdit TxtBarcode;
         private System.Windows.Forms.PictureBox ImgLogo;
@@ -640,5 +713,12 @@
         public System.Windows.Forms.Label LblCustomerName;
         private System.Windows.Forms.Label LblTotal;
         private System.Windows.Forms.Label LblTitleTotal;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        private DevExpress.XtraGrid.Columns.GridColumn Qty;
+        private DevExpress.XtraGrid.Columns.GridColumn Price;
+        private DevExpress.XtraGrid.Columns.GridColumn Discount;
+        private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
     }
 }

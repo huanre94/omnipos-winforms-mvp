@@ -28,7 +28,7 @@ namespace POS.DLL
         public string TaxpayerType { get; set; }
         public Nullable<bool> IsSpecialTaxpayer { get; set; }
         public string Phone { get; set; }
-        public string Mail { get; set; }
+        public string Email { get; set; }
         public int CityId { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
@@ -38,9 +38,9 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
+        public virtual City City { get; set; }
         public virtual IdentType IdentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }
-        public virtual City City { get; set; }
     }
 }

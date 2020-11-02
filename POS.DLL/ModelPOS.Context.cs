@@ -43,7 +43,6 @@ namespace POS.DLL
         public virtual DbSet<IdentType> IdentType { get; set; }
         public virtual DbSet<InventLocation> InventLocation { get; set; }
         public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
-        public virtual DbSet<InventTableModule> InventTableModule { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
         public virtual DbSet<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
@@ -58,8 +57,6 @@ namespace POS.DLL
         public virtual DbSet<PromotionTable> PromotionTable { get; set; }
         public virtual DbSet<Salesman> Salesman { get; set; }
         public virtual DbSet<Server> Server { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
         public virtual DbSet<TaxTable> TaxTable { get; set; }
@@ -75,7 +72,6 @@ namespace POS.DLL
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
         public virtual DbSet<SalesOrderPromotion> SalesOrderPromotion { get; set; }
@@ -95,6 +91,10 @@ namespace POS.DLL
         public virtual DbSet<TransportReason> TransportReason { get; set; }
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<ProductModule> ProductModule { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Vendor> Vendor { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
     
         [DbFunction("POSEntities", "FN_Identification_Validate")]
         public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
@@ -188,6 +188,44 @@ namespace POS.DLL
                 new ObjectParameter("GiftCardNumber", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
+        }
+    
+        public virtual ObjectResult<SP_Customer_Insert_Result> SP_Customer_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Customer_Insert_Result>("SP_Customer_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_Product_Consult_Result> SP_Product_Consult(Nullable<short> locationId, string barcode, Nullable<decimal> quantity, Nullable<long> customerId, Nullable<long> internalCreditCardId, string paymMode)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("Barcode", barcode) :
+                new ObjectParameter("Barcode", typeof(string));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("Quantity", quantity) :
+                new ObjectParameter("Quantity", typeof(decimal));
+    
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(long));
+    
+            var internalCreditCardIdParameter = internalCreditCardId.HasValue ?
+                new ObjectParameter("InternalCreditCardId", internalCreditCardId) :
+                new ObjectParameter("InternalCreditCardId", typeof(long));
+    
+            var paymModeParameter = paymMode != null ?
+                new ObjectParameter("PaymMode", paymMode) :
+                new ObjectParameter("PaymMode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter);
         }
     }
 }

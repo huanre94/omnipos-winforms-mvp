@@ -13,31 +13,32 @@ using POS.DLL;
 using POS.Classes;
 using System.Net;
 using System.Net.Sockets;
+using POS.DLL.Transaction;
 
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
-        #region Global Load Definitions
-
         ClsFunctions functions = new ClsFunctions();
-        List<GlobalParameter> globalParameters = null;
-        EmissionPoint emissionPoint = null;
-        Customer customer = null;
-        int sequenceNumber;
+        List<GlobalParameter> globalParameters = new List<GlobalParameter>();
+        EmissionPoint emissionPoint = new EmissionPoint();
+        Customer currentCustomer = new Customer();
+        DataTable dataTable = new DataTable();
+        long sequenceNumber;
 
         public FrmMain()
         {
             InitializeComponent();
         }
 
+        #region Global Load Definitions
+
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            //Initial loading functions
             if (GetEmissionPointInformation())
             {
                 GetGlobalParameters();
-            }  
+            }
             else
             {
                 Close();
@@ -46,7 +47,7 @@ namespace POS
 
         private void GetGlobalParameters()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();            
+            ClsGeneral clsGeneral = new ClsGeneral();
 
             try
             {
@@ -66,7 +67,7 @@ namespace POS
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
-            
+
             bool response = false;
             string addressIP = GetLocalIPAddress();
 
@@ -82,7 +83,7 @@ namespace POS
                         LblEstablishment.Text = emissionPoint.Establishment;
                         LblEmissionPoint.Text = emissionPoint.Emission;
 
-                        GetSequenceNumber(emissionPoint.EmissionPointId);
+                        GetNewSequenceNumber(emissionPoint.EmissionPointId);
                     }
                     else
                     {
@@ -143,11 +144,11 @@ namespace POS
             return addressIP;
         }
 
-        private void GetSequenceNumber(int _emissionPointId)
+        private void GetNewSequenceNumber(int _emissionPointId)
         {
             ClsGeneral clsGeneral = new ClsGeneral();
             SequenceTable sequenceTable;
-            
+
             try
             {
                 sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId);
@@ -156,7 +157,7 @@ namespace POS
                 {
                     sequenceNumber = sequenceTable.Sequence;
                     string stringSequence = sequenceNumber.ToString();
-                    LblInvoiceNumber.Text = stringSequence.PadLeft(9,'0');
+                    LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
                 }
                 else
                 {
@@ -172,7 +173,7 @@ namespace POS
                                         , true
                                         , ex.Message
                                     );
-            }   
+            }
         }
         #endregion
 
@@ -192,7 +193,7 @@ namespace POS
         {
             TxtBarcode.Text += "2";
         }
-               
+
         private void Btn3_Click(object sender, EventArgs e)
         {
             TxtBarcode.Text += "3";
@@ -235,11 +236,19 @@ namespace POS
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-            GetProductInformation(TxtBarcode.Text);
+            GetProductInformation(
+                                    emissionPoint.LocationId
+                                    , TxtBarcode.Text
+                                    , 1
+                                    , currentCustomer.CustomerId
+                                    , 0
+                                    , ""
+                                );
         }
         #endregion
 
         #region Bottom Side Buttons
+
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard();
@@ -248,42 +257,59 @@ namespace POS
 
             if (keyBoard.customerIdentification != "")
             {
-                ClsCustomer clsCustomer = new ClsCustomer();                
+                ClsCustomer clsCustomer = new ClsCustomer();
 
-                try 
+                try
                 {
-                    customer = clsCustomer.GetCustomerByIdentification(keyBoard.customerIdentification);
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(keyBoard.customerIdentification);
 
-                    if (customer != null)
+                    if (currentCustomer != null)
                     {
-                        if (customer.CustomerId > 0)
+                        if (currentCustomer.CustomerId > 0)
                         {
-                            LblCustomerId.Text = customer.Identification;
-                            LblCustomerName.Text = customer.Firtsname + " " + customer.Lastname;
-                            LblCustomerAddress.Text = customer.Address;                            
-                        }                        
+                            LblCustomerId.Text = currentCustomer.Identification;
+                            LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                            LblCustomerAddress.Text = currentCustomer.Address;
+                            TxtBarcode.Focus();
+                        }
                     }
                     else
                     {
-                        bool response = functions.ShowMessage("El cliente ingresado no existe, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
+                        bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
 
                         if (response)
                         {
                             FrmCustomer frmCustomer = new FrmCustomer();
+                            frmCustomer.emissionPoint = emissionPoint;
+                            frmCustomer.isNewCustomer = true;
                             frmCustomer.customerIdentification = keyBoard.customerIdentification;
                             frmCustomer.ShowDialog();
+
+                            currentCustomer = frmCustomer.currentCustomer;
+
+                            if (currentCustomer != null)
+                            {
+                                LblCustomerId.Text = currentCustomer.Identification;
+                                LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                                LblCustomerAddress.Text = currentCustomer.Address;
+                                TxtBarcode.Focus();
+                            }
+                            else
+                            {
+                                functions.ShowMessage("No se pudo cargar datos de cliente.", ClsEnums.MessageType.WARNING);
+                            }
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información del cliente."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-                }               
+                                            "Ocurrio un problema al cargar información del cliente."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
+                }
             }
         }
         #endregion
@@ -291,10 +317,10 @@ namespace POS
         #region Right Side Buttons
 
         private void BtnPayment_Click(object sender, EventArgs e)
-        {          
+        {
             FrmPayment payment = new FrmPayment();
             payment.invoiceAmount = decimal.Parse(LblTotal.Text);
-            payment.customer = customer;
+            payment.customer = currentCustomer;
             payment.ShowDialog();
         }
         #endregion
@@ -304,14 +330,72 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                GetProductInformation(TxtBarcode.Text);
+                GetProductInformation(
+                                        emissionPoint.LocationId
+                                        , TxtBarcode.Text
+                                        , 1
+                                        , currentCustomer.CustomerId
+                                        , 0
+                                        , ""
+                                        );
             }
         }
         #endregion
 
-        private void GetProductInformation(string _barcode)
+        #region Main Functions
+
+        private void GetProductInformation(
+                                            short _locationId
+                                            , string _barcode
+                                            , decimal _qty
+                                            , long _customerId
+                                            , int _internalCreditCardId
+                                            , string _paymMode
+                                            )
         {
-            functions.ShowMessage(_barcode);
+            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
+            SP_Product_Consult_Result result;
+
+            try
+            {
+                result = clsInvoiceTrans.ProductConsult(
+                                                        _locationId
+                                                        , _barcode
+                                                        , _qty
+                                                        , _customerId
+                                                        , _internalCreditCardId
+                                                        , _paymMode
+                                                        );
+
+                if (result != null)
+                {
+                    DataRow NewRow = dataTable.NewRow();
+                    NewRow[0] = result.Name;
+                    NewRow[1] = result.Quantity;
+                    NewRow[2] = result.Price;
+                    NewRow[3] = result.DiscountAmount;
+                    NewRow[4] = result.SubTotal;
+                    dataTable.Rows.Add(NewRow);
+                    GrcSalesDetail.DataSource = dataTable;
+                }
+                else
+                {
+                    functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.",ClsEnums.MessageType.WARNING);
+                    TxtBarcode.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Hubo un problema al consultar producto."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                        );
+            }
+
+
         }
+        #endregion
     }
 }

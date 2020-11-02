@@ -22,6 +22,7 @@ namespace POS
         public string checkOwnerIdentification = "";
         public string checkPhone = "";
         public string giftcardNumber = "";
+        public string customerPhone = "";
 
         public FrmKeyPad()
         {
@@ -111,6 +112,9 @@ namespace POS
                         break;
                     case ClsEnums.InputFromOption.GIFTCARD_NUMBER:
                         giftcardNumber = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.CUSTOMER_PHONE:
+                        customerPhone = TxtValue.Text;
                         break;
                     default:
                         break;

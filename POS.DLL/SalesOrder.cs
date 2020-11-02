@@ -55,7 +55,6 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
         public virtual Location Location { get; set; }
         public virtual Salesman Salesman { get; set; }
@@ -68,5 +67,6 @@ namespace POS.DLL
         public virtual ICollection<SalesOrderPromotion> SalesOrderPromotion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderText> SalesOrderText { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

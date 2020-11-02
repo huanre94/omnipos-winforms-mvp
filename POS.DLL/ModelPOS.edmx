@@ -199,16 +199,15 @@
           <Property Name="Firtsname" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="LocationId" Type="smallint" Nullable="false" />
-          <Property Name="Registration" Type="datetime" Nullable="false" />
           <Property Name="IdentTypeId" Type="int" Nullable="false" />
           <Property Name="Identification" Type="varchar" MaxLength="20" />
           <Property Name="Gender" Type="varchar" MaxLength="1" />
-          <Property Name="TaxpayerType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PersonType" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="IsSpecialTaxpayer" Type="bit" />
           <Property Name="IsEmployee" Type="bit" Nullable="false" />
           <Property Name="EmployeeId" Type="int" Nullable="false" />
           <Property Name="Phone" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Mail" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="CityId" Type="int" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
           <Property Name="CustomerTypeId" Type="int" Nullable="false" />
@@ -439,19 +438,6 @@
           <Property Name="MaxStock" Type="numeric" Precision="12" Scale="2" Nullable="false" />
           <Property Name="Stock" Type="numeric" Precision="24" Scale="6" Nullable="false" />
         </EntityType>
-        <EntityType Name="InventTableModule">
-          <Key>
-            <PropertyRef Name="ProductId" />
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="ProductId" Type="bigint" Nullable="false" />
-          <Property Name="LocationId" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="PriceReference" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="Price" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="TaxAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="IRBPAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-        </EntityType>
         <EntityType Name="InventTransType">
           <Key>
             <PropertyRef Name="InventTransTypeId" />
@@ -673,6 +659,19 @@
           <Property Name="ProductGroupId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="220" />
           <Property Name="Status" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="ProductModule">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="PriceReference" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="Price" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="TaxAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="IRBPAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="PromotionCustomer">
           <Key>
@@ -955,7 +954,7 @@
           <Property Name="LocationId" Type="smallint" Nullable="false" />
           <Property Name="SequenceId" Type="int" Nullable="false" />
           <Property Name="SeqType" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EmissionPointId" Type="int" />
+          <Property Name="EmissionPointId" Type="int" Nullable="false" />
           <Property Name="Sequence" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
@@ -1049,7 +1048,7 @@
           <Property Name="IsAdministrator" Type="bit" Nullable="false" />
           <Property Name="Type" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="Mail" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="60" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
@@ -1069,7 +1068,7 @@
           <Property Name="TaxpayerType" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="IsSpecialTaxpayer" Type="bit" />
           <Property Name="Phone" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Mail" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CityId" Type="int" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
           <Property Name="Status" Type="char" MaxLength="1" />
@@ -1553,18 +1552,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__InventTableModule_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="InventTableModule" Type="Self.InventTableModule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="InventTableModule">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InvoiceLine_InventUnit">
           <End Role="InventUnit" Type="Self.InventUnit" Multiplicity="1" />
           <End Role="InvoiceLine" Type="Self.InvoiceLine" Multiplicity="*" />
@@ -1813,6 +1800,18 @@
               <PropertyRef Name="ProductId" />
             </Principal>
             <Dependent Role="ProductBarcode">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductModule_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductModule" Type="Self.ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductModule">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2241,6 +2240,9 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="SP_Customer_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ParamXML" Type="xml" Mode="In" />
+        </Function>
         <Function Name="SP_GaranCheck_Authorize" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BankId" Type="int" Mode="In" />
           <Parameter Name="AccountNumber" Type="varchar" Mode="In" />
@@ -2260,6 +2262,14 @@
           <Parameter Name="Type" Type="varchar" Mode="In" />
           <Parameter Name="CActivacion" Type="varchar" Mode="In" />
           <Parameter Name="Status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Product_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="smallint" Mode="In" />
+          <Parameter Name="Barcode" Type="varchar" Mode="In" />
+          <Parameter Name="Quantity" Type="numeric" Mode="In" />
+          <Parameter Name="CustomerId" Type="bigint" Mode="In" />
+          <Parameter Name="InternalCreditCardId" Type="bigint" Mode="In" />
+          <Parameter Name="PaymMode" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Supervisor_Validate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="barcode" Type="varchar" Mode="In" />
@@ -2295,7 +2305,6 @@
           <EntitySet Name="InternalCreditCardLine" EntityType="Self.InternalCreditCardLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InventLocation" EntityType="Self.InventLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InventProductLocation" EntityType="Self.InventProductLocation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="InventTableModule" EntityType="Self.InventTableModule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InventTransType" EntityType="Self.InventTransType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InventUnit" EntityType="Self.InventUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceLine" EntityType="Self.InvoiceLine" Schema="dbo" store:Type="Tables" />
@@ -2308,6 +2317,7 @@
           <EntitySet Name="ProductBarcode" EntityType="Self.ProductBarcode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductModule" EntityType="Self.ProductModule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PromotionCustomer" EntityType="Self.PromotionCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PromotionPaymMode" EntityType="Self.PromotionPaymMode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PromotionProducts" EntityType="Self.PromotionProducts" Schema="dbo" store:Type="Tables" />
@@ -2489,10 +2499,6 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="InventProductLocation" EntitySet="InventProductLocation" />
           </AssociationSet>
-          <AssociationSet Name="FK__InventTableModule_Product" Association="Self.FK__InventTableModule_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="InventTableModule" EntitySet="InventTableModule" />
-          </AssociationSet>
           <AssociationSet Name="FK__InvoiceLine_InventUnit" Association="Self.FK__InvoiceLine_InventUnit">
             <End Role="InventUnit" EntitySet="InventUnit" />
             <End Role="InvoiceLine" EntitySet="InvoiceLine" />
@@ -2576,6 +2582,10 @@
           <AssociationSet Name="FK__ProductBarcode_Product" Association="Self.FK__ProductBarcode_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductBarcode" EntitySet="ProductBarcode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductModule_Product" Association="Self.FK__ProductModule_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductModule" EntitySet="ProductModule" />
           </AssociationSet>
           <AssociationSet Name="FK__PromotionCustomer_Customer" Association="Self.FK__PromotionCustomer_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -2741,8 +2751,8 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__AccountsReceivable_Customer" FromRole="AccountsReceivable" ToRole="Customer" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__AccountsReceivable_Location" FromRole="AccountsReceivable" ToRole="Location" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__AccountsReceivable_Customer" FromRole="AccountsReceivable" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Bank">
           <Key>
@@ -2924,7 +2934,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Prefix" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK__Vendor_CustIdType" FromRole="IdentType" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor" Relationship="POSModel.FK__Vendor_CustIdType" FromRole="IdentType" ToRole="Vendor" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_IdentType" FromRole="IdentType" ToRole="Customer" />
         </EntityType>
         <EntityType Name="InventLocation">
@@ -2956,20 +2966,6 @@
           <Property Name="Stock" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
           <NavigationProperty Name="InventLocation" Relationship="Self.FK__InventProductLocation_InventLocation" FromRole="InventProductLocation" ToRole="InventLocation" />
           <NavigationProperty Name="Product" Relationship="Self.FK__InventProductLocation_Product" FromRole="InventProductLocation" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="InventTableModule">
-          <Key>
-            <PropertyRef Name="ProductId" />
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="PriceReference" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="TaxAmount" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="IRBPAmount" Type="Decimal" Precision="24" Scale="6" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__InventTableModule_Product" FromRole="InventTableModule" ToRole="Product" />
         </EntityType>
         <EntityType Name="InventUnit">
           <Key>
@@ -3043,16 +3039,16 @@
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK__Product_Brand" FromRole="Product" ToRole="Brand" />
           <NavigationProperty Name="InventProductLocation" Relationship="Self.FK__InventProductLocation_Product" FromRole="Product" ToRole="InventProductLocation" />
-          <NavigationProperty Name="InventTableModule" Relationship="Self.FK__InventTableModule_Product" FromRole="Product" ToRole="InventTableModule" />
           <NavigationProperty Name="InventUnit" Relationship="Self.FK__Product_InventUnit" FromRole="Product" ToRole="InventUnit" />
           <NavigationProperty Name="ProductCategory" Relationship="Self.FK__Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
           <NavigationProperty Name="ProductGroup" Relationship="Self.FK__Product_ProductGroup" FromRole="Product" ToRole="ProductGroup" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK__Product_VendorId" FromRole="Product" ToRole="Vendor" />
           <NavigationProperty Name="ProductBarcode" Relationship="Self.FK__ProductBarcode_Product" FromRole="Product" ToRole="ProductBarcode" />
           <NavigationProperty Name="GiftCardTemplateLine" Relationship="POSModel.FK__GiftCardTemplateLine_Product" FromRole="Product" ToRole="GiftCardTemplateLine" />
           <NavigationProperty Name="GiftCardTemplateTable" Relationship="POSModel.FK__GiftCardTemplateTable_Product" FromRole="Product" ToRole="GiftCardTemplateTable" />
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_Product" FromRole="Product" ToRole="InvoiceLine" />
           <NavigationProperty Name="SalesOrderLine" Relationship="POSModel.FK__SalesOrderLine_Product" FromRole="Product" ToRole="SalesOrderLine" />
+          <NavigationProperty Name="ProductModule" Relationship="POSModel.FK__ProductModule_Product" FromRole="Product" ToRole="ProductModule" />
+          <NavigationProperty Name="Vendor" Relationship="POSModel.FK__Product_VendorId" FromRole="Product" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="ProductBarcode">
           <Key>
@@ -3222,52 +3218,6 @@
           <Property Name="IsLocal" Type="Boolean" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="UserCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Lastname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Firtsname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
-          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Mail" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_User" FromRole="User" ToRole="Supervisor" />
-        </EntityType>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="VendorId" />
-          </Key>
-          <Property Name="VendorId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SAPCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IdentTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Identification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TaxpayerType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="IsSpecialTaxpayer" Type="Boolean" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="IdentType" Relationship="Self.FK__Vendor_CustIdType" FromRole="Vendor" ToRole="IdentType" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Product_VendorId" FromRole="Vendor" ToRole="Product" />
-          <NavigationProperty Name="City" Relationship="POSModel.FK__Vendor_City" FromRole="Vendor" ToRole="City" />
-        </EntityType>
         <Association Name="FK__BankCreditCard_Bank">
           <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
           <End Role="BankCreditCard" Type="Self.BankCreditCard" Multiplicity="*" />
@@ -3368,18 +3318,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Vendor_CustIdType">
-          <End Role="IdentType" Type="Self.IdentType" Multiplicity="1" />
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IdentType">
-              <PropertyRef Name="IdentTypeId" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="IdentTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InventProductLocation_InventLocation">
           <End Role="InventLocation" Type="Self.InventLocation" Multiplicity="1" />
           <End Role="InventProductLocation" Type="Self.InventProductLocation" Multiplicity="*" />
@@ -3400,18 +3338,6 @@
               <PropertyRef Name="ProductId" />
             </Principal>
             <Dependent Role="InventProductLocation">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InventTableModule_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="InventTableModule" Type="Self.InventTableModule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="InventTableModule">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -3473,18 +3399,6 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="ProductGroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Product_VendorId">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="VendorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3565,7 +3479,6 @@
           <EntitySet Name="IdentType" EntityType="Self.IdentType" />
           <EntitySet Name="InventLocation" EntityType="Self.InventLocation" />
           <EntitySet Name="InventProductLocation" EntityType="Self.InventProductLocation" />
-          <EntitySet Name="InventTableModule" EntityType="Self.InventTableModule" />
           <EntitySet Name="InventUnit" EntityType="Self.InventUnit" />
           <EntitySet Name="InvoicePromotion" EntityType="Self.InvoicePromotion" />
           <EntitySet Name="PaymMode" EntityType="Self.PaymMode" />
@@ -3580,8 +3493,6 @@
           <EntitySet Name="PromotionTable" EntityType="Self.PromotionTable" />
           <EntitySet Name="Salesman" EntityType="Self.Salesman" />
           <EntitySet Name="Server" EntityType="Self.Server" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="Vendor" EntityType="Self.Vendor" />
           <AssociationSet Name="FK__BankCreditCard_Bank" Association="Self.FK__BankCreditCard_Bank">
             <End Role="Bank" EntitySet="Bank" />
             <End Role="BankCreditCard" EntitySet="BankCreditCard" />
@@ -3614,10 +3525,6 @@
             <End Role="CountCashLine" EntitySet="CountCashLine" />
             <End Role="CountCashMoney" EntitySet="CountCashMoney" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vendor_CustIdType" Association="Self.FK__Vendor_CustIdType">
-            <End Role="IdentType" EntitySet="IdentType" />
-            <End Role="Vendor" EntitySet="Vendor" />
-          </AssociationSet>
           <AssociationSet Name="FK__InventProductLocation_InventLocation" Association="Self.FK__InventProductLocation_InventLocation">
             <End Role="InventLocation" EntitySet="InventLocation" />
             <End Role="InventProductLocation" EntitySet="InventProductLocation" />
@@ -3625,10 +3532,6 @@
           <AssociationSet Name="FK__InventProductLocation_Product" Association="Self.FK__InventProductLocation_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="InventProductLocation" EntitySet="InventProductLocation" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InventTableModule_Product" Association="Self.FK__InventTableModule_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="InventTableModule" EntitySet="InventTableModule" />
           </AssociationSet>
           <AssociationSet Name="FK__Product_InventUnit" Association="Self.FK__Product_InventUnit">
             <End Role="InventUnit" EntitySet="InventUnit" />
@@ -3648,10 +3551,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Product_ProductGroup" Association="Self.FK__Product_ProductGroup">
             <End Role="ProductGroup" EntitySet="ProductGroup" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Product_VendorId" Association="Self.FK__Product_VendorId">
-            <End Role="Vendor" EntitySet="Vendor" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK__ProductBarcode_Product" Association="Self.FK__ProductBarcode_Product">
@@ -3680,10 +3579,6 @@
           <AssociationSet Name="FK__InternalCreditCardLine_PromotionTable" Association="POSModel.FK__InternalCreditCardLine_PromotionTable">
             <End Role="PromotionTable" EntitySet="PromotionTable" />
             <End Role="InternalCreditCardLine" EntitySet="InternalCreditCardLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Supervisor_User" Association="POSModel.FK__Supervisor_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
           <EntitySet Name="PromotionType" EntityType="POSModel.PromotionType" />
           <AssociationSet Name="FK__PromotionTable_PromotionType" Association="POSModel.FK__PromotionTable_PromotionType">
@@ -3753,40 +3648,11 @@
             <Parameter Name="Identification" Mode="In" Type="String" />
             <Parameter Name="IsPassport" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Customer" EntityType="POSModel.Customer" />
           <EntitySet Name="SalesOrderLine" EntityType="POSModel.SalesOrderLine" />
           <EntitySet Name="SalesOrderPayment" EntityType="POSModel.SalesOrderPayment" />
           <EntitySet Name="SalesOrderPromotion" EntityType="POSModel.SalesOrderPromotion" />
           <EntitySet Name="SalesOrderText" EntityType="POSModel.SalesOrderText" />
           <EntitySet Name="SalesOrigin" EntityType="POSModel.SalesOrigin" />
-          <AssociationSet Name="FK__AccountsReceivable_Customer" Association="POSModel.FK__AccountsReceivable_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="AccountsReceivable" EntitySet="AccountsReceivable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Customer_CustomerType" Association="POSModel.FK__Customer_CustomerType">
-            <End Role="CustomerType" EntitySet="CustomerType" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Customer_IdentType" Association="POSModel.FK__Customer_IdentType">
-            <End Role="IdentType" EntitySet="IdentType" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GiftCardLine_Customer" Association="POSModel.FK__GiftCardLine_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GiftCardTable_Customer" Association="POSModel.FK__GiftCardTable_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InternalCreditCard_Customer" Association="POSModel.FK__InternalCreditCard_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="InternalCreditCard" EntitySet="InternalCreditCard" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PromotionCustomer_Customer" Association="POSModel.FK__PromotionCustomer_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="PromotionCustomer" EntitySet="PromotionCustomer" />
-          </AssociationSet>
           <AssociationSet Name="FK__SalesOrderLine_InventUnit" Association="POSModel.FK__SalesOrderLine_InventUnit">
             <End Role="InventUnit" EntitySet="InventUnit" />
             <End Role="SalesOrderLine" EntitySet="SalesOrderLine" />
@@ -3847,17 +3713,9 @@
             <End Role="City" EntitySet="City" />
             <End Role="Company" EntitySet="Company" />
           </AssociationSet>
-          <AssociationSet Name="FK__Customer_City" Association="POSModel.FK__Customer_City">
-            <End Role="City" EntitySet="City" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
           <AssociationSet Name="FK__Location_City" Association="POSModel.FK__Location_City">
             <End Role="City" EntitySet="City" />
             <End Role="Location" EntitySet="Location" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Vendor_City" Association="POSModel.FK__Vendor_City">
-            <End Role="City" EntitySet="City" />
-            <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
           <AssociationSet Name="FK__ClosingCashTable_Location" Association="POSModel.FK__ClosingCashTable_Location">
             <End Role="Location" EntitySet="Location" />
@@ -3874,10 +3732,6 @@
           <AssociationSet Name="FK__Province_Country" Association="POSModel.FK__Province_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Province" EntitySet="Province" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Customer_Location" Association="POSModel.FK__Customer_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK__GiftCardBlockTable_Location" Association="POSModel.FK__GiftCardBlockTable_Location">
             <End Role="Location" EntitySet="Location" />
@@ -3917,10 +3771,6 @@
           <AssociationSet Name="PK__CountCashLine_EmissionPoint" Association="POSModel.PK__CountCashLine_EmissionPoint">
             <End Role="EmissionPoint" EntitySet="EmissionPoint" />
             <End Role="CountCashLine" EntitySet="CountCashLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SalesOrder_Customer" Association="POSModel.FK__SalesOrder_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="SalesOrder" EntitySet="SalesOrder" />
           </AssociationSet>
           <AssociationSet Name="FK__EmissionPoint_InventLocation" Association="POSModel.FK__EmissionPoint_InventLocation">
             <End Role="InventLocation" EntitySet="InventLocation" />
@@ -3988,10 +3838,6 @@
             <End Role="SequenceTable" EntitySet="SequenceTable" />
           </AssociationSet>
           <EntitySet Name="InvoiceTable" EntityType="POSModel.InvoiceTable" />
-          <AssociationSet Name="FK__InvoiceTable_Customer" Association="POSModel.FK__InvoiceTable_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
           <AssociationSet Name="FK__InvoiceTable_EmissionPoint" Association="POSModel.FK__InvoiceTable_EmissionPoint">
             <End Role="EmissionPoint" EntitySet="EmissionPoint" />
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
@@ -4024,6 +3870,85 @@
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
             <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
           </AssociationSet>
+          <EntitySet Name="ProductModule" EntityType="POSModel.ProductModule" />
+          <AssociationSet Name="FK__ProductModule_Product" Association="POSModel.FK__ProductModule_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductModule" EntitySet="ProductModule" />
+          </AssociationSet>
+          <EntitySet Name="User" EntityType="POSModel.User" />
+          <EntitySet Name="Vendor" EntityType="POSModel.Vendor" />
+          <AssociationSet Name="FK__Vendor_City" Association="POSModel.FK__Vendor_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vendor_CustIdType" Association="POSModel.FK__Vendor_CustIdType">
+            <End Role="IdentType" EntitySet="IdentType" />
+            <End Role="Vendor" EntitySet="Vendor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_VendorId" Association="POSModel.FK__Product_VendorId">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supervisor_User" Association="POSModel.FK__Supervisor_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Supervisor" EntitySet="Supervisor" />
+          </AssociationSet>
+          <FunctionImport Name="SP_Customer_Insert" ReturnType="Collection(POSModel.SP_Customer_Insert_Result)">
+          <Parameter Name="ParamXML" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Customer" EntityType="POSModel.Customer" />
+          <AssociationSet Name="FK__AccountsReceivable_Customer" Association="POSModel.FK__AccountsReceivable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="AccountsReceivable" EntitySet="AccountsReceivable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customer_City" Association="POSModel.FK__Customer_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customer_CustomerType" Association="POSModel.FK__Customer_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerType" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customer_IdentType" Association="POSModel.FK__Customer_IdentType">
+            <End Role="IdentType" EntitySet="IdentType" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customer_Location" Association="POSModel.FK__Customer_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardLine_Customer" Association="POSModel.FK__GiftCardLine_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Customer" Association="POSModel.FK__GiftCardTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InternalCreditCard_Customer" Association="POSModel.FK__InternalCreditCard_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="InternalCreditCard" EntitySet="InternalCreditCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_Customer" Association="POSModel.FK__InvoiceTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PromotionCustomer_Customer" Association="POSModel.FK__PromotionCustomer_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PromotionCustomer" EntitySet="PromotionCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesOrder_Customer" Association="POSModel.FK__SalesOrder_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
+          <FunctionImport Name="SP_Product_Consult" ReturnType="Collection(POSModel.SP_Product_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int16" />
+            <Parameter Name="Barcode" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int64" />
+            <Parameter Name="InternalCreditCardId" Mode="In" Type="Int64" />
+            <Parameter Name="PaymMode" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -4068,18 +3993,6 @@
         <Association Name="FK__InternalCreditCardLine_PromotionTable">
           <End Type="POSModel.PromotionTable" Role="PromotionTable" Multiplicity="1" />
           <End Type="POSModel.InternalCreditCardLine" Role="InternalCreditCardLine" Multiplicity="*" />
-        </Association>
-        <Association Name="FK__Supervisor_User">
-          <End Type="POSModel.User" Role="User" Multiplicity="1" />
-          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Supervisor">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <EntityType Name="PromotionType">
           <Key>
@@ -4172,9 +4085,9 @@
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardTable" ToRole="GiftCardBlockTable" />
           <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_GiftCardTable" FromRole="GiftCardTable" ToRole="GiftCardLine" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="GiftCardTable" ToRole="Customer" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="GiftCardTable" ToRole="Location" />
           <NavigationProperty Name="Location1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="GiftCardTable" ToRole="Location" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="GiftCardTable" ToRole="Customer" />
         </EntityType>
         <EntityType Name="GiftCardTemplateLine">
           <Key>
@@ -4491,48 +4404,6 @@
           <Property Type="Int32" Name="Validated" Nullable="true" />
           <Property Type="String" Name="Text" Nullable="true" MaxLength="150" />
         </ComplexType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="CustomerId" />
-          </Key>
-          <Property Name="CustomerId" Type="Int64" Nullable="false" />
-          <Property Name="CustomerIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="Registration" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IdentTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Identification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="TaxpayerType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IsSpecialTaxpayer" Type="Boolean" />
-          <Property Name="IsEmployee" Type="Boolean" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Mail" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CustomerTypeId" Type="Int32" Nullable="false" />
-          <Property Name="UseWithhold" Type="Boolean" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AccountsReceivable" Relationship="POSModel.FK__AccountsReceivable_Customer" FromRole="Customer" ToRole="AccountsReceivable" />
-          <NavigationProperty Name="CustomerType" Relationship="POSModel.FK__Customer_CustomerType" FromRole="Customer" ToRole="CustomerType" />
-          <NavigationProperty Name="IdentType" Relationship="POSModel.FK__Customer_IdentType" FromRole="Customer" ToRole="IdentType" />
-          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_Customer" FromRole="Customer" ToRole="GiftCardLine" />
-          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="Customer" ToRole="GiftCardTable" />
-          <NavigationProperty Name="InternalCreditCard" Relationship="POSModel.FK__InternalCreditCard_Customer" FromRole="Customer" ToRole="InternalCreditCard" />
-          <NavigationProperty Name="PromotionCustomer" Relationship="POSModel.FK__PromotionCustomer_Customer" FromRole="Customer" ToRole="PromotionCustomer" />
-          <NavigationProperty Name="City" Relationship="POSModel.FK__Customer_City" FromRole="Customer" ToRole="City" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__Customer_Location" FromRole="Customer" ToRole="Location" />
-          <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="Customer" ToRole="InvoiceTable" />
-        </EntityType>
         <EntityType Name="SalesOrderLine">
           <Key>
             <PropertyRef Name="SalesOrderId" />
@@ -4616,90 +4487,6 @@
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_SalesOrigin" FromRole="SalesOrigin" ToRole="SalesOrder" />
           <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="SalesOrigin" ToRole="InvoiceTable" />
         </EntityType>
-        <Association Name="FK__AccountsReceivable_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.AccountsReceivable" Role="AccountsReceivable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="AccountsReceivable">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Customer_CustomerType">
-          <End Type="POSModel.CustomerType" Role="CustomerType" Multiplicity="1" />
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomerType">
-              <PropertyRef Name="CustomerTypeId" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="CustomerTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Customer_IdentType">
-          <End Type="POSModel.IdentType" Role="IdentType" Multiplicity="1" />
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IdentType">
-              <PropertyRef Name="IdentTypeId" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="IdentTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GiftCardLine_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.GiftCardLine" Role="GiftCardLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="GiftCardLine">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GiftCardTable_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="GiftCardTable">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InternalCreditCard_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.InternalCreditCard" Role="InternalCreditCard" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="InternalCreditCard">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PromotionCustomer_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.PromotionCustomer" Role="PromotionCustomer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="PromotionCustomer">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__SalesOrderLine_InventUnit">
           <End Type="POSModel.InventUnit" Role="InventUnit" Multiplicity="1" />
           <End Type="POSModel.SalesOrderLine" Role="SalesOrderLine" Multiplicity="*" />
@@ -4831,9 +4618,9 @@
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Province" Relationship="POSModel.FK__City_Province" FromRole="City" ToRole="Province" />
           <NavigationProperty Name="Company" Relationship="POSModel.FK__Company_City" FromRole="City" ToRole="Company" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_City" FromRole="City" ToRole="Customer" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__Location_City" FromRole="City" ToRole="Location" />
           <NavigationProperty Name="Vendor" Relationship="POSModel.FK__Vendor_City" FromRole="City" ToRole="Vendor" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_City" FromRole="City" ToRole="Customer" />
         </EntityType>
         <EntityType Name="InventTransType">
           <Key>
@@ -4864,7 +4651,6 @@
           <NavigationProperty Name="ClosingCashTable" Relationship="POSModel.FK__ClosingCashTable_Location" FromRole="Location" ToRole="ClosingCashTable" />
           <NavigationProperty Name="Company" Relationship="POSModel.FK__Location_Company" FromRole="Location" ToRole="Company" />
           <NavigationProperty Name="CountCashTable" Relationship="POSModel.FK__CountCashTable_Location" FromRole="Location" ToRole="CountCashTable" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_Location" FromRole="Location" ToRole="Customer" />
           <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="Location" ToRole="GiftCardBlockTable" />
           <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="Location" ToRole="GiftCardTable" />
           <NavigationProperty Name="GiftCardTable1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="Location" ToRole="GiftCardTable" />
@@ -4876,6 +4662,7 @@
           <NavigationProperty Name="SalesRemissionTable" Relationship="POSModel.FK__SalesRemissionTable_Location" FromRole="Location" ToRole="SalesRemissionTable" />
           <NavigationProperty Name="SequenceTable" Relationship="POSModel.FK__SequenceTable_Location" FromRole="Location" ToRole="SequenceTable" />
           <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="Location" ToRole="InvoiceTable" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_Location" FromRole="Location" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Province">
           <Key>
@@ -4930,18 +4717,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Customer_City">
-          <End Type="POSModel.City" Role="City" Multiplicity="1" />
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="CityId" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Location_City">
           <End Type="POSModel.City" Role="City" Multiplicity="1" />
           <End Type="POSModel.Location" Role="Location" Multiplicity="*" />
@@ -4950,18 +4725,6 @@
               <PropertyRef Name="CityId" />
             </Principal>
             <Dependent Role="Location">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Vendor_City">
-          <End Type="POSModel.City" Role="City" Multiplicity="1" />
-          <End Type="POSModel.Vendor" Role="Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="City">
-              <PropertyRef Name="CityId" />
-            </Principal>
-            <Dependent Role="Vendor">
               <PropertyRef Name="CityId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5011,18 +4774,6 @@
             </Principal>
             <Dependent Role="Province">
               <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Customer_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5159,7 +4910,6 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
           <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__SalesOrder_EmissionPoint" FromRole="SalesOrder" ToRole="EmissionPoint" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__SalesOrder_Location" FromRole="SalesOrder" ToRole="Location" />
           <NavigationProperty Name="Salesman" Relationship="POSModel.FK__SalesOrder_Salesman" FromRole="SalesOrder" ToRole="Salesman" />
@@ -5168,6 +4918,7 @@
           <NavigationProperty Name="SalesOrderPayment" Relationship="POSModel.FK__SalesOrderPayment_SalesOrder" FromRole="SalesOrder" ToRole="SalesOrderPayment" />
           <NavigationProperty Name="SalesOrderPromotion" Relationship="POSModel.FK__SalesOrderPromotion_SalesOrder" FromRole="SalesOrder" ToRole="SalesOrderPromotion" />
           <NavigationProperty Name="SalesOrderText" Relationship="POSModel.FK__SalesOrderText_FACTrPedidoCab" FromRole="SalesOrder" ToRole="SalesOrderText" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
         </EntityType>
         <EntityType Name="SalesRemissionLine">
           <Key>
@@ -5271,18 +5022,6 @@
             </Principal>
             <Dependent Role="CountCashLine">
               <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SalesOrder_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="SalesOrder">
-              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5474,7 +5213,7 @@
           <Property Name="LocationId" Type="Int16" Nullable="false" />
           <Property Name="SequenceId" Type="Int32" Nullable="false" />
           <Property Name="SeqType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmissionPointId" Type="Int32" />
+          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -5535,7 +5274,6 @@
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="InvoiceTable" ToRole="Customer" />
           <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="InvoiceTable" ToRole="EmissionPoint" />
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoiceLine" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoicePayment" />
@@ -5544,19 +5282,8 @@
           <NavigationProperty Name="Salesman" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="InvoiceTable" ToRole="Salesman" />
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
           <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="InvoiceTable" ToRole="Customer" />
         </EntityType>
-        <Association Name="FK__InvoiceTable_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InvoiceTable_EmissionPoint">
           <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
           <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
@@ -5653,6 +5380,333 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductModule">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="PriceReference" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="TaxAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="IRBPAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__ProductModule_Product" FromRole="ProductModule" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__ProductModule_Product">
+          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="POSModel.ProductModule" Role="ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductModule">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_User" FromRole="User" ToRole="Supervisor" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Identification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TaxpayerType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IsSpecialTaxpayer" Type="Boolean" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="City" Relationship="POSModel.FK__Vendor_City" FromRole="Vendor" ToRole="City" />
+          <NavigationProperty Name="IdentType" Relationship="POSModel.FK__Vendor_CustIdType" FromRole="Vendor" ToRole="IdentType" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__Product_VendorId" FromRole="Vendor" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Vendor_City">
+          <End Type="POSModel.City" Role="City" Multiplicity="1" />
+          <End Type="POSModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vendor_CustIdType">
+          <End Type="POSModel.IdentType" Role="IdentType" Multiplicity="1" />
+          <End Type="POSModel.Vendor" Role="Vendor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentType">
+              <PropertyRef Name="IdentTypeId" />
+            </Principal>
+            <Dependent Role="Vendor">
+              <PropertyRef Name="IdentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_VendorId">
+          <End Type="POSModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="POSModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supervisor_User">
+          <End Type="POSModel.User" Role="User" Multiplicity="1" />
+          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Supervisor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_Customer_Insert_Result">
+          <Property Type="Int64" Name="CustomerId" Nullable="true" />
+          <Property Type="String" Name="Identification" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="Text" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="CustomerIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="IdentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Identification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PersonType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IsSpecialTaxpayer" Type="Boolean" />
+          <Property Name="IsEmployee" Type="Boolean" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerTypeId" Type="Int32" Nullable="false" />
+          <Property Name="UseWithhold" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AccountsReceivable" Relationship="POSModel.FK__AccountsReceivable_Customer" FromRole="Customer" ToRole="AccountsReceivable" />
+          <NavigationProperty Name="City" Relationship="POSModel.FK__Customer_City" FromRole="Customer" ToRole="City" />
+          <NavigationProperty Name="CustomerType" Relationship="POSModel.FK__Customer_CustomerType" FromRole="Customer" ToRole="CustomerType" />
+          <NavigationProperty Name="IdentType" Relationship="POSModel.FK__Customer_IdentType" FromRole="Customer" ToRole="IdentType" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__Customer_Location" FromRole="Customer" ToRole="Location" />
+          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_Customer" FromRole="Customer" ToRole="GiftCardLine" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="Customer" ToRole="GiftCardTable" />
+          <NavigationProperty Name="InternalCreditCard" Relationship="POSModel.FK__InternalCreditCard_Customer" FromRole="Customer" ToRole="InternalCreditCard" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="Customer" ToRole="InvoiceTable" />
+          <NavigationProperty Name="PromotionCustomer" Relationship="POSModel.FK__PromotionCustomer_Customer" FromRole="Customer" ToRole="PromotionCustomer" />
+          <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
+        </EntityType>
+        <Association Name="FK__AccountsReceivable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.AccountsReceivable" Role="AccountsReceivable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="AccountsReceivable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customer_City">
+          <End Type="POSModel.City" Role="City" Multiplicity="1" />
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customer_CustomerType">
+          <End Type="POSModel.CustomerType" Role="CustomerType" Multiplicity="1" />
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="CustomerTypeId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CustomerTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customer_IdentType">
+          <End Type="POSModel.IdentType" Role="IdentType" Multiplicity="1" />
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentType">
+              <PropertyRef Name="IdentTypeId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="IdentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customer_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardLine_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.GiftCardLine" Role="GiftCardLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardLine">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InternalCreditCard_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.InternalCreditCard" Role="InternalCreditCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="InternalCreditCard">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PromotionCustomer_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.PromotionCustomer" Role="PromotionCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="PromotionCustomer">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesOrder_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_Product_Consult_Result">
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="220" />
+          <Property Type="Int32" Name="InventUnitId" Nullable="true" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="PriceProm" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Boolean" Name="IsDeductible" Nullable="false" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Boolean" Name="WeightControl" Nullable="true" />
+          <Property Type="Decimal" Name="Weight" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="DiscountAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="UseTax" Nullable="true" />
+          <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="TaxProduct" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
+          <Property Type="Decimal" Name="IRBPValue" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="IRBPAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
+          <Property Type="Int64" Name="PromotionId" Nullable="true" />
+          <Property Type="String" Name="PromoType" Nullable="true" MaxLength="5" />
+          <Property Type="Boolean" Name="UseReward" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5874,19 +5928,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="InventTableModule">
-            <EntityTypeMapping TypeName="POSModel.InventTableModule">
-              <MappingFragment StoreEntitySet="InventTableModule">
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="PriceReference" ColumnName="PriceReference" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="IRBPAmount" ColumnName="IRBPAmount" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="InventUnit">
             <EntityTypeMapping TypeName="POSModel.InventUnit">
               <MappingFragment StoreEntitySet="InventUnit">
@@ -6101,50 +6142,6 @@
                 <ScalarProperty Name="IsCentral" ColumnName="IsCentral" />
                 <ScalarProperty Name="IsLocal" ColumnName="IsLocal" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="POSModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
-                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
-                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Vendor">
-            <EntityTypeMapping TypeName="POSModel.Vendor">
-              <MappingFragment StoreEntitySet="Vendor">
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
-                <ScalarProperty Name="IdentTypeId" ColumnName="IdentTypeId" />
-                <ScalarProperty Name="Identification" ColumnName="Identification" />
-                <ScalarProperty Name="TaxpayerType" ColumnName="TaxpayerType" />
-                <ScalarProperty Name="IsSpecialTaxpayer" ColumnName="IsSpecialTaxpayer" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6428,38 +6425,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Customer">
-            <EntityTypeMapping TypeName="POSModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="UseWithhold" ColumnName="UseWithhold" />
-                <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="IsEmployee" ColumnName="IsEmployee" />
-                <ScalarProperty Name="IsSpecialTaxpayer" ColumnName="IsSpecialTaxpayer" />
-                <ScalarProperty Name="TaxpayerType" ColumnName="TaxpayerType" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Identification" ColumnName="Identification" />
-                <ScalarProperty Name="IdentTypeId" ColumnName="IdentTypeId" />
-                <ScalarProperty Name="Registration" ColumnName="Registration" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
-                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="CustomerIdLocal" ColumnName="CustomerIdLocal" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SalesOrderLine">
             <EntityTypeMapping TypeName="POSModel.SalesOrderLine">
               <MappingFragment StoreEntitySet="SalesOrderLine">
@@ -6855,6 +6820,136 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductModule">
+            <EntityTypeMapping TypeName="POSModel.ProductModule">
+              <MappingFragment StoreEntitySet="ProductModule">
+                <ScalarProperty Name="IRBPAmount" ColumnName="IRBPAmount" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceReference" ColumnName="PriceReference" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="POSModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
+                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
+                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendor">
+            <EntityTypeMapping TypeName="POSModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsSpecialTaxpayer" ColumnName="IsSpecialTaxpayer" />
+                <ScalarProperty Name="TaxpayerType" ColumnName="TaxpayerType" />
+                <ScalarProperty Name="Identification" ColumnName="Identification" />
+                <ScalarProperty Name="IdentTypeId" ColumnName="IdentTypeId" />
+                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Customer_Insert" FunctionName="POSModel.Store.SP_Customer_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Customer_Insert_Result">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Identification" ColumnName="Identification" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="POSModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UseWithhold" ColumnName="UseWithhold" />
+                <ScalarProperty Name="CustomerTypeId" ColumnName="CustomerTypeId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="IsEmployee" ColumnName="IsEmployee" />
+                <ScalarProperty Name="IsSpecialTaxpayer" ColumnName="IsSpecialTaxpayer" />
+                <ScalarProperty Name="PersonType" ColumnName="PersonType" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Identification" ColumnName="Identification" />
+                <ScalarProperty Name="IdentTypeId" ColumnName="IdentTypeId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="CustomerIdLocal" ColumnName="CustomerIdLocal" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Product_Consult" FunctionName="POSModel.Store.SP_Product_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceProm" ColumnName="PriceProm" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="IsDeductible" ColumnName="IsDeductible" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="TaxProduct" ColumnName="TaxProduct" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
+                <ScalarProperty Name="IRBPValue" ColumnName="IRBPValue" />
+                <ScalarProperty Name="IRBPAmount" ColumnName="IRBPAmount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="PromoType" ColumnName="PromoType" />
+                <ScalarProperty Name="UseReward" ColumnName="UseReward" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

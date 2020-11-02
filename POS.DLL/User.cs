@@ -28,7 +28,7 @@ namespace POS.DLL
         public bool IsAdministrator { get; set; }
         public string Type { get; set; }
         public string Password { get; set; }
-        public string Mail { get; set; }
+        public string Email { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }

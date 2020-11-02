@@ -74,7 +74,7 @@
             // 
             this.ImgSvgMessage.Location = new System.Drawing.Point(27, 59);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
-            this.ImgSvgMessage.Size = new System.Drawing.Size(70, 65);
+            this.ImgSvgMessage.Size = new System.Drawing.Size(75, 65);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
             this.ImgSvgMessage.TabIndex = 4;
             // 

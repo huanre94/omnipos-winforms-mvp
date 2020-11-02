@@ -151,9 +151,6 @@
     <Compile Include="InventProductLocation.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="InventTableModule.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
     <Compile Include="InventTransType.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -203,6 +200,9 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductGroup.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductModule.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="PromotionCustomer.cs">
@@ -260,6 +260,9 @@
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Customer_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GaranCheck_Authorize_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -267,6 +270,9 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Product_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Supervisor_Validate_Result.cs">

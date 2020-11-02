@@ -436,7 +436,7 @@ namespace POS
             {
                 ClsInvoiceTrans invoice = new ClsInvoiceTrans();
 
-                if (invoice.ClosingInvoice(paymentXml))
+                if (invoice.CreateInvoice(paymentXml))
                 {
                     functions.ShowMessage("Venta finalizada exitosamente.");
                     Close();

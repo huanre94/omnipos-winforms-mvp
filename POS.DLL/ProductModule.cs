@@ -12,7 +12,7 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InventTableModule
+    public partial class ProductModule
     {
         public long ProductId { get; set; }
         public int LocationId { get; set; }

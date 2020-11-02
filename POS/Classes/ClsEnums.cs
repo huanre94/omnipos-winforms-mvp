@@ -48,7 +48,8 @@ namespace POS.Classes
             CUSTOMER_FIRSTNAME,
             CUSTOMER_LASTNAME,
             CUSTOMER_ADDRESS,
-            CUSTOMER_EMAIL
+            CUSTOMER_EMAIL,
+            CUSTOMER_PHONE
         }
     }
 }

@@ -10,18 +10,12 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class SequenceTable
+    public partial class SP_Customer_Insert_Result
     {
-        public short LocationId { get; set; }
-        public int SequenceId { get; set; }
-        public string SeqType { get; set; }
-        public int EmissionPointId { get; set; }
-        public int Sequence { get; set; }
-        public string Name { get; set; }
-        public string Status { get; set; }
-    
-        public virtual Location Location { get; set; }
+        public Nullable<long> CustomerId { get; set; }
+        public string Identification { get; set; }
+        public Nullable<bool> Error { get; set; }
+        public string Text { get; set; }
     }
 }
