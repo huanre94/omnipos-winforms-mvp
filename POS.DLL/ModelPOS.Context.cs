@@ -69,10 +69,8 @@ namespace POS.DLL
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
-        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
-        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
         public virtual DbSet<SalesOrderPromotion> SalesOrderPromotion { get; set; }
         public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
@@ -83,18 +81,20 @@ namespace POS.DLL
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
-        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
         public virtual DbSet<Transport> Transport { get; set; }
         public virtual DbSet<TransportDriver> TransportDriver { get; set; }
         public virtual DbSet<TransportReason> TransportReason { get; set; }
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
+        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
     
         [DbFunction("POSEntities", "FN_Identification_Validate")]
         public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
@@ -181,15 +181,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
         }
     
-        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
-        {
-            var giftCardNumberParameter = giftCardNumber != null ?
-                new ObjectParameter("GiftCardNumber", giftCardNumber) :
-                new ObjectParameter("GiftCardNumber", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
-        }
-    
         public virtual ObjectResult<SP_Customer_Insert_Result> SP_Customer_Insert(string paramXML)
         {
             var paramXMLParameter = paramXML != null ?
@@ -226,6 +217,15 @@ namespace POS.DLL
                 new ObjectParameter("PaymMode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter);
+        }
+    
+        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
+        {
+            var giftCardNumberParameter = giftCardNumber != null ?
+                new ObjectParameter("GiftCardNumber", giftCardNumber) :
+                new ObjectParameter("GiftCardNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     }
 }

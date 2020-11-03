@@ -37,16 +37,15 @@ namespace POS.DLL
         public bool IsCredit { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public System.DateTime Expiration { get; set; }
-        public decimal SubTotal { get; set; }
+        public decimal BaseAmount { get; set; }
+        public decimal BaseTaxAmount { get; set; }
         public decimal Discount { get; set; }
         public decimal TaxPercent { get; set; }
-        public decimal TaxSubTotal { get; set; }
         public decimal TaxAmount { get; set; }
-        public decimal TaxDiscount { get; set; }
-        public decimal IRBPAmount { get; set; }
+        public decimal IrbpAmount { get; set; }
+        public decimal Total { get; set; }
         public bool ShippingFree { get; set; }
         public decimal ShippingAmount { get; set; }
-        public decimal Total { get; set; }
         public decimal Received { get; set; }
         public decimal Change { get; set; }
         public decimal Returned { get; set; }
@@ -63,6 +62,7 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
+        public virtual Customer Customer { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
@@ -75,6 +75,5 @@ namespace POS.DLL
         public virtual SalesOrigin SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
-        public virtual Customer Customer { get; set; }
     }
 }

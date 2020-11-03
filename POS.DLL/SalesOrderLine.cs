@@ -19,21 +19,22 @@ namespace POS.DLL
         public long ProductId { get; set; }
         public string Barcode { get; set; }
         public int InventUnitId { get; set; }
+        public bool UseTax { get; set; }
+        public decimal TaxProductAmount { get; set; }
+        public decimal DiscountProductAmount { get; set; }
         public decimal Quantity { get; set; }
         public int QuantityCW { get; set; }
         public int Returned { get; set; }
         public decimal Cost { get; set; }
         public decimal Price { get; set; }
-        public decimal DiscountPercent { get; set; }
-        public decimal SubTotal { get; set; }
-        public decimal Discount { get; set; }
-        public bool UseTax { get; set; }
+        public decimal BaseAmount { get; set; }
+        public decimal BaseTaxAmount { get; set; }
+        public decimal LinePercent { get; set; }
+        public decimal LineDiscount { get; set; }
         public decimal TaxPercent { get; set; }
-        public decimal TaxSubTotal { get; set; }
         public decimal TaxAmount { get; set; }
-        public decimal TaxDiscount { get; set; }
-        public decimal IRBPAmount { get; set; }
-        public decimal Total { get; set; }
+        public decimal IrbpAmount { get; set; }
+        public decimal LineAmount { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
         public virtual Product Product { get; set; }

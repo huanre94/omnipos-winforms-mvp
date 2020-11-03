@@ -21,9 +21,9 @@ namespace POS.DLL
             this.ProductBarcode = new HashSet<ProductBarcode>();
             this.GiftCardTemplateLine = new HashSet<GiftCardTemplateLine>();
             this.GiftCardTemplateTable = new HashSet<GiftCardTemplateTable>();
+            this.ProductModule = new HashSet<ProductModule>();
             this.InvoiceLine = new HashSet<InvoiceLine>();
             this.SalesOrderLine = new HashSet<SalesOrderLine>();
-            this.ProductModule = new HashSet<ProductModule>();
         }
     
         public long ProductId { get; set; }
@@ -64,11 +64,11 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductModule> ProductModule { get; set; }
+        public virtual Vendor Vendor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductModule> ProductModule { get; set; }
-        public virtual Vendor Vendor { get; set; }
     }
 }
