@@ -245,9 +245,9 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(145, 37);
+            this.LblTotal.Location = new System.Drawing.Point(138, 37);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(119, 34);
+            this.LblTotal.Size = new System.Drawing.Size(126, 34);
             this.LblTotal.TabIndex = 148;
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -274,7 +274,7 @@
             this.GrcPayment.Location = new System.Drawing.Point(523, 1);
             this.GrcPayment.MainView = this.GrvPayment;
             this.GrcPayment.Name = "GrcPayment";
-            this.GrcPayment.Size = new System.Drawing.Size(296, 239);
+            this.GrcPayment.Size = new System.Drawing.Size(294, 239);
             this.GrcPayment.TabIndex = 150;
             this.GrcPayment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPayment});
@@ -301,30 +301,39 @@
             // 
             // Description
             // 
-            this.Description.Caption = "Descripcion";
+            this.Description.AppearanceHeader.Options.UseTextOptions = true;
+            this.Description.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Description.Caption = "Descripción";
+            this.Description.FieldName = "Description";
+            this.Description.MaxWidth = 160;
             this.Description.Name = "Description";
             this.Description.OptionsColumn.AllowEdit = false;
-            this.Description.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Description.OptionsColumn.AllowSize = false;
             this.Description.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.Description.OptionsColumn.FixedWidth = true;
             this.Description.OptionsColumn.ReadOnly = true;
             this.Description.Visible = true;
             this.Description.VisibleIndex = 0;
-            this.Description.Width = 149;
+            this.Description.Width = 160;
             // 
             // Amount
             // 
+            this.Amount.AppearanceHeader.Options.UseTextOptions = true;
+            this.Amount.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Amount.Caption = "Monto";
             this.Amount.DisplayFormat.FormatString = "c2";
             this.Amount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Amount.FieldName = "Amount";
+            this.Amount.MaxWidth = 100;
             this.Amount.Name = "Amount";
             this.Amount.OptionsColumn.AllowEdit = false;
-            this.Amount.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Amount.OptionsColumn.AllowSize = false;
             this.Amount.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.Amount.OptionsColumn.FixedWidth = true;
             this.Amount.OptionsColumn.ReadOnly = true;
             this.Amount.Visible = true;
             this.Amount.VisibleIndex = 1;
-            this.Amount.Width = 109;
+            this.Amount.Width = 100;
             // 
             // BtnCash
             // 
@@ -438,7 +447,7 @@
             // 
             this.TxtAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAmount.EditValue = "";
-            this.TxtAmount.Location = new System.Drawing.Point(19, 101);
+            this.TxtAmount.Location = new System.Drawing.Point(25, 101);
             this.TxtAmount.Name = "TxtAmount";
             this.TxtAmount.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtAmount.Properties.Appearance.Options.UseFont = true;
@@ -475,7 +484,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(831, 460);
+            this.ClientSize = new System.Drawing.Size(837, 460);
             this.ControlBox = false;
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);

@@ -14,6 +14,9 @@ using POS.Classes;
 using System.Net;
 using System.Net.Sockets;
 using POS.DLL.Transaction;
+using DevExpress.XtraGrid.Views.Grid;
+using System.Xml.Linq;
+using System.Reflection;
 
 namespace POS
 {
@@ -23,8 +26,10 @@ namespace POS
         List<GlobalParameter> globalParameters = new List<GlobalParameter>();
         EmissionPoint emissionPoint = new EmissionPoint();
         Customer currentCustomer = new Customer();
-        DataTable dataTable = new DataTable();
+        XElement invoiceXml = new XElement("Invoice");
+        //DataTable dataTable = new DataTable();
         long sequenceNumber;
+        System.Drawing.Point initialLocation;
 
         public FrmMain()
         {
@@ -34,10 +39,13 @@ namespace POS
         #region Global Load Definitions
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {
+        {            
+            initialLocation = this.Location;
+
             if (GetEmissionPointInformation())
             {
                 GetGlobalParameters();
+                CheckGridView();
             }
             else
             {
@@ -340,6 +348,11 @@ namespace POS
                                         );
             }
         }
+
+        private void FrmMain_LocationChanged(object sender, EventArgs e)
+        {
+            this.Location = initialLocation;
+        }
         #endregion
 
         #region Main Functions
@@ -355,9 +368,33 @@ namespace POS
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             SP_Product_Consult_Result result;
+            XElement foundProductXml = new XElement("Product");
+            bool foundProduct = false;
+            bool updateRecord = false;
+            decimal qtyFound;
 
             try
             {
+                foreach (var parent in invoiceXml.Elements())
+                {
+                    foreach (var node in parent.Elements())
+                    {
+                        if (node.Name == "Barcode" && _barcode == node.Value)
+                        {
+                            //foundProductXml.Add(parent);
+                            foundProduct = true;
+                            updateRecord = true;
+                        }
+                        else if (foundProduct && node.Name == "Quantity")
+                        {
+                            qtyFound = decimal.Parse(node.Value);
+                            _qty += qtyFound;
+                            foundProduct = false;
+                            break;
+                        }
+                    }
+                }
+
                 result = clsInvoiceTrans.ProductConsult(
                                                         _locationId
                                                         , _barcode
@@ -365,18 +402,12 @@ namespace POS
                                                         , _customerId
                                                         , _internalCreditCardId
                                                         , _paymMode
+                                                        //, foundProductXml
                                                         );
 
                 if (result != null)
                 {
-                    DataRow NewRow = dataTable.NewRow();
-                    NewRow[0] = result.Name;
-                    NewRow[1] = result.Quantity;
-                    NewRow[2] = result.Price;
-                    NewRow[3] = result.DiscountAmount;
-                    NewRow[4] = result.SubTotal;
-                    dataTable.Rows.Add(NewRow);
-                    GrcSalesDetail.DataSource = dataTable;
+                    AddRecordToSource(result, updateRecord);                    
                 }
                 else
                 {
@@ -390,12 +421,80 @@ namespace POS
                                         "Hubo un problema al consultar producto."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                         );
             }
+        }
 
+        private void CheckGridView()
+        {            
+            GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcSalesDetail.DataSource = null;
+            GrvSalesDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
+            bindingList.AllowNew = true;
+
+            GrcSalesDetail.DataSource = bindingList;
+        }
+
+        private void AddRecordToSource(SP_Product_Consult_Result _productResult, bool _updateRecord)
+        {
+            Type type = _productResult.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            XElement invoiceLineXml = new XElement("InvoiceLine");
+
+            if (!_updateRecord)
+            {
+                GrvSalesDetail.AddNewRow();
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductName"], _productResult.ProductName);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["Quantity"], _productResult.Quantity);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["FinalPrice"], _productResult.FinalPrice);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineDiscount"], _productResult.LineDiscount);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
+
+                foreach (var prop in properties)
+                {
+                    if (prop.Name != "InvoiceTable" && prop.Name != "Location" && prop.Name != "PaymMode")
+                    {
+                        var name = prop.Name;
+                        var value = prop.GetValue(_productResult);
+
+                        if (value == null)
+                        {
+                            value = "";
+                        }
+
+                        invoiceLineXml.Add(new XElement(name, value));
+                    }
+                }
+
+                invoiceXml.Add(invoiceLineXml);
+            }
+            else
+            {
+                //GrvSalesDetail.SetFocusedRowCellValue(GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
+                GrvSalesDetail.FocusedRowHandle = GrvSalesDetail.GetRowHandle(GrvSalesDetail.GetDataSourceRowIndex(2));
+                GrvSalesDetail.UpdateCurrentRow();
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductName"], _productResult.ProductName);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["Quantity"], _productResult.Quantity);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["FinalPrice"], _productResult.FinalPrice);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineDiscount"], _productResult.LineDiscount);
+                GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
+            }
+
+            
+            DataRow dr = GrvSalesDetail.GetFocusedDataRow();
+            //dr = GrvSalesDetail.DataSource[]                      
+
+            
+            TxtBarcode.Text = "";
+            TxtBarcode.Focus();
         }
         #endregion
+
+        
     }
 }

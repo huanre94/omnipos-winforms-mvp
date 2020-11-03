@@ -26,10 +26,10 @@ namespace POS
         #region Global Load Definitions
 
         ClsFunctions functions = new ClsFunctions();
-        DataTable dataTable = new DataTable();
+        //DataTable dataTable = new DataTable();
         XElement paymentXml = new XElement("payment");
         public Customer customer = null;
-        //public GlobalParameter globalParameter = null;
+        public GlobalParameter globalParameter = null;
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
@@ -43,6 +43,7 @@ namespace POS
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             GetPaymentInformation();
+            CheckGridView();
         }
 
         private void GetPaymentInformation()
@@ -219,7 +220,6 @@ namespace POS
         #region Payment Functions
         private void Cash()
         {
-            CheckGridView();
             InvoicePayment invoicePayment = new InvoicePayment
             {
                 PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
@@ -232,7 +232,6 @@ namespace POS
 
         private void CreditCard()
         {
-            CheckGridView();
             FrmPaymentCard paymentCard = new FrmPaymentCard();
             paymentCard.creditCardAmount = decimal.Parse(TxtAmount.Text);
             paymentCard.customer = customer;
@@ -256,7 +255,6 @@ namespace POS
 
         private void Check()
         {
-            CheckGridView();
             ClsEnums.PaymModeEnum paymModeEnum;
             FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
             paymentCheck.checkAmount = decimal.Parse(TxtAmount.Text);
@@ -293,7 +291,6 @@ namespace POS
 
         private void InternalCredit()
         {
-            CheckGridView();
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.customer = customer;
@@ -324,7 +321,6 @@ namespace POS
 
         private void GiftCard()
         {
-            CheckGridView();
             FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard();
             giftcard.paidAmount = decimal.Parse(TxtAmount.Text);
             giftcard.ShowDialog();
@@ -345,27 +341,53 @@ namespace POS
 
         private void CheckGridView()
         {
-            if (dataTable.Columns.Count == 0)
+            //if (dataTable.Columns.Count == 0)
+            //{
+            //    GrcPayment.DataSource = null;
+            //    GrvPayment.Columns.Clear();
+            //    GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            //    dataTable.Columns.Add("Descripción", typeof(string));
+            //    dataTable.Columns.Add("Monto", typeof(decimal));
+            //    GrcPayment.DataSource = dataTable;
+            //}
+
+            //GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcPayment.DataSource = null;
+            GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            BindingList<PaymentEntry> bindingList = new BindingList<PaymentEntry>();
+            bindingList.AllowNew = true;
+
+            GrcPayment.DataSource = bindingList;
+        }
+
+        private class PaymentEntry
+        {
+            public PaymentEntry(){ }
+
+            public PaymentEntry(string _description, decimal _amount)
             {
-                GrcPayment.DataSource = null;
-                GrvPayment.Columns.Clear();
-                GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
-
-                dataTable.Columns.Add("Descripcion", typeof(string));
-                dataTable.Columns.Add("Monto", typeof(decimal));
-
-                GrcPayment.DataSource = dataTable;
+                Description = _description; Amount = _amount;
             }
+
+            public string Description { get; set; }
+            public decimal Amount { get; set; }
         }
 
         private void AddRecordToSource(InvoicePayment _invoicePayment)
         {
             ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
-            DataRow NewRow = dataTable.NewRow();
-            NewRow[0] = paymModeEnum;
-            NewRow[1] = Math.Round(_invoicePayment.Amount * 1.00M, 2);
-            dataTable.Rows.Add(NewRow);
-            GrcPayment.DataSource = dataTable;
+            
+            //DataRow NewRow = dataTable.NewRow();
+            //NewRow[0] = paymModeEnum;
+            //NewRow[1] = Math.Round(_invoicePayment.Amount * 1.00M, 2);
+            //dataTable.Rows.Add(NewRow);
+            //GrcPayment.DataSource = dataTable;
+
+            GrvPayment.AddNewRow();
+            GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Description"], paymModeEnum);
+            GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Amount"], _invoicePayment.Amount);
 
             Type type = _invoicePayment.GetType();
             PropertyInfo[] properties = type.GetProperties();

@@ -49,6 +49,11 @@
             this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
             this.GrcSalesDetail = new DevExpress.XtraGrid.GridControl();
             this.GrvSalesDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Qty = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Discount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.LineAmount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             this.ImgLogo = new System.Windows.Forms.PictureBox();
             this.LblInvoiceNumber = new System.Windows.Forms.Label();
@@ -69,11 +74,7 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Qty = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Discount = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.LineAmount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProductId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -352,10 +353,107 @@
             this.Qty,
             this.Price,
             this.Discount,
-            this.LineAmount});
+            this.LineAmount,
+            this.ProductId});
             this.GrvSalesDetail.GridControl = this.GrcSalesDetail;
             this.GrvSalesDetail.Name = "GrvSalesDetail";
             this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
+            // 
+            // ProductName
+            // 
+            this.ProductName.AppearanceHeader.Options.UseTextOptions = true;
+            this.ProductName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ProductName.Caption = "Producto";
+            this.ProductName.FieldName = "ProductName";
+            this.ProductName.MaxWidth = 455;
+            this.ProductName.Name = "ProductName";
+            this.ProductName.OptionsColumn.AllowEdit = false;
+            this.ProductName.OptionsColumn.AllowMove = false;
+            this.ProductName.OptionsColumn.AllowSize = false;
+            this.ProductName.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.ProductName.OptionsColumn.FixedWidth = true;
+            this.ProductName.OptionsColumn.ReadOnly = true;
+            this.ProductName.Visible = true;
+            this.ProductName.VisibleIndex = 0;
+            this.ProductName.Width = 455;
+            // 
+            // Qty
+            // 
+            this.Qty.AppearanceHeader.Options.UseTextOptions = true;
+            this.Qty.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Qty.Caption = "Cantidad";
+            this.Qty.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Qty.FieldName = "Quantity";
+            this.Qty.MaxWidth = 85;
+            this.Qty.Name = "Qty";
+            this.Qty.OptionsColumn.AllowEdit = false;
+            this.Qty.OptionsColumn.AllowMove = false;
+            this.Qty.OptionsColumn.AllowSize = false;
+            this.Qty.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.Qty.OptionsColumn.FixedWidth = true;
+            this.Qty.OptionsColumn.ReadOnly = true;
+            this.Qty.Visible = true;
+            this.Qty.VisibleIndex = 1;
+            this.Qty.Width = 85;
+            // 
+            // Price
+            // 
+            this.Price.AppearanceHeader.Options.UseTextOptions = true;
+            this.Price.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Price.Caption = "Precio";
+            this.Price.DisplayFormat.FormatString = "c2";
+            this.Price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Price.FieldName = "FinalPrice";
+            this.Price.MaxWidth = 75;
+            this.Price.Name = "Price";
+            this.Price.OptionsColumn.AllowEdit = false;
+            this.Price.OptionsColumn.AllowMove = false;
+            this.Price.OptionsColumn.AllowSize = false;
+            this.Price.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.Price.OptionsColumn.FixedWidth = true;
+            this.Price.OptionsColumn.ReadOnly = true;
+            this.Price.Visible = true;
+            this.Price.VisibleIndex = 2;
+            // 
+            // Discount
+            // 
+            this.Discount.AppearanceHeader.Options.UseTextOptions = true;
+            this.Discount.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Discount.Caption = "Descuento";
+            this.Discount.DisplayFormat.FormatString = "c2";
+            this.Discount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Discount.FieldName = "LineDiscount";
+            this.Discount.MaxWidth = 85;
+            this.Discount.Name = "Discount";
+            this.Discount.OptionsColumn.AllowEdit = false;
+            this.Discount.OptionsColumn.AllowMove = false;
+            this.Discount.OptionsColumn.AllowSize = false;
+            this.Discount.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.Discount.OptionsColumn.FixedWidth = true;
+            this.Discount.OptionsColumn.ReadOnly = true;
+            this.Discount.Visible = true;
+            this.Discount.VisibleIndex = 3;
+            this.Discount.Width = 85;
+            // 
+            // LineAmount
+            // 
+            this.LineAmount.AppearanceHeader.Options.UseTextOptions = true;
+            this.LineAmount.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.LineAmount.Caption = "Total";
+            this.LineAmount.DisplayFormat.FormatString = "c2";
+            this.LineAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.LineAmount.FieldName = "LineAmount";
+            this.LineAmount.MaxWidth = 85;
+            this.LineAmount.Name = "LineAmount";
+            this.LineAmount.OptionsColumn.AllowEdit = false;
+            this.LineAmount.OptionsColumn.AllowMove = false;
+            this.LineAmount.OptionsColumn.AllowSize = false;
+            this.LineAmount.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.LineAmount.OptionsColumn.FixedWidth = true;
+            this.LineAmount.OptionsColumn.ReadOnly = true;
+            this.LineAmount.Visible = true;
+            this.LineAmount.VisibleIndex = 4;
+            this.LineAmount.Width = 85;
             // 
             // TxtBarcode
             // 
@@ -576,40 +674,10 @@
             this.label2.Text = "9999.99";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // ProductName
+            // ProductId
             // 
-            this.ProductName.Caption = "Producto";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 0;
-            // 
-            // Qty
-            // 
-            this.Qty.Caption = "Cantidad";
-            this.Qty.Name = "Qty";
-            this.Qty.Visible = true;
-            this.Qty.VisibleIndex = 1;
-            // 
-            // Price
-            // 
-            this.Price.Caption = "Precio";
-            this.Price.Name = "Price";
-            this.Price.Visible = true;
-            this.Price.VisibleIndex = 2;
-            // 
-            // Discount
-            // 
-            this.Discount.Caption = "Descuento";
-            this.Discount.Name = "Discount";
-            this.Discount.Visible = true;
-            this.Discount.VisibleIndex = 3;
-            // 
-            // LineAmount
-            // 
-            this.LineAmount.Caption = "Total";
-            this.LineAmount.Name = "LineAmount";
-            this.LineAmount.Visible = true;
-            this.LineAmount.VisibleIndex = 4;
+            this.ProductId.FieldName = "ProductId";
+            this.ProductId.Name = "ProductId";
             // 
             // FrmMain
             // 
@@ -664,6 +732,7 @@
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.LocationChanged += new System.EventHandler(this.FrmMain_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
@@ -720,5 +789,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Price;
         private DevExpress.XtraGrid.Columns.GridColumn Discount;
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
+        private DevExpress.XtraGrid.Columns.GridColumn ProductId;
     }
 }

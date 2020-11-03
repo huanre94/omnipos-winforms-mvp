@@ -10,7 +10,7 @@
             <PropertyRef Name="AccountsReceivableId" />
           </Key>
           <Property Name="AccountsReceivableId" Type="bigint" Nullable="false" />
-          <Property Name="AccountsReceivableIdLocal" Type="bigint" Nullable="false" />
+          <Property Name="AccountsReceivableIdLocal" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LocationId" Type="smallint" Nullable="false" />
           <Property Name="TypeDoc" Type="smallint" Nullable="false" />
           <Property Name="CustomerId" Type="bigint" Nullable="false" />
@@ -5682,29 +5682,29 @@
         <ComplexType Name="SP_Product_Consult_Result">
           <Property Type="Int64" Name="ProductId" Nullable="false" />
           <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="220" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
           <Property Type="Int32" Name="InventUnitId" Nullable="true" />
           <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
           <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="PriceProm" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="PromotionPrice" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="FinalPrice" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Boolean" Name="UseTax" Nullable="true" />
+          <Property Type="Decimal" Name="TaxProductAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="DiscountProductAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
+          <Property Type="Decimal" Name="IrbpProductAmount" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
-          <Property Type="Boolean" Name="IsDeductible" Nullable="false" />
           <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Boolean" Name="WeightControl" Nullable="true" />
-          <Property Type="Decimal" Name="Weight" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="DiscountPercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="DiscountAmount" Nullable="true" Precision="19" />
-          <Property Type="Boolean" Name="UseTax" Nullable="true" />
+          <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="LineDiscount" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="TaxProduct" Nullable="true" Precision="38" Scale="6" />
           <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
-          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
-          <Property Type="Decimal" Name="IRBPValue" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="IRBPAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="IrbpAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LineAmount" Nullable="true" Precision="19" />
           <Property Type="Int64" Name="PromotionId" Nullable="true" />
-          <Property Type="String" Name="PromoType" Nullable="true" MaxLength="5" />
           <Property Type="Boolean" Name="UseReward" Nullable="true" />
         </ComplexType>
         </Schema>
@@ -6923,29 +6923,29 @@
               <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="PriceProm" ColumnName="PriceProm" />
+                <ScalarProperty Name="PromotionPrice" ColumnName="PromotionPrice" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
+                <ScalarProperty Name="TaxProductAmount" ColumnName="TaxProductAmount" />
+                <ScalarProperty Name="DiscountProductAmount" ColumnName="DiscountProductAmount" />
+                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
+                <ScalarProperty Name="IrbpProductAmount" ColumnName="IrbpProductAmount" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
-                <ScalarProperty Name="IsDeductible" ColumnName="IsDeductible" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
-                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
-                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
+                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
+                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
+                <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
+                <ScalarProperty Name="LineDiscount" ColumnName="LineDiscount" />
                 <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
-                <ScalarProperty Name="TaxProduct" ColumnName="TaxProduct" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
-                <ScalarProperty Name="IRBPValue" ColumnName="IRBPValue" />
-                <ScalarProperty Name="IRBPAmount" ColumnName="IRBPAmount" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
+                <ScalarProperty Name="LineAmount" ColumnName="LineAmount" />
                 <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-                <ScalarProperty Name="PromoType" ColumnName="PromoType" />
                 <ScalarProperty Name="UseReward" ColumnName="UseReward" />
               </ComplexTypeMapping>
             </ResultMapping>
