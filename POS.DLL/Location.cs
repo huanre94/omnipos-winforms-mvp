@@ -26,12 +26,12 @@ namespace POS.DLL
             this.GiftCardTrans = new HashSet<GiftCardTrans>();
             this.InventLocation = new HashSet<InventLocation>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
-            this.EmissionPoint = new HashSet<EmissionPoint>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.SequenceTable = new HashSet<SequenceTable>();
             this.Customer = new HashSet<Customer>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
+            this.EmissionPoint = new HashSet<EmissionPoint>();
         }
     
         public short LocationId { get; set; }
@@ -66,8 +66,6 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SequenceTable> SequenceTable { get; set; }
@@ -77,5 +75,7 @@ namespace POS.DLL
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
     }
 }

@@ -18,6 +18,7 @@ using System.Reflection;
 using DevExpress.Utils.Extensions;
 using DevExpress.Data.Helpers;
 using POS.DLL.Transaction;
+using POS.DLL.Catalog;
 
 namespace POS
 {
@@ -26,10 +27,8 @@ namespace POS
         #region Global Load Definitions
 
         ClsFunctions functions = new ClsFunctions();
-        //DataTable dataTable = new DataTable();
         XElement paymentXml = new XElement("payment");
         public Customer customer = null;
-        public GlobalParameter globalParameter = null;
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
@@ -197,7 +196,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (GrvPayment.RowCount > 1)
+            if (GrvPayment.RowCount > 0)
             {
                 bool response;
 
@@ -298,12 +297,31 @@ namespace POS
 
             if (paymentCredit.formActionResult)
             {
+                ClsGeneral general = new ClsGeneral();
                 bool responseAuthorization = true;
+                GlobalParameter parameter;
 
-                //if (globalParameter.InternalCreditSupAuth)  //Here ask for parameter about request authorization for internal credit
-                //{
-                //    responseAuthorization = functions.RequestSupervisorAuth();
-                //}
+                try
+                {
+                    parameter = general.GetParameterByName("InternalCreditRequestAuth");               
+                
+                    if (parameter != null)
+                    {
+                        if (parameter.Value == "1")
+                        {
+                            responseAuthorization = functions.RequestSupervisorAuth();
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ha ocurrido un problema al consultar parametro."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
+                                        );
+                }
 
                 if (responseAuthorization)
                 {

@@ -49,11 +49,12 @@
             this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
             this.GrcSalesDetail = new DevExpress.XtraGrid.GridControl();
             this.GrvSalesDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProductDescription = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Qty = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Price = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Discount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.LineAmount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProductId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             this.ImgLogo = new System.Windows.Forms.PictureBox();
             this.LblInvoiceNumber = new System.Windows.Forms.Label();
@@ -74,7 +75,6 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.ProductId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -95,6 +95,7 @@
             this.BtnCancelSale.Size = new System.Drawing.Size(220, 80);
             this.BtnCancelSale.TabIndex = 137;
             this.BtnCancelSale.Text = "Anular Venta";
+            this.BtnCancelSale.Click += new System.EventHandler(this.BtnCancelSale_Click);
             // 
             // BtnSuspendSale
             // 
@@ -110,6 +111,7 @@
             this.BtnSuspendSale.Size = new System.Drawing.Size(220, 80);
             this.BtnSuspendSale.TabIndex = 136;
             this.BtnSuspendSale.Text = "Suspender";
+            this.BtnSuspendSale.Click += new System.EventHandler(this.BtnSuspendSale_Click);
             // 
             // BtnLogOut
             // 
@@ -139,6 +141,7 @@
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
             this.BtnProductSearch.TabIndex = 134;
             this.BtnProductSearch.Text = "Productos";
+            this.BtnProductSearch.Click += new System.EventHandler(this.BtnProductSearch_Click);
             // 
             // Btn9
             // 
@@ -349,7 +352,7 @@
             // GrvSalesDetail
             // 
             this.GrvSalesDetail.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.ProductName,
+            this.ProductDescription,
             this.Qty,
             this.Price,
             this.Discount,
@@ -359,23 +362,23 @@
             this.GrvSalesDetail.Name = "GrvSalesDetail";
             this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
             // 
-            // ProductName
+            // ProductDescription
             // 
-            this.ProductName.AppearanceHeader.Options.UseTextOptions = true;
-            this.ProductName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ProductName.Caption = "Producto";
-            this.ProductName.FieldName = "ProductName";
-            this.ProductName.MaxWidth = 455;
-            this.ProductName.Name = "ProductName";
-            this.ProductName.OptionsColumn.AllowEdit = false;
-            this.ProductName.OptionsColumn.AllowMove = false;
-            this.ProductName.OptionsColumn.AllowSize = false;
-            this.ProductName.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.ProductName.OptionsColumn.FixedWidth = true;
-            this.ProductName.OptionsColumn.ReadOnly = true;
-            this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 0;
-            this.ProductName.Width = 455;
+            this.ProductDescription.AppearanceHeader.Options.UseTextOptions = true;
+            this.ProductDescription.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ProductDescription.Caption = "Producto";
+            this.ProductDescription.FieldName = "ProductName";
+            this.ProductDescription.MaxWidth = 455;
+            this.ProductDescription.Name = "ProductDescription";
+            this.ProductDescription.OptionsColumn.AllowEdit = false;
+            this.ProductDescription.OptionsColumn.AllowMove = false;
+            this.ProductDescription.OptionsColumn.AllowSize = false;
+            this.ProductDescription.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.ProductDescription.OptionsColumn.FixedWidth = true;
+            this.ProductDescription.OptionsColumn.ReadOnly = true;
+            this.ProductDescription.Visible = true;
+            this.ProductDescription.VisibleIndex = 0;
+            this.ProductDescription.Width = 455;
             // 
             // Qty
             // 
@@ -454,6 +457,11 @@
             this.LineAmount.Visible = true;
             this.LineAmount.VisibleIndex = 4;
             this.LineAmount.Width = 85;
+            // 
+            // ProductId
+            // 
+            this.ProductId.FieldName = "ProductId";
+            this.ProductId.Name = "ProductId";
             // 
             // TxtBarcode
             // 
@@ -638,7 +646,7 @@
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(161, 41);
             this.LblTotal.TabIndex = 154;
-            this.LblTotal.Text = "9999.99";
+            this.LblTotal.Text = "45.50";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LblTitleTotal
@@ -671,13 +679,8 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(154, 36);
             this.label2.TabIndex = 156;
-            this.label2.Text = "9999.99";
+            this.label2.Text = "1.26";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ProductId
-            // 
-            this.ProductId.FieldName = "ProductId";
-            this.ProductId.Name = "ProductId";
             // 
             // FrmMain
             // 
@@ -784,7 +787,7 @@
         private System.Windows.Forms.Label LblTitleTotal;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        private DevExpress.XtraGrid.Columns.GridColumn ProductDescription;
         private DevExpress.XtraGrid.Columns.GridColumn Qty;
         private DevExpress.XtraGrid.Columns.GridColumn Price;
         private DevExpress.XtraGrid.Columns.GridColumn Discount;

@@ -80,7 +80,6 @@ namespace POS.DLL
         public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Province> Province { get; set; }
-        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
         public virtual DbSet<Transport> Transport { get; set; }
@@ -95,6 +94,7 @@ namespace POS.DLL
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
+        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
     
         [DbFunction("POSEntities", "FN_Identification_Validate")]
         public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
@@ -190,6 +190,15 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Customer_Insert_Result>("SP_Customer_Insert", paramXMLParameter);
         }
     
+        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
+        {
+            var giftCardNumberParameter = giftCardNumber != null ?
+                new ObjectParameter("GiftCardNumber", giftCardNumber) :
+                new ObjectParameter("GiftCardNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
+        }
+    
         public virtual ObjectResult<SP_Product_Consult_Result> SP_Product_Consult(Nullable<short> locationId, string barcode, Nullable<decimal> quantity, Nullable<long> customerId, Nullable<long> internalCreditCardId, string paymMode)
         {
             var locationIdParameter = locationId.HasValue ?
@@ -217,15 +226,6 @@ namespace POS.DLL
                 new ObjectParameter("PaymMode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter);
-        }
-    
-        public virtual ObjectResult<SP_GiftCard_Consult_Result> SP_GiftCard_Consult(string giftCardNumber)
-        {
-            var giftCardNumberParameter = giftCardNumber != null ?
-                new ObjectParameter("GiftCardNumber", giftCardNumber) :
-                new ObjectParameter("GiftCardNumber", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     }
 }

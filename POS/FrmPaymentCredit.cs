@@ -37,13 +37,16 @@ namespace POS
 
             if (customer != null)
             {                
-                response = true;
-            }
-            else
-            {
-                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                this.DialogResult = DialogResult.Cancel;
-            }
+                if (customer.CustomerId > 0)
+                {
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    this.DialogResult = DialogResult.Cancel;
+                }                
+            }            
 
             return response;
         }

@@ -39,5 +39,7 @@ namespace POS.DLL
         public Nullable<decimal> LineAmount { get; set; }
         public Nullable<long> PromotionId { get; set; }
         public Nullable<bool> UseReward { get; set; }
+        public long RewardProductId { get; set; }
+        public decimal RewardPercent { get; set; }
     }
 }

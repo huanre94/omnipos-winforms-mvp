@@ -56,15 +56,18 @@ namespace POS
 
             if (customer != null)
             {
-                TxtIdentification.Text = customer.Identification;
-                TxtOwnerName.Text = customer.Firtsname + " " + customer.Lastname;
-                response = true;
-            }
-            else
-            {
-                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                this.DialogResult = DialogResult.Cancel;
-            }
+                if (customer.CustomerId > 0)
+                {
+                    TxtIdentification.Text = customer.Identification;
+                    TxtOwnerName.Text = customer.Firtsname + " " + customer.Lastname;
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    this.DialogResult = DialogResult.Cancel;
+                }
+            }            
 
             return response;
         }

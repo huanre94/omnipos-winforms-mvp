@@ -27,8 +27,7 @@ namespace POS
         EmissionPoint emissionPoint = new EmissionPoint();
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
-        //DataTable dataTable = new DataTable();
-        long sequenceNumber;
+        Int64 sequenceNumber;
         System.Drawing.Point initialLocation;
 
         public FrmMain()
@@ -330,6 +329,22 @@ namespace POS
             payment.invoiceAmount = decimal.Parse(LblTotal.Text);
             payment.customer = currentCustomer;
             payment.ShowDialog();
+
+        }
+
+        private void BtnProductSearch_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnSuspendSale_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCancelSale_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 
@@ -361,7 +376,7 @@ namespace POS
                                             short _locationId
                                             , string _barcode
                                             , decimal _qty
-                                            , long _customerId
+                                            , Int64 _customerId
                                             , int _internalCreditCardId
                                             , string _paymMode
                                             )
@@ -388,27 +403,7 @@ namespace POS
                         break;
                     }
                 }
-
-                //foreach (var parent in invoiceXml.Elements())
-                //{
-                //    foreach (var node in parent.Elements())
-                //    {
-                //        if (node.Name == "Barcode" && _barcode == node.Value)
-                //        {
-                //            //foundProductXml.Add(parent);
-                //            foundProduct = true;
-                //            updateRecord = true;
-                //        }
-                //        else if (foundProduct && node.Name == "Quantity")
-                //        {
-                //            qtyFound = decimal.Parse(node.Value);
-                //            _qty += qtyFound;
-                //            foundProduct = false;
-                //            break;
-                //        }
-                //    }
-                //}
-
+                                
                 result = clsInvoiceTrans.ProductConsult(
                                                         _locationId
                                                         , _barcode
@@ -460,13 +455,7 @@ namespace POS
 
             if (!_updateRecord)
             {
-                GrvSalesDetail.AddNewRow();                
-
-                //if (GrvSalesDetail.IsValidRowHandle(GrvSalesDetail.FocusedRowHandle))
-                //{
-                //    GrvSalesDetail.FocusedRowHandle += 1;
-                //}
-
+                GrvSalesDetail.AddNewRow(); 
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductName"], _productResult.ProductName);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["Quantity"], _productResult.Quantity);
@@ -524,6 +513,9 @@ namespace POS
             TxtBarcode.Text = "";
             TxtBarcode.Focus();
         }
+
+
+
         #endregion
 
         

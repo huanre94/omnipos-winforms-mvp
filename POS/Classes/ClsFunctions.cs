@@ -1,4 +1,5 @@
 ﻿using POS.Classes;
+using POS.DLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace POS
 {
     public class ClsFunctions
-    {
+    {    
         public bool ShowMessage(string _messageText
                                 , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
                                 , bool _showMessageDetail = false

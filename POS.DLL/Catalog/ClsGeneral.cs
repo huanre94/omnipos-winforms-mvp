@@ -29,6 +29,28 @@ namespace POS.DLL.Catalog
             return globalParameters;
         }
 
+        public GlobalParameter GetParameterByName(string _name)
+        {
+            var db = new POSEntities();
+            GlobalParameter parameter;
+
+            try
+            {
+
+                parameter = (
+                                from par in db.GlobalParameter
+                                where par.Name == _name
+                                select par
+                            ).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return parameter;
+        }
+
         public EmissionPoint GetEmissionPointByIP(string _addressIP)
         {
             var db = new POSEntities();

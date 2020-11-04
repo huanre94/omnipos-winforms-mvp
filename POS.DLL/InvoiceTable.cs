@@ -63,7 +63,6 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual EmissionPoint EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -75,5 +74,6 @@ namespace POS.DLL
         public virtual SalesOrigin SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
     }
 }
