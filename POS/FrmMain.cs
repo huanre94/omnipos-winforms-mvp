@@ -369,31 +369,45 @@ namespace POS
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             SP_Product_Consult_Result result;
             XElement foundProductXml = new XElement("Product");
-            bool foundProduct = false;
             bool updateRecord = false;
             decimal qtyFound;
 
             try
             {
-                foreach (var parent in invoiceXml.Elements())
-                {
-                    foreach (var node in parent.Elements())
+                var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
+                                where xm.Element("Barcode").Value == _barcode
+                                select xm;
+
+                foreach (var node in searchXml.Elements())
+                {     
+                    if (node.Name == "Quantity")
                     {
-                        if (node.Name == "Barcode" && _barcode == node.Value)
-                        {
-                            //foundProductXml.Add(parent);
-                            foundProduct = true;
-                            updateRecord = true;
-                        }
-                        else if (foundProduct && node.Name == "Quantity")
-                        {
-                            qtyFound = decimal.Parse(node.Value);
-                            _qty += qtyFound;
-                            foundProduct = false;
-                            break;
-                        }
+                        qtyFound = decimal.Parse(node.Value);
+                        _qty += qtyFound;
+                        updateRecord = true;
+                        break;
                     }
                 }
+
+                //foreach (var parent in invoiceXml.Elements())
+                //{
+                //    foreach (var node in parent.Elements())
+                //    {
+                //        if (node.Name == "Barcode" && _barcode == node.Value)
+                //        {
+                //            //foundProductXml.Add(parent);
+                //            foundProduct = true;
+                //            updateRecord = true;
+                //        }
+                //        else if (foundProduct && node.Name == "Quantity")
+                //        {
+                //            qtyFound = decimal.Parse(node.Value);
+                //            _qty += qtyFound;
+                //            foundProduct = false;
+                //            break;
+                //        }
+                //    }
+                //}
 
                 result = clsInvoiceTrans.ProductConsult(
                                                         _locationId
@@ -446,36 +460,45 @@ namespace POS
 
             if (!_updateRecord)
             {
-                GrvSalesDetail.AddNewRow();
+                GrvSalesDetail.AddNewRow();                
+
+                //if (GrvSalesDetail.IsValidRowHandle(GrvSalesDetail.FocusedRowHandle))
+                //{
+                //    GrvSalesDetail.FocusedRowHandle += 1;
+                //}
+
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductName"], _productResult.ProductName);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["Quantity"], _productResult.Quantity);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["FinalPrice"], _productResult.FinalPrice);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineDiscount"], _productResult.LineDiscount);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
-
+                
                 foreach (var prop in properties)
-                {
-                    if (prop.Name != "InvoiceTable" && prop.Name != "Location" && prop.Name != "PaymMode")
+                {                    
+                    var name = prop.Name;
+                    var value = prop.GetValue(_productResult);
+
+                    if (value == null)
                     {
-                        var name = prop.Name;
-                        var value = prop.GetValue(_productResult);
-
-                        if (value == null)
-                        {
-                            value = "";
-                        }
-
-                        invoiceLineXml.Add(new XElement(name, value));
+                        value = "";
                     }
+
+                    invoiceLineXml.Add(new XElement(name, value));                    
                 }
 
                 invoiceXml.Add(invoiceLineXml);
             }
             else
-            {
-                //GrvSalesDetail.SetFocusedRowCellValue(GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
-                GrvSalesDetail.FocusedRowHandle = GrvSalesDetail.GetRowHandle(GrvSalesDetail.GetDataSourceRowIndex(2));
+            {                 
+                int rowIndex = GrvSalesDetail.LocateByValue("ProductId", _productResult.ProductId);
+
+                if (rowIndex < 0)
+                {
+                    rowIndex = GrvSalesDetail.FocusedRowHandle;
+                }
+
+                GrvSalesDetail.FocusedRowHandle = rowIndex;
                 GrvSalesDetail.UpdateCurrentRow();
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductId"], _productResult.ProductId);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["ProductName"], _productResult.ProductName);
@@ -483,13 +506,21 @@ namespace POS
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["FinalPrice"], _productResult.FinalPrice);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineDiscount"], _productResult.LineDiscount);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
+                GrvSalesDetail.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
+
+                var updateQuery = from r in invoiceXml.Descendants("InvoiceLine") 
+                                  where r.Element("ProductId").Value == _productResult.ProductId.ToString()
+                                  select r;
+
+                foreach (var query in updateQuery)
+                {
+                    query.Element("Quantity").SetValue(_productResult.Quantity);
+                    query.Element("FinalPrice").SetValue(_productResult.FinalPrice);
+                    query.Element("LineDiscount").SetValue(_productResult.LineDiscount);
+                    query.Element("LineAmount").SetValue(_productResult.LineAmount);
+                }
             }
-
-            
-            DataRow dr = GrvSalesDetail.GetFocusedDataRow();
-            //dr = GrvSalesDetail.DataSource[]                      
-
-            
+                                     
             TxtBarcode.Text = "";
             TxtBarcode.Focus();
         }
