@@ -35,6 +35,7 @@ namespace POS.DLL
         public decimal TaxAmount { get; set; }
         public decimal IrbpAmount { get; set; }
         public decimal LineAmount { get; set; }
+        public long PromotionId { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
         public virtual Product Product { get; set; }

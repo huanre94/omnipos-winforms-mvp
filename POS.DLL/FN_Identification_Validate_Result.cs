@@ -15,7 +15,7 @@ namespace POS.DLL
     {
         public string Identification { get; set; }
         public Nullable<int> CheckDigit { get; set; }
-        public string IdentTypeId { get; set; }
+        public Nullable<int> IdentTypeId { get; set; }
         public string PersonType { get; set; }
         public Nullable<int> Validated { get; set; }
         public string Text { get; set; }

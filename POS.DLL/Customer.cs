@@ -21,8 +21,8 @@ namespace POS.DLL
             this.GiftCardLine = new HashSet<GiftCardLine>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
             this.InternalCreditCard = new HashSet<InternalCreditCard>();
-            this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
+            this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.SalesOrder = new HashSet<SalesOrder>();
         }
     
@@ -45,6 +45,8 @@ namespace POS.DLL
         public string Address { get; set; }
         public int CustomerTypeId { get; set; }
         public Nullable<bool> UseWithhold { get; set; }
+        public Nullable<bool> IsCredit { get; set; }
+        public Nullable<decimal> CreditLimit { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
@@ -65,9 +67,9 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternalCreditCard> InternalCreditCard { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
     }

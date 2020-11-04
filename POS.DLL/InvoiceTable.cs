@@ -17,10 +17,9 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public InvoiceTable()
         {
-            this.InvoiceLine = new HashSet<InvoiceLine>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
-            this.InvoicePromotion = new HashSet<InvoicePromotion>();
             this.SalesRemissionLine = new HashSet<SalesRemissionLine>();
+            this.InvoiceLine = new HashSet<InvoiceLine>();
         }
     
         public long InvoiceId { get; set; }
@@ -62,18 +61,16 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        public virtual Customer Customer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual Location Location { get; set; }
         public virtual Salesman Salesman { get; set; }
         public virtual SalesOrigin SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

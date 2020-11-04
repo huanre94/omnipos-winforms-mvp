@@ -44,7 +44,6 @@ namespace POS.DLL
         public virtual DbSet<InventLocation> InventLocation { get; set; }
         public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
-        public virtual DbSet<InvoicePromotion> InvoicePromotion { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
@@ -72,7 +71,6 @@ namespace POS.DLL
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
         public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
-        public virtual DbSet<SalesOrderPromotion> SalesOrderPromotion { get; set; }
         public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
         public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
         public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
@@ -89,26 +87,12 @@ namespace POS.DLL
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
-        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
-    
-        [DbFunction("POSEntities", "FN_Identification_Validate")]
-        public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
-        {
-            var identificationParameter = identification != null ?
-                new ObjectParameter("Identification", identification) :
-                new ObjectParameter("Identification", typeof(string));
-    
-            var isPassportParameter = isPassport != null ?
-                new ObjectParameter("IsPassport", isPassport) :
-                new ObjectParameter("IsPassport", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
-        }
+        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
+        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -226,6 +210,20 @@ namespace POS.DLL
                 new ObjectParameter("PaymMode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter);
+        }
+    
+        [DbFunction("POSEntities", "FN_Identification_Validate")]
+        public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
+        {
+            var identificationParameter = identification != null ?
+                new ObjectParameter("Identification", identification) :
+                new ObjectParameter("Identification", typeof(string));
+    
+            var isPassportParameter = isPassport != null ?
+                new ObjectParameter("IsPassport", isPassport) :
+                new ObjectParameter("IsPassport", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
         }
     }
 }

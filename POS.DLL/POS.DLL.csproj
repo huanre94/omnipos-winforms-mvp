@@ -163,9 +163,6 @@
     <Compile Include="InvoicePayment.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="InvoicePromotion.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
     <Compile Include="InvoiceTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -237,9 +234,6 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SalesOrderPayment.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SalesOrderPromotion.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SalesOrderText.cs">

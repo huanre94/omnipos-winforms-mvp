@@ -40,6 +40,7 @@ namespace POS.DLL.Catalog
                 parameter = (
                                 from par in db.GlobalParameter
                                 where par.Name == _name
+                                && par.Status == "A"
                                 select par
                             ).FirstOrDefault();
             }

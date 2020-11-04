@@ -279,6 +279,7 @@ namespace POS
                     if (validateResult.Validated > 0)
                     {
                         LblPersonType.Text = validateResult.PersonType;
+                        CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex = (int)validateResult.IdentTypeId;
                         response = true;
                     }
                     else

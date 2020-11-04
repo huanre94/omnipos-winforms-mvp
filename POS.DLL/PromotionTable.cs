@@ -17,13 +17,11 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PromotionTable()
         {
-            this.InvoicePromotion = new HashSet<InvoicePromotion>();
             this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.PromotionPaymMode = new HashSet<PromotionPaymMode>();
             this.PromotionProducts = new HashSet<PromotionProducts>();
             this.PromotionReward = new HashSet<PromotionReward>();
             this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
-            this.SalesOrderPromotion = new HashSet<SalesOrderPromotion>();
         }
     
         public long PromotionId { get; set; }
@@ -48,8 +46,6 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePromotion> InvoicePromotion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionPaymMode> PromotionPaymMode { get; set; }
@@ -60,7 +56,5 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
         public virtual PromotionType PromotionType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderPromotion> SalesOrderPromotion { get; set; }
     }
 }
