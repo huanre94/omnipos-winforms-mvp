@@ -58,6 +58,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TxtAmount = new DevExpress.XtraEditors.TextEdit();
             this.BtnGiftcard = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAmount.Properties)).BeginInit();
@@ -245,10 +246,11 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(138, 37);
+            this.LblTotal.Location = new System.Drawing.Point(138, 36);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(126, 34);
             this.LblTotal.TabIndex = 148;
+            this.LblTotal.Text = "0.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BtnCancel
@@ -479,13 +481,31 @@
             this.BtnGiftcard.Text = "Bono ";
             this.BtnGiftcard.Click += new System.EventHandler(this.BtnGiftcard_Click);
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.simpleButton1.Appearance.Options.UseBackColor = true;
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.simpleButton1.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
+            this.simpleButton1.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
+            this.simpleButton1.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
+            this.simpleButton1.Location = new System.Drawing.Point(285, 456);
+            this.simpleButton1.Margin = new System.Windows.Forms.Padding(5);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(220, 80);
+            this.simpleButton1.TabIndex = 164;
+            this.simpleButton1.Text = "Retencion";
+            // 
             // FrmPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(837, 460);
+            this.ClientSize = new System.Drawing.Size(837, 552);
             this.ControlBox = false;
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);
             this.Controls.Add(this.LblPending);
@@ -557,5 +577,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
         private DevExpress.XtraEditors.SimpleButton BtnGiftcard;
         public DevExpress.XtraEditors.TextEdit TxtAmount;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }
