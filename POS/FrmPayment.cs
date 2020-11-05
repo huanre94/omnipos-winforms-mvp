@@ -234,9 +234,9 @@ namespace POS
         #region Payment Functions
         private void Withhold()
         {
-            FrmPaymentWithhold2 paymentWithhold = new FrmPaymentWithhold2();
+            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
             paymentWithhold.customer = customer;
-            paymentWithhold.retentionAmount = decimal.Parse(TxtAmount.Text);
+            paymentWithhold.retentionAmount = taxAmount;
             paymentWithhold.ShowDialog();
 
             if (paymentWithhold.processResponse)
@@ -245,8 +245,6 @@ namespace POS
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
                     PaymModeId = (int)paymModeEnum,
-                    //BankId = paymentCard.bankId,
-                    //CreditCardId = paymentCard.creditCardId,
                     RetentionCode = paymentWithhold.retentionCode,
                     RetentionNumber = paymentWithhold.retentionNumber,
                     Authorization = paymentWithhold.authorization,
