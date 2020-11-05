@@ -23,12 +23,15 @@ namespace POS
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        List<GlobalParameter> globalParameters = new List<GlobalParameter>();
+        List<GlobalParameter> globalParameters;
         EmissionPoint emissionPoint = new EmissionPoint();
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
         Int64 sequenceNumber;
         System.Drawing.Point initialLocation;
+        public SP_Login_Consult_Result loginInformation;
+        decimal baseAmount = 0;
+        decimal taxAmount = 0;
 
         public FrmMain()
         {
@@ -43,40 +46,20 @@ namespace POS
 
             if (GetEmissionPointInformation())
             {
-                GetGlobalParameters();
-                CheckGridView();
+                CheckGridView();                
             }
             else
             {
                 Close();
             }
-        }
-
-        private void GetGlobalParameters()
-        {
-            ClsGeneral clsGeneral = new ClsGeneral();
-
-            try
-            {
-                globalParameters = clsGeneral.GetGlobalParameters();
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar parámetros globales."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
-            }
-        }
+        }        
 
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
-            string addressIP = GetLocalIPAddress();
+            string addressIP = loginInformation.AddressIP;
 
             if (addressIP != "")
             {
@@ -95,7 +78,6 @@ namespace POS
                     else
                     {
                         functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
-                        Close();
                     }
                 }
                 catch (Exception ex)
@@ -111,46 +93,7 @@ namespace POS
 
             return response;
         }
-
-        private string GetLocalIPAddress()
-        {
-            string addressIP = "";
-            bool networkOK = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
-
-            if (networkOK)
-            {
-                try
-                {
-
-                    var host = Dns.GetHostEntry(Dns.GetHostName());
-
-                    foreach (var ip in host.AddressList)
-                    {
-                        if (ip.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            addressIP = ip.ToString();
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "No se encontraron adaptadores de red IPv4 en el sistema."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
-                }
-            }
-            else
-            {
-                functions.ShowMessage("El equipo no se encuentra conectado a la red.", ClsEnums.MessageType.ERROR);
-            }
-
-            return addressIP;
-        }
-
+                
         private void GetNewSequenceNumber(int _emissionPointId)
         {
             ClsGeneral clsGeneral = new ClsGeneral();
@@ -334,6 +277,8 @@ namespace POS
                 FrmPayment payment = new FrmPayment();
                 payment.invoiceAmount = decimal.Parse(LblTotal.Text);
                 payment.customer = currentCustomer;
+                payment.taxAmount = taxAmount;
+                payment.baseAmount = baseAmount;
                 payment.ShowDialog();
 
                 if (payment.canCloseInvoice)
@@ -344,7 +289,7 @@ namespace POS
                         ClosingInvoice();
                     }
                 }
-            }           
+            }
         }
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
@@ -541,6 +486,8 @@ namespace POS
             {
                 discAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
+                baseAmount += decimal.Parse(item.Element("BaseAmount").Value); 
+                taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
             }
 
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
