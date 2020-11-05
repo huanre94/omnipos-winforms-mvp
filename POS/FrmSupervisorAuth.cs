@@ -49,7 +49,7 @@ namespace POS
                                             "Ocurrio un problema al verificar codigo de autorizacion."
                                             ,ClsEnums.MessageType.ERROR
                                             ,true
-                                            ,ex.Message
+                                            ,ex.InnerException.Message
                                             );
                 }                
             }

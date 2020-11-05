@@ -90,7 +90,7 @@ namespace POS
                                                 "Ocurrio un problema al consultar tarjeta de consumo."
                                                 ,ClsEnums.MessageType.ERROR
                                                 ,true
-                                                ,ex.Message
+                                                ,ex.InnerException.Message
                                                 );
                     }
                 }

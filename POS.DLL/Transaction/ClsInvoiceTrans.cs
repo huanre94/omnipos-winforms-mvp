@@ -40,16 +40,16 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public bool CreateInvoice(XElement _invoiceXml)
+        public SP_Invoice_Insert_Result CreateInvoice(XElement _invoiceXml)
         {
-            bool response = false;
+            var db = new POSEntities();
+            SP_Invoice_Insert_Result invoiceResult = null;
 
             try
             {
-                //Call to closing invoice process
                 if (_invoiceXml.HasElements)
                 {
-                    response = true;
+                    invoiceResult = db.SP_Invoice_Insert(_invoiceXml.ToString()).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace POS.DLL.Transaction
                 throw new Exception(ex.Message);
             }
 
-            return response;
+            return invoiceResult;
         }
     }
 }

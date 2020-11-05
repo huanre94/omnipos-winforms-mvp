@@ -28,9 +28,9 @@ namespace POS.DLL
         public decimal SystemAmount { get; set; }
     
         public virtual ClosingCashTable ClosingCashTable { get; set; }
-        public virtual PaymMode PaymMode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashMoney> ClosingCashMoney { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual PaymMode PaymMode { get; set; }
     }
 }

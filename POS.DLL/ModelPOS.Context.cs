@@ -44,7 +44,6 @@ namespace POS.DLL
         public virtual DbSet<InventLocation> InventLocation { get; set; }
         public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
-        public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
@@ -66,7 +65,6 @@ namespace POS.DLL
         public virtual DbSet<GiftCardTemplateLine> GiftCardTemplateLine { get; set; }
         public virtual DbSet<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
-        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
@@ -93,6 +91,9 @@ namespace POS.DLL
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
+        public virtual DbSet<PaymMode> PaymMode { get; set; }
+        public virtual DbSet<RetentionTable> RetentionTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -224,6 +225,15 @@ namespace POS.DLL
                 new ObjectParameter("IsPassport", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
+        }
+    
+        public virtual ObjectResult<SP_Invoice_Insert_Result> SP_Invoice_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Invoice_Insert_Result>("SP_Invoice_Insert", paramXMLParameter);
         }
     }
 }

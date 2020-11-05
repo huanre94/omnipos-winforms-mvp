@@ -12,15 +12,16 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesOrderPayment
+    public partial class RetentionTable
     {
-        public long SalesOrderId { get; set; }
-        public int Sequence { get; set; }
-        public int PaymModeId { get; set; }
-        public decimal Amount { get; set; }
-        public string Reference { get; set; }
-    
-        public virtual SalesOrder SalesOrder { get; set; }
-        public virtual PaymMode PaymMode { get; set; }
+        public string RetentionCode { get; set; }
+        public string Name { get; set; }
+        public decimal Percent { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     }
 }

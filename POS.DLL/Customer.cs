@@ -44,9 +44,9 @@ namespace POS.DLL
         public int CityId { get; set; }
         public string Address { get; set; }
         public int CustomerTypeId { get; set; }
-        public Nullable<bool> UseWithhold { get; set; }
+        public Nullable<bool> UseRetention { get; set; }
         public Nullable<bool> IsCredit { get; set; }
-        public Nullable<decimal> CreditLimit { get; set; }
+        public decimal CreditLimit { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }

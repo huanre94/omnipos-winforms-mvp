@@ -101,7 +101,7 @@ namespace POS
                                         "Ocurrio un problema al cargar lista de Bancos."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                     );
             }
 
@@ -151,7 +151,7 @@ namespace POS
                                             "Ocurrio un problema al cargar lista de Marcas de Tarjeta."
                                             , ClsEnums.MessageType.ERROR
                                             , true
-                                            , ex.Message
+                                            , ex.InnerException.Message
                                         );
                 }
             }

@@ -56,7 +56,7 @@ namespace POS
                                             "Ocurrio un problema al consultar el bono."
                                             ,ClsEnums.MessageType.ERROR
                                             ,true
-                                            ,ex.Message
+                                            ,ex.InnerException.Message
                                             );
                 }
             }

@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="POSModel.InventLocation" Width="1.5" PointX="12" PointY="63.625" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.InventProductLocation" Width="1.5" PointX="17.25" PointY="48" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.InventUnit" Width="1.5" PointX="7.5" PointY="24.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="POSModel.PaymMode" Width="1.5" PointX="17" PointY="26.625" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.Product" Width="1.5" PointX="9.75" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.ProductBarcode" Width="1.5" PointX="12" PointY="24.125" IsExpanded="true" />
         <EntityTypeShape EntityType="POSModel.ProductCategory" Width="1.5" PointX="7.5" PointY="43.5" IsExpanded="true" />
@@ -37,15 +36,12 @@
         <AssociationConnector Association="POSModel.FK__BankCreditCard_Bank" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Product_Brand" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__ClosingCashLine_ClosingCashTable" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__ClosingCashLine_PaymMode" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__ClosingCashMoney_ClosingCashLine" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__CountCashLine_CountCashTable" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__CountCashLine_PaymMode" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__CountCashMoney_CountCashLine" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__InventProductLocation_InventLocation" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__InventProductLocation_Product" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Product_InventUnit" ManuallyRouted="false" />
-        <AssociationConnector Association="POSModel.FK__PromotionPaymMode_PaymMode" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Product_ProductCategory" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__Product_ProductGroup" ManuallyRouted="false" />
         <AssociationConnector Association="POSModel.FK__ProductBarcode_Product" ManuallyRouted="false" />
@@ -65,14 +61,12 @@
         <EntityTypeShape EntityType="POSModel.GiftCardTemplateLine" Width="1.5" PointX="17.25" PointY="41.25" />
         <EntityTypeShape EntityType="POSModel.GiftCardTemplateTable" Width="1.5" PointX="12" PointY="49.625" />
         <EntityTypeShape EntityType="POSModel.GiftCardTrans" Width="1.5" PointX="29.75" PointY="36.125" />
-        <EntityTypeShape EntityType="POSModel.InvoicePayment" Width="1.5" PointX="27.125" PointY="36" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_GiftCardBlockTable" />
         <AssociationConnector Association="POSModel.FK__GiftCardLine_GiftCardTable" />
         <AssociationConnector Association="POSModel.FK__GiftCardTrans_GiftCardLine" />
         <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable" />
         <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_Product" />
         <AssociationConnector Association="POSModel.FK__GiftCardTemplateTable_Product" />
-        <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />
         <EntityTypeShape EntityType="POSModel.GiftCardBlockLine" Width="1.5" PointX="22.25" PointY="34.125" />
         <AssociationConnector Association="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" />
         <EntityTypeShape EntityType="POSModel.CreditCard" Width="1.5" PointX="0.75" PointY="4.875" />
@@ -82,7 +76,6 @@
         <EntityTypeShape EntityType="POSModel.SalesOrderPayment" Width="1.5" PointX="32.5" PointY="36.875" />
         <EntityTypeShape EntityType="POSModel.SalesOrderText" Width="1.5" PointX="32.5" PointY="50.375" />
         <EntityTypeShape EntityType="POSModel.SalesOrigin" Width="1.5" PointX="28" PointY="47.375" />
-        <AssociationConnector Association="POSModel.FK__SalesOrderPayment_PaymMode" />
         <AssociationConnector Association="POSModel.FK__SalesOrigin_Salesman" />
         <EntityTypeShape EntityType="POSModel.GlobalParameter" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="POSModel.City" Width="1.5" PointX="5.25" PointY="39.5" />
@@ -102,7 +95,6 @@
         <AssociationConnector Association="POSModel.FK__GiftCardTable_LocationOrigin" />
         <AssociationConnector Association="POSModel.FK__GiftCardTrans_LocationWithdrawn" />
         <AssociationConnector Association="POSModel.FK__InventLocation_Location" />
-        <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
         <EntityTypeShape EntityType="POSModel.SalesRemissionLine" Width="1.5" PointX="37.5" PointY="41" />
         <EntityTypeShape EntityType="POSModel.SalesRemissionTable" Width="1.5" PointX="35.25" PointY="53.5" />
         <EntityTypeShape EntityType="POSModel.Transport" Width="1.5" PointX="3.375" PointY="3.75" />
@@ -124,7 +116,6 @@
         <AssociationConnector Association="POSModel.FK__Supervisor_User" />
         <EntityTypeShape EntityType="POSModel.InvoiceTable" Width="1.5" PointX="35.25" PointY="42" />
         <EntityTypeShape EntityType="POSModel.SalesOrder" Width="1.5" PointX="38.25" PointY="44.875" />
-        <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_SalesOrigin" />
@@ -150,9 +141,14 @@
         <AssociationConnector Association="POSModel.FK__InvoiceLine_Product" />
         <AssociationConnector Association="POSModel.FK__SalesOrderLine_Product" />
         <AssociationConnector Association="POSModel.FK__SalesOrderLine_SalesOrder" />
-        <EntityTypeShape EntityType="POSModel.Customer" Width="1.5" PointX="12" PointY="31.875" />
+        <EntityTypeShape EntityType="POSModel.Customer" Width="1.5" PointX="20" PointY="33.875" />
+        <EntityTypeShape EntityType="POSModel.InvoicePayment" Width="1.5" PointX="40.5" PointY="43.25" />
+        <EntityTypeShape EntityType="POSModel.PaymMode" Width="1.5" PointX="12" PointY="35.125" />
+        <EntityTypeShape EntityType="POSModel.RetentionTable" Width="1.5" PointX="5.375" PointY="0.75" />
         <AssociationConnector Association="POSModel.FK__AccountsReceivable_Customer" />
         <AssociationConnector Association="POSModel.FK__Customer_City" />
+        <AssociationConnector Association="POSModel.FK__ClosingCashLine_PaymMode" />
+        <AssociationConnector Association="POSModel.FK__CountCashLine_PaymMode" />
         <AssociationConnector Association="POSModel.FK__Customer_CustomerType" />
         <AssociationConnector Association="POSModel.FK__Customer_IdentType" />
         <AssociationConnector Association="POSModel.FK__Customer_Location" />
@@ -162,6 +158,11 @@
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Customer" />
         <AssociationConnector Association="POSModel.FK__PromotionCustomer_Customer" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_Customer" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />
+        <AssociationConnector Association="POSModel.FK__PromotionPaymMode_PaymMode" />
+        <AssociationConnector Association="POSModel.FK__SalesOrderPayment_PaymMode" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -27,12 +27,13 @@ namespace POS
         #region Global Load Definitions
 
         ClsFunctions functions = new ClsFunctions();
-        XElement paymentXml = new XElement("payment");
+        public XElement paymentXml = new XElement("Payment");
         public Customer customer = null;
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
         decimal changeAmount = 0;
+        public bool canCloseInvoice = false;
 
         public FrmPayment()
         {
@@ -409,7 +410,7 @@ namespace POS
 
             Type type = _invoicePayment.GetType();
             PropertyInfo[] properties = type.GetProperties();
-            XElement paymentDetailXml = new XElement("paymentDetail");
+            XElement paymentDetailXml = new XElement("InvoicePayment");
 
             foreach (var prop in properties)
             {
@@ -455,7 +456,8 @@ namespace POS
 
                 if (paidAmount == invoiceAmount)
                 {
-                    ClosingInvoice();
+                    canCloseInvoice = true;
+                    Close();
                 }
                 else
                 {
@@ -469,30 +471,6 @@ namespace POS
         }
         #endregion
 
-        #region Invoicing Functions
-        private void ClosingInvoice()
-        {
-            try
-            {
-                ClsInvoiceTrans invoice = new ClsInvoiceTrans();
-
-                if (invoice.CreateInvoice(paymentXml))
-                {
-                    functions.ShowMessage("Venta finalizada exitosamente.");
-                    Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ha ocurrido un problema al registrar la factura."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
-        }
-    
-        #endregion   
+        
     }
 }

@@ -88,7 +88,7 @@ namespace POS
                                         "Ocurrio un problema al cargar información del cliente."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                     );
                 }
             }
@@ -183,7 +183,7 @@ namespace POS
                                         "Ocurrio un problema al cargar tipos de identificación."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                     );
             }
         }
@@ -253,7 +253,7 @@ namespace POS
                                             "Ocurrio un problema al crear / actualizar cliente."
                                             , ClsEnums.MessageType.ERROR
                                             , true
-                                            , ex.Message
+                                            , ex.InnerException.Message
                                         );
                 }
             }
@@ -295,7 +295,7 @@ namespace POS
                                         "Ocurrio un problema al validar identificación del cliente."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                     );
             }
 

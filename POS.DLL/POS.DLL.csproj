@@ -224,6 +224,9 @@
     <Compile Include="Province.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="RetentionTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Salesman.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -264,6 +267,9 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Invoice_Insert_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Product_Consult_Result.cs">

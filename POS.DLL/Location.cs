@@ -25,13 +25,13 @@ namespace POS.DLL
             this.GiftCardTable1 = new HashSet<GiftCardTable>();
             this.GiftCardTrans = new HashSet<GiftCardTrans>();
             this.InventLocation = new HashSet<InventLocation>();
-            this.InvoicePayment = new HashSet<InvoicePayment>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.SequenceTable = new HashSet<SequenceTable>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
             this.EmissionPoint = new HashSet<EmissionPoint>();
             this.Customer = new HashSet<Customer>();
+            this.InvoicePayment = new HashSet<InvoicePayment>();
         }
     
         public short LocationId { get; set; }
@@ -64,8 +64,6 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InventLocation> InventLocation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SequenceTable> SequenceTable { get; set; }
@@ -77,5 +75,7 @@ namespace POS.DLL
         public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
     }
 }

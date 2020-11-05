@@ -74,7 +74,7 @@
             this.LblTotal = new System.Windows.Forms.Label();
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LblDiscAmount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -646,7 +646,7 @@
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(161, 41);
             this.LblTotal.TabIndex = 154;
-            this.LblTotal.Text = "45.50";
+            this.LblTotal.Text = "0.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LblTitleTotal
@@ -671,16 +671,16 @@
             this.label1.Text = "Descuento $";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label2
+            // LblDiscAmount
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(1187, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(154, 36);
-            this.label2.TabIndex = 156;
-            this.label2.Text = "1.26";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LblDiscAmount.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LblDiscAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
+            this.LblDiscAmount.Location = new System.Drawing.Point(1187, 59);
+            this.LblDiscAmount.Name = "LblDiscAmount";
+            this.LblDiscAmount.Size = new System.Drawing.Size(154, 36);
+            this.LblDiscAmount.TabIndex = 156;
+            this.LblDiscAmount.Text = "0.00";
+            this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FrmMain
             // 
@@ -690,7 +690,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1364, 706);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.LblDiscAmount);
             this.Controls.Add(this.LblTitleTotal);
             this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.BtnRemove);
@@ -786,7 +786,7 @@
         private System.Windows.Forms.Label LblTotal;
         private System.Windows.Forms.Label LblTitleTotal;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblDiscAmount;
         private DevExpress.XtraGrid.Columns.GridColumn ProductDescription;
         private DevExpress.XtraGrid.Columns.GridColumn Qty;
         private DevExpress.XtraGrid.Columns.GridColumn Price;
