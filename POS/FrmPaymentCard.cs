@@ -79,7 +79,7 @@ namespace POS
         {
             ClsPaymMode paymMode = new ClsPaymMode();
             List<DLL.Bank> banks;
-
+            
             try
             {
                 banks = paymMode.GetBanks();

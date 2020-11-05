@@ -31,7 +31,7 @@ namespace POS.DLL
         public bool IsProtest { get; set; }
         public System.DateTime ProtestDate { get; set; }
         public string GiftCardNumber { get; set; }
-        public string RetentionCode { get; set; }
+        public int RetentionCode { get; set; }
         public string RetentionNumber { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
@@ -39,8 +39,6 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public string RetentionCode { get; set; }
-        public string RetentionNumber { get; set; }
     
         public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual Location Location { get; set; }

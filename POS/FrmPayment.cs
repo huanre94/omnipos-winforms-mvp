@@ -32,8 +32,10 @@ namespace POS
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
-        decimal changeAmount = 0;
+        decimal changeAmount = 0;       
         public bool canCloseInvoice = false;
+        public decimal baseAmount = 0;
+        public decimal taxAmount = 0;
 
         public FrmPayment()
         {
@@ -135,6 +137,18 @@ namespace POS
         #endregion
 
         #region Payment Buttons
+        private void BtnWithhold_Click(object sender, EventArgs e)
+        {
+            if (TxtAmount.Text != "")
+            {
+                Withhold();
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
+        }
+
         private void BtnCash_Click(object sender, EventArgs e)
         {
             if (TxtAmount.Text != "")
@@ -218,6 +232,32 @@ namespace POS
         #endregion
 
         #region Payment Functions
+        private void Withhold()
+        {
+            FrmPaymentWithhold2 paymentWithhold = new FrmPaymentWithhold2();
+            paymentWithhold.customer = customer;
+            paymentWithhold.retentionAmount = decimal.Parse(TxtAmount.Text);
+            paymentWithhold.ShowDialog();
+
+            if (paymentWithhold.processResponse)
+            {
+                ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)paymModeEnum,
+                    //BankId = paymentCard.bankId,
+                    //CreditCardId = paymentCard.creditCardId,
+                    RetentionCode = paymentWithhold.retentionCode,
+                    RetentionNumber = paymentWithhold.retentionNumber,
+                    Authorization = paymentWithhold.authorization,
+                    Amount = paymentWithhold.retentionAmount
+                };
+
+                AddRecordToSource(invoicePayment);
+                CalculatePayment(paymModeEnum);
+            }
+        }
+
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -304,8 +344,8 @@ namespace POS
 
                 try
                 {
-                    parameter = general.GetParameterByName("InternalCreditRequestAuth");               
-                
+                    parameter = general.GetParameterByName("InternalCreditRequestAuth");
+
                     if (parameter != null)
                     {
                         if (parameter.Value == "1")
@@ -314,7 +354,7 @@ namespace POS
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ha ocurrido un problema al consultar parametro."
@@ -383,7 +423,7 @@ namespace POS
 
         private class PaymentEntry
         {
-            public PaymentEntry(){ }
+            public PaymentEntry() { }
 
             public PaymentEntry(string _description, decimal _amount)
             {
@@ -397,7 +437,7 @@ namespace POS
         private void AddRecordToSource(InvoicePayment _invoicePayment)
         {
             ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
-            
+
             //DataRow NewRow = dataTable.NewRow();
             //NewRow[0] = paymModeEnum;
             //NewRow[1] = Math.Round(_invoicePayment.Amount * 1.00M, 2);
@@ -446,7 +486,7 @@ namespace POS
                     paidAmount = invoiceAmount;
                 }
             }
-
+           
             if (invoiceAmount >= paidAmount)
             {
                 pendingAmount = invoiceAmount - paidAmount;
@@ -469,8 +509,8 @@ namespace POS
                 functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
             }
         }
+
         #endregion
 
-        
     }
 }

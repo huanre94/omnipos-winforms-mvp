@@ -125,5 +125,10 @@ namespace POS
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
         }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

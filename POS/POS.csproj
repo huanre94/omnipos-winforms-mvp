@@ -130,11 +130,11 @@
     <Compile Include="FrmPaymentGiftcard.Designer.cs">
       <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmPaymentWithhold.cs">
+    <Compile Include="FrmPaymentWithhold2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmPaymentWithhold.Designer.cs">
-      <DependentUpon>FrmPaymentWithhold.cs</DependentUpon>
+    <Compile Include="FrmPaymentWithhold2.Designer.cs">
+      <DependentUpon>FrmPaymentWithhold2.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmSupervisorAuth.cs">
       <SubType>Form</SubType>
@@ -175,8 +175,8 @@
     <EmbeddedResource Include="FrmPaymentGiftcard.resx">
       <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmPaymentWithhold.resx">
-      <DependentUpon>FrmPaymentWithhold.cs</DependentUpon>
+    <EmbeddedResource Include="FrmPaymentWithhold2.resx">
+      <DependentUpon>FrmPaymentWithhold2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSupervisorAuth.resx">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>

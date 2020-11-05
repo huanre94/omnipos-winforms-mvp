@@ -58,7 +58,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TxtAmount = new DevExpress.XtraEditors.TextEdit();
             this.BtnGiftcard = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnWithhold = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAmount.Properties)).BeginInit();
@@ -481,22 +481,23 @@
             this.BtnGiftcard.Text = "Bono ";
             this.BtnGiftcard.Click += new System.EventHandler(this.BtnGiftcard_Click);
             // 
-            // simpleButton1
+            // BtnWithhold
             // 
-            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.simpleButton1.Appearance.Options.UseBackColor = true;
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.simpleButton1.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
-            this.simpleButton1.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
-            this.simpleButton1.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
-            this.simpleButton1.Location = new System.Drawing.Point(285, 456);
-            this.simpleButton1.Margin = new System.Windows.Forms.Padding(5);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(220, 80);
-            this.simpleButton1.TabIndex = 164;
-            this.simpleButton1.Text = "Retencion";
+            this.BtnWithhold.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnWithhold.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnWithhold.Appearance.Options.UseBackColor = true;
+            this.BtnWithhold.Appearance.Options.UseFont = true;
+            this.BtnWithhold.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnWithhold.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
+            this.BtnWithhold.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
+            this.BtnWithhold.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
+            this.BtnWithhold.Location = new System.Drawing.Point(285, 456);
+            this.BtnWithhold.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnWithhold.Name = "BtnWithhold";
+            this.BtnWithhold.Size = new System.Drawing.Size(220, 80);
+            this.BtnWithhold.TabIndex = 164;
+            this.BtnWithhold.Text = "Retencion";
+            this.BtnWithhold.Click += new System.EventHandler(this.BtnWithhold_Click);
             // 
             // FrmPayment
             // 
@@ -505,7 +506,7 @@
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(837, 552);
             this.ControlBox = false;
-            this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.BtnWithhold);
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);
             this.Controls.Add(this.LblPending);
@@ -577,6 +578,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
         private DevExpress.XtraEditors.SimpleButton BtnGiftcard;
         public DevExpress.XtraEditors.TextEdit TxtAmount;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton BtnWithhold;
     }
 }

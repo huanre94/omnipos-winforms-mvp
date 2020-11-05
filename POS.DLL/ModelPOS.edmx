@@ -513,7 +513,7 @@
           <Property Name="IsProtest" Type="bit" Nullable="false" />
           <Property Name="ProtestDate" Type="datetime" Nullable="false" />
           <Property Name="GiftCardNumber" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="RetentionCode" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="RetentionCode" Type="int" Nullable="false" />
           <Property Name="RetentionNumber" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -783,9 +783,11 @@
           <Key>
             <PropertyRef Name="RetentionCode" />
           </Key>
-          <Property Name="RetentionCode" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="RetentionCode" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Percent" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="5" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
@@ -1034,12 +1036,12 @@
           <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
-        <EntityType Name="User">
+        <EntityType Name="UserLogin">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="UserCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Lastname" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Firtsname" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="IsProfile" Type="bit" Nullable="false" />
@@ -2115,10 +2117,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supervisor_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="1" />
           <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
+            <Principal Role="UserLogin">
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="Supervisor">
@@ -2216,6 +2218,12 @@
         <Function Name="SP_Invoice_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
         </Function>
+        <Function Name="SP_Login_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Workstation" Type="varchar" Mode="In" />
+          <Parameter Name="AddressIP" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Product_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationId" Type="smallint" Mode="In" />
           <Parameter Name="Barcode" Type="varchar" Mode="In" />
@@ -2293,7 +2301,7 @@
           <EntitySet Name="Transport" EntityType="Self.Transport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransportDriver" EntityType="Self.TransportDriver" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransportReason" EntityType="Self.TransportReason" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AccountsReceivable_Customer" Association="Self.FK__AccountsReceivable_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -2640,7 +2648,7 @@
             <End Role="SequenceTable" EntitySet="SequenceTable" />
           </AssociationSet>
           <AssociationSet Name="FK__Supervisor_User" Association="Self.FK__Supervisor_User">
-            <End Role="User" EntitySet="User" />
+            <End Role="UserLogin" EntitySet="UserLogin" />
             <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
           <AssociationSet Name="FK__Vendor_City" Association="Self.FK__Vendor_City">
@@ -2735,8 +2743,8 @@
           <Property Name="SystemAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="ClosingCashTable" Relationship="Self.FK__ClosingCashLine_ClosingCashTable" FromRole="ClosingCashLine" ToRole="ClosingCashTable" />
           <NavigationProperty Name="ClosingCashMoney" Relationship="Self.FK__ClosingCashMoney_ClosingCashLine" FromRole="ClosingCashLine" ToRole="ClosingCashMoney" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.PK__ClosingCashLine_EmissionPoint" FromRole="ClosingCashLine" ToRole="EmissionPoint" />
           <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__ClosingCashLine_PaymMode" FromRole="ClosingCashLine" ToRole="PaymMode" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.PK__ClosingCashLine_EmissionPoint" FromRole="ClosingCashLine" ToRole="EmissionPoint" />
         </EntityType>
         <EntityType Name="ClosingCashMoney">
           <Key>
@@ -2800,8 +2808,8 @@
           <Property Name="SystemAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="CountCashTable" Relationship="Self.FK__CountCashLine_CountCashTable" FromRole="CountCashLine" ToRole="CountCashTable" />
           <NavigationProperty Name="CountCashMoney" Relationship="Self.FK__CountCashMoney_CountCashLine" FromRole="CountCashLine" ToRole="CountCashMoney" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.PK__CountCashLine_EmissionPoint" FromRole="CountCashLine" ToRole="EmissionPoint" />
           <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__CountCashLine_PaymMode" FromRole="CountCashLine" ToRole="PaymMode" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.PK__CountCashLine_EmissionPoint" FromRole="CountCashLine" ToRole="EmissionPoint" />
         </EntityType>
         <EntityType Name="CountCashMoney">
           <Key>
@@ -3413,7 +3421,6 @@
             <End Role="PromotionReward" EntitySet="PromotionReward" />
           </AssociationSet>
           <EntitySet Name="InternalCreditCardLine" EntityType="POSModel.InternalCreditCardLine" />
-          <EntitySet Name="Supervisor" EntityType="POSModel.Supervisor" />
           <EntitySet Name="TaxTable" EntityType="POSModel.TaxTable" />
           <AssociationSet Name="FK__InternalCreditCardLine_PromotionTable" Association="POSModel.FK__InternalCreditCardLine_PromotionTable">
             <End Role="PromotionTable" EntitySet="PromotionTable" />
@@ -3584,7 +3591,6 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductModule" EntitySet="ProductModule" />
           </AssociationSet>
-          <EntitySet Name="User" EntityType="POSModel.User" />
           <EntitySet Name="Vendor" EntityType="POSModel.Vendor" />
           <AssociationSet Name="FK__Vendor_City" Association="POSModel.FK__Vendor_City">
             <End Role="City" EntitySet="City" />
@@ -3597,10 +3603,6 @@
           <AssociationSet Name="FK__Product_VendorId" Association="POSModel.FK__Product_VendorId">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Supervisor_User" Association="POSModel.FK__Supervisor_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
           <FunctionImport Name="SP_Customer_Insert" ReturnType="Collection(POSModel.SP_Customer_Insert_Result)">
           <Parameter Name="ParamXML" Mode="In" Type="String" />
@@ -3658,37 +3660,8 @@
             <Parameter Name="Identification" Mode="In" Type="String" />
             <Parameter Name="IsPassport" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="EmissionPoint" EntityType="POSModel.EmissionPoint" />
           <EntitySet Name="InvoiceLine" EntityType="POSModel.InvoiceLine" />
           <EntitySet Name="SalesOrderLine" EntityType="POSModel.SalesOrderLine" />
-          <AssociationSet Name="PK__ClosingCashLine_EmissionPoint" Association="POSModel.PK__ClosingCashLine_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="ClosingCashLine" EntitySet="ClosingCashLine" />
-          </AssociationSet>
-          <AssociationSet Name="PK__CountCashLine_EmissionPoint" Association="POSModel.PK__CountCashLine_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="CountCashLine" EntitySet="CountCashLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmissionPoint_InventLocation" Association="POSModel.FK__EmissionPoint_InventLocation">
-            <End Role="InventLocation" EntitySet="InventLocation" />
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmissionPoint_Location" Association="POSModel.FK__EmissionPoint_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceTable_EmissionPoint" Association="POSModel.FK__InvoiceTable_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SalesOrder_EmissionPoint" Association="POSModel.FK__SalesOrder_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="SalesOrder" EntitySet="SalesOrder" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SalesRemissionTable_EmissionPoint" Association="POSModel.FK__SalesRemissionTable_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
-          </AssociationSet>
           <AssociationSet Name="FK__InvoiceLine_InventUnit" Association="POSModel.FK__InvoiceLine_InventUnit">
             <End Role="InventUnit" EntitySet="InventUnit" />
             <End Role="InvoiceLine" EntitySet="InvoiceLine" />
@@ -3717,9 +3690,6 @@
           <Parameter Name="ParamXML" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Customer" EntityType="POSModel.Customer" />
-          <EntitySet Name="InvoicePayment" EntityType="POSModel.InvoicePayment" />
-          <EntitySet Name="PaymMode" EntityType="POSModel.PaymMode" />
-          <EntitySet Name="RetentionTable" EntityType="POSModel.RetentionTable" />
           <AssociationSet Name="FK__AccountsReceivable_Customer" Association="POSModel.FK__AccountsReceivable_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="AccountsReceivable" EntitySet="AccountsReceivable" />
@@ -3727,14 +3697,6 @@
           <AssociationSet Name="FK__Customer_City" Association="POSModel.FK__Customer_City">
             <End Role="City" EntitySet="City" />
             <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ClosingCashLine_PaymMode" Association="POSModel.FK__ClosingCashLine_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
-            <End Role="ClosingCashLine" EntitySet="ClosingCashLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__CountCashLine_PaymMode" Association="POSModel.FK__CountCashLine_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
-            <End Role="CountCashLine" EntitySet="CountCashLine" />
           </AssociationSet>
           <AssociationSet Name="FK__Customer_CustomerType" Association="POSModel.FK__Customer_CustomerType">
             <End Role="CustomerType" EntitySet="CustomerType" />
@@ -3772,6 +3734,60 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="SalesOrder" EntitySet="SalesOrder" />
           </AssociationSet>
+          <EntitySet Name="EmissionPoint" EntityType="POSModel.EmissionPoint" />
+          <EntitySet Name="PaymMode" EntityType="POSModel.PaymMode" />
+          <AssociationSet Name="FK__ClosingCashLine_PaymMode" Association="POSModel.FK__ClosingCashLine_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="ClosingCashLine" EntitySet="ClosingCashLine" />
+          </AssociationSet>
+          <AssociationSet Name="PK__ClosingCashLine_EmissionPoint" Association="POSModel.PK__ClosingCashLine_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="ClosingCashLine" EntitySet="ClosingCashLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CountCashLine_PaymMode" Association="POSModel.FK__CountCashLine_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="CountCashLine" EntitySet="CountCashLine" />
+          </AssociationSet>
+          <AssociationSet Name="PK__CountCashLine_EmissionPoint" Association="POSModel.PK__CountCashLine_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="CountCashLine" EntitySet="CountCashLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmissionPoint_InventLocation" Association="POSModel.FK__EmissionPoint_InventLocation">
+            <End Role="InventLocation" EntitySet="InventLocation" />
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmissionPoint_Location" Association="POSModel.FK__EmissionPoint_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_EmissionPoint" Association="POSModel.FK__InvoiceTable_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesOrder_EmissionPoint" Association="POSModel.FK__SalesOrder_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesRemissionTable_EmissionPoint" Association="POSModel.FK__SalesRemissionTable_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PromotionPaymMode_PaymMode" Association="POSModel.FK__PromotionPaymMode_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesOrderPayment_PaymMode" Association="POSModel.FK__SalesOrderPayment_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="SalesOrderPayment" EntitySet="SalesOrderPayment" />
+          </AssociationSet>
+          <EntitySet Name="RetentionTable" EntityType="POSModel.RetentionTable" />
+          <FunctionImport Name="SP_Login_Consult" ReturnType="Collection(POSModel.SP_Login_Consult_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Workstation" Mode="In" Type="String" />
+            <Parameter Name="AddressIP" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="InvoicePayment" EntityType="POSModel.InvoicePayment" />
           <AssociationSet Name="FK__InvoicePayment_InvoiceTable" Association="POSModel.FK__InvoicePayment_InvoiceTable">
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
@@ -3784,13 +3800,14 @@
             <End Role="PaymMode" EntitySet="PaymMode" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
           </AssociationSet>
-          <AssociationSet Name="FK__PromotionPaymMode_PaymMode" Association="POSModel.FK__PromotionPaymMode_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
-            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SalesOrderPayment_PaymMode" Association="POSModel.FK__SalesOrderPayment_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
-            <End Role="SalesOrderPayment" EntitySet="SalesOrderPayment" />
+          <FunctionImport Name="SP_Supervisor_Validate1" ReturnType="Collection(POSModel.SP_Supervisor_Validate1_Result)">
+          <Parameter Name="barcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Supervisor" EntityType="POSModel.Supervisor" />
+          <EntitySet Name="UserLogin" EntityType="POSModel.UserLogin" />
+          <AssociationSet Name="FK__Supervisor_User" Association="POSModel.FK__Supervisor_User">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
@@ -3802,22 +3819,6 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PromotionTable" Relationship="POSModel.FK__InternalCreditCardLine_PromotionTable" FromRole="InternalCreditCardLine" ToRole="PromotionTable" />
           <NavigationProperty Name="InternalCreditCard" Relationship="POSModel.FK__InternalCreditCardLine_InternalCreditCard" FromRole="InternalCreditCardLine" ToRole="InternalCreditCard" />
-        </EntityType>
-        <EntityType Name="Supervisor">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="PasswordId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="PasswordId" Type="Int32" Nullable="false" />
-          <Property Name="barcode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="POSModel.FK__Supervisor_User" FromRole="Supervisor" ToRole="User" />
         </EntityType>
         <EntityType Name="TaxTable">
           <Key>
@@ -4288,8 +4289,8 @@
           <NavigationProperty Name="SequenceTable" Relationship="POSModel.FK__SequenceTable_Location" FromRole="Location" ToRole="SequenceTable" />
           <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="Location" ToRole="InvoiceTable" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Location" FromRole="Location" ToRole="SalesOrder" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__EmissionPoint_Location" FromRole="Location" ToRole="EmissionPoint" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_Location" FromRole="Location" ToRole="Customer" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__EmissionPoint_Location" FromRole="Location" ToRole="EmissionPoint" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="Location" ToRole="InvoicePayment" />
         </EntityType>
         <EntityType Name="Province">
@@ -4646,27 +4647,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="UserCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
-          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_User" FromRole="User" ToRole="Supervisor" />
-        </EntityType>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="VendorId" />
@@ -4728,18 +4708,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supervisor_User">
-          <End Type="POSModel.User" Role="User" Multiplicity="1" />
-          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Supervisor">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SP_Customer_Insert_Result">
           <Property Type="Int64" Name="CustomerId" Nullable="true" />
           <Property Type="String" Name="Identification" Nullable="true" MaxLength="20" />
@@ -4792,9 +4760,9 @@
           <NavigationProperty Name="Salesman" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="InvoiceTable" ToRole="Salesman" />
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
           <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="InvoiceTable" ToRole="EmissionPoint" />
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoiceLine" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="InvoiceTable" ToRole="Customer" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="InvoiceTable" ToRole="EmissionPoint" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoicePayment" />
         </EntityType>
         <EntityType Name="SalesOrder">
@@ -4836,9 +4804,9 @@
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__SalesOrder_SalesOrigin" FromRole="SalesOrder" ToRole="SalesOrigin" />
           <NavigationProperty Name="SalesOrderPayment" Relationship="POSModel.FK__SalesOrderPayment_SalesOrder" FromRole="SalesOrder" ToRole="SalesOrderPayment" />
           <NavigationProperty Name="SalesOrderText" Relationship="POSModel.FK__SalesOrderText_FACTrPedidoCab" FromRole="SalesOrder" ToRole="SalesOrderText" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__SalesOrder_EmissionPoint" FromRole="SalesOrder" ToRole="EmissionPoint" />
           <NavigationProperty Name="SalesOrderLine" Relationship="POSModel.FK__SalesOrderLine_SalesOrder" FromRole="SalesOrder" ToRole="SalesOrderLine" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__SalesOrder_EmissionPoint" FromRole="SalesOrder" ToRole="EmissionPoint" />
         </EntityType>
         <Association Name="FK__InvoiceTable_Location">
           <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
@@ -5003,34 +4971,6 @@
           <Property Type="Int32" Name="Validated" Nullable="true" />
           <Property Type="String" Name="Text" Nullable="true" MaxLength="150" />
         </ComplexType>
-        <EntityType Name="EmissionPoint">
-          <Key>
-            <PropertyRef Name="EmissionPointId" />
-          </Key>
-          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="InventLocationId" Type="Int32" Nullable="false" />
-          <Property Name="Establishment" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Emission" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
-          <Property Name="AddressIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ScaleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ScanBarcodeName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ClosingCashLine" Relationship="POSModel.PK__ClosingCashLine_EmissionPoint" FromRole="EmissionPoint" ToRole="ClosingCashLine" />
-          <NavigationProperty Name="CountCashLine" Relationship="POSModel.PK__CountCashLine_EmissionPoint" FromRole="EmissionPoint" ToRole="CountCashLine" />
-          <NavigationProperty Name="InventLocation" Relationship="POSModel.FK__EmissionPoint_InventLocation" FromRole="EmissionPoint" ToRole="InventLocation" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__EmissionPoint_Location" FromRole="EmissionPoint" ToRole="Location" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="EmissionPoint" ToRole="InvoiceTable" />
-          <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_EmissionPoint" FromRole="EmissionPoint" ToRole="SalesOrder" />
-          <NavigationProperty Name="SalesRemissionTable" Relationship="POSModel.FK__SalesRemissionTable_EmissionPoint" FromRole="EmissionPoint" ToRole="SalesRemissionTable" />
-        </EntityType>
         <EntityType Name="InvoiceLine">
           <Key>
             <PropertyRef Name="InvoiceId" />
@@ -5094,90 +5034,6 @@
           <NavigationProperty Name="Product" Relationship="POSModel.FK__SalesOrderLine_Product" FromRole="SalesOrderLine" ToRole="Product" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrderLine_SalesOrder" FromRole="SalesOrderLine" ToRole="SalesOrder" />
         </EntityType>
-        <Association Name="PK__ClosingCashLine_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.ClosingCashLine" Role="ClosingCashLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="ClosingCashLine">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PK__CountCashLine_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.CountCashLine" Role="CountCashLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="CountCashLine">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EmissionPoint_InventLocation">
-          <End Type="POSModel.InventLocation" Role="InventLocation" Multiplicity="1" />
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InventLocation">
-              <PropertyRef Name="InventLocationId" />
-            </Principal>
-            <Dependent Role="EmissionPoint">
-              <PropertyRef Name="InventLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EmissionPoint_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="EmissionPoint">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceTable_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SalesOrder_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="SalesOrder">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SalesRemissionTable_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.SalesRemissionTable" Role="SalesRemissionTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="SalesRemissionTable">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InvoiceLine_InventUnit">
           <End Type="POSModel.InventUnit" Role="InventUnit" Multiplicity="1" />
           <End Type="POSModel.InvoiceLine" Role="InvoiceLine" Multiplicity="*" />
@@ -5298,70 +5154,6 @@
           <NavigationProperty Name="PromotionCustomer" Relationship="POSModel.FK__PromotionCustomer_Customer" FromRole="Customer" ToRole="PromotionCustomer" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
         </EntityType>
-        <EntityType Name="InvoicePayment">
-          <Key>
-            <PropertyRef Name="InvoiceId" />
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BankId" Type="Int32" Nullable="false" />
-          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
-          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CkeckNumber" Type="Int32" Nullable="false" />
-          <Property Name="CkeckType" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CkeckDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CheckOwner" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Authorization" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="IsProtest" Type="Boolean" Nullable="false" />
-          <Property Name="ProtestDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GiftCardNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="RetentionCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="RetentionNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="InvoicePayment" ToRole="Location" />
-          <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="InvoicePayment" ToRole="PaymMode" />
-        </EntityType>
-        <EntityType Name="PaymMode">
-          <Key>
-            <PropertyRef Name="PaymModeId" />
-          </Key>
-          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="UseRetention" Type="Boolean" />
-          <Property Name="UseFinanceSystem" Type="Boolean" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ClosingCashLine" Relationship="POSModel.FK__ClosingCashLine_PaymMode" FromRole="PaymMode" ToRole="ClosingCashLine" />
-          <NavigationProperty Name="CountCashLine" Relationship="POSModel.FK__CountCashLine_PaymMode" FromRole="PaymMode" ToRole="CountCashLine" />
-          <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="PaymMode" ToRole="InvoicePayment" />
-          <NavigationProperty Name="PromotionPaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PaymMode" ToRole="PromotionPaymMode" />
-          <NavigationProperty Name="SalesOrderPayment" Relationship="POSModel.FK__SalesOrderPayment_PaymMode" FromRole="PaymMode" ToRole="SalesOrderPayment" />
-        </EntityType>
-        <EntityType Name="RetentionTable">
-          <Key>
-            <PropertyRef Name="RetentionCode" />
-          </Key>
-          <Property Name="RetentionCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Percent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <Association Name="FK__AccountsReceivable_Customer">
           <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="POSModel.AccountsReceivable" Role="AccountsReceivable" Multiplicity="*" />
@@ -5383,30 +5175,6 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ClosingCashLine_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.ClosingCashLine" Role="ClosingCashLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Principal>
-            <Dependent Role="ClosingCashLine">
-              <PropertyRef Name="PaymModeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__CountCashLine_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.CountCashLine" Role="CountCashLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Principal>
-            <Dependent Role="CountCashLine">
-              <PropertyRef Name="PaymModeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5518,6 +5286,240 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EmissionPoint">
+          <Key>
+            <PropertyRef Name="EmissionPointId" />
+          </Key>
+          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="InventLocationId" Type="Int32" Nullable="false" />
+          <Property Name="Establishment" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Emission" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
+          <Property Name="AddressIP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ScaleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ScanBarcodeName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ClosingCashLine" Relationship="POSModel.PK__ClosingCashLine_EmissionPoint" FromRole="EmissionPoint" ToRole="ClosingCashLine" />
+          <NavigationProperty Name="CountCashLine" Relationship="POSModel.PK__CountCashLine_EmissionPoint" FromRole="EmissionPoint" ToRole="CountCashLine" />
+          <NavigationProperty Name="InventLocation" Relationship="POSModel.FK__EmissionPoint_InventLocation" FromRole="EmissionPoint" ToRole="InventLocation" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__EmissionPoint_Location" FromRole="EmissionPoint" ToRole="Location" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="EmissionPoint" ToRole="InvoiceTable" />
+          <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_EmissionPoint" FromRole="EmissionPoint" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesRemissionTable" Relationship="POSModel.FK__SalesRemissionTable_EmissionPoint" FromRole="EmissionPoint" ToRole="SalesRemissionTable" />
+        </EntityType>
+        <EntityType Name="PaymMode">
+          <Key>
+            <PropertyRef Name="PaymModeId" />
+          </Key>
+          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UseRetention" Type="Boolean" />
+          <Property Name="UseFinanceSystem" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ClosingCashLine" Relationship="POSModel.FK__ClosingCashLine_PaymMode" FromRole="PaymMode" ToRole="ClosingCashLine" />
+          <NavigationProperty Name="CountCashLine" Relationship="POSModel.FK__CountCashLine_PaymMode" FromRole="PaymMode" ToRole="CountCashLine" />
+          <NavigationProperty Name="PromotionPaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PaymMode" ToRole="PromotionPaymMode" />
+          <NavigationProperty Name="SalesOrderPayment" Relationship="POSModel.FK__SalesOrderPayment_PaymMode" FromRole="PaymMode" ToRole="SalesOrderPayment" />
+          <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="PaymMode" ToRole="InvoicePayment" />
+        </EntityType>
+        <Association Name="FK__ClosingCashLine_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.ClosingCashLine" Role="ClosingCashLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="ClosingCashLine">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK__ClosingCashLine_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.ClosingCashLine" Role="ClosingCashLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="ClosingCashLine">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CountCashLine_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.CountCashLine" Role="CountCashLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="CountCashLine">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK__CountCashLine_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.CountCashLine" Role="CountCashLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="CountCashLine">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmissionPoint_InventLocation">
+          <End Type="POSModel.InventLocation" Role="InventLocation" Multiplicity="1" />
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventLocation">
+              <PropertyRef Name="InventLocationId" />
+            </Principal>
+            <Dependent Role="EmissionPoint">
+              <PropertyRef Name="InventLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmissionPoint_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="EmissionPoint">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesOrder_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesRemissionTable_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.SalesRemissionTable" Role="SalesRemissionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="SalesRemissionTable">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PromotionPaymMode_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.PromotionPaymMode" Role="PromotionPaymMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="PromotionPaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesOrderPayment_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.SalesOrderPayment" Role="SalesOrderPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="SalesOrderPayment">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RetentionTable">
+          <Key>
+            <PropertyRef Name="RetentionCode" />
+          </Key>
+          <Property Name="RetentionCode" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SAPCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Percent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="SP_Login_Consult_Result">
+          <Property Type="Int16" Name="CompanyId" Nullable="true" />
+          <Property Type="Int16" Name="LocationId" Nullable="true" />
+          <Property Type="Int32" Name="UserId" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Workstation" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="AddressIP" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="InvoicePayment">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BankId" Type="Int32" Nullable="false" />
+          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CkeckNumber" Type="Int32" Nullable="false" />
+          <Property Name="CkeckType" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CkeckDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CheckOwner" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Authorization" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="IsProtest" Type="Boolean" Nullable="false" />
+          <Property Name="ProtestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GiftCardNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RetentionCode" Type="Int32" Nullable="false" />
+          <Property Name="RetentionNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="InvoicePayment" ToRole="Location" />
+          <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="InvoicePayment" ToRole="PaymMode" />
+        </EntityType>
         <Association Name="FK__InvoicePayment_InvoiceTable">
           <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
           <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
@@ -5554,27 +5556,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PromotionPaymMode_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.PromotionPaymMode" Role="PromotionPaymMode" Multiplicity="*" />
+        <ComplexType Name="SP_Supervisor_Validate1_Result">
+          <Property Type="Int64" Name="UserId" Nullable="true" />
+          <Property Type="Int64" Name="PasswordId" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PasswordId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PasswordId" Type="Int32" Nullable="false" />
+          <Property Name="barcode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserLogin" Relationship="POSModel.FK__Supervisor_User" FromRole="Supervisor" ToRole="UserLogin" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_User" FromRole="UserLogin" ToRole="Supervisor" />
+        </EntityType>
+        <Association Name="FK__Supervisor_User">
+          <End Type="POSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
+            <Principal Role="UserLogin">
+              <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="PromotionPaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SalesOrderPayment_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.SalesOrderPayment" Role="SalesOrderPayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Principal>
-            <Dependent Role="SalesOrderPayment">
-              <PropertyRef Name="PaymModeId" />
+            <Dependent Role="Supervisor">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6001,21 +6033,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Supervisor">
-            <EntityTypeMapping TypeName="POSModel.Supervisor">
-              <MappingFragment StoreEntitySet="Supervisor">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="barcode" ColumnName="barcode" />
-                <ScalarProperty Name="PasswordId" ColumnName="PasswordId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaxTable">
             <EntityTypeMapping TypeName="POSModel.TaxTable">
               <MappingFragment StoreEntitySet="TaxTable">
@@ -6274,15 +6291,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Supervisor_Validate" FunctionName="POSModel.Store.SP_Supervisor_Validate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Supervisor_Validate_Result">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="PasswordId" ColumnName="PasswordId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GlobalParameter">
             <EntityTypeMapping TypeName="POSModel.GlobalParameter">
               <MappingFragment StoreEntitySet="GlobalParameter">
@@ -6448,27 +6456,6 @@
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="POSModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
-                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
-                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6652,28 +6639,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="EmissionPoint">
-            <EntityTypeMapping TypeName="POSModel.EmissionPoint">
-              <MappingFragment StoreEntitySet="EmissionPoint">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ScanBarcodeName" ColumnName="ScanBarcodeName" />
-                <ScalarProperty Name="ScaleName" ColumnName="ScaleName" />
-                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Emission" ColumnName="Emission" />
-                <ScalarProperty Name="Establishment" ColumnName="Establishment" />
-                <ScalarProperty Name="InventLocationId" ColumnName="InventLocationId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="InvoiceLine">
             <EntityTypeMapping TypeName="POSModel.InvoiceLine">
               <MappingFragment StoreEntitySet="InvoiceLine">
@@ -6773,6 +6738,69 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EmissionPoint">
+            <EntityTypeMapping TypeName="POSModel.EmissionPoint">
+              <MappingFragment StoreEntitySet="EmissionPoint">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ScanBarcodeName" ColumnName="ScanBarcodeName" />
+                <ScalarProperty Name="ScaleName" ColumnName="ScaleName" />
+                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Emission" ColumnName="Emission" />
+                <ScalarProperty Name="Establishment" ColumnName="Establishment" />
+                <ScalarProperty Name="InventLocationId" ColumnName="InventLocationId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymMode">
+            <EntityTypeMapping TypeName="POSModel.PaymMode">
+              <MappingFragment StoreEntitySet="PaymMode">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UseFinanceSystem" ColumnName="UseFinanceSystem" />
+                <ScalarProperty Name="UseRetention" ColumnName="UseRetention" />
+                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RetentionTable">
+            <EntityTypeMapping TypeName="POSModel.RetentionTable">
+              <MappingFragment StoreEntitySet="RetentionTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RetentionCode" ColumnName="RetentionCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Login_Consult" FunctionName="POSModel.Store.SP_Login_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Login_Consult_Result">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="InvoicePayment">
             <EntityTypeMapping TypeName="POSModel.InvoicePayment">
               <MappingFragment StoreEntitySet="InvoicePayment">
@@ -6804,30 +6832,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymMode">
-            <EntityTypeMapping TypeName="POSModel.PaymMode">
-              <MappingFragment StoreEntitySet="PaymMode">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="UseFinanceSystem" ColumnName="UseFinanceSystem" />
-                <ScalarProperty Name="UseRetention" ColumnName="UseRetention" />
-                <ScalarProperty Name="SAPCode" ColumnName="SAPCode" />
+          <FunctionImportMapping FunctionImportName="SP_Supervisor_Validate1" FunctionName="POSModel.Store.SP_Supervisor_Validate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Supervisor_Validate1_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PasswordId" ColumnName="PasswordId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RetentionTable">
-            <EntityTypeMapping TypeName="POSModel.RetentionTable">
-              <MappingFragment StoreEntitySet="RetentionTable">
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Supervisor">
+            <EntityTypeMapping TypeName="POSModel.Supervisor">
+              <MappingFragment StoreEntitySet="Supervisor">
                 <ScalarProperty Name="Workstation" ColumnName="Workstation" />
                 <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Percent" ColumnName="Percent" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="RetentionCode" ColumnName="RetentionCode" />
+                <ScalarProperty Name="barcode" ColumnName="barcode" />
+                <ScalarProperty Name="PasswordId" ColumnName="PasswordId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogin">
+            <EntityTypeMapping TypeName="POSModel.UserLogin">
+              <MappingFragment StoreEntitySet="UserLogin">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
+                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
+                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

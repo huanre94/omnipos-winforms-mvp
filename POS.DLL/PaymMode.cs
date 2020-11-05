@@ -19,10 +19,9 @@ namespace POS.DLL
         {
             this.ClosingCashLine = new HashSet<ClosingCashLine>();
             this.CountCashLine = new HashSet<CountCashLine>();
-            this.InvoicePayment = new HashSet<InvoicePayment>();
             this.PromotionPaymMode = new HashSet<PromotionPaymMode>();
             this.SalesOrderPayment = new HashSet<SalesOrderPayment>();
-            this.InvoicePayment1 = new HashSet<InvoicePayment1>();
+            this.InvoicePayment = new HashSet<InvoicePayment>();
         }
     
         public int PaymModeId { get; set; }
@@ -31,19 +30,16 @@ namespace POS.DLL
         public Nullable<bool> UseRetention { get; set; }
         public Nullable<bool> UseFinanceSystem { get; set; }
         public string Status { get; set; }
-        public Nullable<bool> UseRetention { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashLine> ClosingCashLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CountCashLine> CountCashLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionPaymMode> PromotionPaymMode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderPayment> SalesOrderPayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePayment1> InvoicePayment1 { get; set; }
+        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
     }
 }

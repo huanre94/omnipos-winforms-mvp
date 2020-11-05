@@ -29,6 +29,25 @@ namespace POS
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
             ValidateCustomerInformation();
+            ValidateCredit();
+        }
+
+        private bool ValidateCredit()
+        {
+            bool response = false;
+            if (customer.IsEmployee)
+            {
+
+            } else if ((bool)customer.IsCredit)
+            {
+                LblAuthorization.Visible = false;
+                TxtCreditCardCode.Visible = false;                
+                decimal _creditLimit = customer.CreditLimit;
+                LblCreditLimit.Text = _creditLimit.ToString("#.00"); 
+                LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;
+                creditLimit = _creditLimit;
+            }
+            return response;
         }
 
         private bool ValidateCustomerInformation()
@@ -36,7 +55,7 @@ namespace POS
             bool response = false;
 
             if (customer != null)
-            {                
+            {
                 if (customer.CustomerId > 0)
                 {
                     response = true;
@@ -45,8 +64,8 @@ namespace POS
                 {
                     functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
                     this.DialogResult = DialogResult.Cancel;
-                }                
-            }            
+                }
+            }
 
             return response;
         }
@@ -56,7 +75,7 @@ namespace POS
             if (e.KeyCode == Keys.Enter)
             {
                 if (TxtCreditCardCode.Text != "")
-                {                    
+                {
                     DLL.SP_InternalCreditCard_Consult_Result result;
                     DLL.Transaction.ClsCustomerTrans clsCustomer = new DLL.Transaction.ClsCustomerTrans();
 
@@ -85,16 +104,16 @@ namespace POS
                         }
                     }
                     catch (Exception ex)
-                    {                        
+                    {
                         functions.ShowMessage(
                                                 "Ocurrio un problema al consultar tarjeta de consumo."
-                                                ,ClsEnums.MessageType.ERROR
-                                                ,true
-                                                ,ex.InnerException.Message
+                                                , ClsEnums.MessageType.ERROR
+                                                , true
+                                                , ex.InnerException.Message
                                                 );
                     }
                 }
-            }            
+            }
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -112,33 +131,38 @@ namespace POS
                     {
                         functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
                     }
-                } 
+                }
                 else
                 {
                     functions.ShowMessage("La tarjeta no posee cupo.", ClsEnums.MessageType.WARNING);
                 }
-            }            
+            }
         }
 
         private bool ValidateInternalCreditFields()
         {
             bool response = false;
 
-            if (TxtCreditCardCode.Text != "")
-            {
-                if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
+            if (customer.IsEmployee) {
+                if (TxtCreditCardCode.Text != "")
                 {
-                    response = true;
+                    if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
+                    {
+                        response = true;
+                    }
+                    else
+                    {
+                        functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", ClsEnums.MessageType.WARNING);
+                    }
                 }
                 else
                 {
-                    functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Debe proporcionar el codigo de la tarjeta.", ClsEnums.MessageType.WARNING);
                 }
-            }
-            else
+            }       else
             {
-                functions.ShowMessage("Debe proporcionar el codigo de la tarjeta.", ClsEnums.MessageType.WARNING);                
-            }
+                response = true;
+            }    
 
             if (!response)
             {
@@ -146,6 +170,11 @@ namespace POS
             }
 
             return response;
-        }        
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -80,6 +80,7 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // LblGiftCard
             // 
@@ -158,6 +159,7 @@
             this.BtnSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnSearch.Appearance.Options.UseBackColor = true;
+            this.BtnSearch.Appearance.Options.UseFont = true;
             this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
             this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.find;
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -175,6 +177,7 @@
             this.BtnKeypad.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnKeypad.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnKeypad.Appearance.Options.UseBackColor = true;
+            this.BtnKeypad.Appearance.Options.UseFont = true;
             this.BtnKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypad.ImageOptions.SvgImage")));
             this.BtnKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);

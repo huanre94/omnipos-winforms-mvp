@@ -104,7 +104,7 @@ namespace POS
                                             "Ocurrio un problema al cargar información de punto de emisión."
                                             , ClsEnums.MessageType.ERROR
                                             , true
-                                            , ex.InnerException.Message
+                                            , ex.Message
                                         );
                 }
             }
@@ -325,19 +325,26 @@ namespace POS
 
         private void BtnPayment_Click(object sender, EventArgs e)
         {
-            FrmPayment payment = new FrmPayment();
-            payment.invoiceAmount = decimal.Parse(LblTotal.Text);
-            payment.customer = currentCustomer;
-            payment.ShowDialog();
-            
-            if (payment.canCloseInvoice)
+            if (decimal.Parse(LblTotal.Text) <= 0)
             {
-                if (payment.paymentXml.HasElements)
-                {
-                    invoiceXml.Add(payment.paymentXml);
-                    ClosingInvoice();
-                }
+                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
             }
+            else
+            {
+                FrmPayment payment = new FrmPayment();
+                payment.invoiceAmount = decimal.Parse(LblTotal.Text);
+                payment.customer = currentCustomer;
+                payment.ShowDialog();
+
+                if (payment.canCloseInvoice)
+                {
+                    if (payment.paymentXml.HasElements)
+                    {
+                        invoiceXml.Add(payment.paymentXml);
+                        ClosingInvoice();
+                    }
+                }
+            }           
         }
 
         private void BtnProductSearch_Click(object sender, EventArgs e)

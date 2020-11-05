@@ -30,6 +30,30 @@ namespace POS.DLL.Catalog
             return banks;            
         }
 
+        public List<RetentionTable> GetRetentionTables(int _retentionCode)
+        {
+            var db = new POSEntities();
+            List<RetentionTable> retentionTable;
+
+            try
+            {
+
+                retentionTable = (
+                                from ret in db.RetentionTable
+                                where ret.Status == "A"                                
+                                && ret.RetentionCode == _retentionCode
+                                select ret
+                                ).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return retentionTable;
+
+        }
+
         public List<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true)
         {
             var db = new POSEntities();
