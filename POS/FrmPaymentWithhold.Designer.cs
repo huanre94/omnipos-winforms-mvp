@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class FrmPaymentWithhold2
+    partial class FrmPaymentWithhold
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentWithhold2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentWithhold));
             this.BtnKeypad = new DevExpress.XtraEditors.SimpleButton();
             this.LblAmount = new System.Windows.Forms.Label();
             this.LblTitleAmount = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
             // 
             this.LblAmount.AutoSize = true;
             this.LblAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblAmount.Location = new System.Drawing.Point(280, 117);
+            this.LblAmount.Location = new System.Drawing.Point(290, 117);
             this.LblAmount.Name = "LblAmount";
             this.LblAmount.Size = new System.Drawing.Size(47, 18);
             this.LblAmount.TabIndex = 30;
@@ -81,9 +81,9 @@
             this.LblTitleAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblTitleAmount.Location = new System.Drawing.Point(63, 117);
             this.LblTitleAmount.Name = "LblTitleAmount";
-            this.LblTitleAmount.Size = new System.Drawing.Size(172, 18);
+            this.LblTitleAmount.Size = new System.Drawing.Size(180, 18);
             this.LblTitleAmount.TabIndex = 29;
-            this.LblTitleAmount.Text = "Valor Retenido         $";
+            this.LblTitleAmount.Text = "Valor Retenido           $";
             // 
             // TxtNAutorization
             // 
@@ -164,7 +164,7 @@
             this.BtnKeypadRet.Appearance.Options.UseBackColor = true;
             this.BtnKeypadRet.Appearance.Options.UseFont = true;
             this.BtnKeypadRet.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadRet.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadRet.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadRet.ImageOptions.SvgImage")));
             this.BtnKeypadRet.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadRet.Location = new System.Drawing.Point(428, 233);
             this.BtnKeypadRet.Margin = new System.Windows.Forms.Padding(6);
@@ -188,7 +188,7 @@
             // 
             this.LblTaxPercent.AutoSize = true;
             this.LblTaxPercent.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblTaxPercent.Location = new System.Drawing.Point(280, 76);
+            this.LblTaxPercent.Location = new System.Drawing.Point(290, 76);
             this.LblTaxPercent.Name = "LblTaxPercent";
             this.LblTaxPercent.Size = new System.Drawing.Size(67, 18);
             this.LblTaxPercent.TabIndex = 30;
@@ -198,7 +198,7 @@
             // 
             this.LblTaxBase.AutoSize = true;
             this.LblTaxBase.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblTaxBase.Location = new System.Drawing.Point(280, 34);
+            this.LblTaxBase.Location = new System.Drawing.Point(290, 34);
             this.LblTaxBase.Name = "LblTaxBase";
             this.LblTaxBase.Size = new System.Drawing.Size(47, 18);
             this.LblTaxBase.TabIndex = 32;
@@ -211,11 +211,11 @@
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.label5.Location = new System.Drawing.Point(63, 34);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(172, 18);
+            this.label5.Size = new System.Drawing.Size(180, 18);
             this.label5.TabIndex = 31;
-            this.label5.Text = "Base Imponible        $";
+            this.label5.Text = "Base Imponible IVA  $";
             // 
-            // FrmPaymentWithhold2
+            // FrmPaymentWithhold
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -236,7 +236,7 @@
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "FrmPaymentWithhold2";
+            this.Name = "FrmPaymentWithhold";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Retencion";
             this.Load += new System.EventHandler(this.FrmPaymentWithhold2_Load);

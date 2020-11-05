@@ -14,19 +14,19 @@ using POS.Classes;
 
 namespace POS
 {
-    public partial class FrmPaymentWithhold2 : DevExpress.XtraEditors.XtraForm
+    public partial class FrmPaymentWithhold : DevExpress.XtraEditors.XtraForm
     {
         public bool processResponse;
         ClsFunctions functions = new ClsFunctions();
         public Customer customer = null;
         public Company company = null;
-        public bool isTaxPayerCompany = false;
         public decimal retentionAmount = 0.00M;
+        public bool isTaxPayerCompany = false;
         public bool isTaxPayerCustomer = false;
         public string authorization = "";
         public int retentionCode;
         public string retentionNumber = "";
-        public FrmPaymentWithhold2()
+        public FrmPaymentWithhold()
         {
             InitializeComponent();
         }
@@ -42,18 +42,20 @@ namespace POS
             ClsPaymMode paymMode = new ClsPaymMode();
             List<RetentionTable> retentionTables;
 
-            bool customerTaxPayer = true;//(bool)customer.IsSpecialTaxpayer;
-            bool companyTaxPayer = true;//(bool)company.IsTaxpayerSpecial;
+            bool customerTaxPayer = (bool)customer.IsSpecialTaxpayer;
+            bool companyTaxPayer = false;//(bool)company.IsTaxpayerSpecial;
 
             int _retentionCode = 0;
-            
+
             if (!customerTaxPayer)
             {
                 _retentionCode = 1;
-            } else if (companyTaxPayer && customerTaxPayer)
+            }
+            else if (companyTaxPayer && customerTaxPayer)
             {
                 _retentionCode = 2;
-            } else
+            }
+            else
             {
                 _retentionCode = 3;
             }
@@ -142,7 +144,8 @@ namespace POS
                 authorization = TxtNAutorization.Text;
                 retentionNumber = TxtNRetention.Text;
                 retentionAmount = decimal.Parse(LblAmount.Text);
-            } else
+            }
+            else
             {
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
