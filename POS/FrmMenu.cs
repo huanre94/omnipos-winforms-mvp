@@ -20,6 +20,11 @@ namespace POS
             InitializeComponent();
         }
 
+        private void FrmMenu_Load(object sender, EventArgs e)
+        {
+            //Application.OpenForms["FrmLogin"].Close();
+        }
+
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Close();
@@ -27,9 +32,15 @@ namespace POS
 
         private void BtnPOS_Click(object sender, EventArgs e)
         {
+            FrmLogin frmLogin = new FrmLogin();
+            frmLogin.Close();
+
             FrmMain frmMain = new FrmMain();
             frmMain.loginInformation = loginInformation;
+            this.Visible = false;
             frmMain.Show();
         }
+
+        
     }
 }

@@ -126,6 +126,7 @@
             this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
             this.BtnLogOut.TabIndex = 135;
             this.BtnLogOut.Text = "Cerrar Sesion";
+            this.BtnLogOut.Click += new System.EventHandler(this.BtnLogOut_Click);
             // 
             // BtnProductSearch
             // 
@@ -728,6 +729,7 @@
             this.Controls.Add(this.Btn3);
             this.Controls.Add(this.BtnEnter);
             this.Controls.Add(this.Btn0);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MaximizeBox = false;
             this.Name = "FrmMain";

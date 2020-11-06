@@ -60,8 +60,9 @@ namespace POS
                 if (alowLogin && GetGlobalParameters())
                 {
                     FrmMenu frmMenu = new FrmMenu();
-                    frmMenu.loginInformation = loginInfomation;                    
-                    frmMenu.ShowDialog();
+                    frmMenu.loginInformation = loginInfomation;
+                    this.Visible = false;
+                    frmMenu.Show();
                 }
             }
         }

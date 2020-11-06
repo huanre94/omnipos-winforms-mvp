@@ -90,6 +90,10 @@ namespace POS
                                         );
                 }
             }
+            else
+            {
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+            }
 
             return response;
         }
@@ -261,6 +265,14 @@ namespace POS
                                         );
                 }
             }
+        }
+
+        private void BtnLogOut_Click(object sender, EventArgs e)
+        {
+            FrmMenu frmMenu = new FrmMenu();
+            frmMenu.loginInformation = loginInformation;
+            frmMenu.Visible = true;
+            Close();
         }
         #endregion
 
@@ -578,7 +590,8 @@ namespace POS
             //call print invoice DLL function
 
             return response;
-        }                
+        }
+
         #endregion
 
         
