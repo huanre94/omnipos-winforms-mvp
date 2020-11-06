@@ -66,6 +66,7 @@
     <Compile Include="Brand.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Catalog\ClsAdministration.cs" />
     <Compile Include="Catalog\ClsCustomer.cs" />
     <Compile Include="Catalog\ClsGeneral.cs" />
     <Compile Include="Catalog\ClsPaymMode.cs" />
@@ -276,9 +277,6 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Product_Consult_Result.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_Supervisor_Validate1_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Supervisor_Validate_Result.cs">
