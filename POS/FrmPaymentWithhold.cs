@@ -117,6 +117,7 @@ namespace POS
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             bool validate = true;
+            bool validate2 = true;
             if (TxtNAutorization.Text.Length == 0)
             {
                 validate = false;
