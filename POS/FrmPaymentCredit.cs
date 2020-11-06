@@ -38,7 +38,7 @@ namespace POS
             if (customer.IsEmployee)
             {
 
-            } else if ((bool)customer.IsCredit)
+            } else if ((bool) customer.IsCredit)
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;                
