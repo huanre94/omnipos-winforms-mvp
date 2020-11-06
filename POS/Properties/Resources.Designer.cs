@@ -153,6 +153,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage cashier {
+            get {
+                object obj = ResourceManager.GetObject("cashier", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage creditCard {
             get {
                 object obj = ResourceManager.GetObject("creditCard", resourceCulture);
@@ -221,6 +231,16 @@ namespace POS.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage label {
+            get {
+                object obj = ResourceManager.GetObject("label", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Logo_LaEspanola {
@@ -276,6 +296,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage remove {
             get {
                 object obj = ResourceManager.GetObject("remove", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage retail {
+            get {
+                object obj = ResourceManager.GetObject("retail", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }

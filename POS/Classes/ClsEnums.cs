@@ -49,7 +49,9 @@ namespace POS.Classes
             CUSTOMER_LASTNAME,
             CUSTOMER_ADDRESS,
             CUSTOMER_EMAIL,
-            CUSTOMER_PHONE
+            CUSTOMER_PHONE,
+            LOGIN_USERNAME,
+            LOGIN_PASSWORD
         }
     }
 }

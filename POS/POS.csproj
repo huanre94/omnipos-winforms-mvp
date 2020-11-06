@@ -88,11 +88,23 @@
     <Compile Include="FrmKeyPad.Designer.cs">
       <DependentUpon>FrmKeyPad.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMenu.Designer.cs">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMessage.cs">
       <SubType>Form</SubType>
@@ -130,12 +142,6 @@
     <Compile Include="FrmPaymentGiftcard.Designer.cs">
       <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmPaymentWithhold2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmPaymentWithhold2.Designer.cs">
-      <DependentUpon>FrmPaymentWithhold2.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmSupervisorAuth.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,8 +160,14 @@
     <EmbeddedResource Include="FrmKeyPad.resx">
       <DependentUpon>FrmKeyPad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMenu.resx">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMessage.resx">
       <DependentUpon>FrmMessage.cs</DependentUpon>
@@ -174,9 +186,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentGiftcard.resx">
       <DependentUpon>FrmPaymentGiftcard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmPaymentWithhold2.resx">
-      <DependentUpon>FrmPaymentWithhold2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSupervisorAuth.resx">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
@@ -222,6 +231,7 @@
     <None Include="Resources\cash.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\retail.svg" />
     <None Include="Resources\productSearch2.svg" />
     <None Include="Resources\warning.svg" />
     <None Include="Resources\remove.svg" />
@@ -245,6 +255,8 @@
     <None Include="Resources\bankCheck.svg" />
     <None Include="Resources\info2.svg" />
     <None Include="Resources\find.svg" />
+    <None Include="Resources\label.svg" />
+    <None Include="Resources\cashier.svg" />
     <Content Include="Resources\moneyCheck.png" />
   </ItemGroup>
   <ItemGroup>

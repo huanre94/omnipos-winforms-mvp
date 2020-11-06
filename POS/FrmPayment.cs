@@ -141,7 +141,7 @@ namespace POS
         {
             if (TxtAmount.Text != "")
             {
-                Withhold();
+                //Withhold();
             }
             else
             {
@@ -232,7 +232,7 @@ namespace POS
         #endregion
 
         #region Payment Functions
-        private void Withhold()
+        /*private void Withhold()
         {
             FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
             paymentWithhold.customer = customer;
@@ -254,7 +254,7 @@ namespace POS
                 AddRecordToSource(invoicePayment);
                 CalculatePayment(paymModeEnum);
             }
-        }
+        }*/
 
         private void Cash()
         {
