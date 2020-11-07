@@ -270,6 +270,9 @@
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_InvoiceTicket_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Invoice_Insert_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

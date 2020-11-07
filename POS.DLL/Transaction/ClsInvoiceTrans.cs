@@ -59,5 +59,24 @@ namespace POS.DLL.Transaction
 
             return invoiceResult;
         }
+
+        public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId)
+        {
+            var db = new POSEntities();
+            List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult = null;
+
+            try
+            {
+
+                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return invoiceTicketResult;
+        }
     }
 }

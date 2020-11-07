@@ -83,7 +83,6 @@ namespace POS.DLL
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
@@ -94,6 +93,7 @@ namespace POS.DLL
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -255,6 +255,15 @@ namespace POS.DLL
                 new ObjectParameter("AddressIP", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Login_Consult_Result>("SP_Login_Consult", userNameParameter, passwordParameter, workstationParameter, addressIPParameter);
+        }
+    
+        public virtual ObjectResult<SP_InvoiceTicket_Consult_Result> SP_InvoiceTicket_Consult(Nullable<long> invoiceId)
+        {
+            var invoiceIdParameter = invoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", invoiceId) :
+                new ObjectParameter("InvoiceId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter);
         }
     }
 }

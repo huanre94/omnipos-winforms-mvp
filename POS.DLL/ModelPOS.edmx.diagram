@@ -111,12 +111,7 @@
         <AssociationConnector Association="POSModel.FK__Vendor_City" />
         <AssociationConnector Association="POSModel.FK__Vendor_CustIdType" />
         <AssociationConnector Association="POSModel.FK__Product_VendorId" />
-        <EntityTypeShape EntityType="POSModel.InvoiceTable" Width="1.5" PointX="35.25" PointY="42" />
         <EntityTypeShape EntityType="POSModel.SalesOrder" Width="1.5" PointX="38.25" PointY="44.875" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_SalesOrigin" />
-        <AssociationConnector Association="POSModel.FK__SalesRemissionLine_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_Location" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_Salesman" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_SalesOrigin" />
@@ -126,7 +121,6 @@
         <EntityTypeShape EntityType="POSModel.SalesOrderLine" Width="1.5" PointX="40.5" PointY="35.875" />
         <AssociationConnector Association="POSModel.FK__InvoiceLine_InventUnit" />
         <AssociationConnector Association="POSModel.FK__SalesOrderLine_InventUnit" />
-        <AssociationConnector Association="POSModel.FK__InvoiceLine_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoiceLine_Product" />
         <AssociationConnector Association="POSModel.FK__SalesOrderLine_Product" />
         <AssociationConnector Association="POSModel.FK__SalesOrderLine_SalesOrder" />
@@ -142,14 +136,12 @@
         <AssociationConnector Association="POSModel.FK__GiftCardLine_Customer" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_Customer" />
         <AssociationConnector Association="POSModel.FK__InternalCreditCard_Customer" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_Customer" />
         <AssociationConnector Association="POSModel.FK__PromotionCustomer_Customer" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_Customer" />
         <AssociationConnector Association="POSModel.FK__PromotionPaymMode_PaymMode" />
         <AssociationConnector Association="POSModel.FK__SalesOrderPayment_PaymMode" />
         <EntityTypeShape EntityType="POSModel.InvoicePayment" Width="1.5" PointX="40.5" PointY="43.25" />
         <EntityTypeShape EntityType="POSModel.RetentionTable" Width="1.5" PointX="5.375" PointY="0.75" />
-        <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />
         <EntityTypeShape EntityType="POSModel.EmissionPoint" Width="1.5" PointX="14.25" PointY="53" />
@@ -159,10 +151,18 @@
         <AssociationConnector Association="POSModel.PK__CountCashLine_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__EmissionPoint_InventLocation" />
         <AssociationConnector Association="POSModel.FK__EmissionPoint_Location" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__SalesOrder_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__Supervisor_UserLogin" />
+        <EntityTypeShape EntityType="POSModel.InvoiceTable" Width="1.5" PointX="30.25" PointY="42.125" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Customer" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_EmissionPoint" />
+        <AssociationConnector Association="POSModel.FK__InvoiceLine_InvoiceTable" />
+        <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_SalesOrigin" />
+        <AssociationConnector Association="POSModel.FK__SalesRemissionLine_InvoiceTable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

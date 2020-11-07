@@ -27,7 +27,12 @@ namespace POS
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            Close();
+            FormCollection fc = Application.OpenForms;
+
+            foreach (Form frm in fc)
+            {
+                frm.Close();
+            }
         }
 
         private void BtnPOS_Click(object sender, EventArgs e)

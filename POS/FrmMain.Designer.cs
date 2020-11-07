@@ -75,10 +75,12 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
+            this.OPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancelSale
@@ -683,6 +685,16 @@
             this.LblDiscAmount.Text = "0.00";
             this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // OPOSScanner
+            // 
+            this.OPOSScanner.Enabled = true;
+            this.OPOSScanner.Location = new System.Drawing.Point(678, 29);
+            this.OPOSScanner.Name = "OPOSScanner";
+            this.OPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("OPOSScanner.OcxState")));
+            this.OPOSScanner.Size = new System.Drawing.Size(36, 32);
+            this.OPOSScanner.TabIndex = 158;
+            this.OPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.OPOSScanner_DataEvent);
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -690,6 +702,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1364, 706);
+            this.Controls.Add(this.OPOSScanner);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LblDiscAmount);
             this.Controls.Add(this.LblTitleTotal);
@@ -742,6 +755,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -795,5 +809,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Discount;
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
+        private AxOposScanner_CCO.AxOPOSScanner OPOSScanner;
     }
 }

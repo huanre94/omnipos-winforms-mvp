@@ -17,6 +17,9 @@ using POS.DLL.Transaction;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Xml.Linq;
 using System.Reflection;
+using System.Drawing.Printing;
+using OposScanner_CCO;
+using OposScale_CCO;
 
 namespace POS
 {
@@ -32,6 +35,7 @@ namespace POS
         public SP_Login_Consult_Result loginInformation;
         decimal baseAmount = 0;
         decimal taxAmount = 0;
+        OposScanner_CCO.OPOSScanner scanner = new OPOSScanner();
 
         public FrmMain()
         {
@@ -46,7 +50,8 @@ namespace POS
 
             if (GetEmissionPointInformation())
             {
-                CheckGridView();                
+                CheckGridView();
+                IsEnableScanner();
             }
             else
             {
@@ -96,38 +101,6 @@ namespace POS
             }
 
             return response;
-        }
-                
-        private void GetNewSequenceNumber(int _emissionPointId)
-        {
-            ClsGeneral clsGeneral = new ClsGeneral();
-            SequenceTable sequenceTable;
-
-            try
-            {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId);
-
-                if (sequenceTable != null)
-                {
-                    sequenceNumber = sequenceTable.Sequence;
-                    string stringSequence = sequenceNumber.ToString();
-                    LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
-                }
-                else
-                {
-                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
-                    Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al obtener secuencia."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
-            }
         }
         #endregion
 
@@ -189,7 +162,7 @@ namespace POS
         }
 
         private void BtnEnter_Click(object sender, EventArgs e)
-        {
+        {            
             GetProductInformation(
                                     emissionPoint.LocationId
                                     , TxtBarcode.Text
@@ -272,6 +245,7 @@ namespace POS
             FrmMenu frmMenu = new FrmMenu();
             frmMenu.loginInformation = loginInformation;
             frmMenu.Visible = true;
+            scanner.DeviceEnabled = false;
             Close();
         }
         #endregion
@@ -336,6 +310,26 @@ namespace POS
             }
         }
 
+        private void IsEnableScanner()
+        {
+            bool isEnable = false;
+            
+            int isOpen = scanner.Open("USBScanner");
+
+            if (isOpen == 0)
+            {
+                scanner.ClaimDevice(1000);
+
+                if (scanner.Claimed)
+                {
+                    scanner.DeviceEnabled = true;
+                    //isEnable = scanner.DeviceEnabled;
+                }
+            }
+
+            //return isEnable;
+        }
+                
         private void FrmMain_LocationChanged(object sender, EventArgs e)
         {
             this.Location = initialLocation;
@@ -369,52 +363,261 @@ namespace POS
             SP_Product_Consult_Result result;
             bool updateRecord = false;
             decimal qtyFound;
+            decimal amountFound;
 
-            try
+            if (_barcode != "")
             {
-                var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
-                                where xm.Element("Barcode").Value == _barcode
-                                select xm;
+                try
+                {
+                    string searchBarcode = _barcode;
 
-                foreach (var node in searchXml.Elements())
-                {     
-                    if (node.Name == "Quantity")
+                    if (searchBarcode.StartsWith("21"))
                     {
-                        qtyFound = decimal.Parse(node.Value);
-                        _qty += qtyFound;
-                        updateRecord = true;
-                        break;
+                        searchBarcode = searchBarcode.Replace(searchBarcode.Substring(7, 6),"000000");
+                    }
+
+                    var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
+                                    where xm.Element("Barcode").Value == searchBarcode
+                                    select xm;
+
+                    foreach (var node in searchXml.Elements())
+                    {
+                        if (node.Name == "Quantity")
+                        {
+                            qtyFound = decimal.Parse(node.Value); 
+                            _qty += qtyFound;
+                            updateRecord = true;                            
+                        }
+                        else if (node.Name == "BaseAmount")
+                        {
+                            amountFound = decimal.Parse(node.Value);
+
+                            string productCode = _barcode.Substring(0,7);
+                            string entere = _barcode.Substring(7, 3);
+                            string decimals = _barcode.Substring(10, 3);
+                            string newNumber = entere + "." + decimals;
+                            decimal newAmount = decimal.Parse(newNumber);
+                            newAmount += amountFound;
+                            newAmount = Math.Round(newAmount, 3);
+                            string value = newAmount.ToString();
+                            value = value.Replace(".", "");
+                            value = value.PadLeft(6, '0');
+                            _barcode = productCode + value;                            
+                            updateRecord = true;
+                        }
+                    }
+
+                    result = clsInvoiceTrans.ProductConsult(
+                                                            _locationId
+                                                            , _barcode
+                                                            , _qty
+                                                            , _customerId
+                                                            , _internalCreditCardId
+                                                            , _paymMode
+                                                            );
+
+                    if (result != null)
+                    {
+                        AddRecordToSource(result, updateRecord);
+                        CalculateInvoice();
+                    }
+                    else
+                    {
+                        functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", ClsEnums.MessageType.WARNING);
+                        TxtBarcode.Text = "";
                     }
                 }
-                                
-                result = clsInvoiceTrans.ProductConsult(
-                                                        _locationId
-                                                        , _barcode
-                                                        , _qty
-                                                        , _customerId
-                                                        , _internalCreditCardId
-                                                        , _paymMode
-                                                        );
-
-                if (result != null)
+                catch (Exception ex)
                 {
-                    AddRecordToSource(result, updateRecord);
-                    CalculateInvoice();
+                    functions.ShowMessage(
+                                            "Hubo un problema al consultar producto."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                            );
                 }
-                else
+            }
+            else
+            {
+                functions.ShowMessage("El código de barras no puede estar vacío.", ClsEnums.MessageType.WARNING);
+            }
+        }        
+
+        private void ClosingInvoice()
+        {
+            try
+            {
+                ClsInvoiceTrans invoice = new ClsInvoiceTrans();                
+                SP_Invoice_Insert_Result invoiceResult = null;
+                XElement invoiceTableXml = new XElement("InvoiceTable");
+
+                InvoiceTable invoiceTable = new InvoiceTable
                 {
-                    functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.",ClsEnums.MessageType.WARNING);
-                    TxtBarcode.Text = "";
+                    LocationId = emissionPoint.LocationId,
+                    EmissionPointId = emissionPoint.EmissionPointId,
+                    Establishment = emissionPoint.Establishment,
+                    Emission = emissionPoint.Emission,
+                    InvoiceNumber = sequenceNumber,
+                    CustomerId = currentCustomer.CustomerId,
+                    ShippingFree = false,
+                    ShippingAmount = 0,
+                    SalesOrderId = 0,
+                    CreatedBy = (int)loginInformation.UserId,
+                    Workstation = loginInformation.Workstation
+                };
+
+                Type type = invoiceTable.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (var prop in properties)
+                {                   
+                    var name = prop.Name;
+                    var value = prop.GetValue(invoiceTable);
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    invoiceTableXml.Add(new XElement(name, value));                    
+                }
+
+                invoiceXml.Add(invoiceTableXml);
+
+                invoiceResult = invoice.CreateInvoice(invoiceXml);
+
+                if (invoiceResult != null)
+                {
+                    if (!(bool)invoiceResult.Error)
+                    {
+                        ClearInvoice();
+
+                        if (PrintInvoice((Int64)invoiceResult.InvoiceId))
+                        {                                                        
+                            functions.ShowMessage("Venta finalizada exitosamente.");
+                        } 
+                        else
+                        {
+                            functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                        }
+                    }  
+                    else
+                    {
+                        functions.ShowMessage(
+                                               "No se ha podido registrar la factura."
+                                               , ClsEnums.MessageType.WARNING
+                                               , true
+                                               , invoiceResult.TextError
+                                            );
+
+                    }
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                        "Hubo un problema al consultar producto."
+                                        "Ha ocurrido un problema al registrar la factura."
                                         , ClsEnums.MessageType.ERROR
                                         , true
                                         , ex.Message
-                                        );
+                                    );
+            }
+        }
+
+        private bool PrintInvoice(Int64 _invoiceId)
+        {
+            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
+            List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
+            bool response = false;
+            string bodyText = "";
+
+            try
+            {
+                invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId);
+
+                if (invoiceTicket != null)
+                {
+                    if (invoiceTicket.Count > 0)
+                    {
+                        PrintDocument print = new PrintDocument();
+
+                        foreach (var line in invoiceTicket)
+                        {                            
+                            bodyText += line.BodyText + System.Environment.NewLine;                             
+                        }
+
+
+                        print.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
+                        {
+                            e1.Graphics.DrawString(
+                                                    bodyText
+                                                    , new Font("Courier New", 7)
+                                                    , new SolidBrush(Color.Black)
+                                                    , new RectangleF(0, 0, print.DefaultPageSettings.PrintableArea.Width, print.DefaultPageSettings.PrintableArea.Height)
+                                                    );
+                        };
+
+                        print.Print();
+                        response = true;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ha ocurrido un problema al imprimir la factura."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+
+            return response;
+        }
+
+        private void ClearInvoice()
+        {
+            invoiceXml.RemoveAll();
+            GrcSalesDetail.DataSource = null;
+            GetNewSequenceNumber(emissionPoint.EmissionPointId);
+            CheckGridView();            
+            LblTotal.Text = "0.00";
+            LblDiscAmount.Text = "0.00";
+            TxtBarcode.Focus();
+        }
+
+        #endregion
+
+        #region Recurrent Functions
+        private void GetNewSequenceNumber(int _emissionPointId)
+        {
+            ClsGeneral clsGeneral = new ClsGeneral();
+            SequenceTable sequenceTable;
+
+            try
+            {
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId);
+
+                if (sequenceTable != null)
+                {
+                    sequenceNumber = sequenceTable.Sequence;
+                    string stringSequence = sequenceNumber.ToString();
+                    LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
+                }
+                else
+                {
+                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al obtener secuencia."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
             }
         }
 
@@ -498,7 +701,7 @@ namespace POS
             {
                 discAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
-                baseAmount += decimal.Parse(item.Element("BaseAmount").Value); 
+                baseAmount += decimal.Parse(item.Element("BaseAmount").Value);
                 taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
             }
 
@@ -506,94 +709,36 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
 
-        private void ClosingInvoice()
+        #endregion
+
+        private void OPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
+            //UpdateEventHistory(Data Event);
+            //ASCIIEncoding encoder = new ASCIIEncoding();
+
             try
             {
-                ClsInvoiceTrans invoice = new ClsInvoiceTrans();                
-                SP_Invoice_Insert_Result invoiceResult = null;
-                XElement invoiceTableXml = new XElement("InvoiceTable");
+                // Display the ASCII encoded label text
+                TxtBarcode.Text = OPOSScanner.ScanDataLabel;
+                // Display the encoding type
+                //TxtBarcode.Text = OPOSScanner.ScanDataType.ToString();
+                // re-enable the data event for subsequent scans
+                OPOSScanner.DataEventEnabled = true;
 
-                InvoiceTable invoiceTable = new InvoiceTable
-                {
-                    LocationId = emissionPoint.LocationId,
-                    EmissionPointId = emissionPoint.EmissionPointId,
-                    Establishment = emissionPoint.Establishment,
-                    Emission = emissionPoint.Emission,
-                    InvoiceNumber = sequenceNumber,
-                    CustomerId = currentCustomer.CustomerId,
-                    ShippingFree = false,
-                    ShippingAmount = 0,
-                    SalesOrderId = 0,
-                    CreatedBy = 1,
-                    Workstation = "CTO"
-                };
-
-                Type type = invoiceTable.GetType();
-                PropertyInfo[] properties = type.GetProperties();
-
-                foreach (var prop in properties)
-                {                   
-                    var name = prop.Name;
-                    var value = prop.GetValue(invoiceTable);
-
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    invoiceTableXml.Add(new XElement(name, value));                    
-                }
-
-                invoiceXml.Add(invoiceTableXml);
-
-                invoiceResult = invoice.CreateInvoice(invoiceXml);
-
-                if (invoiceResult != null)
-                {
-                    if (!(bool)invoiceResult.Error)
-                    {
-                        Int64 invoiceId = (Int64)invoiceResult.InvoiceId;
-
-                        if(PrintInvoice(invoiceId))
-                        {
-                            functions.ShowMessage("Venta finalizada exitosamente.");
-                        }                        
-                    }  
-                    else
-                    {
-                        functions.ShowMessage(
-                                               "No se ha podido registrar la factura."
-                                               , ClsEnums.MessageType.WARNING
-                                               , true
-                                               , invoiceResult.TextError
-                                            );
-
-                    }
-                }
+                GetProductInformation(
+                                        emissionPoint.LocationId
+                                        , TxtBarcode.Text
+                                        , 1
+                                        , currentCustomer.CustomerId
+                                        , 0
+                                        , ""
+                                        );
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ha ocurrido un problema al registrar la factura."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                // Log any errors
+                //UpdateEventHistory(DataEvent Operation Failed);
             }
         }
-
-        private bool PrintInvoice(Int64 _invoiceId)
-        {
-            bool response = true;
-
-            //call print invoice DLL function
-
-            return response;
-        }
-
-        #endregion
-
-        
     }
 }

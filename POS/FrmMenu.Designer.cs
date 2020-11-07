@@ -63,7 +63,7 @@
             this.BtnPOS.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
             this.BtnPOS.Location = new System.Drawing.Point(39, 84);
             this.BtnPOS.Name = "BtnPOS";
-            this.BtnPOS.Size = new System.Drawing.Size(235, 150);
+            this.BtnPOS.Size = new System.Drawing.Size(250, 150);
             this.BtnPOS.TabIndex = 134;
             this.BtnPOS.Text = "POS   ";
             this.BtnPOS.Click += new System.EventHandler(this.BtnPOS_Click);
@@ -87,9 +87,9 @@
             this.BtnCloseCashier.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCloseCashier.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier;
             this.BtnCloseCashier.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnCloseCashier.Location = new System.Drawing.Point(281, 84);
+            this.BtnCloseCashier.Location = new System.Drawing.Point(311, 84);
             this.BtnCloseCashier.Name = "BtnCloseCashier";
-            this.BtnCloseCashier.Size = new System.Drawing.Size(235, 150);
+            this.BtnCloseCashier.Size = new System.Drawing.Size(250, 150);
             this.BtnCloseCashier.TabIndex = 149;
             this.BtnCloseCashier.Text = "Cierre Caja";
             // 

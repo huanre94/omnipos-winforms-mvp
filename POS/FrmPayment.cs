@@ -137,18 +137,7 @@ namespace POS
         #endregion
 
         #region Payment Buttons
-        private void BtnWithhold_Click(object sender, EventArgs e)
-        {
-            if (TxtAmount.Text != "")
-            {
-                //Withhold();
-            }
-            else
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
-            }
-        }
-
+        
         private void BtnCash_Click(object sender, EventArgs e)
         {
             if (TxtAmount.Text != "")
@@ -229,33 +218,22 @@ namespace POS
                 }
             }
         }
+
+        private void BtnWithhold_Click(object sender, EventArgs e)
+        {
+            if (TxtAmount.Text != "")
+            {
+                Withhold();
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
+        }
         #endregion
 
         #region Payment Functions
-        /*private void Withhold()
-        {
-            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
-            paymentWithhold.customer = customer;
-            paymentWithhold.retentionAmount = taxAmount;
-            paymentWithhold.ShowDialog();
-
-            if (paymentWithhold.processResponse)
-            {
-                ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
-                InvoicePayment invoicePayment = new InvoicePayment
-                {
-                    PaymModeId = (int)paymModeEnum,
-                    RetentionCode = paymentWithhold.retentionCode,
-                    RetentionNumber = paymentWithhold.retentionNumber,
-                    Authorization = paymentWithhold.authorization,
-                    Amount = paymentWithhold.retentionAmount
-                };
-
-                AddRecordToSource(invoicePayment);
-                CalculatePayment(paymModeEnum);
-            }
-        }*/
-
+        
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -393,6 +371,30 @@ namespace POS
 
                 AddRecordToSource(invoicePayment);
                 CalculatePayment(ClsEnums.PaymModeEnum.BONO);
+            }
+        }
+
+        private void Withhold()
+        {
+            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
+            paymentWithhold.customer = customer;
+            paymentWithhold.retentionAmount = taxAmount;
+            paymentWithhold.ShowDialog();
+
+            if (paymentWithhold.processResponse)
+            {
+                ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)paymModeEnum,
+                    RetentionCode = paymentWithhold.retentionCode,
+                    RetentionNumber = paymentWithhold.retentionNumber,
+                    Authorization = paymentWithhold.authorization,
+                    Amount = paymentWithhold.retentionAmount
+                };
+
+                AddRecordToSource(invoicePayment);
+                CalculatePayment(paymModeEnum);
             }
         }
 

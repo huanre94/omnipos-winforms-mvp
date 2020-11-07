@@ -40,8 +40,8 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual Location Location { get; set; }
         public virtual PaymMode PaymMode { get; set; }
+        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }
