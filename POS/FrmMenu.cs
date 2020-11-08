@@ -11,12 +11,7 @@ namespace POS
         {
             InitializeComponent();
         }
-
-        private void FrmMenu_Load(object sender, EventArgs e)
-        {
-            //Application.OpenForms["FrmLogin"].Close();
-        }
-
+                
         private void BtnExit_Click(object sender, EventArgs e)
         {
             FormCollection formCollection = Application.OpenForms;

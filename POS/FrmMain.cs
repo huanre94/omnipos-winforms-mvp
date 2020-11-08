@@ -50,6 +50,7 @@ namespace POS
             {
                 CheckGridView();
                 EnableScanner();
+                EnableScale();
             }
             else
             {
@@ -101,12 +102,24 @@ namespace POS
             return response;
         }
 
+        private void CheckGridView()
+        {
+            GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcSalesDetail.DataSource = null;
+            GrvSalesDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
+            bindingList.AllowNew = true;
+
+            GrcSalesDetail.DataSource = bindingList;
+        }
+
         private void EnableScanner()
         {
             try
             {
                 AxOPOSScanner.BeginInit();
-                int isOpen = AxOPOSScanner.Open("USBScanner");
+                int isOpen = AxOPOSScanner.Open(emissionPoint.ScanBarcodeName);
 
                 if (isOpen == 0)
                 {
@@ -158,6 +171,65 @@ namespace POS
                 finally
                 {
                     AxOPOSScanner = null;
+                }
+            }
+        }
+
+        private void EnableScale()
+        {
+            try
+            {
+                AxOPOSScale.BeginInit();
+                int isOpen = AxOPOSScale.Open(emissionPoint.ScaleName);
+
+                if (isOpen == 0)
+                {
+                    AxOPOSScale.ClaimDevice(1000);
+
+                    if (AxOPOSScale.Claimed)
+                    {
+                        AxOPOSScale.DeviceEnabled = true;
+                        AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
+                    }
+                }
+                else
+                {
+                    functions.ShowMessage("El puerto de la balanza esta cerrado.", ClsEnums.MessageType.WARNING);
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al habilitar balanza."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+        }
+
+        private void DisableScale()
+        {
+            if (AxOPOSScale != null)
+            {
+                try
+                {
+                    // Close the active scanner
+                    AxOPOSScale.DeviceEnabled = false;
+                    AxOPOSScale.Close();
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al deshabilitar balanza."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
+                }
+                finally
+                {
+                    AxOPOSScale = null;
                 }
             }
         }
@@ -404,7 +476,6 @@ namespace POS
                 SendKeys.Send("{ENTER}");
                 //LblBarcode.Text = AxOPOSScanner.ScanData.ToString();
                 AxOPOSScanner.DataEventEnabled = true;
-                //AxOPOSScanner.DataEventEnabled = true;
             }
             catch (Exception ex)
             {
@@ -420,24 +491,13 @@ namespace POS
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             DisableScanner();
+            DisableScale();
         }
 
         private void FrmMain_LocationChanged(object sender, EventArgs e)
         {
             this.Location = initialLocation;
-        }
-
-        private void CheckGridView()
-        {
-            GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            GrcSalesDetail.DataSource = null;
-            GrvSalesDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
-
-            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
-            bindingList.AllowNew = true;
-
-            GrcSalesDetail.DataSource = bindingList;
-        }
+        }        
         #endregion
 
         #region Main Functions
@@ -494,23 +554,26 @@ namespace POS
                         }
                     }
 
-                    if (useWeightControl)
+                    if (updateRecord)
                     {
-                        string productCode = _barcode.Substring(0, 7);
-                        string entere = _barcode.Substring(7, 3);
-                        string decimals = _barcode.Substring(10, 3);
-                        string newNumber = entere + "." + decimals;
-                        decimal newAmount = decimal.Parse(newNumber);
-                        newAmount += amountFound;
-                        newAmount = Math.Round(newAmount, 3);
-                        string value = newAmount.ToString();
-                        value = value.Replace(".", "");
-                        value = value.PadLeft(6, '0');
-                        _barcode = productCode + value;
-                    }
-                    else
-                    {
-                        _qty += qtyFound;
+                        if (useWeightControl)
+                        {
+                            string productCode = _barcode.Substring(0, 7);
+                            string entere = _barcode.Substring(7, 3);
+                            string decimals = _barcode.Substring(10, 3);
+                            string newNumber = entere + "." + decimals;
+                            decimal newAmount = decimal.Parse(newNumber);
+                            newAmount += amountFound;
+                            newAmount = Math.Round(newAmount, 3);
+                            string value = newAmount.ToString();
+                            value = value.Replace(".", "");
+                            value = value.PadLeft(6, '0');
+                            _barcode = productCode + value;
+                        }
+                        else
+                        {
+                            _qty += qtyFound;
+                        }
                     }
 
                     result = clsInvoiceTrans.ProductConsult(
@@ -524,6 +587,13 @@ namespace POS
 
                     if (result != null)
                     {
+                        if ((bool)result.WeightControl)
+                        {
+                            functions.ShowMessage("Coloque el producto en la balanza.");
+                            decimal weight = CatchWeightProduct();
+                            functions.ShowMessage("Peso: " + weight.ToString() + "KG");
+                        }
+
                         AddRecordToSource(result, updateRecord);
                         CalculateInvoice();
                     }
@@ -691,7 +761,6 @@ namespace POS
             LblDiscAmount.Text = "0.00";
             TxtBarcode.Focus();
         }
-
         #endregion
 
         #region Recurrent Functions
@@ -788,6 +857,7 @@ namespace POS
                     query.Element("FinalPrice").SetValue(_productResult.FinalPrice);
                     query.Element("LineDiscount").SetValue(_productResult.LineDiscount);
                     query.Element("LineAmount").SetValue(_productResult.LineAmount);
+                    query.Element("BaseAmount").SetValue(_productResult.BaseAmount);
                 }
             }
 
@@ -815,10 +885,32 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
 
+        private decimal CatchWeightProduct()
+        {
+            decimal weight = 0;
 
+            try 
+            { 
+                AxOPOSScale.ReadWeight(out int request, 5000);
+                weight = request / 1000M;
 
+                if (weight <= 0)
+                {
+                    functions.ShowMessage("El peso tiene que ser mayor a cero.", ClsEnums.MessageType.WARNING);
+                }
+            }
+            catch(Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al capturar peso."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
+            }
 
-
+            return weight;
+        }
         #endregion
 
         private void BtnQty_Click(object sender, EventArgs e)
