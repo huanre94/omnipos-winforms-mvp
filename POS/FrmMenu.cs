@@ -27,11 +27,14 @@ namespace POS
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormCollection fc = Application.OpenForms;
+            FormCollection formCollection = Application.OpenForms;
 
-            foreach (Form frm in fc)
+            if (formCollection.Count > 0)
             {
-                frm.Close();
+                foreach (Form frm in formCollection)
+                {
+                    frm.Close();
+                }
             }
         }
 

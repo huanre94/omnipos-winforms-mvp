@@ -75,12 +75,12 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
-            this.OPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OPOSScanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancelSale
@@ -123,7 +123,7 @@
             this.BtnLogOut.Appearance.Options.UseFont = true;
             this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
-            this.BtnLogOut.Location = new System.Drawing.Point(1102, 639);
+            this.BtnLogOut.Location = new System.Drawing.Point(1102, 695);
             this.BtnLogOut.Name = "BtnLogOut";
             this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
             this.BtnLogOut.TabIndex = 135;
@@ -602,7 +602,7 @@
             this.BtnCustomer.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCustomer.ImageOptions.SvgImage = global::POS.Properties.Resources.user4;
             this.BtnCustomer.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCustomer.Location = new System.Drawing.Point(215, 639);
+            this.BtnCustomer.Location = new System.Drawing.Point(215, 695);
             this.BtnCustomer.Name = "BtnCustomer";
             this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
             this.BtnCustomer.TabIndex = 151;
@@ -618,7 +618,7 @@
             this.BtnQty.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnQty.ImageOptions.SvgImage = global::POS.Properties.Resources.calculator2;
             this.BtnQty.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
-            this.BtnQty.Location = new System.Drawing.Point(15, 592);
+            this.BtnQty.Location = new System.Drawing.Point(15, 648);
             this.BtnQty.Margin = new System.Windows.Forms.Padding(6);
             this.BtnQty.Name = "BtnQty";
             this.BtnQty.Size = new System.Drawing.Size(80, 92);
@@ -634,7 +634,7 @@
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImage = global::POS.Properties.Resources.remove;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
-            this.BtnRemove.Location = new System.Drawing.Point(107, 592);
+            this.BtnRemove.Location = new System.Drawing.Point(107, 648);
             this.BtnRemove.Margin = new System.Windows.Forms.Padding(6);
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
@@ -645,7 +645,7 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
-            this.LblTotal.Location = new System.Drawing.Point(1183, 20);
+            this.LblTotal.Location = new System.Drawing.Point(1185, 51);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(161, 41);
             this.LblTotal.TabIndex = 154;
@@ -656,7 +656,7 @@
             // 
             this.LblTitleTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(1075, 25);
+            this.LblTitleTotal.Location = new System.Drawing.Point(1077, 56);
             this.LblTitleTotal.Name = "LblTitleTotal";
             this.LblTitleTotal.Size = new System.Drawing.Size(105, 32);
             this.LblTitleTotal.TabIndex = 155;
@@ -667,7 +667,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.label1.Location = new System.Drawing.Point(1025, 62);
+            this.label1.Location = new System.Drawing.Point(1027, 93);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(153, 32);
             this.label1.TabIndex = 157;
@@ -678,22 +678,22 @@
             // 
             this.LblDiscAmount.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblDiscAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
-            this.LblDiscAmount.Location = new System.Drawing.Point(1187, 59);
+            this.LblDiscAmount.Location = new System.Drawing.Point(1189, 90);
             this.LblDiscAmount.Name = "LblDiscAmount";
             this.LblDiscAmount.Size = new System.Drawing.Size(154, 36);
             this.LblDiscAmount.TabIndex = 156;
             this.LblDiscAmount.Text = "0.00";
             this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // OPOSScanner
+            // AxOPOSScanner
             // 
-            this.OPOSScanner.Enabled = true;
-            this.OPOSScanner.Location = new System.Drawing.Point(678, 29);
-            this.OPOSScanner.Name = "OPOSScanner";
-            this.OPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("OPOSScanner.OcxState")));
-            this.OPOSScanner.Size = new System.Drawing.Size(36, 32);
-            this.OPOSScanner.TabIndex = 158;
-            this.OPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.OPOSScanner_DataEvent);
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(572, 12);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(158, 120);
+            this.AxOPOSScanner.TabIndex = 158;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
             // FrmMain
             // 
@@ -701,8 +701,8 @@
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1364, 706);
-            this.Controls.Add(this.OPOSScanner);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LblDiscAmount);
             this.Controls.Add(this.LblTitleTotal);
@@ -749,13 +749,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "POS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.LocationChanged += new System.EventHandler(this.FrmMain_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OPOSScanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -809,6 +810,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Discount;
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
-        private AxOposScanner_CCO.AxOPOSScanner OPOSScanner;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

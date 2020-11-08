@@ -279,6 +279,9 @@
     <Compile Include="SP_Login_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_ProductBarcode_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Product_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

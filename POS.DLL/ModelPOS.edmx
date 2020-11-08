@@ -559,6 +559,7 @@
           <Property Name="SalesOrderId" Type="bigint" Nullable="false" />
           <Property Name="ClosingCashId" Type="int" Nullable="false" />
           <Property Name="Observation" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="KeyAccessSri" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
@@ -2236,6 +2237,9 @@
           <Parameter Name="InternalCreditCardId" Type="bigint" Mode="In" />
           <Parameter Name="PaymMode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_ProductBarcode_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Supervisor_Validate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="barcode" Type="varchar" Mode="In" />
         </Function>
@@ -3811,7 +3815,10 @@
             <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
           </AssociationSet>
           <FunctionImport Name="SP_InvoiceTicket_Consult" ReturnType="Collection(POSModel.SP_InvoiceTicket_Consult_Result)">
-            <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ProductBarcode_Consult" ReturnType="Collection(POSModel.SP_ProductBarcode_Consult_Result)">
+            <Parameter Name="ProductName" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
@@ -5516,6 +5523,7 @@
           <NavigationProperty Name="Salesman" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="InvoiceTable" ToRole="Salesman" />
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
           <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
+          <Property Name="KeyAccessSri" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__InvoiceTable_Customer">
           <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
@@ -5616,6 +5624,12 @@
         <ComplexType Name="SP_InvoiceTicket_Consult_Result">
           <Property Type="String" Name="BodyText" Nullable="true" MaxLength="56" />
           <Property Type="Boolean" Name="Error" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_ProductBarcode_Consult_Result">
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="220" />
+          <Property Type="String" Name="Barcode" Nullable="false" MaxLength="20" />
+          <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -6847,6 +6861,7 @@
           <EntitySetMapping Name="InvoiceTable">
             <EntityTypeMapping TypeName="POSModel.InvoiceTable">
               <MappingFragment StoreEntitySet="InvoiceTable">
+                <ScalarProperty Name="KeyAccessSri" ColumnName="KeyAccessSri" />
                 <ScalarProperty Name="Workstation" ColumnName="Workstation" />
                 <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -6893,6 +6908,16 @@
               <ComplexTypeMapping TypeName="POSModel.SP_InvoiceTicket_Consult_Result">
                 <ScalarProperty Name="BodyText" ColumnName="BodyText" />
                 <ScalarProperty Name="Error" ColumnName="Error" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ProductBarcode_Consult" FunctionName="POSModel.Store.SP_ProductBarcode_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ProductBarcode_Consult_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

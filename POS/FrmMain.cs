@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Drawing.Printing;
 using OposScanner_CCO;
 using OposScale_CCO;
+using AxOposScanner_CCO;
 
 namespace POS
 {
@@ -35,7 +36,7 @@ namespace POS
         public SP_Login_Consult_Result loginInformation;
         decimal baseAmount = 0;
         decimal taxAmount = 0;
-        OposScanner_CCO.OPOSScanner scanner = new OPOSScanner();
+        OposScanner_CCO.OPOSScanner posScanner = new OPOSScanner();
 
         public FrmMain()
         {
@@ -51,7 +52,7 @@ namespace POS
             if (GetEmissionPointInformation())
             {
                 CheckGridView();
-                IsEnableScanner();
+                EnableScanner();
             }
             else
             {
@@ -101,6 +102,67 @@ namespace POS
             }
 
             return response;
+        }
+
+        private void EnableScanner()
+        {
+            try
+            {
+                AxOPOSScanner.BeginInit();
+                int isOpen = AxOPOSScanner.Open("USBScanner");
+
+                if (isOpen == 0)
+                {
+                    AxOPOSScanner.ClaimDevice(1000);
+
+                    if (AxOPOSScanner.Claimed)
+                    {
+                        AxOPOSScanner.DeviceEnabled = true;
+                        AxOPOSScanner.DataEventEnabled = true;
+                        AxOPOSScanner.PowerNotify = 1; //(OPOS_PN_ENABLED);
+                        AxOPOSScanner.DecodeData = true;
+                    }
+                }
+                else
+                {
+                    functions.ShowMessage("El puerto del scanner esta cerrado.", ClsEnums.MessageType.WARNING);
+                }                
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al habilitar scanner."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+        }
+
+        private void DisableScanner()
+        {
+            if (AxOPOSScanner != null)
+            {                
+                try
+                {
+                    // Close the active scanner
+                    AxOPOSScanner.DeviceEnabled = false;
+                    AxOPOSScanner.Close();
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al deshabilitar scanner."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
+                }
+                finally
+                {
+                    AxOPOSScanner = null;
+                }
+            }
         }
         #endregion
 
@@ -234,7 +296,7 @@ namespace POS
                                             "Ocurrio un problema al cargar información del cliente."
                                             , ClsEnums.MessageType.ERROR
                                             , true
-                                            , ex.InnerException.Message
+                                            , ex.Message
                                         );
                 }
             }
@@ -245,7 +307,7 @@ namespace POS
             FrmMenu frmMenu = new FrmMenu();
             frmMenu.loginInformation = loginInformation;
             frmMenu.Visible = true;
-            scanner.DeviceEnabled = false;
+            posScanner.DeviceEnabled = false;
             Close();
         }
         #endregion
@@ -310,26 +372,32 @@ namespace POS
             }
         }
 
-        private void IsEnableScanner()
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
-            bool isEnable = false;
-            
-            int isOpen = scanner.Open("USBScanner");
-
-            if (isOpen == 0)
+            try
             {
-                scanner.ClaimDevice(1000);
-
-                if (scanner.Claimed)
-                {
-                    scanner.DeviceEnabled = true;
-                    //isEnable = scanner.DeviceEnabled;
-                }
+                TxtBarcode.Text = AxOPOSScanner.ScanDataLabel;
+                SendKeys.Send("{ENTER}");
+                //LblBarcode.Text = AxOPOSScanner.ScanData.ToString();
+                AxOPOSScanner.DataEventEnabled = true;
+                //AxOPOSScanner.DataEventEnabled = true;
             }
-
-            //return isEnable;
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema en la lectura desde scanner."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
+            }
         }
-                
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DisableScanner();
+        }
+
         private void FrmMain_LocationChanged(object sender, EventArgs e)
         {
             this.Location = initialLocation;
@@ -362,8 +430,9 @@ namespace POS
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             SP_Product_Consult_Result result;
             bool updateRecord = false;
-            decimal qtyFound;
-            decimal amountFound;
+            decimal qtyFound = 0;
+            decimal amountFound = 0;
+            bool useWeightControl = false;
 
             if (_barcode != "")
             {
@@ -382,29 +451,42 @@ namespace POS
 
                     foreach (var node in searchXml.Elements())
                     {
-                        if (node.Name == "Quantity")
-                        {
-                            qtyFound = decimal.Parse(node.Value); 
-                            _qty += qtyFound;
-                            updateRecord = true;                            
-                        }
-                        else if (node.Name == "BaseAmount")
-                        {
-                            amountFound = decimal.Parse(node.Value);
+                        updateRecord = true;                        
 
-                            string productCode = _barcode.Substring(0,7);
-                            string entere = _barcode.Substring(7, 3);
-                            string decimals = _barcode.Substring(10, 3);
-                            string newNumber = entere + "." + decimals;
-                            decimal newAmount = decimal.Parse(newNumber);
-                            newAmount += amountFound;
-                            newAmount = Math.Round(newAmount, 3);
-                            string value = newAmount.ToString();
-                            value = value.Replace(".", "");
-                            value = value.PadLeft(6, '0');
-                            _barcode = productCode + value;                            
-                            updateRecord = true;
+                        switch (node.Name.ToString())
+                        {
+                            case "WeightControl":
+                                if (bool.Parse(node.Value))
+                                {
+                                    useWeightControl = true;
+                                }
+                                break;
+                            case "Quantity":
+                                qtyFound = decimal.Parse(node.Value);
+                                break;
+                            case "BaseAmount":
+                                amountFound = decimal.Parse(node.Value);
+                                break;
                         }
+                    }
+
+                    if (useWeightControl)
+                    {
+                        string productCode = _barcode.Substring(0, 7);
+                        string entere = _barcode.Substring(7, 3);
+                        string decimals = _barcode.Substring(10, 3);
+                        string newNumber = entere + "." + decimals;
+                        decimal newAmount = decimal.Parse(newNumber);
+                        newAmount += amountFound;
+                        newAmount = Math.Round(newAmount, 3);
+                        string value = newAmount.ToString();
+                        value = value.Replace(".", "");
+                        value = value.PadLeft(6, '0');
+                        _barcode = productCode + value;
+                    }
+                    else
+                    {
+                        _qty += qtyFound;
                     }
 
                     result = clsInvoiceTrans.ProductConsult(
@@ -709,36 +791,12 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
 
+
+
+
+
         #endregion
 
-        private void OPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
-        {
-            //UpdateEventHistory(Data Event);
-            //ASCIIEncoding encoder = new ASCIIEncoding();
-
-            try
-            {
-                // Display the ASCII encoded label text
-                TxtBarcode.Text = OPOSScanner.ScanDataLabel;
-                // Display the encoding type
-                //TxtBarcode.Text = OPOSScanner.ScanDataType.ToString();
-                // re-enable the data event for subsequent scans
-                OPOSScanner.DataEventEnabled = true;
-
-                GetProductInformation(
-                                        emissionPoint.LocationId
-                                        , TxtBarcode.Text
-                                        , 1
-                                        , currentCustomer.CustomerId
-                                        , 0
-                                        , ""
-                                        );
-            }
-            catch (Exception ex)
-            {
-                // Log any errors
-                //UpdateEventHistory(DataEvent Operation Failed);
-            }
-        }
+        
     }
 }

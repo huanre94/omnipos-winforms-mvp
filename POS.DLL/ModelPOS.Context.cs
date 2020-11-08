@@ -265,5 +265,14 @@ namespace POS.DLL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter);
         }
+    
+        public virtual ObjectResult<SP_ProductBarcode_Consult_Result> SP_ProductBarcode_Consult(string productName)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ProductBarcode_Consult_Result>("SP_ProductBarcode_Consult", productNameParameter);
+        }
     }
 }

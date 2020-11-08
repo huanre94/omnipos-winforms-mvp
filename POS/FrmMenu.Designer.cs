@@ -55,15 +55,15 @@
             // BtnPOS
             // 
             this.BtnPOS.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnPOS.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnPOS.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnPOS.Appearance.Options.UseBackColor = true;
             this.BtnPOS.Appearance.Options.UseFont = true;
             this.BtnPOS.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPOS.ImageOptions.SvgImage = global::POS.Properties.Resources.retail;
             this.BtnPOS.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
-            this.BtnPOS.Location = new System.Drawing.Point(39, 84);
+            this.BtnPOS.Location = new System.Drawing.Point(33, 84);
             this.BtnPOS.Name = "BtnPOS";
-            this.BtnPOS.Size = new System.Drawing.Size(250, 150);
+            this.BtnPOS.Size = new System.Drawing.Size(350, 200);
             this.BtnPOS.TabIndex = 134;
             this.BtnPOS.Text = "POS   ";
             this.BtnPOS.Click += new System.EventHandler(this.BtnPOS_Click);
@@ -72,7 +72,7 @@
             // 
             this.LblTitle.AutoSize = true;
             this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTitle.Location = new System.Drawing.Point(238, 9);
+            this.LblTitle.Location = new System.Drawing.Point(250, 9);
             this.LblTitle.Name = "LblTitle";
             this.LblTitle.Size = new System.Drawing.Size(286, 34);
             this.LblTitle.TabIndex = 148;
@@ -81,15 +81,15 @@
             // BtnCloseCashier
             // 
             this.BtnCloseCashier.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnCloseCashier.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnCloseCashier.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnCloseCashier.Appearance.Options.UseBackColor = true;
             this.BtnCloseCashier.Appearance.Options.UseFont = true;
             this.BtnCloseCashier.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCloseCashier.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier;
             this.BtnCloseCashier.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnCloseCashier.Location = new System.Drawing.Point(311, 84);
+            this.BtnCloseCashier.Location = new System.Drawing.Point(408, 84);
             this.BtnCloseCashier.Name = "BtnCloseCashier";
-            this.BtnCloseCashier.Size = new System.Drawing.Size(250, 150);
+            this.BtnCloseCashier.Size = new System.Drawing.Size(350, 200);
             this.BtnCloseCashier.TabIndex = 149;
             this.BtnCloseCashier.Text = "Cierre Caja";
             // 

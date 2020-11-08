@@ -60,6 +60,7 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
+        public string KeyAccessSri { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
