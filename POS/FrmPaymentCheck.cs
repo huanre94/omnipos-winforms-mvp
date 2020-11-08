@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls;
+﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
-using POS.DLL.Catalog;
 using POS.DLL;
-using DevExpress.XtraDashboardLayout;
-using System.Runtime.InteropServices.WindowsRuntime;
+using POS.DLL.Catalog;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace POS
 {
     public partial class FrmPaymentCheck : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();        
+        ClsFunctions functions = new ClsFunctions();
         public bool processResponse;
-        public string checkOwnerName = "";       
+        public string checkOwnerName = "";
         public int checkBankId = 0;
         public DateTime checkDate;
         public string checkAccountNumber = "";
@@ -67,7 +58,7 @@ namespace POS
                     functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
                     this.DialogResult = DialogResult.Cancel;
                 }
-            }            
+            }
 
             return response;
         }
@@ -141,8 +132,8 @@ namespace POS
                     }
                 }
             }
-            catch(Exception ex)
-            {                
+            catch (Exception ex)
+            {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar lista de Bancos."
                                         , ClsEnums.MessageType.ERROR
@@ -174,7 +165,7 @@ namespace POS
 
                     if (authorizeResult != null)
                     {
-                       
+
                         string result = authorizeResult.Result;
 
                         if (authorizeResult.Response == 0)
@@ -197,7 +188,7 @@ namespace POS
                                 TxtAuthorization.Enabled = true;
                             }
                         }
-                        
+
                     }
                 }
                 catch (Exception ex)
@@ -223,15 +214,15 @@ namespace POS
                     checkBankId = int.Parse(CmbCheckBank.EditValue.ToString());
                     checkDate = TxtCheckDate.DateTime;
                     checkAccountNumber = TxtAccountNumber.Text;
-                    checkNumber = int.Parse(TxtCheckNumber.Text);                    
-                    checkAuthorization = TxtAuthorization.Text;        
+                    checkNumber = int.Parse(TxtCheckNumber.Text);
+                    checkAuthorization = TxtAuthorization.Text;
                 }
                 else
                 {
                     functions.ShowMessage("No ha solicitado autorizacion para el cheque.", ClsEnums.MessageType.WARNING);
                     this.DialogResult = DialogResult.None;
                 }
-            }           
+            }
         }
 
         private bool ValidateCheckFields()
@@ -254,6 +245,6 @@ namespace POS
             return response;
         }
 
-        
+
     }
 }

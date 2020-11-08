@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POS.DLL.Transaction
 {
@@ -27,13 +24,13 @@ namespace POS.DLL.Transaction
 
         public SP_GaranCheck_Authorize_Result GetGaranCheckAuth(
                                                                     int _bankId
-                                                                    ,string _accountNumber
-                                                                    ,int _checkNumber                                                                    
-                                                                    ,decimal _checkAmount
-                                                                    ,string _identificacion
-                                                                    ,string _ownerName
-                                                                    ,string _phone
-                                                                    ,string _reference
+                                                                    , string _accountNumber
+                                                                    , int _checkNumber
+                                                                    , decimal _checkAmount
+                                                                    , string _identificacion
+                                                                    , string _ownerName
+                                                                    , string _phone
+                                                                    , string _reference
                                                                 )
         {
             var db = new POSEntities();

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace POS.DLL.Catalog
 {
@@ -67,7 +62,7 @@ namespace POS.DLL.Catalog
                 result = db.SP_Customer_Insert(_customerXml).FirstOrDefault();
             }
             catch (Exception ex)
-            {                
+            {
                 throw new Exception(ex.Message);
             }
 
@@ -77,11 +72,11 @@ namespace POS.DLL.Catalog
         public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType)
         {
             var db = new POSEntities();
-            FN_Identification_Validate_Result result;            
+            FN_Identification_Validate_Result result;
 
             try
             {
-                result = db.FN_Identification_Validate(_identification, _idenType).FirstOrDefault();              
+                result = db.FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
             }
             catch (Exception ex)
             {

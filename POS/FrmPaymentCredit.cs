@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
+﻿using POS.Classes;
 using POS.DLL;
+using System;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -38,12 +30,13 @@ namespace POS
             if (customer.IsEmployee)
             {
 
-            } else if ((bool) customer.IsCredit)
+            }
+            else if ((bool)customer.IsCredit)
             {
                 LblAuthorization.Visible = false;
-                TxtCreditCardCode.Visible = false;                
+                TxtCreditCardCode.Visible = false;
                 decimal _creditLimit = customer.CreditLimit;
-                LblCreditLimit.Text = _creditLimit.ToString("#.00"); 
+                LblCreditLimit.Text = _creditLimit.ToString("#.00");
                 LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;
                 creditLimit = _creditLimit;
             }
@@ -143,7 +136,8 @@ namespace POS
         {
             bool response = false;
 
-            if (customer.IsEmployee) {
+            if (customer.IsEmployee)
+            {
                 if (TxtCreditCardCode.Text != "")
                 {
                     if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
@@ -159,10 +153,11 @@ namespace POS
                 {
                     functions.ShowMessage("Debe proporcionar el codigo de la tarjeta.", ClsEnums.MessageType.WARNING);
                 }
-            }       else
+            }
+            else
             {
                 response = true;
-            }    
+            }
 
             if (!response)
             {

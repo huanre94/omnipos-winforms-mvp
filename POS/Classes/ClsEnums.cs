@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace POS.Classes
+﻿namespace POS.Classes
 {
     public class ClsEnums
     {
@@ -27,7 +21,7 @@ namespace POS.Classes
             DINERO_ELECTRONICO = 7,
             EFECTIVO = 8,
             NOTA_CREDITO = 9,
-            ANTICIPOS= 10,
+            ANTICIPOS = 10,
             PAGOS_WEB = 11,
             RETENCION = 12,
             TARJETA_CREDITO = 13,

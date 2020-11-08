@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using System.Runtime.CompilerServices;
+﻿using DevExpress.XtraEditors;
 using POS.Classes;
+using System;
 
 namespace POS
 {
@@ -19,15 +10,15 @@ namespace POS
         public string messageTextDetail = "";
         public bool showMessageDetail;
         public ClsEnums.MessageType messagetype;
-        public bool messageResponse;        
+        public bool messageResponse;
 
         public FrmMessage()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void FrmMessage_Load(object sender, EventArgs e)
-        {     
+        {
             CreateMessage();
         }
 
@@ -51,11 +42,11 @@ namespace POS
                 case ClsEnums.MessageType.ERROR:
                     image = POS.Properties.Resources.cancel3;
                     break;
-                case ClsEnums.MessageType.CONFIRM:                    
+                case ClsEnums.MessageType.CONFIRM:
                     image = POS.Properties.Resources.warning;
                     BtnCancel.Visible = true;
                     break;
-            }                      
+            }
 
             ImgSvgMessage.SvgImage = image;
             LblMessage.Text = messageText;

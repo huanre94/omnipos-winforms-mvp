@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
-using POS.DLL.Catalog;
 using POS.DLL;
-using DevExpress.XtraEditors.Controls;
-using System.Runtime.CompilerServices;
-using System.Xml;
+using POS.DLL.Catalog;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace POS
@@ -42,7 +33,7 @@ namespace POS
                 functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", ClsEnums.MessageType.ERROR);
                 Close();
             }
-        }              
+        }
 
         private void LoadCustomerInformation(string _identification)
         {
@@ -51,7 +42,7 @@ namespace POS
             if (isNewCustomer)
             {
                 LoadIdentTypes();
-                LoadGenders();                
+                LoadGenders();
             }
             else
             {
@@ -65,7 +56,7 @@ namespace POS
                     if (customer != null)
                     {
                         if (customer.CustomerId > 0)
-                        {                            
+                        {
                             CmbIdenType.EditValue = customer.IdentTypeId;
                             LblPersonType.Text = customer.PersonType;
                             TxtIdentification.Text = customer.Identification;
@@ -239,11 +230,11 @@ namespace POS
                             {
                                 functions.ShowMessage("El cliente se actualizó exitosamente.");
                             }
-                            
+
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudo registrar cliente.",ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING);
                         }
                     }
                 }
@@ -289,7 +280,7 @@ namespace POS
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al validar identificación del cliente."
@@ -304,7 +295,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if(ValidateCustomerFields())
+            if (ValidateCustomerFields())
             {
                 CreateOrUpdateCustomer(TxtIdentification.Text);
             }
@@ -329,6 +320,6 @@ namespace POS
             return response;
         }
 
-        
+
     }
 }

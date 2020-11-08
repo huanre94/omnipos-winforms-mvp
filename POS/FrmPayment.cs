@@ -1,24 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.ClipboardSource.SpreadsheetML;
-using System.Xml.Linq;
-using DevExpress.XtraGrid.Views.Grid;
-using POS.DLL;
+﻿using DevExpress.XtraGrid.Views.Grid;
 using POS.Classes;
-using System.Reflection;
-using DevExpress.Utils.Extensions;
-using DevExpress.Data.Helpers;
-using POS.DLL.Transaction;
+using POS.DLL;
 using POS.DLL.Catalog;
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -29,10 +17,11 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public XElement paymentXml = new XElement("Payment");
         public Customer customer = null;
+        public SP_Login_Consult_Result loginInformation;
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
-        decimal changeAmount = 0;       
+        decimal changeAmount = 0;
         public bool canCloseInvoice = false;
         public decimal baseAmount = 0;
         public decimal taxAmount = 0;
@@ -54,6 +43,16 @@ namespace POS
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;
+
+            bool customerRetention = customer.UseRetention ?? false;
+
+            if (customerRetention)
+            {
+                if (functions.ShowMessage("Este cliente genera retencion. ¿Desea registrar una?", ClsEnums.MessageType.CONFIRM))
+                {
+                    Withhold();
+                }
+            }
         }
         #endregion
 
@@ -137,7 +136,11 @@ namespace POS
         #endregion
 
         #region Payment Buttons
-        
+        private void BtnWithhold_Click(object sender, EventArgs e)
+        {
+            Withhold();
+        }
+
         private void BtnCash_Click(object sender, EventArgs e)
         {
             if (TxtAmount.Text != "")
@@ -218,10 +221,17 @@ namespace POS
                 }
             }
         }
+        #endregion 
 
-        private void BtnWithhold_Click(object sender, EventArgs e)
+        #region Payment Functions
+        /*private void Withhold()
         {
-            if (TxtAmount.Text != "")
+            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
+            paymentWithhold.customer = customer;
+            paymentWithhold.retentionAmount = taxAmount;
+            paymentWithhold.ShowDialog();
+
+            if (paymentWithhold.processResponse)
             {
                 Withhold();
             }
@@ -232,8 +242,11 @@ namespace POS
         }
         #endregion
 
-        #region Payment Functions
-        
+                AddRecordToSource(invoicePayment);
+                CalculatePayment(paymModeEnum);
+            }
+        }*/
+
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -486,7 +499,7 @@ namespace POS
                     paidAmount = invoiceAmount;
                 }
             }
-           
+
             if (invoiceAmount >= paidAmount)
             {
                 pendingAmount = invoiceAmount - paidAmount;

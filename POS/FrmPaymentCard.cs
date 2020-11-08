@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.DLL;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.Utils.Extensions;
+﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
+using POS.DLL;
 using POS.DLL.Catalog;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -62,10 +54,10 @@ namespace POS
                     functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
                     this.DialogResult = DialogResult.Cancel;
                 }
-            }            
+            }
 
             return response;
-        }        
+        }
 
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
@@ -73,13 +65,13 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.creditCardAuthorization;
-        }    
+        }
 
         private void LoadBanks()
         {
             ClsPaymMode paymMode = new ClsPaymMode();
             List<DLL.Bank> banks;
-            
+
             try
             {
                 banks = paymMode.GetBanks();
@@ -93,7 +85,7 @@ namespace POS
                             CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
                         }
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -145,7 +137,7 @@ namespace POS
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar lista de Marcas de Tarjeta."
@@ -159,7 +151,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (CmbCardType.SelectedItem != null && CmbCardBank.EditValue != null 
+            if (CmbCardType.SelectedItem != null && CmbCardBank.EditValue != null
                 && CmbCardBrand.EditValue != null && TxtAuthorization.Text != "")
             {
                 bankId = int.Parse(CmbCardBank.EditValue.ToString());
@@ -170,7 +162,7 @@ namespace POS
             }
             else
             {
-                
+
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }
@@ -181,6 +173,11 @@ namespace POS
             CmbCardBank.Properties.Items.Clear();
             CmbCardBrand.Properties.Items.Clear();
             LoadBanks();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace POS.DLL.Transaction
 {
     public class ClsInvoiceTrans
-    {        
+    {
         public SP_Product_Consult_Result ProductConsult(
                                                         short _locationId
                                                         , string _barcode

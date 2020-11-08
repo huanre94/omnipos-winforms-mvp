@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
+﻿using POS.Classes;
+using System;
 
 namespace POS
 {
@@ -126,7 +117,7 @@ namespace POS
                         break;
                     default:
                         break;
-                }                
+                }
 
                 Close();
             }

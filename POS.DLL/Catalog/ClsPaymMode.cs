@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POS.DLL.Catalog
 {
@@ -15,19 +13,19 @@ namespace POS.DLL.Catalog
 
             try
             {
-                
+
                 banks = (
                             from ba in db.Bank
                             where ba.Status == "A"
                             select ba
-                        ).ToList();                                
+                        ).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
-            return banks;            
+            return banks;
         }
 
         public List<RetentionTable> GetRetentionTables(int _retentionCode)
@@ -40,7 +38,7 @@ namespace POS.DLL.Catalog
 
                 retentionTable = (
                                 from ret in db.RetentionTable
-                                where ret.Status == "A"                                
+                                where ret.Status == "A"
                                 && ret.RetentionCode == _retentionCode
                                 select ret
                                 ).ToList();
@@ -62,7 +60,7 @@ namespace POS.DLL.Catalog
             try
             {
 
-                creditCards = ( 
+                creditCards = (
                                 from cre in db.CreditCard
                                 join ban in db.BankCreditCard
                                 on cre.CreditCardId equals ban.CreditCardId

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.DLL.Catalog;
+﻿using POS.Classes;
 using POS.DLL;
-using POS.Classes;
+using POS.DLL.Catalog;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -19,7 +12,7 @@ namespace POS
         public bool processResponse;
         ClsFunctions functions = new ClsFunctions();
         public Customer customer = null;
-        public Company company = null;
+        public SP_Login_Consult_Result loginInformation;
         public decimal retentionAmount = 0.00M;
         public bool isTaxPayerCompany = false;
         public bool isTaxPayerCustomer = false;
@@ -43,7 +36,7 @@ namespace POS
             List<RetentionTable> retentionTables;
 
             bool customerTaxPayer = (bool)customer.IsSpecialTaxpayer;
-            bool companyTaxPayer = false;//(bool)company.IsTaxpayerSpecial;
+            bool companyTaxPayer = (bool)loginInformation.IsTaxpayerSpecial;
 
             int _retentionCode = 0;
 

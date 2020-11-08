@@ -1,17 +1,10 @@
-﻿using System;
+﻿using POS.Classes;
+using POS.DLL;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
 using System.Net;
 using System.Net.Sockets;
-using POS.DLL;
+using System.Windows.Forms;
 
 namespace POS
 {

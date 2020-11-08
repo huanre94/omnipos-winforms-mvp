@@ -624,6 +624,7 @@
             this.BtnQty.Size = new System.Drawing.Size(80, 92);
             this.BtnQty.TabIndex = 152;
             this.BtnQty.Text = "Cant";
+            this.BtnQty.Click += new System.EventHandler(this.BtnQty_Click);
             // 
             // BtnRemove
             // 

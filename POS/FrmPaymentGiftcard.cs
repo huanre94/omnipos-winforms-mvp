@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using POS.Classes;
+using System;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
 
 namespace POS
 {
@@ -54,9 +46,9 @@ namespace POS
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al consultar el bono."
-                                            ,ClsEnums.MessageType.ERROR
-                                            ,true
-                                            ,ex.InnerException.Message
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
                                             );
                 }
             }
@@ -87,7 +79,7 @@ namespace POS
                     functions.ShowMessage("El bono no cuenta con cupo.", ClsEnums.MessageType.WARNING);
                     this.DialogResult = DialogResult.None;
                 }
-            }            
+            }
         }
 
         private bool ValidateGiftCardFields()

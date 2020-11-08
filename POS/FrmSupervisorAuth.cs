@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using POS.Classes;
+using System;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
 
 namespace POS
 {
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        public bool formActionResult; 
+        public bool formActionResult;
 
         public FrmSupervisorAuth()
         {
@@ -25,7 +17,7 @@ namespace POS
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtAuthorization.Text != "")
-            {                
+            {
                 DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
                 DLL.SP_Supervisor_Validate_Result result;
 
@@ -47,14 +39,14 @@ namespace POS
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al verificar codigo de autorizacion."
-                                            ,ClsEnums.MessageType.ERROR
-                                            ,true
-                                            ,ex.InnerException.Message
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
                                             );
-                }                
+                }
             }
             else
-            {                
+            {
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }
