@@ -15,7 +15,7 @@ namespace POS.DLL.Catalog
             {
 
                 banks =  
-                                        (
+                        (
                             from pr in db.Product
                             join bar in db.ProductBarcode on pr.ProductId equals bar.ProductId
                             where pr.Status == "A"

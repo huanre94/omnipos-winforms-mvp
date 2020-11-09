@@ -54,6 +54,8 @@ namespace POS
                 {
                     FrmMenu frmMenu = new FrmMenu();
                     frmMenu.loginInformation = loginInfomation;
+                    frmMenu.globalParameters = globalParameters;
+                    functions.globalParameters = globalParameters;                    
                     this.Visible = false;
                     frmMenu.Show();
                 }

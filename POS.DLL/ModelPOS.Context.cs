@@ -184,35 +184,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCard_Consult_Result>("SP_GiftCard_Consult", giftCardNumberParameter);
         }
     
-        public virtual ObjectResult<SP_Product_Consult_Result> SP_Product_Consult(Nullable<short> locationId, string barcode, Nullable<decimal> quantity, Nullable<long> customerId, Nullable<long> internalCreditCardId, string paymMode)
-        {
-            var locationIdParameter = locationId.HasValue ?
-                new ObjectParameter("LocationId", locationId) :
-                new ObjectParameter("LocationId", typeof(short));
-    
-            var barcodeParameter = barcode != null ?
-                new ObjectParameter("Barcode", barcode) :
-                new ObjectParameter("Barcode", typeof(string));
-    
-            var quantityParameter = quantity.HasValue ?
-                new ObjectParameter("Quantity", quantity) :
-                new ObjectParameter("Quantity", typeof(decimal));
-    
-            var customerIdParameter = customerId.HasValue ?
-                new ObjectParameter("CustomerId", customerId) :
-                new ObjectParameter("CustomerId", typeof(long));
-    
-            var internalCreditCardIdParameter = internalCreditCardId.HasValue ?
-                new ObjectParameter("InternalCreditCardId", internalCreditCardId) :
-                new ObjectParameter("InternalCreditCardId", typeof(long));
-    
-            var paymModeParameter = paymMode != null ?
-                new ObjectParameter("PaymMode", paymMode) :
-                new ObjectParameter("PaymMode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter);
-        }
-    
         [DbFunction("POSEntities", "FN_Identification_Validate")]
         public virtual IQueryable<FN_Identification_Validate_Result> FN_Identification_Validate(string identification, string isPassport)
         {
@@ -273,6 +244,39 @@ namespace POS.DLL
                 new ObjectParameter("ProductName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ProductBarcode_Consult_Result>("SP_ProductBarcode_Consult", productNameParameter);
+        }
+    
+        public virtual ObjectResult<SP_Product_Consult_Result> SP_Product_Consult(Nullable<short> locationId, string barcode, Nullable<decimal> quantity, Nullable<long> customerId, Nullable<long> internalCreditCardId, string paymMode, string barcodeBefore)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("Barcode", barcode) :
+                new ObjectParameter("Barcode", typeof(string));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("Quantity", quantity) :
+                new ObjectParameter("Quantity", typeof(decimal));
+    
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(long));
+    
+            var internalCreditCardIdParameter = internalCreditCardId.HasValue ?
+                new ObjectParameter("InternalCreditCardId", internalCreditCardId) :
+                new ObjectParameter("InternalCreditCardId", typeof(long));
+    
+            var paymModeParameter = paymMode != null ?
+                new ObjectParameter("PaymMode", paymMode) :
+                new ObjectParameter("PaymMode", typeof(string));
+    
+            var barcodeBeforeParameter = barcodeBefore != null ?
+                new ObjectParameter("BarcodeBefore", barcodeBefore) :
+                new ObjectParameter("BarcodeBefore", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter, barcodeBeforeParameter);
         }
     }
 }

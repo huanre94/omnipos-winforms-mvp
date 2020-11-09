@@ -18,6 +18,7 @@ namespace POS
         public XElement paymentXml = new XElement("Payment");
         public Customer customer = null;
         public SP_Login_Consult_Result loginInformation;
+        public EmissionPoint emissionPoint;
         public decimal invoiceAmount = 0;
         decimal paidAmount = 0;
         decimal pendingAmount = 0;
@@ -25,6 +26,7 @@ namespace POS
         public bool canCloseInvoice = false;
         public decimal baseAmount = 0;
         public decimal taxAmount = 0;
+        public AxOposScanner_CCO.AxOPOSScanner scanner;
 
         public FrmPayment()
         {
@@ -34,7 +36,7 @@ namespace POS
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             GetPaymentInformation();
-            CheckGridView();
+            CheckGridView();            
         }
 
         private void GetPaymentInformation()
@@ -223,9 +225,9 @@ namespace POS
                 response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
 
                 if (response)
-                {
+                {                    
                     GrcPayment.DataSource = null;
-                    GrvPayment.Columns.Clear();
+                    //GrvPayment.Columns.Clear();
                     this.Close();
                 }
                 else
@@ -236,7 +238,8 @@ namespace POS
         }
         #endregion 
 
-        #region Payment Functions       
+        #region Payment Functions
+        
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -245,7 +248,7 @@ namespace POS
                 Amount = decimal.Parse(TxtAmount.Text)
             };
 
-            AddRecordToSource(invoicePayment);
+            AddRecordToGrid(invoicePayment);
             CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);
         }
 
@@ -267,7 +270,7 @@ namespace POS
                     Amount = decimal.Parse(TxtAmount.Text)
                 };
 
-                AddRecordToSource(invoicePayment);
+                AddRecordToGrid(invoicePayment);
                 CalculatePayment(paymentCard.paymModeEnum);
             }
         }
@@ -303,7 +306,7 @@ namespace POS
                     Amount = decimal.Parse(TxtAmount.Text)
                 };
 
-                AddRecordToSource(invoicePayment);
+                AddRecordToGrid(invoicePayment);
                 CalculatePayment(paymModeEnum);
             }
         }
@@ -313,6 +316,8 @@ namespace POS
             FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.customer = customer;
+            paymentCredit.emissionPoint = emissionPoint;
+            paymentCredit.scanner = scanner;
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)
@@ -329,6 +334,8 @@ namespace POS
                     {
                         if (parameter.Value == "1")
                         {
+                            functions.emissionPoint = emissionPoint;
+                            functions.AxOPOSScanner = scanner;
                             responseAuthorization = functions.RequestSupervisorAuth();
                         }
                     }
@@ -351,7 +358,7 @@ namespace POS
                         Amount = decimal.Parse(TxtAmount.Text)
                     };
 
-                    AddRecordToSource(invoicePayment);
+                    AddRecordToGrid(invoicePayment);
                     CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
                 }
             }
@@ -372,7 +379,7 @@ namespace POS
                     Amount = decimal.Parse(TxtAmount.Text)
                 };
 
-                AddRecordToSource(invoicePayment);
+                AddRecordToGrid(invoicePayment);
                 CalculatePayment(ClsEnums.PaymModeEnum.BONO);
             }
         }
@@ -400,7 +407,7 @@ namespace POS
                     Amount = paymentWithhold.retentionAmount
                 };
 
-                AddRecordToSource(invoicePayment);
+                AddRecordToGrid(invoicePayment);
                 CalculatePayment(paymModeEnum);
             }
         }
@@ -441,7 +448,7 @@ namespace POS
             public decimal Amount { get; set; }
         }
 
-        private void AddRecordToSource(InvoicePayment _invoicePayment)
+        private void AddRecordToGrid(InvoicePayment _invoicePayment)
         {
             ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using POS.DLL;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace POS
@@ -6,6 +8,7 @@ namespace POS
     public partial class FrmMenu : DevExpress.XtraEditors.XtraForm
     {
         public DLL.SP_Login_Consult_Result loginInformation;
+        public List<GlobalParameter> globalParameters;
 
         public FrmMenu()
         {
@@ -32,6 +35,7 @@ namespace POS
 
             FrmMain frmMain = new FrmMain();
             frmMain.loginInformation = loginInformation;
+            frmMain.globalParameters = globalParameters;
             this.Visible = false;
             frmMain.Show();
         }

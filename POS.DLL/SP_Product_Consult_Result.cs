@@ -28,6 +28,7 @@ namespace POS.DLL
         public Nullable<decimal> IrbpProductAmount { get; set; }
         public decimal Stock { get; set; }
         public Nullable<decimal> Quantity { get; set; }
+        public Nullable<decimal> QuantityBefore { get; set; }
         public Nullable<bool> WeightControl { get; set; }
         public Nullable<decimal> BaseAmount { get; set; }
         public Nullable<decimal> BaseTaxAmount { get; set; }

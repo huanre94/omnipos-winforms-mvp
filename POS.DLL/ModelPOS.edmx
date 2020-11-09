@@ -2236,6 +2236,7 @@
           <Parameter Name="CustomerId" Type="bigint" Mode="In" />
           <Parameter Name="InternalCreditCardId" Type="bigint" Mode="In" />
           <Parameter Name="PaymMode" Type="varchar" Mode="In" />
+          <Parameter Name="BarcodeBefore" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_ProductBarcode_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
@@ -3639,14 +3640,6 @@
           <FunctionImport Name="SP_GiftCard_Consult" ReturnType="Collection(POSModel.SP_GiftCard_Consult_Result)">
           <Parameter Name="GiftCardNumber" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_Product_Consult" ReturnType="Collection(POSModel.SP_Product_Consult_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int16" />
-            <Parameter Name="Barcode" Mode="In" Type="String" />
-            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
-            <Parameter Name="CustomerId" Mode="In" Type="Int64" />
-            <Parameter Name="InternalCreditCardId" Mode="In" Type="Int64" />
-            <Parameter Name="PaymMode" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="FN_Identification_Validate" IsComposable="true" ReturnType="Collection(POSModel.FN_Identification_Validate_Result)">
             <Parameter Name="Identification" Mode="In" Type="String" />
             <Parameter Name="IsPassport" Mode="In" Type="String" />
@@ -3818,7 +3811,16 @@
           <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SP_ProductBarcode_Consult" ReturnType="Collection(POSModel.SP_ProductBarcode_Consult_Result)">
-            <Parameter Name="ProductName" Mode="In" Type="String" />
+          <Parameter Name="ProductName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Product_Consult" ReturnType="Collection(POSModel.SP_Product_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int16" />
+            <Parameter Name="Barcode" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int64" />
+            <Parameter Name="InternalCreditCardId" Mode="In" Type="Int64" />
+            <Parameter Name="PaymMode" Mode="In" Type="String" />
+            <Parameter Name="BarcodeBefore" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
@@ -4845,36 +4847,6 @@
           <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="20" />
         </ComplexType>
-        <ComplexType Name="SP_Product_Consult_Result">
-          <Property Type="Int64" Name="ProductId" Nullable="false" />
-          <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
-          <Property Type="Int32" Name="InventUnitId" Nullable="true" />
-          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
-          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="PromotionPrice" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="FinalPrice" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="Boolean" Name="UseTax" Nullable="true" />
-          <Property Type="Decimal" Name="TaxProductAmount" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="Decimal" Name="DiscountProductAmount" Nullable="true" Precision="19" />
-          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
-          <Property Type="Decimal" Name="IrbpProductAmount" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
-          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Boolean" Name="WeightControl" Nullable="true" />
-          <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="LineDiscount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="IrbpAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="LineAmount" Nullable="true" Precision="19" />
-          <Property Type="Int64" Name="PromotionId" Nullable="true" />
-          <Property Type="Boolean" Name="UseReward" Nullable="true" />
-          <Property Type="Int64" Name="RewardProductId" Nullable="false" />
-          <Property Type="Decimal" Name="RewardPercent" Nullable="false" Precision="18" Scale="4" />
-        </ComplexType>
         <ComplexType Name="FN_Identification_Validate_Result">
           <Property Type="String" Name="Identification" Nullable="true" MaxLength="13" />
           <Property Type="Int32" Name="CheckDigit" Nullable="true" />
@@ -5630,6 +5602,37 @@
           <Property Type="String" Name="Name" Nullable="true" MaxLength="220" />
           <Property Type="String" Name="Barcode" Nullable="false" MaxLength="20" />
           <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_Product_Consult_Result">
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
+          <Property Type="Int32" Name="InventUnitId" Nullable="true" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="PromotionPrice" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="FinalPrice" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Boolean" Name="UseTax" Nullable="true" />
+          <Property Type="Decimal" Name="TaxProductAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="DiscountProductAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
+          <Property Type="Decimal" Name="IrbpProductAmount" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="QuantityBefore" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Boolean" Name="WeightControl" Nullable="true" />
+          <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="LineDiscount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="IrbpAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LineAmount" Nullable="true" Precision="19" />
+          <Property Type="Int64" Name="PromotionId" Nullable="true" />
+          <Property Type="Boolean" Name="UseReward" Nullable="true" />
+          <Property Type="Int64" Name="RewardProductId" Nullable="false" />
+          <Property Type="Decimal" Name="RewardPercent" Nullable="false" Precision="18" Scale="4" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -6579,40 +6582,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Product_Consult" FunctionName="POSModel.Store.SP_Product_Consult">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="PromotionPrice" ColumnName="PromotionPrice" />
-                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
-                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
-                <ScalarProperty Name="TaxProductAmount" ColumnName="TaxProductAmount" />
-                <ScalarProperty Name="DiscountProductAmount" ColumnName="DiscountProductAmount" />
-                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
-                <ScalarProperty Name="IrbpProductAmount" ColumnName="IrbpProductAmount" />
-                <ScalarProperty Name="Stock" ColumnName="Stock" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
-                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
-                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
-                <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
-                <ScalarProperty Name="LineDiscount" ColumnName="LineDiscount" />
-                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
-                <ScalarProperty Name="LineAmount" ColumnName="LineAmount" />
-                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-                <ScalarProperty Name="UseReward" ColumnName="UseReward" />
-                <ScalarProperty Name="RewardProductId" ColumnName="RewardProductId" />
-                <ScalarProperty Name="RewardPercent" ColumnName="RewardPercent" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="FN_Identification_Validate" FunctionName="POSModel.Store.FN_Identification_Validate">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.FN_Identification_Validate_Result">
@@ -6918,6 +6887,41 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Product_Consult" FunctionName="POSModel.Store.SP_Product_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PromotionPrice" ColumnName="PromotionPrice" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
+                <ScalarProperty Name="TaxProductAmount" ColumnName="TaxProductAmount" />
+                <ScalarProperty Name="DiscountProductAmount" ColumnName="DiscountProductAmount" />
+                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
+                <ScalarProperty Name="IrbpProductAmount" ColumnName="IrbpProductAmount" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="QuantityBefore" ColumnName="QuantityBefore" />
+                <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
+                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
+                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
+                <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
+                <ScalarProperty Name="LineDiscount" ColumnName="LineDiscount" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
+                <ScalarProperty Name="LineAmount" ColumnName="LineAmount" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="UseReward" ColumnName="UseReward" />
+                <ScalarProperty Name="RewardProductId" ColumnName="RewardProductId" />
+                <ScalarProperty Name="RewardPercent" ColumnName="RewardPercent" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

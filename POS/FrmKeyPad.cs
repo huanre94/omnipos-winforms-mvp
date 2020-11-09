@@ -127,5 +127,14 @@ namespace POS
                 functions.ShowMessage("Debe ingresar un numero", ClsEnums.MessageType.WARNING);
             }
         }
+
+        private void TxtValue_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (inputFromOption == ClsEnums.InputFromOption.LOGIN_PASSWORD)
+            {
+                TxtValue.Properties.UseSystemPasswordChar = true;
+                TxtValue.Properties.PasswordChar = '•';
+            }
+        }
     }
 }

@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupervisorAuth));
             this.LblAuthorization = new System.Windows.Forms.Label();
             this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // LblAuthorization
@@ -91,6 +94,17 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 8;
             this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(285, 12);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.TabIndex = 10;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
             // FrmSupervisorAuth
             // 
@@ -98,6 +112,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 255);
             this.ControlBox = false;
+            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.LblAuthorization);
@@ -106,7 +121,9 @@
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Autorizacion de Supervisor";
+            this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,8 +132,9 @@
         #endregion
 
         private System.Windows.Forms.Label LblAuthorization;
-        private DevExpress.XtraEditors.TextEdit TxtAuthorization;
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
+        public DevExpress.XtraEditors.TextEdit TxtAuthorization;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

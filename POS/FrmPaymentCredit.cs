@@ -11,7 +11,9 @@ namespace POS
         public bool formActionResult;
         public decimal creditLimit;
         public decimal paidAmount;
-        public Customer customer = null;
+        public Customer customer;
+        public EmissionPoint emissionPoint;
+        public AxOposScanner_CCO.AxOPOSScanner scanner;
 
         public FrmPaymentCredit()
         {
@@ -20,9 +22,16 @@ namespace POS
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            ValidateCustomerInformation();
-            ValidateCredit();
-        }
+            if (ValidateCustomerInformation())
+            {
+                ValidateCredit();
+
+                functions.AxOPOSScanner = scanner;
+                functions.DisableScanner();
+                functions.AxOPOSScanner = AxOPOSScanner;
+                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+            }
+        }        
 
         private bool ValidateCredit()
         {
@@ -64,7 +73,7 @@ namespace POS
         }
 
         private void TxtCreditCardCode_KeyDown(object sender, KeyEventArgs e)
-        {
+        {            
             if (e.KeyCode == Keys.Enter)
             {
                 if (TxtCreditCardCode.Text != "")
@@ -117,8 +126,12 @@ namespace POS
                 {
                     if (creditLimit >= paidAmount)
                     {
+                        FrmPayment frmPayment = new FrmPayment();
+                        frmPayment.emissionPoint = emissionPoint;
                         TxtCreditCardCode.Text = "";
                         formActionResult = true;
+                        functions.DisableScanner();                       
+                        Close();
                     }
                     else
                     {
@@ -142,7 +155,7 @@ namespace POS
                 {
                     if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
                     {
-                        response = true;
+                        response = true;                        
                     }
                     else
                     {
@@ -166,10 +179,19 @@ namespace POS
 
             return response;
         }
+        
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        {
+            TxtCreditCardCode.Text = functions.AxOPOSScanner.ScanDataLabel;
+            SendKeys.Send("{ENTER}");
+            functions.AxOPOSScanner.DataEventEnabled = true;
+        }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-
+            functions.DisableScanner();
+            functions.AxOPOSScanner = scanner;
+            functions.EnableScanner(emissionPoint.ScanBarcodeName);
         }
     }
 }

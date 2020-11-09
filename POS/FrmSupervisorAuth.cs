@@ -8,12 +8,22 @@ namespace POS
     {
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
+        public DLL.EmissionPoint emissionPoint;
+        public AxOposScanner_CCO.AxOPOSScanner scanner;
 
         public FrmSupervisorAuth()
         {
             InitializeComponent();
         }
 
+        private void FrmSupervisorAuth_Load(object sender, EventArgs e)
+        {
+            functions.AxOPOSScanner = scanner;
+            functions.DisableScanner();
+            functions.AxOPOSScanner = AxOPOSScanner;
+            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+        }
+                
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtAuthorization.Text != "")
@@ -29,6 +39,9 @@ namespace POS
                     {
                         formActionResult = true;
                         TxtAuthorization.Text = "";
+                        functions.DisableScanner();
+                        functions.AxOPOSScanner = scanner;
+                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
                     }
                     else
                     {
@@ -50,6 +63,19 @@ namespace POS
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
                 this.DialogResult = DialogResult.None;
             }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            functions.DisableScanner();
+            functions.AxOPOSScanner = scanner;
+            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+        }
+
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        {
+            TxtAuthorization.Text = functions.AxOPOSScanner.ScanDataLabel;
+            functions.AxOPOSScanner.DataEventEnabled = true;
         }
     }
 }

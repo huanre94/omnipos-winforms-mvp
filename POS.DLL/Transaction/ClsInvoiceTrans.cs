@@ -14,6 +14,7 @@ namespace POS.DLL.Transaction
                                                         , long _customerId
                                                         , int _internalCreditCardId
                                                         , string _paymMode
+                                                        , string _barcodeBefore = ""
                                                         )
         {
             var db = new POSEntities();
@@ -27,6 +28,7 @@ namespace POS.DLL.Transaction
                                                 , _customerId
                                                 , _internalCreditCardId
                                                 , _paymMode
+                                                , _barcodeBefore
                                                 ).FirstOrDefault();
             }
             catch (Exception ex)

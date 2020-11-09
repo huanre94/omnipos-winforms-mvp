@@ -71,10 +71,10 @@
             // LblTitle
             // 
             this.LblTitle.AutoSize = true;
-            this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F, System.Drawing.FontStyle.Bold);
             this.LblTitle.Location = new System.Drawing.Point(250, 9);
             this.LblTitle.Name = "LblTitle";
-            this.LblTitle.Size = new System.Drawing.Size(286, 34);
+            this.LblTitle.Size = new System.Drawing.Size(302, 34);
             this.LblTitle.TabIndex = 148;
             this.LblTitle.Text = "Menú de Opciones";
             // 
