@@ -897,53 +897,7 @@ namespace POS
         }
         #endregion
 
-        private void BtnQty_Click(object sender, EventArgs e)
-        {
-            int rowIndex = GrvSalesDetail.FocusedRowHandle;
-            if (rowIndex < 0)
-            {
-                functions.ShowMessage("No se ha seleccionado una fila.", ClsEnums.MessageType.ERROR);
-            }
-            else
-            {
-                FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
-                keyPad.ShowDialog();
-
-                int newAmount = int.Parse(keyPad.checkNumber);
-                //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
-                SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                if (newAmount > row.Quantity)
-                {
-                    var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
-                                    where long.Parse(xm.Element("ProductId").Value) == row.ProductId
-                                    select xm;
-
-                    string barcode = "";
-                    foreach (var item in searchXml.Elements())
-                    {
-                        if (item.Name == "Barcode")
-                            barcode = item.Value;
-                    }
-
-                    long newValue = (long)(newAmount - row.Quantity);
-
-                    GetProductInformation(
-                                           emissionPoint.LocationId
-                                           , barcode
-                                           , newValue
-                                           , currentCustomer.CustomerId
-                                           , 0
-                                           , ""
-                                           );
-                }
-                else
-                {
-                    functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
-                }
-            }
-        }
+     
 
         private void BtnRemove_Click(object sender, EventArgs e)
         {
@@ -979,6 +933,6 @@ namespace POS
                     GrcSalesDetail.DataSource = dataSource;
                 }
             }
-        }
+        }       
     }
 }
