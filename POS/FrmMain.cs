@@ -13,6 +13,8 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Drawing.Printing;
+using Vip.Printer;
+using Vip.Printer.Enums;
 
 namespace POS
 {
@@ -696,6 +698,8 @@ namespace POS
         private bool PrintInvoice(Int64 _invoiceId)
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
+            //EmissionPoint emissionPoint = new EmissionPoint();
+
             List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             bool response = false;
             string bodyText = "";
@@ -708,25 +712,18 @@ namespace POS
                 {
                     if (invoiceTicket.Count > 0)
                     {
-                        PrintDocument print = new PrintDocument();
+                        
+                        var printer = new Printer( emissionPoint.PrinterName, GetTypePrinter(emissionPoint.PrinterName) );
 
                         foreach (var line in invoiceTicket)
                         {
-                            bodyText += line.BodyText + System.Environment.NewLine;
+                            bodyText += line.BodyText + System.Environment.NewLine;                            
                         }
+                        
+                        printer.WriteLine(bodyText);
+                        printer.PrintDocument();
 
 
-                        print.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
-                        {
-                            e1.Graphics.DrawString(
-                                                    bodyText
-                                                    , new Font("Courier New", 7)
-                                                    , new SolidBrush(Color.Black)
-                                                    , new RectangleF(0, 0, print.DefaultPageSettings.PrintableArea.Width, print.DefaultPageSettings.PrintableArea.Height)
-                                                    );
-                        };
-
-                        print.Print();
                         response = true;
                     }
                 }
@@ -759,6 +756,12 @@ namespace POS
             LblDiscAmount.Text = "0.00";
             TxtBarcode.Focus();
         }
+
+        private PrinterType GetTypePrinter(String PrinterName)
+        {
+            return PrinterName == "LR2000" ? PrinterType.Bematech :  PrinterType.Epson;
+        }
+
         #endregion
 
         #region Recurrent Functions

@@ -59,6 +59,7 @@
             this.TxtUsername.Name = "TxtUsername";
             this.TxtUsername.Size = new System.Drawing.Size(211, 38);
             this.TxtUsername.TabIndex = 17;
+            this.TxtUsername.LocationChanged += new System.EventHandler(this.TxtUsername_LocationChanged);
             // 
             // LblPassword
             // 
@@ -135,7 +136,7 @@
             this.BtnKeypadUsername.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadUsername.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadUsername.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadUsername.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardOwner.ImageOptions.SvgImage")));
+            this.BtnKeypadUsername.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadUsername.ImageOptions.SvgImage")));
             this.BtnKeypadUsername.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadUsername.Location = new System.Drawing.Point(951, 366);
             this.BtnKeypadUsername.Margin = new System.Windows.Forms.Padding(6);
@@ -154,7 +155,7 @@
             this.BtnKeypadPassword.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadPassword.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadPassword.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadPassword.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadPassword.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPassword.ImageOptions.SvgImage")));
             this.BtnKeypadPassword.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadPassword.Location = new System.Drawing.Point(951, 423);
             this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(6);
