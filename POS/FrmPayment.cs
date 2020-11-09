@@ -45,14 +45,20 @@ namespace POS
             pendingAmount = invoiceAmount;
 
             bool customerRetention = customer.UseRetention ?? false;
-
             if (customerRetention)
             {
                 if (functions.ShowMessage("Este cliente genera retencion. ¿Desea registrar una?", ClsEnums.MessageType.CONFIRM))
                 {
                     Withhold();
                 }
+                /*
+                 if (taxAmount == 0)
+        {
+            functions.ShowMessage("No aplica retencion: La base imponible es cero", ClsEnums.MessageType.ERROR);
+        }
+                 */
             }
+
         }
         #endregion
 
@@ -138,7 +144,14 @@ namespace POS
         #region Payment Buttons
         private void BtnWithhold_Click(object sender, EventArgs e)
         {
-            Withhold();
+            if (taxAmount == 0)
+            {
+                functions.ShowMessage("No aplica retencion, la base imponible es cero", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                Withhold();
+            }
         }
 
         private void BtnCash_Click(object sender, EventArgs e)
@@ -223,30 +236,7 @@ namespace POS
         }
         #endregion 
 
-        #region Payment Functions
-        /*private void Withhold()
-        {
-            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
-            paymentWithhold.customer = customer;
-            paymentWithhold.retentionAmount = taxAmount;
-            paymentWithhold.ShowDialog();
-
-            if (paymentWithhold.processResponse)
-            {
-                Withhold();
-            }
-            else
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
-            }
-        }
-        #endregion
-
-                AddRecordToSource(invoicePayment);
-                CalculatePayment(paymModeEnum);
-            }
-        }*/
-
+        #region Payment Functions       
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -391,11 +381,15 @@ namespace POS
         {
             FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
             paymentWithhold.customer = customer;
+            paymentWithhold.loginInformation = loginInformation;
             paymentWithhold.retentionAmount = taxAmount;
             paymentWithhold.ShowDialog();
 
             if (paymentWithhold.processResponse)
             {
+
+                TxtAmount.Text = paymentWithhold.retentionAmount.ToString();
+
                 ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
                 InvoicePayment invoicePayment = new InvoicePayment
                 {

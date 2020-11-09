@@ -77,6 +77,7 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado item por agregar.", ClsEnums.MessageType.ERROR);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
             else
             {

@@ -8,16 +8,14 @@ using System.Windows.Forms;
 using POS.DLL.Catalog;
 using POS.DLL;
 using POS.Classes;
-using System.Net;
-using System.Net.Sockets;
 using POS.DLL.Transaction;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Drawing.Printing;
 using OposScanner_CCO;
-//using OposScale_CCO;
 using AxOposScanner_CCO;
+using AxOposScale_1_8_Lib;
 
 namespace POS
 {
@@ -50,7 +48,7 @@ namespace POS
             {
                 CheckGridView();
                 EnableScanner();
-                EnableScale();
+                //EnableScale();
             }
             else
             {
@@ -175,64 +173,64 @@ namespace POS
             }
         }
 
-        private void EnableScale()
-        {
-            try
-            {
-                AxOPOSScale.BeginInit();
-                int isOpen = AxOPOSScale.Open(emissionPoint.ScaleName);
+        //private void EnableScale()
+        //{
+        //    try
+        //    {
+        //        AxOPOSScale.BeginInit();
+        //        int isOpen = AxOPOSScale.Open(emissionPoint.ScaleName);
 
-                if (isOpen == 0)
-                {
-                    AxOPOSScale.ClaimDevice(1000);
+        //        if (isOpen == 0)
+        //        {
+        //            AxOPOSScale.ClaimDevice(1000);
 
-                    if (AxOPOSScale.Claimed)
-                    {
-                        AxOPOSScale.DeviceEnabled = true;
-                        AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                    }
-                }
-                else
-                {
-                    functions.ShowMessage("El puerto de la balanza esta cerrado.", ClsEnums.MessageType.WARNING);
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al habilitar balanza."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
-        }
+        //            if (AxOPOSScale.Claimed)
+        //            {
+        //                AxOPOSScale.DeviceEnabled = true;
+        //                AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            functions.ShowMessage("El puerto de la balanza esta cerrado.", ClsEnums.MessageType.WARNING);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        functions.ShowMessage(
+        //                                "Ocurrio un problema al habilitar balanza."
+        //                                , ClsEnums.MessageType.ERROR
+        //                                , true
+        //                                , ex.Message
+        //                            );
+        //    }
+        //}
 
-        private void DisableScale()
-        {
-            if (AxOPOSScale != null)
-            {
-                try
-                {
-                    // Close the active scanner
-                    AxOPOSScale.DeviceEnabled = false;
-                    AxOPOSScale.Close();
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al deshabilitar balanza."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-                finally
-                {
-                    AxOPOSScale = null;
-                }
-            }
-        }
+        //private void DisableScale()
+        //{
+        //    if (AxOPOSScale != null)
+        //    {
+        //        try
+        //        {
+        //            // Close the active scanner
+        //            AxOPOSScale.DeviceEnabled = false;
+        //            AxOPOSScale.Close();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            functions.ShowMessage(
+        //                                    "Ocurrio un problema al deshabilitar balanza."
+        //                                    , ClsEnums.MessageType.ERROR
+        //                                    , true
+        //                                    , ex.Message
+        //                                );
+        //        }
+        //        finally
+        //        {
+        //            AxOPOSScale = null;
+        //        }
+        //    }
+        //}
         #endregion
 
         #region Keypad Buttons
@@ -396,6 +394,7 @@ namespace POS
                 payment.customer = currentCustomer;
                 payment.taxAmount = taxAmount;
                 payment.baseAmount = baseAmount;
+                payment.loginInformation = loginInformation;
                 payment.ShowDialog();
 
                 if (payment.canCloseInvoice)
@@ -434,11 +433,7 @@ namespace POS
                                            , 0
                                            , ""
                                            );
-            }
-            else
-            {
-                functions.ShowMessage("No Valio", ClsEnums.MessageType.ERROR);
-            }
+            }         
         }
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
@@ -491,13 +486,13 @@ namespace POS
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             DisableScanner();
-            DisableScale();
+            //DisableScale();
         }
 
         private void FrmMain_LocationChanged(object sender, EventArgs e)
         {
             this.Location = initialLocation;
-        }        
+        }
         #endregion
 
         #region Main Functions
@@ -867,8 +862,8 @@ namespace POS
 
         private void CalculateInvoice()
         {
-            decimal invoiceAmount = 0;
-            decimal discAmount = 0;
+            decimal invoiceAmount = 0.00M;
+            decimal discAmount = 0.00M;
 
             var line = from r in invoiceXml.Descendants("InvoiceLine")
                        select r;
@@ -889,9 +884,10 @@ namespace POS
         {
             decimal weight = 0;
 
-            try 
-            { 
-                AxOPOSScale.ReadWeight(out int request, 5000);
+            try
+            {
+                //AxOPOSScale.ReadWeight(out int request, 5000);
+                int request = 0;
                 weight = request / 1000M;
 
                 if (weight <= 0)
@@ -899,7 +895,7 @@ namespace POS
                     functions.ShowMessage("El peso tiene que ser mayor a cero.", ClsEnums.MessageType.WARNING);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al capturar peso."
@@ -957,6 +953,42 @@ namespace POS
                 else
                 {
                     functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
+                }
+            }
+        }
+
+        private void BtnRemove_Click(object sender, EventArgs e)
+        {
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+            if (rowIndex < 0)
+            {
+                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                bool isApproved = functions.RequestSupervisorAuth();
+                if (isApproved)
+                {
+                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+                    foreach (SP_Product_Consult_Result item in dataSource)
+                    {
+                        if (item.ProductId == selectedRow.ProductId)
+                        {
+                            dataSource.Remove(item);
+                            break;
+                        }
+                    }
+
+                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
+                                        select xm;
+
+                    newInvoiceXML.Remove();
+
+                    CalculateInvoice();
+                    GrcSalesDetail.DataSource = dataSource;
                 }
             }
         }

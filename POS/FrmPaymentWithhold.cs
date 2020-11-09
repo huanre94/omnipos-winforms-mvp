@@ -35,7 +35,8 @@ namespace POS
             ClsPaymMode paymMode = new ClsPaymMode();
             List<RetentionTable> retentionTables;
 
-            bool customerTaxPayer = (bool)customer.IsSpecialTaxpayer;
+            bool isCustomerTaxPayer = customer.IsSpecialTaxpayer ?? false;
+            bool customerTaxPayer = isCustomerTaxPayer;
             bool companyTaxPayer = (bool)loginInformation.IsTaxpayerSpecial;
 
             int _retentionCode = 0;
