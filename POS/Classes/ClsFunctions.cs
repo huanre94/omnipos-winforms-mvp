@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Vip.Printer;
+using Vip.Printer.Enums;
 
 namespace POS
 {
@@ -13,7 +15,9 @@ namespace POS
         public DLL.EmissionPoint emissionPoint;
 
         public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner { get; set; }
-        public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }        
+        public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
+
+        public string PrinterName { get; set; }
 
         public bool ShowMessage(
                                 string _messageText
@@ -188,13 +192,34 @@ namespace POS
             return response;
         }
 
-        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
+        public bool PrinterDocument(string TextDocument)
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
-            frmCatchWeight.axOposScale = _axOposScale;
-            frmCatchWeight.ShowDialog();
+            bool response = false;
 
-            return frmCatchWeight.weight;;
+            try
+            {
+                var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
+
+                printer.WriteLine(TextDocument);
+                printer.PrintDocument();
+                response = true;
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(
+                                "Ocurrió un problema al Imprimir el Documento."
+                                , ClsEnums.MessageType.ERROR
+                                , true
+                                , ex.InnerException.Message
+                            );
+            }
+
+            return response;
+        }
+
+        private PrinterType GetTypePrinter(String PrinterName)
+        {
+            return PrinterName == "LR2000" ? PrinterType.Bematech : PrinterType.Epson;
         }
     }
 }
