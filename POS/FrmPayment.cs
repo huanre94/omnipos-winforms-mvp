@@ -36,7 +36,7 @@ namespace POS
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             GetPaymentInformation();
-            CheckGridView();            
+            CheckGridView();
         }
 
         private void GetPaymentInformation()
@@ -225,7 +225,7 @@ namespace POS
                 response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
 
                 if (response)
-                {                    
+                {
                     GrcPayment.DataSource = null;
                     //GrvPayment.Columns.Clear();
                     this.Close();
@@ -236,10 +236,10 @@ namespace POS
                 }
             }
         }
-        #endregion 
+        #endregion
 
         #region Payment Functions
-        
+
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -336,8 +336,8 @@ namespace POS
                         if (parameter.Value == "1")
                         {
                             functions.emissionPoint = emissionPoint;
-                            functions.AxOPOSScanner = scanner;                            
-                            responseAuthorization = functions.RequestSupervisorAuth();                            
+                            functions.AxOPOSScanner = scanner;
+                            responseAuthorization = functions.RequestSupervisorAuth();
                         }
                     }
                 }
@@ -357,7 +357,7 @@ namespace POS
                     {
                         PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
                         Amount = decimal.Parse(TxtAmount.Text),
-                        Authorization = functions.supervisorAuthorization
+                        GiftCardNumber = paymentCredit.internalCreditId ?? ""
                     };
 
                     AddRecordToGrid(invoicePayment);

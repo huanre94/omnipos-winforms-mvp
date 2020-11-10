@@ -38,8 +38,7 @@ namespace POS
 
                     if (result != null)
                     {
-                        formActionResult = true;
-                        functions.supervisorAuthorization = TxtAuthorization.Text;
+                        formActionResult = true;                        
                         TxtAuthorization.Text = "";
                         functions.DisableScanner();
                         functions.AxOPOSScanner = scanner;

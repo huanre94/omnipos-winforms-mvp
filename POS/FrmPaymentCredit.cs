@@ -11,7 +11,8 @@ namespace POS
         public bool formActionResult;
         public decimal creditLimit;
         public decimal paidAmount;
-        public Customer customer;        
+        public Customer customer;
+        public string internalCreditId;
         public EmissionPoint emissionPoint;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
 
@@ -31,7 +32,7 @@ namespace POS
                 functions.AxOPOSScanner = AxOPOSScanner;
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
             }
-        }        
+        }
 
         private bool ValidateCredit()
         {
@@ -40,7 +41,7 @@ namespace POS
             {
 
             }
-            else if (customer.IsCredit??false)
+            else if (customer.IsCredit ?? false)
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
@@ -73,7 +74,7 @@ namespace POS
         }
 
         private void TxtCreditCardCode_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             if (e.KeyCode == Keys.Enter)
             {
                 if (TxtCreditCardCode.Text != "")
@@ -128,9 +129,15 @@ namespace POS
                     {
                         FrmPayment frmPayment = new FrmPayment();
                         frmPayment.emissionPoint = emissionPoint;
+
+                        if (TxtCreditCardCode.Text != "")
+                        {
+                            internalCreditId = TxtCreditCardCode.Text;
+                        }
+
                         TxtCreditCardCode.Text = "";
                         formActionResult = true;
-                        functions.DisableScanner();                       
+                        functions.DisableScanner();
                         Close();
                     }
                     else
@@ -155,7 +162,7 @@ namespace POS
                 {
                     if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
                     {
-                        response = true;                        
+                        response = true;
                     }
                     else
                     {
@@ -179,7 +186,7 @@ namespace POS
 
             return response;
         }
-        
+
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtCreditCardCode.Text = functions.AxOPOSScanner.ScanDataLabel;

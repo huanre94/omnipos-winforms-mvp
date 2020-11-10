@@ -75,13 +75,14 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
-            this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.BtnLastInvoice = new DevExpress.XtraEditors.SimpleButton();
+            this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -689,25 +690,6 @@
             this.LblDiscAmount.Text = "0.00";
             this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(572, 12);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(67, 76);
-            this.AxOPOSScanner.TabIndex = 158;
-            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
-            // 
-            // AxOPOSScale
-            // 
-            this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(708, 12);
-            this.AxOPOSScale.Name = "AxOPOSScale";
-            this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
-            this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScale.TabIndex = 159;
-            // 
             // BtnLastInvoice
             // 
             this.BtnLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
@@ -723,6 +705,24 @@
             this.BtnLastInvoice.TabIndex = 151;
             this.BtnLastInvoice.Text = "Imp Ult Fact";
             // 
+            // AxOPOSScale
+            // 
+            this.AxOPOSScale.Enabled = true;
+            this.AxOPOSScale.Location = new System.Drawing.Point(823, 18);
+            this.AxOPOSScale.Name = "AxOPOSScale";
+            this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
+            this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScale.TabIndex = 158;
+            // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(586, 18);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.TabIndex = 159;
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -731,6 +731,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.AxOPOSScanner);
+            this.Controls.Add(this.AxOPOSScale);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LblDiscAmount);
             this.Controls.Add(this.LblTitleTotal);
@@ -784,6 +785,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -837,9 +839,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn Price;
         private DevExpress.XtraGrid.Columns.GridColumn Discount;
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
-        private DevExpress.XtraGrid.Columns.GridColumn ProductId;
-        private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
-        public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private DevExpress.XtraGrid.Columns.GridColumn ProductId;        
         private DevExpress.XtraEditors.SimpleButton BtnLastInvoice;
+        private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }
