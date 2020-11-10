@@ -491,6 +491,7 @@ namespace POS
             decimal qtyFound = 0;
             decimal amountFound = 0;
             bool useWeightControl = false;
+            bool useCatchWeight = false;
             bool canInsert = true;
             string barcodeBefore = _barcode;
 
@@ -518,6 +519,10 @@ namespace POS
                             case "WeightControl":
                                 if (bool.Parse(node.Value))
                                     useWeightControl = true;                                
+                                break;
+                            case "UseCatchWeight":
+                                if (bool.Parse(node.Value))
+                                    useCatchWeight = true;
                                 break;
                             case "Quantity":
                                 qtyFound = decimal.Parse(node.Value);
