@@ -38,7 +38,7 @@ namespace POS
         #region Global Load Definitions
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {        
+        {
             if (GetEmissionPointInformation())
             {
                 CheckGridView();
@@ -53,7 +53,7 @@ namespace POS
                 Close();
             }
         }
-        
+
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
@@ -65,7 +65,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP); 
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -108,7 +108,7 @@ namespace POS
             bindingList.AllowNew = true;
 
             GrcSalesDetail.DataSource = bindingList;
-        }        
+        }
         #endregion
 
         #region Keypad Buttons
@@ -290,19 +290,20 @@ namespace POS
 
                         long newValue = (long)(newAmount - row.Quantity);
 
-                    GetProductInformation(
-                                           emissionPoint.LocationId
-                                           , barcode
-                                           , newValue
-                                           , currentCustomer.CustomerId
-                                           , 0
-                                           , ""
-                                           , false
-                                           );
-                }
-                else
-                {
-                    functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
+                        GetProductInformation(
+                                               emissionPoint.LocationId
+                                               , barcode
+                                               , newValue
+                                               , currentCustomer.CustomerId
+                                               , 0
+                                               , ""
+                                               , false
+                                               );
+                    }
+                    else
+                    {
+                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
+                    }
                 }
             }
         }
@@ -410,7 +411,7 @@ namespace POS
                 {
                     functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
                 }
-            }         
+            }
         }
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
@@ -461,7 +462,7 @@ namespace POS
                                         , false
                                         );
             }
-        }       
+        }
 
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
@@ -474,7 +475,7 @@ namespace POS
                 //functions.InputScanner.Name = frmPaymentCredit.TxtCreditCardCode.Name;
                 //FrmSupervisorAuth frmSupervisorAuth = new FrmSupervisorAuth();
                 //functions.InputScanner.Text = functions.AxPOSScanner.ScanDataLabel;       
-                               
+
 
                 functions.AxOPOSScanner.DataEventEnabled = true;
                 //AxOPOSScanner.DataEventEnabled = true;
@@ -494,7 +495,7 @@ namespace POS
         {
             functions.DisableScanner();
             //functions.DisableScale(AxOPOSScanner);
-        }              
+        }
         #endregion
 
         #region Main Functions
@@ -542,7 +543,7 @@ namespace POS
                         {
                             case "WeightControl":
                                 if (bool.Parse(node.Value))
-                                    useWeightControl = true;                                
+                                    useWeightControl = true;
                                 break;
                             case "UseCatchWeight":
                                 if (bool.Parse(node.Value))
@@ -609,7 +610,7 @@ namespace POS
                                                                             , _internalCreditCardId
                                                                             , _paymMode
                                                                             , barcodeBefore
-                                                                            );                                    
+                                                                            );
                                 }
                                 else
                                 {
@@ -743,7 +744,7 @@ namespace POS
             List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             bool response = false;
             string bodyText = "";
-            
+
             try
             {
                 invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId);
@@ -752,7 +753,7 @@ namespace POS
                 {
                     if (invoiceTicket.Count > 0)
                     {
-                        
+
                         foreach (var line in invoiceTicket)
                         {
                             bodyText += line.BodyText + System.Environment.NewLine;
@@ -764,7 +765,7 @@ namespace POS
                         {
                             response = true;
                         }
-                        
+
                     }
                 }
             }
@@ -783,7 +784,7 @@ namespace POS
 
         private void ClearInvoice()
         {
-            currentCustomer = new Customer();            
+            currentCustomer = new Customer();
             LblCustomerId.Text = "9999999999999";
             LblCustomerName.Text = "CONSUMIDOR FINAL";
             LblCustomerAddress.Text = "GUAYAQUIL";
@@ -806,7 +807,7 @@ namespace POS
             SequenceTable sequenceTable;
 
             try
-            {                
+            {
                 sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId);
 
                 if (sequenceTable != null)
@@ -933,47 +934,6 @@ namespace POS
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
-        #endregion   
-
-     
-
-        private void BtnRemove_Click(object sender, EventArgs e)
-        {
-            int rowIndex = GrvSalesDetail.FocusedRowHandle;
-            if (rowIndex < 0)
-            {
-                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
-            }
-            else
-            {
-                //bool isApproved = functions.RequestSupervisorAuth();
-                functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth())
-                {
-                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
-                    foreach (SP_Product_Consult_Result item in dataSource)
-                    {
-                        if (item.ProductId == selectedRow.ProductId)
-                        {
-                            dataSource.Remove(item);
-                            break;
-                        }
-                    }
-
-                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
-                                        select xm;
-
-                    //todo: cargar registro a eliminar a base, necesito SP
-
-                    newInvoiceXML.Remove();
-
-                    CalculateInvoice();
-                    GrcSalesDetail.DataSource = dataSource;
-                }
-            }
-        }
+        #endregion
     }
 }

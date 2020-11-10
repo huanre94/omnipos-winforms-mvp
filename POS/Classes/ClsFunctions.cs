@@ -221,5 +221,14 @@ namespace POS
         {
             return PrinterName == "LR2000" ? PrinterType.Bematech : PrinterType.Epson;
         }
+
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
+        {
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
+            frmCatchWeight.axOposScale = _axOposScale;
+            frmCatchWeight.ShowDialog();
+
+            return frmCatchWeight.weight; ;
+        }
     }
 }
