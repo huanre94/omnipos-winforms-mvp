@@ -205,12 +205,6 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD;
             keyPad.ShowDialog();
             TxtPassword.Text = keyPad.loginPassword;
-        }
-
-
-        private void TxtUsername_LocationChanged(object sender, EventArgs e)
-        {
-            MessageBox.Show("test");
-        }
+        }               
     }
 }

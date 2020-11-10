@@ -142,7 +142,7 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(394, 12);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(392, 12);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
@@ -185,7 +185,7 @@
         private System.Windows.Forms.Label LblHolderName;
         private System.Windows.Forms.Label LblCreditLimit;
         private System.Windows.Forms.Label LblTitleCredit;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private DevExpress.XtraEditors.TextEdit TxtCreditCardCode;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

@@ -59,7 +59,6 @@
             this.TxtUsername.Name = "TxtUsername";
             this.TxtUsername.Size = new System.Drawing.Size(211, 38);
             this.TxtUsername.TabIndex = 17;
-            this.TxtUsername.LocationChanged += new System.EventHandler(this.TxtUsername_LocationChanged);
             // 
             // LblPassword
             // 

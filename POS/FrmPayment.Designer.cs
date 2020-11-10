@@ -70,7 +70,7 @@
             this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn9.Appearance.Options.UseBackColor = true;
             this.Btn9.Appearance.Options.UseFont = true;
-            this.Btn9.Location = new System.Drawing.Point(189, 157);
+            this.Btn9.Location = new System.Drawing.Point(189, 187);
             this.Btn9.Margin = new System.Windows.Forms.Padding(8);
             this.Btn9.Name = "Btn9";
             this.Btn9.Size = new System.Drawing.Size(75, 65);
@@ -84,7 +84,7 @@
             this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn8.Appearance.Options.UseBackColor = true;
             this.Btn8.Appearance.Options.UseFont = true;
-            this.Btn8.Location = new System.Drawing.Point(103, 157);
+            this.Btn8.Location = new System.Drawing.Point(103, 187);
             this.Btn8.Margin = new System.Windows.Forms.Padding(8);
             this.Btn8.Name = "Btn8";
             this.Btn8.Size = new System.Drawing.Size(75, 65);
@@ -98,7 +98,7 @@
             this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn7.Appearance.Options.UseBackColor = true;
             this.Btn7.Appearance.Options.UseFont = true;
-            this.Btn7.Location = new System.Drawing.Point(19, 157);
+            this.Btn7.Location = new System.Drawing.Point(19, 187);
             this.Btn7.Margin = new System.Windows.Forms.Padding(6);
             this.Btn7.Name = "Btn7";
             this.Btn7.Size = new System.Drawing.Size(75, 65);
@@ -112,7 +112,7 @@
             this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn6.Appearance.Options.UseBackColor = true;
             this.Btn6.Appearance.Options.UseFont = true;
-            this.Btn6.Location = new System.Drawing.Point(189, 233);
+            this.Btn6.Location = new System.Drawing.Point(189, 263);
             this.Btn6.Margin = new System.Windows.Forms.Padding(8);
             this.Btn6.Name = "Btn6";
             this.Btn6.Size = new System.Drawing.Size(75, 65);
@@ -126,7 +126,7 @@
             this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn5.Appearance.Options.UseBackColor = true;
             this.Btn5.Appearance.Options.UseFont = true;
-            this.Btn5.Location = new System.Drawing.Point(103, 233);
+            this.Btn5.Location = new System.Drawing.Point(103, 263);
             this.Btn5.Margin = new System.Windows.Forms.Padding(6);
             this.Btn5.Name = "Btn5";
             this.Btn5.Size = new System.Drawing.Size(75, 65);
@@ -140,7 +140,7 @@
             this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn1.Appearance.Options.UseBackColor = true;
             this.Btn1.Appearance.Options.UseFont = true;
-            this.Btn1.Location = new System.Drawing.Point(19, 307);
+            this.Btn1.Location = new System.Drawing.Point(19, 337);
             this.Btn1.Margin = new System.Windows.Forms.Padding(4);
             this.Btn1.Name = "Btn1";
             this.Btn1.Size = new System.Drawing.Size(75, 65);
@@ -154,7 +154,7 @@
             this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn4.Appearance.Options.UseBackColor = true;
             this.Btn4.Appearance.Options.UseFont = true;
-            this.Btn4.Location = new System.Drawing.Point(19, 233);
+            this.Btn4.Location = new System.Drawing.Point(19, 263);
             this.Btn4.Margin = new System.Windows.Forms.Padding(5);
             this.Btn4.Name = "Btn4";
             this.Btn4.Size = new System.Drawing.Size(75, 65);
@@ -168,7 +168,7 @@
             this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn2.Appearance.Options.UseBackColor = true;
             this.Btn2.Appearance.Options.UseFont = true;
-            this.Btn2.Location = new System.Drawing.Point(103, 307);
+            this.Btn2.Location = new System.Drawing.Point(103, 337);
             this.Btn2.Margin = new System.Windows.Forms.Padding(5);
             this.Btn2.Name = "Btn2";
             this.Btn2.Size = new System.Drawing.Size(75, 65);
@@ -183,7 +183,7 @@
             this.BtnDelete.Appearance.Options.UseBackColor = true;
             this.BtnDelete.Appearance.Options.UseFont = true;
             this.BtnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnDelete.ImageOptions.SvgImage")));
-            this.BtnDelete.Location = new System.Drawing.Point(189, 98);
+            this.BtnDelete.Location = new System.Drawing.Point(189, 128);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(75, 45);
@@ -196,7 +196,7 @@
             this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn3.Appearance.Options.UseBackColor = true;
             this.Btn3.Appearance.Options.UseFont = true;
-            this.Btn3.Location = new System.Drawing.Point(189, 307);
+            this.Btn3.Location = new System.Drawing.Point(189, 337);
             this.Btn3.Margin = new System.Windows.Forms.Padding(6);
             this.Btn3.Name = "Btn3";
             this.Btn3.Size = new System.Drawing.Size(75, 65);
@@ -210,7 +210,7 @@
             this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn0.Appearance.Options.UseBackColor = true;
             this.Btn0.Appearance.Options.UseFont = true;
-            this.Btn0.Location = new System.Drawing.Point(19, 381);
+            this.Btn0.Location = new System.Drawing.Point(19, 411);
             this.Btn0.Margin = new System.Windows.Forms.Padding(5);
             this.Btn0.Name = "Btn0";
             this.Btn0.Size = new System.Drawing.Size(159, 65);
@@ -224,7 +224,7 @@
             this.BtnDot.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.BtnDot.Appearance.Options.UseBackColor = true;
             this.BtnDot.Appearance.Options.UseFont = true;
-            this.BtnDot.Location = new System.Drawing.Point(188, 381);
+            this.BtnDot.Location = new System.Drawing.Point(188, 411);
             this.BtnDot.Margin = new System.Windows.Forms.Padding(5);
             this.BtnDot.Name = "BtnDot";
             this.BtnDot.Size = new System.Drawing.Size(76, 65);
@@ -236,7 +236,7 @@
             // 
             this.LblTitleTotal.AutoSize = true;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(16, 37);
+            this.LblTitleTotal.Location = new System.Drawing.Point(17, 66);
             this.LblTitleTotal.Name = "LblTitleTotal";
             this.LblTitleTotal.Size = new System.Drawing.Size(124, 34);
             this.LblTitleTotal.TabIndex = 147;
@@ -246,7 +246,7 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(138, 36);
+            this.LblTotal.Location = new System.Drawing.Point(139, 46);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(126, 34);
             this.LblTotal.TabIndex = 148;
@@ -263,7 +263,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(657, 396);
+            this.BtnCancel.Location = new System.Drawing.Point(657, 426);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -273,10 +273,10 @@
             // 
             // GrcPayment
             // 
-            this.GrcPayment.Location = new System.Drawing.Point(523, 1);
+            this.GrcPayment.Location = new System.Drawing.Point(523, 6);
             this.GrcPayment.MainView = this.GrvPayment;
             this.GrcPayment.Name = "GrcPayment";
-            this.GrcPayment.Size = new System.Drawing.Size(294, 239);
+            this.GrcPayment.Size = new System.Drawing.Size(294, 276);
             this.GrcPayment.TabIndex = 150;
             this.GrcPayment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPayment});
@@ -349,7 +349,7 @@
             this.BtnCash.Location = new System.Drawing.Point(285, 6);
             this.BtnCash.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCash.Name = "BtnCash";
-            this.BtnCash.Size = new System.Drawing.Size(220, 80);
+            this.BtnCash.Size = new System.Drawing.Size(220, 70);
             this.BtnCash.TabIndex = 151;
             this.BtnCash.Text = "Efectivo";
             this.BtnCash.Click += new System.EventHandler(this.BtnCash_Click);
@@ -364,10 +364,10 @@
             this.BtnCreditCard.ImageOptions.SvgImage = global::POS.Properties.Resources.creditCard;
             this.BtnCreditCard.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
             this.BtnCreditCard.ImageOptions.SvgImageSize = new System.Drawing.Size(75, 75);
-            this.BtnCreditCard.Location = new System.Drawing.Point(285, 96);
+            this.BtnCreditCard.Location = new System.Drawing.Point(285, 86);
             this.BtnCreditCard.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCreditCard.Name = "BtnCreditCard";
-            this.BtnCreditCard.Size = new System.Drawing.Size(220, 80);
+            this.BtnCreditCard.Size = new System.Drawing.Size(220, 70);
             this.BtnCreditCard.TabIndex = 152;
             this.BtnCreditCard.Text = "Tarjeta";
             this.BtnCreditCard.Click += new System.EventHandler(this.BtnCreditCard_Click);
@@ -382,10 +382,10 @@
             this.BtnCheck.ImageOptions.SvgImage = global::POS.Properties.Resources.bankCheck;
             this.BtnCheck.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
             this.BtnCheck.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
-            this.BtnCheck.Location = new System.Drawing.Point(285, 186);
+            this.BtnCheck.Location = new System.Drawing.Point(285, 166);
             this.BtnCheck.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCheck.Name = "BtnCheck";
-            this.BtnCheck.Size = new System.Drawing.Size(220, 80);
+            this.BtnCheck.Size = new System.Drawing.Size(220, 70);
             this.BtnCheck.TabIndex = 153;
             this.BtnCheck.Text = "Cheque";
             this.BtnCheck.Click += new System.EventHandler(this.BtnCheck_Click);
@@ -399,18 +399,18 @@
             this.BtnInternalCredit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnInternalCredit.ImageOptions.SvgImage = global::POS.Properties.Resources.internCredit;
             this.BtnInternalCredit.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
-            this.BtnInternalCredit.Location = new System.Drawing.Point(285, 276);
+            this.BtnInternalCredit.Location = new System.Drawing.Point(285, 246);
             this.BtnInternalCredit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnInternalCredit.Name = "BtnInternalCredit";
-            this.BtnInternalCredit.Size = new System.Drawing.Size(220, 80);
+            this.BtnInternalCredit.Size = new System.Drawing.Size(220, 70);
             this.BtnInternalCredit.TabIndex = 154;
-            this.BtnInternalCredit.Text = "Credito";
+            this.BtnInternalCredit.Text = "Crédito";
             this.BtnInternalCredit.Click += new System.EventHandler(this.BtnInternalCredit_Click);
             // 
             // LblPaid
             // 
             this.LblPaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPaid.Location = new System.Drawing.Point(733, 271);
+            this.LblPaid.Location = new System.Drawing.Point(733, 299);
             this.LblPaid.Name = "LblPaid";
             this.LblPaid.Size = new System.Drawing.Size(84, 22);
             this.LblPaid.TabIndex = 156;
@@ -420,7 +420,7 @@
             // 
             this.LblTitlePaid.AutoSize = true;
             this.LblTitlePaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePaid.Location = new System.Drawing.Point(627, 271);
+            this.LblTitlePaid.Location = new System.Drawing.Point(627, 299);
             this.LblTitlePaid.Name = "LblTitlePaid";
             this.LblTitlePaid.Size = new System.Drawing.Size(102, 22);
             this.LblTitlePaid.TabIndex = 155;
@@ -429,7 +429,7 @@
             // LblPending
             // 
             this.LblPending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPending.Location = new System.Drawing.Point(733, 302);
+            this.LblPending.Location = new System.Drawing.Point(733, 330);
             this.LblPending.Name = "LblPending";
             this.LblPending.Size = new System.Drawing.Size(84, 22);
             this.LblPending.TabIndex = 158;
@@ -439,7 +439,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.label3.Location = new System.Drawing.Point(605, 302);
+            this.label3.Location = new System.Drawing.Point(605, 330);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(124, 22);
             this.label3.TabIndex = 157;
@@ -449,7 +449,7 @@
             // 
             this.TxtAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAmount.EditValue = "";
-            this.TxtAmount.Location = new System.Drawing.Point(25, 101);
+            this.TxtAmount.Location = new System.Drawing.Point(19, 130);
             this.TxtAmount.Name = "TxtAmount";
             this.TxtAmount.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtAmount.Properties.Appearance.Options.UseFont = true;
@@ -473,10 +473,10 @@
             this.BtnGiftcard.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
             this.BtnGiftcard.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
             this.BtnGiftcard.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
-            this.BtnGiftcard.Location = new System.Drawing.Point(285, 366);
+            this.BtnGiftcard.Location = new System.Drawing.Point(285, 326);
             this.BtnGiftcard.Margin = new System.Windows.Forms.Padding(5);
             this.BtnGiftcard.Name = "BtnGiftcard";
-            this.BtnGiftcard.Size = new System.Drawing.Size(220, 80);
+            this.BtnGiftcard.Size = new System.Drawing.Size(220, 70);
             this.BtnGiftcard.TabIndex = 163;
             this.BtnGiftcard.Text = "Bono ";
             this.BtnGiftcard.Click += new System.EventHandler(this.BtnGiftcard_Click);
@@ -488,15 +488,15 @@
             this.BtnWithhold.Appearance.Options.UseBackColor = true;
             this.BtnWithhold.Appearance.Options.UseFont = true;
             this.BtnWithhold.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnWithhold.ImageOptions.SvgImage = global::POS.Properties.Resources.giftcard;
+            this.BtnWithhold.ImageOptions.SvgImage = global::POS.Properties.Resources.retention;
             this.BtnWithhold.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
-            this.BtnWithhold.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 35);
-            this.BtnWithhold.Location = new System.Drawing.Point(285, 456);
+            this.BtnWithhold.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
+            this.BtnWithhold.Location = new System.Drawing.Point(285, 406);
             this.BtnWithhold.Margin = new System.Windows.Forms.Padding(5);
             this.BtnWithhold.Name = "BtnWithhold";
-            this.BtnWithhold.Size = new System.Drawing.Size(220, 80);
+            this.BtnWithhold.Size = new System.Drawing.Size(220, 70);
             this.BtnWithhold.TabIndex = 164;
-            this.BtnWithhold.Text = "Retencion";
+            this.BtnWithhold.Text = "Retención";
             this.BtnWithhold.Click += new System.EventHandler(this.BtnWithhold_Click);
             // 
             // FrmPayment
@@ -504,7 +504,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(837, 552);
+            this.ClientSize = new System.Drawing.Size(837, 512);
             this.ControlBox = false;
             this.Controls.Add(this.BtnWithhold);
             this.Controls.Add(this.BtnGiftcard);

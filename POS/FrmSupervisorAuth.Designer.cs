@@ -34,18 +34,15 @@
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // LblAuthorization
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(51, 50);
+            this.LblAuthorization.Location = new System.Drawing.Point(54, 82);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(64, 18);
             this.LblAuthorization.TabIndex = 7;
@@ -54,7 +51,7 @@
             // TxtAuthorization
             // 
             this.TxtAuthorization.EditValue = "";
-            this.TxtAuthorization.Location = new System.Drawing.Point(129, 39);
+            this.TxtAuthorization.Location = new System.Drawing.Point(132, 71);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Properties.PasswordChar = '•';
             this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
@@ -102,34 +99,12 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(269, -9);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(358, 1);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(101, 64);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label1.Location = new System.Drawing.Point(51, 119);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 18);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Motivo";
-            // 
-            // textEdit1
-            // 
-            this.textEdit1.EditValue = "";
-            this.textEdit1.Location = new System.Drawing.Point(129, 110);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.textEdit1.Properties.PasswordChar = '•';
-            this.textEdit1.Properties.UseSystemPasswordChar = true;
-            this.textEdit1.Size = new System.Drawing.Size(220, 38);
-            this.textEdit1.TabIndex = 1;
             // 
             // FrmSupervisorAuth
             // 
@@ -140,10 +115,8 @@
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.LblAuthorization);
             this.Controls.Add(this.TxtAuthorization);
-            this.Controls.Add(this.textEdit1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -151,7 +124,6 @@
             this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,7 +136,5 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         public DevExpress.XtraEditors.TextEdit TxtAuthorization;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
-        private System.Windows.Forms.Label label1;
-        private DevExpress.XtraEditors.ComboBoxEdit textEdit1;
     }
 }

@@ -317,6 +317,7 @@ namespace POS
             }
             else
             {
+                functions.emissionPoint = emissionPoint;
                 bool isApproved = functions.RequestSupervisorAuth();
                 if (isApproved)
                 {
@@ -464,32 +465,7 @@ namespace POS
             }
         }
 
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
-        {
-            try
-            {
-                TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
-                SendKeys.Send("{ENTER}");
-
-                //FrmPaymentCredit frmPaymentCredit = new FrmPaymentCredit();
-                //functions.InputScanner.Name = frmPaymentCredit.TxtCreditCardCode.Name;
-                //FrmSupervisorAuth frmSupervisorAuth = new FrmSupervisorAuth();
-                //functions.InputScanner.Text = functions.AxPOSScanner.ScanDataLabel;       
-
-
-                functions.AxOPOSScanner.DataEventEnabled = true;
-                //AxOPOSScanner.DataEventEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema en la lectura desde scanner."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
-            }
-        }
+        
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -594,34 +570,37 @@ namespace POS
                     {
                         functions.globalParameters = globalParameters;
 
-                        if ((bool)result.WeightControl && result.UseCatchWeight)
+                        if ((bool)result.WeightControl)
                         {
-                            if (!_skipCatchWeight)
+                            if (result.UseCatchWeight)
                             {
-                                decimal weight = functions.CatchWeightProduct(AxOPOSScale);
+                                if (!_skipCatchWeight)
+                                {
+                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale);
 
-                                if (weight > 0)
-                                {
-                                    result = clsInvoiceTrans.ProductConsult(
-                                                                            _locationId
-                                                                            , _barcode
-                                                                            , weight
-                                                                            , _customerId
-                                                                            , _internalCreditCardId
-                                                                            , _paymMode
-                                                                            , barcodeBefore
-                                                                            );
-                                }
-                                else
-                                {
-                                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
-                                    canInsert = false;
+                                    if (weight > 0)
+                                    {
+                                        result = clsInvoiceTrans.ProductConsult(
+                                                                                _locationId
+                                                                                , _barcode
+                                                                                , weight
+                                                                                , _customerId
+                                                                                , _internalCreditCardId
+                                                                                , _paymMode
+                                                                                , barcodeBefore
+                                                                                );
+                                    }
+                                    else
+                                    {
+                                        functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
+                                        canInsert = false;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale, (decimal)result.QuantityBefore);
+                            else
+                            {
+                                canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale, (decimal)result.QuantityBefore);
+                            }
                         }
 
                         if (canInsert)
@@ -935,5 +914,12 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
         #endregion
+
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        {
+            TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
+            SendKeys.Send("{ENTER}");     
+            functions.AxOPOSScanner.DataEventEnabled = true;
+        }
     }
 }
