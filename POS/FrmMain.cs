@@ -45,7 +45,8 @@ namespace POS
                 functions.AxOPOSScanner = AxOPOSScanner;
                 functions.AxOPOSScale = AxOPOSScale;
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                functions.EnableScale(emissionPoint.ScaleName);             
+                functions.EnableScale(emissionPoint.ScaleName);
+                functions.PrinterName = emissionPoint.PrinterName;
             }
             else
             {
@@ -64,7 +65,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP); 
 
                     if (emissionPoint != null)
                     {
@@ -722,25 +723,19 @@ namespace POS
                 {
                     if (invoiceTicket.Count > 0)
                     {
-                        PrintDocument print = new PrintDocument();
-
+                        
                         foreach (var line in invoiceTicket)
                         {
                             bodyText += line.BodyText + System.Environment.NewLine;
                         }
 
-                        print.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
-                        {
-                            e1.Graphics.DrawString(
-                                                    bodyText
-                                                    , new Font("Courier New", 7)
-                                                    , new SolidBrush(Color.Black)
-                                                    , new RectangleF(0, 0, print.DefaultPageSettings.PrintableArea.Width, print.DefaultPageSettings.PrintableArea.Height)
-                                                    );
-                        };
+                        bool PrinterDocumentOk = functions.PrinterDocument(bodyText);
 
-                        print.Print();
-                        response = true;
+                        if (PrinterDocumentOk == true)
+                        {
+                            response = true;
+                        }
+                        
                     }
                 }
             }
@@ -772,6 +767,7 @@ namespace POS
             LblDiscAmount.Text = "0.00";
             TxtBarcode.Focus();
         }
+
         #endregion
 
         #region Recurrent Functions
