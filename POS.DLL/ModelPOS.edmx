@@ -57,17 +57,6 @@
           <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CancelReason">
-          <Key>
-            <PropertyRef Name="ReasonId" />
-            <PropertyRef Name="Description" />
-          </Key>
-          <Property Name="ReasonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Status" Type="char" MaxLength="1" />
-        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityId" />
@@ -2324,13 +2313,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySet Name="TransportReason" EntityType="Self.TransportReason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CancelReason" EntityType="Self.CancelReason" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CancelReason].[ReasonId] AS [ReasonId], 
-    [CancelReason].[Description] AS [Description], 
-    [CancelReason].[Status] AS [Status]
-    FROM [dbo].[CancelReason] AS [CancelReason]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__AccountsReceivable_Customer" Association="Self.FK__AccountsReceivable_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="AccountsReceivable" EntitySet="AccountsReceivable" />
@@ -3685,9 +3667,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <End Role="SalesOrder" EntitySet="SalesOrder" />
             <End Role="SalesOrderLine" EntitySet="SalesOrderLine" />
           </AssociationSet>
-          <FunctionImport Name="SP_Invoice_Insert" ReturnType="Collection(POSModel.SP_Invoice_Insert_Result)">
-          <Parameter Name="ParamXML" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="Customer" EntityType="POSModel.Customer" />
           <EntitySet Name="PaymMode" EntityType="POSModel.PaymMode" />
           <AssociationSet Name="FK__AccountsReceivable_Customer" Association="POSModel.FK__AccountsReceivable_Customer">
@@ -3841,7 +3820,9 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <End Role="EmissionPoint" EntitySet="EmissionPoint" />
             <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
           </AssociationSet>
-          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
+          <FunctionImport Name="SP_Invoice_Insert" ReturnType="Collection(POSModel.SP_Invoice_Insert_Result)">
+            <Parameter Name="ParamXML" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -4998,11 +4979,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_Invoice_Insert_Result">
-          <Property Type="Int64" Name="InvoiceId" Nullable="true" />
-          <Property Type="Boolean" Name="Error" Nullable="true" />
-          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerId" />
@@ -5528,6 +5504,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="QuantityBefore" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Boolean" Name="WeightControl" Nullable="true" />
+          <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
           <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
@@ -5655,15 +5632,11 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CancelReason">
-          <Key>
-            <PropertyRef Name="ReasonId" />
-            <PropertyRef Name="Description" />
-          </Key>
-          <Property Name="ReasonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
+        <ComplexType Name="SP_Invoice_Insert_Result">
+          <Property Type="Int64" Name="InvoiceId" Nullable="true" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6681,15 +6654,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_Invoice_Insert" FunctionName="POSModel.Store.SP_Invoice_Insert">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Invoice_Insert_Result">
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-                <ScalarProperty Name="Error" ColumnName="Error" />
-                <ScalarProperty Name="TextError" ColumnName="TextError" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="POSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
@@ -6917,6 +6881,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="QuantityBefore" ColumnName="QuantityBefore" />
                 <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
+                <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
                 <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
                 <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
                 <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
@@ -6956,15 +6921,15 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CancelReason">
-            <EntityTypeMapping TypeName="POSModel.CancelReason">
-              <MappingFragment StoreEntitySet="CancelReason">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Invoice_Insert" FunctionName="POSModel.Store.SP_Invoice_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Invoice_Insert_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

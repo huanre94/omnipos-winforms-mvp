@@ -199,15 +199,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
         }
     
-        public virtual ObjectResult<SP_Invoice_Insert_Result> SP_Invoice_Insert(string paramXML)
-        {
-            var paramXMLParameter = paramXML != null ?
-                new ObjectParameter("ParamXML", paramXML) :
-                new ObjectParameter("ParamXML", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Invoice_Insert_Result>("SP_Invoice_Insert", paramXMLParameter);
-        }
-    
         public virtual ObjectResult<SP_Login_Consult_Result> SP_Login_Consult(string userName, string password, string workstation, string addressIP)
         {
             var userNameParameter = userName != null ?
@@ -278,6 +269,15 @@ namespace POS.DLL
                 new ObjectParameter("BarcodeBefore", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter, barcodeBeforeParameter);
+        }
+    
+        public virtual ObjectResult<SP_Invoice_Insert_Result> SP_Invoice_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Invoice_Insert_Result>("SP_Invoice_Insert", paramXMLParameter);
         }
     }
 }

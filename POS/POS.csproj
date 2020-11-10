@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="AxInterop.OposScale_CCO">
       <HintPath>obj\Debug\AxInterop.OposScale_CCO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AxInterop.OposScanner_CCO">
       <HintPath>obj\Debug\AxInterop.OposScanner_CCO.dll</HintPath>
@@ -321,7 +322,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="OposScale_1_8_Lib">
+    <COMReference Include="AxOposScale_CCO">
+      <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="OposScale_CCO">
       <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>

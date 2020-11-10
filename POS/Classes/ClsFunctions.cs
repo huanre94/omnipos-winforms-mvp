@@ -3,7 +3,6 @@ using POS.DLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
 
@@ -13,10 +12,9 @@ namespace POS
     {
         public List<GlobalParameter> globalParameters;
         public DLL.EmissionPoint emissionPoint;
-        public string supervisorAuthorization;
+
         public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner { get; set; }
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
-
         public string PrinterName { get; set; }
 
         public bool ShowMessage(
@@ -192,13 +190,26 @@ namespace POS
             return response;
         }
 
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
+        {
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
+            frmCatchWeight.axOposScale = _axOposScale;
+            frmCatchWeight.ShowDialog();
+
+            return frmCatchWeight.weight;;
+        }
+
         public bool PrinterDocument(string TextDocument)
         {
             bool response = false;
 
+
+
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
+
+
 
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
@@ -214,21 +225,14 @@ namespace POS
                             );
             }
 
+
+
             return response;
         }
 
         private PrinterType GetTypePrinter(String PrinterName)
         {
             return PrinterName == "LR2000" ? PrinterType.Bematech : PrinterType.Epson;
-        }
-
-        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
-        {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
-            frmCatchWeight.axOposScale = _axOposScale;
-            frmCatchWeight.ShowDialog();
-
-            return frmCatchWeight.weight; ;
         }
     }
 }
