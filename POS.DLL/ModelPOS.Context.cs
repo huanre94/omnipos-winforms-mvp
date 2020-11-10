@@ -90,10 +90,10 @@ namespace POS.DLL
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
-        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {

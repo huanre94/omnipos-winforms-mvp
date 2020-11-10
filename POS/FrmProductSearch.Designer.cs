@@ -55,7 +55,7 @@
             // 
             // GrcSalesDetail
             // 
-            this.GrcSalesDetail.Location = new System.Drawing.Point(12, 62);
+            this.GrcSalesDetail.Location = new System.Drawing.Point(22, 64);
             this.GrcSalesDetail.MainView = this.GrvSalesDetail;
             this.GrcSalesDetail.Name = "GrcSalesDetail";
             this.GrcSalesDetail.Size = new System.Drawing.Size(642, 417);
@@ -98,11 +98,11 @@
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
-            this.LblCustomerAddress.Location = new System.Drawing.Point(33, 27);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(19, 27);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(55, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(89, 16);
             this.LblCustomerAddress.TabIndex = 151;
-            this.LblCustomerAddress.Text = "Campo";
+            this.LblCustomerAddress.Text = "Descripción";
             // 
             // BtnAccept
             // 
@@ -115,7 +115,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(662, 431);
+            this.BtnAccept.Location = new System.Drawing.Point(646, 503);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
@@ -132,7 +132,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(662, 371);
+            this.BtnCancel.Location = new System.Drawing.Point(476, 503);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -149,7 +149,7 @@
             this.BtnKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyPad.ImageOptions.SvgImage")));
             this.BtnKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyPad.Location = new System.Drawing.Point(572, 9);
+            this.BtnKeyPad.Location = new System.Drawing.Point(572, 11);
             this.BtnKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeyPad.Name = "BtnKeyPad";
             this.BtnKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -163,14 +163,14 @@
             this.BtnSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnSearch.Appearance.Options.UseBackColor = true;
             this.BtnSearch.Appearance.Options.UseFont = true;
-            this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
+            this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.find;
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
-            this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnSearch.Location = new System.Drawing.Point(662, 6);
+            this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
+            this.BtnSearch.Location = new System.Drawing.Point(684, 64);
             this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
             this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(160, 50);
+            this.BtnSearch.Size = new System.Drawing.Size(122, 87);
             this.BtnSearch.TabIndex = 153;
             this.BtnSearch.Text = "Buscar";
             this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
@@ -179,7 +179,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 495);
+            this.ClientSize = new System.Drawing.Size(820, 567);
             this.ControlBox = false;
             this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.BtnAccept);

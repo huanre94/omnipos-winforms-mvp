@@ -164,7 +164,7 @@ namespace POS
            }
        }
 
-        public bool CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, decimal _qty)
+        public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, decimal _qty)
         {            
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
             frmCatchWeight.axOposScale = _axOposScale;
@@ -186,6 +186,15 @@ namespace POS
             }
 
             return response;
+        }
+
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
+        {
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
+            frmCatchWeight.axOposScale = _axOposScale;
+            frmCatchWeight.ShowDialog();
+
+            return frmCatchWeight.weight;;
         }
     }
 }

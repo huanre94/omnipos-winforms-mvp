@@ -144,25 +144,25 @@
         <EntityTypeShape EntityType="POSModel.RetentionTable" Width="1.5" PointX="5.375" PointY="0.75" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_Location" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_PaymMode" />
-        <EntityTypeShape EntityType="POSModel.EmissionPoint" Width="1.5" PointX="14.25" PointY="53" />
         <EntityTypeShape EntityType="POSModel.Supervisor" Width="1.5" PointX="9.625" PointY="9.625" />
         <EntityTypeShape EntityType="POSModel.UserLogin" Width="1.5" PointX="7.375" PointY="9" />
-        <AssociationConnector Association="POSModel.PK__ClosingCashLine_EmissionPoint" />
-        <AssociationConnector Association="POSModel.PK__CountCashLine_EmissionPoint" />
-        <AssociationConnector Association="POSModel.FK__EmissionPoint_InventLocation" />
-        <AssociationConnector Association="POSModel.FK__EmissionPoint_Location" />
-        <AssociationConnector Association="POSModel.FK__SalesOrder_EmissionPoint" />
-        <AssociationConnector Association="POSModel.FK__SalesRemissionTable_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__Supervisor_UserLogin" />
         <EntityTypeShape EntityType="POSModel.InvoiceTable" Width="1.5" PointX="30.25" PointY="42.125" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Customer" />
-        <AssociationConnector Association="POSModel.FK__InvoiceTable_EmissionPoint" />
         <AssociationConnector Association="POSModel.FK__InvoiceLine_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoicePayment_InvoiceTable" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Location" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_SalesOrigin" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionLine_InvoiceTable" />
+        <EntityTypeShape EntityType="POSModel.EmissionPoint" Width="1.5" PointX="14.25" PointY="52.875" />
+        <AssociationConnector Association="POSModel.PK__ClosingCashLine_EmissionPoint" />
+        <AssociationConnector Association="POSModel.PK__CountCashLine_EmissionPoint" />
+        <AssociationConnector Association="POSModel.FK__EmissionPoint_InventLocation" />
+        <AssociationConnector Association="POSModel.FK__EmissionPoint_Location" />
+        <AssociationConnector Association="POSModel.FK__InvoiceTable_EmissionPoint" />
+        <AssociationConnector Association="POSModel.FK__SalesOrder_EmissionPoint" />
+        <AssociationConnector Association="POSModel.FK__SalesRemissionTable_EmissionPoint" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

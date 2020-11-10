@@ -13,8 +13,8 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Drawing.Printing;
-using Vip.Printer;
-using Vip.Printer.Enums;
+using System.Text;
+using System.Runtime.InteropServices;
 
 namespace POS
 {
@@ -52,68 +52,7 @@ namespace POS
                 Close();
             }
         }
-
-        public void EnableScanner(string _scannerName)
-        {
-            try
-            {
-                AxOPOSScanner.BeginInit();
-                int isOpen = AxOPOSScanner.Open(_scannerName);
-
-                if (isOpen == 0)
-                {
-                    AxOPOSScanner.ClaimDevice(1000);
-
-                    if (AxOPOSScanner.Claimed)
-                    {
-                        AxOPOSScanner.DeviceEnabled = true;
-                        AxOPOSScanner.DataEventEnabled = true;
-                        AxOPOSScanner.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                        AxOPOSScanner.DecodeData = true;
-                    }
-                }
-                else
-                {
-                    functions.ShowMessage("El puerto del scanner esta cerrado.", ClsEnums.MessageType.WARNING);
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al habilitar scanner."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
-        }
-
-        public void DisableScanner()
-        {
-            if (AxOPOSScanner != null)
-            {
-                try
-                {
-                    // Close the active scanner
-                    AxOPOSScanner.DeviceEnabled = false;
-                    AxOPOSScanner.Close();
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al deshabilitar scanner."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-                finally
-                {
-                    AxOPOSScanner = null;
-                }
-            }
-        }
-
+        
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
@@ -237,6 +176,7 @@ namespace POS
                                     , currentCustomer.CustomerId
                                     , 0
                                     , ""
+                                    , false
                                 );
         }
         #endregion
@@ -354,11 +294,48 @@ namespace POS
                                            , currentCustomer.CustomerId
                                            , 0
                                            , ""
+                                           , false
                                            );
                 }
                 else
                 {
                     functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
+                }
+            }
+        }
+
+        private void BtnRemove_Click(object sender, EventArgs e)
+        {
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+            if (rowIndex < 0)
+            {
+                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                bool isApproved = functions.RequestSupervisorAuth();
+                if (isApproved)
+                {
+                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+                    foreach (SP_Product_Consult_Result item in dataSource)
+                    {
+                        if (item.ProductId == selectedRow.ProductId)
+                        {
+                            dataSource.Remove(item);
+                            break;
+                        }
+                    }
+
+                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
+                                        select xm;
+
+                    newInvoiceXML.Remove();
+
+                    CalculateInvoice();
+                    GrcSalesDetail.DataSource = dataSource;
                 }
             }
         }
@@ -403,24 +380,33 @@ namespace POS
 
             if (productSearch.barcode != "")
             {
-                int quantity = 0;
+                decimal quantity = 0;
+
                 if (productSearch.useCatchWeight)
                 {
-                    //todo: llamar a pedir peso
+                    quantity = functions.CatchWeightProduct(AxOPOSScale);
                 }
                 else
                 {
                     quantity = 1;
                 }
 
-                GetProductInformation(
-                                           emissionPoint.LocationId
-                                           , productSearch.barcode
-                                           , quantity
-                                           , currentCustomer.CustomerId
-                                           , 0
-                                           , ""
-                                           );
+                if (quantity > 0)
+                {
+                    GetProductInformation(
+                                            emissionPoint.LocationId
+                                            , productSearch.barcode
+                                            , quantity
+                                            , currentCustomer.CustomerId
+                                            , 0
+                                            , ""
+                                            , true
+                                            );
+                }
+                else
+                {
+                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
+                }
             }         
         }
 
@@ -447,6 +433,7 @@ namespace POS
                                         , currentCustomer.CustomerId
                                         , 0
                                         , ""
+                                        , false
                                         );
             }
         }       
@@ -494,6 +481,7 @@ namespace POS
                                             , Int64 _customerId
                                             , int _internalCreditCardId
                                             , string _paymMode
+                                            , bool _skipCatchWeight
                                             )
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
@@ -502,7 +490,7 @@ namespace POS
             decimal qtyFound = 0;
             decimal amountFound = 0;
             bool useWeightControl = false;
-            bool catchWeightOk = true;
+            bool canInsert = true;
             string barcodeBefore = _barcode;
 
             if (_barcode != "")
@@ -528,9 +516,7 @@ namespace POS
                         {
                             case "WeightControl":
                                 if (bool.Parse(node.Value))
-                                {
-                                    useWeightControl = true;
-                                }
+                                    useWeightControl = true;                                
                                 break;
                             case "Quantity":
                                 qtyFound = decimal.Parse(node.Value);
@@ -575,13 +561,39 @@ namespace POS
 
                     if (result != null)
                     {
-                        if ((bool)result.WeightControl)
+                        functions.globalParameters = globalParameters;
+
+                        if ((bool)result.WeightControl && result.UseCatchWeight)
                         {
-                            functions.globalParameters = globalParameters;
-                            catchWeightOk = functions.CatchWeightProduct(AxOPOSScale, (decimal)result.QuantityBefore);
+                            if (!_skipCatchWeight)
+                            {
+                                decimal weight = functions.CatchWeightProduct(AxOPOSScale);
+
+                                if (weight > 0)
+                                {
+                                    result = clsInvoiceTrans.ProductConsult(
+                                                                            _locationId
+                                                                            , _barcode
+                                                                            , weight
+                                                                            , _customerId
+                                                                            , _internalCreditCardId
+                                                                            , _paymMode
+                                                                            , barcodeBefore
+                                                                            );                                    
+                                }
+                                else
+                                {
+                                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
+                                    canInsert = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale, (decimal)result.QuantityBefore);
                         }
 
-                        if (catchWeightOk)
+                        if (canInsert)
                         {
                             AddRecordToGrid(result, updateRecord);
                             CalculateInvoice();
@@ -698,8 +710,6 @@ namespace POS
         private bool PrintInvoice(Int64 _invoiceId)
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
-            //EmissionPoint emissionPoint = new EmissionPoint();
-
             List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             bool response = false;
             string bodyText = "";
@@ -712,18 +722,24 @@ namespace POS
                 {
                     if (invoiceTicket.Count > 0)
                     {
-                        
-                        var printer = new Printer( emissionPoint.PrinterName, GetTypePrinter(emissionPoint.PrinterName) );
+                        PrintDocument print = new PrintDocument();
 
                         foreach (var line in invoiceTicket)
                         {
-                            bodyText += line.BodyText + System.Environment.NewLine;                            
+                            bodyText += line.BodyText + System.Environment.NewLine;
                         }
-                        
-                        printer.WriteLine(bodyText);
-                        printer.PrintDocument();
 
+                        print.PrintPage += delegate (object sender1, PrintPageEventArgs e1)
+                        {
+                            e1.Graphics.DrawString(
+                                                    bodyText
+                                                    , new Font("Courier New", 7)
+                                                    , new SolidBrush(Color.Black)
+                                                    , new RectangleF(0, 0, print.DefaultPageSettings.PrintableArea.Width, print.DefaultPageSettings.PrintableArea.Height)
+                                                    );
+                        };
 
+                        print.Print();
                         response = true;
                     }
                 }
@@ -756,12 +772,6 @@ namespace POS
             LblDiscAmount.Text = "0.00";
             TxtBarcode.Focus();
         }
-
-        private PrinterType GetTypePrinter(String PrinterName)
-        {
-            return PrinterName == "LR2000" ? PrinterType.Bematech :  PrinterType.Epson;
-        }
-
         #endregion
 
         #region Recurrent Functions
@@ -898,44 +908,8 @@ namespace POS
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
-        #endregion
+        #endregion   
 
-     
-
-        private void BtnRemove_Click(object sender, EventArgs e)
-        {
-            int rowIndex = GrvSalesDetail.FocusedRowHandle;
-            if (rowIndex < 0)
-            {
-                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
-            }
-            else
-            {
-                bool isApproved = functions.RequestSupervisorAuth();
-                if (isApproved)
-                {
-                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
-                    foreach (SP_Product_Consult_Result item in dataSource)
-                    {
-                        if (item.ProductId == selectedRow.ProductId)
-                        {
-                            dataSource.Remove(item);
-                            break;
-                        }
-                    }
-
-                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
-                                        select xm;
-
-                    newInvoiceXML.Remove();
-
-                    CalculateInvoice();
-                    GrcSalesDetail.DataSource = dataSource;
-                }
-            }
-        }       
+              
     }
 }
