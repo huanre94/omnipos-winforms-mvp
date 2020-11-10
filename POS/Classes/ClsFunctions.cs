@@ -13,7 +13,7 @@ namespace POS
     {
         public List<GlobalParameter> globalParameters;
         public DLL.EmissionPoint emissionPoint;
-
+        public string supervisorAuthorization;
         public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner { get; set; }
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
 

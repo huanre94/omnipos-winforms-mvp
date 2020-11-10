@@ -318,6 +318,7 @@ namespace POS
             paymentCredit.customer = customer;
             paymentCredit.emissionPoint = emissionPoint;
             paymentCredit.scanner = scanner;
+
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)
@@ -335,8 +336,8 @@ namespace POS
                         if (parameter.Value == "1")
                         {
                             functions.emissionPoint = emissionPoint;
-                            functions.AxOPOSScanner = scanner;
-                            responseAuthorization = functions.RequestSupervisorAuth();
+                            functions.AxOPOSScanner = scanner;                            
+                            responseAuthorization = functions.RequestSupervisorAuth();                            
                         }
                     }
                 }
@@ -355,7 +356,8 @@ namespace POS
                     InvoicePayment invoicePayment = new InvoicePayment
                     {
                         PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
-                        Amount = decimal.Parse(TxtAmount.Text)
+                        Amount = decimal.Parse(TxtAmount.Text),
+                        Authorization = functions.supervisorAuthorization
                     };
 
                     AddRecordToGrid(invoicePayment);

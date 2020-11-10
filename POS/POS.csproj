@@ -294,6 +294,9 @@
     <None Include="Resources\find.svg" />
     <None Include="Resources\label.svg" />
     <None Include="Resources\cashier.svg" />
+    <None Include="Resources\last_invoice.png" />
+    <None Include="Resources\lastinvoice.png" />
+    <None Include="Resources\lastReceipt.png" />
     <Content Include="Resources\moneyCheck.png" />
   </ItemGroup>
   <ItemGroup>

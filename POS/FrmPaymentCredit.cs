@@ -11,7 +11,7 @@ namespace POS
         public bool formActionResult;
         public decimal creditLimit;
         public decimal paidAmount;
-        public Customer customer;
+        public Customer customer;        
         public EmissionPoint emissionPoint;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
 
@@ -40,7 +40,7 @@ namespace POS
             {
 
             }
-            else if ((bool)customer.IsCredit)
+            else if (customer.IsCredit??false)
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;

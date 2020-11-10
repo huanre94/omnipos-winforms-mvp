@@ -269,24 +269,26 @@ namespace POS
                 keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
                 keyPad.ShowDialog();
 
-                int newAmount = int.Parse(keyPad.checkNumber);
-                //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
-                SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                if (newAmount > row.Quantity)
+                if (keyPad.checkNumber != "")
                 {
-                    var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
-                                    where long.Parse(xm.Element("ProductId").Value) == row.ProductId
-                                    select xm;
+                    int newAmount = int.Parse(keyPad.checkNumber);
+                    //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
+                    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
 
-                    string barcode = "";
-                    foreach (var item in searchXml.Elements())
+                    if (newAmount > row.Quantity)
                     {
-                        if (item.Name == "Barcode")
-                            barcode = item.Value;
-                    }
+                        var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        where long.Parse(xm.Element("ProductId").Value) == row.ProductId
+                                        select xm;
 
-                    long newValue = (long)(newAmount - row.Quantity);
+                        string barcode = "";
+                        foreach (var item in searchXml.Elements())
+                        {
+                            if (item.Name == "Barcode")
+                                barcode = item.Value;
+                        }
+
+                        long newValue = (long)(newAmount - row.Quantity);
 
                     GetProductInformation(
                                            emissionPoint.LocationId
@@ -413,12 +415,34 @@ namespace POS
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
         {
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth())
+            {
+                var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                    select xm;
 
+                newInvoiceXML.Remove();
+
+                //todo: guardar lo quitado y el 
+
+                CalculateInvoice();
+                CheckGridView();
+            }
         }
 
         private void BtnCancelSale_Click(object sender, EventArgs e)
         {
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth())
+            {
+                var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                    select xm;
 
+                newInvoiceXML.Remove();
+
+                CalculateInvoice();
+                CheckGridView();
+            }
         }
         #endregion
 
@@ -719,7 +743,7 @@ namespace POS
             List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             bool response = false;
             string bodyText = "";
-
+            
             try
             {
                 invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId);
@@ -782,7 +806,7 @@ namespace POS
             SequenceTable sequenceTable;
 
             try
-            {
+            {                
                 sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId);
 
                 if (sequenceTable != null)
@@ -911,6 +935,45 @@ namespace POS
         }
         #endregion   
 
-              
+     
+
+        private void BtnRemove_Click(object sender, EventArgs e)
+        {
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+            if (rowIndex < 0)
+            {
+                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                //bool isApproved = functions.RequestSupervisorAuth();
+                functions.emissionPoint = emissionPoint;
+                if (functions.RequestSupervisorAuth())
+                {
+                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+                    foreach (SP_Product_Consult_Result item in dataSource)
+                    {
+                        if (item.ProductId == selectedRow.ProductId)
+                        {
+                            dataSource.Remove(item);
+                            break;
+                        }
+                    }
+
+                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
+                                        select xm;
+
+                    //todo: cargar registro a eliminar a base, necesito SP
+
+                    newInvoiceXML.Remove();
+
+                    CalculateInvoice();
+                    GrcSalesDetail.DataSource = dataSource;
+                }
+            }
+        }
     }
 }

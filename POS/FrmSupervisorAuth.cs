@@ -9,6 +9,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public DLL.EmissionPoint emissionPoint;
+        public string supervisorAuthorization;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
 
         public FrmSupervisorAuth()
@@ -23,7 +24,7 @@ namespace POS
             functions.AxOPOSScanner = AxOPOSScanner;
             functions.EnableScanner(emissionPoint.ScanBarcodeName);
         }
-                
+
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtAuthorization.Text != "")
@@ -38,6 +39,7 @@ namespace POS
                     if (result != null)
                     {
                         formActionResult = true;
+                        functions.supervisorAuthorization = TxtAuthorization.Text;
                         TxtAuthorization.Text = "";
                         functions.DisableScanner();
                         functions.AxOPOSScanner = scanner;

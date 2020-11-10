@@ -66,6 +66,9 @@
     <Compile Include="Brand.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="CancelReason.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Catalog\ClsAdministration.cs" />
     <Compile Include="Catalog\ClsCustomer.cs" />
     <Compile Include="Catalog\ClsGeneral.cs" />

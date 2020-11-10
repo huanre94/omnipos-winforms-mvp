@@ -76,6 +76,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
+            this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
+            this.BtnLastInvoice = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -641,6 +643,7 @@
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
             this.BtnRemove.TabIndex = 153;
             this.BtnRemove.Text = "Anul";
+            this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // LblTotal
             // 
@@ -696,6 +699,30 @@
             this.AxOPOSScanner.TabIndex = 158;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
+            // AxOPOSScale
+            // 
+            this.AxOPOSScale.Enabled = true;
+            this.AxOPOSScale.Location = new System.Drawing.Point(708, 12);
+            this.AxOPOSScale.Name = "AxOPOSScale";
+            this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
+            this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScale.TabIndex = 159;
+            // 
+            // BtnLastInvoice
+            // 
+            this.BtnLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnLastInvoice.Appearance.Options.UseBackColor = true;
+            this.BtnLastInvoice.Appearance.Options.UseFont = true;
+            this.BtnLastInvoice.ImageOptions.Image = global::POS.Properties.Resources.lastReceipt;
+            this.BtnLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnLastInvoice.Location = new System.Drawing.Point(471, 695);
+            this.BtnLastInvoice.Name = "BtnLastInvoice";
+            this.BtnLastInvoice.Size = new System.Drawing.Size(250, 45);
+            this.BtnLastInvoice.TabIndex = 151;
+            this.BtnLastInvoice.Text = "Imp Ult Fact";
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -710,6 +737,7 @@
             this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.BtnRemove);
             this.Controls.Add(this.BtnQty);
+            this.Controls.Add(this.BtnLastInvoice);
             this.Controls.Add(this.BtnCustomer);
             this.Controls.Add(this.LblCustomerAddress);
             this.Controls.Add(this.LblCustomerName);
@@ -812,5 +840,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private DevExpress.XtraEditors.SimpleButton BtnLastInvoice;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Transaction
@@ -48,6 +49,24 @@ namespace POS.DLL.Transaction
                                                     , _phone
                                                     , _reference
                                                     ).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return result;
+        }
+
+        public List<CancelReason> ConsultReasons()
+        {
+            var db = new POSEntities();
+            List<CancelReason> result;
+            try
+            {
+                result = (from re in db.CancelReason
+                          where int.Parse(re.Status) == 1
+                          select re).ToList();
             }
             catch (Exception ex)
             {
