@@ -41,7 +41,7 @@ namespace POS
             if (ValidateCustomerFields())
             {
                 bool alowLogin = false;
-                
+
                 alowLogin = GetLoginInformation(
                                                 TxtUsername.Text
                                                 , TxtPassword.Text
