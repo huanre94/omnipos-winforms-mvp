@@ -29,14 +29,14 @@ namespace POS
             TxtSearchName.Text = keyPad.customerFirstName;
         }
 
-        private void SearchProduct(string _searchProduct)
+        private void SearchProduct(string _searchProduct, int _locationId)
         {
             ClsProduct paymMode = new ClsProduct();
             List<SP_ProductBarcode_Consult_Result> products;
 
             try
             {
-                products = paymMode.GetProductsWithBarcode(_searchProduct, emissionPoint.LocationId);
+                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId);
 
                 if (products != null)
                 {
@@ -94,7 +94,7 @@ namespace POS
         {
             if (TxtSearchName.Text != "")
             {
-                SearchProduct(TxtSearchName.Text);
+                SearchProduct(TxtSearchName.Text, emissionPoint.LocationId);
             }
             else
             {
