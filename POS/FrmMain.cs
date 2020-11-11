@@ -317,9 +317,36 @@ namespace POS
             }
             else
             {
-                functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth();
-                if (isApproved)
+                GlobalParameter parameter = new ClsGeneral().GetParameterByName("RequireSupervisorAuthorization");
+                if (parameter.Value == "1")
+                {
+                    functions.emissionPoint = emissionPoint;
+                    bool isApproved = functions.RequestSupervisorAuth();
+                    if (isApproved)
+                    {
+                        SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+                        BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+                        foreach (SP_Product_Consult_Result item in dataSource)
+                        {
+                            if (item.ProductId == selectedRow.ProductId)
+                            {
+                                dataSource.Remove(item);
+                                break;
+                            }
+                        }
+
+                        var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                            where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
+                                            select xm;
+
+                        newInvoiceXML.Remove();
+
+                        CalculateInvoice();
+                        GrcSalesDetail.DataSource = dataSource;
+                    }
+                }
+                else
                 {
                     SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
 
@@ -343,6 +370,7 @@ namespace POS
                     GrcSalesDetail.DataSource = dataSource;
                 }
             }
+            TxtBarcode.Focus();
         }
         #endregion
 
@@ -353,6 +381,7 @@ namespace POS
             if (decimal.Parse(LblTotal.Text) <= 0)
             {
                 functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                TxtBarcode.Focus();
             }
             else
             {
@@ -381,12 +410,12 @@ namespace POS
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
             FrmProductSearch productSearch = new FrmProductSearch();
+            productSearch.emissionPoint = emissionPoint;
             productSearch.ShowDialog();
 
             if (productSearch.barcode != "")
             {
-                decimal quantity = 0;
-
+                decimal quantity;
                 if (productSearch.useCatchWeight)
                 {
                     quantity = functions.CatchWeightProduct(AxOPOSScale);
@@ -417,33 +446,49 @@ namespace POS
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
         {
-            functions.emissionPoint = emissionPoint;
-            if (functions.RequestSupervisorAuth())
+            if (decimal.Parse(LblTotal.Text) <= 0)
             {
-                var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                    select xm;
-
-                newInvoiceXML.Remove();
-
-                //todo: guardar lo quitado y el 
-
-                CalculateInvoice();
-                CheckGridView();
+                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
             }
+            else
+            {
+                functions.emissionPoint = emissionPoint;
+                if (functions.RequestSupervisorAuth())
+                {
+                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        select xm;
+
+                    //todo: guardar lo quitado y el 
+
+                    newInvoiceXML.Remove();
+
+                    CalculateInvoice();
+                    CheckGridView();
+                }
+            }
+
+
         }
 
         private void BtnCancelSale_Click(object sender, EventArgs e)
         {
-            functions.emissionPoint = emissionPoint;
-            if (functions.RequestSupervisorAuth())
+            if (decimal.Parse(LblTotal.Text) <= 0)
             {
-                var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                    select xm;
+                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+            }
+            else
+            {
+                functions.emissionPoint = emissionPoint;
+                if (functions.RequestSupervisorAuth(requireMotive: true))
+                {
+                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
+                                        select xm;
 
-                newInvoiceXML.Remove();
+                    newInvoiceXML.Remove();
 
-                CalculateInvoice();
-                CheckGridView();
+                    CalculateInvoice();
+                    CheckGridView();
+                }
             }
         }
         #endregion
@@ -465,7 +510,7 @@ namespace POS
             }
         }
 
-        
+
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -918,8 +963,30 @@ namespace POS
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
-            SendKeys.Send("{ENTER}");     
+            SendKeys.Send("{ENTER}");
             functions.AxOPOSScanner.DataEventEnabled = true;
         }
+
+        //private void GrvSalesDetail_RowClick(object sender, RowClickEventArgs e)
+        //{
+        //    int rowIndex = GrvSalesDetail.FocusedRowHandle;
+        //    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+        //    if (rowIndex < 0)
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        if (row.UseCatchWeight)
+        //        {
+        //            BtnQty.Enabled = false;
+        //        }
+        //        else
+        //        {
+        //            BtnQty.Enabled = true;
+        //        }
+        //    }
+
+        //}
     }
 }

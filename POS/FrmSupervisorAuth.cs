@@ -1,5 +1,8 @@
-﻿using POS.Classes;
+﻿using DevExpress.XtraEditors.Controls;
+using POS.Classes;
+using POS.DLL.Transaction;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace POS
@@ -7,11 +10,12 @@ namespace POS
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        public bool formActionResult;
-        public DLL.EmissionPoint emissionPoint;
+        public bool formActionResult;       
+        public int motiveId;
         public string supervisorAuthorization;
-        public AxOposScanner_CCO.AxOPOSScanner scanner;
-
+        public DLL.EmissionPoint emissionPoint;
+        public AxOposScanner_CCO.AxOPOSScanner scanner;        
+        public bool requireMotive;
         public FrmSupervisorAuth()
         {
             InitializeComponent();
@@ -19,17 +23,58 @@ namespace POS
 
         private void FrmSupervisorAuth_Load(object sender, EventArgs e)
         {
+            LblMotive.Visible = false;
+            CmbMotive.Visible = false;
             functions.AxOPOSScanner = scanner;
             functions.DisableScanner();
             functions.AxOPOSScanner = AxOPOSScanner;
             functions.EnableScanner(emissionPoint.ScanBarcodeName);
+            if (requireMotive)
+            {
+                LblMotive.Visible = true;
+                CmbMotive.Visible = true;
+
+                LoadReasons();
+            }
+        }
+
+        private void LoadReasons()
+        {
+            ClsAuthorizationTrans paymMode = new ClsAuthorizationTrans();
+            List<DLL.CancelReason> cancelReasons;
+
+            try
+            {
+                cancelReasons = paymMode.ConsultReasons();
+
+                if (cancelReasons != null)
+                {
+                    if (cancelReasons.Count > 0)
+                    {
+                        foreach (var reason in cancelReasons)
+                        {
+                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Description });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar lista de Bancos."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
+            }
+
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtAuthorization.Text != "")
             {
-                DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
+                ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
                 DLL.SP_Supervisor_Validate_Result result;
 
                 try
@@ -38,7 +83,14 @@ namespace POS
 
                     if (result != null)
                     {
-                        formActionResult = true;                        
+
+                        if (CmbMotive.SelectedItem != null)
+                        {
+                            int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
+                            motiveId = cancelReason;
+                        }
+                        formActionResult = true;
+                        supervisorAuthorization = TxtAuthorization.Text;                        
                         TxtAuthorization.Text = "";
                         functions.DisableScanner();
                         functions.AxOPOSScanner = scanner;

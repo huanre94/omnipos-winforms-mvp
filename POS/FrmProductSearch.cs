@@ -14,6 +14,7 @@ namespace POS
         public string barcode = "";
         public bool useCatchWeight;
         public long productId;
+        public EmissionPoint emissionPoint;
         public bool returnProduct = false;
         public FrmProductSearch()
         {
@@ -35,7 +36,7 @@ namespace POS
 
             try
             {
-                products = paymMode.GetProductsWithBarcode(_searchProduct);
+                products = paymMode.GetProductsWithBarcode(_searchProduct, emissionPoint.LocationId);
 
                 if (products != null)
                 {
@@ -85,7 +86,7 @@ namespace POS
                 barcode = selectedProduct.Barcode;
                 productId = selectedProduct.ProductId;
                 useCatchWeight = selectedProduct.UseCatchWeight;
-                returnProduct = true;                
+                returnProduct = true;
             }
         }
 
@@ -111,7 +112,7 @@ namespace POS
             GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcSalesDetail.DataSource = null;
 
-            BindingList<DLL.Product> bindingList = new BindingList<DLL.Product>();
+            BindingList<Product> bindingList = new BindingList<Product>();
             bindingList.AllowNew = true;
 
             GrcSalesDetail.DataSource = bindingList;

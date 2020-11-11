@@ -12,11 +12,11 @@ namespace POS
     {
         public List<GlobalParameter> globalParameters;
         public DLL.EmissionPoint emissionPoint;
-
         public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner { get; set; }
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
         public string PrinterName { get; set; }
-
+        public int motiveId;
+        public string supervisorAuthorization;
         public bool ShowMessage(
                                 string _messageText
                                 , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
@@ -36,18 +36,25 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth()
+        public bool RequestSupervisorAuth(bool requireMotive = false)
         {
             FrmSupervisorAuth auth = new FrmSupervisorAuth();
             auth.scanner = AxOPOSScanner;
             auth.emissionPoint = emissionPoint;
+            auth.requireMotive = requireMotive;
             auth.ShowDialog();
+
+            if (auth.formActionResult)
+            {
+                this.motiveId = auth.motiveId;
+                this.supervisorAuthorization = auth.supervisorAuthorization;
+            }
 
             return auth.formActionResult;
         }
 
         public void EnableScanner(string _scannerName)
-        {            
+        {
             try
             {
                 AxOPOSScanner.BeginInit();
@@ -80,7 +87,7 @@ namespace POS
                             );
             }
         }
-        
+
         public void DisableScanner()
         {
             if (AxOPOSScanner != null)
@@ -106,7 +113,7 @@ namespace POS
                 }
             }
         }
-       
+
         public void EnableScale(string _scaleName)
         {
             try
@@ -139,35 +146,35 @@ namespace POS
                             );
             }
         }
-        
-       public void DisableScale()
-       {
-           if (AxOPOSScale != null)
-           {
-               try
-               {
+
+        public void DisableScale()
+        {
+            if (AxOPOSScale != null)
+            {
+                try
+                {
                     // Close the active scanner
                     AxOPOSScale.DeviceEnabled = false;
                     AxOPOSScale.Close();
-               }
-               catch (Exception ex)
-               {
-                   ShowMessage(
-                                "Ocurrio un problema al deshabilitar balanza."
-                                , ClsEnums.MessageType.ERROR
-                                , true
-                                , ex.InnerException.Message
-                            );
-               }
-               finally
-               {
+                }
+                catch (Exception ex)
+                {
+                    ShowMessage(
+                                 "Ocurrio un problema al deshabilitar balanza."
+                                 , ClsEnums.MessageType.ERROR
+                                 , true
+                                 , ex.InnerException.Message
+                             );
+                }
+                finally
+                {
                     AxOPOSScale = null;
-               }
-           }
-       }
+                }
+            }
+        }
 
         public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, decimal _qty)
-        {            
+        {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.ShowDialog();
@@ -176,8 +183,8 @@ namespace POS
             decimal catchWeight = frmCatchWeight.weight;
 
             string parameter = (from par in globalParameters.ToList()
-                             where par.Name == "LostWeightQty"
-                             select par.Value).FirstOrDefault();
+                                where par.Name == "LostWeightQty"
+                                select par.Value).FirstOrDefault();
 
             lostWeight = _qty - catchWeight;
 
@@ -196,20 +203,16 @@ namespace POS
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.ShowDialog();
 
-            return frmCatchWeight.weight;;
+            return frmCatchWeight.weight;
         }
 
         public bool PrinterDocument(string TextDocument)
         {
             bool response = false;
 
-
-
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
-
-
 
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
@@ -224,8 +227,6 @@ namespace POS
                                 , ex.InnerException.Message
                             );
             }
-
-
 
             return response;
         }

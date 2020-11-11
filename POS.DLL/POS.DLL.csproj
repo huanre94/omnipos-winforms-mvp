@@ -231,6 +231,9 @@
     <Compile Include="RetentionTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SalesHold.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Salesman.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

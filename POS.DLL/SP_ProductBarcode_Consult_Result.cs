@@ -17,5 +17,6 @@ namespace POS.DLL
         public string Name { get; set; }
         public string Barcode { get; set; }
         public bool UseCatchWeight { get; set; }
+        public decimal Stock { get; set; }
     }
 }

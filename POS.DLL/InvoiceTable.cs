@@ -48,21 +48,21 @@ namespace POS.DLL
         public decimal Received { get; set; }
         public decimal Change { get; set; }
         public decimal Returned { get; set; }
-        public long InternalCreditCardId { get; set; }
         public int SalesOriginId { get; set; }
         public bool IsECommerce { get; set; }
         public long SalesOrderId { get; set; }
         public int ClosingCashId { get; set; }
         public string Observation { get; set; }
+        public string KeyAccessSri { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public string KeyAccessSri { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -72,6 +72,5 @@ namespace POS.DLL
         public virtual SalesOrigin SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
-        public virtual EmissionPoint EmissionPoint { get; set; }
     }
 }

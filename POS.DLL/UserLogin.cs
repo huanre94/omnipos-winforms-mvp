@@ -27,7 +27,7 @@ namespace POS.DLL
         public bool IsProfile { get; set; }
         public bool IsAdministrator { get; set; }
         public string Type { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
         public string Email { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }

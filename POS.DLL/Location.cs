@@ -29,9 +29,9 @@ namespace POS.DLL
             this.SequenceTable = new HashSet<SequenceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
             this.Customer = new HashSet<Customer>();
+            this.EmissionPoint = new HashSet<EmissionPoint>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
-            this.EmissionPoint = new HashSet<EmissionPoint>();
         }
     
         public short LocationId { get; set; }
@@ -72,10 +72,10 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
     }
 }

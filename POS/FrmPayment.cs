@@ -327,42 +327,57 @@ namespace POS
                 bool responseAuthorization = true;
                 GlobalParameter parameter;
 
-                try
+                if (customer.IsEmployee)
                 {
-                    parameter = general.GetParameterByName("InternalCreditRequestAuth");
-
-                    if (parameter != null)
+                    try
                     {
-                        if (parameter.Value == "1")
+                        parameter = general.GetParameterByName("InternalCreditRequestAuth");
+
+                        if (parameter != null)
                         {
-                            functions.emissionPoint = emissionPoint;
-                            functions.AxOPOSScanner = scanner;
-                            responseAuthorization = functions.RequestSupervisorAuth();
+                            if (parameter.Value == "1")
+                            {
+                                functions.emissionPoint = emissionPoint;
+                                functions.AxOPOSScanner = scanner;
+                                responseAuthorization = functions.RequestSupervisorAuth();
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ha ocurrido un problema al consultar parametro."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
-                }
+                    catch (Exception ex)
+                    {
+                        functions.ShowMessage(
+                                                "Ha ocurrido un problema al consultar parametro."
+                                                , ClsEnums.MessageType.ERROR
+                                                , true
+                                                , ex.InnerException.Message
+                                            );
+                    }
 
-                if (responseAuthorization)
+                    if (responseAuthorization)
+                    {
+                        InvoicePayment invoicePayment = new InvoicePayment
+                        {
+                            PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
+                            Amount = decimal.Parse(TxtAmount.Text),
+                            GiftCardNumber = paymentCredit.internalCreditId ?? "",
+                            Authorization = functions.supervisorAuthorization
+
+                        };
+
+                        AddRecordToGrid(invoicePayment);
+                        CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
+                    }
+                } else
                 {
                     InvoicePayment invoicePayment = new InvoicePayment
                     {
                         PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
-                        Amount = decimal.Parse(TxtAmount.Text),
-                        GiftCardNumber = paymentCredit.internalCreditId ?? ""
+                        Amount = decimal.Parse(TxtAmount.Text)
                     };
 
                     AddRecordToGrid(invoicePayment);
                     CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
-                }
+                }                
             }
         }
 

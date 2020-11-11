@@ -34,6 +34,7 @@
             this.GrvSalesDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ProductId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ProductDescription = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Stock = new DevExpress.XtraGrid.Columns.GridColumn();
             this.LblCustomerAddress = new System.Windows.Forms.Label();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
@@ -67,7 +68,8 @@
             // 
             this.GrvSalesDetail.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.ProductId,
-            this.ProductDescription});
+            this.ProductDescription,
+            this.Stock});
             this.GrvSalesDetail.GridControl = this.GrcSalesDetail;
             this.GrvSalesDetail.Name = "GrvSalesDetail";
             this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
@@ -93,7 +95,16 @@
             this.ProductDescription.OptionsColumn.ReadOnly = true;
             this.ProductDescription.Visible = true;
             this.ProductDescription.VisibleIndex = 0;
-            this.ProductDescription.Width = 455;
+            this.ProductDescription.Width = 457;
+            // 
+            // Stock
+            // 
+            this.Stock.Caption = "Stock";
+            this.Stock.FieldName = "Stock";
+            this.Stock.Name = "Stock";
+            this.Stock.Visible = true;
+            this.Stock.VisibleIndex = 1;
+            this.Stock.Width = 668;
             // 
             // LblCustomerAddress
             // 
@@ -214,5 +225,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraEditors.SimpleButton BtnKeyPad;
         private DevExpress.XtraEditors.SimpleButton BtnSearch;
+        private DevExpress.XtraGrid.Columns.GridColumn Stock;
     }
 }

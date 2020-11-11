@@ -88,13 +88,14 @@ namespace POS.DLL
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
-        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
-        public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<CancelReason> CancelReason { get; set; }
+        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<SalesHold> SalesHold { get; set; }
+        public virtual DbSet<UserLogin> UserLogin { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -199,27 +200,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<FN_Identification_Validate_Result>("[POSEntities].[FN_Identification_Validate](@Identification, @IsPassport)", identificationParameter, isPassportParameter);
         }
     
-        public virtual ObjectResult<SP_Login_Consult_Result> SP_Login_Consult(string userName, string password, string workstation, string addressIP)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-    
-            var workstationParameter = workstation != null ?
-                new ObjectParameter("Workstation", workstation) :
-                new ObjectParameter("Workstation", typeof(string));
-    
-            var addressIPParameter = addressIP != null ?
-                new ObjectParameter("AddressIP", addressIP) :
-                new ObjectParameter("AddressIP", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Login_Consult_Result>("SP_Login_Consult", userNameParameter, passwordParameter, workstationParameter, addressIPParameter);
-        }
-    
         public virtual ObjectResult<SP_InvoiceTicket_Consult_Result> SP_InvoiceTicket_Consult(Nullable<long> invoiceId)
         {
             var invoiceIdParameter = invoiceId.HasValue ?
@@ -227,15 +207,6 @@ namespace POS.DLL
                 new ObjectParameter("InvoiceId", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter);
-        }
-    
-        public virtual ObjectResult<SP_ProductBarcode_Consult_Result> SP_ProductBarcode_Consult(string productName)
-        {
-            var productNameParameter = productName != null ?
-                new ObjectParameter("ProductName", productName) :
-                new ObjectParameter("ProductName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ProductBarcode_Consult_Result>("SP_ProductBarcode_Consult", productNameParameter);
         }
     
         public virtual ObjectResult<SP_Product_Consult_Result> SP_Product_Consult(Nullable<short> locationId, string barcode, Nullable<decimal> quantity, Nullable<long> customerId, Nullable<long> internalCreditCardId, string paymMode, string barcodeBefore)
@@ -278,6 +249,40 @@ namespace POS.DLL
                 new ObjectParameter("ParamXML", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Invoice_Insert_Result>("SP_Invoice_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_ProductBarcode_Consult_Result> SP_ProductBarcode_Consult(string productName, Nullable<int> locationId)
+        {
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ProductBarcode_Consult_Result>("SP_ProductBarcode_Consult", productNameParameter, locationIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_Login_Consult_Result> SP_Login_Consult(string userName, string password, string workstation, string addressIP)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var workstationParameter = workstation != null ?
+                new ObjectParameter("Workstation", workstation) :
+                new ObjectParameter("Workstation", typeof(string));
+    
+            var addressIPParameter = addressIP != null ?
+                new ObjectParameter("AddressIP", addressIP) :
+                new ObjectParameter("AddressIP", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Login_Consult_Result>("SP_Login_Consult", userNameParameter, passwordParameter, workstationParameter, addressIPParameter);
         }
     }
 }

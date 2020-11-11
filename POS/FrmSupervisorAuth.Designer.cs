@@ -28,21 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupervisorAuth));
             this.LblAuthorization = new System.Windows.Forms.Label();
             this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
+            this.LblMotive = new System.Windows.Forms.Label();
+            this.cancelReasonBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cancelReasonBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // LblAuthorization
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(54, 82);
+            this.LblAuthorization.Location = new System.Drawing.Point(51, 57);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(64, 18);
             this.LblAuthorization.TabIndex = 7;
@@ -51,7 +57,7 @@
             // TxtAuthorization
             // 
             this.TxtAuthorization.EditValue = "";
-            this.TxtAuthorization.Location = new System.Drawing.Point(132, 71);
+            this.TxtAuthorization.Location = new System.Drawing.Point(132, 48);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Properties.PasswordChar = '•';
             this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
@@ -99,12 +105,36 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(358, 1);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(358, -34);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(101, 64);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
+            // LblMotive
+            // 
+            this.LblMotive.AutoSize = true;
+            this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.LblMotive.Location = new System.Drawing.Point(51, 119);
+            this.LblMotive.Name = "LblMotive";
+            this.LblMotive.Size = new System.Drawing.Size(60, 18);
+            this.LblMotive.TabIndex = 7;
+            this.LblMotive.Text = "Motivo";
+            // 
+            // cancelReasonBindingSource
+            // 
+            this.cancelReasonBindingSource.DataSource = typeof(POS.DLL.CancelReason);
+            // 
+            // CmbMotive
+            // 
+            this.CmbMotive.Location = new System.Drawing.Point(132, 110);
+            this.CmbMotive.Name = "CmbMotive";
+            this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbMotive.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.CmbMotive.Size = new System.Drawing.Size(306, 38);
+            this.CmbMotive.TabIndex = 12;
             // 
             // FrmSupervisorAuth
             // 
@@ -115,8 +145,10 @@
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
+            this.Controls.Add(this.LblMotive);
             this.Controls.Add(this.LblAuthorization);
             this.Controls.Add(this.TxtAuthorization);
+            this.Controls.Add(this.CmbMotive);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -124,6 +156,8 @@
             this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cancelReasonBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,5 +170,8 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         public DevExpress.XtraEditors.TextEdit TxtAuthorization;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private System.Windows.Forms.Label LblMotive;
+        private System.Windows.Forms.BindingSource cancelReasonBindingSource;
+        private DevExpress.XtraEditors.ImageComboBoxEdit CmbMotive;
     }
 }

@@ -65,7 +65,7 @@ namespace POS.DLL.Transaction
             try
             {
                 result = (from re in db.CancelReason
-                          where int.Parse(re.Status) == 1
+                          where re.Status.Equals("A")
                           select re).ToList();
             }
             catch (Exception ex)

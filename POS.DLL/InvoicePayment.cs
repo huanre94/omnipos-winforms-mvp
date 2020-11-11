@@ -30,6 +30,7 @@ namespace POS.DLL
         public string Authorization { get; set; }
         public bool IsProtest { get; set; }
         public System.DateTime ProtestDate { get; set; }
+        public long InternalCreditCardId { get; set; }
         public string GiftCardNumber { get; set; }
         public int RetentionCode { get; set; }
         public string RetentionNumber { get; set; }
@@ -40,8 +41,8 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
+        public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual Location Location { get; set; }
         public virtual PaymMode PaymMode { get; set; }
-        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }
