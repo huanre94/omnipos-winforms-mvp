@@ -189,6 +189,7 @@ namespace POS
                              select par.Value).FirstOrDefault();
 
             lostWeight = _qty - catchWeight;
+            lostWeight = Math.Abs(lostWeight);
 
             if (lostWeight > decimal.Parse(parameter))
             {
