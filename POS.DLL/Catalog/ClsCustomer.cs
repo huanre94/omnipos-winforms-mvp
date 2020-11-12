@@ -107,26 +107,6 @@ namespace POS.DLL.Catalog
             }
 
             return result;
-        }
-
-        public Customer GetCustomerById(long _customerId)
-        {
-            var db = new POSEntities();
-            Customer customer;
-            try
-            {
-                customer = (
-                            from cust in db.Customer
-                            where cust.Status == "A"
-                            && cust.CustomerId == _customerId
-                            select cust
-                            ).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return customer;
-        }
+        }       
     }
 }
