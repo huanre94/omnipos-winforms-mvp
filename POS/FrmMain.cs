@@ -54,7 +54,7 @@ namespace POS
                 if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
                 {
                     BtnSuspendSale.Text = "Reanudar";
-                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.cancel;
+                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.resume;
                 }
             }
             else
@@ -536,7 +536,7 @@ namespace POS
                 else
                 {
                     BtnSuspendSale.Text = "Reanudar";
-                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.cancel;
+                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.resume;
 
                     ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
                     SalesLog salesLog = new SalesLog

@@ -365,7 +365,7 @@
             this.ProductId});
             this.GrvSalesDetail.GridControl = this.GrcSalesDetail;
             this.GrvSalesDetail.Name = "GrvSalesDetail";
-            this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;            
+            this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
             // 
             // ProductDescription
             // 
