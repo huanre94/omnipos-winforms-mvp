@@ -264,6 +264,8 @@
     <None Include="Resources\cash.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\printer.svg" />
+    <None Include="Resources\resume.svg" />
     <None Include="Resources\retention.svg" />
     <None Include="Resources\scale.svg" />
     <None Include="Resources\retail.svg" />
