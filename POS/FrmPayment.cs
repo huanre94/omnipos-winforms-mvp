@@ -327,57 +327,51 @@ namespace POS
                 bool responseAuthorization = true;
                 GlobalParameter parameter;
 
-                if (customer.IsEmployee)
+                try
                 {
-                    try
-                    {
-                        parameter = general.GetParameterByName("InternalCreditRequestAuth");
+                    string value = customer.IsEmployee ? "InternalCreditRequestAuth" : "RequireSupervisorAuthorizationCustomer";
+                    parameter = general.GetParameterByName(value);
 
-                        if (parameter != null)
+                    if (parameter != null)
+                    {
+                        if (parameter.Value == "1")
                         {
-                            if (parameter.Value == "1")
-                            {
-                                functions.emissionPoint = emissionPoint;
-                                functions.AxOPOSScanner = scanner;
-                                responseAuthorization = functions.RequestSupervisorAuth();
-                            }
+                            functions.emissionPoint = emissionPoint;
+                            functions.AxOPOSScanner = scanner;
+                            responseAuthorization = functions.RequestSupervisorAuth();
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                                "Ha ocurrido un problema al consultar parametro."
-                                                , ClsEnums.MessageType.ERROR
-                                                , true
-                                                , ex.InnerException.Message
-                                            );
-                    }
-
-                    if (responseAuthorization)
-                    {
-                        InvoicePayment invoicePayment = new InvoicePayment
-                        {
-                            PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
-                            Amount = decimal.Parse(TxtAmount.Text),
-                            GiftCardNumber = paymentCredit.internalCreditId ?? "",
-                            Authorization = functions.supervisorAuthorization
-
-                        };
-
-                        AddRecordToGrid(invoicePayment);
-                        CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
-                    }
-                } else
+                }
+                catch (Exception ex)
                 {
-                    InvoicePayment invoicePayment = new InvoicePayment
+                    functions.ShowMessage(
+                                            "Ha ocurrido un problema al consultar parametro."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
+                                        );
+                }
+
+                if (responseAuthorization)
+                {
+                    InvoicePayment invoicePayment = new InvoicePayment();
+                    if (!customer.IsEmployee)
                     {
-                        PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO,
-                        Amount = decimal.Parse(TxtAmount.Text)
-                    };
+                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO;
+                        invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
+                        invoicePayment.Authorization = functions.supervisorAuthorization;
+                    }
+                    else
+                    {
+                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO;
+                        invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
+                        invoicePayment.InternalCreditCardId = paymentCredit.internalCreditId;
+                        invoicePayment.Authorization = functions.supervisorAuthorization;
+                    }
 
                     AddRecordToGrid(invoicePayment);
                     CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
-                }                
+                }
             }
         }
 
