@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Drawing.Printing;
 using System.Text;
 using System.Runtime.InteropServices;
+using POS.Properties;
 
 namespace POS
 {
@@ -47,6 +48,12 @@ namespace POS
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
                 functions.EnableScale(emissionPoint.ScaleName);
                 functions.PrinterName = emissionPoint.PrinterName;
+
+                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
+                {
+                    BtnSuspendSale.Text = "Reanudar";
+                    BtnSuspendSale.ImageOptions.SvgImage = Resources.pendingSale;
+                }
             }
             else
             {
@@ -339,6 +346,29 @@ namespace POS
                         var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
                                             where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
                                             select xm;
+                        XElement element = null;
+                        if (newInvoiceXML.Count() == 1)
+                        {
+                            element = newInvoiceXML.First();
+                        }
+
+                        ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+                        SalesLog salesLog = new SalesLog
+                        {
+                            CustomerId = currentCustomer.CustomerId,
+                            EmissionPointId = emissionPoint.EmissionPointId,
+                            LocationId = emissionPoint.LocationId,
+                            InvoiceNumber = sequenceNumber,
+                            XmlLog = element.ToString(),
+                            LogTypeId = 2,
+                            Authorization = functions.supervisorAuthorization,
+                            CreatedDatetime = DateTime.Now,
+                            CreatedBy = (int)loginInformation.UserId,
+                            Status = "A",
+                            Workstation = loginInformation.Workstation
+                        };
+
+                        invoiceTrans.InsertCancelledSales(salesLog);
 
                         newInvoiceXML.Remove();
 
@@ -364,6 +394,29 @@ namespace POS
                                         where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
                                         select xm;
 
+                    XElement element = null;
+                    if (newInvoiceXML.Count() == 1)
+                    {
+                        element = newInvoiceXML.First();
+                    }
+
+                    ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+                    SalesLog salesLog = new SalesLog
+                    {
+                        CustomerId = currentCustomer.CustomerId,
+                        EmissionPointId = emissionPoint.EmissionPointId,
+                        LocationId = emissionPoint.LocationId,
+                        InvoiceNumber = sequenceNumber,
+                        XmlLog = element.ToString(),
+                        LogTypeId = 2,
+                        Authorization = functions.supervisorAuthorization,
+                        CreatedDatetime = DateTime.Now,
+                        CreatedBy = (int)loginInformation.UserId,
+                        Status = "A",
+                        Workstation = loginInformation.Workstation
+                    };
+
+                    invoiceTrans.InsertCancelledSales(salesLog);
                     newInvoiceXML.Remove();
 
                     CalculateInvoice();
@@ -446,28 +499,104 @@ namespace POS
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
         {
-            if (decimal.Parse(LblTotal.Text) <= 0)
+
+            if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
             {
-                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                ClearInvoice();
+
+                BtnSuspendSale.Text = "Suspender";
+                BtnSuspendSale.ImageOptions.SvgImage = Resources.SuspendSale;
+
+                SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint);
+                XElement element = XElement.Parse(sales.XmlLog);
+
+                var listProducts = (from li in element.Descendants("InvoiceLine")
+                                    select li).ToList();
+
+                foreach (XElement item in listProducts)
+                {
+                    decimal qtyFound = 0;
+                    string barcode = "";
+
+                    foreach (var node in item.Elements())
+                    {
+                        switch (node.Name.ToString())
+                        {
+                            case "Barcode":
+                                barcode = node.Value;
+                                break;
+                            case "Quantity":
+                                qtyFound = decimal.Parse(node.Value);
+                                break;
+                        }
+
+                    }
+
+                    GetProductInformation(
+                                         emissionPoint.LocationId
+                                         , barcode
+                                         , qtyFound
+                                         , currentCustomer.CustomerId
+                                         , 0
+                                         , ""
+                                         , true
+                                         );
+                }
+
+                currentCustomer = new ClsCustomer().GetCustomerById(sales.CustomerId);
+
+                if (currentCustomer != null)
+                {
+                    if (currentCustomer.CustomerId > 0)
+                    {
+                        LblCustomerId.Text = currentCustomer.Identification;
+                        LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                        LblCustomerAddress.Text = currentCustomer.Address;
+                        TxtBarcode.Focus();
+                    }
+                }
+
+                CalculateInvoice();
             }
             else
             {
-                functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth())
+                if (decimal.Parse(LblTotal.Text) <= 0)
                 {
-                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                        select xm;
-
-                    //todo: guardar lo quitado y el 
-
-                    newInvoiceXML.Remove();
-
-                    CalculateInvoice();
-                    CheckGridView();
+                    functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
                 }
+                else
+                {
+                    BtnSuspendSale.Text = "Reanudar";
+                    BtnSuspendSale.ImageOptions.SvgImage = Resources.pendingSale;
+
+                    ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+                    SalesLog salesLog = new SalesLog
+                    {
+                        CustomerId = currentCustomer.CustomerId,
+                        EmissionPointId = emissionPoint.EmissionPointId,
+                        LocationId = emissionPoint.LocationId,
+                        InvoiceNumber = sequenceNumber,
+                        XmlLog = invoiceXml.ToString(),
+                        ReasonId = functions.motiveId,
+                        LogTypeId = 3,
+                        Authorization = "",
+                        CreatedDatetime = DateTime.Now,
+                        CreatedBy = (int)loginInformation.UserId,
+                        Status = "A",
+                        Workstation = loginInformation.Workstation
+                    };
+
+                    if (invoiceTrans.InsertCancelledSales(salesLog))
+                    {
+                        ClearInvoice();
+                    }
+                    else
+                    {
+                        functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                    }
+                }
+
             }
-
-
         }
 
         private void BtnCancelSale_Click(object sender, EventArgs e)
@@ -481,13 +610,31 @@ namespace POS
                 functions.emissionPoint = emissionPoint;
                 if (functions.RequestSupervisorAuth(requireMotive: true))
                 {
-                    var newInvoiceXML = from xm in invoiceXml.Descendants("InvoiceLine")
-                                        select xm;
+                    ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+                    SalesLog salesLog = new SalesLog
+                    {
+                        CustomerId = currentCustomer.CustomerId,
+                        EmissionPointId = emissionPoint.EmissionPointId,
+                        LocationId = emissionPoint.LocationId,
+                        InvoiceNumber = sequenceNumber,
+                        XmlLog = invoiceXml.ToString(),
+                        ReasonId = functions.motiveId,
+                        LogTypeId = 1,
+                        Authorization = functions.supervisorAuthorization,
+                        CreatedDatetime = DateTime.Now,
+                        CreatedBy = (int)loginInformation.UserId,
+                        Status = "A",
+                        Workstation = loginInformation.Workstation
+                    };
 
-                    newInvoiceXML.Remove();
-
-                    CalculateInvoice();
-                    CheckGridView();
+                    if (invoiceTrans.InsertCancelledSales(salesLog))
+                    {
+                        ClearInvoice();
+                    }
+                    else
+                    {
+                        functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                    }
                 }
             }
         }

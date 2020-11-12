@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Data.Entity;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -62,13 +64,10 @@ namespace POS.DLL.Transaction
         public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId)
         {
             var db = new POSEntities();
-            List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult = null;
-
+            List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult;
             try
             {
-
                 invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId).ToList();
-                
             }
             catch (Exception ex)
             {
@@ -76,6 +75,46 @@ namespace POS.DLL.Transaction
             }
 
             return invoiceTicketResult;
+        }
+
+
+        public bool InsertCancelledSales(SalesLog salesLog)
+        {
+            try
+            {
+                POSEntities context = new POSEntities();
+                context.SalesLog.Add(salesLog);
+                return context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool HasSuspendedSale(EmissionPoint emissionPoint)
+        {
+            POSEntities pos = new POSEntities();
+            int consult = pos.SalesLog.Count(a => a.EmissionPointId == emissionPoint.EmissionPointId && a.Status == "A" && a.LogTypeId == 3);
+            if (consult > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public SP_SalesLog_Consult_Result ConsultSuspendedSale(EmissionPoint emissionPoint)
+        {
+            POSEntities pos = new POSEntities();
+            try
+            {
+                SP_SalesLog_Consult_Result consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();
+                return consult;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
