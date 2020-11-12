@@ -243,16 +243,6 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap lastReceipt {
-            get {
-                object obj = ResourceManager.GetObject("lastReceipt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Logo_LaEspanola {
             get {
                 object obj = ResourceManager.GetObject("Logo_LaEspanola", resourceCulture);
@@ -283,6 +273,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage printer {
+            get {
+                object obj = ResourceManager.GetObject("printer", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage productSearch {
             get {
                 object obj = ResourceManager.GetObject("productSearch", resourceCulture);
@@ -306,6 +306,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage remove {
             get {
                 object obj = ResourceManager.GetObject("remove", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage resume {
+            get {
+                object obj = ResourceManager.GetObject("resume", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
