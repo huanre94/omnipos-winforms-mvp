@@ -16,7 +16,7 @@ namespace POS
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
         public string PrinterName { get; set; }
         public int motiveId;
-        public string supervisorAuthorization;
+        public string supervisorAuthorization="";
         public bool ShowMessage(
                                 string _messageText
                                 , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
