@@ -26,7 +26,8 @@ namespace POS
         public bool canCloseInvoice = false;
         public decimal baseAmount = 0;
         public decimal taxAmount = 0;
-        public AxOposScanner_CCO.AxOPOSScanner scanner;
+        public AxOposScanner_CCO.AxOPOSScanner scanner;        
+        public string internalCreditCardCode = "";
 
         public FrmPayment()
         {
@@ -36,7 +37,7 @@ namespace POS
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             GetPaymentInformation();
-            CheckGridView();
+            CheckGridView();            
         }
 
         private void GetPaymentInformation()
@@ -225,7 +226,7 @@ namespace POS
                 response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
 
                 if (response)
-                {
+                {                    
                     GrcPayment.DataSource = null;
                     //GrvPayment.Columns.Clear();
                     this.Close();
@@ -236,10 +237,10 @@ namespace POS
                 }
             }
         }
-        #endregion
+        #endregion 
 
         #region Payment Functions
-
+        
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -317,8 +318,8 @@ namespace POS
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.customer = customer;
             paymentCredit.emissionPoint = emissionPoint;
-            paymentCredit.scanner = scanner;
-
+            //paymentCredit.scanner = scanner;
+            paymentCredit.internalCreditCardCode = internalCreditCardCode;
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)
@@ -365,7 +366,7 @@ namespace POS
                     {
                         invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
-                        invoicePayment.InternalCreditCardId = paymentCredit.internalCreditId;
+                        invoicePayment.InternalCreditCardId = paymentCredit.internalCreditCardId;
                         invoicePayment.Authorization = functions.supervisorAuthorization;
                     }
 

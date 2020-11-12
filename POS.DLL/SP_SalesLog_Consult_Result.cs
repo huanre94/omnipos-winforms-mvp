@@ -10,12 +10,10 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CancelReason
+    public partial class SP_SalesLog_Consult_Result
     {
-        public int ReasonId { get; set; }
-        public string Name { get; set; }
-        public string Status { get; set; }
+        public long CustomerId { get; set; }
+        public string XmlLog { get; set; }
     }
 }

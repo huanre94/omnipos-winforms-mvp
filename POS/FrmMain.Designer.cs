@@ -649,7 +649,7 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
-            this.LblTotal.Location = new System.Drawing.Point(1185, 51);
+            this.LblTotal.Location = new System.Drawing.Point(1191, 49);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(161, 41);
             this.LblTotal.TabIndex = 154;
@@ -682,7 +682,7 @@
             // 
             this.LblDiscAmount.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblDiscAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
-            this.LblDiscAmount.Location = new System.Drawing.Point(1189, 90);
+            this.LblDiscAmount.Location = new System.Drawing.Point(1194, 90);
             this.LblDiscAmount.Name = "LblDiscAmount";
             this.LblDiscAmount.Size = new System.Drawing.Size(154, 36);
             this.LblDiscAmount.TabIndex = 156;

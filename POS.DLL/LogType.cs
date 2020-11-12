@@ -12,29 +12,19 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class CountCashTable
+    public partial class LogType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CountCashTable()
+        public LogType()
         {
-            this.CountCashLine = new HashSet<CountCashLine>();
+            this.SalesLog = new HashSet<SalesLog>();
         }
     
-        public long CountCashId { get; set; }
-        public short LocationId { get; set; }
-        public int UserId { get; set; }
-        public System.DateTime Registration { get; set; }
-        public decimal OpeningAmount { get; set; }
+        public int LogTypeId { get; set; }
+        public string Name { get; set; }
         public string Status { get; set; }
-        public int CreatedBy { get; set; }
-        public System.DateTime CreatedDatetime { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
-        public string Workstation { get; set; }
-        public long CountCashIdLocal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CountCashLine> CountCashLine { get; set; }
-        public virtual Location Location { get; set; }
+        public virtual ICollection<SalesLog> SalesLog { get; set; }
     }
 }

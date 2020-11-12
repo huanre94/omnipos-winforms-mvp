@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentCredit));
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.TxtCreditCardCode = new DevExpress.XtraEditors.TextEdit();
             this.LblAuthorization = new System.Windows.Forms.Label();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.LblTitleHolder = new System.Windows.Forms.Label();
@@ -38,8 +37,9 @@
             this.LblCreditLimit = new System.Windows.Forms.Label();
             this.LblTitleCredit = new System.Windows.Forms.Label();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
-            ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).BeginInit();
+            this.TxtCreditCardCode = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancel
@@ -57,20 +57,9 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 0;
+            this.BtnCancel.TabIndex = 9;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
-            // 
-            // TxtCreditCardCode
-            // 
-            this.TxtCreditCardCode.EditValue = "";
-            this.TxtCreditCardCode.Location = new System.Drawing.Point(147, 29);
-            this.TxtCreditCardCode.Name = "TxtCreditCardCode";
-            this.TxtCreditCardCode.Properties.PasswordChar = '•';
-            this.TxtCreditCardCode.Properties.UseSystemPasswordChar = true;
-            this.TxtCreditCardCode.Size = new System.Drawing.Size(220, 38);
-            this.TxtCreditCardCode.TabIndex = 1;
-            this.TxtCreditCardCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCreditCardCode_KeyDown);
             // 
             // LblAuthorization
             // 
@@ -79,8 +68,9 @@
             this.LblAuthorization.Location = new System.Drawing.Point(51, 40);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(65, 18);
-            this.LblAuthorization.TabIndex = 5;
+            this.LblAuthorization.TabIndex = 2;
             this.LblAuthorization.Text = "Tarjeta";
+            this.LblAuthorization.Visible = false;
             // 
             // BtnAccept
             // 
@@ -97,7 +87,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 0;
+            this.BtnAccept.TabIndex = 8;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -108,26 +98,24 @@
             this.LblTitleHolder.Location = new System.Drawing.Point(51, 100);
             this.LblTitleHolder.Name = "LblTitleHolder";
             this.LblTitleHolder.Size = new System.Drawing.Size(59, 18);
-            this.LblTitleHolder.TabIndex = 8;
+            this.LblTitleHolder.TabIndex = 4;
             this.LblTitleHolder.Text = "Titular";
             // 
             // LblHolderName
             // 
-            this.LblHolderName.AutoSize = true;
             this.LblHolderName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
             this.LblHolderName.Location = new System.Drawing.Point(142, 100);
             this.LblHolderName.Name = "LblHolderName";
-            this.LblHolderName.Size = new System.Drawing.Size(0, 18);
-            this.LblHolderName.TabIndex = 9;
+            this.LblHolderName.Size = new System.Drawing.Size(423, 18);
+            this.LblHolderName.TabIndex = 3;
             // 
             // LblCreditLimit
             // 
-            this.LblCreditLimit.AutoSize = true;
             this.LblCreditLimit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
             this.LblCreditLimit.Location = new System.Drawing.Point(144, 158);
             this.LblCreditLimit.Name = "LblCreditLimit";
-            this.LblCreditLimit.Size = new System.Drawing.Size(0, 18);
-            this.LblCreditLimit.TabIndex = 11;
+            this.LblCreditLimit.Size = new System.Drawing.Size(421, 18);
+            this.LblCreditLimit.TabIndex = 5;
             // 
             // LblTitleCredit
             // 
@@ -136,7 +124,7 @@
             this.LblTitleCredit.Location = new System.Drawing.Point(51, 158);
             this.LblTitleCredit.Name = "LblTitleCredit";
             this.LblTitleCredit.Size = new System.Drawing.Size(88, 18);
-            this.LblTitleCredit.TabIndex = 10;
+            this.LblTitleCredit.TabIndex = 6;
             this.LblTitleCredit.Text = "Cupo       $";
             // 
             // AxOPOSScanner
@@ -146,8 +134,20 @@
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 12;
+            this.AxOPOSScanner.TabIndex = 7;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
+            // TxtCreditCardCode
+            // 
+            this.TxtCreditCardCode.Location = new System.Drawing.Point(141, 26);
+            this.TxtCreditCardCode.Name = "TxtCreditCardCode";
+            this.TxtCreditCardCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.TxtCreditCardCode.Properties.Appearance.Options.UseFont = true;
+            this.TxtCreditCardCode.Properties.PasswordChar = '•';
+            this.TxtCreditCardCode.Size = new System.Drawing.Size(245, 44);
+            this.TxtCreditCardCode.TabIndex = 1;
+            this.TxtCreditCardCode.Visible = false;
+            this.TxtCreditCardCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCreditCardCode_KeyDown);
             // 
             // FrmPaymentCredit
             // 
@@ -156,6 +156,7 @@
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(598, 310);
             this.ControlBox = false;
+            this.Controls.Add(this.TxtCreditCardCode);
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.LblCreditLimit);
             this.Controls.Add(this.LblTitleCredit);
@@ -163,15 +164,14 @@
             this.Controls.Add(this.LblTitleHolder);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.LblAuthorization);
-            this.Controls.Add(this.TxtCreditCardCode);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmPaymentCredit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credito Interno";
             this.Load += new System.EventHandler(this.FrmPaymentCredit_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,7 +185,7 @@
         private System.Windows.Forms.Label LblHolderName;
         private System.Windows.Forms.Label LblCreditLimit;
         private System.Windows.Forms.Label LblTitleCredit;
-        private DevExpress.XtraEditors.TextEdit TxtCreditCardCode;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private DevExpress.XtraEditors.TextEdit TxtCreditCardCode;
     }
 }

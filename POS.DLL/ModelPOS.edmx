@@ -57,15 +57,12 @@
           <Property Name="SAPCode" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CancelReason">
           <Key>
             <PropertyRef Name="ReasonId" />
-            <PropertyRef Name="Description" />
           </Key>
-          <Property Name="ReasonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReasonId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="City">
@@ -108,6 +105,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <PropertyRef Name="ClosingCashId" />
           </Key>
           <Property Name="ClosingCashId" Type="bigint" Nullable="false" />
+          <Property Name="ClosingCashIdLocal" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LocationId" Type="smallint" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Registration" Type="datetime" Nullable="false" />
@@ -164,6 +162,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <PropertyRef Name="CountCashId" />
           </Key>
           <Property Name="CountCashId" Type="bigint" Nullable="false" />
+          <Property Name="CountCashIdLocal" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LocationId" Type="smallint" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Registration" Type="datetime" Nullable="false" />
@@ -594,6 +593,14 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="ServerId" Type="int" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="LogType">
+          <Key>
+            <PropertyRef Name="LogTypeId" />
+          </Key>
+          <Property Name="LogTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+        </EntityType>
         <EntityType Name="PaymMode">
           <Key>
             <PropertyRef Name="PaymModeId" />
@@ -809,17 +816,19 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="ModifiedDatetime" Type="datetime" />
           <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <EntityType Name="SalesHold">
+        <EntityType Name="SalesLog">
           <Key>
-            <PropertyRef Name="SalesHoldId" />
+            <PropertyRef Name="SalesLogId" />
           </Key>
-          <Property Name="SalesHoldId" Type="bigint" Nullable="false" />
+          <Property Name="SalesLogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LocationId" Type="smallint" Nullable="false" />
           <Property Name="EmissionPointId" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="bigint" Nullable="false" />
           <Property Name="CustomerId" Type="bigint" Nullable="false" />
-          <Property Name="Type" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="XmlData" Type="xml" />
+          <Property Name="LogTypeId" Type="int" Nullable="false" />
+          <Property Name="ReasonId" Type="int" Nullable="false" />
+          <Property Name="Authorization" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="XmlLog" Type="xml" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
@@ -1920,6 +1929,18 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__SalesLog_LogType">
+          <End Role="LogType" Type="Self.LogType" Multiplicity="1" />
+          <End Role="SalesLog" Type="Self.SalesLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogType">
+              <PropertyRef Name="LogTypeId" />
+            </Principal>
+            <Dependent Role="SalesLog">
+              <PropertyRef Name="LogTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SalesOrder_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
@@ -2272,6 +2293,10 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Parameter Name="ProductName" Type="varchar" Mode="In" />
           <Parameter Name="LocationId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_SalesLog_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="smallint" Mode="In" />
+          <Parameter Name="EmissionPointId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Supervisor_Validate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="barcode" Type="varchar" Mode="In" />
         </Function>
@@ -2280,6 +2305,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankCreditCard" EntityType="Self.BankCreditCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CancelReason" EntityType="Self.CancelReason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClosingCashLine" EntityType="Self.ClosingCashLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClosingCashMoney" EntityType="Self.ClosingCashMoney" Schema="dbo" store:Type="Tables" />
@@ -2312,6 +2338,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySet Name="InvoicePayment" EntityType="Self.InvoicePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceTable" EntityType="Self.InvoiceTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogType" EntityType="Self.LogType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymMode" EntityType="Self.PaymMode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBarcode" EntityType="Self.ProductBarcode" Schema="dbo" store:Type="Tables" />
@@ -2326,7 +2353,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySet Name="PromotionType" EntityType="Self.PromotionType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RetentionTable" EntityType="Self.RetentionTable" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SalesHold" EntityType="Self.SalesHold" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesLog" EntityType="Self.SalesLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salesman" EntityType="Self.Salesman" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOrder" EntityType="Self.SalesOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOrderLine" EntityType="Self.SalesOrderLine" Schema="dbo" store:Type="Tables" />
@@ -2344,13 +2371,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySet Name="TransportReason" EntityType="Self.TransportReason" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CancelReason" EntityType="Self.CancelReason" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CancelReason].[ReasonId] AS [ReasonId], 
-    [CancelReason].[Description] AS [Description], 
-    [CancelReason].[Status] AS [Status]
-    FROM [dbo].[CancelReason] AS [CancelReason]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__AccountsReceivable_Customer" Association="Self.FK__AccountsReceivable_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="AccountsReceivable" EntitySet="AccountsReceivable" />
@@ -2619,6 +2639,10 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <End Role="Country" EntitySet="Country" />
             <End Role="Province" EntitySet="Province" />
           </AssociationSet>
+          <AssociationSet Name="FK__SalesLog_LogType" Association="Self.FK__SalesLog_LogType">
+            <End Role="LogType" EntitySet="LogType" />
+            <End Role="SalesLog" EntitySet="SalesLog" />
+          </AssociationSet>
           <AssociationSet Name="FK__SalesOrder_Customer" Association="Self.FK__SalesOrder_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="SalesOrder" EntitySet="SalesOrder" />
@@ -2825,6 +2849,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ClosingCashLine" Relationship="Self.FK__ClosingCashLine_ClosingCashTable" FromRole="ClosingCashTable" ToRole="ClosingCashLine" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__ClosingCashTable_Location" FromRole="ClosingCashTable" ToRole="Location" />
+          <Property Name="ClosingCashIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2890,6 +2915,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CountCashLine" Relationship="Self.FK__CountCashLine_CountCashTable" FromRole="CountCashTable" ToRole="CountCashLine" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__CountCashTable_Location" FromRole="CountCashTable" ToRole="Location" />
+          <Property Name="CountCashIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -3764,18 +3790,15 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <End Role="SalesOrderPayment" EntitySet="SalesOrderPayment" />
           </AssociationSet>
           <EntitySet Name="RetentionTable" EntityType="POSModel.RetentionTable" />
+          <FunctionImport Name="SP_Login_Consult" ReturnType="Collection(POSModel.SP_Login_Consult_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Workstation" Mode="In" Type="String" />
+            <Parameter Name="AddressIP" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="Supervisor" EntityType="POSModel.Supervisor" />
           <FunctionImport Name="SP_InvoiceTicket_Consult" ReturnType="Collection(POSModel.SP_InvoiceTicket_Consult_Result)">
           <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Product_Consult" ReturnType="Collection(POSModel.SP_Product_Consult_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int16" />
-            <Parameter Name="Barcode" Mode="In" Type="String" />
-            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
-            <Parameter Name="CustomerId" Mode="In" Type="Int64" />
-            <Parameter Name="InternalCreditCardId" Mode="In" Type="Int64" />
-            <Parameter Name="PaymMode" Mode="In" Type="String" />
-            <Parameter Name="BarcodeBefore" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="EmissionPoint" EntityType="POSModel.EmissionPoint" />
           <AssociationSet Name="PK__ClosingCashLine_EmissionPoint" Association="POSModel.PK__ClosingCashLine_EmissionPoint">
@@ -3805,21 +3828,32 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <FunctionImport Name="SP_Invoice_Insert" ReturnType="Collection(POSModel.SP_Invoice_Insert_Result)">
           <Parameter Name="ParamXML" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
           <FunctionImport Name="SP_ProductBarcode_Consult" ReturnType="Collection(POSModel.SP_ProductBarcode_Consult_Result)">
             <Parameter Name="ProductName" Mode="In" Type="String" />
             <Parameter Name="LocationId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_Login_Consult" ReturnType="Collection(POSModel.SP_Login_Consult_Result)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="Workstation" Mode="In" Type="String" />
-            <Parameter Name="AddressIP" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="InvoicePayment" EntityType="POSModel.InvoicePayment" />
-          <EntitySet Name="InvoiceTable" EntityType="POSModel.InvoiceTable" />
-          <EntitySet Name="SalesHold" EntityType="POSModel.SalesHold" />
+          <EntitySet Name="LogType" EntityType="POSModel.LogType" />
+          <EntitySet Name="SalesLog" EntityType="POSModel.SalesLog" />
+          <AssociationSet Name="FK__InvoicePayment_Location" Association="POSModel.FK__InvoicePayment_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePayment_PaymMode" Association="POSModel.FK__InvoicePayment_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesLog_LogType" Association="POSModel.FK__SalesLog_LogType">
+            <End Role="LogType" EntitySet="LogType" />
+            <End Role="SalesLog" EntitySet="SalesLog" />
+          </AssociationSet>
           <EntitySet Name="UserLogin" EntityType="POSModel.UserLogin" />
+          <AssociationSet Name="FK__Supervisor_UserLogin" Association="POSModel.FK__Supervisor_UserLogin">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="Supervisor" EntitySet="Supervisor" />
+          </AssociationSet>
+          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
+          <EntitySet Name="InvoiceTable" EntityType="POSModel.InvoiceTable" />
           <AssociationSet Name="FK__InvoiceTable_Customer" Association="POSModel.FK__InvoiceTable_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
@@ -3834,14 +3868,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           </AssociationSet>
           <AssociationSet Name="FK__InvoicePayment_InvoiceTable" Association="POSModel.FK__InvoicePayment_InvoiceTable">
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoicePayment_Location" Association="POSModel.FK__InvoicePayment_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoicePayment_PaymMode" Association="POSModel.FK__InvoicePayment_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
           </AssociationSet>
           <AssociationSet Name="FK__InvoiceTable_Location" Association="POSModel.FK__InvoiceTable_Location">
@@ -3860,10 +3886,19 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
             <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supervisor_UserLogin" Association="POSModel.FK__Supervisor_UserLogin">
-            <End Role="UserLogin" EntitySet="UserLogin" />
-            <End Role="Supervisor" EntitySet="Supervisor" />
-          </AssociationSet>
+          <FunctionImport Name="SP_SalesLog_Consult" ReturnType="Collection(POSModel.SP_SalesLog_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int16" />
+            <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Product_Consult" ReturnType="Collection(POSModel.SP_Product_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int16" />
+            <Parameter Name="Barcode" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int64" />
+            <Parameter Name="InternalCreditCardId" Mode="In" Type="Int64" />
+            <Parameter Name="PaymMode" Mode="In" Type="String" />
+            <Parameter Name="BarcodeBefore" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -5263,6 +5298,17 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="SP_Login_Consult_Result">
+          <Property Type="Int16" Name="CompanyId" Nullable="true" />
+          <Property Type="Int16" Name="LocationId" Nullable="true" />
+          <Property Type="Int32" Name="UserId" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Workstation" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="AddressIP" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="IsTaxpayerSpecial" Nullable="true" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
         <EntityType Name="Supervisor">
           <Key>
             <PropertyRef Name="UserId" />
@@ -5282,38 +5328,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
         <ComplexType Name="SP_InvoiceTicket_Consult_Result">
           <Property Type="String" Name="BodyText" Nullable="true" MaxLength="56" />
           <Property Type="Boolean" Name="Error" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="SP_Product_Consult_Result">
-          <Property Type="Int64" Name="ProductId" Nullable="false" />
-          <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
-          <Property Type="Int32" Name="InventUnitId" Nullable="true" />
-          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
-          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="PromotionPrice" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="FinalPrice" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="Boolean" Name="UseTax" Nullable="true" />
-          <Property Type="Decimal" Name="TaxProductAmount" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="Decimal" Name="DiscountProductAmount" Nullable="true" Precision="19" />
-          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
-          <Property Type="Decimal" Name="IrbpProductAmount" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
-          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="QuantityBefore" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Boolean" Name="WeightControl" Nullable="true" />
-          <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
-          <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="LineDiscount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
-          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="IrbpAmount" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="LineAmount" Nullable="true" Precision="19" />
-          <Property Type="Int64" Name="PromotionId" Nullable="true" />
-          <Property Type="Boolean" Name="UseReward" Nullable="true" />
-          <Property Type="Int64" Name="RewardProductId" Nullable="false" />
-          <Property Type="Decimal" Name="RewardPercent" Nullable="false" Precision="18" Scale="4" />
         </ComplexType>
         <EntityType Name="EmissionPoint">
           <Key>
@@ -5422,32 +5436,12 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Type="Boolean" Name="Error" Nullable="true" />
           <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
         </ComplexType>
-        <EntityType Name="CancelReason">
-          <Key>
-            <PropertyRef Name="ReasonId" />
-            <PropertyRef Name="Description" />
-          </Key>
-          <Property Name="ReasonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
         <ComplexType Name="SP_ProductBarcode_Consult_Result">
           <Property Type="Int64" Name="ProductId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="true" MaxLength="220" />
           <Property Type="String" Name="Barcode" Nullable="false" MaxLength="20" />
           <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
           <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
-        </ComplexType>
-        <ComplexType Name="SP_Login_Consult_Result">
-          <Property Type="Int16" Name="CompanyId" Nullable="true" />
-          <Property Type="Int16" Name="LocationId" Nullable="true" />
-          <Property Type="Int32" Name="UserId" Nullable="true" />
-          <Property Type="String" Name="UserName" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Workstation" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="AddressIP" Nullable="true" MaxLength="20" />
-          <Property Type="Boolean" Name="IsTaxpayerSpecial" Nullable="true" />
-          <Property Type="Boolean" Name="Error" Nullable="true" />
-          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
         </ComplexType>
         <EntityType Name="InvoicePayment">
           <Key>
@@ -5480,9 +5474,116 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="InvoicePayment" ToRole="Location" />
           <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="InvoicePayment" ToRole="PaymMode" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
+        </EntityType>
+        <EntityType Name="LogType">
+          <Key>
+            <PropertyRef Name="LogTypeId" />
+          </Key>
+          <Property Name="LogTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="SalesLog" Relationship="POSModel.FK__SalesLog_LogType" FromRole="LogType" ToRole="SalesLog" />
+        </EntityType>
+        <EntityType Name="SalesLog">
+          <Key>
+            <PropertyRef Name="SalesLogId" />
+          </Key>
+          <Property Name="SalesLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="LogTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ReasonId" Type="Int32" Nullable="false" />
+          <Property Name="Authorization" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="XmlLog" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LogType" Relationship="POSModel.FK__SalesLog_LogType" FromRole="SalesLog" ToRole="LogType" />
+        </EntityType>
+        <Association Name="FK__InvoicePayment_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="InvoicePayment">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePayment_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="InvoicePayment">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesLog_LogType">
+          <End Type="POSModel.LogType" Role="LogType" Multiplicity="1" />
+          <End Type="POSModel.SalesLog" Role="SalesLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogType">
+              <PropertyRef Name="LogTypeId" />
+            </Principal>
+            <Dependent Role="SalesLog">
+              <PropertyRef Name="LogTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="150" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_UserLogin" FromRole="UserLogin" ToRole="Supervisor" />
+        </EntityType>
+        <Association Name="FK__Supervisor_UserLogin">
+          <End Type="POSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Supervisor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CancelReason">
+          <Key>
+            <PropertyRef Name="ReasonId" />
+          </Key>
+          <Property Name="ReasonId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="InvoiceTable">
           <Key>
@@ -5535,45 +5636,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
           <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
         </EntityType>
-        <EntityType Name="SalesHold">
-          <Key>
-            <PropertyRef Name="SalesHoldId" />
-          </Key>
-          <Property Name="SalesHoldId" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
-          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
-          <Property Name="CustomerId" Type="Int64" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="XmlData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="UserLogin">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Firtsname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="IsProfile" Type="Boolean" Nullable="false" />
-          <Property Name="IsAdministrator" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="150" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Supervisor" Relationship="POSModel.FK__Supervisor_UserLogin" FromRole="UserLogin" ToRole="Supervisor" />
-        </EntityType>
         <Association Name="FK__InvoiceTable_Customer">
           <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
@@ -5619,30 +5681,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             </Principal>
             <Dependent Role="InvoicePayment">
               <PropertyRef Name="InvoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoicePayment_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="InvoicePayment">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoicePayment_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Principal>
-            <Dependent Role="InvoicePayment">
-              <PropertyRef Name="PaymModeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5694,18 +5732,43 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supervisor_UserLogin">
-          <End Type="POSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
-          <End Type="POSModel.Supervisor" Role="Supervisor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserLogin">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Supervisor">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <ComplexType Name="SP_SalesLog_Consult_Result">
+          <Property Type="Int64" Name="CustomerId" Nullable="false" />
+          <Property Type="String" Name="XmlLog" Nullable="false" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="SP_Product_Consult_Result">
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="Barcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="BarcodeBefore" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
+          <Property Type="Int32" Name="InventUnitId" Nullable="true" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="PromotionPrice" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="FinalPrice" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Boolean" Name="UseTax" Nullable="true" />
+          <Property Type="Decimal" Name="TaxProductAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="DiscountProductAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="UseIrbp" Nullable="true" />
+          <Property Type="Decimal" Name="IrbpProductAmount" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Stock" Nullable="false" Precision="24" Scale="6" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="QuantityBefore" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Boolean" Name="WeightControl" Nullable="true" />
+          <Property Type="Boolean" Name="UseCatchWeight" Nullable="false" />
+          <Property Type="Decimal" Name="BaseAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="BaseTaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LinePercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="LineDiscount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TaxPercent" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="IrbpAmount" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="LineAmount" Nullable="true" Precision="19" />
+          <Property Type="Int64" Name="PromotionId" Nullable="true" />
+          <Property Type="Boolean" Name="UseReward" Nullable="true" />
+          <Property Type="Int64" Name="RewardProductId" Nullable="false" />
+          <Property Type="Decimal" Name="RewardPercent" Nullable="false" Precision="18" Scale="4" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5794,6 +5857,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySetMapping Name="ClosingCashTable">
             <EntityTypeMapping TypeName="POSModel.ClosingCashTable">
               <MappingFragment StoreEntitySet="ClosingCashTable">
+                <ScalarProperty Name="ClosingCashIdLocal" ColumnName="ClosingCashIdLocal" />
                 <ScalarProperty Name="ClosingCashId" ColumnName="ClosingCashId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -5851,6 +5915,7 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
           <EntitySetMapping Name="CountCashTable">
             <EntityTypeMapping TypeName="POSModel.CountCashTable">
               <MappingFragment StoreEntitySet="CountCashTable">
+                <ScalarProperty Name="CountCashIdLocal" ColumnName="CountCashIdLocal" />
                 <ScalarProperty Name="CountCashId" ColumnName="CountCashId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -6785,6 +6850,21 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Login_Consult" FunctionName="POSModel.Store.SP_Login_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Login_Consult_Result">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
+                <ScalarProperty Name="IsTaxpayerSpecial" ColumnName="IsTaxpayerSpecial" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Supervisor">
             <EntityTypeMapping TypeName="POSModel.Supervisor">
               <MappingFragment StoreEntitySet="Supervisor">
@@ -6805,42 +6885,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               <ComplexTypeMapping TypeName="POSModel.SP_InvoiceTicket_Consult_Result">
                 <ScalarProperty Name="BodyText" ColumnName="BodyText" />
                 <ScalarProperty Name="Error" ColumnName="Error" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Product_Consult" FunctionName="POSModel.Store.SP_Product_Consult">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="PromotionPrice" ColumnName="PromotionPrice" />
-                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
-                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
-                <ScalarProperty Name="TaxProductAmount" ColumnName="TaxProductAmount" />
-                <ScalarProperty Name="DiscountProductAmount" ColumnName="DiscountProductAmount" />
-                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
-                <ScalarProperty Name="IrbpProductAmount" ColumnName="IrbpProductAmount" />
-                <ScalarProperty Name="Stock" ColumnName="Stock" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="QuantityBefore" ColumnName="QuantityBefore" />
-                <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
-                <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
-                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
-                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
-                <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
-                <ScalarProperty Name="LineDiscount" ColumnName="LineDiscount" />
-                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
-                <ScalarProperty Name="LineAmount" ColumnName="LineAmount" />
-                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-                <ScalarProperty Name="UseReward" ColumnName="UseReward" />
-                <ScalarProperty Name="RewardProductId" ColumnName="RewardProductId" />
-                <ScalarProperty Name="RewardPercent" ColumnName="RewardPercent" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6877,15 +6921,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CancelReason">
-            <EntityTypeMapping TypeName="POSModel.CancelReason">
-              <MappingFragment StoreEntitySet="CancelReason">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_ProductBarcode_Consult" FunctionName="POSModel.Store.SP_ProductBarcode_Consult">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_ProductBarcode_Consult_Result">
@@ -6894,21 +6929,6 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Login_Consult" FunctionName="POSModel.Store.SP_Login_Consult">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Login_Consult_Result">
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
-                <ScalarProperty Name="IsTaxpayerSpecial" ColumnName="IsTaxpayerSpecial" />
-                <ScalarProperty Name="Error" ColumnName="Error" />
-                <ScalarProperty Name="TextError" ColumnName="TextError" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6941,6 +6961,66 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogType">
+            <EntityTypeMapping TypeName="POSModel.LogType">
+              <MappingFragment StoreEntitySet="LogType">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LogTypeId" ColumnName="LogTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesLog">
+            <EntityTypeMapping TypeName="POSModel.SalesLog">
+              <MappingFragment StoreEntitySet="SalesLog">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="XmlLog" ColumnName="XmlLog" />
+                <ScalarProperty Name="Authorization" ColumnName="Authorization" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="LogTypeId" ColumnName="LogTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="SalesLogId" ColumnName="SalesLogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogin">
+            <EntityTypeMapping TypeName="POSModel.UserLogin">
+              <MappingFragment StoreEntitySet="UserLogin">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
+                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
+                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CancelReason">
+            <EntityTypeMapping TypeName="POSModel.CancelReason">
+              <MappingFragment StoreEntitySet="CancelReason">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6988,46 +7068,51 @@ warning 6002: The table/view 'POSDB.dbo.CancelReason' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SalesHold">
-            <EntityTypeMapping TypeName="POSModel.SalesHold">
-              <MappingFragment StoreEntitySet="SalesHold">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="XmlData" ColumnName="XmlData" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+          <FunctionImportMapping FunctionImportName="SP_SalesLog_Consult" FunctionName="POSModel.Store.SP_SalesLog_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_SalesLog_Consult_Result">
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="SalesHoldId" ColumnName="SalesHoldId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserLogin">
-            <EntityTypeMapping TypeName="POSModel.UserLogin">
-              <MappingFragment StoreEntitySet="UserLogin">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="IsAdministrator" ColumnName="IsAdministrator" />
-                <ScalarProperty Name="IsProfile" ColumnName="IsProfile" />
-                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="XmlLog" ColumnName="XmlLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Product_Consult" FunctionName="POSModel.Store.SP_Product_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Product_Consult_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="BarcodeBefore" ColumnName="BarcodeBefore" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PromotionPrice" ColumnName="PromotionPrice" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="UseTax" ColumnName="UseTax" />
+                <ScalarProperty Name="TaxProductAmount" ColumnName="TaxProductAmount" />
+                <ScalarProperty Name="DiscountProductAmount" ColumnName="DiscountProductAmount" />
+                <ScalarProperty Name="UseIrbp" ColumnName="UseIrbp" />
+                <ScalarProperty Name="IrbpProductAmount" ColumnName="IrbpProductAmount" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="QuantityBefore" ColumnName="QuantityBefore" />
+                <ScalarProperty Name="WeightControl" ColumnName="WeightControl" />
+                <ScalarProperty Name="UseCatchWeight" ColumnName="UseCatchWeight" />
+                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
+                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
+                <ScalarProperty Name="LinePercent" ColumnName="LinePercent" />
+                <ScalarProperty Name="LineDiscount" ColumnName="LineDiscount" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
+                <ScalarProperty Name="LineAmount" ColumnName="LineAmount" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="UseReward" ColumnName="UseReward" />
+                <ScalarProperty Name="RewardProductId" ColumnName="RewardProductId" />
+                <ScalarProperty Name="RewardPercent" ColumnName="RewardPercent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

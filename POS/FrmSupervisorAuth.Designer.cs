@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupervisorAuth));
             this.LblAuthorization = new System.Windows.Forms.Label();
             this.TxtAuthorization = new DevExpress.XtraEditors.TextEdit();
@@ -36,11 +35,9 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.LblMotive = new System.Windows.Forms.Label();
-            this.cancelReasonBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cancelReasonBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,10 +102,10 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(358, -34);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(358, 8);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(89, 78);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
@@ -122,17 +119,12 @@
             this.LblMotive.TabIndex = 7;
             this.LblMotive.Text = "Motivo";
             // 
-            // cancelReasonBindingSource
-            // 
-            this.cancelReasonBindingSource.DataSource = typeof(POS.DLL.CancelReason);
-            // 
             // CmbMotive
             // 
             this.CmbMotive.Location = new System.Drawing.Point(132, 110);
             this.CmbMotive.Name = "CmbMotive";
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbMotive.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.CmbMotive.Size = new System.Drawing.Size(306, 38);
             this.CmbMotive.TabIndex = 12;
             // 
@@ -156,7 +148,6 @@
             this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cancelReasonBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -171,7 +162,6 @@
         public DevExpress.XtraEditors.TextEdit TxtAuthorization;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private System.Windows.Forms.Label LblMotive;
-        private System.Windows.Forms.BindingSource cancelReasonBindingSource;
         private DevExpress.XtraEditors.ImageComboBoxEdit CmbMotive;
     }
 }

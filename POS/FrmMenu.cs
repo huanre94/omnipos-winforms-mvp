@@ -17,15 +17,20 @@ namespace POS
                 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormCollection formCollection = Application.OpenForms;
+            FormCollection formCollection = Application.OpenForms;            
 
             if (formCollection.Count > 0)
             {
                 foreach (Form frm in formCollection)
                 {
-                    frm.Close();
+                    if (!frm.Focused)
+                    {
+                        frm.Close();
+                    }
                 }
             }
+
+            Close();
         }
 
         private void BtnPOS_Click(object sender, EventArgs e)

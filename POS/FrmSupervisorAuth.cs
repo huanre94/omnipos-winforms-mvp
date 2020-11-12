@@ -10,12 +10,13 @@ namespace POS
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        public bool formActionResult;       
+        public bool formActionResult;
+        public DLL.EmissionPoint emissionPoint;        
+        public AxOposScanner_CCO.AxOPOSScanner scanner;
         public int motiveId;
         public string supervisorAuthorization;
-        public DLL.EmissionPoint emissionPoint;
-        public AxOposScanner_CCO.AxOPOSScanner scanner;        
         public bool requireMotive;
+
         public FrmSupervisorAuth()
         {
             InitializeComponent();
@@ -53,7 +54,7 @@ namespace POS
                     {
                         foreach (var reason in cancelReasons)
                         {
-                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Description });
+                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
                         }
                     }
                 }

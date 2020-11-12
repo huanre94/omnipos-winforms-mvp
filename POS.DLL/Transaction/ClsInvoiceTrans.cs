@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Data.Entity;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -14,7 +12,7 @@ namespace POS.DLL.Transaction
                                                         , string _barcode
                                                         , decimal _qty
                                                         , long _customerId
-                                                        , int _internalCreditCardId
+                                                        , Int64 _internalCreditCardId
                                                         , string _paymMode
                                                         , string _barcodeBefore = ""
                                                         )
@@ -65,9 +63,12 @@ namespace POS.DLL.Transaction
         {
             var db = new POSEntities();
             List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult;
+
             try
             {
+
                 invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId).ToList();
+                
             }
             catch (Exception ex)
             {
@@ -76,7 +77,6 @@ namespace POS.DLL.Transaction
 
             return invoiceTicketResult;
         }
-
 
         public bool InsertCancelledSales(SalesLog salesLog)
         {
@@ -106,15 +106,18 @@ namespace POS.DLL.Transaction
         public SP_SalesLog_Consult_Result ConsultSuspendedSale(EmissionPoint emissionPoint)
         {
             POSEntities pos = new POSEntities();
+            SP_SalesLog_Consult_Result consult;
+
             try
             {
-                SP_SalesLog_Consult_Result consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();
-                return consult;
+                consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();                
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+
+            return consult;
         }
     }
 }

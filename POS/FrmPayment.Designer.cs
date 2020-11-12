@@ -246,7 +246,7 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(139, 46);
+            this.LblTotal.Location = new System.Drawing.Point(139, 66);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(126, 34);
             this.LblTotal.TabIndex = 148;

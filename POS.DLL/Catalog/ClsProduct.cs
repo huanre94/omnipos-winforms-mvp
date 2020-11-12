@@ -31,14 +31,14 @@ namespace POS.DLL.Catalog
             return banks;
         }
 
-        public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int emissionPoint)
+        public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
         {
             var db = new POSEntities();
             List<SP_ProductBarcode_Consult_Result> result;
 
             try
             {
-                result = db.SP_ProductBarcode_Consult(_productName, emissionPoint).ToList();
+                result = db.SP_ProductBarcode_Consult(_productName, _location).ToList();
             }
             catch (Exception ex)
             {

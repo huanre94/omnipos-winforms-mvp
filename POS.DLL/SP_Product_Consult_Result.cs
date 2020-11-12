@@ -15,6 +15,7 @@ namespace POS.DLL
     {
         public long ProductId { get; set; }
         public string Barcode { get; set; }
+        public string BarcodeBefore { get; set; }
         public string ProductName { get; set; }
         public Nullable<int> InventUnitId { get; set; }
         public decimal Cost { get; set; }
