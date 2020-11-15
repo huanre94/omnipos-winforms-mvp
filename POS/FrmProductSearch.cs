@@ -16,6 +16,8 @@ namespace POS
         public long productId;
         public EmissionPoint emissionPoint;
         public bool returnProduct = false;
+        public string productName = "";
+
         public FrmProductSearch()
         {
             InitializeComponent();
@@ -86,6 +88,7 @@ namespace POS
                 barcode = selectedProduct.Barcode;
                 productId = selectedProduct.ProductId;
                 useCatchWeight = selectedProduct.UseCatchWeight;
+                productName = selectedProduct.Name;
                 returnProduct = true;
             }
         }

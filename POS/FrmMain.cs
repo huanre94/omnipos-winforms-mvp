@@ -276,13 +276,15 @@ namespace POS
                                         );
                 }
             }
-        }
+        }       
 
-        private void BtnLogOut_Click(object sender, EventArgs e)
+        private void BtnExit_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.Visible = true;
+            FrmMenu frmMenu = new FrmMenu
+            {
+                loginInformation = loginInformation
+            };
+            frmMenu.Show();
             Close();
         }
 
@@ -434,6 +436,7 @@ namespace POS
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
             FrmProductSearch productSearch = new FrmProductSearch();
+            productSearch.emissionPoint = emissionPoint;
             productSearch.ShowDialog();
 
             if (productSearch.barcode != "")
@@ -442,7 +445,7 @@ namespace POS
 
                 if (productSearch.useCatchWeight)
                 {
-                    quantity = functions.CatchWeightProduct(AxOPOSScale);
+                    quantity = functions.CatchWeightProduct(AxOPOSScale, productSearch.productName);
                 }
                 else
                 {
@@ -701,7 +704,7 @@ namespace POS
 
                     if (updateRecord)
                     {
-                        if (useWeightControl)
+                        if (useWeightControl && !useCatchWeight)
                         {
                             string productCode = _barcode.Substring(0, 7);
                             string entere = _barcode.Substring(7, 3);
@@ -733,22 +736,22 @@ namespace POS
 
                     if (result != null)
                     {
-                        functions.globalParameters = globalParameters;
-
                         if ((bool)result.WeightControl)
                         {
+                            functions.globalParameters = globalParameters;
+
                             if (result.UseCatchWeight)
                             {
                                 if (!_skipCatchWeight)
                                 {
-                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale);
+                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale, result.ProductName);
 
                                     if (weight > 0)
                                     {
                                         result = clsInvoiceTrans.ProductConsult(
                                                                                 _locationId
                                                                                 , _barcode
-                                                                                , weight
+                                                                                , weight + qtyFound
                                                                                 , _customerId
                                                                                 , _internalCreditCardId
                                                                                 , _paymMode
@@ -764,9 +767,14 @@ namespace POS
                             }
                             else
                             {
+                                
                                 if (!_skipCatchWeight)
                                 {
-                                    canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale, (decimal)result.QuantityBefore);
+                                    canInsert = functions.ValidateCatchWeightProduct(
+                                                                                        AxOPOSScale
+                                                                                        , (decimal)result.QuantityBefore
+                                                                                        , result.ProductName
+                                                                                    );
                                 }
                             }
                         }
@@ -1083,6 +1091,8 @@ namespace POS
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
+
+
         #endregion
 
         

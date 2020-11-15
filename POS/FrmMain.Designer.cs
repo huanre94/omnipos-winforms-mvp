@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.BtnCancelSale = new DevExpress.XtraEditors.SimpleButton();
             this.BtnSuspendSale = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnLogOut = new DevExpress.XtraEditors.SimpleButton();
             this.BtnProductSearch = new DevExpress.XtraEditors.SimpleButton();
             this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
             this.BtnPayment = new DevExpress.XtraEditors.SimpleButton();
@@ -77,6 +76,7 @@
             this.LblDiscAmount = new System.Windows.Forms.Label();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
+            this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -116,21 +116,6 @@
             this.BtnSuspendSale.TabIndex = 136;
             this.BtnSuspendSale.Text = "Suspender";
             this.BtnSuspendSale.Click += new System.EventHandler(this.BtnSuspendSale_Click);
-            // 
-            // BtnLogOut
-            // 
-            this.BtnLogOut.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnLogOut.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnLogOut.Appearance.Options.UseBackColor = true;
-            this.BtnLogOut.Appearance.Options.UseFont = true;
-            this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
-            this.BtnLogOut.Location = new System.Drawing.Point(1102, 695);
-            this.BtnLogOut.Name = "BtnLogOut";
-            this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
-            this.BtnLogOut.TabIndex = 135;
-            this.BtnLogOut.Text = "Cerrar Sesion";
-            this.BtnLogOut.Click += new System.EventHandler(this.BtnLogOut_Click);
             // 
             // BtnProductSearch
             // 
@@ -692,7 +677,7 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(578, 18);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(542, 30);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
@@ -702,11 +687,29 @@
             // AxOPOSScale
             // 
             this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(795, 12);
+            this.AxOPOSScale.Location = new System.Drawing.Point(734, 30);
             this.AxOPOSScale.Name = "AxOPOSScale";
             this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
             this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScale.TabIndex = 159;
+            // 
+            // BtnExit
+            // 
+            this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.Options.UseBackColor = true;
+            this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnExit.Location = new System.Drawing.Point(1102, 695);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(250, 45);
+            this.BtnExit.TabIndex = 160;
+            this.BtnExit.Text = "Salir";
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // FrmMain
             // 
@@ -715,6 +718,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.AxOPOSScale);
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.label1);
@@ -740,7 +744,6 @@
             this.Controls.Add(this.GrcSalesDetail);
             this.Controls.Add(this.BtnCancelSale);
             this.Controls.Add(this.BtnSuspendSale);
-            this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnProductSearch);
             this.Controls.Add(this.Btn9);
             this.Controls.Add(this.BtnPayment);
@@ -780,7 +783,6 @@
 
         private DevExpress.XtraEditors.SimpleButton BtnCancelSale;
         private DevExpress.XtraEditors.SimpleButton BtnSuspendSale;
-        private DevExpress.XtraEditors.SimpleButton BtnLogOut;
         private DevExpress.XtraEditors.SimpleButton BtnProductSearch;
         private DevExpress.XtraEditors.SimpleButton Btn9;
         private DevExpress.XtraEditors.SimpleButton BtnPayment;
@@ -826,5 +828,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
+        private DevExpress.XtraEditors.SimpleButton BtnExit;
     }
 }

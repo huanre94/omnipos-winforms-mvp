@@ -58,7 +58,7 @@
             this.TxtUsername.Location = new System.Drawing.Point(731, 370);
             this.TxtUsername.Name = "TxtUsername";
             this.TxtUsername.Size = new System.Drawing.Size(211, 38);
-            this.TxtUsername.TabIndex = 17;
+            this.TxtUsername.TabIndex = 1;
             // 
             // LblPassword
             // 
@@ -77,7 +77,8 @@
             this.TxtPassword.Properties.PasswordChar = '•';
             this.TxtPassword.Properties.UseSystemPasswordChar = true;
             this.TxtPassword.Size = new System.Drawing.Size(211, 38);
-            this.TxtPassword.TabIndex = 19;
+            this.TxtPassword.TabIndex = 2;
+            this.TxtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPassword_KeyDown);
             // 
             // BtnAccept
             // 
@@ -94,7 +95,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 21;
+            this.BtnAccept.TabIndex = 3;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -112,7 +113,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 22;
+            this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 

@@ -36,10 +36,10 @@
             this.LblHolderName = new System.Windows.Forms.Label();
             this.LblCreditLimit = new System.Windows.Forms.Label();
             this.LblTitleCredit = new System.Windows.Forms.Label();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.TxtCreditCardCode = new DevExpress.XtraEditors.TextEdit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancel
@@ -127,16 +127,6 @@
             this.LblTitleCredit.TabIndex = 6;
             this.LblTitleCredit.Text = "Cupo       $";
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(392, 12);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 7;
-            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
-            // 
             // TxtCreditCardCode
             // 
             this.TxtCreditCardCode.Location = new System.Drawing.Point(141, 26);
@@ -149,6 +139,16 @@
             this.TxtCreditCardCode.Visible = false;
             this.TxtCreditCardCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCreditCardCode_KeyDown);
             // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(394, 12);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.TabIndex = 10;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
             // FrmPaymentCredit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -156,8 +156,8 @@
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(598, 310);
             this.ControlBox = false;
-            this.Controls.Add(this.TxtCreditCardCode);
             this.Controls.Add(this.AxOPOSScanner);
+            this.Controls.Add(this.TxtCreditCardCode);
             this.Controls.Add(this.LblCreditLimit);
             this.Controls.Add(this.LblTitleCredit);
             this.Controls.Add(this.LblHolderName);
@@ -170,8 +170,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credito Interno";
             this.Load += new System.EventHandler(this.FrmPaymentCredit_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCreditCardCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,7 +185,7 @@
         private System.Windows.Forms.Label LblHolderName;
         private System.Windows.Forms.Label LblCreditLimit;
         private System.Windows.Forms.Label LblTitleCredit;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private DevExpress.XtraEditors.TextEdit TxtCreditCardCode;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

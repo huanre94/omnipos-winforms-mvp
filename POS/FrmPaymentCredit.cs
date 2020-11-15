@@ -87,9 +87,7 @@ namespace POS
             }
 
             return response;
-        }
-              
-        
+        }        
 
         private bool ValidateInternalCreditFields()
         {
@@ -128,14 +126,7 @@ namespace POS
                 functions.AxOPOSScanner = scanner;
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
             }
-        }
-
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
-        {
-            TxtCreditCardCode.Text = functions.AxOPOSScanner.ScanDataLabel;
-            SendKeys.Send("{ENTER}");
-            functions.AxOPOSScanner.DataEventEnabled = true;
-        }
+        }        
 
         private void TxtCreditCardCode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -232,6 +223,13 @@ namespace POS
                     }
                 }
             }
+        }
+
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        {
+            TxtCreditCardCode.Text = functions.AxOPOSScanner.ScanDataLabel;
+            SendKeys.Send("{ENTER}");
+            functions.AxOPOSScanner.DataEventEnabled = true;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace POS
         public AxOposScale_CCO.AxOPOSScale axOposScale;
         public bool formActionResult;
         public decimal weight = 0;
+        public string productName = string.Empty;
 
         public FrmCatchWeight()
         {
@@ -27,6 +28,7 @@ namespace POS
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
             LblTitle.Text = "Coloque el Producto en la Balanza";
+            LblProductName.Text = productName;
         }
 
         private void BtnCatchWeight_Click(object sender, EventArgs e)
@@ -43,14 +45,14 @@ namespace POS
 
                 if (weight <= 0)
                 {
-                    LblTitle.Text = "Peso Erroneo!";
+                    LblTitle.Text = "El Peso es Erroneo!";
                     LblTitle.ForeColor = Color.Red;
                     functions.ShowMessage("El peso tiene que ser mayor a cero.", ClsEnums.MessageType.WARNING);                    
                 }
                 else
                 {
                     LblCatchedWeight.Text = weight.ToString();
-                    LblTitle.Text = "Peso Capturado Exitosamente";
+                    LblTitle.Text = "Peso Capturado Correctamente";
                     LblTitle.ForeColor = Color.Green;
                 }
             }

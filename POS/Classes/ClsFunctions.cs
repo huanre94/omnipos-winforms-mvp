@@ -154,8 +154,7 @@ namespace POS
            if (AxOPOSScale != null)
            {
                try
-               {
-                    // Close the active scanner
+               {                    
                     AxOPOSScale.DeviceEnabled = false;
                     AxOPOSScale.Close();
                }
@@ -175,10 +174,15 @@ namespace POS
            }
        }
 
-        public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, decimal _qty)
+        public bool ValidateCatchWeightProduct(
+                                                AxOposScale_CCO.AxOPOSScale _axOposScale
+                                                , decimal _qty
+                                                , string _productName
+                                                )
         {            
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
             frmCatchWeight.axOposScale = _axOposScale;
+            frmCatchWeight.productName = _productName;
             frmCatchWeight.ShowDialog();
             bool response = true;
             decimal lostWeight = 0;
@@ -200,10 +204,11 @@ namespace POS
             return response;
         }
 
-        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale)
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, string _productName)
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
             frmCatchWeight.axOposScale = _axOposScale;
+            frmCatchWeight.productName = _productName;
             frmCatchWeight.ShowDialog();
 
             return frmCatchWeight.weight;;

@@ -38,6 +38,11 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
+            ProcessLogin();
+        }
+
+        private void ProcessLogin()
+        {
             if (ValidateCustomerFields())
             {
                 bool alowLogin = false;
@@ -51,11 +56,14 @@ namespace POS
 
                 if (alowLogin && GetGlobalParameters())
                 {
+                    TxtUsername.Text = string.Empty;
+                    TxtPassword.Text = string.Empty;
+
                     FrmMenu frmMenu = new FrmMenu();
                     frmMenu.loginInformation = loginInfomation;
                     frmMenu.globalParameters = globalParameters;
-                    functions.globalParameters = globalParameters;                    
-                    this.Visible = false;
+                    functions.globalParameters = globalParameters;
+                    this.Hide();
                     frmMenu.Show();
                 }
             }
@@ -204,6 +212,12 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD;
             keyPad.ShowDialog();
             TxtPassword.Text = keyPad.loginPassword;
-        }               
+        }       
+
+        private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                ProcessLogin();
+        }        
     }
 }

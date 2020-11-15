@@ -14,37 +14,38 @@ namespace POS
         {
             InitializeComponent();
         }
-                
-        private void BtnExit_Click(object sender, EventArgs e)
+
+        private void BtnLogOut_Click(object sender, EventArgs e)
         {
-            FormCollection formCollection = Application.OpenForms;            
+            loginInformation = null;
 
-            if (formCollection.Count > 0)
+            List<Form> openForms = new List<Form>();
+
+            foreach (Form f in Application.OpenForms)
+                openForms.Add(f);
+
+            foreach (Form f in openForms)
             {
-                foreach (Form frm in formCollection)
+                if (f.Name == "FrmLogin")
                 {
-                    if (!frm.Focused)
-                    {
-                        frm.Close();
-                    }
+                    f.Show();
                 }
-            }
-
-            Close();
+                else
+                {
+                    f.Close();
+                }
+            }            
         }
 
         private void BtnPOS_Click(object sender, EventArgs e)
-        {
-            FrmLogin frmLogin = new FrmLogin();
-            frmLogin.Close();
-
+        {            
             FrmMain frmMain = new FrmMain();
             frmMain.loginInformation = loginInformation;
             frmMain.globalParameters = globalParameters;
-            this.Visible = false;
+            this.Hide();
             frmMain.Show();
         }
 
-
+        
     }
 }

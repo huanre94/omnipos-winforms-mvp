@@ -33,12 +33,14 @@
             this.BtnCatchWeight = new DevExpress.XtraEditors.SimpleButton();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.LblKg = new System.Windows.Forms.Label();
+            this.LblProductName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // LblTitle
             // 
-            this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
-            this.LblTitle.Location = new System.Drawing.Point(77, 31);
+            this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
+            this.LblTitle.ForeColor = System.Drawing.Color.Goldenrod;
+            this.LblTitle.Location = new System.Drawing.Point(96, 11);
             this.LblTitle.Name = "LblTitle";
             this.LblTitle.Size = new System.Drawing.Size(407, 28);
             this.LblTitle.TabIndex = 149;
@@ -48,7 +50,7 @@
             // LblCatchedWeight
             // 
             this.LblCatchedWeight.Font = new System.Drawing.Font("Arial Rounded MT Bold", 72F, System.Drawing.FontStyle.Bold);
-            this.LblCatchedWeight.Location = new System.Drawing.Point(82, 99);
+            this.LblCatchedWeight.Location = new System.Drawing.Point(82, 126);
             this.LblCatchedWeight.Name = "LblCatchedWeight";
             this.LblCatchedWeight.Size = new System.Drawing.Size(368, 108);
             this.LblCatchedWeight.TabIndex = 150;
@@ -68,7 +70,7 @@
             this.BtnCatchWeight.ImageOptions.SvgImage = global::POS.Properties.Resources.scale;
             this.BtnCatchWeight.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCatchWeight.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
-            this.BtnCatchWeight.Location = new System.Drawing.Point(436, 94);
+            this.BtnCatchWeight.Location = new System.Drawing.Point(436, 121);
             this.BtnCatchWeight.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCatchWeight.Name = "BtnCatchWeight";
             this.BtnCatchWeight.Size = new System.Drawing.Size(126, 118);
@@ -99,12 +101,21 @@
             // LblKg
             // 
             this.LblKg.Font = new System.Drawing.Font("Arial Rounded MT Bold", 30F);
-            this.LblKg.Location = new System.Drawing.Point(18, 119);
+            this.LblKg.Location = new System.Drawing.Point(18, 146);
             this.LblKg.Name = "LblKg";
             this.LblKg.Size = new System.Drawing.Size(77, 87);
             this.LblKg.TabIndex = 156;
             this.LblKg.Text = "Kg";
             this.LblKg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // LblProductName
+            // 
+            this.LblProductName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F, System.Drawing.FontStyle.Bold);
+            this.LblProductName.Location = new System.Drawing.Point(21, 86);
+            this.LblProductName.Name = "LblProductName";
+            this.LblProductName.Size = new System.Drawing.Size(541, 28);
+            this.LblProductName.TabIndex = 157;
+            this.LblProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FrmCatchWeight
             // 
@@ -112,6 +123,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 340);
             this.ControlBox = false;
+            this.Controls.Add(this.LblProductName);
             this.Controls.Add(this.BtnCatchWeight);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.LblCatchedWeight);
@@ -120,7 +132,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmCatchWeight";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Captura de Peso";
             this.Load += new System.EventHandler(this.FrmCatchWeight_Load);
             this.ResumeLayout(false);
 
@@ -133,5 +144,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnCatchWeight;
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private System.Windows.Forms.Label LblKg;
+        private System.Windows.Forms.Label LblProductName;
     }
 }
