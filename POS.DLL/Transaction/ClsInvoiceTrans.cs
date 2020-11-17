@@ -118,6 +118,28 @@ namespace POS.DLL.Transaction
             }
 
             return consult;
+        }      
+
+        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint) {
+            POSEntities pos = new POSEntities();
+            long consult;
+
+            try
+            {
+                consult = pos
+                    .InvoiceTable
+                    .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId && it.LocationId == emissionPoint.LocationId && it.ClosingCashierId == 0)
+                    .OrderByDescending(it => it.InvoiceId)
+                    .Take(1)
+                    .Select(it=>it.InvoiceId)
+                    .FirstOrDefault();                                               
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return consult;
         }
     }
 }

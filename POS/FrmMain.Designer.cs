@@ -76,6 +76,7 @@
             this.LblDiscAmount = new System.Windows.Forms.Label();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
+            this.BtnPrintLastInvoice = new DevExpress.XtraEditors.SimpleButton();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
@@ -711,6 +712,22 @@
             this.BtnExit.Text = "Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // BtnPrintLastInvoice
+            // 
+            this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPrintLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
+            this.BtnPrintLastInvoice.Appearance.Options.UseFont = true;
+            this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPrintLastInvoice.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(471, 695);
+            this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
+            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
+            this.BtnPrintLastInvoice.TabIndex = 151;
+            this.BtnPrintLastInvoice.Text = "Imp Ult Factura";
+            this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -727,6 +744,7 @@
             this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.BtnRemove);
             this.Controls.Add(this.BtnQty);
+            this.Controls.Add(this.BtnPrintLastInvoice);
             this.Controls.Add(this.BtnCustomer);
             this.Controls.Add(this.LblCustomerAddress);
             this.Controls.Add(this.LblCustomerName);
@@ -829,5 +847,6 @@
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
+        private DevExpress.XtraEditors.SimpleButton BtnPrintLastInvoice;
     }
 }

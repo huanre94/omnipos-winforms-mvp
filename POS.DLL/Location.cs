@@ -18,8 +18,6 @@ namespace POS.DLL
         public Location()
         {
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
-            this.ClosingCashTable = new HashSet<ClosingCashTable>();
-            this.CountCashTable = new HashSet<CountCashTable>();
             this.GiftCardBlockTable = new HashSet<GiftCardBlockTable>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
             this.GiftCardTable1 = new HashSet<GiftCardTable>();
@@ -32,6 +30,7 @@ namespace POS.DLL
             this.EmissionPoint = new HashSet<EmissionPoint>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
+            this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
         }
     
         public short LocationId { get; set; }
@@ -48,11 +47,7 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountsReceivable> AccountsReceivable { get; set; }
         public virtual City City { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashTable> ClosingCashTable { get; set; }
         public virtual Company Company { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CountCashTable> CountCashTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardBlockTable> GiftCardBlockTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -77,5 +72,7 @@ namespace POS.DLL
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
     }
 }

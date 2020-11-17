@@ -1,20 +1,17 @@
-﻿using System;
+﻿using DevExpress.XtraGrid.Views.Grid;
+using POS.Classes;
+using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Transaction;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
-using POS.DLL.Catalog;
-using POS.DLL;
-using POS.Classes;
-using POS.DLL.Transaction;
-using DevExpress.XtraGrid.Views.Grid;
-using System.Xml.Linq;
 using System.Reflection;
-using System.Drawing.Printing;
-using System.Text;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -276,7 +273,7 @@ namespace POS
                                         );
                 }
             }
-        }       
+        }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
@@ -382,7 +379,7 @@ namespace POS
                         LocationId = emissionPoint.LocationId,
                         InvoiceNumber = sequenceNumber,
                         XmlLog = element.ToString(),
-                        LogTypeId = 2,
+                        LogTypeId = (int)ClsEnums.LogType.Eliminar_Producto,
                         Authorization = functions.supervisorAuthorization,
                         CreatedDatetime = DateTime.Now,
                         CreatedBy = (int)loginInformation.UserId,
@@ -395,6 +392,7 @@ namespace POS
 
                     CalculateInvoice();
                     GrcSalesDetail.DataSource = dataSource;
+                    TxtBarcode.Focus();
                 }
             }
         }
@@ -445,7 +443,7 @@ namespace POS
 
                 if (productSearch.useCatchWeight)
                 {
-                    quantity = functions.CatchWeightProduct(AxOPOSScale, productSearch.productName);
+                    quantity = functions.CatchWeightProduct(AxOPOSScale);
                 }
                 else
                 {
@@ -550,7 +548,7 @@ namespace POS
                         InvoiceNumber = sequenceNumber,
                         XmlLog = invoiceXml.ToString(),
                         ReasonId = functions.motiveId,
-                        LogTypeId = 3,
+                        LogTypeId = (int)ClsEnums.LogType.Suspender_Documento,
                         Authorization = "",
                         CreatedDatetime = DateTime.Now,
                         CreatedBy = (int)loginInformation.UserId,
@@ -590,7 +588,7 @@ namespace POS
                         InvoiceNumber = sequenceNumber,
                         XmlLog = invoiceXml.ToString(),
                         ReasonId = functions.motiveId,
-                        LogTypeId = 1,
+                        LogTypeId = (int)ClsEnums.LogType.Anular_Documento,
                         Authorization = functions.supervisorAuthorization,
                         CreatedDatetime = DateTime.Now,
                         CreatedBy = (int)loginInformation.UserId,
@@ -744,7 +742,7 @@ namespace POS
                             {
                                 if (!_skipCatchWeight)
                                 {
-                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale, result.ProductName);
+                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale);
 
                                     if (weight > 0)
                                     {
@@ -767,14 +765,12 @@ namespace POS
                             }
                             else
                             {
-                                
+
                                 if (!_skipCatchWeight)
                                 {
                                     canInsert = functions.ValidateCatchWeightProduct(
                                                                                         AxOPOSScale
-                                                                                        , (decimal)result.QuantityBefore
-                                                                                        , result.ProductName
-                                                                                    );
+                                                                                        , (decimal)result.QuantityBefore);
                                 }
                             }
                         }
@@ -794,6 +790,7 @@ namespace POS
                     {
                         functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", ClsEnums.MessageType.WARNING);
                         TxtBarcode.Text = "";
+                        TxtBarcode.Focus();
                     }
                 }
                 catch (Exception ex)
@@ -911,7 +908,7 @@ namespace POS
 
                         foreach (var line in invoiceTicket)
                         {
-                            bodyText += line.BodyText + System.Environment.NewLine;
+                            bodyText += line.BodyText + Environment.NewLine;
                         }
 
                         bool PrinterDocumentOk = functions.PrinterDocument(bodyText);
@@ -939,6 +936,8 @@ namespace POS
 
         private void ClearInvoice()
         {
+            BtnCustomer.Enabled = true;
+
             currentCustomer = new ClsCustomer().GetCustomerById(1);
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
@@ -992,6 +991,8 @@ namespace POS
 
         private void AddRecordToGrid(SP_Product_Consult_Result _productResult, bool _updateRecord)
         {
+            BtnCustomer.Enabled = false;
+
             Type type = _productResult.GetType();
             PropertyInfo[] properties = type.GetProperties();
             XElement invoiceLineXml = new XElement("InvoiceLine");
@@ -1092,9 +1093,15 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
 
-
         #endregion
 
-        
+        private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
+        {
+            Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
+            if (PrintInvoice(lastId))
+            {
+                functions.ShowMessage("Venta finalizada exitosamente.");
+            }
+        }
     }
 }

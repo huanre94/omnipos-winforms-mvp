@@ -51,7 +51,7 @@ namespace POS.DLL
         public int SalesOriginId { get; set; }
         public bool IsECommerce { get; set; }
         public long SalesOrderId { get; set; }
-        public int ClosingCashId { get; set; }
+        public long ClosingCashierId { get; set; }
         public string Observation { get; set; }
         public string KeyAccessSri { get; set; }
         public string Status { get; set; }

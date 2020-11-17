@@ -77,25 +77,16 @@
     <Compile Include="City.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClosingCashLine.cs">
+    <Compile Include="ClosingCashierLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClosingCashMoney.cs">
+    <Compile Include="ClosingCashierMoney.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClosingCashTable.cs">
+    <Compile Include="ClosingCashierTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Company.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CountCashLine.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CountCashMoney.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CountCashTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Country.cs">
@@ -104,10 +95,19 @@
     <Compile Include="CreditCard.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="CurrencyDenomination.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CurrencyType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Customer.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomerType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DenominationType.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="EmissionPoint.cs">
@@ -267,6 +267,24 @@
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_ClosingCashierDenominations_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ClosingCashierPartial_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ClosingCashierPartial_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ClosingCashierPayment_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ClosingCashierTicket_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_ClosingCashier_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Customer_Insert_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -307,6 +325,7 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
+    <Compile Include="Transaction\ClsClosingTrans.cs" />
     <Compile Include="Transaction\ClsCustomerTrans.cs" />
     <Compile Include="Transaction\ClsInvoiceTrans.cs" />
     <Compile Include="Transport.cs">

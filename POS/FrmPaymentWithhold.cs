@@ -37,7 +37,7 @@ namespace POS
 
             bool isCustomerTaxPayer = customer.IsSpecialTaxpayer ?? false;
             bool customerTaxPayer = isCustomerTaxPayer;
-            bool companyTaxPayer = (bool)loginInformation.IsTaxpayerSpecial;
+            bool companyTaxPayer = loginInformation.IsTaxpayerSpecial ?? false;
 
             int _retentionCode = 0;
 

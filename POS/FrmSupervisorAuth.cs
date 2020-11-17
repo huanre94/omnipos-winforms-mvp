@@ -91,7 +91,7 @@ namespace POS
                             motiveId = cancelReason;
                         }
                         formActionResult = true;
-                        supervisorAuthorization = TxtAuthorization.Text;                        
+                        supervisorAuthorization = TxtAuthorization.Text;
                         TxtAuthorization.Text = "";
                         functions.DisableScanner();
                         functions.AxOPOSScanner = scanner;

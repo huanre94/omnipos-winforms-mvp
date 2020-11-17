@@ -32,6 +32,7 @@
             this.BtnPOS = new DevExpress.XtraEditors.SimpleButton();
             this.LblTitle = new System.Windows.Forms.Label();
             this.BtnCloseCashier = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnPartialClosing = new DevExpress.XtraEditors.SimpleButton();
             this.BtnLogOut = new DevExpress.XtraEditors.SimpleButton();
             this.SuspendLayout();
             // 
@@ -75,6 +76,23 @@
             this.BtnCloseCashier.Size = new System.Drawing.Size(350, 200);
             this.BtnCloseCashier.TabIndex = 149;
             this.BtnCloseCashier.Text = "Cierre Caja";
+            this.BtnCloseCashier.Click += new System.EventHandler(this.BtnCloseCashier_Click);
+            // 
+            // BtnPartialClosing
+            // 
+            this.BtnPartialClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPartialClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.BtnPartialClosing.Appearance.Options.UseBackColor = true;
+            this.BtnPartialClosing.Appearance.Options.UseFont = true;
+            this.BtnPartialClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPartialClosing.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier;
+            this.BtnPartialClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnPartialClosing.Location = new System.Drawing.Point(217, 314);
+            this.BtnPartialClosing.Name = "BtnPartialClosing";
+            this.BtnPartialClosing.Size = new System.Drawing.Size(350, 200);
+            this.BtnPartialClosing.TabIndex = 149;
+            this.BtnPartialClosing.Text = "Cierre Caja \r\nParcial";
+            this.BtnPartialClosing.Click += new System.EventHandler(this.BtnPartialClosing_Click);
             // 
             // BtnLogOut
             // 
@@ -97,6 +115,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 550);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnPartialClosing);
             this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnCloseCashier);
             this.Controls.Add(this.LblTitle);
@@ -114,6 +133,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnPOS;
         private System.Windows.Forms.Label LblTitle;
         private DevExpress.XtraEditors.SimpleButton BtnCloseCashier;
+        private DevExpress.XtraEditors.SimpleButton BtnPartialClosing;
         private DevExpress.XtraEditors.SimpleButton BtnLogOut;
     }
 }

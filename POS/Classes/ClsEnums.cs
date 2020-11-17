@@ -47,5 +47,13 @@
             LOGIN_USERNAME,
             LOGIN_PASSWORD
         }
+
+        public enum LogType
+        {
+            Anular_Documento = 1,
+            Eliminar_Producto = 2,
+            Suspender_Documento = 3,
+            Recuperar_Documento = 4
+        }
     }
 }

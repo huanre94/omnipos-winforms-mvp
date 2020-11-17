@@ -13,8 +13,8 @@ namespace POS.DLL
     
     public partial class SP_Supervisor_Validate_Result
     {
-        public Nullable<long> UserId { get; set; }
-        public Nullable<long> PasswordId { get; set; }
+        public int UserId { get; set; }
+        public int PasswordId { get; set; }
         public string Name { get; set; }
     }
 }
