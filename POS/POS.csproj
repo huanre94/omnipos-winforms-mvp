@@ -84,6 +84,12 @@
     <Compile Include="FrmCatchWeight.Designer.cs">
       <DependentUpon>FrmCatchWeight.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmClosingCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClosingCashier.Designer.cs">
+      <DependentUpon>FrmClosingCashier.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,12 @@
     </Compile>
     <Compile Include="FrmMessage.Designer.cs">
       <DependentUpon>FrmMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPartialClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPartialClosing.Designer.cs">
+      <DependentUpon>FrmPartialClosing.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPayment.cs">
       <SubType>Form</SubType>
@@ -180,6 +192,9 @@
     <EmbeddedResource Include="FrmCatchWeight.resx">
       <DependentUpon>FrmCatchWeight.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmClosingCashier.resx">
+      <DependentUpon>FrmClosingCashier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmCustomer.resx">
       <DependentUpon>FrmCustomer.cs</DependentUpon>
     </EmbeddedResource>
@@ -200,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMessage.resx">
       <DependentUpon>FrmMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPartialClosing.resx">
+      <DependentUpon>FrmPartialClosing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPayment.resx">
       <DependentUpon>FrmPayment.cs</DependentUpon>
