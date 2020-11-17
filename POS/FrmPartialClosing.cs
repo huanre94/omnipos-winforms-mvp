@@ -49,7 +49,7 @@ namespace POS
                         {
                             count = (from pa in partials where pa.ClosingCashierId == 0 select pa.CashAmount).Count();
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             count = 0;
                         }

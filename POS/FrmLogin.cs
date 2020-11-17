@@ -50,9 +50,8 @@ namespace POS
                 alowLogin = GetLoginInformation(
                                                 TxtUsername.Text
                                                 , TxtPassword.Text
-                                                , Environment.MachineName,
-                                                //, GetLocalIPAddress()
-                                                "192.168.14.74"
+                                                , Environment.MachineName
+                                                , GetLocalIPAddress()
                                                 );
 
                 if (alowLogin && GetGlobalParameters())

@@ -300,21 +300,12 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter, barcodeBeforeParameter);
         }
     
-        public virtual ObjectResult<SP_ClosingCashier_Insert_Result> SP_ClosingCashier_Insert(string paramXML)
-        {
-            var paramXMLParameter = paramXML != null ?
-                new ObjectParameter("ParamXML", paramXML) :
-                new ObjectParameter("ParamXML", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashier_Insert_Result>("SP_ClosingCashier_Insert", paramXMLParameter);
-        }
-    
         public virtual ObjectResult<SP_ClosingCashierDenominations_Consult_Result> SP_ClosingCashierDenominations_Consult()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierDenominations_Consult_Result>("SP_ClosingCashierDenominations_Consult");
         }
     
-        public virtual int SP_ClosingCashierPartial_Consult(Nullable<short> locationId, Nullable<int> userId, Nullable<int> emissionPointId, string closingCashierDate)
+        public virtual ObjectResult<SP_ClosingCashierPayment_Consult_Result> SP_ClosingCashierPayment_Consult(Nullable<short> locationId, Nullable<int> userId, Nullable<int> emissionPointId, string closingCashierDate)
         {
             var locationIdParameter = locationId.HasValue ?
                 new ObjectParameter("LocationId", locationId) :
@@ -332,10 +323,10 @@ namespace POS.DLL
                 new ObjectParameter("ClosingCashierDate", closingCashierDate) :
                 new ObjectParameter("ClosingCashierDate", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ClosingCashierPartial_Consult", locationIdParameter, userIdParameter, emissionPointIdParameter, closingCashierDateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierPayment_Consult_Result>("SP_ClosingCashierPayment_Consult", locationIdParameter, userIdParameter, emissionPointIdParameter, closingCashierDateParameter);
         }
     
-        public virtual int SP_ClosingCashierPartial_Insert(string paramXML, string type)
+        public virtual ObjectResult<SP_ClosingCashierPartial_Insert_Result> SP_ClosingCashierPartial_Insert(string paramXML, string type)
         {
             var paramXMLParameter = paramXML != null ?
                 new ObjectParameter("ParamXML", paramXML) :
@@ -345,7 +336,46 @@ namespace POS.DLL
                 new ObjectParameter("Type", type) :
                 new ObjectParameter("Type", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ClosingCashierPartial_Insert", paramXMLParameter, typeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierPartial_Insert_Result>("SP_ClosingCashierPartial_Insert", paramXMLParameter, typeParameter);
+        }
+    
+        public virtual ObjectResult<SP_ClosingCashier_Insert_Result> SP_ClosingCashier_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashier_Insert_Result>("SP_ClosingCashier_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_ClosingCashierPartial_Consult_Result> SP_ClosingCashierPartial_Consult(Nullable<short> locationId, Nullable<int> userId, Nullable<int> emissionPointId, string closingCashierDate)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(int));
+    
+            var closingCashierDateParameter = closingCashierDate != null ?
+                new ObjectParameter("ClosingCashierDate", closingCashierDate) :
+                new ObjectParameter("ClosingCashierDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierPartial_Consult_Result>("SP_ClosingCashierPartial_Consult", locationIdParameter, userIdParameter, emissionPointIdParameter, closingCashierDateParameter);
+        }
+    
+        public virtual ObjectResult<SP_ClosingCashierTicket_Consult_Result> SP_ClosingCashierTicket_Consult(Nullable<long> closingCashierId)
+        {
+            var closingCashierIdParameter = closingCashierId.HasValue ?
+                new ObjectParameter("ClosingCashierId", closingCashierId) :
+                new ObjectParameter("ClosingCashierId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierTicket_Consult_Result>("SP_ClosingCashierTicket_Consult", closingCashierIdParameter);
         }
     }
 }

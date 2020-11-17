@@ -11,10 +11,11 @@ namespace POS.DLL
 {
     using System;
     
-    public partial class SP_ClosingCashier_Insert_Result
+    public partial class SP_ClosingCashierPartial_Consult_Result
     {
-        public Nullable<long> ClosingCashierId { get; set; }
-        public Nullable<bool> Error { get; set; }
-        public string TextError { get; set; }
+        public long ClosingCashierId { get; set; }
+        public string ClosingCashierHour { get; set; }
+        public decimal CashierAmount { get; set; }
+        public Nullable<decimal> CashAmount { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -403,48 +404,61 @@ namespace POS
 
         private void Withhold()
         {
-            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold
+            bool hasRetention = false;
+            try
             {
-                customer = customer,
-                loginInformation = loginInformation,
-                retentionAmount = taxAmount
-            };
-            paymentWithhold.ShowDialog();
-
-            if (paymentWithhold.processResponse)
-            {
-
-                TxtAmount.Text = paymentWithhold.retentionAmount.ToString();
-
-                ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
-                InvoicePayment invoicePayment = new InvoicePayment
+                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment")
+                                        where int.Parse(pa.Element("PaymModeId").Value) == (int)ClsEnums.PaymModeEnum.RETENCION 
+                                        select pa).Count();
+                if (retentionCount > 0)
                 {
-                    PaymModeId = (int)paymModeEnum,
-                    RetentionCode = paymentWithhold.retentionCode,
-                    RetentionNumber = paymentWithhold.retentionNumber,
-                    Authorization = paymentWithhold.authorization,
-                    Amount = paymentWithhold.retentionAmount
-                };
+                    hasRetention = true;
+                }
+            }
+            catch
+            {
+                hasRetention = false;
+            }
 
-                AddRecordToGrid(invoicePayment);
-                CalculatePayment(paymModeEnum);
+
+
+            if (hasRetention)
+            {
+                functions.ShowMessage("Ya se encuentra registrada una retencion", ClsEnums.MessageType.WARNING);
+            }
+            else
+            {
+                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold
+                {
+                    customer = customer,
+                    loginInformation = loginInformation,
+                    retentionAmount = taxAmount
+                };
+                paymentWithhold.ShowDialog();
+
+                if (paymentWithhold.processResponse)
+                {
+                    decimal retentionAmount = paymentWithhold.retentionAmount;
+                    TxtAmount.Text = retentionAmount.ToString();
+
+                    ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
+                    InvoicePayment invoicePayment = new InvoicePayment
+                    {
+                        PaymModeId = (int)paymModeEnum,
+                        RetentionCode = paymentWithhold.retentionCode,
+                        RetentionNumber = paymentWithhold.retentionNumber,
+                        Authorization = paymentWithhold.authorization,
+                        Amount = paymentWithhold.retentionAmount
+                    };
+
+                    AddRecordToGrid(invoicePayment);
+                    CalculatePayment(paymModeEnum);
+                }
             }
         }
 
         private void CheckGridView()
         {
-            //if (dataTable.Columns.Count == 0)
-            //{
-            //    GrcPayment.DataSource = null;
-            //    GrvPayment.Columns.Clear();
-            //    GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
-
-            //    dataTable.Columns.Add("Descripción", typeof(string));
-            //    dataTable.Columns.Add("Monto", typeof(decimal));
-            //    GrcPayment.DataSource = dataTable;
-            //}
-
-            //GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPayment.DataSource = null;
             GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
@@ -469,13 +483,7 @@ namespace POS
 
         private void AddRecordToGrid(InvoicePayment _invoicePayment)
         {
-            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
-
-            //DataRow NewRow = dataTable.NewRow();
-            //NewRow[0] = paymModeEnum;
-            //NewRow[1] = Math.Round(_invoicePayment.Amount * 1.00M, 2);
-            //dataTable.Rows.Add(NewRow);
-            //GrcPayment.DataSource = dataTable;
+            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;            
 
             GrvPayment.AddNewRow();
             GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Description"], paymModeEnum);
@@ -542,8 +550,6 @@ namespace POS
                 functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
             }
         }
-
         #endregion
-
     }
 }

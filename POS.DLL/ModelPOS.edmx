@@ -2224,6 +2224,15 @@
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
           <Parameter Name="Type" Type="char" Mode="In" />
         </Function>
+        <Function Name="SP_ClosingCashierPayment_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="smallint" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="EmissionPointId" Type="int" Mode="In" />
+          <Parameter Name="ClosingCashierDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_ClosingCashierTicket_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ClosingCashierId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="SP_Customer_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
         </Function>
@@ -3714,19 +3723,28 @@
             <End Role="SequenceType" EntitySet="SequenceType" />
             <End Role="SequenceTable" EntitySet="SequenceTable" />
           </AssociationSet>
-          <FunctionImport Name="SP_ClosingCashier_Insert" ReturnType="Collection(POSModel.SP_ClosingCashier_Insert_Result)">
-            <Parameter Name="ParamXML" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SP_ClosingCashierDenominations_Consult" ReturnType="Collection(POSModel.SP_ClosingCashierDenominations_Consult_Result)" />
-          <FunctionImport Name="SP_ClosingCashierPartial_Consult">
+          <FunctionImport Name="SP_ClosingCashierPayment_Consult" ReturnType="Collection(POSModel.SP_ClosingCashierPayment_Consult_Result)">
             <Parameter Name="LocationId" Mode="In" Type="Int16" />
             <Parameter Name="UserId" Mode="In" Type="Int32" />
             <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
             <Parameter Name="ClosingCashierDate" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_ClosingCashierPartial_Insert">
+          <FunctionImport Name="SP_ClosingCashierPartial_Insert" ReturnType="Collection(POSModel.SP_ClosingCashierPartial_Insert_Result)">
             <Parameter Name="ParamXML" Mode="In" Type="String" />
             <Parameter Name="Type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ClosingCashier_Insert" ReturnType="Collection(POSModel.SP_ClosingCashier_Insert_Result)">
+          <Parameter Name="ParamXML" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ClosingCashierPartial_Consult" ReturnType="Collection(POSModel.SP_ClosingCashierPartial_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int16" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
+            <Parameter Name="ClosingCashierDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ClosingCashierTicket_Consult" ReturnType="Collection(POSModel.SP_ClosingCashierTicket_Consult_Result)">
+            <Parameter Name="ClosingCashierId" Mode="In" Type="Int64" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
@@ -5709,11 +5727,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_ClosingCashier_Insert_Result">
-          <Property Type="Int64" Name="ClosingCashierId" Nullable="true" />
-          <Property Type="Boolean" Name="Error" Nullable="true" />
-          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <ComplexType Name="SP_ClosingCashierDenominations_Consult_Result">
           <Property Type="Int32" Name="CurrencyDenominationId" Nullable="false" />
           <Property Type="Int32" Name="CurrencyTypeId" Nullable="false" />
@@ -5724,6 +5737,33 @@
           <Property Type="String" Name="DenominationTypeName" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="TypedAmount" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_ClosingCashierPayment_Consult_Result">
+          <Property Type="Int32" Name="PaymModeId" Nullable="false" />
+          <Property Type="String" Name="PaymModeName" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="CashierAmount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiffAmount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_ClosingCashierPartial_Insert_Result">
+          <Property Type="Int64" Name="ClosingCashierId" Nullable="true" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_ClosingCashier_Insert_Result">
+          <Property Type="Int64" Name="ClosingCashierId" Nullable="true" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_ClosingCashierPartial_Consult_Result">
+          <Property Type="Int64" Name="ClosingCashierId" Nullable="false" />
+          <Property Type="String" Name="ClosingCashierHour" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="CashierAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="CashAmount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_ClosingCashierTicket_Consult_Result">
+          <Property Type="String" Name="BodyText" Nullable="true" MaxLength="56" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7067,15 +7107,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_ClosingCashier_Insert" FunctionName="POSModel.Store.SP_ClosingCashier_Insert">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashier_Insert_Result">
-                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
-                <ScalarProperty Name="Error" ColumnName="Error" />
-                <ScalarProperty Name="TextError" ColumnName="TextError" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_ClosingCashierDenominations_Consult" FunctionName="POSModel.Store.SP_ClosingCashierDenominations_Consult">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashierDenominations_Consult_Result">
@@ -7091,8 +7122,53 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_ClosingCashierPartial_Consult" FunctionName="POSModel.Store.SP_ClosingCashierPartial_Consult" />
-          <FunctionImportMapping FunctionImportName="SP_ClosingCashierPartial_Insert" FunctionName="POSModel.Store.SP_ClosingCashierPartial_Insert" />
+          <FunctionImportMapping FunctionImportName="SP_ClosingCashierPayment_Consult" FunctionName="POSModel.Store.SP_ClosingCashierPayment_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashierPayment_Consult_Result">
+                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
+                <ScalarProperty Name="PaymModeName" ColumnName="PaymModeName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CashierAmount" ColumnName="CashierAmount" />
+                <ScalarProperty Name="DiffAmount" ColumnName="DiffAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ClosingCashierPartial_Insert" FunctionName="POSModel.Store.SP_ClosingCashierPartial_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashierPartial_Insert_Result">
+                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ClosingCashier_Insert" FunctionName="POSModel.Store.SP_ClosingCashier_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashier_Insert_Result">
+                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ClosingCashierPartial_Consult" FunctionName="POSModel.Store.SP_ClosingCashierPartial_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashierPartial_Consult_Result">
+                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
+                <ScalarProperty Name="ClosingCashierHour" ColumnName="ClosingCashierHour" />
+                <ScalarProperty Name="CashierAmount" ColumnName="CashierAmount" />
+                <ScalarProperty Name="CashAmount" ColumnName="CashAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ClosingCashierTicket_Consult" FunctionName="POSModel.Store.SP_ClosingCashierTicket_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_ClosingCashierTicket_Consult_Result">
+                <ScalarProperty Name="BodyText" ColumnName="BodyText" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

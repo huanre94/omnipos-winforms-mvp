@@ -102,7 +102,7 @@
             this.BtnLogOut.Appearance.Options.UseFont = true;
             this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
-            this.BtnLogOut.Location = new System.Drawing.Point(508, 468);
+            this.BtnLogOut.Location = new System.Drawing.Point(536, 577);
             this.BtnLogOut.Name = "BtnLogOut";
             this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
             this.BtnLogOut.TabIndex = 150;
@@ -113,7 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 550);
+            this.ClientSize = new System.Drawing.Size(798, 634);
             this.ControlBox = false;
             this.Controls.Add(this.BtnPartialClosing);
             this.Controls.Add(this.BtnLogOut);

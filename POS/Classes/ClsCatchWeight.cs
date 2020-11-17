@@ -12,7 +12,7 @@ namespace POS.Classes
 {
     public class ClsCatchWeight
     {
-        private ClsFunctions functions;        
+        private ClsFunctions functions = new ClsFunctions();        
         private SerialPort serialPort;
         private string portName;
         private decimal weight;
