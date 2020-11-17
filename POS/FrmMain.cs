@@ -9,9 +9,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Reflection;
+using System.Drawing.Printing;
+using System.Text;
+using System.Runtime.InteropServices;
+using System.IO.Ports;
 
 namespace POS
 {
@@ -28,6 +32,9 @@ namespace POS
         decimal taxAmount = 0;
         public Int64 internalCreditCardId = 0;
         public string internalCreditCardCode = "";
+        ClsCatchWeight catchWeight;
+        ClsEnums.ScaleBrands scaleBrand;
+        private string portName = "";
 
         public FrmMain()
         {
@@ -42,10 +49,30 @@ namespace POS
             {
                 ClearInvoice();
                 CheckGridView();
-                functions.AxOPOSScanner = AxOPOSScanner;
-                functions.AxOPOSScale = AxOPOSScale;
-                functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                functions.EnableScale(emissionPoint.ScaleName);
+                scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                {
+                    catchWeight = new ClsCatchWeight(scaleBrand);
+                    catchWeight.AxOPOSScale = AxOPOSScale;
+                    catchWeight.EnableScale(emissionPoint.ScaleName);
+                    functions.AxOPOSScanner = AxOPOSScanner;
+                    functions.EnableScanner(emissionPoint.ScanBarcodeName);                    
+                }
+                else
+                {
+                    string[] portNames = SerialPort.GetPortNames();                    
+                    portName = string.Empty;
+
+                    foreach (var item in portNames)
+                    {
+                        portName = item;
+                        break;
+                    }
+
+                    //MessageBox.Show(portName);
+                }
+                
                 functions.PrinterName = emissionPoint.PrinterName;
 
                 if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
@@ -446,7 +473,13 @@ namespace POS
 
                 if (productSearch.useCatchWeight)
                 {
-                    quantity = functions.CatchWeightProduct(AxOPOSScale);
+
+                    quantity = functions.CatchWeightProduct(
+                                                            AxOPOSScale
+                                                            , productSearch.productName
+                                                            , scaleBrand
+                                                            , portName
+                                                            );
                 }
                 else
                 {
@@ -745,7 +778,12 @@ namespace POS
                             {
                                 if (!_skipCatchWeight)
                                 {
-                                    decimal weight = functions.CatchWeightProduct(AxOPOSScale);
+                                    decimal weight = functions.CatchWeightProduct(
+                                                                                    AxOPOSScale
+                                                                                    , result.ProductName
+                                                                                    , scaleBrand
+                                                                                    , portName
+                                                                                    );
 
                                     if (weight > 0)
                                     {
@@ -773,7 +811,11 @@ namespace POS
                                 {
                                     canInsert = functions.ValidateCatchWeightProduct(
                                                                                         AxOPOSScale
-                                                                                        , (decimal)result.QuantityBefore);
+                                                                                        , (decimal)result.QuantityBefore
+                                                                                        , result.ProductName
+                                                                                        , scaleBrand
+                                                                                        , portName
+                                                                                    );
                                 }
                             }
                         }

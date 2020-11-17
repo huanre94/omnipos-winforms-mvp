@@ -48,6 +48,14 @@
             LOGIN_PASSWORD
         }
 
+        public enum ScaleBrands
+        {
+            CAS, 
+            METTLER_TOLEDO, 
+            RICE_LAKE, 
+            DATALOGIC
+        }
+
         public enum LogType
         {
             Anular_Documento = 1,

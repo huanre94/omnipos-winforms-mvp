@@ -16,6 +16,7 @@ namespace POS
         public int motiveId;
         public string supervisorAuthorization;
         public bool requireMotive;
+        ClsEnums.ScaleBrands scaleBrand;
 
         public FrmSupervisorAuth()
         {
@@ -26,10 +27,17 @@ namespace POS
         {
             LblMotive.Visible = false;
             CmbMotive.Visible = false;
-            functions.AxOPOSScanner = scanner;
-            functions.DisableScanner();
-            functions.AxOPOSScanner = AxOPOSScanner;
-            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+            scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            {
+                functions.AxOPOSScanner = scanner;
+                functions.DisableScanner();
+                functions.AxOPOSScanner = AxOPOSScanner;
+                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+            }            
+
             if (requireMotive)
             {
                 LblMotive.Visible = true;

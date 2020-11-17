@@ -178,11 +178,14 @@ namespace POS
                                                 AxOposScale_CCO.AxOPOSScale _axOposScale
                                                 , decimal _qty
                                                 , string _productName
+                                                , ClsEnums.ScaleBrands _scaleBrand
+                                                , string _portName = ""
                                                 )
         {            
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.productName = _productName;
+            frmCatchWeight.globalParameters = globalParameters;
             frmCatchWeight.ShowDialog();
             bool response = true;
             decimal lostWeight = 0;
@@ -204,11 +207,17 @@ namespace POS
             return response;
         }
 
-        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale, string _productName)
+        public decimal CatchWeightProduct(
+                                            AxOposScale_CCO.AxOPOSScale _axOposScale
+                                            , string _productName
+                                            , ClsEnums.ScaleBrands _scaleBrand
+                                            , string _portName
+                                        )
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight();
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.productName = _productName;
+            frmCatchWeight.globalParameters = globalParameters;
             frmCatchWeight.ShowDialog();
 
             return frmCatchWeight.weight;;
