@@ -31,13 +31,7 @@ namespace POS.DLL
         public virtual DbSet<Bank> Bank { get; set; }
         public virtual DbSet<BankCreditCard> BankCreditCard { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }
-        public virtual DbSet<ClosingCashLine> ClosingCashLine { get; set; }
-        public virtual DbSet<ClosingCashMoney> ClosingCashMoney { get; set; }
-        public virtual DbSet<ClosingCashTable> ClosingCashTable { get; set; }
         public virtual DbSet<Company> Company { get; set; }
-        public virtual DbSet<CountCashLine> CountCashLine { get; set; }
-        public virtual DbSet<CountCashMoney> CountCashMoney { get; set; }
-        public virtual DbSet<CountCashTable> CountCashTable { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<CustomerType> CustomerType { get; set; }
         public virtual DbSet<IdentType> IdentType { get; set; }
@@ -80,7 +74,6 @@ namespace POS.DLL
         public virtual DbSet<Transport> Transport { get; set; }
         public virtual DbSet<TransportDriver> TransportDriver { get; set; }
         public virtual DbSet<TransportReason> TransportReason { get; set; }
-        public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
@@ -90,13 +83,21 @@ namespace POS.DLL
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
-        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<LogType> LogType { get; set; }
         public virtual DbSet<SalesLog> SalesLog { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<CancelReason> CancelReason { get; set; }
+        public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
+        public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
+        public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
+        public virtual DbSet<CurrencyDenomination> CurrencyDenomination { get; set; }
+        public virtual DbSet<CurrencyType> CurrencyType { get; set; }
+        public virtual DbSet<DenominationType> DenominationType { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
+        public virtual DbSet<SequenceTable> SequenceTable { get; set; }
+        public virtual DbSet<SequenceType> SequenceType { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -297,6 +298,54 @@ namespace POS.DLL
                 new ObjectParameter("BarcodeBefore", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Product_Consult_Result>("SP_Product_Consult", locationIdParameter, barcodeParameter, quantityParameter, customerIdParameter, internalCreditCardIdParameter, paymModeParameter, barcodeBeforeParameter);
+        }
+    
+        public virtual ObjectResult<SP_ClosingCashier_Insert_Result> SP_ClosingCashier_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashier_Insert_Result>("SP_ClosingCashier_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_ClosingCashierDenominations_Consult_Result> SP_ClosingCashierDenominations_Consult()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierDenominations_Consult_Result>("SP_ClosingCashierDenominations_Consult");
+        }
+    
+        public virtual int SP_ClosingCashierPartial_Consult(Nullable<short> locationId, Nullable<int> userId, Nullable<int> emissionPointId, string closingCashierDate)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(int));
+    
+            var closingCashierDateParameter = closingCashierDate != null ?
+                new ObjectParameter("ClosingCashierDate", closingCashierDate) :
+                new ObjectParameter("ClosingCashierDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ClosingCashierPartial_Consult", locationIdParameter, userIdParameter, emissionPointIdParameter, closingCashierDateParameter);
+        }
+    
+        public virtual int SP_ClosingCashierPartial_Insert(string paramXML, string type)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ClosingCashierPartial_Insert", paramXMLParameter, typeParameter);
         }
     }
 }

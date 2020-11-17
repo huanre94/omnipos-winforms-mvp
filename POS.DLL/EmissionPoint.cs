@@ -17,10 +17,10 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EmissionPoint()
         {
+            this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
-            this.InvoiceTable = new HashSet<InvoiceTable>();
-            this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
         }
     
         public int EmissionPointId { get; set; }
@@ -29,9 +29,9 @@ namespace POS.DLL
         public string Establishment { get; set; }
         public string Emission { get; set; }
         public string Name { get; set; }
-        public long InvoiceNumber { get; set; }
         public string AddressIP { get; set; }
         public string ScaleName { get; set; }
+        public string ScaleBrand { get; set; }
         public string ScanBarcodeName { get; set; }
         public string PrinterName { get; set; }
         public bool ThermalPrinter { get; set; }
@@ -41,17 +41,16 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public string ScaleBrand { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
         public virtual InventLocation InventLocation { get; set; }
         public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
     }
 }

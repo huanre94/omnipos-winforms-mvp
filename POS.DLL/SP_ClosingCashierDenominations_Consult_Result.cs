@@ -10,19 +10,17 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class SequenceTable
+    public partial class SP_ClosingCashierDenominations_Consult_Result
     {
-        public short LocationId { get; set; }
-        public int SequenceId { get; set; }
-        public int SequenceTypeId { get; set; }
-        public int EmissionPointId { get; set; }
-        public int Sequence { get; set; }
-        public string Name { get; set; }
+        public int CurrencyDenominationId { get; set; }
+        public int CurrencyTypeId { get; set; }
+        public int DenominationTypeId { get; set; }
+        public decimal Value { get; set; }
         public string Status { get; set; }
-    
-        public virtual Location Location { get; set; }
-        public virtual SequenceType SequenceType { get; set; }
+        public string CurrencyTypeName { get; set; }
+        public string DenominationTypeName { get; set; }
+        public Nullable<decimal> TypedAmount { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
     }
 }

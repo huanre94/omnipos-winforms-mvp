@@ -12,17 +12,20 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class SequenceTable
+    public partial class CurrencyType
     {
-        public short LocationId { get; set; }
-        public int SequenceId { get; set; }
-        public int SequenceTypeId { get; set; }
-        public int EmissionPointId { get; set; }
-        public int Sequence { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CurrencyType()
+        {
+            this.CurrencyDenomination = new HashSet<CurrencyDenomination>();
+        }
+    
+        public int CurrencyTypeId { get; set; }
         public string Name { get; set; }
+        public bool Active { get; set; }
         public string Status { get; set; }
     
-        public virtual Location Location { get; set; }
-        public virtual SequenceType SequenceType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CurrencyDenomination> CurrencyDenomination { get; set; }
     }
 }

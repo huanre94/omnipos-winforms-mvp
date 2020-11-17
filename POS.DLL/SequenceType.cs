@@ -12,17 +12,19 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class SequenceTable
+    public partial class SequenceType
     {
-        public short LocationId { get; set; }
-        public int SequenceId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SequenceType()
+        {
+            this.SequenceTable = new HashSet<SequenceTable>();
+        }
+    
         public int SequenceTypeId { get; set; }
-        public int EmissionPointId { get; set; }
-        public int Sequence { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
     
-        public virtual Location Location { get; set; }
-        public virtual SequenceType SequenceType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SequenceTable> SequenceTable { get; set; }
     }
 }

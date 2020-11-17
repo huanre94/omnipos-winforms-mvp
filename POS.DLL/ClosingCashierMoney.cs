@@ -12,17 +12,13 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class SequenceTable
+    public partial class ClosingCashierMoney
     {
-        public short LocationId { get; set; }
-        public int SequenceId { get; set; }
-        public int SequenceTypeId { get; set; }
-        public int EmissionPointId { get; set; }
+        public long ClosingCashierId { get; set; }
         public int Sequence { get; set; }
-        public string Name { get; set; }
-        public string Status { get; set; }
+        public int CurrencyDenominationId { get; set; }
+        public decimal Quantity { get; set; }
     
-        public virtual Location Location { get; set; }
-        public virtual SequenceType SequenceType { get; set; }
+        public virtual CurrencyDenomination CurrencyDenomination { get; set; }
     }
 }

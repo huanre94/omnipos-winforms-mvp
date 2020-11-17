@@ -264,22 +264,13 @@
     <Compile Include="SequenceTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SequenceType.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Server.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_ClosingCashierDenominations_Consult_Result.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_ClosingCashierPartial_Consult_Result.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_ClosingCashierPartial_Insert_Result.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_ClosingCashierPayment_Consult_Result.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_ClosingCashierTicket_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_ClosingCashier_Insert_Result.cs">
