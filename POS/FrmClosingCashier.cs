@@ -136,14 +136,6 @@ namespace POS
             if (payments.Count == 0)
             {
                 functions.ShowMessage("No hay metodos de pago registrados.", ClsEnums.MessageType.WARNING);
-
-                FrmMenu frmMenu = new FrmMenu
-                {
-                    loginInformation = loginInformation,
-                    globalParameters = globalParameters
-                };
-                frmMenu.Show();
-                Close();
             }
         }
 
@@ -223,144 +215,150 @@ namespace POS
         {
             GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue");
 
-            if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
+            if (payments.Count == 0)
             {
-                functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth())
+                functions.ShowMessage("No hay metodos de pago registrados.", ClsEnums.MessageType.WARNING);
+            } else
+            {
+                if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
                 {
-                    XElement closingCashierTableXml = new XElement("ClosingCashierTable");
-                    ClosingCashierTable cashierTable = new ClosingCashierTable()
+                    functions.emissionPoint = emissionPoint;
+                    if (functions.RequestSupervisorAuth())
                     {
-                        LocationId = emissionPoint.LocationId,
-                        EmissionPointId = emissionPoint.EmissionPointId,
-                        UserId = (int)loginInformation.UserId,
-                        OpeningAmount = 0,
-                        Authorization = functions.supervisorAuthorization,
-                        Status = "A",
-                        CreatedBy = (int)loginInformation.UserId,
-                        Workstation = emissionPoint.Workstation
-                    };
-
-                    Type type = cashierTable.GetType();
-                    PropertyInfo[] properties = type.GetProperties();
-
-                    foreach (var prop in properties)
-                    {
-                        var name = prop.Name;
-                        var value = prop.GetValue(cashierTable);
-
-                        if (value == null)
+                        XElement closingCashierTableXml = new XElement("ClosingCashierTable");
+                        ClosingCashierTable cashierTable = new ClosingCashierTable()
                         {
-                            value = "";
-                        }
-
-                        closingCashierTableXml.Add(new XElement(name, value));
-                    }
-
-                    closingXml.Add(closingCashierTableXml);
-
-
-                    for (int i = 0; i < GrvDenomination.DataRowCount; i++)
-                    {
-                        SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
-
-                        if ((int)row.TypedAmount == 0)
-                        {
-                            continue;
-                        }
-
-                        XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
-                        ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
-                        {
-                            Sequence = 0,
-                            CurrencyDenominationId = row.CurrencyDenominationId,
-                            Quantity = (int)row.TypedAmount
+                            LocationId = emissionPoint.LocationId,
+                            EmissionPointId = emissionPoint.EmissionPointId,
+                            UserId = (int)loginInformation.UserId,
+                            OpeningAmount = 0,
+                            Authorization = functions.supervisorAuthorization,
+                            Status = "A",
+                            CreatedBy = (int)loginInformation.UserId,
+                            Workstation = emissionPoint.Workstation
                         };
-                        type = cashierMoney.GetType();
-                        properties = type.GetProperties();
+
+                        Type type = cashierTable.GetType();
+                        PropertyInfo[] properties = type.GetProperties();
 
                         foreach (var prop in properties)
                         {
                             var name = prop.Name;
-                            var value = prop.GetValue(cashierMoney);
+                            var value = prop.GetValue(cashierTable);
 
                             if (value == null)
                             {
                                 value = "";
                             }
 
-                            closingCashierMoneyXml.Add(new XElement(name, value));
-                        }
-                        closingXml.Add(closingCashierMoneyXml);
-                    }
-
-                    for (int i = 0; i < GrvPayment.DataRowCount; i++)
-                    {
-                        SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
-
-                        if (row.PaymModeId == 8)
-                        {
-                            row.Amount = totalHideCash;
+                            closingCashierTableXml.Add(new XElement(name, value));
                         }
 
-                        XElement closingCashierLineXml = new XElement("ClosingCashierLine");
-                        ClosingCashierLine cashierLine = new ClosingCashierLine()
+                        closingXml.Add(closingCashierTableXml);
+
+
+                        for (int i = 0; i < GrvDenomination.DataRowCount; i++)
                         {
+                            SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
 
-                            PaymModeId = row.PaymModeId,
-                            CashierAmount = (decimal)row.CashierAmount,
-                            SystemAmount = (decimal)row.Amount
-                        };
-                        type = cashierLine.GetType();
-                        properties = type.GetProperties();
-
-                        foreach (var prop in properties)
-                        {
-                            var name = prop.Name;
-                            var value = prop.GetValue(cashierLine);
-
-                            if (value == null)
+                            if ((int)row.TypedAmount == 0)
                             {
-                                value = "";
+                                continue;
                             }
 
-                            closingCashierLineXml.Add(new XElement(name, value));
-                        }
-                        closingXml.Add(closingCashierLineXml);
-                    }
-
-                    List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);
-
-                    if (clsClosing != null)
-                    {
-                        if (clsClosing.Count > 0)
-                        {
-                            SP_ClosingCashier_Insert_Result closing = clsClosing[0];
-                            if (!(bool)closing.Error)
+                            XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
+                            ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
                             {
-                                if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                Sequence = 0,
+                                CurrencyDenominationId = row.CurrencyDenominationId,
+                                Quantity = (int)row.TypedAmount
+                            };
+                            type = cashierMoney.GetType();
+                            properties = type.GetProperties();
+
+                            foreach (var prop in properties)
+                            {
+                                var name = prop.Name;
+                                var value = prop.GetValue(cashierMoney);
+
+                                if (value == null)
                                 {
-                                    functions.ShowMessage("Venta finalizada exitosamente.");
-                                }
-                                else
-                                {
-                                    functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                    value = "";
                                 }
 
-                                FrmMenu frmMenu = new FrmMenu();
-                                frmMenu.loginInformation = loginInformation;
-                                frmMenu.globalParameters = globalParameters;
-                                frmMenu.Visible = true;
-                                Close();
+                                closingCashierMoneyXml.Add(new XElement(name, value));
+                            }
+                            closingXml.Add(closingCashierMoneyXml);
+                        }
+
+                        for (int i = 0; i < GrvPayment.DataRowCount; i++)
+                        {
+                            SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
+
+                            if (row.PaymModeId == 8)
+                            {
+                                row.Amount = totalHideCash;
+                            }
+
+                            XElement closingCashierLineXml = new XElement("ClosingCashierLine");
+                            ClosingCashierLine cashierLine = new ClosingCashierLine()
+                            {
+
+                                PaymModeId = row.PaymModeId,
+                                CashierAmount = (decimal)row.CashierAmount,
+                                SystemAmount = (decimal)row.Amount
+                            };
+                            type = cashierLine.GetType();
+                            properties = type.GetProperties();
+
+                            foreach (var prop in properties)
+                            {
+                                var name = prop.Name;
+                                var value = prop.GetValue(cashierLine);
+
+                                if (value == null)
+                                {
+                                    value = "";
+                                }
+
+                                closingCashierLineXml.Add(new XElement(name, value));
+                            }
+                            closingXml.Add(closingCashierLineXml);
+                        }
+
+                        List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);
+
+                        if (clsClosing != null)
+                        {
+                            if (clsClosing.Count > 0)
+                            {
+                                SP_ClosingCashier_Insert_Result closing = clsClosing[0];
+                                if (!(bool)closing.Error)
+                                {
+                                    if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                    {
+                                        functions.ShowMessage("Venta finalizada exitosamente.");
+                                    }
+                                    else
+                                    {
+                                        functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                    }
+
+                                    FrmMenu frmMenu = new FrmMenu();
+                                    frmMenu.loginInformation = loginInformation;
+                                    frmMenu.globalParameters = globalParameters;
+                                    frmMenu.Visible = true;
+                                    Close();
+                                }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                functions.ShowMessage("El cierre supera el margen maximo permitido", ClsEnums.MessageType.ERROR);
-            }
+                else
+                {
+                    functions.ShowMessage("El cierre supera el margen maximo permitido", ClsEnums.MessageType.ERROR);
+                }
+            }          
         }
 
         private void GrvDenomination_RowClick(object sender, RowClickEventArgs e)

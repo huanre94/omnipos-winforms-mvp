@@ -408,14 +408,17 @@ namespace POS
             }
             else
             {
-                FrmPayment payment = new FrmPayment();
-                payment.invoiceAmount = decimal.Parse(LblTotal.Text);
-                payment.customer = currentCustomer;
-                payment.emissionPoint = emissionPoint;
-                payment.taxAmount = taxAmount;
-                payment.baseAmount = baseAmount;
-                payment.scanner = AxOPOSScanner;
-                payment.internalCreditCardCode = internalCreditCardCode;
+                FrmPayment payment = new FrmPayment
+                {
+                    invoiceAmount = decimal.Parse(LblTotal.Text),
+                    customer = currentCustomer,
+                    emissionPoint = emissionPoint,
+                    taxAmount = taxAmount,
+                    baseAmount = baseAmount,
+                    loginInformation = loginInformation,
+                    scanner = AxOPOSScanner,
+                    internalCreditCardCode = internalCreditCardCode
+                };
                 payment.ShowDialog();
 
                 if (payment.canCloseInvoice)

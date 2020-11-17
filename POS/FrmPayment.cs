@@ -26,7 +26,7 @@ namespace POS
         public bool canCloseInvoice = false;
         public decimal baseAmount = 0;
         public decimal taxAmount = 0;
-        public AxOposScanner_CCO.AxOPOSScanner scanner;        
+        public AxOposScanner_CCO.AxOPOSScanner scanner;
         public string internalCreditCardCode = "";
 
         public FrmPayment()
@@ -36,8 +36,8 @@ namespace POS
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
+            CheckGridView();
             GetPaymentInformation();
-            CheckGridView();            
         }
 
         private void GetPaymentInformation()
@@ -50,16 +50,18 @@ namespace POS
             bool customerRetention = customer.UseRetention ?? false;
             if (customerRetention)
             {
-                if (functions.ShowMessage("Este cliente genera retencion. ¿Desea registrar una?", ClsEnums.MessageType.CONFIRM))
+                if (taxAmount == 0)
                 {
-                    Withhold();
+                    //functions.ShowMessage("No aplica retencion: La base imponible es cero", ClsEnums.MessageType.ERROR);
                 }
-                /*
-                 if (taxAmount == 0)
-        {
-            functions.ShowMessage("No aplica retencion: La base imponible es cero", ClsEnums.MessageType.ERROR);
-        }
-                 */
+                else
+                {
+                    if (functions.ShowMessage("Este cliente genera retencion. ¿Desea registrar una?", ClsEnums.MessageType.CONFIRM))
+                    {                        
+                        Withhold();
+                    }
+                }
+
             }
 
         }
@@ -147,6 +149,8 @@ namespace POS
         #region Payment Buttons
         private void BtnWithhold_Click(object sender, EventArgs e)
         {
+            //todo: validar que no exista un metodo de pago retencion previo, solo puede tener 1
+
             if (taxAmount == 0)
             {
                 functions.ShowMessage("No aplica retencion, la base imponible es cero", ClsEnums.MessageType.ERROR);
@@ -219,14 +223,15 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (GrvPayment.RowCount > 0)
+            BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;
+            if (bindingList.Count > 0)
             {
                 bool response;
 
                 response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
 
                 if (response)
-                {                    
+                {
                     GrcPayment.DataSource = null;
                     //GrvPayment.Columns.Clear();
                     this.Close();
@@ -237,10 +242,10 @@ namespace POS
                 }
             }
         }
-        #endregion 
+        #endregion
 
         #region Payment Functions
-        
+
         private void Cash()
         {
             InvoicePayment invoicePayment = new InvoicePayment
@@ -398,10 +403,12 @@ namespace POS
 
         private void Withhold()
         {
-            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold();
-            paymentWithhold.customer = customer;
-            paymentWithhold.loginInformation = loginInformation;
-            paymentWithhold.retentionAmount = taxAmount;
+            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold
+            {
+                customer = customer,
+                loginInformation = loginInformation,
+                retentionAmount = taxAmount
+            };
             paymentWithhold.ShowDialog();
 
             if (paymentWithhold.processResponse)

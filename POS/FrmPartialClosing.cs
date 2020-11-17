@@ -374,7 +374,7 @@ namespace POS
                 LoadGridInformation();
                 if (cashAmount <= 0)
                 {
-                    functions.ShowMessage("No puede retirar valor", ClsEnums.MessageType.WARNING);
+                    //functions.ShowMessage("No se ha realizado ", ClsEnums.MessageType.WARNING);
                 }
 
                 CheckGridView();
