@@ -116,11 +116,6 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-
-        }
+        }        
     }
 }

@@ -11,6 +11,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
+        public EmissionPoint emissionPoint;
 
         public FrmMenu()
         {
@@ -53,7 +54,7 @@ namespace POS
             FrmClosingCashier frmClosing = new FrmClosingCashier
             {
                 loginInformation = loginInformation,
-                globalParameters = globalParameters
+                globalParameters = globalParameters                
             };
             this.Hide();
             frmClosing.Show();

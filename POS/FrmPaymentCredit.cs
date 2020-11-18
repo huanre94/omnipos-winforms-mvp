@@ -18,6 +18,7 @@ namespace POS
         public bool isPresentingCreditCard;
         public Int64 internalCreditCardId;
         public string internalCreditCardCode = string.Empty;
+        ClsEnums.ScaleBrands scaleBrand;
 
         public FrmPaymentCredit()
         {
@@ -34,10 +35,16 @@ namespace POS
                 {
                     LblAuthorization.Visible = true;
                     TxtCreditCardCode.Visible = true;
-                    functions.AxOPOSScanner = scanner;
-                    functions.DisableScanner();
-                    functions.AxOPOSScanner = AxOPOSScanner;
-                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                    scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                    {
+                        functions.AxOPOSScanner = scanner;
+                        functions.DisableScanner();
+                        functions.AxOPOSScanner = AxOPOSScanner;
+                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                    }
                 }
                 else
                 {
@@ -75,7 +82,7 @@ namespace POS
 
             if (customer != null)
             {
-                if (customer.CustomerId > 0)
+                if (customer.CustomerId != 1)
                 {
                     response = true;
                 }
@@ -120,7 +127,7 @@ namespace POS
       
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (isPresentingCreditCard)
+            if (isPresentingCreditCard && scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
                 functions.AxOPOSScanner = scanner;
@@ -194,9 +201,14 @@ namespace POS
                 if (isPresentingCreditCard)
                 {
                     formActionResult = true;
-                    functions.DisableScanner();
-                    functions.AxOPOSScanner = scanner;
-                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                    {
+                        functions.DisableScanner();
+                        functions.AxOPOSScanner = scanner;
+                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                    }
+
                     Close();
                 }
                 else
@@ -209,7 +221,6 @@ namespace POS
                             frmPayment.emissionPoint = emissionPoint;
                             TxtCreditCardCode.Text = "";
                             formActionResult = true;
-                            //functions.DisableScanner();
                             Close();
                         }
                         else

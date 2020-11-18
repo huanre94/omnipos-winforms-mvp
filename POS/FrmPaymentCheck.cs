@@ -47,7 +47,7 @@ namespace POS
 
             if (customer != null)
             {
-                if (customer.CustomerId > 0)
+                if (customer.CustomerId != 1)
                 {
                     TxtIdentification.Text = customer.Identification;
                     TxtOwnerName.Text = customer.Firtsname + " " + customer.Lastname;

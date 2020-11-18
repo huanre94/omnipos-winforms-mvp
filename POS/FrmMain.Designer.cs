@@ -522,7 +522,7 @@
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
             this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
             this.LblTitleCustomerAddress.TabIndex = 144;
-            this.LblTitleCustomerAddress.Text = "Direccion:";
+            this.LblTitleCustomerAddress.Text = "Dirección:";
             // 
             // LblLine2
             // 
@@ -557,7 +557,7 @@
             // LblCustomerId
             // 
             this.LblCustomerId.AutoSize = true;
-            this.LblCustomerId.Location = new System.Drawing.Point(282, 56);
+            this.LblCustomerId.Location = new System.Drawing.Point(284, 56);
             this.LblCustomerId.Name = "LblCustomerId";
             this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
             this.LblCustomerId.TabIndex = 148;
@@ -566,7 +566,7 @@
             // LblCustomerName
             // 
             this.LblCustomerName.AutoSize = true;
-            this.LblCustomerName.Location = new System.Drawing.Point(282, 82);
+            this.LblCustomerName.Location = new System.Drawing.Point(283, 82);
             this.LblCustomerName.Name = "LblCustomerName";
             this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
             this.LblCustomerName.TabIndex = 149;
@@ -575,7 +575,7 @@
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
-            this.LblCustomerAddress.Location = new System.Drawing.Point(282, 109);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(283, 109);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
             this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
             this.LblCustomerAddress.TabIndex = 150;
@@ -634,10 +634,10 @@
             // LblTotal
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
-            this.LblTotal.Location = new System.Drawing.Point(1191, 49);
+            this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 36F, System.Drawing.FontStyle.Bold);
+            this.LblTotal.Location = new System.Drawing.Point(1132, 41);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(161, 41);
+            this.LblTotal.Size = new System.Drawing.Size(228, 49);
             this.LblTotal.TabIndex = 154;
             this.LblTotal.Text = "0.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -646,7 +646,7 @@
             // 
             this.LblTitleTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(1077, 56);
+            this.LblTitleTotal.Location = new System.Drawing.Point(1043, 55);
             this.LblTitleTotal.Name = "LblTitleTotal";
             this.LblTitleTotal.Size = new System.Drawing.Size(105, 32);
             this.LblTitleTotal.TabIndex = 155;
@@ -656,10 +656,10 @@
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.label1.Location = new System.Drawing.Point(1027, 93);
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.label1.Location = new System.Drawing.Point(1041, 97);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(153, 32);
+            this.label1.Size = new System.Drawing.Size(160, 32);
             this.label1.TabIndex = 157;
             this.label1.Text = "Descuento $";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -667,10 +667,10 @@
             // LblDiscAmount
             // 
             this.LblDiscAmount.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.LblDiscAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20F, System.Drawing.FontStyle.Bold);
-            this.LblDiscAmount.Location = new System.Drawing.Point(1194, 90);
+            this.LblDiscAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 26F, System.Drawing.FontStyle.Bold);
+            this.LblDiscAmount.Location = new System.Drawing.Point(1192, 93);
             this.LblDiscAmount.Name = "LblDiscAmount";
-            this.LblDiscAmount.Size = new System.Drawing.Size(154, 36);
+            this.LblDiscAmount.Size = new System.Drawing.Size(163, 36);
             this.LblDiscAmount.TabIndex = 156;
             this.LblDiscAmount.Text = "0.00";
             this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -694,6 +694,22 @@
             this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScale.TabIndex = 159;
             // 
+            // BtnPrintLastInvoice
+            // 
+            this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPrintLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
+            this.BtnPrintLastInvoice.Appearance.Options.UseFont = true;
+            this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPrintLastInvoice.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(471, 695);
+            this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
+            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
+            this.BtnPrintLastInvoice.TabIndex = 151;
+            this.BtnPrintLastInvoice.Text = "Imp Ult Factura";
+            this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
+            // 
             // BtnExit
             // 
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
@@ -711,22 +727,6 @@
             this.BtnExit.TabIndex = 160;
             this.BtnExit.Text = "Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
-            // BtnPrintLastInvoice
-            // 
-            this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnPrintLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
-            this.BtnPrintLastInvoice.Appearance.Options.UseFont = true;
-            this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPrintLastInvoice.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
-            this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(471, 695);
-            this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
-            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
-            this.BtnPrintLastInvoice.TabIndex = 151;
-            this.BtnPrintLastInvoice.Text = "Imp Ult Factura";
-            this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
             // 
             // FrmMain
             // 

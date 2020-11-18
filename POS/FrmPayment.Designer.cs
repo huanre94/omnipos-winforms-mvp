@@ -55,10 +55,12 @@
             this.LblPaid = new System.Windows.Forms.Label();
             this.LblTitlePaid = new System.Windows.Forms.Label();
             this.LblPending = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.LblTitlePending = new System.Windows.Forms.Label();
             this.TxtAmount = new DevExpress.XtraEditors.TextEdit();
             this.BtnGiftcard = new DevExpress.XtraEditors.SimpleButton();
             this.BtnWithhold = new DevExpress.XtraEditors.SimpleButton();
+            this.LblChange = new System.Windows.Forms.Label();
+            this.LblTitleChange = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAmount.Properties)).BeginInit();
@@ -246,11 +248,11 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(139, 66);
+            this.LblTotal.Location = new System.Drawing.Point(134, 66);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(126, 34);
+            this.LblTotal.Size = new System.Drawing.Size(136, 34);
             this.LblTotal.TabIndex = 148;
-            this.LblTotal.Text = "0.00";
+            this.LblTotal.Text = "00.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BtnCancel
@@ -414,6 +416,7 @@
             this.LblPaid.Name = "LblPaid";
             this.LblPaid.Size = new System.Drawing.Size(84, 22);
             this.LblPaid.TabIndex = 156;
+            this.LblPaid.Text = "0.00";
             this.LblPaid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LblTitlePaid
@@ -433,17 +436,18 @@
             this.LblPending.Name = "LblPending";
             this.LblPending.Size = new System.Drawing.Size(84, 22);
             this.LblPending.TabIndex = 158;
+            this.LblPending.Text = "0.00";
             this.LblPending.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // LblTitlePending
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.label3.Location = new System.Drawing.Point(605, 330);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(124, 22);
-            this.label3.TabIndex = 157;
-            this.label3.Text = "Pendiente: $";
+            this.LblTitlePending.AutoSize = true;
+            this.LblTitlePending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.LblTitlePending.Location = new System.Drawing.Point(605, 330);
+            this.LblTitlePending.Name = "LblTitlePending";
+            this.LblTitlePending.Size = new System.Drawing.Size(124, 22);
+            this.LblTitlePending.TabIndex = 157;
+            this.LblTitlePending.Text = "Pendiente: $";
             // 
             // TxtAmount
             // 
@@ -499,6 +503,28 @@
             this.BtnWithhold.Text = "Retención";
             this.BtnWithhold.Click += new System.EventHandler(this.BtnWithhold_Click);
             // 
+            // LblChange
+            // 
+            this.LblChange.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.LblChange.Location = new System.Drawing.Point(733, 362);
+            this.LblChange.Name = "LblChange";
+            this.LblChange.Size = new System.Drawing.Size(84, 22);
+            this.LblChange.TabIndex = 166;
+            this.LblChange.Text = "0.00";
+            this.LblChange.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LblChange.Visible = false;
+            // 
+            // LblTitleChange
+            // 
+            this.LblTitleChange.AutoSize = true;
+            this.LblTitleChange.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.LblTitleChange.Location = new System.Drawing.Point(626, 362);
+            this.LblTitleChange.Name = "LblTitleChange";
+            this.LblTitleChange.Size = new System.Drawing.Size(102, 22);
+            this.LblTitleChange.TabIndex = 165;
+            this.LblTitleChange.Text = "Cambio: $";
+            this.LblTitleChange.Visible = false;
+            // 
             // FrmPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -506,11 +532,13 @@
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(837, 512);
             this.ControlBox = false;
+            this.Controls.Add(this.LblChange);
+            this.Controls.Add(this.LblTitleChange);
             this.Controls.Add(this.BtnWithhold);
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);
             this.Controls.Add(this.LblPending);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.LblTitlePending);
             this.Controls.Add(this.LblPaid);
             this.Controls.Add(this.LblTitlePaid);
             this.Controls.Add(this.BtnInternalCredit);
@@ -573,11 +601,13 @@
         private System.Windows.Forms.Label LblPaid;
         private System.Windows.Forms.Label LblTitlePaid;
         private System.Windows.Forms.Label LblPending;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LblTitlePending;
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
         private DevExpress.XtraEditors.SimpleButton BtnGiftcard;
         public DevExpress.XtraEditors.TextEdit TxtAmount;
         private DevExpress.XtraEditors.SimpleButton BtnWithhold;
+        private System.Windows.Forms.Label LblChange;
+        private System.Windows.Forms.Label LblTitleChange;
     }
 }

@@ -40,7 +40,7 @@
             // 
             this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblTitle.ForeColor = System.Drawing.Color.Goldenrod;
-            this.LblTitle.Location = new System.Drawing.Point(96, 11);
+            this.LblTitle.Location = new System.Drawing.Point(96, 33);
             this.LblTitle.Name = "LblTitle";
             this.LblTitle.Size = new System.Drawing.Size(407, 28);
             this.LblTitle.TabIndex = 149;

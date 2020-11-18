@@ -101,9 +101,13 @@ namespace POS
                         formActionResult = true;
                         supervisorAuthorization = TxtAuthorization.Text;
                         TxtAuthorization.Text = "";
-                        functions.DisableScanner();
-                        functions.AxOPOSScanner = scanner;
-                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                        {
+                            functions.DisableScanner();
+                            functions.AxOPOSScanner = scanner;
+                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                        }
                     }
                     else
                     {
@@ -129,9 +133,12 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            functions.DisableScanner();
-            functions.AxOPOSScanner = scanner;
-            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            {
+                functions.DisableScanner();
+                functions.AxOPOSScanner = scanner;
+                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+            }
         }
 
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)

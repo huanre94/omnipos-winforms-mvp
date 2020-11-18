@@ -47,6 +47,7 @@ namespace POS
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;
+            LblPending.Text = pendingAmount.ToString();
 
             bool customerRetention = customer.UseRetention ?? false;
             if (customerRetention)
@@ -224,7 +225,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;
+            BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;            
             if (bindingList.Count > 0)
             {
                 bool response;
@@ -234,7 +235,7 @@ namespace POS
                 if (response)
                 {
                     GrcPayment.DataSource = null;
-                    //GrvPayment.Columns.Clear();
+                    paymentXml.RemoveAll();
                     this.Close();
                 }
                 else
@@ -249,14 +250,26 @@ namespace POS
 
         private void Cash()
         {
+            decimal cashAmount = decimal.Parse(TxtAmount.Text);
+
+            if (cashAmount > pendingAmount)
+            {
+                changeAmount = cashAmount - pendingAmount;
+                LblTitleChange.Visible = true;
+                LblChange.Visible = true;                
+                LblChange.Text = changeAmount.ToString();
+                functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
+            }
+
             InvoicePayment invoicePayment = new InvoicePayment
             {
                 PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
-                Amount = decimal.Parse(TxtAmount.Text)
+                Amount = decimal.Parse(TxtAmount.Text),
+                Change = changeAmount
             };
 
             AddRecordToGrid(invoicePayment);
-            CalculatePayment(ClsEnums.PaymModeEnum.EFECTIVO);
+            CalculatePayment();
         }
 
         private void CreditCard()
@@ -278,7 +291,7 @@ namespace POS
                 };
 
                 AddRecordToGrid(invoicePayment);
-                CalculatePayment(paymentCard.paymModeEnum);
+                CalculatePayment();
             }
         }
 
@@ -314,7 +327,7 @@ namespace POS
                 };
 
                 AddRecordToGrid(invoicePayment);
-                CalculatePayment(paymModeEnum);
+                CalculatePayment();
             }
         }
 
@@ -377,7 +390,7 @@ namespace POS
                     }
 
                     AddRecordToGrid(invoicePayment);
-                    CalculatePayment(ClsEnums.PaymModeEnum.TARJETA_CONSUMO);
+                    CalculatePayment();
                 }
             }
         }
@@ -398,13 +411,14 @@ namespace POS
                 };
 
                 AddRecordToGrid(invoicePayment);
-                CalculatePayment(ClsEnums.PaymModeEnum.BONO);
+                CalculatePayment();
             }
         }
 
         private void Withhold()
         {
             bool hasRetention = false;
+
             try
             {
                 int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment")
@@ -419,8 +433,6 @@ namespace POS
             {
                 hasRetention = false;
             }
-
-
 
             if (hasRetention)
             {
@@ -452,7 +464,7 @@ namespace POS
                     };
 
                     AddRecordToGrid(invoicePayment);
-                    CalculatePayment(paymModeEnum);
+                    CalculatePayment();
                 }
             }
         }
@@ -512,21 +524,16 @@ namespace POS
             paymentXml.Add(paymentDetailXml);
         }
 
-        private void CalculatePayment(ClsEnums.PaymModeEnum _paymModeId)
+        private void CalculatePayment()
         {
             paidAmount += decimal.Parse(TxtAmount.Text);
             paidAmount *= 1.00M;
             paidAmount = Math.Round(paidAmount, 2);
-
-            if (_paymModeId == ClsEnums.PaymModeEnum.EFECTIVO)
+            
+            if (paidAmount > invoiceAmount)
             {
-                if (paidAmount > invoiceAmount)
-                {
-                    changeAmount = paidAmount - invoiceAmount;
-                    functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
-                    paidAmount = invoiceAmount;
-                }
-            }
+                paidAmount = invoiceAmount;
+            }            
 
             if (invoiceAmount >= paidAmount)
             {

@@ -15,7 +15,7 @@ namespace POS
     public partial class FrmClosingCashier : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        EmissionPoint emissionPoint = new EmissionPoint();
+        public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
         List<SP_ClosingCashierDenominations_Consult_Result> denominations;

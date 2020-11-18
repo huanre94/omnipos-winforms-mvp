@@ -44,8 +44,8 @@
             this.BtnPOS.Appearance.Options.UseFont = true;
             this.BtnPOS.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPOS.ImageOptions.SvgImage = global::POS.Properties.Resources.retail;
-            this.BtnPOS.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
-            this.BtnPOS.Location = new System.Drawing.Point(33, 84);
+            this.BtnPOS.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
+            this.BtnPOS.Location = new System.Drawing.Point(33, 120);
             this.BtnPOS.Name = "BtnPOS";
             this.BtnPOS.Size = new System.Drawing.Size(350, 200);
             this.BtnPOS.TabIndex = 134;
@@ -56,7 +56,7 @@
             // 
             this.LblTitle.AutoSize = true;
             this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F, System.Drawing.FontStyle.Bold);
-            this.LblTitle.Location = new System.Drawing.Point(250, 9);
+            this.LblTitle.Location = new System.Drawing.Point(615, 52);
             this.LblTitle.Name = "LblTitle";
             this.LblTitle.Size = new System.Drawing.Size(302, 34);
             this.LblTitle.TabIndex = 148;
@@ -70,8 +70,8 @@
             this.BtnCloseCashier.Appearance.Options.UseFont = true;
             this.BtnCloseCashier.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCloseCashier.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier;
-            this.BtnCloseCashier.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnCloseCashier.Location = new System.Drawing.Point(408, 84);
+            this.BtnCloseCashier.ImageOptions.SvgImageSize = new System.Drawing.Size(115, 115);
+            this.BtnCloseCashier.Location = new System.Drawing.Point(408, 120);
             this.BtnCloseCashier.Name = "BtnCloseCashier";
             this.BtnCloseCashier.Size = new System.Drawing.Size(350, 200);
             this.BtnCloseCashier.TabIndex = 149;
@@ -85,9 +85,9 @@
             this.BtnPartialClosing.Appearance.Options.UseBackColor = true;
             this.BtnPartialClosing.Appearance.Options.UseFont = true;
             this.BtnPartialClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPartialClosing.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier;
+            this.BtnPartialClosing.ImageOptions.SvgImage = global::POS.Properties.Resources.cashier_partial;
             this.BtnPartialClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnPartialClosing.Location = new System.Drawing.Point(217, 314);
+            this.BtnPartialClosing.Location = new System.Drawing.Point(783, 120);
             this.BtnPartialClosing.Name = "BtnPartialClosing";
             this.BtnPartialClosing.Size = new System.Drawing.Size(350, 200);
             this.BtnPartialClosing.TabIndex = 149;
@@ -96,13 +96,14 @@
             // 
             // BtnLogOut
             // 
+            this.BtnLogOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnLogOut.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnLogOut.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnLogOut.Appearance.Options.UseBackColor = true;
             this.BtnLogOut.Appearance.Options.UseFont = true;
             this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
-            this.BtnLogOut.Location = new System.Drawing.Point(536, 577);
+            this.BtnLogOut.Location = new System.Drawing.Point(1102, 661);
             this.BtnLogOut.Name = "BtnLogOut";
             this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
             this.BtnLogOut.TabIndex = 150;
@@ -113,17 +114,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 634);
+            this.ClientSize = new System.Drawing.Size(1364, 718);
             this.ControlBox = false;
             this.Controls.Add(this.BtnPartialClosing);
             this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnCloseCashier);
             this.Controls.Add(this.LblTitle);
             this.Controls.Add(this.BtnPOS);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 

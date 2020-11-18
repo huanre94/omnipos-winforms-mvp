@@ -23,7 +23,7 @@ namespace POS
     {
         ClsFunctions functions = new ClsFunctions();
         public List<GlobalParameter> globalParameters;
-        EmissionPoint emissionPoint = new EmissionPoint();
+        EmissionPoint emissionPoint;
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
         Int64 sequenceNumber;
@@ -304,12 +304,22 @@ namespace POS
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu
+            BindingList<SP_Product_Consult_Result> list = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+
+            if (list.Count > 0)
             {
-                loginInformation = loginInformation
-            };
-            frmMenu.Show();
-            Close();
+                functions.ShowMessage("No puede salir con una venta en proceso.", ClsEnums.MessageType.ERROR);
+                TxtBarcode.Focus();
+            }
+            else
+            {
+                FrmMenu frmMenu = new FrmMenu
+                {
+                    loginInformation = loginInformation
+                };
+                frmMenu.Show();
+                Close();
+            }
         }
 
         private void BtnQty_Click(object sender, EventArgs e)
@@ -418,10 +428,18 @@ namespace POS
                     newInvoiceXML.Remove();
 
                     CalculateInvoice();
-                    GrcSalesDetail.DataSource = dataSource;
-                    TxtBarcode.Focus();
+                    GrcSalesDetail.DataSource = dataSource;                    
                 }
             }
+
+            TxtBarcode.Focus();
+        }
+
+        private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
+        {
+            Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
+            PrintInvoice(lastId);
+            TxtBarcode.Focus();
         }
         #endregion
 
@@ -432,9 +450,10 @@ namespace POS
             if (decimal.Parse(LblTotal.Text) <= 0)
             {
                 functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                TxtBarcode.Focus();
             }
             else
-            {
+            {    
                 FrmPayment payment = new FrmPayment
                 {
                     invoiceAmount = decimal.Parse(LblTotal.Text),
@@ -503,6 +522,8 @@ namespace POS
                     functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
                 }
             }
+
+            TxtBarcode.Focus();
         }
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
@@ -529,8 +550,14 @@ namespace POS
                     {
                         switch (node.Name.ToString())
                         {
-                            case "BarcodeBefore":
+                            case "Barcode":
                                 barcode = node.Value;
+                                break;
+                            case "BarcodeBefore":
+                                if (node.Value != "")
+                                {
+                                    barcode = node.Value;
+                                }
                                 break;
                             case "Quantity":
                                 qtyFound = decimal.Parse(node.Value);
@@ -543,7 +570,7 @@ namespace POS
                                          , barcode
                                          , qtyFound
                                          , currentCustomer.CustomerId
-                                         , 0
+                                         , internalCreditCardId
                                          , ""
                                          , true
                                          );
@@ -568,7 +595,7 @@ namespace POS
             {
                 if (decimal.Parse(LblTotal.Text) <= 0)
                 {
-                    functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);                    
                 }
                 else
                 {
@@ -600,8 +627,10 @@ namespace POS
                     {
                         functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
                     }
-                }
+                }                
             }
+
+            TxtBarcode.Focus();
         }
 
         private void BtnCancelSale_Click(object sender, EventArgs e)
@@ -642,6 +671,8 @@ namespace POS
                     }
                 }
             }
+
+            TxtBarcode.Focus();
         }
         #endregion
 
@@ -704,9 +735,11 @@ namespace POS
                 {
                     string searchBarcode = _barcode;
 
-                    if (searchBarcode.StartsWith("21"))
+                    if (searchBarcode.StartsWith("21") && searchBarcode.Length >= 7)
                     {
-                        searchBarcode = searchBarcode.Replace(searchBarcode.Substring(7, 6), "000000");
+                        int barcodeLenght = searchBarcode.Length;
+                        searchBarcode = searchBarcode.Substring(0, 7);
+                        searchBarcode = searchBarcode.PadRight(barcodeLenght, '0');
                     }
 
                     var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
@@ -724,8 +757,7 @@ namespace POS
                                     useWeightControl = true;
                                 break;
                             case "UseCatchWeight":
-                                if (bool.Parse(node.Value))
-                                    useCatchWeight = true;
+                                useCatchWeight = bool.Parse(node.Value);
                                 break;
                             case "Quantity":
                                 qtyFound = decimal.Parse(node.Value);
@@ -856,12 +888,12 @@ namespace POS
 
         private void ClosingInvoice()
         {
+            ClsInvoiceTrans invoice = new ClsInvoiceTrans();
+            SP_Invoice_Insert_Result invoiceResult = null;
+            XElement invoiceTableXml = new XElement("InvoiceTable");
+
             try
             {
-                ClsInvoiceTrans invoice = new ClsInvoiceTrans();
-                SP_Invoice_Insert_Result invoiceResult = null;
-                XElement invoiceTableXml = new XElement("InvoiceTable");
-
                 InvoiceTable invoiceTable = new InvoiceTable
                 {
                     LocationId = emissionPoint.LocationId,
@@ -932,6 +964,10 @@ namespace POS
                                         , true
                                         , ex.Message
                                     );
+            }
+            finally
+            {
+                invoiceTableXml.RemoveAll();
             }
         }
 
@@ -1140,13 +1176,6 @@ namespace POS
 
         #endregion
 
-        private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
-        {
-            Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
-            if (PrintInvoice(lastId))
-            {
-                functions.ShowMessage("Venta finalizada exitosamente.");
-            }
-        }
+        
     }
 }

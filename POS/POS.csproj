@@ -314,7 +314,7 @@
     <None Include="Resources\find.svg" />
     <None Include="Resources\label.svg" />
     <None Include="Resources\cashier.svg" />
-    <Content Include="Resources\moneyCheck.png" />
+    <None Include="Resources\cashier_partial.svg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\POS.DLL\POS.DLL.csproj">

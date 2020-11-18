@@ -80,7 +80,6 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancelar";
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // LblGiftCard
             // 

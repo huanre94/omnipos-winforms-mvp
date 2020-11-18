@@ -56,7 +56,7 @@
             this.BtnKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypad.ImageOptions.SvgImage")));
             this.BtnKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypad.Location = new System.Drawing.Point(428, 178);
+            this.BtnKeypad.Location = new System.Drawing.Point(428, 244);
             this.BtnKeypad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeypad.Name = "BtnKeypad";
             this.BtnKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -68,7 +68,7 @@
             // 
             this.LblAmount.AutoSize = true;
             this.LblAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblAmount.Location = new System.Drawing.Point(290, 117);
+            this.LblAmount.Location = new System.Drawing.Point(290, 124);
             this.LblAmount.Name = "LblAmount";
             this.LblAmount.Size = new System.Drawing.Size(47, 18);
             this.LblAmount.TabIndex = 30;
@@ -79,7 +79,7 @@
             // 
             this.LblTitleAmount.AutoSize = true;
             this.LblTitleAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblTitleAmount.Location = new System.Drawing.Point(63, 117);
+            this.LblTitleAmount.Location = new System.Drawing.Point(63, 124);
             this.LblTitleAmount.Name = "LblTitleAmount";
             this.LblTitleAmount.Size = new System.Drawing.Size(180, 18);
             this.LblTitleAmount.TabIndex = 29;
@@ -87,7 +87,7 @@
             // 
             // TxtNAutorization
             // 
-            this.TxtNAutorization.Location = new System.Drawing.Point(200, 183);
+            this.TxtNAutorization.Location = new System.Drawing.Point(200, 249);
             this.TxtNAutorization.Name = "TxtNAutorization";
             this.TxtNAutorization.Size = new System.Drawing.Size(219, 38);
             this.TxtNAutorization.TabIndex = 19;
@@ -96,7 +96,7 @@
             // 
             this.LblGiftCard.AutoSize = true;
             this.LblGiftCard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblGiftCard.Location = new System.Drawing.Point(63, 192);
+            this.LblGiftCard.Location = new System.Drawing.Point(63, 258);
             this.LblGiftCard.Name = "LblGiftCard";
             this.LblGiftCard.Size = new System.Drawing.Size(131, 18);
             this.LblGiftCard.TabIndex = 24;
@@ -144,7 +144,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label1.Location = new System.Drawing.Point(63, 247);
+            this.label1.Location = new System.Drawing.Point(63, 199);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 18);
             this.label1.TabIndex = 24;
@@ -152,7 +152,7 @@
             // 
             // TxtNRetention
             // 
-            this.TxtNRetention.Location = new System.Drawing.Point(200, 238);
+            this.TxtNRetention.Location = new System.Drawing.Point(200, 190);
             this.TxtNRetention.Name = "TxtNRetention";
             this.TxtNRetention.Size = new System.Drawing.Size(219, 38);
             this.TxtNRetention.TabIndex = 19;
@@ -166,7 +166,7 @@
             this.BtnKeypadRet.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadRet.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadRet.ImageOptions.SvgImage")));
             this.BtnKeypadRet.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadRet.Location = new System.Drawing.Point(428, 233);
+            this.BtnKeypadRet.Location = new System.Drawing.Point(428, 185);
             this.BtnKeypadRet.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeypadRet.Name = "BtnKeypadRet";
             this.BtnKeypadRet.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -178,7 +178,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label2.Location = new System.Drawing.Point(63, 76);
+            this.label2.Location = new System.Drawing.Point(63, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(172, 18);
             this.label2.TabIndex = 29;
@@ -188,7 +188,7 @@
             // 
             this.LblTaxPercent.AutoSize = true;
             this.LblTaxPercent.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblTaxPercent.Location = new System.Drawing.Point(290, 76);
+            this.LblTaxPercent.Location = new System.Drawing.Point(290, 80);
             this.LblTaxPercent.Name = "LblTaxPercent";
             this.LblTaxPercent.Size = new System.Drawing.Size(67, 18);
             this.LblTaxPercent.TabIndex = 30;

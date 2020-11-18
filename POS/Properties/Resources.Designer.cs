@@ -163,6 +163,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage cashier_partial {
+            get {
+                object obj = ResourceManager.GetObject("cashier_partial", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage creditCard {
             get {
                 object obj = ResourceManager.GetObject("creditCard", resourceCulture);
