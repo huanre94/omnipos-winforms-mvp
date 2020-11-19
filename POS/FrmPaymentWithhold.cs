@@ -39,7 +39,6 @@ namespace POS
         private void LoadTaxPercent()
         {
             ClsPaymMode paymMode = new ClsPaymMode();
-            List<RetentionTable> retentionTables;
 
             bool customerTaxPayer = customer.IsSpecialTaxpayer ?? false;
             bool companyTaxPayer = loginInformation.IsTaxpayerSpecial ?? false;
@@ -49,10 +48,10 @@ namespace POS
                 List<RetentionTable> retentions = LoadRetentions((int)ClsEnums.Taxtype.RENTA);
                 RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
                 decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
-                LblBaseAmount.Text = baseAmount.ToString("#.00");
+                LblBaseAmount.Text = Math.Round(baseAmount,2).ToString();
                 LblBasePercent.Text = retentionPercent.Percent.ToString();
-                LblAmount.Text = totalBaseCalculated.ToString("#.00");
-                LblTaxBaseAmount.Text = taxAmount.ToString("#.00");
+                LblAmount.Text = Math.Round(totalBaseCalculated,2).ToString();
+                LblTaxBaseAmount.Text = Math.Round(taxAmount,2).ToString();
 
                 InvoicePayment invoicePayment = new InvoicePayment
                 {

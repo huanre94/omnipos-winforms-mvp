@@ -31,11 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClosingCashier));
             DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
             DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Amount = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
             this.Btn8 = new DevExpress.XtraEditors.SimpleButton();
             this.Btn7 = new DevExpress.XtraEditors.SimpleButton();
@@ -86,6 +84,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             this.SuspendLayout();
             // 
+            // Amount2
+            // 
+            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
+            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Amount2.Caption = "#";
+            this.Amount2.DisplayFormat.FormatString = "n0";
+            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Amount2.FieldName = "TypedAmount";
+            this.Amount2.MaxWidth = 100;
+            this.Amount2.Name = "Amount2";
+            this.Amount2.OptionsColumn.AllowEdit = false;
+            this.Amount2.OptionsColumn.AllowSize = false;
+            this.Amount2.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.Amount2.OptionsColumn.FixedWidth = true;
+            this.Amount2.OptionsColumn.ReadOnly = true;
+            this.Amount2.OptionsFilter.AllowFilter = false;
+            this.Amount2.Visible = true;
+            this.Amount2.VisibleIndex = 2;
+            this.Amount2.Width = 93;
+            // 
             // gridColumn7
             // 
             this.gridColumn7.Caption = "gridColumn7";
@@ -111,26 +129,6 @@
             this.Amount.Visible = true;
             this.Amount.VisibleIndex = 1;
             this.Amount.Width = 100;
-            // 
-            // Amount2
-            // 
-            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
-            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Amount2.Caption = "#";
-            this.Amount2.DisplayFormat.FormatString = "n0";
-            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Amount2.FieldName = "TypedAmount";
-            this.Amount2.MaxWidth = 100;
-            this.Amount2.Name = "Amount2";
-            this.Amount2.OptionsColumn.AllowEdit = false;
-            this.Amount2.OptionsColumn.AllowSize = false;
-            this.Amount2.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.Amount2.OptionsColumn.FixedWidth = true;
-            this.Amount2.OptionsColumn.ReadOnly = true;
-            this.Amount2.OptionsFilter.AllowFilter = false;
-            this.Amount2.Visible = true;
-            this.Amount2.VisibleIndex = 2;
-            this.Amount2.Width = 93;
             // 
             // Btn9
             // 
@@ -319,19 +317,6 @@
             this.PaymModeName,
             this.Amount,
             this.Caja});
-            gridFormatRule1.Column = this.gridColumn7;
-            gridFormatRule1.ColumnApplyTo = this.Amount;
-            gridFormatRule1.Name = "Format0";
-            formatConditionRuleValue1.Appearance.BackColor = System.Drawing.Color.White;
-            formatConditionRuleValue1.Appearance.BackColor2 = System.Drawing.Color.White;
-            formatConditionRuleValue1.Appearance.ForeColor = System.Drawing.Color.White;
-            formatConditionRuleValue1.Appearance.Options.UseBackColor = true;
-            formatConditionRuleValue1.Appearance.Options.UseFont = true;
-            formatConditionRuleValue1.Appearance.Options.UseForeColor = true;
-            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
-            formatConditionRuleValue1.Expression = "[PaymModeId] = 8";
-            gridFormatRule1.Rule = formatConditionRuleValue1;
-            this.GrvPayment.FormatRules.Add(gridFormatRule1);
             this.GrvPayment.GridControl = this.GrcPayment;
             this.GrvPayment.Name = "GrvPayment";
             this.GrvPayment.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -400,15 +385,15 @@
             this.Amount2,
             this.Monto,
             this.PaymModeId});
-            gridFormatRule2.ApplyToRow = true;
-            gridFormatRule2.Column = this.Amount2;
-            gridFormatRule2.Name = "Format0";
-            formatConditionRuleValue2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            formatConditionRuleValue2.Appearance.Options.UseFont = true;
-            formatConditionRuleValue2.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
-            formatConditionRuleValue2.Expression = "[TypedAmount] <> 0";
-            gridFormatRule2.Rule = formatConditionRuleValue2;
-            this.GrvDenomination.FormatRules.Add(gridFormatRule2);
+            gridFormatRule1.ApplyToRow = true;
+            gridFormatRule1.Column = this.Amount2;
+            gridFormatRule1.Name = "Format0";
+            formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            formatConditionRuleValue1.Appearance.Options.UseFont = true;
+            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
+            formatConditionRuleValue1.Expression = "[TypedAmount] <> 0";
+            gridFormatRule1.Rule = formatConditionRuleValue1;
+            this.GrvDenomination.FormatRules.Add(gridFormatRule1);
             this.GrvDenomination.GridControl = this.GrcDenomination;
             this.GrvDenomination.Name = "GrvDenomination";
             this.GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -659,28 +644,29 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.label4.Location = new System.Drawing.Point(1106, 655);
+            this.label4.Location = new System.Drawing.Point(1158, 632);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 22);
+            this.label4.Size = new System.Drawing.Size(87, 22);
             this.label4.TabIndex = 159;
-            this.label4.Text = "Total            $  ";
+            this.label4.Text = "Total  $  ";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.label5.Location = new System.Drawing.Point(1106, 623);
+            this.label5.Location = new System.Drawing.Point(1110, 607);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(129, 22);
+            this.label5.Size = new System.Drawing.Size(124, 22);
             this.label5.TabIndex = 159;
-            this.label5.Text = "Diferencia   $";
+            this.label5.Text = "Diferencia  $";
+            this.label5.Visible = false;
             // 
             // LblTotalCashier
             // 
             this.LblTotalCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblTotalCashier.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.LblTotalCashier.Location = new System.Drawing.Point(1229, 655);
+            this.LblTotalCashier.Location = new System.Drawing.Point(1229, 632);
             this.LblTotalCashier.Name = "LblTotalCashier";
             this.LblTotalCashier.Size = new System.Drawing.Size(108, 22);
             this.LblTotalCashier.TabIndex = 159;
@@ -691,12 +677,13 @@
             // 
             this.LblDifference.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblDifference.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.LblDifference.Location = new System.Drawing.Point(1231, 623);
+            this.LblDifference.Location = new System.Drawing.Point(1231, 607);
             this.LblDifference.Name = "LblDifference";
             this.LblDifference.Size = new System.Drawing.Size(106, 22);
             this.LblDifference.TabIndex = 159;
             this.LblDifference.Text = "0.00";
             this.LblDifference.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LblDifference.Visible = false;
             // 
             // BtnDot
             // 

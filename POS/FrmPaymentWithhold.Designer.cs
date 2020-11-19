@@ -122,7 +122,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(570, 327);
+            this.BtnAccept.Location = new System.Drawing.Point(570, 336);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(159, 50);
@@ -141,7 +141,7 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(400, 327);
+            this.BtnCancel.Location = new System.Drawing.Point(400, 336);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(159, 50);
@@ -194,7 +194,7 @@
             this.label2.Text = "Porcentaje Retenido";
             // 
             // LblBasePercent
-            //            
+            // 
             this.LblBasePercent.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
             this.LblBasePercent.Location = new System.Drawing.Point(253, 96);
             this.LblBasePercent.Name = "LblBasePercent";

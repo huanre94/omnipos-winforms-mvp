@@ -29,37 +29,43 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
-                ValidateCredit();
-
-                if (isPresentingCreditCard)
+                if (ValidateCredit())
                 {
-                    LblAuthorization.Visible = true;
-                    TxtCreditCardCode.Visible = true;
-
-                    scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
-
-                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                    if (isPresentingCreditCard)
                     {
-                        functions.AxOPOSScanner = scanner;
-                        functions.DisableScanner();
-                        functions.AxOPOSScanner = AxOPOSScanner;
-                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                        LblAuthorization.Visible = true;
+                        TxtCreditCardCode.Visible = true;
+
+                        scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                        {
+                            functions.AxOPOSScanner = scanner;
+                            functions.DisableScanner();
+                            functions.AxOPOSScanner = AxOPOSScanner;
+                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                        }
+                    }
+                    else
+                    {
+                        if (internalCreditCardCode != "")
+                        {
+                            GetInternalCreditCard(internalCreditCardCode);
+                        }
+                        else
+                        {
+                            if (customer.IsEmployee && !(bool)customer.IsCredit)
+                            {
+                                functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
+                                Close();
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    if (internalCreditCardCode != "")
-                    {
-                        GetInternalCreditCard(internalCreditCardCode);
-                    }
-                    else
-                    {
-                        if (customer.IsEmployee && !(bool)customer.IsCredit)
-                        {
-                            functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
-                            Close();
-                        }
-                    }
+                    functions.ShowMessage("El cliente no puede realizar compra a Crédito.", ClsEnums.MessageType.WARNING);
+                    DialogResult = DialogResult.Cancel;
                 }
             }
         }        
@@ -67,6 +73,7 @@ namespace POS
         private bool ValidateCredit()
         {
             bool response = false;
+
             if ((bool)customer.IsCredit)
             {
                 LblAuthorization.Visible = false;
@@ -75,7 +82,13 @@ namespace POS
                 LblCreditLimit.Text = _creditLimit.ToString("#.00");
                 LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;
                 creditLimit = _creditLimit;
+                response = true;
             }
+            else if (customer.IsEmployee)
+            {
+                response = true;
+            }
+
             return response;
         }
 

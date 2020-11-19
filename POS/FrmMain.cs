@@ -455,7 +455,19 @@ namespace POS
                 TxtBarcode.Focus();
             }
             else
-            {    
+            {
+                decimal baseAmount = 0;
+                decimal taxAmount = 0;
+
+                var line = from r in invoiceXml.Descendants("InvoiceLine")
+                           select r;
+
+                foreach (var item in line)
+                {
+                    baseAmount += decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value);
+                    taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
+                }
+
                 FrmPayment payment = new FrmPayment
                 {
                     invoiceAmount = decimal.Parse(LblTotal.Text),
@@ -688,16 +700,30 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                GetProductInformation(
-                                        emissionPoint.LocationId
-                                        , TxtBarcode.Text
-                                        , 1
-                                        , currentCustomer.CustomerId
-                                        , internalCreditCardId
-                                        , ""
-                                        , false
+                if (TxtBarcode.Text.Contains("X"))
+                {
+                    TxtBarcode.Properties.UseSystemPasswordChar = true;
+                    TxtBarcode.Properties.PasswordChar = '•';
+                }
+                else
+                {   
+                    if (TxtBarcode.Properties.UseSystemPasswordChar)
+                    {
+                        TxtBarcode.Properties.UseSystemPasswordChar = false;
+                        TxtBarcode.Properties.PasswordChar = '\0';
+                    }
+
+                    GetProductInformation(
+                                            emissionPoint.LocationId
+                                            , TxtBarcode.Text
+                                            , 1
+                                            , currentCustomer.CustomerId
+                                            , internalCreditCardId
+                                            , ""
+                                            , false
                                         );
-            }
+                }                
+            } 
         }
 
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
@@ -1173,8 +1199,6 @@ namespace POS
             {
                 discAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
-                baseAmount += decimal.Parse(item.Element("BaseAmount").Value);
-                taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
             }
 
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
