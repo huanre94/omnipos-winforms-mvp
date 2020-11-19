@@ -16,6 +16,7 @@ namespace POS
         public string customerPhone = "";
         public string loginUsername = "";
         public string loginPassword = "";
+        public string productQuantity = "";
 
         public FrmKeyPad()
         {
@@ -114,6 +115,9 @@ namespace POS
                         break;
                     case ClsEnums.InputFromOption.LOGIN_PASSWORD:
                         loginPassword = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.PRODUCT_QUANTITY:
+                        productQuantity = TxtValue.Text;
                         break;
                     default:
                         break;

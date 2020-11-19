@@ -32,8 +32,12 @@ namespace POS
 
             if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
-                functions.AxOPOSScanner = scanner;
-                functions.DisableScanner();
+                if (scanner != null)
+                {
+                    functions.AxOPOSScanner = scanner;
+                    functions.DisableScanner();
+                }
+
                 functions.AxOPOSScanner = AxOPOSScanner;
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
             }            
@@ -112,6 +116,9 @@ namespace POS
                     else
                     {
                         functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                        TxtAuthorization.Text = "";
+                        TxtAuthorization.Focus();
+                        DialogResult = DialogResult.None;
                     }
                 }
                 catch (Exception ex)
@@ -136,8 +143,12 @@ namespace POS
             if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
-                functions.AxOPOSScanner = scanner;
-                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                if (scanner != null)
+                {
+                    functions.AxOPOSScanner = scanner;
+                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                }
             }
         }
 

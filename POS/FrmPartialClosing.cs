@@ -380,7 +380,7 @@ namespace POS
                 CheckGridView();
                 CalculatePayment();
 
-                functions.AxOPOSScanner = AxOPOSScanner;
+                //functions.AxOPOSScanner = AxOPOSScanner;
                 functions.PrinterName = emissionPoint.PrinterName;
             }
             else

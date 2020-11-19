@@ -30,7 +30,7 @@ namespace POS.DLL.Transaction
             List<SP_ClosingCashierPartial_Consult_Result> partials;
             try
             {
-                partials = entities.SP_ClosingCashierPartial_Consult(loginInformation.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
+                partials = entities.SP_ClosingCashierPartial_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace POS.DLL.Transaction
             List<SP_ClosingCashierPayment_Consult_Result> payments;
             try
             {
-                payments = entities.SP_ClosingCashierPayment_Consult(loginInformation.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
+                payments = entities.SP_ClosingCashierPayment_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
             }
             catch (Exception ex)
             {

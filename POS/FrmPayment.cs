@@ -3,6 +3,7 @@ using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -377,7 +378,7 @@ namespace POS
                     InvoicePayment invoicePayment = new InvoicePayment();
                     if (!customer.IsEmployee)
                     {
-                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO;
+                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.CREDITO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
                         invoicePayment.Authorization = functions.supervisorAuthorization;
                     }
@@ -421,15 +422,13 @@ namespace POS
 
             try
             {
-                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment")
-                                        where int.Parse(pa.Element("PaymModeId").Value) == (int)ClsEnums.PaymModeEnum.RETENCION 
-                                        select pa).Count();
+                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment") where int.Parse(pa.Element("PaymModeId").Value) == (int)ClsEnums.PaymModeEnum.RETENCION select pa).Count();
                 if (retentionCount > 0)
                 {
                     hasRetention = true;
                 }
             }
-            catch
+            catch 
             {
                 hasRetention = false;
             }
@@ -444,26 +443,22 @@ namespace POS
                 {
                     customer = customer,
                     loginInformation = loginInformation,
-                    retentionAmount = taxAmount
+                    taxAmount = taxAmount,
+                    baseAmount = baseAmount
                 };
                 paymentWithhold.ShowDialog();
 
                 if (paymentWithhold.processResponse)
                 {
-                    decimal retentionAmount = paymentWithhold.retentionAmount;
-                    TxtAmount.Text = retentionAmount.ToString();
+                    decimal paymentRetencion = paymentWithhold.totalDiscounted;
+                    TxtAmount.Text = paymentRetencion.ToString();
+                    List<InvoicePayment> retentionList = paymentWithhold.retentionList;
 
-                    ClsEnums.PaymModeEnum paymModeEnum = ClsEnums.PaymModeEnum.RETENCION;
-                    InvoicePayment invoicePayment = new InvoicePayment
+                    foreach (InvoicePayment item in retentionList)
                     {
-                        PaymModeId = (int)paymModeEnum,
-                        RetentionCode = paymentWithhold.retentionCode,
-                        RetentionNumber = paymentWithhold.retentionNumber,
-                        Authorization = paymentWithhold.authorization,
-                        Amount = paymentWithhold.retentionAmount
-                    };
+                        AddRecordToGrid(item);
+                    }
 
-                    AddRecordToGrid(invoicePayment);
                     CalculatePayment();
                 }
             }

@@ -11,10 +11,10 @@ namespace POS.DLL
 {
     using System;
     
-    public partial class SP_Supervisor_Validate_Result
+    public partial class SP_ClosingCashier_Insert_Result
     {
-        public int UserId { get; set; }
-        public int PasswordId { get; set; }
-        public string Name { get; set; }
+        public Nullable<long> ClosingCashierId { get; set; }
+        public Nullable<bool> Error { get; set; }
+        public string TextError { get; set; }
     }
 }

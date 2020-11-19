@@ -23,7 +23,8 @@ namespace POS
         public int retentionCode;
         public string retentionNumber = "";
         public decimal totalDiscounted = 0;
-        public List<InvoicePayment> retentionList;        
+        public List<InvoicePayment> retentionList;
+
         public FrmPaymentWithhold()
         {
             InitializeComponent();

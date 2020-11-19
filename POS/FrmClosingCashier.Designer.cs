@@ -76,7 +76,6 @@
             this.LblTotalCashier = new System.Windows.Forms.Label();
             this.LblDifference = new System.Windows.Forms.Label();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
@@ -85,7 +84,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // gridColumn7
@@ -714,22 +712,12 @@
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(614, 204);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 162;
-            // 
             // FrmClosingCashier
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
-            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -773,7 +761,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -824,6 +811,5 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private DevExpress.XtraEditors.SimpleButton BtnDot;
         private DevExpress.XtraGrid.Columns.GridColumn DenominationTypeName;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

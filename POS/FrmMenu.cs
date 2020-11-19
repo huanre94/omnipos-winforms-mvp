@@ -18,6 +18,11 @@ namespace POS
             InitializeComponent();
         }
 
+        private void FrmMenu_Load(object sender, EventArgs e)
+        {
+            LblUsername.Text = loginInformation.UserName;
+        }
+
         private void BtnLogOut_Click(object sender, EventArgs e)
         {
             loginInformation = null;
@@ -67,6 +72,6 @@ namespace POS
             frmPartial.globalParameters = globalParameters;
             this.Hide();
             frmPartial.Show();
-        }
+        }       
     }
 }

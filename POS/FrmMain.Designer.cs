@@ -78,6 +78,8 @@
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.BtnPrintLastInvoice = new DevExpress.XtraEditors.SimpleButton();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
+            this.LblCashier = new System.Windows.Forms.Label();
+            this.LblTitleCashier = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -479,7 +481,7 @@
             // 
             this.LblInvoiceNumber.AutoSize = true;
             this.LblInvoiceNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblInvoiceNumber.Location = new System.Drawing.Point(337, 18);
+            this.LblInvoiceNumber.Location = new System.Drawing.Point(336, 12);
             this.LblInvoiceNumber.Name = "LblInvoiceNumber";
             this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
             this.LblInvoiceNumber.TabIndex = 140;
@@ -489,7 +491,7 @@
             // 
             this.LblTitleCustomer.AutoSize = true;
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomer.Location = new System.Drawing.Point(200, 55);
+            this.LblTitleCustomer.Location = new System.Drawing.Point(200, 48);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
             this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
             this.LblTitleCustomer.TabIndex = 141;
@@ -499,7 +501,7 @@
             // 
             this.LblTitleCustomerName.AutoSize = true;
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomerName.Location = new System.Drawing.Point(200, 82);
+            this.LblTitleCustomerName.Location = new System.Drawing.Point(200, 75);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
             this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
             this.LblTitleCustomerName.TabIndex = 142;
@@ -508,7 +510,7 @@
             // LblEmissionPoint
             // 
             this.LblEmissionPoint.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblEmissionPoint.Location = new System.Drawing.Point(272, 18);
+            this.LblEmissionPoint.Location = new System.Drawing.Point(271, 12);
             this.LblEmissionPoint.Name = "LblEmissionPoint";
             this.LblEmissionPoint.Size = new System.Drawing.Size(59, 28);
             this.LblEmissionPoint.TabIndex = 143;
@@ -518,7 +520,7 @@
             // 
             this.LblTitleCustomerAddress.AutoSize = true;
             this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomerAddress.Location = new System.Drawing.Point(200, 109);
+            this.LblTitleCustomerAddress.Location = new System.Drawing.Point(200, 102);
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
             this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
             this.LblTitleCustomerAddress.TabIndex = 144;
@@ -528,7 +530,7 @@
             // 
             this.LblLine2.AutoSize = true;
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.LblLine2.Location = new System.Drawing.Point(322, 18);
+            this.LblLine2.Location = new System.Drawing.Point(321, 12);
             this.LblLine2.Name = "LblLine2";
             this.LblLine2.Size = new System.Drawing.Size(19, 26);
             this.LblLine2.TabIndex = 145;
@@ -538,7 +540,7 @@
             // 
             this.LblLine1.AutoSize = true;
             this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.LblLine1.Location = new System.Drawing.Point(255, 18);
+            this.LblLine1.Location = new System.Drawing.Point(254, 12);
             this.LblLine1.Name = "LblLine1";
             this.LblLine1.Size = new System.Drawing.Size(19, 26);
             this.LblLine1.TabIndex = 146;
@@ -548,7 +550,7 @@
             // 
             this.LblEstablishment.AutoSize = true;
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblEstablishment.Location = new System.Drawing.Point(201, 18);
+            this.LblEstablishment.Location = new System.Drawing.Point(200, 12);
             this.LblEstablishment.Name = "LblEstablishment";
             this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
             this.LblEstablishment.TabIndex = 147;
@@ -557,7 +559,7 @@
             // LblCustomerId
             // 
             this.LblCustomerId.AutoSize = true;
-            this.LblCustomerId.Location = new System.Drawing.Point(284, 56);
+            this.LblCustomerId.Location = new System.Drawing.Point(283, 49);
             this.LblCustomerId.Name = "LblCustomerId";
             this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
             this.LblCustomerId.TabIndex = 148;
@@ -566,7 +568,7 @@
             // LblCustomerName
             // 
             this.LblCustomerName.AutoSize = true;
-            this.LblCustomerName.Location = new System.Drawing.Point(283, 82);
+            this.LblCustomerName.Location = new System.Drawing.Point(283, 75);
             this.LblCustomerName.Name = "LblCustomerName";
             this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
             this.LblCustomerName.TabIndex = 149;
@@ -575,7 +577,7 @@
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
-            this.LblCustomerAddress.Location = new System.Drawing.Point(283, 109);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(283, 102);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
             this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
             this.LblCustomerAddress.TabIndex = 150;
@@ -728,6 +730,25 @@
             this.BtnExit.Text = "Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // LblCashier
+            // 
+            this.LblCashier.AutoSize = true;
+            this.LblCashier.Location = new System.Drawing.Point(283, 129);
+            this.LblCashier.Name = "LblCashier";
+            this.LblCashier.Size = new System.Drawing.Size(66, 16);
+            this.LblCashier.TabIndex = 162;
+            this.LblCashier.Text = "CAJERO";
+            // 
+            // LblTitleCashier
+            // 
+            this.LblTitleCashier.AutoSize = true;
+            this.LblTitleCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.LblTitleCashier.Location = new System.Drawing.Point(200, 129);
+            this.LblTitleCashier.Name = "LblTitleCashier";
+            this.LblTitleCashier.Size = new System.Drawing.Size(63, 16);
+            this.LblTitleCashier.TabIndex = 161;
+            this.LblTitleCashier.Text = "Cajero:";
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -735,6 +756,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.LblCashier);
+            this.Controls.Add(this.LblTitleCashier);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.AxOPOSScale);
             this.Controls.Add(this.AxOPOSScanner);
@@ -848,5 +871,7 @@
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
         private DevExpress.XtraEditors.SimpleButton BtnPrintLastInvoice;
+        private System.Windows.Forms.Label LblCashier;
+        private System.Windows.Forms.Label LblTitleCashier;
     }
 }

@@ -34,6 +34,8 @@
             this.BtnCloseCashier = new DevExpress.XtraEditors.SimpleButton();
             this.BtnPartialClosing = new DevExpress.XtraEditors.SimpleButton();
             this.BtnLogOut = new DevExpress.XtraEditors.SimpleButton();
+            this.LblTitleUsername = new System.Windows.Forms.Label();
+            this.LblUsername = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BtnPOS
@@ -110,12 +112,34 @@
             this.BtnLogOut.Text = "Cerrar Sesion";
             this.BtnLogOut.Click += new System.EventHandler(this.BtnLogOut_Click);
             // 
+            // LblTitleUsername
+            // 
+            this.LblTitleUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblTitleUsername.AutoSize = true;
+            this.LblTitleUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
+            this.LblTitleUsername.Location = new System.Drawing.Point(12, 690);
+            this.LblTitleUsername.Name = "LblTitleUsername";
+            this.LblTitleUsername.Size = new System.Drawing.Size(65, 16);
+            this.LblTitleUsername.TabIndex = 166;
+            this.LblTitleUsername.Text = "Usuario:";
+            // 
+            // LblUsername
+            // 
+            this.LblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
+            this.LblUsername.Location = new System.Drawing.Point(83, 690);
+            this.LblUsername.Name = "LblUsername";
+            this.LblUsername.Size = new System.Drawing.Size(275, 16);
+            this.LblUsername.TabIndex = 167;
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1364, 718);
             this.ControlBox = false;
+            this.Controls.Add(this.LblUsername);
+            this.Controls.Add(this.LblTitleUsername);
             this.Controls.Add(this.BtnPartialClosing);
             this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnCloseCashier);
@@ -126,6 +150,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.FrmMenu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,5 +162,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnCloseCashier;
         private DevExpress.XtraEditors.SimpleButton BtnPartialClosing;
         private DevExpress.XtraEditors.SimpleButton BtnLogOut;
+        private System.Windows.Forms.Label LblTitleUsername;
+        private System.Windows.Forms.Label LblUsername;
     }
 }

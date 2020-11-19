@@ -64,14 +64,12 @@
             this.Btn4 = new DevExpress.XtraEditors.SimpleButton();
             this.Btn2 = new DevExpress.XtraEditors.SimpleButton();
             this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // Amount2
@@ -540,22 +538,12 @@
             this.BtnDelete.Text = "Borrar";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(1074, 297);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 188;
-            // 
             // FrmPartialClosing
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
-            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.GrcPartialClosing);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
@@ -591,7 +579,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -632,6 +619,5 @@
         private DevExpress.XtraEditors.SimpleButton Btn4;
         private DevExpress.XtraEditors.SimpleButton Btn2;
         private DevExpress.XtraEditors.SimpleButton BtnDelete;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

@@ -19,6 +19,8 @@ namespace POS.DLL
         public int Sequence { get; set; }
         public int PaymModeId { get; set; }
         public decimal Amount { get; set; }
+        public decimal Received { get; set; }
+        public decimal Change { get; set; }
         public System.DateTime PaymentDate { get; set; }
         public int BankId { get; set; }
         public int CreditCardId { get; set; }
@@ -36,13 +38,9 @@ namespace POS.DLL
         public string RetentionNumber { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
-        public System.DateTime CreatedDatetime { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
-        public string Workstation { get; set; }
     
+        public virtual InvoiceTable InvoiceTable { get; set; }
         public virtual Location Location { get; set; }
         public virtual PaymMode PaymMode { get; set; }
-        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }

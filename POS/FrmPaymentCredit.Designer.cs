@@ -65,7 +65,7 @@
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(51, 40);
+            this.LblAuthorization.Location = new System.Drawing.Point(51, 32);
             this.LblAuthorization.Name = "LblAuthorization";
             this.LblAuthorization.Size = new System.Drawing.Size(65, 18);
             this.LblAuthorization.TabIndex = 2;
@@ -95,7 +95,7 @@
             // 
             this.LblTitleHolder.AutoSize = true;
             this.LblTitleHolder.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblTitleHolder.Location = new System.Drawing.Point(51, 100);
+            this.LblTitleHolder.Location = new System.Drawing.Point(51, 90);
             this.LblTitleHolder.Name = "LblTitleHolder";
             this.LblTitleHolder.Size = new System.Drawing.Size(59, 18);
             this.LblTitleHolder.TabIndex = 4;
@@ -104,7 +104,7 @@
             // LblHolderName
             // 
             this.LblHolderName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblHolderName.Location = new System.Drawing.Point(142, 100);
+            this.LblHolderName.Location = new System.Drawing.Point(142, 90);
             this.LblHolderName.Name = "LblHolderName";
             this.LblHolderName.Size = new System.Drawing.Size(423, 18);
             this.LblHolderName.TabIndex = 3;
@@ -112,7 +112,7 @@
             // LblCreditLimit
             // 
             this.LblCreditLimit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblCreditLimit.Location = new System.Drawing.Point(144, 158);
+            this.LblCreditLimit.Location = new System.Drawing.Point(144, 148);
             this.LblCreditLimit.Name = "LblCreditLimit";
             this.LblCreditLimit.Size = new System.Drawing.Size(421, 18);
             this.LblCreditLimit.TabIndex = 5;
@@ -121,7 +121,7 @@
             // 
             this.LblTitleCredit.AutoSize = true;
             this.LblTitleCredit.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblTitleCredit.Location = new System.Drawing.Point(51, 158);
+            this.LblTitleCredit.Location = new System.Drawing.Point(51, 148);
             this.LblTitleCredit.Name = "LblTitleCredit";
             this.LblTitleCredit.Size = new System.Drawing.Size(88, 18);
             this.LblTitleCredit.TabIndex = 6;
@@ -129,7 +129,7 @@
             // 
             // TxtCreditCardCode
             // 
-            this.TxtCreditCardCode.Location = new System.Drawing.Point(141, 26);
+            this.TxtCreditCardCode.Location = new System.Drawing.Point(141, 18);
             this.TxtCreditCardCode.Name = "TxtCreditCardCode";
             this.TxtCreditCardCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtCreditCardCode.Properties.Appearance.Options.UseFont = true;

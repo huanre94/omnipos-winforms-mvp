@@ -83,7 +83,6 @@ namespace POS.DLL
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
-        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<LogType> LogType { get; set; }
         public virtual DbSet<SalesLog> SalesLog { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
@@ -94,10 +93,11 @@ namespace POS.DLL
         public virtual DbSet<CurrencyDenomination> CurrencyDenomination { get; set; }
         public virtual DbSet<CurrencyType> CurrencyType { get; set; }
         public virtual DbSet<DenominationType> DenominationType { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<SequenceType> SequenceType { get; set; }
+        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -159,15 +159,6 @@ namespace POS.DLL
                 new ObjectParameter("Reference", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GaranCheck_Authorize_Result>("SP_GaranCheck_Authorize", bankIdParameter, accountNumberParameter, ckeckNumberParameter, ckeckAmountParameter, identificationParameter, nameParameter, phoneParameter, referenceParameter);
-        }
-    
-        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
-        {
-            var barcodeParameter = barcode != null ?
-                new ObjectParameter("barcode", barcode) :
-                new ObjectParameter("barcode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
         }
     
         public virtual ObjectResult<SP_Customer_Insert_Result> SP_Customer_Insert(string paramXML)
@@ -376,6 +367,15 @@ namespace POS.DLL
                 new ObjectParameter("ClosingCashierId", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierTicket_Consult_Result>("SP_ClosingCashierTicket_Consult", closingCashierIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
+        {
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("barcode", barcode) :
+                new ObjectParameter("barcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
         }
     }
 }

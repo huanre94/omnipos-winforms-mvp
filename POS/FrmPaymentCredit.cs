@@ -54,8 +54,11 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
-                        Close();
+                        if (customer.IsEmployee && !(bool)customer.IsCredit)
+                        {
+                            functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
+                            Close();
+                        }
                     }
                 }
             }
