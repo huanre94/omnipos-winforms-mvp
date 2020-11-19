@@ -51,9 +51,9 @@
 
         public enum ScaleBrands
         {
-            CAS, 
-            METTLER_TOLEDO, 
-            RICE_LAKE, 
+            CAS,
+            METTLER_TOLEDO,
+            RICE_LAKE,
             DATALOGIC
         }
 
@@ -63,6 +63,13 @@
             ELIMINAR_PRODUCTO = 2,
             SUSPENDER_DOCUMENTO = 3,
             RECUPERAR_DOCUMENTO = 4
+        }
+
+        public enum Taxtype
+        {
+            RENTA = 1,
+            IVA = 2,
+            ISD = 6
         }
     }
 }
