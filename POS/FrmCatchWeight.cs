@@ -50,6 +50,9 @@ namespace POS
                 LblTitle.Text = string.Empty;
                 BtnCatchWeight.Visible = false;
 
+                //catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
+                //catchWeight.OpenScale();
+
                 if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
                 {
                     CatchWeightProduct(ScaleBrand, PortName);

@@ -3,6 +3,7 @@ using POS.DLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
 
@@ -181,7 +182,8 @@ namespace POS
                                                 , ClsEnums.ScaleBrands _scaleBrand
                                                 , string _portName = ""
                                                 )
-        {            
+        {
+            //MessageBox.Show(_portName + " - " + _scaleBrand);
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.productName = _productName;

@@ -199,6 +199,7 @@ namespace POS
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             TxtBarcode.Text = "";
+            TxtBarcode.Focus();
         }
 
         private void BtnEnter_Click(object sender, EventArgs e)
@@ -327,7 +328,7 @@ namespace POS
             int rowIndex = GrvSalesDetail.FocusedRowHandle;
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No se ha seleccionado una fila.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
             }
             else
             {
@@ -368,7 +369,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.ERROR);
+                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.WARNING);
                     }
                 }
             }
@@ -379,6 +380,7 @@ namespace POS
         private void BtnRemove_Click(object sender, EventArgs e)
         {
             int rowIndex = GrvSalesDetail.FocusedRowHandle;
+
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
@@ -439,8 +441,29 @@ namespace POS
 
         private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
         {
-            Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
-            PrintInvoice(lastId);
+            try
+            {
+                Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
+
+                if (lastId == 0)
+                {
+                    functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                }
+                else
+                {
+                    PrintInvoice(lastId);
+                }
+            }
+            catch(Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al imprimir la última factura."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+
             TxtBarcode.Focus();
         }
         #endregion
