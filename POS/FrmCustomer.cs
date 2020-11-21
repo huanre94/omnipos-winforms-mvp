@@ -201,6 +201,7 @@ namespace POS
                 {
                     ClsCustomer clsCustomer = new ClsCustomer();
                     SP_Customer_Insert_Result result;
+                    int cityId;
 
                     XElement customerXml = new XElement("Customer");
                     customerXml.Add(new XElement("CustomerId", currentCustomer.CustomerId));
@@ -214,7 +215,21 @@ namespace POS
                     customerXml.Add(new XElement("Email", TxtEmail.Text));
                     customerXml.Add(new XElement("Phone", TxtPhone.Text));
                     customerXml.Add(new XElement("Gender", CmbGender.EditValue.ToString()));
+                    
+                    switch (emissionPoint.LocationId) //While city does not select on customer register
+                    {
+                        case 1:
+                            cityId = 3;
+                            break;
+                        case 2:
+                            cityId = 2;
+                            break;
+                        default:
+                            cityId = 1;
+                            break;
+                    }
 
+                    customerXml.Add(new XElement("CityId", cityId));
                     result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString());
 
                     if (result != null)

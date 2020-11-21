@@ -44,7 +44,6 @@ namespace POS
 
         private void GetPaymentInformation()
         {
-            //invoiceAmount = 42.69M; //Here the invoice total amount
             LblTotal.Text = invoiceAmount.ToString();
             TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;
@@ -53,18 +52,10 @@ namespace POS
             bool customerRetention = customer.UseRetention ?? false;
             if (customerRetention)
             {
-                if (taxAmount == 0)
+                if (functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", ClsEnums.MessageType.CONFIRM))
                 {
-                    //functions.ShowMessage("No aplica retencion: La base imponible es cero", ClsEnums.MessageType.ERROR);
+                    Withhold();
                 }
-                else
-                {
-                    if (functions.ShowMessage("Este cliente genera retencion. ¿Desea registrar una?", ClsEnums.MessageType.CONFIRM))
-                    {                        
-                        Withhold();
-                    }
-                }
-
             }
 
         }
@@ -149,20 +140,7 @@ namespace POS
 
         #endregion
 
-        #region Payment Buttons
-        private void BtnWithhold_Click(object sender, EventArgs e)
-        {
-            //todo: validar que no exista un metodo de pago retencion previo, solo puede tener 1
-
-            if (taxAmount == 0)
-            {
-                functions.ShowMessage("No aplica retencion, la base imponible es cero", ClsEnums.MessageType.ERROR);
-            }
-            else
-            {
-                Withhold();
-            }
-        }
+        #region Payment Buttons      
 
         private void BtnCash_Click(object sender, EventArgs e)
         {
@@ -221,6 +199,20 @@ namespace POS
             else
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
+        }
+
+        private void BtnWithhold_Click(object sender, EventArgs e)
+        {
+            //todo: validar que no exista un metodo de pago retencion previo, solo puede tener 1
+
+            if (taxAmount == 0 && baseAmount == 0)
+            {
+                functions.ShowMessage("La venta no aplica retención, la base imponible es cero", ClsEnums.MessageType.WARNING);
+            }
+            else
+            {
+                Withhold();
             }
         }
 

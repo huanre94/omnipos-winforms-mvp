@@ -28,8 +28,6 @@ namespace POS
         XElement invoiceXml = new XElement("Invoice");
         Int64 sequenceNumber;
         public SP_Login_Consult_Result loginInformation;
-        decimal baseAmount = 0;
-        decimal taxAmount = 0;
         public Int64 internalCreditCardId = 0;
         public string internalCreditCardCode = "";
         ClsCatchWeight catchWeight;
@@ -227,10 +225,11 @@ namespace POS
             if (keyBoard.customerIdentification != "")
             {
                 ClsCustomer clsCustomer = new ClsCustomer();
+                string identification = keyBoard.customerIdentification;
 
                 try
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(keyBoard.customerIdentification);
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification);
 
                     if (currentCustomer != null)
                     {
@@ -268,14 +267,8 @@ namespace POS
                         bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
 
                         if (response)
-                        {
-                            FrmCustomer frmCustomer = new FrmCustomer();
-                            frmCustomer.emissionPoint = emissionPoint;
-                            frmCustomer.isNewCustomer = true;
-                            frmCustomer.customerIdentification = keyBoard.customerIdentification;
-                            frmCustomer.ShowDialog();
-
-                            currentCustomer = frmCustomer.currentCustomer;
+                        {   
+                            currentCustomer = CreateCustomer(identification);
 
                             if (currentCustomer != null)
                             {
@@ -1228,6 +1221,16 @@ namespace POS
             LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
         }
 
+        private Customer CreateCustomer(string _identification)
+        {
+            FrmCustomer frmCustomer = new FrmCustomer();
+            frmCustomer.emissionPoint = emissionPoint;
+            frmCustomer.isNewCustomer = true;
+            frmCustomer.customerIdentification = _identification;
+            frmCustomer.ShowDialog();
+
+            return frmCustomer.currentCustomer;
+        }
         #endregion
 
         

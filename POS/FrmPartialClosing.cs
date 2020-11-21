@@ -278,11 +278,11 @@ namespace POS
                             {
                                 if (PrintInvoice((Int64)closing.ClosingCashierId))
                                 {
-                                    functions.ShowMessage("Venta finalizada exitosamente.");
+                                    functions.ShowMessage("Cierre parcial finalizado exitosamente.");
                                 }
                                 else
                                 {
-                                    functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                    functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
                                 }
 
                                 FrmMenu frmMenu = new FrmMenu();

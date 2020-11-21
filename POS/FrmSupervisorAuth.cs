@@ -109,8 +109,12 @@ namespace POS
                         if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                         {
                             functions.DisableScanner();
-                            functions.AxOPOSScanner = scanner;
-                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                            if (scanner != null)
+                            {
+                                functions.AxOPOSScanner = scanner;
+                                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                            }
                         }
                     }
                     else

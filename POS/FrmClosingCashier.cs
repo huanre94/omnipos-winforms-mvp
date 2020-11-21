@@ -24,6 +24,7 @@ namespace POS
         XElement closingXml = new XElement("ClosingCashier");
         GridView selectedGrv;
         decimal totalHideCash = 0;
+
         public FrmClosingCashier()
         {
             InitializeComponent();
@@ -337,11 +338,11 @@ namespace POS
                                 {
                                     if (PrintInvoice((Int64)closing.ClosingCashierId))
                                     {
-                                        functions.ShowMessage("Venta finalizada exitosamente.");
+                                        functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                                     }
                                     else
                                     {
-                                        functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                        functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
                                     }
 
                                     FrmMenu frmMenu = new FrmMenu();
