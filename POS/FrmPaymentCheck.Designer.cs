@@ -143,6 +143,7 @@
             this.TxtCheckDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
             this.TxtCheckDate.Size = new System.Drawing.Size(300, 38);
             this.TxtCheckDate.TabIndex = 3;
+            this.TxtCheckDate.EditValueChanged += new System.EventHandler(this.TxtCheckDate_EditValueChanged);
             // 
             // LblOwnerName
             // 
@@ -394,7 +395,7 @@
             this.BtnKeypadAuth.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadAuth.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadAuth.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadAuth.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadAuth.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadAuth.ImageOptions.SvgImage")));
             this.BtnKeypadAuth.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadAuth.Location = new System.Drawing.Point(403, 465);
             this.BtnKeypadAuth.Margin = new System.Windows.Forms.Padding(6);

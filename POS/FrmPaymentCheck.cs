@@ -147,58 +147,66 @@ namespace POS
         {
             if (ValidateCheckFields())
             {
-                DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
-                DLL.SP_GaranCheck_Authorize_Result authorizeResult;
-
-                try
+                int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
+                if (dateDiff == 0)
                 {
-                    authorizeResult = authorization.GetGaranCheckAuth(
-                                                                        int.Parse(CmbCheckBank.EditValue.ToString())
-                                                                        , TxtAccountNumber.Text
-                                                                        , int.Parse(TxtCheckNumber.Text)
-                                                                        , checkAmount
-                                                                        , TxtIdentification.Text
-                                                                        , TxtOwnerName.Text
-                                                                        , TxtPhone.Text
-                                                                        , ""
-                                                                        );
+                    DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
+                    SP_GaranCheck_Authorize_Result authorizeResult;
 
-                    if (authorizeResult != null)
+                    try
                     {
+                        authorizeResult = authorization.GetGaranCheckAuth(
+                                                                            int.Parse(CmbCheckBank.EditValue.ToString())
+                                                                            , TxtAccountNumber.Text
+                                                                            , int.Parse(TxtCheckNumber.Text)
+                                                                            , checkAmount
+                                                                            , TxtIdentification.Text
+                                                                            , TxtOwnerName.Text
+                                                                            , TxtPhone.Text
+                                                                            , ""
+                                                                            );
 
-                        string result = authorizeResult.Result;
+                        if (authorizeResult != null)
+                        {
 
-                        if (authorizeResult.Response == 0)
-                        {
-                            TxtAuthorization.Text = result;
-                            functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
-                        }
-                        else
-                        {
-                            bool response = functions.ShowMessage(
-                                                                    "No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
-                                                                    , ClsEnums.MessageType.CONFIRM
-                                                                    , true
-                                                                    , result
-                                                                    );
-                            if (response)
+                            string result = authorizeResult.Result;
+
+                            if (authorizeResult.Response == 0)
                             {
-                                BtnAuthorization.Visible = false;
-                                BtnKeypadAuth.Visible = true;
-                                TxtAuthorization.Enabled = true;
+                                TxtAuthorization.Text = result;
+                                functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
                             }
-                        }
+                            else
+                            {
+                                bool response = functions.ShowMessage(
+                                                                        "No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
+                                                                        , ClsEnums.MessageType.CONFIRM
+                                                                        , true
+                                                                        , result
+                                                                        );
+                                if (response)
+                                {
+                                    BtnAuthorization.Visible = false;
+                                    BtnKeypadAuth.Visible = true;
+                                    TxtAuthorization.Enabled = true;
+                                }
+                            }
 
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        functions.ShowMessage(
+                                                "Ocurrio un problema al obtener autorizacion."
+                                                , ClsEnums.MessageType.ERROR
+                                                , true
+                                                , ex.InnerException.Message
+                                                );
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al obtener autorizacion."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                            );
+
                 }
             }
         }
@@ -207,7 +215,26 @@ namespace POS
         {
             if (ValidateCheckFields())
             {
-                if (TxtAuthorization.Text != "")
+                int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
+                if (dateDiff == 0)
+                {
+                    if (TxtAuthorization.Text != "")
+                    {
+                        processResponse = true;
+                        checkOwnerName = TxtOwnerName.Text;
+                        checkBankId = int.Parse(CmbCheckBank.EditValue.ToString());
+                        checkDate = TxtCheckDate.DateTime;
+                        checkAccountNumber = TxtAccountNumber.Text;
+                        checkNumber = int.Parse(TxtCheckNumber.Text);
+                        checkAuthorization = TxtAuthorization.Text;
+                    }
+                    else
+                    {
+                        functions.ShowMessage("No ha solicitado autorizacion para el cheque.", ClsEnums.MessageType.WARNING);
+                        this.DialogResult = DialogResult.None;
+                    }
+                }
+                else
                 {
                     processResponse = true;
                     checkOwnerName = TxtOwnerName.Text;
@@ -216,12 +243,9 @@ namespace POS
                     checkAccountNumber = TxtAccountNumber.Text;
                     checkNumber = int.Parse(TxtCheckNumber.Text);
                     checkAuthorization = TxtAuthorization.Text;
+
                 }
-                else
-                {
-                    functions.ShowMessage("No ha solicitado autorizacion para el cheque.", ClsEnums.MessageType.WARNING);
-                    this.DialogResult = DialogResult.None;
-                }
+
             }
         }
 
@@ -245,6 +269,28 @@ namespace POS
             return response;
         }
 
+        private void TxtCheckDate_EditValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
+                if (dateDiff == 0)
+                {
+                    TxtAuthorization.Enabled = true;
+                    BtnAuthorization.Enabled = true;
+                }
+                else
+                {
+                    TxtAuthorization.Enabled = false;
+                    BtnAuthorization.Enabled = false;
 
+                }
+            }
+            catch (Exception ex)
+            {
+                TxtCheckDate.DateTime = DateTime.Now;
+            }
+
+        }
     }
 }
