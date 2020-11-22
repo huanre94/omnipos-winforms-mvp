@@ -286,7 +286,7 @@ namespace POS
 
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 TxtCheckDate.DateTime = DateTime.Now;
             }

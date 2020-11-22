@@ -125,6 +125,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show(weight.ToString());
             if (weight > 0)
             {
                 formActionResult = true;

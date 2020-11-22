@@ -80,7 +80,7 @@ namespace POS
             }
             else
             {
-                Close();
+                DialogResult = DialogResult.Cancel;
             }
         }
 

@@ -197,6 +197,7 @@ namespace POS
                              where par.Name == "LostWeightQty"
                              select par.Value).FirstOrDefault();
 
+            //MessageBox.Show(_qty.ToString() + " " + catchWeight.ToString());
             lostWeight = _qty - catchWeight;
             lostWeight = Math.Abs(lostWeight);
 

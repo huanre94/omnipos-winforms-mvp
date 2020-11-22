@@ -2,6 +2,7 @@
 using POS.DLL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
@@ -49,9 +50,11 @@ namespace POS
         {
             FrmMain frmMain = new FrmMain();
             frmMain.loginInformation = loginInformation;
-            frmMain.globalParameters = globalParameters;
-            this.Hide();
+            frmMain.globalParameters = globalParameters;            
             frmMain.Show();
+
+            if (Application.OpenForms.OfType<FrmMain>().Count() == 1)
+                this.Hide();
         }
 
         private void BtnCloseCashier_Click(object sender, EventArgs e)
@@ -60,18 +63,22 @@ namespace POS
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters                
-            };
-            this.Hide();
+            };            
             frmClosing.Show();
+
+            if (Application.OpenForms.OfType<FrmClosingCashier>().Count() == 1)
+                this.Hide();
         }
 
         private void BtnPartialClosing_Click(object sender, EventArgs e)
         {
             FrmPartialClosing frmPartial = new FrmPartialClosing();
             frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;
-            this.Hide();
+            frmPartial.globalParameters = globalParameters;            
             frmPartial.Show();
+
+            if (Application.OpenForms.OfType<FrmPartialClosing>().Count() == 1)
+                this.Hide();
         }       
     }
 }

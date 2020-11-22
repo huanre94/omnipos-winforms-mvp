@@ -119,28 +119,28 @@ namespace POS
             if (taxAmount != 0 && CmbTaxPercent.SelectedItem == null)
             {
                 validate = false;
-                functions.ShowMessage("Debe seleccionar un impuesto al IVA.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("Debe seleccionar un impuesto para la retención al IVA.", ClsEnums.MessageType.ERROR);
             }
 
             if (TxtNAutorization.Text.Length == 0)
             {
                 validate = false;
-                functions.ShowMessage("La autorizacion no puede estar vacia.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de autorización no puede estar vacío.", ClsEnums.MessageType.ERROR);
             }
             else if (TxtNAutorization.Text.Length != 10)
             {
                 validate = false;
-                functions.ShowMessage("La autorizacion no puede estar vacia.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de autorización debe tener 10 dígitos.", ClsEnums.MessageType.ERROR);
             }
 
             if (TxtNRetention.Text.Length == 0)
             {
                 validate = false;
-                functions.ShowMessage("La retencion no puede estar vacia.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de la retención no puede estar vacío.", ClsEnums.MessageType.ERROR);
             }
             else if (TxtNRetention.Text.Length != 15)
             {
-                functions.ShowMessage("La retencion no puede estar vacia.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de la retención debe tener 15 dígitos.", ClsEnums.MessageType.ERROR);
                 validate = false;
             }
 
