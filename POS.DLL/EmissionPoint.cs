@@ -18,7 +18,6 @@ namespace POS.DLL
         public EmissionPoint()
         {
             this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
-            this.SalesOrder = new HashSet<SalesOrder>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
         }
@@ -46,8 +45,6 @@ namespace POS.DLL
         public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
         public virtual InventLocation InventLocation { get; set; }
         public virtual Location Location { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrder> SalesOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

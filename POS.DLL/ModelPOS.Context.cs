@@ -75,7 +75,6 @@ namespace POS.DLL
         public virtual DbSet<TransportDriver> TransportDriver { get; set; }
         public virtual DbSet<TransportReason> TransportReason { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
@@ -98,6 +97,7 @@ namespace POS.DLL
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {

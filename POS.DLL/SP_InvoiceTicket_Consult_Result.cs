@@ -10,17 +10,10 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class SalesOrderPayment
+    public partial class SP_InvoiceTicket_Consult_Result
     {
-        public long SalesOrderId { get; set; }
-        public int Sequence { get; set; }
-        public int PaymModeId { get; set; }
-        public decimal Amount { get; set; }
-        public string Reference { get; set; }
-    
-        public virtual PaymMode PaymMode { get; set; }
-        public virtual SalesOrder SalesOrder { get; set; }
+        public string BodyText { get; set; }
+        public Nullable<bool> Error { get; set; }
     }
 }

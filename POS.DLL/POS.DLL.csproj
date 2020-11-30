@@ -331,6 +331,7 @@
     <Compile Include="Transaction\ClsClosingTrans.cs" />
     <Compile Include="Transaction\ClsCustomerTrans.cs" />
     <Compile Include="Transaction\ClsInvoiceTrans.cs" />
+    <Compile Include="Transaction\ClsSalesOrderTrans.cs" />
     <Compile Include="Transport.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

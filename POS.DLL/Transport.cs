@@ -14,6 +14,12 @@ namespace POS.DLL
     
     public partial class Transport
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Transport()
+        {
+            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
+        }
+    
         public int TransportId { get; set; }
         public string LicencePlate { get; set; }
         public string Description { get; set; }
@@ -23,5 +29,8 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
     }
 }

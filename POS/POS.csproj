@@ -218,6 +218,12 @@
     <Compile Include="FrmProductSearch.Designer.cs">
       <DependentUpon>FrmProductSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSalesOrigin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalesOrigin.Designer.cs">
+      <DependentUpon>FrmSalesOrigin.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmSupervisorAuth.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProductSearch.resx">
       <DependentUpon>FrmProductSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalesOrigin.resx">
+      <DependentUpon>FrmSalesOrigin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSupervisorAuth.resx">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
@@ -406,6 +415,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salesOrigin.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -45,5 +45,6 @@ namespace POS.DLL
         public virtual TransportDriver TransportDriver { get; set; }
         public virtual TransportReason TransportReason { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual Transport Transport { get; set; }
     }
 }

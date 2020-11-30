@@ -80,6 +80,7 @@
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             this.LblCashier = new System.Windows.Forms.Label();
             this.LblTitleCashier = new System.Windows.Forms.Label();
+            this.BtnSalesOrigin = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -203,7 +204,7 @@
             this.LblBarcode.Name = "LblBarcode";
             this.LblBarcode.Size = new System.Drawing.Size(170, 22);
             this.LblBarcode.TabIndex = 119;
-            this.LblBarcode.Text = "Codigo de Barras";
+            this.LblBarcode.Text = "Código de Barras";
             // 
             // Btn6
             // 
@@ -709,7 +710,7 @@
             this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
             this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
             this.BtnPrintLastInvoice.TabIndex = 151;
-            this.BtnPrintLastInvoice.Text = "Imp Ult Factura";
+            this.BtnPrintLastInvoice.Text = "Ultima Factura";
             this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
             // 
             // BtnExit
@@ -749,6 +750,22 @@
             this.LblTitleCashier.TabIndex = 161;
             this.LblTitleCashier.Text = "Cajero:";
             // 
+            // BtnSalesOrigin
+            // 
+            this.BtnSalesOrigin.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnSalesOrigin.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnSalesOrigin.Appearance.Options.UseBackColor = true;
+            this.BtnSalesOrigin.Appearance.Options.UseFont = true;
+            this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin;
+            this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
+            this.BtnSalesOrigin.Location = new System.Drawing.Point(727, 695);
+            this.BtnSalesOrigin.Name = "BtnSalesOrigin";
+            this.BtnSalesOrigin.Size = new System.Drawing.Size(250, 45);
+            this.BtnSalesOrigin.TabIndex = 163;
+            this.BtnSalesOrigin.Text = "Origen de Venta";
+            this.BtnSalesOrigin.Click += new System.EventHandler(this.BtnSalesOrigin_Click);
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -756,6 +773,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.BtnSalesOrigin);
             this.Controls.Add(this.LblCashier);
             this.Controls.Add(this.LblTitleCashier);
             this.Controls.Add(this.BtnExit);
@@ -873,5 +891,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnPrintLastInvoice;
         private System.Windows.Forms.Label LblCashier;
         private System.Windows.Forms.Label LblTitleCashier;
+        private DevExpress.XtraEditors.SimpleButton BtnSalesOrigin;
     }
 }

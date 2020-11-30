@@ -462,6 +462,12 @@ namespace POS
 
             TxtBarcode.Focus();
         }
+
+        private void BtnSalesOrigin_Click(object sender, EventArgs e)
+        {
+            FrmSalesOrigin frmSalesOrigin = new FrmSalesOrigin();
+            frmSalesOrigin.ShowDialog();
+        }
         #endregion
 
         #region Right Side Buttons
@@ -1240,8 +1246,7 @@ namespace POS
 
             return frmCustomer.currentCustomer;
         }
-        #endregion
 
-        
+        #endregion
     }
 }
