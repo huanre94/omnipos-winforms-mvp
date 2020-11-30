@@ -16,6 +16,7 @@ namespace POS
         public bool isNewCustomer;
         public EmissionPoint emissionPoint;
         public Customer currentCustomer = new Customer();
+        public SP_Login_Consult_Result loginInformation;
 
         public FrmCustomer()
         {
@@ -215,7 +216,9 @@ namespace POS
                     customerXml.Add(new XElement("Email", TxtEmail.Text));
                     customerXml.Add(new XElement("Phone", TxtPhone.Text));
                     customerXml.Add(new XElement("Gender", CmbGender.EditValue.ToString()));
-                    
+                    customerXml.Add(new XElement("CreatedBy", loginInformation.UserId));
+                    customerXml.Add(new XElement("Workstation", loginInformation.Workstation));
+
                     switch (emissionPoint.LocationId) //While city does not select on customer register
                     {
                         case 1:

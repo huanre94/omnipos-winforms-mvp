@@ -20,7 +20,7 @@ namespace POS.DLL
         public decimal PriceReference { get; set; }
         public decimal Price { get; set; }
         public decimal TaxAmount { get; set; }
-        public decimal IRBPAmount { get; set; }
+        public decimal IrbpAmount { get; set; }
     
         public virtual Product Product { get; set; }
     }

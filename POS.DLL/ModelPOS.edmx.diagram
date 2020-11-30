@@ -91,8 +91,6 @@
         <AssociationConnector Association="POSModel.FK__SalesRemissionLine_SalesRemissionTable" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_TransportDriver" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_TransportReason" />
-        <EntityTypeShape EntityType="POSModel.ProductModule" Width="1.5" PointX="12" PointY="27.875" />
-        <AssociationConnector Association="POSModel.FK__ProductModule_Product" />
         <EntityTypeShape EntityType="POSModel.Vendor" Width="1.5" PointX="7.5" PointY="33.125" />
         <AssociationConnector Association="POSModel.FK__Vendor_City" />
         <AssociationConnector Association="POSModel.FK__Vendor_CustIdType" />
@@ -166,6 +164,8 @@
         <AssociationConnector Association="POSModel.FK__InvoiceTable_Salesman" />
         <AssociationConnector Association="POSModel.FK__InvoiceTable_SalesOrigin" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionLine_InvoiceTable" />
+        <EntityTypeShape EntityType="POSModel.ProductModule" Width="1.5" PointX="12" PointY="31.875" />
+        <AssociationConnector Association="POSModel.FK__ProductModule_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

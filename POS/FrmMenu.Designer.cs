@@ -36,6 +36,7 @@
             this.BtnLogOut = new DevExpress.XtraEditors.SimpleButton();
             this.LblTitleUsername = new System.Windows.Forms.Label();
             this.LblUsername = new System.Windows.Forms.Label();
+            this.LblVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BtnPOS
@@ -132,12 +133,23 @@
             this.LblUsername.Size = new System.Drawing.Size(275, 16);
             this.LblUsername.TabIndex = 167;
             // 
+            // LblVersion
+            // 
+            this.LblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
+            this.LblVersion.Location = new System.Drawing.Point(364, 690);
+            this.LblVersion.Name = "LblVersion";
+            this.LblVersion.Size = new System.Drawing.Size(275, 16);
+            this.LblVersion.TabIndex = 168;
+            this.LblVersion.Text = "Publish Version";
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1364, 718);
             this.ControlBox = false;
+            this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.LblUsername);
             this.Controls.Add(this.LblTitleUsername);
             this.Controls.Add(this.BtnPartialClosing);
@@ -164,5 +176,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnLogOut;
         private System.Windows.Forms.Label LblTitleUsername;
         private System.Windows.Forms.Label LblUsername;
+        private System.Windows.Forms.Label LblVersion;
     }
 }

@@ -47,29 +47,30 @@ namespace POS
             {
                 ClearInvoice();
                 CheckGridView();
-                LblCashier.Text = loginInformation.UserName;
-                scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                if (emissionPoint.ScaleBrand != "")
                 {
-                    catchWeight = new ClsCatchWeight(scaleBrand);
-                    catchWeight.AxOPOSScale = AxOPOSScale;
-                    catchWeight.EnableScale(emissionPoint.ScaleName);
-                    functions.AxOPOSScanner = AxOPOSScanner;
-                    functions.EnableScanner(emissionPoint.ScanBarcodeName);                    
-                }
-                else
-                {
-                    string[] portNames = SerialPort.GetPortNames();                    
-                    portName = string.Empty;
+                    scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                    foreach (var item in portNames)
+                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                     {
-                        portName = item;
-                        break;
+                        catchWeight = new ClsCatchWeight(scaleBrand);
+                        catchWeight.AxOPOSScale = AxOPOSScale;
+                        catchWeight.EnableScale(emissionPoint.ScaleName);
+                        functions.AxOPOSScanner = AxOPOSScanner;
+                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
                     }
+                    else
+                    {
+                        string[] portNames = SerialPort.GetPortNames();
+                        portName = string.Empty;
 
-                    //MessageBox.Show(portName);
+                        foreach (var item in portNames)
+                        {
+                            portName = item;
+                            break;
+                        }
+                    }
                 }
 
                 if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
@@ -95,21 +96,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
-
-                    if (emissionPoint != null)
-                    {
-                        response = true;
-                        LblEstablishment.Text = emissionPoint.Establishment;
-                        LblEmissionPoint.Text = emissionPoint.Emission;
-                        functions.PrinterName = emissionPoint.PrinterName;
-
-                        GetNewSequenceNumber(emissionPoint.EmissionPointId);
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
-                    }
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);                    
                 }
                 catch (Exception ex)
                 {
@@ -125,6 +112,21 @@ namespace POS
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
             }
+
+            if (emissionPoint != null)
+            {
+                response = true;
+                LblEstablishment.Text = emissionPoint.Establishment;
+                LblEmissionPoint.Text = emissionPoint.Emission;
+                functions.PrinterName = emissionPoint.PrinterName;
+                LblCashier.Text = loginInformation.UserName;
+
+                GetNewSequenceNumber(emissionPoint.EmissionPointId);
+            }
+            else
+            {
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+            }            
 
             return response;
         }
@@ -444,7 +446,8 @@ namespace POS
                 }
                 else
                 {
-                    PrintInvoice(lastId);
+                    //PrintInvoice(lastId, false);
+                    functions.PrintDocument(lastId, ClsEnums.DocumentType.INVOICE);
                 }
             }
             catch(Exception ex)
@@ -742,7 +745,7 @@ namespace POS
             } 
         }
 
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)        
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
             SendKeys.Send("{ENTER}");
@@ -773,6 +776,7 @@ namespace POS
             bool updateRecord = false;
             decimal qtyFound = 0;
             decimal amountFound = 0;
+            decimal amountTaxFound = 0;
             bool useWeightControl = false;
             bool useCatchWeight = false;
             bool canInsert = true;
@@ -814,6 +818,9 @@ namespace POS
                             case "BaseAmount":
                                 amountFound = decimal.Parse(node.Value);
                                 break;
+                            case "BaseTaxAmount":
+                                amountTaxFound = decimal.Parse(node.Value);
+                                break;
                         }
                     }
 
@@ -826,7 +833,7 @@ namespace POS
                             string decimals = _barcode.Substring(10, 3);
                             string newNumber = entere + "." + decimals;
                             decimal newAmount = decimal.Parse(newNumber);
-                            newAmount += amountFound;
+                            newAmount += amountFound + amountTaxFound;
                             newAmount = Math.Round(newAmount, 3);
                             string value = newAmount.ToString();
                             value = value.Replace(".", "");
@@ -942,7 +949,7 @@ namespace POS
             XElement invoiceTableXml = new XElement("InvoiceTable");
 
             try
-            {
+            { 
                 InvoiceTable invoiceTable = new InvoiceTable
                 {
                     LocationId = emissionPoint.LocationId,
@@ -984,7 +991,8 @@ namespace POS
                     {
                         ClearInvoice();
 
-                        if (PrintInvoice((Int64)invoiceResult.InvoiceId))
+                        //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
+                        if (functions.PrintDocument((Int64)invoiceResult.InvoiceId,ClsEnums.DocumentType.INVOICE, true))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");
                         }
@@ -1020,49 +1028,49 @@ namespace POS
             }
         }
 
-        private bool PrintInvoice(Int64 _invoiceId)
-        {
-            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
-            List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
-            bool response = false;
-            string bodyText = "";
+        //private bool PrintInvoice(Int64 _invoiceId, bool _openCashier = true)
+        //{
+        //    ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
+        //    List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
+        //    bool response = false;
+        //    string bodyText = "";
 
-            try
-            {
-                invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId);
+        //    try
+        //    {
+        //        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId, _openCashier);
 
-                if (invoiceTicket != null)
-                {
-                    if (invoiceTicket.Count > 0)
-                    {
+        //        if (invoiceTicket != null)
+        //        {
+        //            if (invoiceTicket.Count > 0)
+        //            {
 
-                        foreach (var line in invoiceTicket)
-                        {
-                            bodyText += line.BodyText + Environment.NewLine;
-                        }
+        //                foreach (var line in invoiceTicket)
+        //                {
+        //                    bodyText += line.BodyText + Environment.NewLine;
+        //                }
 
-                        bool PrinterDocumentOk = functions.PrinterDocument(bodyText);
+        //                bool PrinterDocumentOk = functions.ProcessDocumentToPrint(bodyText);
 
-                        if (PrinterDocumentOk == true)
-                        {
-                            response = true;
-                        }
+        //                if (PrinterDocumentOk == true)
+        //                {
+        //                    response = true;
+        //                }
 
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ha ocurrido un problema al imprimir la factura."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        functions.ShowMessage(
+        //                                "Ha ocurrido un problema al imprimir la factura."
+        //                                , ClsEnums.MessageType.ERROR
+        //                                , true
+        //                                , ex.Message
+        //                            );
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         private void ClearInvoice()
         {
@@ -1227,6 +1235,7 @@ namespace POS
             frmCustomer.emissionPoint = emissionPoint;
             frmCustomer.isNewCustomer = true;
             frmCustomer.customerIdentification = _identification;
+            frmCustomer.loginInformation = loginInformation;
             frmCustomer.ShowDialog();
 
             return frmCustomer.currentCustomer;

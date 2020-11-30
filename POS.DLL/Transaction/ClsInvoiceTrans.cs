@@ -59,16 +59,14 @@ namespace POS.DLL.Transaction
             return invoiceResult;
         }
 
-        public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId)
+        public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId, bool _openCashier = false)
         {
             var db = new POSEntities();
             List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult;
 
             try
             {
-
-                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId).ToList();
-                
+                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();                
             }
             catch (Exception ex)
             {

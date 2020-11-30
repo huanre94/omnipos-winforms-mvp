@@ -23,6 +23,20 @@ namespace POS
             InitializeComponent();
         }
 
+        private void FrmKeyPad_Load(object sender, EventArgs e)
+        {
+            if (inputFromOption == ClsEnums.InputFromOption.LOGIN_PASSWORD)
+            {
+                TxtValue.Properties.UseSystemPasswordChar = true;
+                TxtValue.Properties.PasswordChar = '•';
+            }
+            else
+            {
+                TxtValue.Properties.UseSystemPasswordChar = false;
+                TxtValue.Properties.PasswordChar = '\0';
+            }
+        }
+
         #region KeyPad Buttons
         private void Btn0_Click(object sender, EventArgs e)
         {
@@ -130,15 +144,6 @@ namespace POS
                 ClsFunctions functions = new ClsFunctions();
                 functions.ShowMessage("Debe ingresar un numero", ClsEnums.MessageType.WARNING);
             }
-        }
-
-        private void TxtValue_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            if (inputFromOption == ClsEnums.InputFromOption.LOGIN_PASSWORD)
-            {
-                TxtValue.Properties.UseSystemPasswordChar = true;
-                TxtValue.Properties.PasswordChar = '•';
-            }
-        }
+        }  
     }
 }

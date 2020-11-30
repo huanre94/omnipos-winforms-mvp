@@ -22,6 +22,7 @@ namespace POS
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             LblUsername.Text = loginInformation.UserName;
+            LblVersion.Text = functions.GetPublishVersion() ?? "";
         }
 
         private void BtnLogOut_Click(object sender, EventArgs e)

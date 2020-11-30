@@ -667,7 +667,7 @@
           <Property Name="PriceReference" Type="numeric" Precision="24" Scale="6" Nullable="false" />
           <Property Name="Price" Type="numeric" Precision="24" Scale="6" Nullable="false" />
           <Property Name="TaxAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
-          <Property Name="IRBPAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="IrbpAmount" Type="numeric" Precision="24" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="PromotionCustomer">
           <Key>
@@ -2257,6 +2257,7 @@
         </Function>
         <Function Name="SP_InvoiceTicket_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InvoiceId" Type="bigint" Mode="In" />
+          <Parameter Name="OpenCashier" Type="bit" Mode="In" />
         </Function>
         <Function Name="SP_Login_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -2913,10 +2914,10 @@
           <NavigationProperty Name="ProductBarcode" Relationship="Self.FK__ProductBarcode_Product" FromRole="Product" ToRole="ProductBarcode" />
           <NavigationProperty Name="GiftCardTemplateLine" Relationship="POSModel.FK__GiftCardTemplateLine_Product" FromRole="Product" ToRole="GiftCardTemplateLine" />
           <NavigationProperty Name="GiftCardTemplateTable" Relationship="POSModel.FK__GiftCardTemplateTable_Product" FromRole="Product" ToRole="GiftCardTemplateTable" />
-          <NavigationProperty Name="ProductModule" Relationship="POSModel.FK__ProductModule_Product" FromRole="Product" ToRole="ProductModule" />
           <NavigationProperty Name="Vendor" Relationship="POSModel.FK__Product_VendorId" FromRole="Product" ToRole="Vendor" />
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_Product" FromRole="Product" ToRole="InvoiceLine" />
           <NavigationProperty Name="SalesOrderLine" Relationship="POSModel.FK__SalesOrderLine_Product" FromRole="Product" ToRole="SalesOrderLine" />
+          <NavigationProperty Name="ProductModule" Relationship="POSModel.FK__ProductModule_Product" FromRole="Product" ToRole="ProductModule" />
         </EntityType>
         <EntityType Name="ProductBarcode">
           <Key>
@@ -3449,11 +3450,6 @@
             <End Role="TransportReason" EntitySet="TransportReason" />
             <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
           </AssociationSet>
-          <EntitySet Name="ProductModule" EntityType="POSModel.ProductModule" />
-          <AssociationSet Name="FK__ProductModule_Product" Association="POSModel.FK__ProductModule_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductModule" EntitySet="ProductModule" />
-          </AssociationSet>
           <EntitySet Name="Vendor" EntityType="POSModel.Vendor" />
           <AssociationSet Name="FK__Vendor_City" Association="POSModel.FK__Vendor_City">
             <End Role="City" EntitySet="City" />
@@ -3578,9 +3574,6 @@
             <Parameter Name="AddressIP" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Supervisor" EntityType="POSModel.Supervisor" />
-          <FunctionImport Name="SP_InvoiceTicket_Consult" ReturnType="Collection(POSModel.SP_InvoiceTicket_Consult_Result)">
-          <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
-          </FunctionImport>
           <FunctionImport Name="SP_Invoice_Insert" ReturnType="Collection(POSModel.SP_Invoice_Insert_Result)">
           <Parameter Name="ParamXML" Mode="In" Type="String" />
           </FunctionImport>
@@ -3741,6 +3734,15 @@
           <AssociationSet Name="FK__SalesRemissionLine_InvoiceTable" Association="POSModel.FK__SalesRemissionLine_InvoiceTable">
             <End Role="InvoiceTable" EntitySet="InvoiceTable" />
             <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
+          </AssociationSet>
+          <FunctionImport Name="SP_InvoiceTicket_Consult" ReturnType="Collection(POSModel.SP_InvoiceTicket_Consult_Result)">
+            <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
+            <Parameter Name="OpenCashier" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="ProductModule" EntityType="POSModel.ProductModule" />
+          <AssociationSet Name="FK__ProductModule_Product" Association="POSModel.FK__ProductModule_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductModule" EntitySet="ProductModule" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
@@ -4498,32 +4500,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ProductModule">
-          <Key>
-            <PropertyRef Name="ProductId" />
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
-          <Property Name="PriceReference" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
-          <Property Name="TaxAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
-          <Property Name="IRBPAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
-          <NavigationProperty Name="Product" Relationship="POSModel.FK__ProductModule_Product" FromRole="ProductModule" ToRole="Product" />
-        </EntityType>
-        <Association Name="FK__ProductModule_Product">
-          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="POSModel.ProductModule" Role="ProductModule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductModule">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="VendorId" />
@@ -5087,10 +5063,6 @@
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserLogin" Relationship="POSModel.FK__Supervisor_UserLogin" FromRole="Supervisor" ToRole="UserLogin" />
         </EntityType>
-        <ComplexType Name="SP_InvoiceTicket_Consult_Result">
-          <Property Type="String" Name="BodyText" Nullable="true" MaxLength="56" />
-          <Property Type="Boolean" Name="Error" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="SP_Invoice_Insert_Result">
           <Property Type="Int64" Name="InvoiceId" Nullable="true" />
           <Property Type="Boolean" Name="Error" Nullable="true" />
@@ -5754,6 +5726,36 @@
             </Principal>
             <Dependent Role="SalesRemissionLine">
               <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_InvoiceTicket_Consult_Result">
+          <Property Type="String" Name="BodyText" Nullable="true" MaxLength="56" />
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ProductModule">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="PriceReference" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="TaxAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="IrbpAmount" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__ProductModule_Product" FromRole="ProductModule" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__ProductModule_Product">
+          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="POSModel.ProductModule" Role="ProductModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductModule">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6498,19 +6500,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProductModule">
-            <EntityTypeMapping TypeName="POSModel.ProductModule">
-              <MappingFragment StoreEntitySet="ProductModule">
-                <ScalarProperty Name="IRBPAmount" ColumnName="IRBPAmount" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="PriceReference" ColumnName="PriceReference" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Vendor">
             <EntityTypeMapping TypeName="POSModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
@@ -6762,14 +6751,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_InvoiceTicket_Consult" FunctionName="POSModel.Store.SP_InvoiceTicket_Consult">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_InvoiceTicket_Consult_Result">
-                <ScalarProperty Name="BodyText" ColumnName="BodyText" />
-                <ScalarProperty Name="Error" ColumnName="Error" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Invoice_Insert" FunctionName="POSModel.Store.SP_Invoice_Insert">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_Invoice_Insert_Result">
@@ -7154,6 +7135,27 @@
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="InvoiceIdLocal" ColumnName="InvoiceIdLocal" />
                 <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoiceTicket_Consult" FunctionName="POSModel.Store.SP_InvoiceTicket_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_InvoiceTicket_Consult_Result">
+                <ScalarProperty Name="BodyText" ColumnName="BodyText" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ProductModule">
+            <EntityTypeMapping TypeName="POSModel.ProductModule">
+              <MappingFragment StoreEntitySet="ProductModule">
+                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceReference" ColumnName="PriceReference" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

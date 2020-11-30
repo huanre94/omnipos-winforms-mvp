@@ -50,8 +50,8 @@ namespace POS
                 LblTitle.Text = string.Empty;
                 BtnCatchWeight.Visible = false;
 
-                //catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
-                //catchWeight.OpenScale();
+                catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
+                catchWeight.OpenScale();
 
                 if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
                 {
@@ -59,6 +59,9 @@ namespace POS
                 }
                 else
                 {
+                    if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                        catchWeight.CloseScale();
+
                     DialogResult = DialogResult.Cancel;
                 }
             }
@@ -81,36 +84,57 @@ namespace POS
                 {
                     axOposScale.ReadWeight(out int request, 5000);
                     weight = request / 1000M;
+
+                    if (weight <= 0)
+                    {
+                        LblTitle.Text = "Peso no Capturado";
+                        LblTitle.ForeColor = Color.Red;
+                        functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.WARNING);
+                    }
+                    else
+                    {
+                        LblCatchedWeight.Text = weight.ToString();
+                        LblTitle.Text = "Peso Capturado Correctamente";
+                        LblTitle.ForeColor = Color.Green;
+                    }
                 }
                 else
                 {
                     double waitTime = double.Parse(strWaitTime);
-                    catchWeight = new ClsCatchWeight(_scaleBrand, _portName, false, true, false);
-                    catchWeight.OpenScale();
+                    //catchWeight = new ClsCatchWeight(_scaleBrand, _portName, false, true, false);
+                    //catchWeight.OpenScale();
                     catchWeight.Serial.WriteLine(string.Format("W", Convert.ToString("\x0D"), Convert.ToString("\x0A")));
                     
                     DateTime endTime = DateTime.Now.AddSeconds(waitTime);
-                    while (DateTime.Now < endTime)
+                    while (DateTime.Now < endTime && catchWeight.Weight == 0)
                     {
                         weight = catchWeight.Weight;
-                    }                    
-                }
+                    }
 
-                if (weight <= 0)
-                {
-                    LblTitle.Text = "El Peso es Erroneo!";
-                    LblTitle.ForeColor = Color.Red;
-                    functions.ShowMessage("El peso tiene que ser mayor a cero.", ClsEnums.MessageType.WARNING);                    
-                }
-                else
-                {                    
-                    LblCatchedWeight.Text = weight.ToString();                                        
-                    LblTitle.Text = "Peso Capturado Correctamente";
-                    LblTitle.ForeColor = Color.Green;
-                }
+                    if (catchWeight.Weight <= 0)
+                    {
+                        LblTitle.Text = "Peso no Capturado";
+                        LblTitle.ForeColor = Color.Red;
 
-                if (_scaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                        if (functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.CONFIRM))
+                        {
+                            if (catchWeight.Weight > 0)
+                            {
+                                LblCatchedWeight.Text = catchWeight.Weight.ToString();
+                                LblTitle.Text = "Peso Capturado Correctamente";
+                                LblTitle.ForeColor = Color.Green;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        LblCatchedWeight.Text = catchWeight.Weight.ToString();
+                        LblTitle.Text = "Peso Capturado Correctamente";
+                        LblTitle.ForeColor = Color.Green;
+                    }
+
                     catchWeight.CloseScale();
+                }                     
             }
             catch (Exception ex)
             {
@@ -125,11 +149,22 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(weight.ToString());
-            if (weight > 0)
+            if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
             {
-                formActionResult = true;
-            }                
+                if (catchWeight.Weight > 0)
+                {
+                    weight = catchWeight.Weight;
+                    LblCatchedWeight.Text = weight.ToString();
+                    LblTitle.Text = "Peso Capturado Correctamente";
+                    LblTitle.ForeColor = Color.Green;
+                    formActionResult = true;
+                }
+            }
+            else
+            {
+                if (weight > 0)
+                    formActionResult = true;
+            }
         }
         
     }

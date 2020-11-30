@@ -71,5 +71,13 @@
             IVA = 2,
             ISD = 6
         }
+
+        public enum DocumentType
+        {
+            INVOICE,
+            CLOSINGCASHIER,
+            SALESORDER,
+            PURCHASEORDER
+        }
     }
 }

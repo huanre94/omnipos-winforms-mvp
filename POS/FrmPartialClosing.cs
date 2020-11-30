@@ -276,7 +276,8 @@ namespace POS
                             SP_ClosingCashierPartial_Insert_Result closing = clsClosing[0];
                             if (!(bool)closing.Error)
                             {
-                                if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                //if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
                                 {
                                     functions.ShowMessage("Cierre parcial finalizado exitosamente.");
                                 }
@@ -394,54 +395,55 @@ namespace POS
             }
         }
 
-        private bool PrintInvoice(Int64 _invoiceId)
-        {
-            ClsClosingTrans clsInvoiceTrans = new ClsClosingTrans();
-            List<SP_ClosingCashierTicket_Consult_Result> invoiceTicket;
-            bool response = false;
-            string bodyText = "";
+        //private bool PrintInvoice(Int64 _invoiceId)
+        //{
+        //    ClsClosingTrans clsInvoiceTrans = new ClsClosingTrans();
+        //    List<SP_ClosingCashierTicket_Consult_Result> invoiceTicket;
+        //    bool response = false;
+        //    string bodyText = "";
 
-            try
-            {
-                invoiceTicket = clsInvoiceTrans.GetClosingTicket(_invoiceId);
+        //    try
+        //    {
+        //        invoiceTicket = clsInvoiceTrans.GetClosingTicket(_invoiceId);
 
-                if (invoiceTicket != null)
-                {
-                    if (invoiceTicket.Count > 0)
-                    {
+        //        if (invoiceTicket != null)
+        //        {
+        //            if (invoiceTicket.Count > 0)
+        //            {
 
-                        foreach (var line in invoiceTicket)
-                        {
-                            bodyText += line.BodyText + Environment.NewLine;
-                        }
+        //                foreach (var line in invoiceTicket)
+        //                {
+        //                    bodyText += line.BodyText + Environment.NewLine;
+        //                }
 
-                        bool PrinterDocumentOk = functions.PrinterDocument(bodyText);
+        //                bool PrinterDocumentOk = functions.ProcessDocumentToPrint(bodyText);
 
-                        if (PrinterDocumentOk == true)
-                        {
-                            response = true;
-                        }
+        //                if (PrinterDocumentOk == true)
+        //                {
+        //                    response = true;
+        //                }
 
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ha ocurrido un problema al imprimir la factura."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        functions.ShowMessage(
+        //                                "Ha ocurrido un problema al imprimir la factura."
+        //                                , ClsEnums.MessageType.ERROR
+        //                                , true
+        //                                , ex.Message
+        //                            );
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
             Int64 lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
-            if (PrintInvoice(lastId))
+            //if (PrintInvoice(lastId))
+            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
             {
                 functions.ShowMessage("Ok.");
             }

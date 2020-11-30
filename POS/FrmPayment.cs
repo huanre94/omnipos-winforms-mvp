@@ -243,13 +243,15 @@ namespace POS
 
         private void Cash()
         {
-            decimal cashAmount = decimal.Parse(TxtAmount.Text);
+            decimal cashReceivedAmount = decimal.Parse(TxtAmount.Text);
+            decimal cashAmount = cashReceivedAmount;
 
-            if (cashAmount > pendingAmount)
+            if (cashReceivedAmount > pendingAmount)
             {
-                changeAmount = cashAmount - pendingAmount;
+                changeAmount = cashReceivedAmount - pendingAmount;
+                cashAmount = cashReceivedAmount - changeAmount;
                 LblTitleChange.Visible = true;
-                LblChange.Visible = true;                
+                LblChange.Visible = true;
                 LblChange.Text = changeAmount.ToString();
                 functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
             }
@@ -257,8 +259,9 @@ namespace POS
             InvoicePayment invoicePayment = new InvoicePayment
             {
                 PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
-                Amount = decimal.Parse(TxtAmount.Text),
-                Change = changeAmount
+                Amount = cashAmount,
+                Change = changeAmount,
+                Received = cashReceivedAmount
             };
 
             AddRecordToGrid(invoicePayment);

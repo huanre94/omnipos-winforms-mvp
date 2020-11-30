@@ -74,7 +74,6 @@ namespace POS.DLL
         public virtual DbSet<Transport> Transport { get; set; }
         public virtual DbSet<TransportDriver> TransportDriver { get; set; }
         public virtual DbSet<TransportReason> TransportReason { get; set; }
-        public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
@@ -98,6 +97,7 @@ namespace POS.DLL
         public virtual DbSet<SequenceType> SequenceType { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<ProductModule> ProductModule { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -212,15 +212,6 @@ namespace POS.DLL
                 new ObjectParameter("AddressIP", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Login_Consult_Result>("SP_Login_Consult", userNameParameter, passwordParameter, workstationParameter, addressIPParameter);
-        }
-    
-        public virtual ObjectResult<SP_InvoiceTicket_Consult_Result> SP_InvoiceTicket_Consult(Nullable<long> invoiceId)
-        {
-            var invoiceIdParameter = invoiceId.HasValue ?
-                new ObjectParameter("InvoiceId", invoiceId) :
-                new ObjectParameter("InvoiceId", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter);
         }
     
         public virtual ObjectResult<SP_Invoice_Insert_Result> SP_Invoice_Insert(string paramXML)
@@ -376,6 +367,19 @@ namespace POS.DLL
                 new ObjectParameter("barcode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
+        }
+    
+        public virtual ObjectResult<SP_InvoiceTicket_Consult_Result> SP_InvoiceTicket_Consult(Nullable<long> invoiceId, Nullable<bool> openCashier)
+        {
+            var invoiceIdParameter = invoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", invoiceId) :
+                new ObjectParameter("InvoiceId", typeof(long));
+    
+            var openCashierParameter = openCashier.HasValue ?
+                new ObjectParameter("OpenCashier", openCashier) :
+                new ObjectParameter("OpenCashier", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter, openCashierParameter);
         }
     }
 }

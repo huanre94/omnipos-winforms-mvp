@@ -1,8 +1,10 @@
 ﻿using POS.Classes;
 using POS.DLL;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
@@ -214,7 +216,7 @@ namespace POS
                                             AxOposScale_CCO.AxOPOSScale _axOposScale
                                             , string _productName
                                             , ClsEnums.ScaleBrands _scaleBrand
-                                            , string _portName
+                                            , string _portName = ""
                                         )
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
@@ -226,7 +228,7 @@ namespace POS
             return frmCatchWeight.weight;;
         }
 
-        public bool PrinterDocument(string TextDocument)
+        public bool ProcessDocumentToPrint(string TextDocument)
         {
             bool response = false;
 
@@ -244,7 +246,7 @@ namespace POS
                                 "Ocurrió un problema al Imprimir el Documento."
                                 , ClsEnums.MessageType.ERROR
                                 , true
-                                , ex.InnerException.Message
+                                , ex.Message
                             );
             }
 
@@ -254,6 +256,84 @@ namespace POS
         private PrinterType GetTypePrinter(String PrinterName)
         {
             return PrinterName == "LR2000" ? PrinterType.Bematech : PrinterType.Epson;
+        }
+
+        public string GetPublishVersion()
+        {
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+            }
+            else
+            {
+                var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+            }
+        }
+
+        public bool PrintDocument(
+                                    long _invoiceId
+                                    , ClsEnums.DocumentType _documentType
+                                    , bool _openCashier = false
+                                )
+        {
+            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
+            ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
+            List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
+            List<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
+            bool response = false;
+            string bodyText = "";
+
+            try
+            {
+                switch (_documentType)
+                {
+                    case ClsEnums.DocumentType.INVOICE:
+                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId, _openCashier);
+
+                        if (invoiceTicket != null)
+                        {
+                            if (invoiceTicket.Count > 0)
+                            {
+                                foreach (var line in invoiceTicket)
+                                {
+                                    bodyText += line.BodyText + Environment.NewLine;
+                                }
+                            }
+                        }
+                        break;
+                    case ClsEnums.DocumentType.CLOSINGCASHIER:
+                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_invoiceId);
+
+                        if (closingCashierTicket != null)
+                        {
+                            if (closingCashierTicket.Count > 0)
+                            {
+                                foreach (var line in closingCashierTicket)
+                                {
+                                    bodyText += line.BodyText + Environment.NewLine;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        return response;
+                }               
+
+                response = ProcessDocumentToPrint(bodyText);
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(
+                                "Ha ocurrido un problema al imprimir " + _documentType.ToString()
+                                , ClsEnums.MessageType.ERROR
+                                , true
+                                , ex.Message
+                            );
+            }
+
+            return response;
         }
     }
 }

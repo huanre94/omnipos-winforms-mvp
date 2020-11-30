@@ -240,7 +240,6 @@
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
             this.TxtValue.Size = new System.Drawing.Size(244, 44);
             this.TxtValue.TabIndex = 1;
-            this.TxtValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtValue_KeyPress);
             // 
             // FrmKeyPad
             // 
@@ -268,6 +267,7 @@
             this.Name = "FrmKeyPad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Teclado Numerico";
+            this.Load += new System.EventHandler(this.FrmKeyPad_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtValue.Properties)).EndInit();
             this.ResumeLayout(false);
 
