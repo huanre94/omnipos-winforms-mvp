@@ -13,6 +13,8 @@ namespace POS
 {
     public partial class FrmSalesOrigin : DevExpress.XtraEditors.XtraForm
     {
+        public int salesOriginId = 0;
+
         public FrmSalesOrigin()
         {
             InitializeComponent();

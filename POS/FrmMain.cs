@@ -33,6 +33,7 @@ namespace POS
         ClsCatchWeight catchWeight;
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
+        private int salesOriginId;
 
         public FrmMain()
         {
@@ -467,6 +468,11 @@ namespace POS
         {
             FrmSalesOrigin frmSalesOrigin = new FrmSalesOrigin();
             frmSalesOrigin.ShowDialog();
+
+            if (frmSalesOrigin.salesOriginId > 0)
+            {
+                salesOriginId = frmSalesOrigin.salesOriginId;
+            }
         }
         #endregion
 
@@ -968,7 +974,8 @@ namespace POS
                     ShippingAmount = 0,
                     SalesOrderId = 0,
                     CreatedBy = (int)loginInformation.UserId,
-                    Workstation = loginInformation.Workstation
+                    Workstation = loginInformation.Workstation,
+                    SalesOriginId = salesOriginId
                 };
 
                 Type type = invoiceTable.GetType();
@@ -1088,6 +1095,7 @@ namespace POS
             LblCustomerAddress.Text = currentCustomer.Address;
             internalCreditCardId = 0;
             internalCreditCardCode = "";
+            salesOriginId = 1;
 
             invoiceXml.RemoveAll();
             GrcSalesDetail.DataSource = null;
