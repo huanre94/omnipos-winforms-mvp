@@ -438,5 +438,20 @@
   <ItemGroup>
     <None Include="Resources\SUPERMERCADOS.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LLAMADA CELULAR.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WHATSAPP.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RAPPI.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GLOVO.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\LLAMADA CONVENCIONAL.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -50,7 +50,6 @@
             this.BtnExit.Size = new System.Drawing.Size(160, 50);
             this.BtnExit.TabIndex = 155;
             this.BtnExit.Text = "Salir";
-            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // ILBSalesOrigin
             // 
@@ -90,6 +89,7 @@
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmSalesOrigin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Origen de Venta";
             this.Load += new System.EventHandler(this.FrmSalesOrigin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ILBSalesOrigin)).EndInit();

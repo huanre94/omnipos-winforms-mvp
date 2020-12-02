@@ -53,12 +53,7 @@ namespace POS
                                         , ex.Message
                                     );
             }
-        }
-
-        private void BtnExit_Click(object sender, EventArgs e)
-        {
-
-        }
+        }       
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {

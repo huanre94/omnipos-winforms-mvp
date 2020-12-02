@@ -34,6 +34,7 @@ namespace POS
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
         private int salesOriginId;
+        private int salesManId;
 
         public FrmMain()
         {
@@ -469,9 +470,20 @@ namespace POS
             FrmSalesOrigin frmSalesOrigin = new FrmSalesOrigin();
             frmSalesOrigin.ShowDialog();
 
-            if (frmSalesOrigin.salesOriginId > 0)
+            if (frmSalesOrigin.result != null)
             {
-                salesOriginId = frmSalesOrigin.salesOriginId;
+                salesOriginId = frmSalesOrigin.result.SalesOriginId;
+                salesManId = frmSalesOrigin.result.SalesmanId;
+
+                if (salesOriginId == 1)
+                {
+                    ImgSalesOrigin.Visible = false;
+                }
+                else
+                {
+                    ImgSalesOrigin.Visible = true;
+                    ImgSalesOrigin.SvgImage = (DevExpress.Utils.Svg.SvgImage)Properties.Resources.ResourceManager.GetObject(frmSalesOrigin.result.Name);
+                }
             }
         }
         #endregion
@@ -975,7 +987,8 @@ namespace POS
                     SalesOrderId = 0,
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = loginInformation.Workstation,
-                    SalesOriginId = salesOriginId
+                    SalesOriginId = salesOriginId,
+                    SalesmanId = salesManId
                 };
 
                 Type type = invoiceTable.GetType();
@@ -1096,6 +1109,7 @@ namespace POS
             internalCreditCardId = 0;
             internalCreditCardCode = "";
             salesOriginId = 1;
+            salesManId = 1;
 
             invoiceXml.RemoveAll();
             GrcSalesDetail.DataSource = null;

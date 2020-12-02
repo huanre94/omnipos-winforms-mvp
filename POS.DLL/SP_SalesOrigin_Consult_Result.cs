@@ -10,14 +10,11 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CancelReason
+    public partial class SP_SalesOrigin_Consult_Result
     {
-        public int ReasonId { get; set; }
-        public Nullable<int> ReasonType { get; set; }
+        public int SalesOriginId { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> ReasonType { get; set; }
+        public int SalesmanId { get; set; }
     }
 }

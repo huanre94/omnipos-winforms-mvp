@@ -127,7 +127,7 @@ namespace POS.Classes
                                         "Ocurrio un problema al habilitar balanza."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.InnerException.Message
+                                        , ex.Message
                                     );
             }
         }
@@ -147,7 +147,7 @@ namespace POS.Classes
                                          "Ocurrio un problema al deshabilitar balanza."
                                          , ClsEnums.MessageType.ERROR
                                          , true
-                                         , ex.InnerException.Message
+                                         , ex.Message
                                      );
                 }
                 finally
@@ -199,7 +199,7 @@ namespace POS.Classes
                                          "Ocurrio un problema al abrir puerto serial de la balanza."
                                          , ClsEnums.MessageType.ERROR
                                          , true
-                                         , ex.InnerException.Message
+                                         , ex.Message
                                      );
             }
         }
@@ -228,7 +228,7 @@ namespace POS.Classes
                                          "Ocurrio un problema en la lectura desde el puerto serial de la balanza."
                                          , ClsEnums.MessageType.ERROR
                                          , true
-                                         , ex.InnerException.Message
+                                         , ex.Message
                                      );
             }
         }

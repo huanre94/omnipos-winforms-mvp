@@ -58,7 +58,7 @@ namespace POS
 
             try
             {
-                cancelReasons = paymMode.ConsultReasons();
+                cancelReasons = paymMode.ConsultReasons(1);
 
                 if (cancelReasons != null)
                 {

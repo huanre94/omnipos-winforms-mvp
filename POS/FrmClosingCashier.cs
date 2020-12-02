@@ -327,32 +327,44 @@ namespace POS
                             closingXml.Add(closingCashierLineXml);
                         }
 
-                        List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);
-
-                        if (clsClosing != null)
+                        try
                         {
-                            if (clsClosing.Count > 0)
-                            {
-                                SP_ClosingCashier_Insert_Result closing = clsClosing[0];
-                                if (!(bool)closing.Error)
-                                {
-                                    //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                                    if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
-                                    {
-                                        functions.ShowMessage("Cierre de caja finalizado exitosamente.");
-                                    }
-                                    else
-                                    {
-                                        functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
-                                    }
+                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);                        
 
-                                    FrmMenu frmMenu = new FrmMenu();
-                                    frmMenu.loginInformation = loginInformation;
-                                    frmMenu.globalParameters = globalParameters;
-                                    frmMenu.Visible = true;
-                                    Close();
+                            if (clsClosing != null)
+                            {
+                                if (clsClosing.Count > 0)
+                                {
+                                    SP_ClosingCashier_Insert_Result closing = clsClosing[0];
+                                    if (!(bool)closing.Error)
+                                    {
+                                        //if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                        if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                                        {
+                                            functions.ShowMessage("Cierre de caja finalizado exitosamente.");
+                                        }
+                                        else
+                                        {
+                                            functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                        }
+
+                                        FrmMenu frmMenu = new FrmMenu();
+                                        frmMenu.loginInformation = loginInformation;
+                                        frmMenu.globalParameters = globalParameters;
+                                        frmMenu.Visible = true;
+                                        Close();
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            functions.ShowMessage(
+                                                    "Ocurrio un problema al registrar cierre de caja."
+                                                    , ClsEnums.MessageType.ERROR
+                                                    , true
+                                                    , ex.Message
+                                                );
                         }
                     }
                 }

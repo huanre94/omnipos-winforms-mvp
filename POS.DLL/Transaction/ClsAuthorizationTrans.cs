@@ -58,15 +58,15 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<CancelReason> ConsultReasons(int reasonType)
+        public List<CancelReason> ConsultReasons(int _reasonType)
         {
             var db = new POSEntities();
             List<CancelReason> result;
             try
             {
                 result = (from re in db.CancelReason
-                          where re.Status.Equals("A")     
-                          && re.ReasonType == reasonType
+                          where re.Status.Equals("A")
+                          && re.ReasonType == _reasonType
                           select re).ToList();
             }
             catch (Exception ex)

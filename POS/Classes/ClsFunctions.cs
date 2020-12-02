@@ -147,7 +147,7 @@ namespace POS
                                 "Ocurrio un problema al habilitar balanza."
                                 , ClsEnums.MessageType.ERROR
                                 , true
-                                , ex.InnerException.Message
+                                , ex.Message
                             );
             }
         }
@@ -167,7 +167,7 @@ namespace POS
                                 "Ocurrio un problema al deshabilitar balanza."
                                 , ClsEnums.MessageType.ERROR
                                 , true
-                                , ex.InnerException.Message
+                                , ex.Message
                             );
                }
                finally
