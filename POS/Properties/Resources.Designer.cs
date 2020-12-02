@@ -213,6 +213,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage GLOVO {
+            get {
+                object obj = ResourceManager.GetObject("GLOVO", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
@@ -251,6 +261,26 @@ namespace POS.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage LLAMADA_CELULAR {
+            get {
+                object obj = ResourceManager.GetObject("LLAMADA CELULAR", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage LLAMADA_CONVENCIONAL {
+            get {
+                object obj = ResourceManager.GetObject("LLAMADA CONVENCIONAL", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Logo_LaEspanola {
@@ -267,6 +297,26 @@ namespace POS.Properties {
             get {
                 object obj = ResourceManager.GetObject("payment", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pendingInvoice {
+            get {
+                object obj = ResourceManager.GetObject("pendingInvoice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] pendingSale {
+            get {
+                object obj = ResourceManager.GetObject("pendingSale", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -296,6 +346,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage productSearch2 {
             get {
                 object obj = ResourceManager.GetObject("productSearch2", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage RAPPI {
+            get {
+                object obj = ResourceManager.GetObject("RAPPI", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
@@ -343,9 +403,9 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage salesOrigin {
+        internal static DevExpress.Utils.Svg.SvgImage scale {
             get {
-                object obj = ResourceManager.GetObject("salesOrigin", resourceCulture);
+                object obj = ResourceManager.GetObject("scale", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
@@ -353,9 +413,9 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage scale {
+        internal static DevExpress.Utils.Svg.SvgImage SUPERMERCADOS {
             get {
-                object obj = ResourceManager.GetObject("scale", resourceCulture);
+                object obj = ResourceManager.GetObject("SUPERMERCADOS", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
@@ -426,6 +486,16 @@ namespace POS.Properties {
         internal static DevExpress.Utils.Svg.SvgImage warning {
             get {
                 object obj = ResourceManager.GetObject("warning", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage WHATSAPP {
+            get {
+                object obj = ResourceManager.GetObject("WHATSAPP", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }

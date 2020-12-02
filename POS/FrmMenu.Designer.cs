@@ -37,6 +37,7 @@
             this.LblTitleUsername = new System.Windows.Forms.Label();
             this.LblUsername = new System.Windows.Forms.Label();
             this.LblVersion = new System.Windows.Forms.Label();
+            this.BtnSalesOrder = new DevExpress.XtraEditors.SimpleButton();
             this.SuspendLayout();
             // 
             // BtnPOS
@@ -143,6 +144,22 @@
             this.LblVersion.TabIndex = 168;
             this.LblVersion.Text = "Publish Version";
             // 
+            // BtnSalesOrder
+            // 
+            this.BtnSalesOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnSalesOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.BtnSalesOrder.Appearance.Options.UseBackColor = true;
+            this.BtnSalesOrder.Appearance.Options.UseFont = true;
+            this.BtnSalesOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnSalesOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.retail;
+            this.BtnSalesOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
+            this.BtnSalesOrder.Location = new System.Drawing.Point(33, 344);
+            this.BtnSalesOrder.Name = "BtnSalesOrder";
+            this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
+            this.BtnSalesOrder.TabIndex = 134;
+            this.BtnSalesOrder.Text = "Orden de\r\nVenta";
+            this.BtnSalesOrder.Click += new System.EventHandler(this.BtnSalesOrder_Click);
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -156,6 +173,7 @@
             this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnCloseCashier);
             this.Controls.Add(this.LblTitle);
+            this.Controls.Add(this.BtnSalesOrder);
             this.Controls.Add(this.BtnPOS);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmMenu";
@@ -177,5 +195,6 @@
         private System.Windows.Forms.Label LblTitleUsername;
         private System.Windows.Forms.Label LblUsername;
         private System.Windows.Forms.Label LblVersion;
+        private DevExpress.XtraEditors.SimpleButton BtnSalesOrder;
     }
 }

@@ -15,6 +15,7 @@ namespace POS.DLL
     public partial class CancelReason
     {
         public int ReasonId { get; set; }
+        public Nullable<int> ReasonType { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
     }

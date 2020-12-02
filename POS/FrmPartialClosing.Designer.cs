@@ -64,12 +64,15 @@
             this.Btn4 = new DevExpress.XtraEditors.SimpleButton();
             this.Btn2 = new DevExpress.XtraEditors.SimpleButton();
             this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
+            this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // Amount2
@@ -240,7 +243,7 @@
             // 
             // TxtBarcode
             // 
-            this.TxtBarcode.Location = new System.Drawing.Point(60, 145);
+            this.TxtBarcode.Location = new System.Drawing.Point(64, 310);
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
@@ -274,7 +277,7 @@
             this.LblBarcode.AutoSize = true;
             this.LblBarcode.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.LblBarcode.Location = new System.Drawing.Point(60, 120);
+            this.LblBarcode.Location = new System.Drawing.Point(60, 275);
             this.LblBarcode.Name = "LblBarcode";
             this.LblBarcode.Size = new System.Drawing.Size(58, 22);
             this.LblBarcode.TabIndex = 184;
@@ -375,7 +378,7 @@
             this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn3.Appearance.Options.UseBackColor = true;
             this.Btn3.Appearance.Options.UseFont = true;
-            this.Btn3.Location = new System.Drawing.Point(230, 347);
+            this.Btn3.Location = new System.Drawing.Point(234, 512);
             this.Btn3.Margin = new System.Windows.Forms.Padding(6);
             this.Btn3.Name = "Btn3";
             this.Btn3.Size = new System.Drawing.Size(75, 65);
@@ -390,7 +393,7 @@
             this.BtnEnter.Appearance.Options.UseBackColor = true;
             this.BtnEnter.Appearance.Options.UseFont = true;
             this.BtnEnter.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnEnter.ImageOptions.Image")));
-            this.BtnEnter.Location = new System.Drawing.Point(319, 144);
+            this.BtnEnter.Location = new System.Drawing.Point(323, 309);
             this.BtnEnter.Margin = new System.Windows.Forms.Padding(6);
             this.BtnEnter.Name = "BtnEnter";
             this.BtnEnter.Size = new System.Drawing.Size(75, 345);
@@ -403,7 +406,7 @@
             this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn0.Appearance.Options.UseBackColor = true;
             this.Btn0.Appearance.Options.UseFont = true;
-            this.Btn0.Location = new System.Drawing.Point(60, 424);
+            this.Btn0.Location = new System.Drawing.Point(64, 589);
             this.Btn0.Margin = new System.Windows.Forms.Padding(5);
             this.Btn0.Name = "Btn0";
             this.Btn0.Size = new System.Drawing.Size(245, 65);
@@ -417,7 +420,7 @@
             this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn9.Appearance.Options.UseBackColor = true;
             this.Btn9.Appearance.Options.UseFont = true;
-            this.Btn9.Location = new System.Drawing.Point(230, 198);
+            this.Btn9.Location = new System.Drawing.Point(234, 363);
             this.Btn9.Margin = new System.Windows.Forms.Padding(8);
             this.Btn9.Name = "Btn9";
             this.Btn9.Size = new System.Drawing.Size(75, 65);
@@ -431,7 +434,7 @@
             this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn8.Appearance.Options.UseBackColor = true;
             this.Btn8.Appearance.Options.UseFont = true;
-            this.Btn8.Location = new System.Drawing.Point(144, 198);
+            this.Btn8.Location = new System.Drawing.Point(148, 363);
             this.Btn8.Margin = new System.Windows.Forms.Padding(8);
             this.Btn8.Name = "Btn8";
             this.Btn8.Size = new System.Drawing.Size(75, 65);
@@ -445,7 +448,7 @@
             this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn7.Appearance.Options.UseBackColor = true;
             this.Btn7.Appearance.Options.UseFont = true;
-            this.Btn7.Location = new System.Drawing.Point(60, 198);
+            this.Btn7.Location = new System.Drawing.Point(64, 363);
             this.Btn7.Margin = new System.Windows.Forms.Padding(6);
             this.Btn7.Name = "Btn7";
             this.Btn7.Size = new System.Drawing.Size(75, 65);
@@ -459,7 +462,7 @@
             this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn6.Appearance.Options.UseBackColor = true;
             this.Btn6.Appearance.Options.UseFont = true;
-            this.Btn6.Location = new System.Drawing.Point(230, 274);
+            this.Btn6.Location = new System.Drawing.Point(234, 439);
             this.Btn6.Margin = new System.Windows.Forms.Padding(8);
             this.Btn6.Name = "Btn6";
             this.Btn6.Size = new System.Drawing.Size(75, 65);
@@ -473,7 +476,7 @@
             this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn5.Appearance.Options.UseBackColor = true;
             this.Btn5.Appearance.Options.UseFont = true;
-            this.Btn5.Location = new System.Drawing.Point(144, 274);
+            this.Btn5.Location = new System.Drawing.Point(148, 439);
             this.Btn5.Margin = new System.Windows.Forms.Padding(6);
             this.Btn5.Name = "Btn5";
             this.Btn5.Size = new System.Drawing.Size(75, 65);
@@ -487,7 +490,7 @@
             this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn1.Appearance.Options.UseBackColor = true;
             this.Btn1.Appearance.Options.UseFont = true;
-            this.Btn1.Location = new System.Drawing.Point(60, 348);
+            this.Btn1.Location = new System.Drawing.Point(64, 513);
             this.Btn1.Margin = new System.Windows.Forms.Padding(4);
             this.Btn1.Name = "Btn1";
             this.Btn1.Size = new System.Drawing.Size(75, 65);
@@ -501,7 +504,7 @@
             this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn4.Appearance.Options.UseBackColor = true;
             this.Btn4.Appearance.Options.UseFont = true;
-            this.Btn4.Location = new System.Drawing.Point(60, 274);
+            this.Btn4.Location = new System.Drawing.Point(64, 439);
             this.Btn4.Margin = new System.Windows.Forms.Padding(5);
             this.Btn4.Name = "Btn4";
             this.Btn4.Size = new System.Drawing.Size(75, 65);
@@ -515,7 +518,7 @@
             this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn2.Appearance.Options.UseBackColor = true;
             this.Btn2.Appearance.Options.UseFont = true;
-            this.Btn2.Location = new System.Drawing.Point(144, 347);
+            this.Btn2.Location = new System.Drawing.Point(148, 512);
             this.Btn2.Margin = new System.Windows.Forms.Padding(5);
             this.Btn2.Name = "Btn2";
             this.Btn2.Size = new System.Drawing.Size(75, 65);
@@ -530,7 +533,7 @@
             this.BtnDelete.Appearance.Options.UseBackColor = true;
             this.BtnDelete.Appearance.Options.UseFont = true;
             this.BtnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnDelete.ImageOptions.SvgImage")));
-            this.BtnDelete.Location = new System.Drawing.Point(230, 144);
+            this.BtnDelete.Location = new System.Drawing.Point(234, 309);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(75, 45);
@@ -538,12 +541,34 @@
             this.BtnDelete.Text = "Borrar";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
+            // CmbMotive
+            // 
+            this.CmbMotive.Location = new System.Drawing.Point(64, 60);
+            this.CmbMotive.Name = "CmbMotive";
+            this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbMotive.Size = new System.Drawing.Size(334, 38);
+            this.CmbMotive.TabIndex = 189;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.label3.Location = new System.Drawing.Point(60, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 22);
+            this.label3.TabIndex = 190;
+            this.label3.Text = "Motivo";
+            // 
             // FrmPartialClosing
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.CmbMotive);
             this.Controls.Add(this.GrcPartialClosing);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
@@ -579,6 +604,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,5 +645,7 @@
         private DevExpress.XtraEditors.SimpleButton Btn4;
         private DevExpress.XtraEditors.SimpleButton Btn2;
         private DevExpress.XtraEditors.SimpleButton BtnDelete;
+        private DevExpress.XtraEditors.ImageComboBoxEdit CmbMotive;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -61,7 +61,8 @@
           <Key>
             <PropertyRef Name="ReasonId" />
           </Key>
-          <Property Name="ReasonId" Type="int" Nullable="false" />
+          <Property Name="ReasonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReasonType" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
@@ -116,6 +117,7 @@
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="ModifiedDatetime" Type="datetime" />
           <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ReasonId" Type="int" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -2279,6 +2281,7 @@
           <Parameter Name="LocationId" Type="smallint" Mode="In" />
           <Parameter Name="EmissionPointId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_SalesOrigin_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Supervisor_Validate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="barcode" Type="varchar" Mode="In" />
         </Function>
@@ -3560,7 +3563,6 @@
             <End Role="UserLogin" EntitySet="UserLogin" />
             <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
-          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
           <FunctionImport Name="SP_SalesLog_Consult" ReturnType="Collection(POSModel.SP_SalesLog_Consult_Result)">
             <Parameter Name="LocationId" Mode="In" Type="Int16" />
             <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
@@ -3741,6 +3743,8 @@
             <End Role="Transport" EntitySet="Transport" />
             <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
           </AssociationSet>
+          <FunctionImport Name="SP_SalesOrigin_Consult" ReturnType="Collection(POSModel.SP_SalesOrigin_Consult_Result)" />
+          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -5022,14 +5026,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CancelReason">
-          <Key>
-            <PropertyRef Name="ReasonId" />
-          </Key>
-          <Property Name="ReasonId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
         <ComplexType Name="SP_SalesLog_Consult_Result">
           <Property Type="Int64" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="XmlLog" Nullable="false" MaxLength="Max" />
@@ -5114,6 +5110,7 @@
           <NavigationProperty Name="ClosingCashierLine" Relationship="POSModel.FK__ClosingCashierLine_ClosingCashierTable" FromRole="ClosingCashierTable" ToRole="ClosingCashierLine" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__ClosingCashierTable_Location" FromRole="ClosingCashierTable" ToRole="Location" />
           <NavigationProperty Name="EmissionPoint" Relationship="POSModel.PK__ClosingCashierTable_EmissionPoint" FromRole="ClosingCashierTable" ToRole="EmissionPoint" />
+          <Property Name="ReasonId" Type="Int32" />
         </EntityType>
         <EntityType Name="CurrencyDenomination">
           <Key>
@@ -5753,6 +5750,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_SalesOrigin_Consult_Result">
+          <Property Type="Int32" Name="SalesOriginId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="SalesmanId" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="CancelReason">
+          <Key>
+            <PropertyRef Name="ReasonId" />
+          </Key>
+          <Property Name="ReasonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReasonType" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6780,15 +6791,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CancelReason">
-            <EntityTypeMapping TypeName="POSModel.CancelReason">
-              <MappingFragment StoreEntitySet="CancelReason">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_SalesLog_Consult" FunctionName="POSModel.Store.SP_SalesLog_Consult">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_SalesLog_Consult_Result">
@@ -6858,6 +6860,7 @@
           <EntitySetMapping Name="ClosingCashierTable">
             <EntityTypeMapping TypeName="POSModel.ClosingCashierTable">
               <MappingFragment StoreEntitySet="ClosingCashierTable">
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
                 <ScalarProperty Name="Workstation" ColumnName="Workstation" />
                 <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -7147,6 +7150,25 @@
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="SalesOrderIdLocal" ColumnName="SalesOrderIdLocal" />
                 <ScalarProperty Name="SalesOrderId" ColumnName="SalesOrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_SalesOrigin_Consult" FunctionName="POSModel.Store.SP_SalesOrigin_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_SalesOrigin_Consult_Result">
+                <ScalarProperty Name="SalesOriginId" ColumnName="SalesOriginId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SalesmanId" ColumnName="SalesmanId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CancelReason">
+            <EntityTypeMapping TypeName="POSModel.CancelReason">
+              <MappingFragment StoreEntitySet="CancelReason">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReasonType" ColumnName="ReasonType" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

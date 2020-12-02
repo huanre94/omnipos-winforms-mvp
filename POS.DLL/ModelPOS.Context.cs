@@ -84,7 +84,6 @@ namespace POS.DLL
         public virtual DbSet<LogType> LogType { get; set; }
         public virtual DbSet<SalesLog> SalesLog { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<CancelReason> CancelReason { get; set; }
         public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
         public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
         public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
@@ -98,6 +97,7 @@ namespace POS.DLL
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
+        public virtual DbSet<CancelReason> CancelReason { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -380,6 +380,11 @@ namespace POS.DLL
                 new ObjectParameter("OpenCashier", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceTicket_Consult_Result>("SP_InvoiceTicket_Consult", invoiceIdParameter, openCashierParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrigin_Consult_Result> SP_SalesOrigin_Consult()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrigin_Consult_Result>("SP_SalesOrigin_Consult");
         }
     }
 }

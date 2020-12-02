@@ -318,6 +318,9 @@
     <Compile Include="SP_SalesLog_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_SalesOrigin_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Supervisor_Validate_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

@@ -80,6 +80,17 @@ namespace POS
 
             if (Application.OpenForms.OfType<FrmPartialClosing>().Count() == 1)
                 this.Hide();
-        }       
+        }
+
+        private void BtnSalesOrder_Click(object sender, EventArgs e)
+        {
+            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker();
+            frmPartial.loginInformation = loginInformation;
+            frmPartial.globalParameters = globalParameters;
+            frmPartial.Show();
+
+            if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
+                this.Hide(); 
+        }
     }
 }
