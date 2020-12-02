@@ -433,13 +433,7 @@
     <None Include="Resources\LLAMADA CELULAR.svg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LLAMADA CONVENCIONAL.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\RAPPI.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WHATSAPP.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SUPERMERCADOS.svg" />

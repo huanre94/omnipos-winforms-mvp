@@ -81,12 +81,14 @@
             this.BtnSalesOrigin = new DevExpress.XtraEditors.SimpleButton();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
+            this.ImgSalesOrigin = new DevExpress.XtraEditors.SvgImageBox();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancelSale
@@ -737,13 +739,14 @@
             this.BtnSalesOrigin.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnSalesOrigin.Appearance.Options.UseBackColor = true;
             this.BtnSalesOrigin.Appearance.Options.UseFont = true;
-            this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
-            this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.SUPERMERCADOS;
+            this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnSalesOrigin.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSalesOrigin.ImageOptions.SvgImage")));
             this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
-            this.BtnSalesOrigin.Location = new System.Drawing.Point(854, 19);
+            this.BtnSalesOrigin.Location = new System.Drawing.Point(727, 695);
             this.BtnSalesOrigin.Name = "BtnSalesOrigin";
-            this.BtnSalesOrigin.Size = new System.Drawing.Size(164, 119);
+            this.BtnSalesOrigin.Size = new System.Drawing.Size(250, 45);
             this.BtnSalesOrigin.TabIndex = 163;
+            this.BtnSalesOrigin.Text = "Origen Venta";
             this.BtnSalesOrigin.Click += new System.EventHandler(this.BtnSalesOrigin_Click);
             // 
             // AxOPOSScale
@@ -764,6 +767,17 @@
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScanner.TabIndex = 165;
             // 
+            // ImgSalesOrigin
+            // 
+            this.ImgSalesOrigin.Location = new System.Drawing.Point(856, -2);
+            this.ImgSalesOrigin.Name = "ImgSalesOrigin";
+            this.ImgSalesOrigin.Size = new System.Drawing.Size(150, 150);
+            this.ImgSalesOrigin.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Squeeze;
+            this.ImgSalesOrigin.SvgImage = global::POS.Properties.Resources.GLOVO;
+            this.ImgSalesOrigin.TabIndex = 166;
+            this.ImgSalesOrigin.Text = "svgImageBox1";
+            this.ImgSalesOrigin.Visible = false;
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -771,6 +785,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.ImgSalesOrigin);
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.AxOPOSScale);
             this.Controls.Add(this.BtnSalesOrigin);
@@ -831,6 +846,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -890,5 +906,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnSalesOrigin;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private DevExpress.XtraEditors.SvgImageBox ImgSalesOrigin;
     }
 }
