@@ -3563,7 +3563,6 @@
             <End Role="UserLogin" EntitySet="UserLogin" />
             <End Role="Supervisor" EntitySet="Supervisor" />
           </AssociationSet>
-          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
           <FunctionImport Name="SP_SalesLog_Consult" ReturnType="Collection(POSModel.SP_SalesLog_Consult_Result)">
             <Parameter Name="LocationId" Mode="In" Type="Int16" />
             <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
@@ -3745,6 +3744,7 @@
             <End Role="SalesRemissionTable" EntitySet="SalesRemissionTable" />
           </AssociationSet>
           <FunctionImport Name="SP_SalesOrigin_Consult" ReturnType="Collection(POSModel.SP_SalesOrigin_Consult_Result)" />
+          <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -5026,15 +5026,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CancelReason">
-          <Key>
-            <PropertyRef Name="ReasonId" />
-          </Key>
-          <Property Name="ReasonId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="ReasonType" Type="Int32" />
-        </EntityType>
         <ComplexType Name="SP_SalesLog_Consult_Result">
           <Property Type="Int64" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="XmlLog" Nullable="false" MaxLength="Max" />
@@ -5764,6 +5755,15 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
           <Property Type="Int32" Name="SalesmanId" Nullable="false" />
         </ComplexType>
+        <EntityType Name="CancelReason">
+          <Key>
+            <PropertyRef Name="ReasonId" />
+          </Key>
+          <Property Name="ReasonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReasonType" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6791,16 +6791,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CancelReason">
-            <EntityTypeMapping TypeName="POSModel.CancelReason">
-              <MappingFragment StoreEntitySet="CancelReason">
-                <ScalarProperty Name="ReasonType" ColumnName="ReasonType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_SalesLog_Consult" FunctionName="POSModel.Store.SP_SalesLog_Consult">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_SalesLog_Consult_Result">
@@ -7172,6 +7162,16 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CancelReason">
+            <EntityTypeMapping TypeName="POSModel.CancelReason">
+              <MappingFragment StoreEntitySet="CancelReason">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReasonType" ColumnName="ReasonType" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

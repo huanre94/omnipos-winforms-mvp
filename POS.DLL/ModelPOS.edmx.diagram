@@ -121,7 +121,6 @@
         <AssociationConnector Association="POSModel.FK__SalesLog_LogType" />
         <EntityTypeShape EntityType="POSModel.UserLogin" Width="1.5" PointX="7.375" PointY="11" />
         <AssociationConnector Association="POSModel.FK__Supervisor_UserLogin" />
-        <EntityTypeShape EntityType="POSModel.CancelReason" Width="1.5" PointX="5.375" PointY="4.375" />
         <EntityTypeShape EntityType="POSModel.ClosingCashierLine" Width="1.5" PointX="21.75" PointY="43" />
         <EntityTypeShape EntityType="POSModel.ClosingCashierMoney" Width="1.5" PointX="16.875" PointY="7.25" />
         <EntityTypeShape EntityType="POSModel.ClosingCashierTable" Width="1.5" PointX="19.5" PointY="46.5" />
@@ -166,6 +165,7 @@
         <AssociationConnector Association="POSModel.FK__SalesOrderPayment_SalesOrder" />
         <AssociationConnector Association="POSModel.FK__SalesOrderText_FACTrPedidoCab" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_Transport" />
+        <EntityTypeShape EntityType="POSModel.CancelReason" Width="1.5" PointX="5.375" PointY="4.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

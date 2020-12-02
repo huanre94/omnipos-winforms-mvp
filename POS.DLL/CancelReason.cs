@@ -18,6 +18,5 @@ namespace POS.DLL
         public Nullable<int> ReasonType { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
-        public Nullable<int> ReasonType { get; set; }
     }
 }

@@ -301,26 +301,6 @@ namespace POS.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pendingInvoice {
-            get {
-                object obj = ResourceManager.GetObject("pendingInvoice", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] pendingSale {
-            get {
-                object obj = ResourceManager.GetObject("pendingSale", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage printer {
@@ -403,9 +383,9 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage scale {
+        internal static DevExpress.Utils.Svg.SvgImage salesOrigin {
             get {
-                object obj = ResourceManager.GetObject("scale", resourceCulture);
+                object obj = ResourceManager.GetObject("salesOrigin", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
@@ -413,9 +393,19 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage SUPERMERCADOS {
+        internal static DevExpress.Utils.Svg.SvgImage salesOrigin1 {
             get {
-                object obj = ResourceManager.GetObject("SUPERMERCADOS", resourceCulture);
+                object obj = ResourceManager.GetObject("salesOrigin1", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage scale {
+            get {
+                object obj = ResourceManager.GetObject("scale", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }

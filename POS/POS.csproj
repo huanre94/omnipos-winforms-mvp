@@ -58,7 +58,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>41D1E8933B17B77DE0DCEB9F1195DFC07A36257B</ManifestCertificateThumbprint>
@@ -452,6 +452,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\LLAMADA CONVENCIONAL.svg" />
+    <Content Include="Resources\salesOrigin.svg" />
+    <None Include="Resources\salesOrigin1.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

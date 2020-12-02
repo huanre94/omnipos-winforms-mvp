@@ -759,7 +759,7 @@
             this.BtnSalesOrigin.Appearance.Options.UseBackColor = true;
             this.BtnSalesOrigin.Appearance.Options.UseFont = true;
             this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin;
+            this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin1;
             this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
             this.BtnSalesOrigin.Location = new System.Drawing.Point(727, 695);
             this.BtnSalesOrigin.Name = "BtnSalesOrigin";
