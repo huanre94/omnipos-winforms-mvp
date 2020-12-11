@@ -38,6 +38,7 @@
             this.LblUsername = new System.Windows.Forms.Label();
             this.LblVersion = new System.Windows.Forms.Label();
             this.BtnSalesOrder = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnGiftCardRedeem = new DevExpress.XtraEditors.SimpleButton();
             this.SuspendLayout();
             // 
             // BtnPOS
@@ -107,7 +108,7 @@
             this.BtnLogOut.Appearance.Options.UseFont = true;
             this.BtnLogOut.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLogOut.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLogOut.ImageOptions.SvgImage")));
-            this.BtnLogOut.Location = new System.Drawing.Point(1102, 661);
+            this.BtnLogOut.Location = new System.Drawing.Point(1104, 711);
             this.BtnLogOut.Name = "BtnLogOut";
             this.BtnLogOut.Size = new System.Drawing.Size(250, 45);
             this.BtnLogOut.TabIndex = 150;
@@ -119,7 +120,7 @@
             this.LblTitleUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblTitleUsername.AutoSize = true;
             this.LblTitleUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblTitleUsername.Location = new System.Drawing.Point(12, 690);
+            this.LblTitleUsername.Location = new System.Drawing.Point(12, 740);
             this.LblTitleUsername.Name = "LblTitleUsername";
             this.LblTitleUsername.Size = new System.Drawing.Size(65, 16);
             this.LblTitleUsername.TabIndex = 166;
@@ -129,7 +130,7 @@
             // 
             this.LblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblUsername.Location = new System.Drawing.Point(83, 690);
+            this.LblUsername.Location = new System.Drawing.Point(83, 740);
             this.LblUsername.Name = "LblUsername";
             this.LblUsername.Size = new System.Drawing.Size(275, 16);
             this.LblUsername.TabIndex = 167;
@@ -138,7 +139,7 @@
             // 
             this.LblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblVersion.Location = new System.Drawing.Point(364, 690);
+            this.LblVersion.Location = new System.Drawing.Point(364, 740);
             this.LblVersion.Name = "LblVersion";
             this.LblVersion.Size = new System.Drawing.Size(275, 16);
             this.LblVersion.TabIndex = 168;
@@ -157,14 +158,30 @@
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
-            this.BtnSalesOrder.Text = "Orden de\r\nVenta";
+            this.BtnSalesOrder.Text = "Pedidos \r\nE-commerce";
             this.BtnSalesOrder.Click += new System.EventHandler(this.BtnSalesOrder_Click);
+            // 
+            // BtnGiftCardRedeem
+            // 
+            this.BtnGiftCardRedeem.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnGiftCardRedeem.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.BtnGiftCardRedeem.Appearance.Options.UseBackColor = true;
+            this.BtnGiftCardRedeem.Appearance.Options.UseFont = true;
+            this.BtnGiftCardRedeem.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnGiftCardRedeem.ImageOptions.SvgImage = global::POS.Properties.Resources.retail;
+            this.BtnGiftCardRedeem.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
+            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(408, 344);
+            this.BtnGiftCardRedeem.Name = "BtnGiftCardRedeem";
+            this.BtnGiftCardRedeem.Size = new System.Drawing.Size(350, 200);
+            this.BtnGiftCardRedeem.TabIndex = 134;
+            this.BtnGiftCardRedeem.Text = "Canje \r\nBonos";
+            this.BtnGiftCardRedeem.Click += new System.EventHandler(this.BtnGiftCardRedeem_Click);
             // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1364, 718);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.LblUsername);
@@ -173,6 +190,7 @@
             this.Controls.Add(this.BtnLogOut);
             this.Controls.Add(this.BtnCloseCashier);
             this.Controls.Add(this.LblTitle);
+            this.Controls.Add(this.BtnGiftCardRedeem);
             this.Controls.Add(this.BtnSalesOrder);
             this.Controls.Add(this.BtnPOS);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -196,5 +214,6 @@
         private System.Windows.Forms.Label LblUsername;
         private System.Windows.Forms.Label LblVersion;
         private DevExpress.XtraEditors.SimpleButton BtnSalesOrder;
+        private DevExpress.XtraEditors.SimpleButton BtnGiftCardRedeem;
     }
 }

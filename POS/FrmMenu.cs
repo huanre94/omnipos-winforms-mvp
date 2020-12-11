@@ -92,5 +92,16 @@ namespace POS
             if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
                 this.Hide(); 
         }
+
+        private void BtnGiftCardRedeem_Click(object sender, EventArgs e)
+        {
+            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard();
+            frmPartial.loginInformation = loginInformation;
+            frmPartial.globalParameters = globalParameters;
+            frmPartial.Show();
+
+            if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
+                this.Hide();
+        }
     }
 }
