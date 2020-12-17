@@ -19,11 +19,10 @@ namespace POS.DLL
         {
             this.InventProductLocation = new HashSet<InventProductLocation>();
             this.ProductBarcode = new HashSet<ProductBarcode>();
-            this.GiftCardTemplateLine = new HashSet<GiftCardTemplateLine>();
-            this.GiftCardTemplateTable = new HashSet<GiftCardTemplateTable>();
             this.InvoiceLine = new HashSet<InvoiceLine>();
             this.SalesOrderLine = new HashSet<SalesOrderLine>();
             this.ProductModule = new HashSet<ProductModule>();
+            this.GiftCardLineProduct = new HashSet<GiftCardLineProduct>();
         }
     
         public long ProductId { get; set; }
@@ -59,10 +58,6 @@ namespace POS.DLL
         public virtual ProductGroup ProductGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductBarcode> ProductBarcode { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiftCardTemplateLine> GiftCardTemplateLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiftCardTemplateTable> GiftCardTemplateTable { get; set; }
         public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
@@ -70,5 +65,7 @@ namespace POS.DLL
         public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductModule> ProductModule { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardLineProduct> GiftCardLineProduct { get; set; }
     }
 }

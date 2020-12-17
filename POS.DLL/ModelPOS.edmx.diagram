@@ -45,17 +45,8 @@
         <EntityTypeShape EntityType="POSModel.PromotionType" Width="1.5" PointX="12.75" PointY="18.625" />
         <AssociationConnector Association="POSModel.FK__PromotionTable_PromotionType" />
         <EntityTypeShape EntityType="POSModel.GiftCardBlockTable" Width="1.5" PointX="20" PointY="29.25" />
-        <EntityTypeShape EntityType="POSModel.GiftCardLine" Width="1.5" PointX="24.5" PointY="31.75" />
         <EntityTypeShape EntityType="POSModel.GiftCardTable" Width="1.5" PointX="22.25" PointY="26.75" />
-        <EntityTypeShape EntityType="POSModel.GiftCardTemplateLine" Width="1.5" PointX="17.25" PointY="41.25" />
-        <EntityTypeShape EntityType="POSModel.GiftCardTemplateTable" Width="1.5" PointX="12" PointY="49.625" />
-        <EntityTypeShape EntityType="POSModel.GiftCardTrans" Width="1.5" PointX="29.75" PointY="36.125" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_GiftCardBlockTable" />
-        <AssociationConnector Association="POSModel.FK__GiftCardLine_GiftCardTable" />
-        <AssociationConnector Association="POSModel.FK__GiftCardTrans_GiftCardLine" />
-        <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_GiftCardTemplateTable" />
-        <AssociationConnector Association="POSModel.FK__GiftCardTemplateLine_Product" />
-        <AssociationConnector Association="POSModel.FK__GiftCardTemplateTable_Product" />
         <EntityTypeShape EntityType="POSModel.GiftCardBlockLine" Width="1.5" PointX="22.25" PointY="34.125" />
         <AssociationConnector Association="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" />
         <EntityTypeShape EntityType="POSModel.CreditCard" Width="1.5" PointX="0.75" PointY="4.875" />
@@ -66,7 +57,6 @@
         <EntityTypeShape EntityType="POSModel.SalesOrderText" Width="1.5" PointX="32.5" PointY="50.375" />
         <EntityTypeShape EntityType="POSModel.SalesOrigin" Width="1.5" PointX="28" PointY="47.375" />
         <AssociationConnector Association="POSModel.FK__SalesOrigin_Salesman" />
-        <EntityTypeShape EntityType="POSModel.GlobalParameter" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="POSModel.City" Width="1.5" PointX="5.25" PointY="39.5" />
         <EntityTypeShape EntityType="POSModel.InventTransType" Width="1.5" PointX="5.375" PointY="7.75" />
         <EntityTypeShape EntityType="POSModel.Location" Width="1.5" PointX="9.75" PointY="39" />
@@ -80,7 +70,6 @@
         <AssociationConnector Association="POSModel.FK__GiftCardBlockTable_Location" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_Location" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_LocationOrigin" />
-        <AssociationConnector Association="POSModel.FK__GiftCardTrans_LocationWithdrawn" />
         <AssociationConnector Association="POSModel.FK__InventLocation_Location" />
         <EntityTypeShape EntityType="POSModel.SalesRemissionLine" Width="1.5" PointX="37.5" PointY="41" />
         <EntityTypeShape EntityType="POSModel.SalesRemissionTable" Width="1.5" PointX="35.25" PointY="53.5" />
@@ -108,7 +97,6 @@
         <AssociationConnector Association="POSModel.FK__Customer_CustomerType" />
         <AssociationConnector Association="POSModel.FK__Customer_IdentType" />
         <AssociationConnector Association="POSModel.FK__Customer_Location" />
-        <AssociationConnector Association="POSModel.FK__GiftCardLine_Customer" />
         <AssociationConnector Association="POSModel.FK__GiftCardTable_Customer" />
         <AssociationConnector Association="POSModel.FK__InternalCreditCard_Customer" />
         <AssociationConnector Association="POSModel.FK__PromotionCustomer_Customer" />
@@ -166,6 +154,16 @@
         <AssociationConnector Association="POSModel.FK__SalesOrderText_FACTrPedidoCab" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_Transport" />
         <EntityTypeShape EntityType="POSModel.CancelReason" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="POSModel.GiftCardLine" Width="1.5" PointX="24.5" PointY="32.625" />
+        <EntityTypeShape EntityType="POSModel.GiftCardLineProduct" Width="1.5" PointX="15" PointY="29" />
+        <EntityTypeShape EntityType="POSModel.GiftCardTrans" Width="1.5" PointX="26.75" PointY="37" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLine_Customer" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLine_GiftCardTable" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLineProduct_GiftCardLine" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTrans_GiftCardLine" />
+        <AssociationConnector Association="POSModel.FK__GiftCardLineProduct_Product" />
+        <AssociationConnector Association="POSModel.FK__GiftCardTrans_LocationWithdrawn" />
+        <EntityTypeShape EntityType="POSModel.GlobalParameter" Width="1.5" PointX="7.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,15 +17,15 @@ namespace POS.DLL
         public long GiftCardId { get; set; }
         public int Sequence { get; set; }
         public int TrnsSeq { get; set; }
-        public short LocationIdWithdrawn { get; set; }
-        public System.DateTime Withdrawal { get; set; }
+        public short LocationIdRedeem { get; set; }
+        public System.DateTime RedeemDate { get; set; }
         public string TrnsType { get; set; }
         public string TrnsStatus { get; set; }
         public long TrnsId { get; set; }
         public decimal TrnsAmount { get; set; }
         public long ProductId { get; set; }
         public decimal Quantity { get; set; }
-        public decimal QuantityWithdrawn { get; set; }
+        public decimal RedeemQuantity { get; set; }
     
         public virtual GiftCardLine GiftCardLine { get; set; }
         public virtual Location Location { get; set; }

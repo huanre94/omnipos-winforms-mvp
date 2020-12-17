@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
+﻿using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
-using System.IO.Ports;
 using POS.DLL.Transaction;
+using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -35,6 +28,7 @@ namespace POS
             InitializeComponent();
         }
 
+        #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
@@ -49,6 +43,8 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtBarcode.Text = keyPad.giftcardNumber;
+            TxtBarcode.Focus();
+            SendKeys.Send("{ENTER}");
         }
 
         private void BtnIdentificationKeyPad_Click(object sender, EventArgs e)
@@ -63,8 +59,8 @@ namespace POS
         {
             if (TxtGiftCardNumber.Text != "")
             {
-                DLL.SP_GiftCard_Consult_Result result;
-                DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
+                SP_GiftCard_Consult_Result result;
+                ClsCustomerTrans customer = new ClsCustomerTrans();
 
                 try
                 {
@@ -72,7 +68,7 @@ namespace POS
 
                     if (result != null)
                     {
-                        if (result.Type == "XD")
+                        if (result.Type == "CC")
                         {
                             functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
                             LblGiftCardInvoice.Text = result.InvoiceNumber;
@@ -129,11 +125,6 @@ namespace POS
             TxtRedeemName.Text = keyBoard.checkOwnerName;
         }
 
-        private void ClearGiftCard()
-        {
-            LblExpirationDate.Text = DateTime.Today.ToString();
-        }
-
         private void FrmRedeemGiftCard_Load(object sender, EventArgs e)
         {
 
@@ -166,6 +157,66 @@ namespace POS
                 LblCashierUser.Text = loginInformation.UserName;
                 ClearGiftCard();
             }
+        }
+       
+        private void BtnAccept_Click(object sender, EventArgs e)
+        {
+            bool valida = true;
+            if (TxtGiftCardNumber.Text == "")
+            {
+                functions.ShowMessage("El numero de bono no puede estar vacio.", ClsEnums.MessageType.WARNING);
+                return;
+            }
+
+            if (TxtRedeemIdentification.Text == "" || TxtRedeemName.Text == "") {
+                functions.ShowMessage("Los datos del canje no pueden estar vacios.", ClsEnums.MessageType.WARNING);
+                return;
+            }
+
+            if (valida)
+            {
+                
+            }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            FrmMenu frmMenu = new FrmMenu();
+            frmMenu.loginInformation = loginInformation;
+            frmMenu.globalParameters = globalParameters;
+            frmMenu.Visible = true;
+            Close();
+        }
+
+        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                GetProductInformation(
+                                        emissionPoint.LocationId
+                                        , TxtBarcode.Text
+                                        , 1
+                                        , 1
+                                        , 1
+                                        , ""
+                                        , false
+                                    );
+            }
+        }
+        
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        {
+            TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
+            SendKeys.Send("{ENTER}");
+            functions.AxOPOSScanner.DataEventEnabled = true;
+        }
+        #endregion
+
+        #region Functions
+
+        private void ClearGiftCard()
+        {
+            LblExpirationDate.Text = DateTime.Today.ToString();
         }
 
         private bool GetEmissionPointInformation()
@@ -207,36 +258,6 @@ namespace POS
             }
 
             return response;
-        }
-
-        private void BtnAccept_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.globalParameters = globalParameters;
-            frmMenu.Visible = true;
-            Close();
-        }
-
-        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                GetProductInformation(
-                                        emissionPoint.LocationId
-                                        , TxtBarcode.Text
-                                        , 1
-                                        , 1
-                                        , 1
-                                        , ""
-                                        , false
-                                    );
-            }
         }
 
         private void GetProductInformation(
@@ -306,7 +327,7 @@ namespace POS
                         {
                             functions.globalParameters = globalParameters;
 
-                            if (result.UseCatchWeight)
+                            if (true)
                             {
                                 if (!_skipCatchWeight)
                                 {
@@ -328,11 +349,13 @@ namespace POS
                                                                                 , _paymMode
                                                                                 , barcodeBefore
                                                                                 );
+
+                                        TxtProductDescription.Text = result.ProductName;
+                                        LblWeightValue.Text = weight.ToString("");
                                     }
                                     else
                                     {
                                         functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
-                                        bool canInsert = false;
                                     }
                                 }
                             }
@@ -361,12 +384,6 @@ namespace POS
                 functions.ShowMessage("El código de barras no puede estar vacío.", ClsEnums.MessageType.WARNING);
             }
         }
-
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
-        {
-            TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
-            SendKeys.Send("{ENTER}");
-            functions.AxOPOSScanner.DataEventEnabled = true;
-        }
+        #endregion
     }
 }

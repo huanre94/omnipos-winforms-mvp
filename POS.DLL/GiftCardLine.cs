@@ -17,6 +17,7 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GiftCardLine()
         {
+            this.GiftCardLineProduct = new HashSet<GiftCardLineProduct>();
             this.GiftCardTrans = new HashSet<GiftCardTrans>();
         }
     
@@ -25,14 +26,17 @@ namespace POS.DLL
         public int Year { get; set; }
         public string GiftCardNumber { get; set; }
         public long CustomerId { get; set; }
-        public string AssignedCustomer { get; set; }
+        public string RedeemIdentification { get; set; }
+        public string RedeemCustomer { get; set; }
         public decimal Amount { get; set; }
         public decimal AmountConsumed { get; set; }
         public string StatusLine { get; set; }
     
+        public virtual Customer Customer { get; set; }
         public virtual GiftCardTable GiftCardTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardLineProduct> GiftCardLineProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTrans> GiftCardTrans { get; set; }
-        public virtual Customer Customer { get; set; }
     }
 }
