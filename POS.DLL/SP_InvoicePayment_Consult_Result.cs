@@ -10,21 +10,19 @@
 namespace POS.DLL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PromotionPaymMode
+    public partial class SP_InvoicePayment_Consult_Result
     {
-        public long PromotionId { get; set; }
+        public long InvoiceId { get; set; }
+        public long CustomerId { get; set; }
+        public short LocationId { get; set; }
         public int Sequence { get; set; }
         public int PaymModeId { get; set; }
-        public int BankId { get; set; }
-        public int CreditCardId { get; set; }
-        public decimal Percent { get; set; }
-        public string StatusPromPaym { get; set; }
-        public string RewardMultiplierType { get; set; }
-        public int RewardMultiplierValue { get; set; }
-    
-        public virtual PaymMode PaymMode { get; set; }
-        public virtual PromotionTable PromotionTable { get; set; }
+        public string Name { get; set; }
+        public decimal Amount { get; set; }
+        public System.DateTime PaymentDate { get; set; }
+        public int EmissionPointId { get; set; }
+        public string Emission { get; set; }
+        public long InvoiceNumber { get; set; }
     }
 }

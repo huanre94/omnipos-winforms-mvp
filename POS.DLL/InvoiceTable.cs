@@ -53,6 +53,7 @@ namespace POS.DLL
         public string Observation { get; set; }
         public string KeyAccessSri { get; set; }
         public string Status { get; set; }
+        public Nullable<int> TransferStatus { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
         public Nullable<int> ModifiedBy { get; set; }

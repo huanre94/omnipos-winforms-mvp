@@ -75,5 +75,27 @@ namespace POS.DLL.Catalog
 
             return creditCards;
         }
+
+        public List<PaymMode> GetPaymModes()
+        {
+            var db = new POSEntities();
+            List<PaymMode> paymModes;
+
+            try
+            {
+
+                paymModes = (
+                            from pa in db.PaymMode
+                            where pa.Status == "A"
+                            select pa
+                            ).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return paymModes;
+        }
     }
 }

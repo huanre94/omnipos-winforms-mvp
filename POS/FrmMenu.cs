@@ -103,5 +103,12 @@ namespace POS
             if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
                 this.Hide();
         }
+
+        private void BtnChangePaymMode_Click(object sender, EventArgs e)
+        {
+            FrmChangePaymMode frmChange = new FrmChangePaymMode();
+            frmChange.loginInformation = loginInformation;
+            frmChange.ShowDialog();
+        }
     }
 }

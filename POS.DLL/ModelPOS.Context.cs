@@ -43,7 +43,6 @@ namespace POS.DLL
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<ProductGroup> ProductGroup { get; set; }
         public virtual DbSet<PromotionCustomer> PromotionCustomer { get; set; }
-        public virtual DbSet<PromotionPaymMode> PromotionPaymMode { get; set; }
         public virtual DbSet<PromotionProducts> PromotionProducts { get; set; }
         public virtual DbSet<PromotionReward> PromotionReward { get; set; }
         public virtual DbSet<PromotionTable> PromotionTable { get; set; }
@@ -52,14 +51,12 @@ namespace POS.DLL
         public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
         public virtual DbSet<TaxTable> TaxTable { get; set; }
         public virtual DbSet<PromotionType> PromotionType { get; set; }
-        public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
-        public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
-        public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
         public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
         public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
         public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
+        public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<Location> Location { get; set; }
@@ -89,14 +86,17 @@ namespace POS.DLL
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<SequenceType> SequenceType { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<CancelReason> CancelReason { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
+        public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
         public virtual DbSet<GiftCardLine> GiftCardLine { get; set; }
         public virtual DbSet<GiftCardLineProduct> GiftCardLineProduct { get; set; }
+        public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
-        public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
+        public virtual DbSet<PromotionPaymMode> PromotionPaymMode { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -384,6 +384,23 @@ namespace POS.DLL
         public virtual ObjectResult<SP_SalesOrigin_Consult_Result> SP_SalesOrigin_Consult()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrigin_Consult_Result>("SP_SalesOrigin_Consult");
+        }
+    
+        public virtual ObjectResult<SP_InvoicePayment_Consult_Result> SP_InvoicePayment_Consult(Nullable<int> locationId, string emissionPoint, string invoiceNumber)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var emissionPointParameter = emissionPoint != null ?
+                new ObjectParameter("EmissionPoint", emissionPoint) :
+                new ObjectParameter("EmissionPoint", typeof(string));
+    
+            var invoiceNumberParameter = invoiceNumber != null ?
+                new ObjectParameter("InvoiceNumber", invoiceNumber) :
+                new ObjectParameter("InvoiceNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoicePayment_Consult_Result>("SP_InvoicePayment_Consult", locationIdParameter, emissionPointParameter, invoiceNumberParameter);
         }
     }
 }

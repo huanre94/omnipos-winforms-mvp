@@ -118,7 +118,8 @@ namespace POS.DLL.Transaction
             return consult;
         }      
 
-        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint) {
+        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint) 
+        {
             POSEntities pos = new POSEntities();
             long consult;
 
@@ -138,6 +139,94 @@ namespace POS.DLL.Transaction
             }
 
             return consult;
+        }
+
+        public List<SP_InvoicePayment_Consult_Result> GetInvoicePayments(
+                                                                            int _locationId
+                                                                            ,string _emissionPoint
+                                                                            ,string _invoiceNumber
+                                                                        )
+        {
+            var db = new POSEntities();
+            List<SP_InvoicePayment_Consult_Result> payments;
+
+            try
+            {
+                payments = db.SP_InvoicePayment_Consult(
+                                                        _locationId
+                                                        , _emissionPoint
+                                                        , _invoiceNumber
+                                                        ).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return payments;
+        }
+
+        public bool UpdateInvoicePayments(
+                                            long _invoiceId
+                                            , int _paymModeId
+                                            , int _sequence
+                                            , InvoicePayment _invoicePayment
+                                            , int _userId
+                                            , string _workStation
+                                        )
+        {
+            var db = new POSEntities();
+            bool response;
+
+            InvoicePayment invoicePayment = (from x in db.InvoicePayment
+                                             where x.InvoiceId == _invoiceId
+                                             && x.PaymModeId == _paymModeId
+                                             && x.Sequence == _sequence
+                                             select x).First();
+
+            InvoiceTable invoiceTable = (from y in db.InvoiceTable
+                                         where y.InvoiceId == _invoiceId
+                                         select y).First();
+
+            invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
+
+            invoiceTable.TransferStatus = 2;
+            invoiceTable.ModifiedBy = _userId;
+            invoiceTable.ModifiedDatetime = DateTime.Now;
+            invoiceTable.Workstation = _workStation;
+
+            if (_invoicePayment.PaymModeId == 5 || _invoicePayment.PaymModeId == 13)
+            {                
+                invoicePayment.BankId = _invoicePayment.BankId;
+                invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
+                invoicePayment.Authorization = _invoicePayment.Authorization;
+            }
+            else if (_invoicePayment.PaymModeId == 2 || _invoicePayment.PaymModeId == 3)
+            {
+                invoicePayment.BankId = _invoicePayment.BankId;
+                invoicePayment.AccountNumber = _invoicePayment.AccountNumber;
+                invoicePayment.CkeckNumber = _invoicePayment.CkeckNumber;
+                invoicePayment.CkeckType = _invoicePayment.CkeckType;
+                invoicePayment.CkeckDate = _invoicePayment.CkeckDate;
+                invoicePayment.CheckOwner = _invoicePayment.CheckOwner;
+                invoicePayment.Authorization = _invoicePayment.Authorization;
+            }
+            else if (_invoicePayment.PaymModeId == 1)
+            {
+                invoicePayment.GiftCardNumber = _invoicePayment.GiftCardNumber;
+            }
+
+            try
+            {
+                db.SaveChanges();
+                response = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return response;
         }
     }
 }

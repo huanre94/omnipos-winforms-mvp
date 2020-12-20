@@ -123,6 +123,12 @@
     <Compile Include="FrmCatchWeight.Designer.cs">
       <DependentUpon>FrmCatchWeight.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmChangePaymMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmChangePaymMode.Designer.cs">
+      <DependentUpon>FrmChangePaymMode.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmClosingCashier.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FrmCatchWeight.resx">
       <DependentUpon>FrmCatchWeight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmChangePaymMode.resx">
+      <DependentUpon>FrmChangePaymMode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmClosingCashier.resx">
       <DependentUpon>FrmClosingCashier.cs</DependentUpon>

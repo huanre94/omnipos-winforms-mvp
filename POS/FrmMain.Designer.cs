@@ -93,6 +93,7 @@
             // 
             // BtnCancelSale
             // 
+            this.BtnCancelSale.AllowFocus = false;
             this.BtnCancelSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancelSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.BtnCancelSale.Appearance.Options.UseBackColor = true;
@@ -109,6 +110,7 @@
             // 
             // BtnSuspendSale
             // 
+            this.BtnSuspendSale.AllowFocus = false;
             this.BtnSuspendSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSuspendSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.BtnSuspendSale.Appearance.Options.UseBackColor = true;
@@ -125,6 +127,7 @@
             // 
             // BtnProductSearch
             // 
+            this.BtnProductSearch.AllowFocus = false;
             this.BtnProductSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.BtnProductSearch.Appearance.Options.UseBackColor = true;
@@ -141,6 +144,7 @@
             // 
             // Btn9
             // 
+            this.Btn9.AllowFocus = false;
             this.Btn9.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn9.Appearance.Options.UseBackColor = true;
@@ -155,6 +159,7 @@
             // 
             // BtnPayment
             // 
+            this.BtnPayment.AllowFocus = false;
             this.BtnPayment.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPayment.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.BtnPayment.Appearance.Options.UseBackColor = true;
@@ -171,6 +176,7 @@
             // 
             // Btn8
             // 
+            this.Btn8.AllowFocus = false;
             this.Btn8.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn8.Appearance.Options.UseBackColor = true;
@@ -185,6 +191,7 @@
             // 
             // Btn7
             // 
+            this.Btn7.AllowFocus = false;
             this.Btn7.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn7.Appearance.Options.UseBackColor = true;
@@ -210,6 +217,7 @@
             // 
             // Btn6
             // 
+            this.Btn6.AllowFocus = false;
             this.Btn6.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn6.Appearance.Options.UseBackColor = true;
@@ -224,6 +232,7 @@
             // 
             // Btn5
             // 
+            this.Btn5.AllowFocus = false;
             this.Btn5.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn5.Appearance.Options.UseBackColor = true;
@@ -238,6 +247,7 @@
             // 
             // Btn1
             // 
+            this.Btn1.AllowFocus = false;
             this.Btn1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn1.Appearance.Options.UseBackColor = true;
@@ -252,6 +262,7 @@
             // 
             // Btn4
             // 
+            this.Btn4.AllowFocus = false;
             this.Btn4.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn4.Appearance.Options.UseBackColor = true;
@@ -266,6 +277,7 @@
             // 
             // Btn2
             // 
+            this.Btn2.AllowFocus = false;
             this.Btn2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn2.Appearance.Options.UseBackColor = true;
@@ -280,6 +292,7 @@
             // 
             // BtnDelete
             // 
+            this.BtnDelete.AllowFocus = false;
             this.BtnDelete.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnDelete.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnDelete.Appearance.Options.UseBackColor = true;
@@ -295,6 +308,7 @@
             // 
             // Btn3
             // 
+            this.Btn3.AllowFocus = false;
             this.Btn3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn3.Appearance.Options.UseBackColor = true;
@@ -309,6 +323,7 @@
             // 
             // BtnEnter
             // 
+            this.BtnEnter.AllowFocus = false;
             this.BtnEnter.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnEnter.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnEnter.Appearance.Options.UseBackColor = true;
@@ -323,6 +338,7 @@
             // 
             // Btn0
             // 
+            this.Btn0.AllowFocus = false;
             this.Btn0.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn0.Appearance.Options.UseBackColor = true;
@@ -588,6 +604,7 @@
             // 
             // BtnCustomer
             // 
+            this.BtnCustomer.AllowFocus = false;
             this.BtnCustomer.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCustomer.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnCustomer.Appearance.Options.UseBackColor = true;
@@ -604,6 +621,7 @@
             // 
             // BtnQty
             // 
+            this.BtnQty.AllowFocus = false;
             this.BtnQty.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnQty.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnQty.Appearance.Options.UseBackColor = true;
@@ -621,6 +639,7 @@
             // 
             // BtnRemove
             // 
+            this.BtnRemove.AllowFocus = false;
             this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnRemove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnRemove.Appearance.Options.UseBackColor = true;
@@ -701,6 +720,7 @@
             // 
             // BtnPrintLastInvoice
             // 
+            this.BtnPrintLastInvoice.AllowFocus = false;
             this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
@@ -717,6 +737,7 @@
             // 
             // BtnExit
             // 
+            this.BtnExit.AllowFocus = false;
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnExit.Appearance.Options.UseBackColor = true;
@@ -754,6 +775,7 @@
             // 
             // BtnSalesOrigin
             // 
+            this.BtnSalesOrigin.AllowFocus = false;
             this.BtnSalesOrigin.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSalesOrigin.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnSalesOrigin.Appearance.Options.UseBackColor = true;

@@ -343,7 +343,7 @@
           <Property Name="Sequence" Type="int" Nullable="false" />
           <Property Name="TrnsSeq" Type="int" Nullable="false" />
           <Property Name="LocationIdRedeem" Type="smallint" Nullable="false" />
-          <Property Name="RedeemDate" Type="datetime" Nullable="false" />
+          <Property Name="RedeemDate" Type="datetime2" Precision="7" />
           <Property Name="TrnsType" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="TrnsStatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="TrnsId" Type="bigint" Nullable="false" />
@@ -543,6 +543,7 @@
           <Property Name="Observation" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="KeyAccessSri" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="TransferStatus" Type="int" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="int" />
@@ -2234,6 +2235,11 @@
         <Function Name="SP_Invoice_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
         </Function>
+        <Function Name="SP_InvoicePayment_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+          <Parameter Name="EmissionPoint" Type="varchar" Mode="In" />
+          <Parameter Name="InvoiceNumber" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_InvoiceTicket_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InvoiceId" Type="bigint" Mode="In" />
           <Parameter Name="OpenCashier" Type="bit" Mode="In" />
@@ -2943,23 +2949,6 @@
           <NavigationProperty Name="PromotionTable" Relationship="Self.FK__PromotionCustomer_PromotionTable" FromRole="PromotionCustomer" ToRole="PromotionTable" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__PromotionCustomer_Customer" FromRole="PromotionCustomer" ToRole="Customer" />
         </EntityType>
-        <EntityType Name="PromotionPaymMode">
-          <Key>
-            <PropertyRef Name="PromotionId" />
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="PromotionId" Type="Int64" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
-          <Property Name="BankId" Type="Int32" Nullable="false" />
-          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
-          <Property Name="Percent" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-          <Property Name="StatusPromPaym" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="PromotionTable" Relationship="Self.FK__PromotionPaymMode_PromotionTable" FromRole="PromotionPaymMode" ToRole="PromotionTable" />
-          <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PromotionPaymMode" ToRole="PaymMode" />
-          <Property Name="RewardMultiplierType" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="RewardMultiplierValue" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="PromotionProducts">
           <Key>
             <PropertyRef Name="PromotionId" />
@@ -3023,11 +3012,11 @@
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="PromotionCustomer" Relationship="Self.FK__PromotionCustomer_PromotionTable" FromRole="PromotionTable" ToRole="PromotionCustomer" />
-          <NavigationProperty Name="PromotionPaymMode" Relationship="Self.FK__PromotionPaymMode_PromotionTable" FromRole="PromotionTable" ToRole="PromotionPaymMode" />
           <NavigationProperty Name="PromotionProducts" Relationship="Self.FK__PromotionProducts_PromotionTable" FromRole="PromotionTable" ToRole="PromotionProducts" />
           <NavigationProperty Name="PromotionReward" Relationship="Self.FK__PromotionReward_PromotionTable" FromRole="PromotionTable" ToRole="PromotionReward" />
           <NavigationProperty Name="InternalCreditCardLine" Relationship="POSModel.FK__InternalCreditCardLine_PromotionTable" FromRole="PromotionTable" ToRole="InternalCreditCardLine" />
           <NavigationProperty Name="PromotionType" Relationship="POSModel.FK__PromotionTable_PromotionType" FromRole="PromotionTable" ToRole="PromotionType" />
+          <NavigationProperty Name="PromotionPaymMode" Relationship="POSModel.FK__PromotionPaymMode_PromotionTable" FromRole="PromotionTable" ToRole="PromotionPaymMode" />
         </EntityType>
         <EntityType Name="Salesman">
           <Key>
@@ -3048,8 +3037,8 @@
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__SalesOrigin_Salesman" FromRole="Salesman" ToRole="SalesOrigin" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="Salesman" ToRole="InvoiceTable" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Salesman" FromRole="Salesman" ToRole="SalesOrder" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="Salesman" ToRole="InvoiceTable" />
         </EntityType>
         <EntityType Name="Server">
           <Key>
@@ -3169,18 +3158,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PromotionPaymMode_PromotionTable">
-          <End Role="PromotionTable" Type="Self.PromotionTable" Multiplicity="1" />
-          <End Role="PromotionPaymMode" Type="Self.PromotionPaymMode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PromotionTable">
-              <PropertyRef Name="PromotionId" />
-            </Principal>
-            <Dependent Role="PromotionPaymMode">
-              <PropertyRef Name="PromotionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__PromotionProducts_PromotionTable">
           <End Role="PromotionTable" Type="Self.PromotionTable" Multiplicity="1" />
           <End Role="PromotionProducts" Type="Self.PromotionProducts" Multiplicity="*" />
@@ -3222,7 +3199,6 @@
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" />
           <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" />
           <EntitySet Name="PromotionCustomer" EntityType="Self.PromotionCustomer" />
-          <EntitySet Name="PromotionPaymMode" EntityType="Self.PromotionPaymMode" />
           <EntitySet Name="PromotionProducts" EntityType="Self.PromotionProducts" />
           <EntitySet Name="PromotionReward" EntityType="Self.PromotionReward" />
           <EntitySet Name="PromotionTable" EntityType="Self.PromotionTable" />
@@ -3264,10 +3240,6 @@
             <End Role="PromotionTable" EntitySet="PromotionTable" />
             <End Role="PromotionCustomer" EntitySet="PromotionCustomer" />
           </AssociationSet>
-          <AssociationSet Name="FK__PromotionPaymMode_PromotionTable" Association="Self.FK__PromotionPaymMode_PromotionTable">
-            <End Role="PromotionTable" EntitySet="PromotionTable" />
-            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
-          </AssociationSet>
           <AssociationSet Name="FK__PromotionProducts_PromotionTable" Association="Self.FK__PromotionProducts_PromotionTable">
             <End Role="PromotionTable" EntitySet="PromotionTable" />
             <End Role="PromotionProducts" EntitySet="PromotionProducts" />
@@ -3286,17 +3258,6 @@
           <AssociationSet Name="FK__PromotionTable_PromotionType" Association="POSModel.FK__PromotionTable_PromotionType">
             <End Role="PromotionType" EntitySet="PromotionType" />
             <End Role="PromotionTable" EntitySet="PromotionTable" />
-          </AssociationSet>
-          <EntitySet Name="GiftCardBlockTable" EntityType="POSModel.GiftCardBlockTable" />
-          <EntitySet Name="GiftCardTable" EntityType="POSModel.GiftCardTable" />
-          <AssociationSet Name="FK__GiftCardTable_GiftCardBlockTable" Association="POSModel.FK__GiftCardTable_GiftCardBlockTable">
-            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
-            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
-          </AssociationSet>
-          <EntitySet Name="GiftCardBlockLine" EntityType="POSModel.GiftCardBlockLine" />
-          <AssociationSet Name="FK__GiftCardBlockLine_GiftCardBlockTable" Association="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable">
-            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
-            <End Role="GiftCardBlockLine" EntitySet="GiftCardBlockLine" />
           </AssociationSet>
           <EntitySet Name="CreditCard" EntityType="POSModel.CreditCard" />
           <AssociationSet Name="FK__BankCreditCard_CreditCard" Association="POSModel.FK__BankCreditCard_CreditCard">
@@ -3332,6 +3293,7 @@
             <Parameter Name="Phone" Mode="In" Type="String" />
             <Parameter Name="Reference" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GlobalParameter" EntityType="POSModel.GlobalParameter" />
           <EntitySet Name="City" EntityType="POSModel.City" />
           <EntitySet Name="InventTransType" EntityType="POSModel.InventTransType" />
           <EntitySet Name="Location" EntityType="POSModel.Location" />
@@ -3359,18 +3321,6 @@
           <AssociationSet Name="FK__Province_Country" Association="POSModel.FK__Province_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Province" EntitySet="Province" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GiftCardBlockTable_Location" Association="POSModel.FK__GiftCardBlockTable_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GiftCardTable_Location" Association="POSModel.FK__GiftCardTable_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GiftCardTable_LocationOrigin" Association="POSModel.FK__GiftCardTable_LocationOrigin">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
           </AssociationSet>
           <AssociationSet Name="FK__InventLocation_Location" Association="POSModel.FK__InventLocation_Location">
             <End Role="Location" EntitySet="Location" />
@@ -3460,10 +3410,6 @@
             <End Role="Location" EntitySet="Location" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
-          <AssociationSet Name="FK__GiftCardTable_Customer" Association="POSModel.FK__GiftCardTable_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
-          </AssociationSet>
           <AssociationSet Name="FK__InternalCreditCard_Customer" Association="POSModel.FK__InternalCreditCard_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="InternalCreditCard" EntitySet="InternalCreditCard" />
@@ -3471,10 +3417,6 @@
           <AssociationSet Name="FK__PromotionCustomer_Customer" Association="POSModel.FK__PromotionCustomer_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="PromotionCustomer" EntitySet="PromotionCustomer" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PromotionPaymMode_PaymMode" Association="POSModel.FK__PromotionPaymMode_PaymMode">
-            <End Role="PaymMode" EntitySet="PaymMode" />
-            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
           </AssociationSet>
           <AssociationSet Name="FK__SalesOrderPayment_PaymMode" Association="POSModel.FK__SalesOrderPayment_PaymMode">
             <End Role="PaymMode" EntitySet="PaymMode" />
@@ -3603,23 +3545,6 @@
           <Parameter Name="barcode" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="InvoicePayment" EntityType="POSModel.InvoicePayment" />
-          <EntitySet Name="InvoiceTable" EntityType="POSModel.InvoiceTable" />
-          <AssociationSet Name="FK__InvoiceTable_Customer" Association="POSModel.FK__InvoiceTable_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceTable_EmissionPoint" Association="POSModel.FK__InvoiceTable_EmissionPoint">
-            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceLine_InvoiceTable" Association="POSModel.FK__InvoiceLine_InvoiceTable">
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-            <End Role="InvoiceLine" EntitySet="InvoiceLine" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoicePayment_InvoiceTable" Association="POSModel.FK__InvoicePayment_InvoiceTable">
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
-          </AssociationSet>
           <AssociationSet Name="FK__InvoicePayment_Location" Association="POSModel.FK__InvoicePayment_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
@@ -3627,22 +3552,6 @@
           <AssociationSet Name="FK__InvoicePayment_PaymMode" Association="POSModel.FK__InvoicePayment_PaymMode">
             <End Role="PaymMode" EntitySet="PaymMode" />
             <End Role="InvoicePayment" EntitySet="InvoicePayment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceTable_Location" Association="POSModel.FK__InvoiceTable_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceTable_Salesman" Association="POSModel.FK__InvoiceTable_Salesman">
-            <End Role="Salesman" EntitySet="Salesman" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InvoiceTable_SalesOrigin" Association="POSModel.FK__InvoiceTable_SalesOrigin">
-            <End Role="SalesOrigin" EntitySet="SalesOrigin" />
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SalesRemissionLine_InvoiceTable" Association="POSModel.FK__SalesRemissionLine_InvoiceTable">
-            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
-            <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
           </AssociationSet>
           <FunctionImport Name="SP_InvoiceTicket_Consult" ReturnType="Collection(POSModel.SP_InvoiceTicket_Consult_Result)">
             <Parameter Name="InvoiceId" Mode="In" Type="Int64" />
@@ -3688,12 +3597,69 @@
           </AssociationSet>
           <FunctionImport Name="SP_SalesOrigin_Consult" ReturnType="Collection(POSModel.SP_SalesOrigin_Consult_Result)" />
           <EntitySet Name="CancelReason" EntityType="POSModel.CancelReason" />
+          <FunctionImport Name="SP_InvoicePayment_Consult" ReturnType="Collection(POSModel.SP_InvoicePayment_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="EmissionPoint" Mode="In" Type="String" />
+            <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="InvoiceTable" EntityType="POSModel.InvoiceTable" />
+          <AssociationSet Name="FK__InvoiceTable_Customer" Association="POSModel.FK__InvoiceTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_EmissionPoint" Association="POSModel.FK__InvoiceTable_EmissionPoint">
+            <End Role="EmissionPoint" EntitySet="EmissionPoint" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceLine_InvoiceTable" Association="POSModel.FK__InvoiceLine_InvoiceTable">
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+            <End Role="InvoiceLine" EntitySet="InvoiceLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePayment_InvoiceTable" Association="POSModel.FK__InvoicePayment_InvoiceTable">
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+            <End Role="InvoicePayment" EntitySet="InvoicePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_Location" Association="POSModel.FK__InvoiceTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_Salesman" Association="POSModel.FK__InvoiceTable_Salesman">
+            <End Role="Salesman" EntitySet="Salesman" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceTable_SalesOrigin" Association="POSModel.FK__InvoiceTable_SalesOrigin">
+            <End Role="SalesOrigin" EntitySet="SalesOrigin" />
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesRemissionLine_InvoiceTable" Association="POSModel.FK__SalesRemissionLine_InvoiceTable">
+            <End Role="InvoiceTable" EntitySet="InvoiceTable" />
+            <End Role="SalesRemissionLine" EntitySet="SalesRemissionLine" />
+          </AssociationSet>
+          <EntitySet Name="GiftCardBlockLine" EntityType="POSModel.GiftCardBlockLine" />
+          <EntitySet Name="GiftCardBlockTable" EntityType="POSModel.GiftCardBlockTable" />
           <EntitySet Name="GiftCardLine" EntityType="POSModel.GiftCardLine" />
           <EntitySet Name="GiftCardLineProduct" EntityType="POSModel.GiftCardLineProduct" />
+          <EntitySet Name="GiftCardTable" EntityType="POSModel.GiftCardTable" />
           <EntitySet Name="GiftCardTrans" EntityType="POSModel.GiftCardTrans" />
           <AssociationSet Name="FK__GiftCardLine_Customer" Association="POSModel.FK__GiftCardLine_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="GiftCardLine" EntitySet="GiftCardLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Customer" Association="POSModel.FK__GiftCardTable_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardBlockLine_GiftCardBlockTable" Association="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable">
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+            <End Role="GiftCardBlockLine" EntitySet="GiftCardBlockLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardBlockTable_Location" Association="POSModel.FK__GiftCardBlockTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_GiftCardBlockTable" Association="POSModel.FK__GiftCardTable_GiftCardBlockTable">
+            <End Role="GiftCardBlockTable" EntitySet="GiftCardBlockTable" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
           </AssociationSet>
           <AssociationSet Name="FK__GiftCardLine_GiftCardTable" Association="POSModel.FK__GiftCardLine_GiftCardTable">
             <End Role="GiftCardTable" EntitySet="GiftCardTable" />
@@ -3711,11 +3677,27 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="GiftCardLineProduct" EntitySet="GiftCardLineProduct" />
           </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_Location" Association="POSModel.FK__GiftCardTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GiftCardTable_LocationOrigin" Association="POSModel.FK__GiftCardTable_LocationOrigin">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="GiftCardTable" EntitySet="GiftCardTable" />
+          </AssociationSet>
           <AssociationSet Name="FK__GiftCardTrans_LocationWithdrawn" Association="POSModel.FK__GiftCardTrans_LocationWithdrawn">
             <End Role="Location" EntitySet="Location" />
             <End Role="GiftCardTrans" EntitySet="GiftCardTrans" />
           </AssociationSet>
-          <EntitySet Name="GlobalParameter" EntityType="POSModel.GlobalParameter" />
+          <EntitySet Name="PromotionPaymMode" EntityType="POSModel.PromotionPaymMode" />
+          <AssociationSet Name="FK__PromotionPaymMode_PaymMode" Association="POSModel.FK__PromotionPaymMode_PaymMode">
+            <End Role="PaymMode" EntitySet="PaymMode" />
+            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PromotionPaymMode_PromotionTable" Association="POSModel.FK__PromotionPaymMode_PromotionTable">
+            <End Role="PromotionTable" EntitySet="PromotionTable" />
+            <End Role="PromotionPaymMode" EntitySet="PromotionPaymMode" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -3767,93 +3749,6 @@
             </Principal>
             <Dependent Role="PromotionTable">
               <PropertyRef Name="PromotionTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="GiftCardBlockTable">
-          <Key>
-            <PropertyRef Name="GiftCardBlockId" />
-          </Key>
-          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardBlockTable" ToRole="GiftCardTable" />
-          <NavigationProperty Name="GiftCardBlockLine" Relationship="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" FromRole="GiftCardBlockTable" ToRole="GiftCardBlockLine" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="GiftCardBlockTable" ToRole="Location" />
-        </EntityType>
-        <EntityType Name="GiftCardTable">
-          <Key>
-            <PropertyRef Name="GiftCardId" />
-          </Key>
-          <Property Name="GiftCardId" Type="Int64" Nullable="false" />
-          <Property Name="GiftCardIdLocal" Type="Int64" Nullable="false" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="LocationIdOrigin" Type="Int16" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
-          <Property Name="Registration" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="UseCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="CustomerId" Type="Int64" Nullable="false" />
-          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
-          <Property Name="GiftCardNumberStart" Type="Int64" Nullable="false" />
-          <Property Name="GiftCardNumberFinal" Type="Int64" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardTable" ToRole="GiftCardBlockTable" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="GiftCardTable" ToRole="Location" />
-          <NavigationProperty Name="Location1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="GiftCardTable" ToRole="Location" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="GiftCardTable" ToRole="Customer" />
-          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_GiftCardTable" FromRole="GiftCardTable" ToRole="GiftCardLine" />
-        </EntityType>
-        <Association Name="FK__GiftCardTable_GiftCardBlockTable">
-          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="1" />
-          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GiftCardBlockTable">
-              <PropertyRef Name="GiftCardBlockId" />
-            </Principal>
-            <Dependent Role="GiftCardTable">
-              <PropertyRef Name="GiftCardBlockId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="GiftCardBlockLine">
-          <Key>
-            <PropertyRef Name="GiftCardBlockId" />
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <Property Name="GiftCardNumberStart" Type="Int64" Nullable="false" />
-          <Property Name="GiftCardNumberFinal" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" FromRole="GiftCardBlockLine" ToRole="GiftCardBlockTable" />
-        </EntityType>
-        <Association Name="FK__GiftCardBlockLine_GiftCardBlockTable">
-          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="1" />
-          <End Type="POSModel.GiftCardBlockLine" Role="GiftCardBlockLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GiftCardBlockTable">
-              <PropertyRef Name="GiftCardBlockId" />
-            </Principal>
-            <Dependent Role="GiftCardBlockLine">
-              <PropertyRef Name="GiftCardBlockId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3955,8 +3850,8 @@
           <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
           <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Salesman" Relationship="POSModel.FK__SalesOrigin_Salesman" FromRole="SalesOrigin" ToRole="Salesman" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="SalesOrigin" ToRole="InvoiceTable" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_SalesOrigin" FromRole="SalesOrigin" ToRole="SalesOrder" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="SalesOrigin" ToRole="InvoiceTable" />
         </EntityType>
         <Association Name="FK__SalesOrigin_Salesman">
           <End Type="POSModel.Salesman" Role="Salesman" Multiplicity="1" />
@@ -3997,6 +3892,17 @@
           <Property Type="Int32" Name="Response" Nullable="true" />
           <Property Type="String" Name="Result" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="GlobalParameter">
+          <Key>
+            <PropertyRef Name="GlobalParameterId" />
+          </Key>
+          <Property Name="GlobalParameterId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Value2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityId" />
@@ -4039,9 +3945,6 @@
           <NavigationProperty Name="AccountsReceivable" Relationship="POSModel.FK__AccountsReceivable_Location" FromRole="Location" ToRole="AccountsReceivable" />
           <NavigationProperty Name="City" Relationship="POSModel.FK__Location_City" FromRole="Location" ToRole="City" />
           <NavigationProperty Name="Company" Relationship="POSModel.FK__Location_Company" FromRole="Location" ToRole="Company" />
-          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="Location" ToRole="GiftCardBlockTable" />
-          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="Location" ToRole="GiftCardTable" />
-          <NavigationProperty Name="GiftCardTable1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="Location" ToRole="GiftCardTable" />
           <NavigationProperty Name="InventLocation" Relationship="POSModel.FK__InventLocation_Location" FromRole="Location" ToRole="InventLocation" />
           <NavigationProperty Name="SalesRemissionTable" Relationship="POSModel.FK__SalesRemissionTable_Location" FromRole="Location" ToRole="SalesRemissionTable" />
           <NavigationProperty Name="Customer" Relationship="POSModel.FK__Customer_Location" FromRole="Location" ToRole="Customer" />
@@ -4049,8 +3952,11 @@
           <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__EmissionPoint_Location" FromRole="Location" ToRole="EmissionPoint" />
           <NavigationProperty Name="SequenceTable" Relationship="POSModel.FK__SequenceTable_Location" FromRole="Location" ToRole="SequenceTable" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="Location" ToRole="InvoicePayment" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="Location" ToRole="InvoiceTable" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Location" FromRole="Location" ToRole="SalesOrder" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="Location" ToRole="InvoiceTable" />
+          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="Location" ToRole="GiftCardBlockTable" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="Location" ToRole="GiftCardTable" />
+          <NavigationProperty Name="GiftCardTable1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="Location" ToRole="GiftCardTable" />
           <NavigationProperty Name="GiftCardTrans" Relationship="POSModel.FK__GiftCardTrans_LocationWithdrawn" FromRole="Location" ToRole="GiftCardTrans" />
         </EntityType>
         <EntityType Name="Province">
@@ -4139,42 +4045,6 @@
             </Principal>
             <Dependent Role="Province">
               <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GiftCardBlockTable_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="GiftCardBlockTable">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GiftCardTable_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="GiftCardTable">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GiftCardTable_LocationOrigin">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="GiftCardTable">
-              <PropertyRef Name="LocationIdOrigin" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4560,12 +4430,12 @@
           <NavigationProperty Name="CustomerType" Relationship="POSModel.FK__Customer_CustomerType" FromRole="Customer" ToRole="CustomerType" />
           <NavigationProperty Name="IdentType" Relationship="POSModel.FK__Customer_IdentType" FromRole="Customer" ToRole="IdentType" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__Customer_Location" FromRole="Customer" ToRole="Location" />
-          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="Customer" ToRole="GiftCardTable" />
           <NavigationProperty Name="InternalCreditCard" Relationship="POSModel.FK__InternalCreditCard_Customer" FromRole="Customer" ToRole="InternalCreditCard" />
           <NavigationProperty Name="PromotionCustomer" Relationship="POSModel.FK__PromotionCustomer_Customer" FromRole="Customer" ToRole="PromotionCustomer" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="Customer" ToRole="InvoiceTable" />
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="Customer" ToRole="InvoiceTable" />
           <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_Customer" FromRole="Customer" ToRole="GiftCardLine" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="Customer" ToRole="GiftCardTable" />
         </EntityType>
         <EntityType Name="PaymMode">
           <Key>
@@ -4577,10 +4447,10 @@
           <Property Name="UseRetention" Type="Boolean" />
           <Property Name="UseFinanceSystem" Type="Boolean" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="PromotionPaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PaymMode" ToRole="PromotionPaymMode" />
           <NavigationProperty Name="SalesOrderPayment" Relationship="POSModel.FK__SalesOrderPayment_PaymMode" FromRole="PaymMode" ToRole="SalesOrderPayment" />
           <NavigationProperty Name="ClosingCashierLine" Relationship="POSModel.FK__ClosingCashierLine_PaymMode" FromRole="PaymMode" ToRole="ClosingCashierLine" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="PaymMode" ToRole="InvoicePayment" />
+          <NavigationProperty Name="PromotionPaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PaymMode" ToRole="PromotionPaymMode" />
         </EntityType>
         <Association Name="FK__AccountsReceivable_Customer">
           <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
@@ -4642,18 +4512,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GiftCardTable_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="GiftCardTable">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InternalCreditCard_Customer">
           <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="POSModel.InternalCreditCard" Role="InternalCreditCard" Multiplicity="*" />
@@ -4675,18 +4533,6 @@
             </Principal>
             <Dependent Role="PromotionCustomer">
               <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PromotionPaymMode_PaymMode">
-          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
-          <End Type="POSModel.PromotionPaymMode" Role="PromotionPaymMode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymMode">
-              <PropertyRef Name="PaymModeId" />
-            </Principal>
-            <Dependent Role="PromotionPaymMode">
-              <PropertyRef Name="PaymModeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5218,107 +5064,10 @@
           <Property Name="RetentionNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoicePayment_Location" FromRole="InvoicePayment" ToRole="Location" />
           <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__InvoicePayment_PaymMode" FromRole="InvoicePayment" ToRole="PaymMode" />
+          <NavigationProperty Name="InvoiceTable" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoicePayment" ToRole="InvoiceTable" />
         </EntityType>
-        <EntityType Name="InvoiceTable">
-          <Key>
-            <PropertyRef Name="InvoiceId" />
-          </Key>
-          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
-          <Property Name="InvoiceIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LocationId" Type="Int16" Nullable="false" />
-          <Property Name="TypeDoc" Type="Int16" Nullable="false" />
-          <Property Name="InvoiceIdReference" Type="Int64" Nullable="false" />
-          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
-          <Property Name="Establishment" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Emission" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
-          <Property Name="CustomerId" Type="Int64" Nullable="false" />
-          <Property Name="SalesmanId" Type="Int32" Nullable="false" />
-          <Property Name="IsCredit" Type="Boolean" Nullable="false" />
-          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BaseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="BaseTaxAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="TaxPercent" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
-          <Property Name="TaxAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="IrbpAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="ShippingFree" Type="Boolean" Nullable="false" />
-          <Property Name="ShippingAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Returned" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="SalesOriginId" Type="Int32" Nullable="false" />
-          <Property Name="IsECommerce" Type="Boolean" Nullable="false" />
-          <Property Name="SalesOrderId" Type="Int64" Nullable="false" />
-          <Property Name="ClosingCashierId" Type="Int64" Nullable="false" />
-          <Property Name="Observation" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="KeyAccessSri" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="InvoiceTable" ToRole="Customer" />
-          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="InvoiceTable" ToRole="EmissionPoint" />
-          <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoiceLine" />
-          <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoicePayment" />
-          <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="InvoiceTable" ToRole="Location" />
-          <NavigationProperty Name="Salesman" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="InvoiceTable" ToRole="Salesman" />
-          <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
-          <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
-        </EntityType>
-        <Association Name="FK__InvoiceTable_Customer">
-          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceTable_EmissionPoint">
-          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmissionPoint">
-              <PropertyRef Name="EmissionPointId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="EmissionPointId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceLine_InvoiceTable">
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
-          <End Type="POSModel.InvoiceLine" Role="InvoiceLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InvoiceTable">
-              <PropertyRef Name="InvoiceId" />
-            </Principal>
-            <Dependent Role="InvoiceLine">
-              <PropertyRef Name="InvoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoicePayment_InvoiceTable">
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
-          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InvoiceTable">
-              <PropertyRef Name="InvoiceId" />
-            </Principal>
-            <Dependent Role="InvoicePayment">
-              <PropertyRef Name="InvoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InvoicePayment_Location">
           <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
           <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
@@ -5340,54 +5089,6 @@
             </Principal>
             <Dependent Role="InvoicePayment">
               <PropertyRef Name="PaymModeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceTable_Location">
-          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceTable_Salesman">
-          <End Type="POSModel.Salesman" Role="Salesman" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Salesman">
-              <PropertyRef Name="SalesmanId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="SalesmanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InvoiceTable_SalesOrigin">
-          <End Type="POSModel.SalesOrigin" Role="SalesOrigin" Multiplicity="1" />
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOrigin">
-              <PropertyRef Name="SalesOriginId" />
-            </Principal>
-            <Dependent Role="InvoiceTable">
-              <PropertyRef Name="SalesOriginId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SalesRemissionLine_InvoiceTable">
-          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
-          <End Type="POSModel.SalesRemissionLine" Role="SalesRemissionLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InvoiceTable">
-              <PropertyRef Name="InvoiceId" />
-            </Principal>
-            <Dependent Role="SalesRemissionLine">
-              <PropertyRef Name="InvoiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5570,6 +5271,195 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
+        <ComplexType Name="SP_InvoicePayment_Consult_Result">
+          <Property Type="Int64" Name="InvoiceId" Nullable="false" />
+          <Property Type="Int64" Name="CustomerId" Nullable="false" />
+          <Property Type="Int16" Name="LocationId" Nullable="false" />
+          <Property Type="Int32" Name="Sequence" Nullable="false" />
+          <Property Type="Int32" Name="PaymModeId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="EmissionPointId" Nullable="false" />
+          <Property Type="String" Name="Emission" Nullable="false" MaxLength="5" />
+          <Property Type="Int64" Name="InvoiceNumber" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="InvoiceTable">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="InvoiceIdLocal" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="TypeDoc" Type="Int16" Nullable="false" />
+          <Property Name="InvoiceIdReference" Type="Int64" Nullable="false" />
+          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
+          <Property Name="Establishment" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Emission" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceNumber" Type="Int64" Nullable="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="SalesmanId" Type="Int32" Nullable="false" />
+          <Property Name="IsCredit" Type="Boolean" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BaseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="BaseTaxAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="TaxPercent" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="TaxAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="IrbpAmount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="ShippingFree" Type="Boolean" Nullable="false" />
+          <Property Name="ShippingAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Returned" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SalesOriginId" Type="Int32" Nullable="false" />
+          <Property Name="IsECommerce" Type="Boolean" Nullable="false" />
+          <Property Name="SalesOrderId" Type="Int64" Nullable="false" />
+          <Property Name="ClosingCashierId" Type="Int64" Nullable="false" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="KeyAccessSri" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransferStatus" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__InvoiceTable_Customer" FromRole="InvoiceTable" ToRole="Customer" />
+          <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__InvoiceTable_EmissionPoint" FromRole="InvoiceTable" ToRole="EmissionPoint" />
+          <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoiceLine" />
+          <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoicePayment" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__InvoiceTable_Location" FromRole="InvoiceTable" ToRole="Location" />
+          <NavigationProperty Name="Salesman" Relationship="POSModel.FK__InvoiceTable_Salesman" FromRole="InvoiceTable" ToRole="Salesman" />
+          <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
+          <NavigationProperty Name="SalesRemissionLine" Relationship="POSModel.FK__SalesRemissionLine_InvoiceTable" FromRole="InvoiceTable" ToRole="SalesRemissionLine" />
+        </EntityType>
+        <Association Name="FK__InvoiceTable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_EmissionPoint">
+          <End Type="POSModel.EmissionPoint" Role="EmissionPoint" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmissionPoint">
+              <PropertyRef Name="EmissionPointId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="EmissionPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceLine_InvoiceTable">
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
+          <End Type="POSModel.InvoiceLine" Role="InvoiceLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceTable">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceLine">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePayment_InvoiceTable">
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
+          <End Type="POSModel.InvoicePayment" Role="InvoicePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceTable">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoicePayment">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_Salesman">
+          <End Type="POSModel.Salesman" Role="Salesman" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salesman">
+              <PropertyRef Name="SalesmanId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="SalesmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceTable_SalesOrigin">
+          <End Type="POSModel.SalesOrigin" Role="SalesOrigin" Multiplicity="1" />
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrigin">
+              <PropertyRef Name="SalesOriginId" />
+            </Principal>
+            <Dependent Role="InvoiceTable">
+              <PropertyRef Name="SalesOriginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesRemissionLine_InvoiceTable">
+          <End Type="POSModel.InvoiceTable" Role="InvoiceTable" Multiplicity="1" />
+          <End Type="POSModel.SalesRemissionLine" Role="SalesRemissionLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceTable">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="SalesRemissionLine">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GiftCardBlockLine">
+          <Key>
+            <PropertyRef Name="GiftCardBlockId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="GiftCardNumberStart" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardNumberFinal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" FromRole="GiftCardBlockLine" ToRole="GiftCardBlockTable" />
+        </EntityType>
+        <EntityType Name="GiftCardBlockTable">
+          <Key>
+            <PropertyRef Name="GiftCardBlockId" />
+          </Key>
+          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GiftCardBlockLine" Relationship="POSModel.FK__GiftCardBlockLine_GiftCardBlockTable" FromRole="GiftCardBlockTable" ToRole="GiftCardBlockLine" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardBlockTable_Location" FromRole="GiftCardBlockTable" ToRole="Location" />
+          <NavigationProperty Name="GiftCardTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardBlockTable" ToRole="GiftCardTable" />
+        </EntityType>
         <EntityType Name="GiftCardLine">
           <Key>
             <PropertyRef Name="GiftCardId" />
@@ -5604,6 +5494,39 @@
           <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLineProduct_GiftCardLine" FromRole="GiftCardLineProduct" ToRole="GiftCardLine" />
           <NavigationProperty Name="Product" Relationship="POSModel.FK__GiftCardLineProduct_Product" FromRole="GiftCardLineProduct" ToRole="Product" />
         </EntityType>
+        <EntityType Name="GiftCardTable">
+          <Key>
+            <PropertyRef Name="GiftCardId" />
+          </Key>
+          <Property Name="GiftCardId" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardIdLocal" Type="Int64" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="LocationIdOrigin" Type="Int16" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="GiftCardBlockId" Type="Int64" Nullable="false" />
+          <Property Name="Registration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="UseCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardNumberStart" Type="Int64" Nullable="false" />
+          <Property Name="GiftCardNumberFinal" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="POSModel.FK__GiftCardTable_Customer" FromRole="GiftCardTable" ToRole="Customer" />
+          <NavigationProperty Name="GiftCardBlockTable" Relationship="POSModel.FK__GiftCardTable_GiftCardBlockTable" FromRole="GiftCardTable" ToRole="GiftCardBlockTable" />
+          <NavigationProperty Name="GiftCardLine" Relationship="POSModel.FK__GiftCardLine_GiftCardTable" FromRole="GiftCardTable" ToRole="GiftCardLine" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__GiftCardTable_Location" FromRole="GiftCardTable" ToRole="Location" />
+          <NavigationProperty Name="Location1" Relationship="POSModel.FK__GiftCardTable_LocationOrigin" FromRole="GiftCardTable" ToRole="Location" />
+        </EntityType>
         <EntityType Name="GiftCardTrans">
           <Key>
             <PropertyRef Name="GiftCardId" />
@@ -5614,7 +5537,7 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <Property Name="TrnsSeq" Type="Int32" Nullable="false" />
           <Property Name="LocationIdRedeem" Type="Int16" Nullable="false" />
-          <Property Name="RedeemDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RedeemDate" Type="DateTime" Precision="7" />
           <Property Name="TrnsType" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="TrnsStatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="TrnsId" Type="Int64" Nullable="false" />
@@ -5634,6 +5557,54 @@
             </Principal>
             <Dependent Role="GiftCardLine">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_Customer">
+          <End Type="POSModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardBlockLine_GiftCardBlockTable">
+          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="1" />
+          <End Type="POSModel.GiftCardBlockLine" Role="GiftCardBlockLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardBlockTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Principal>
+            <Dependent Role="GiftCardBlockLine">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardBlockTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardBlockTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_GiftCardBlockTable">
+          <End Type="POSModel.GiftCardBlockTable" Role="GiftCardBlockTable" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GiftCardBlockTable">
+              <PropertyRef Name="GiftCardBlockId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="GiftCardBlockId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5689,6 +5660,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__GiftCardTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GiftCardTable_LocationOrigin">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.GiftCardTable" Role="GiftCardTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="GiftCardTable">
+              <PropertyRef Name="LocationIdOrigin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__GiftCardTrans_LocationWithdrawn">
           <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
           <End Type="POSModel.GiftCardTrans" Role="GiftCardTrans" Multiplicity="*" />
@@ -5701,17 +5696,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GlobalParameter">
+        <EntityType Name="PromotionPaymMode">
           <Key>
-            <PropertyRef Name="GlobalParameterId" />
+            <PropertyRef Name="PromotionId" />
+            <PropertyRef Name="Sequence" />
           </Key>
-          <Property Name="GlobalParameterId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Value2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PromotionId" Type="Int64" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="PaymModeId" Type="Int32" Nullable="false" />
+          <Property Name="BankId" Type="Int32" Nullable="false" />
+          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
+          <Property Name="Percent" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="StatusPromPaym" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RewardMultiplierType" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RewardMultiplierValue" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PaymMode" Relationship="POSModel.FK__PromotionPaymMode_PaymMode" FromRole="PromotionPaymMode" ToRole="PaymMode" />
+          <NavigationProperty Name="PromotionTable" Relationship="POSModel.FK__PromotionPaymMode_PromotionTable" FromRole="PromotionPaymMode" ToRole="PromotionTable" />
         </EntityType>
+        <Association Name="FK__PromotionPaymMode_PaymMode">
+          <End Type="POSModel.PaymMode" Role="PaymMode" Multiplicity="1" />
+          <End Type="POSModel.PromotionPaymMode" Role="PromotionPaymMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Principal>
+            <Dependent Role="PromotionPaymMode">
+              <PropertyRef Name="PaymModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PromotionPaymMode_PromotionTable">
+          <End Type="POSModel.PromotionTable" Role="PromotionTable" Multiplicity="1" />
+          <End Type="POSModel.PromotionPaymMode" Role="PromotionPaymMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PromotionTable">
+              <PropertyRef Name="PromotionId" />
+            </Principal>
+            <Dependent Role="PromotionPaymMode">
+              <PropertyRef Name="PromotionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5939,21 +5964,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PromotionPaymMode">
-            <EntityTypeMapping TypeName="POSModel.PromotionPaymMode">
-              <MappingFragment StoreEntitySet="PromotionPaymMode">
-                <ScalarProperty Name="RewardMultiplierValue" ColumnName="RewardMultiplierValue" />
-                <ScalarProperty Name="RewardMultiplierType" ColumnName="RewardMultiplierType" />
-                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
-                <ScalarProperty Name="BankId" ColumnName="BankId" />
-                <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
-                <ScalarProperty Name="Percent" ColumnName="Percent" />
-                <ScalarProperty Name="StatusPromPaym" ColumnName="StatusPromPaym" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PromotionProducts">
             <EntityTypeMapping TypeName="POSModel.PromotionProducts">
               <MappingFragment StoreEntitySet="PromotionProducts">
@@ -6092,62 +6102,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GiftCardBlockTable">
-            <EntityTypeMapping TypeName="POSModel.GiftCardBlockTable">
-              <MappingFragment StoreEntitySet="GiftCardBlockTable">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GiftCardTable">
-            <EntityTypeMapping TypeName="POSModel.GiftCardTable">
-              <MappingFragment StoreEntitySet="GiftCardTable">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="GiftCardNumberFinal" ColumnName="GiftCardNumberFinal" />
-                <ScalarProperty Name="GiftCardNumberStart" ColumnName="GiftCardNumberStart" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="UseCode" ColumnName="UseCode" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
-                <ScalarProperty Name="Registration" ColumnName="Registration" />
-                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="LocationIdOrigin" ColumnName="LocationIdOrigin" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="GiftCardIdLocal" ColumnName="GiftCardIdLocal" />
-                <ScalarProperty Name="GiftCardId" ColumnName="GiftCardId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GiftCardBlockLine">
-            <EntityTypeMapping TypeName="POSModel.GiftCardBlockLine">
-              <MappingFragment StoreEntitySet="GiftCardBlockLine">
-                <ScalarProperty Name="GiftCardNumberFinal" ColumnName="GiftCardNumberFinal" />
-                <ScalarProperty Name="GiftCardNumberStart" ColumnName="GiftCardNumberStart" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CreditCard">
             <EntityTypeMapping TypeName="POSModel.CreditCard">
               <MappingFragment StoreEntitySet="CreditCard">
@@ -6254,6 +6208,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GlobalParameter">
+            <EntityTypeMapping TypeName="POSModel.GlobalParameter">
+              <MappingFragment StoreEntitySet="GlobalParameter">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value2" ColumnName="Value2" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GlobalParameterId" ColumnName="GlobalParameterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="City">
             <EntityTypeMapping TypeName="POSModel.City">
               <MappingFragment StoreEntitySet="City">
@@ -6936,48 +6902,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="InvoiceTable">
-            <EntityTypeMapping TypeName="POSModel.InvoiceTable">
-              <MappingFragment StoreEntitySet="InvoiceTable">
-                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
-                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="KeyAccessSri" ColumnName="KeyAccessSri" />
-                <ScalarProperty Name="Observation" ColumnName="Observation" />
-                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
-                <ScalarProperty Name="SalesOrderId" ColumnName="SalesOrderId" />
-                <ScalarProperty Name="IsECommerce" ColumnName="IsECommerce" />
-                <ScalarProperty Name="SalesOriginId" ColumnName="SalesOriginId" />
-                <ScalarProperty Name="Returned" ColumnName="Returned" />
-                <ScalarProperty Name="ShippingAmount" ColumnName="ShippingAmount" />
-                <ScalarProperty Name="ShippingFree" ColumnName="ShippingFree" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
-                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
-                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
-                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
-                <ScalarProperty Name="IsCredit" ColumnName="IsCredit" />
-                <ScalarProperty Name="SalesmanId" ColumnName="SalesmanId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="Emission" ColumnName="Emission" />
-                <ScalarProperty Name="Establishment" ColumnName="Establishment" />
-                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
-                <ScalarProperty Name="InvoiceIdReference" ColumnName="InvoiceIdReference" />
-                <ScalarProperty Name="TypeDoc" ColumnName="TypeDoc" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="InvoiceIdLocal" ColumnName="InvoiceIdLocal" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_InvoiceTicket_Consult" FunctionName="POSModel.Store.SP_InvoiceTicket_Consult">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_InvoiceTicket_Consult_Result">
@@ -7051,6 +6975,93 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InvoicePayment_Consult" FunctionName="POSModel.Store.SP_InvoicePayment_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_InvoicePayment_Consult_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
+                <ScalarProperty Name="Emission" ColumnName="Emission" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="InvoiceTable">
+            <EntityTypeMapping TypeName="POSModel.InvoiceTable">
+              <MappingFragment StoreEntitySet="InvoiceTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="KeyAccessSri" ColumnName="KeyAccessSri" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
+                <ScalarProperty Name="SalesOrderId" ColumnName="SalesOrderId" />
+                <ScalarProperty Name="IsECommerce" ColumnName="IsECommerce" />
+                <ScalarProperty Name="SalesOriginId" ColumnName="SalesOriginId" />
+                <ScalarProperty Name="Returned" ColumnName="Returned" />
+                <ScalarProperty Name="ShippingAmount" ColumnName="ShippingAmount" />
+                <ScalarProperty Name="ShippingFree" ColumnName="ShippingFree" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IrbpAmount" ColumnName="IrbpAmount" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="BaseTaxAmount" ColumnName="BaseTaxAmount" />
+                <ScalarProperty Name="BaseAmount" ColumnName="BaseAmount" />
+                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="IsCredit" ColumnName="IsCredit" />
+                <ScalarProperty Name="SalesmanId" ColumnName="SalesmanId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="Emission" ColumnName="Emission" />
+                <ScalarProperty Name="Establishment" ColumnName="Establishment" />
+                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
+                <ScalarProperty Name="InvoiceIdReference" ColumnName="InvoiceIdReference" />
+                <ScalarProperty Name="TypeDoc" ColumnName="TypeDoc" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="InvoiceIdLocal" ColumnName="InvoiceIdLocal" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardBlockLine">
+            <EntityTypeMapping TypeName="POSModel.GiftCardBlockLine">
+              <MappingFragment StoreEntitySet="GiftCardBlockLine">
+                <ScalarProperty Name="GiftCardNumberFinal" ColumnName="GiftCardNumberFinal" />
+                <ScalarProperty Name="GiftCardNumberStart" ColumnName="GiftCardNumberStart" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardBlockTable">
+            <EntityTypeMapping TypeName="POSModel.GiftCardBlockTable">
+              <MappingFragment StoreEntitySet="GiftCardBlockTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="GiftCardLine">
             <EntityTypeMapping TypeName="POSModel.GiftCardLine">
               <MappingFragment StoreEntitySet="GiftCardLine">
@@ -7078,6 +7089,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="GiftCardTable">
+            <EntityTypeMapping TypeName="POSModel.GiftCardTable">
+              <MappingFragment StoreEntitySet="GiftCardTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="GiftCardNumberFinal" ColumnName="GiftCardNumberFinal" />
+                <ScalarProperty Name="GiftCardNumberStart" ColumnName="GiftCardNumberStart" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="UseCode" ColumnName="UseCode" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Expiration" ColumnName="Expiration" />
+                <ScalarProperty Name="Registration" ColumnName="Registration" />
+                <ScalarProperty Name="GiftCardBlockId" ColumnName="GiftCardBlockId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="LocationIdOrigin" ColumnName="LocationIdOrigin" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="GiftCardIdLocal" ColumnName="GiftCardIdLocal" />
+                <ScalarProperty Name="GiftCardId" ColumnName="GiftCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="GiftCardTrans">
             <EntityTypeMapping TypeName="POSModel.GiftCardTrans">
               <MappingFragment StoreEntitySet="GiftCardTrans">
@@ -7096,15 +7136,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GlobalParameter">
-            <EntityTypeMapping TypeName="POSModel.GlobalParameter">
-              <MappingFragment StoreEntitySet="GlobalParameter">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Value2" ColumnName="Value2" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="GlobalParameterId" ColumnName="GlobalParameterId" />
+          <EntitySetMapping Name="PromotionPaymMode">
+            <EntityTypeMapping TypeName="POSModel.PromotionPaymMode">
+              <MappingFragment StoreEntitySet="PromotionPaymMode">
+                <ScalarProperty Name="RewardMultiplierValue" ColumnName="RewardMultiplierValue" />
+                <ScalarProperty Name="RewardMultiplierType" ColumnName="RewardMultiplierType" />
+                <ScalarProperty Name="StatusPromPaym" ColumnName="StatusPromPaym" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+                <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="PaymModeId" ColumnName="PaymModeId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

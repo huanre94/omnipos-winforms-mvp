@@ -18,13 +18,14 @@ namespace POS
 
             //FluentSplashScreenOptions op = new FluentSplashScreenOptions();
             //op.Title = "Solución Tecnológica para Retail";
-            //op.Subtitle = "Desarrollado por el Departamento de Tecnología";
+            //op.Subtitle = "Desarrollado por: Departamento de Tecnología de la Información";
             //op.RightFooter = "Iniciando...";
             //op.LeftFooter = "Copyright © " + DateTime.Now.Year.ToString() + " Grupo La Española." + Environment.NewLine + "Todos los derechos reservados.";
             //op.LoadingIndicatorType = FluentLoadingIndicatorType.Dots;
-            //op.OpacityColor = Color.FromArgb(248, 248, 248);
-            //op.Opacity = 130;
-            //op.LogoImageOptions.SvgImage = Properties.Resources.accept;
+            //op.OpacityColor = Color.FromArgb(88, 84, 105);
+            //op.Opacity = 200;
+            //op.LogoImageOptions.SvgImage = Properties.Resources.retail;
+            //op.LogoImageOptions.SvgImageSize = new Size(90, 90);
 
             //DevExpress.XtraSplashScreen.SplashScreenManager.ShowFluentSplashScreen(
             //    op,

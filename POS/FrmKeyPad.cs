@@ -17,6 +17,8 @@ namespace POS
         public string loginUsername = "";
         public string loginPassword = "";
         public string productQuantity = "";
+        public string emissionPoint = "";
+        public string invoiceNumber = "";
 
         public FrmKeyPad()
         {
@@ -132,6 +134,12 @@ namespace POS
                         break;
                     case ClsEnums.InputFromOption.PRODUCT_QUANTITY:
                         productQuantity = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER:
+                        emissionPoint = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.INVOICE_NUMBER:
+                        invoiceNumber = TxtValue.Text;
                         break;
                     default:
                         break;

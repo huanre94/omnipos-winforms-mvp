@@ -125,13 +125,10 @@
     <Compile Include="GiftCardLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiftCardLineProduct.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="GiftCardTable.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GiftCardTemplateLine.cs">
-      <DependentUpon>ModelPOS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GiftCardTemplateTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="GiftCardTrans.cs">
@@ -298,6 +295,9 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_InvoicePayment_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InvoiceTicket_Consult_Result.cs">

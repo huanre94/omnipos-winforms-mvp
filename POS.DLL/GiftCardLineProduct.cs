@@ -12,15 +12,15 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class GiftCardTemplateLine
+    public partial class GiftCardLineProduct
     {
-        public long GiftCardTemplateId { get; set; }
+        public long GiftCardId { get; set; }
         public int Sequence { get; set; }
+        public int ProdSeq { get; set; }
         public long ProductId { get; set; }
         public decimal Quantity { get; set; }
-        public string StatusLine { get; set; }
     
-        public virtual GiftCardTemplateTable GiftCardTemplateTable { get; set; }
+        public virtual GiftCardLine GiftCardLine { get; set; }
         public virtual Product Product { get; set; }
     }
 }

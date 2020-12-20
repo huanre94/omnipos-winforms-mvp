@@ -18,8 +18,8 @@ namespace POS.DLL
         public Salesman()
         {
             this.SalesOrigin = new HashSet<SalesOrigin>();
-            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
         }
     
         public int SalesmanId { get; set; }
@@ -40,8 +40,8 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrigin> SalesOrigin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
     }
 }

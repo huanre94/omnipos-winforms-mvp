@@ -38,11 +38,13 @@
             this.LblUsername = new System.Windows.Forms.Label();
             this.LblVersion = new System.Windows.Forms.Label();
             this.BtnSalesOrder = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnChangePaymMode = new DevExpress.XtraEditors.SimpleButton();
             this.BtnGiftCardRedeem = new DevExpress.XtraEditors.SimpleButton();
             this.SuspendLayout();
             // 
             // BtnPOS
             // 
+            this.BtnPOS.AllowFocus = false;
             this.BtnPOS.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPOS.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnPOS.Appearance.Options.UseBackColor = true;
@@ -69,6 +71,7 @@
             // 
             // BtnCloseCashier
             // 
+            this.BtnCloseCashier.AllowFocus = false;
             this.BtnCloseCashier.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCloseCashier.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnCloseCashier.Appearance.Options.UseBackColor = true;
@@ -85,6 +88,7 @@
             // 
             // BtnPartialClosing
             // 
+            this.BtnPartialClosing.AllowFocus = false;
             this.BtnPartialClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPartialClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnPartialClosing.Appearance.Options.UseBackColor = true;
@@ -101,6 +105,7 @@
             // 
             // BtnLogOut
             // 
+            this.BtnLogOut.AllowFocus = false;
             this.BtnLogOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnLogOut.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnLogOut.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
@@ -147,6 +152,7 @@
             // 
             // BtnSalesOrder
             // 
+            this.BtnSalesOrder.AllowFocus = false;
             this.BtnSalesOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSalesOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnSalesOrder.Appearance.Options.UseBackColor = true;
@@ -154,12 +160,29 @@
             this.BtnSalesOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.retail;
             this.BtnSalesOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnSalesOrder.Location = new System.Drawing.Point(33, 344);
+            this.BtnSalesOrder.Location = new System.Drawing.Point(408, 345);
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
             this.BtnSalesOrder.Text = "Pedidos \r\nE-commerce";
             this.BtnSalesOrder.Click += new System.EventHandler(this.BtnSalesOrder_Click);
+            // 
+            // BtnChangePaymMode
+            // 
+            this.BtnChangePaymMode.AllowFocus = false;
+            this.BtnChangePaymMode.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnChangePaymMode.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.BtnChangePaymMode.Appearance.Options.UseBackColor = true;
+            this.BtnChangePaymMode.Appearance.Options.UseFont = true;
+            this.BtnChangePaymMode.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnChangePaymMode.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
+            this.BtnChangePaymMode.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnChangePaymMode.Location = new System.Drawing.Point(33, 345);
+            this.BtnChangePaymMode.Name = "BtnChangePaymMode";
+            this.BtnChangePaymMode.Size = new System.Drawing.Size(350, 200);
+            this.BtnChangePaymMode.TabIndex = 169;
+            this.BtnChangePaymMode.Text = "Cambio Forma \r\nPago";
+            this.BtnChangePaymMode.Click += new System.EventHandler(this.BtnChangePaymMode_Click);
             // 
             // BtnGiftCardRedeem
             // 
@@ -183,6 +206,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnChangePaymMode);
             this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.LblUsername);
             this.Controls.Add(this.LblTitleUsername);
@@ -215,5 +239,6 @@
         private System.Windows.Forms.Label LblVersion;
         private DevExpress.XtraEditors.SimpleButton BtnSalesOrder;
         private DevExpress.XtraEditors.SimpleButton BtnGiftCardRedeem;
+        private DevExpress.XtraEditors.SimpleButton BtnChangePaymMode;
     }
 }

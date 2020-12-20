@@ -17,6 +17,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO.Ports;
 
+// IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -821,6 +822,7 @@ namespace POS
 
                     var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
                                     where xm.Element("Barcode").Value == searchBarcode
+                                    || xm.Element("Barcode").Value == _barcode  // IG001 
                                     select xm;
 
                     foreach (var node in searchXml.Elements())
