@@ -190,7 +190,7 @@ namespace POS.DLL.Transaction
 
             invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
 
-            invoiceTable.TransferStatus = 2;
+            invoiceTable.TransferStatusId = 4;
             invoiceTable.ModifiedBy = _userId;
             invoiceTable.ModifiedDatetime = DateTime.Now;
             invoiceTable.Workstation = _workStation;

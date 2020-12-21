@@ -18,19 +18,19 @@ namespace POS.DLL
         public Location()
         {
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
-            this.InventLocation = new HashSet<InventLocation>();
-            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
-            this.Customer = new HashSet<Customer>();
             this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
+            this.Customer = new HashSet<Customer>();
             this.EmissionPoint = new HashSet<EmissionPoint>();
-            this.SequenceTable = new HashSet<SequenceTable>();
-            this.InvoicePayment = new HashSet<InvoicePayment>();
-            this.SalesOrder = new HashSet<SalesOrder>();
-            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.GiftCardBlockTable = new HashSet<GiftCardBlockTable>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
             this.GiftCardTable1 = new HashSet<GiftCardTable>();
             this.GiftCardTrans = new HashSet<GiftCardTrans>();
+            this.InventLocation = new HashSet<InventLocation>();
+            this.InvoicePayment = new HashSet<InvoicePayment>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
+            this.SalesOrder = new HashSet<SalesOrder>();
+            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
+            this.SequenceTable = new HashSet<SequenceTable>();
         }
     
         public short LocationId { get; set; }
@@ -47,25 +47,13 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountsReceivable> AccountsReceivable { get; set; }
         public virtual City City { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
         public virtual Company Company { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InventLocation> InventLocation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SequenceTable> SequenceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrder> SalesOrder { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardBlockTable> GiftCardBlockTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -74,5 +62,17 @@ namespace POS.DLL
         public virtual ICollection<GiftCardTable> GiftCardTable1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTrans> GiftCardTrans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InventLocation> InventLocation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SequenceTable> SequenceTable { get; set; }
     }
 }

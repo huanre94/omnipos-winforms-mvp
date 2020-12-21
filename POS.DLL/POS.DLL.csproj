@@ -291,10 +291,16 @@
     <Compile Include="SP_GaranCheck_Authorize_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GiftCardRedeem_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GiftCard_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InternalCreditCard_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_InvoiceCancel_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_InvoicePayment_Consult_Result.cs">
@@ -335,6 +341,9 @@
     <Compile Include="Transaction\ClsCustomerTrans.cs" />
     <Compile Include="Transaction\ClsInvoiceTrans.cs" />
     <Compile Include="Transaction\ClsSalesOrderTrans.cs" />
+    <Compile Include="TransferStatus.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Transport.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

@@ -39,8 +39,8 @@ namespace POS.DLL
         public string Status { get; set; }
         public int CreatedBy { get; set; }
     
-        public virtual Location Location { get; set; }
         public virtual PaymMode PaymMode { get; set; }
         public virtual InvoiceTable InvoiceTable { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

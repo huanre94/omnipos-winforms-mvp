@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 // IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
+// IG002 Israel Gonzalez 2020-12-20: Update field BarcodeBefore in xml with the last generated barcode
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -933,7 +934,11 @@ namespace POS
 
                         if (canInsert)
                         {
-                            AddRecordToGrid(result, updateRecord);
+                            AddRecordToGrid(
+                                            result
+                                            , updateRecord
+                                            , _barcode // IG002
+                                            );
                             CalculateInvoice();
                         }
                         else
@@ -1155,7 +1160,11 @@ namespace POS
             }
         }
 
-        private void AddRecordToGrid(SP_Product_Consult_Result _productResult, bool _updateRecord)
+        private void AddRecordToGrid(
+                                        SP_Product_Consult_Result _productResult
+                                        , bool _updateRecord
+                                        , string _barcode // IG002
+                                    )
         {
             BtnCustomer.Enabled = false;
 
@@ -1232,6 +1241,7 @@ namespace POS
                     query.Element("IrbpAmount").SetValue(_productResult.IrbpAmount);
                     query.Element("LineAmount").SetValue(_productResult.LineAmount);
                     query.Element("RewardPercent").SetValue(_productResult.RewardPercent);
+                    query.Element("BarcodeBefore").SetValue(_barcode);  // IG002
                 }
             }
 

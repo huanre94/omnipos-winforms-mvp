@@ -40,7 +40,7 @@ namespace POS.DLL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashierLine> ClosingCashierLine { get; set; }
-        public virtual Location Location { get; set; }
         public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace POS.DLL
         public int Sequence { get; set; }
         public int TrnsSeq { get; set; }
         public short LocationIdRedeem { get; set; }
-        public Nullable<System.DateTime> RedeemDate { get; set; }
+        public System.DateTime RedeemDate { get; set; }
         public string TrnsType { get; set; }
         public string TrnsStatus { get; set; }
         public long TrnsId { get; set; }

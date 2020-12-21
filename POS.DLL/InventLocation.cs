@@ -31,8 +31,8 @@ namespace POS.DLL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InventProductLocation> InventProductLocation { get; set; }
-        public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

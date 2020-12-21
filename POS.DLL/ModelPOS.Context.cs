@@ -59,7 +59,6 @@ namespace POS.DLL
         public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<InventTransType> InventTransType { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
@@ -69,7 +68,6 @@ namespace POS.DLL
         public virtual DbSet<Vendor> Vendor { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
@@ -89,7 +87,6 @@ namespace POS.DLL
         public virtual DbSet<ProductModule> ProductModule { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<CancelReason> CancelReason { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
         public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
         public virtual DbSet<GiftCardLine> GiftCardLine { get; set; }
@@ -97,6 +94,10 @@ namespace POS.DLL
         public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<PromotionPaymMode> PromotionPaymMode { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
+        public virtual DbSet<TransferStatus> TransferStatus { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -401,6 +402,48 @@ namespace POS.DLL
                 new ObjectParameter("InvoiceNumber", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoicePayment_Consult_Result>("SP_InvoicePayment_Consult", locationIdParameter, emissionPointParameter, invoiceNumberParameter);
+        }
+    
+        public virtual ObjectResult<SP_GiftCardRedeem_Insert_Result> SP_GiftCardRedeem_Insert(string giftCardNumber, string redeemName, string redeemIdentification, Nullable<int> redeemLocation, string productGrid)
+        {
+            var giftCardNumberParameter = giftCardNumber != null ?
+                new ObjectParameter("GiftCardNumber", giftCardNumber) :
+                new ObjectParameter("GiftCardNumber", typeof(string));
+    
+            var redeemNameParameter = redeemName != null ?
+                new ObjectParameter("RedeemName", redeemName) :
+                new ObjectParameter("RedeemName", typeof(string));
+    
+            var redeemIdentificationParameter = redeemIdentification != null ?
+                new ObjectParameter("RedeemIdentification", redeemIdentification) :
+                new ObjectParameter("RedeemIdentification", typeof(string));
+    
+            var redeemLocationParameter = redeemLocation.HasValue ?
+                new ObjectParameter("RedeemLocation", redeemLocation) :
+                new ObjectParameter("RedeemLocation", typeof(int));
+    
+            var productGridParameter = productGrid != null ?
+                new ObjectParameter("ProductGrid", productGrid) :
+                new ObjectParameter("ProductGrid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCardRedeem_Insert_Result>("SP_GiftCardRedeem_Insert", giftCardNumberParameter, redeemNameParameter, redeemIdentificationParameter, redeemLocationParameter, productGridParameter);
+        }
+    
+        public virtual ObjectResult<SP_InvoiceCancel_Consult_Result> SP_InvoiceCancel_Consult(Nullable<int> locationId, Nullable<int> emissionPointId, Nullable<int> invoiceNumber)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(int));
+    
+            var invoiceNumberParameter = invoiceNumber.HasValue ?
+                new ObjectParameter("InvoiceNumber", invoiceNumber) :
+                new ObjectParameter("InvoiceNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceCancel_Consult_Result>("SP_InvoiceCancel_Consult", locationIdParameter, emissionPointIdParameter, invoiceNumberParameter);
         }
     }
 }
