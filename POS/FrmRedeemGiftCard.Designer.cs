@@ -46,7 +46,6 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
             this.LblGiftCardStatus = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnRemove = new DevExpress.XtraEditors.SimpleButton();
             this.GrcProduct = new DevExpress.XtraGrid.GridControl();
             this.GrvProduct = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -65,7 +64,6 @@
             this.TxtRedeemIdentification = new DevExpress.XtraEditors.TextEdit();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtGiftCardNumber.Properties)).BeginInit();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GrcProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
@@ -280,27 +278,6 @@
             this.LblGiftCardStatus.TabIndex = 154;
             this.LblGiftCardStatus.Text = "PENDIENTE";
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.BtnRemove);
-            this.groupBox1.Controls.Add(this.GrcProduct);
-            this.groupBox1.Controls.Add(this.AxOPOSScale);
-            this.groupBox1.Controls.Add(this.AxOPOSScanner);
-            this.groupBox1.Controls.Add(this.BtnRedeemCustomerName);
-            this.groupBox1.Controls.Add(this.BtnIdentificationKeyPad);
-            this.groupBox1.Controls.Add(this.BtnBarcodeKeyPad);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.TxtRedeemName);
-            this.groupBox1.Controls.Add(this.TxtRedeemIdentification);
-            this.groupBox1.Controls.Add(this.TxtBarcode);
-            this.groupBox1.Location = new System.Drawing.Point(34, 214);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1318, 464);
-            this.groupBox1.TabIndex = 163;
-            this.groupBox1.TabStop = false;
-            // 
             // BtnRemove
             // 
             this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
@@ -310,20 +287,21 @@
             this.BtnRemove.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnRemove.ImageOptions.Image")));
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
-            this.BtnRemove.Location = new System.Drawing.Point(1233, 180);
+            this.BtnRemove.Location = new System.Drawing.Point(1264, 401);
             this.BtnRemove.Margin = new System.Windows.Forms.Padding(6);
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
-            this.BtnRemove.TabIndex = 175;
+            this.BtnRemove.TabIndex = 188;
             this.BtnRemove.Text = "Elim";
+            this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // GrcProduct
             // 
-            this.GrcProduct.Location = new System.Drawing.Point(3, 180);
+            this.GrcProduct.Location = new System.Drawing.Point(34, 401);
             this.GrcProduct.MainView = this.GrvProduct;
             this.GrcProduct.Name = "GrcProduct";
             this.GrcProduct.Size = new System.Drawing.Size(1218, 262);
-            this.GrcProduct.TabIndex = 174;
+            this.GrcProduct.TabIndex = 187;
             this.GrcProduct.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvProduct});
             // 
@@ -388,20 +366,20 @@
             // AxOPOSScale
             // 
             this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(676, 250);
+            this.AxOPOSScale.Location = new System.Drawing.Point(707, 471);
             this.AxOPOSScale.Name = "AxOPOSScale";
             this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
             this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScale.TabIndex = 173;
+            this.AxOPOSScale.TabIndex = 186;
             // 
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(409, 250);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(440, 471);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 172;
+            this.AxOPOSScanner.TabIndex = 185;
             // 
             // BtnRedeemCustomerName
             // 
@@ -412,12 +390,13 @@
             this.BtnRedeemCustomerName.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnRedeemCustomerName.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnRedeemCustomerName.ImageOptions.SvgImage")));
             this.BtnRedeemCustomerName.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnRedeemCustomerName.Location = new System.Drawing.Point(1233, 23);
+            this.BtnRedeemCustomerName.Location = new System.Drawing.Point(1264, 244);
             this.BtnRedeemCustomerName.Margin = new System.Windows.Forms.Padding(6);
             this.BtnRedeemCustomerName.Name = "BtnRedeemCustomerName";
             this.BtnRedeemCustomerName.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnRedeemCustomerName.Size = new System.Drawing.Size(82, 50);
-            this.BtnRedeemCustomerName.TabIndex = 169;
+            this.BtnRedeemCustomerName.TabIndex = 182;
+            this.BtnRedeemCustomerName.Click += new System.EventHandler(this.BtnRedeemCustomerName_Click);
             // 
             // BtnIdentificationKeyPad
             // 
@@ -428,12 +407,13 @@
             this.BtnIdentificationKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnIdentificationKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnIdentificationKeyPad.ImageOptions.SvgImage")));
             this.BtnIdentificationKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnIdentificationKeyPad.Location = new System.Drawing.Point(388, 23);
+            this.BtnIdentificationKeyPad.Location = new System.Drawing.Point(419, 244);
             this.BtnIdentificationKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnIdentificationKeyPad.Name = "BtnIdentificationKeyPad";
             this.BtnIdentificationKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnIdentificationKeyPad.Size = new System.Drawing.Size(82, 50);
-            this.BtnIdentificationKeyPad.TabIndex = 170;
+            this.BtnIdentificationKeyPad.TabIndex = 183;
+            this.BtnIdentificationKeyPad.Click += new System.EventHandler(this.BtnIdentificationKeyPad_Click);
             // 
             // BtnBarcodeKeyPad
             // 
@@ -444,73 +424,87 @@
             this.BtnBarcodeKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnBarcodeKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnBarcodeKeyPad.ImageOptions.SvgImage")));
             this.BtnBarcodeKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnBarcodeKeyPad.Location = new System.Drawing.Point(388, 99);
+            this.BtnBarcodeKeyPad.Location = new System.Drawing.Point(419, 320);
             this.BtnBarcodeKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnBarcodeKeyPad.Name = "BtnBarcodeKeyPad";
             this.BtnBarcodeKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnBarcodeKeyPad.Size = new System.Drawing.Size(82, 50);
-            this.BtnBarcodeKeyPad.TabIndex = 171;
+            this.BtnBarcodeKeyPad.TabIndex = 184;
+            this.BtnBarcodeKeyPad.Click += new System.EventHandler(this.BtnBarcodeKeyPad_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(513, 41);
+            this.label4.Location = new System.Drawing.Point(544, 262);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 16);
-            this.label4.TabIndex = 166;
+            this.label4.TabIndex = 179;
             this.label4.Text = "Usuario Canje";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 41);
+            this.label3.Location = new System.Drawing.Point(48, 262);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 16);
-            this.label3.TabIndex = 167;
+            this.label3.TabIndex = 180;
             this.label3.Text = "Doc. Canje";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 117);
+            this.label5.Location = new System.Drawing.Point(48, 338);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 16);
-            this.label5.TabIndex = 168;
+            this.label5.TabIndex = 181;
             this.label5.Text = "Cod. Barra";
             // 
             // TxtRedeemName
             // 
-            this.TxtRedeemName.Location = new System.Drawing.Point(651, 25);
+            this.TxtRedeemName.Location = new System.Drawing.Point(682, 246);
             this.TxtRedeemName.Name = "TxtRedeemName";
             this.TxtRedeemName.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtRedeemName.Properties.Appearance.Options.UseFont = true;
             this.TxtRedeemName.Size = new System.Drawing.Size(570, 44);
-            this.TxtRedeemName.TabIndex = 163;
+            this.TxtRedeemName.TabIndex = 176;
             // 
             // TxtRedeemIdentification
             // 
-            this.TxtRedeemIdentification.Location = new System.Drawing.Point(163, 25);
+            this.TxtRedeemIdentification.Location = new System.Drawing.Point(194, 246);
             this.TxtRedeemIdentification.Name = "TxtRedeemIdentification";
             this.TxtRedeemIdentification.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtRedeemIdentification.Properties.Appearance.Options.UseFont = true;
             this.TxtRedeemIdentification.Size = new System.Drawing.Size(216, 44);
-            this.TxtRedeemIdentification.TabIndex = 164;
+            this.TxtRedeemIdentification.TabIndex = 177;
             // 
             // TxtBarcode
             // 
-            this.TxtBarcode.Location = new System.Drawing.Point(163, 101);
+            this.TxtBarcode.Location = new System.Drawing.Point(194, 322);
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
             this.TxtBarcode.Size = new System.Drawing.Size(216, 44);
-            this.TxtBarcode.TabIndex = 165;
+            this.TxtBarcode.TabIndex = 178;
+            this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // FrmRedeemGiftCard
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.BtnRemove);
+            this.Controls.Add(this.GrcProduct);
+            this.Controls.Add(this.AxOPOSScale);
+            this.Controls.Add(this.AxOPOSScanner);
+            this.Controls.Add(this.BtnRedeemCustomerName);
+            this.Controls.Add(this.BtnIdentificationKeyPad);
+            this.Controls.Add(this.BtnBarcodeKeyPad);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.TxtRedeemName);
+            this.Controls.Add(this.TxtRedeemIdentification);
+            this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnSearch);
@@ -534,8 +528,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmRedeemGiftCard_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtGiftCardNumber.Properties)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GrcProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
@@ -567,7 +559,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LblGiftCardStatus;
-        private System.Windows.Forms.GroupBox groupBox1;
         private DevExpress.XtraEditors.SimpleButton BtnRemove;
         private DevExpress.XtraGrid.GridControl GrcProduct;
         private DevExpress.XtraGrid.Views.Grid.GridView GrvProduct;
