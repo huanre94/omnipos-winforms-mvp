@@ -8,14 +8,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Reflection;
-using System.Drawing.Printing;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.IO.Ports;
 
 // IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
 namespace POS
@@ -99,7 +96,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);                    
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -129,7 +126,7 @@ namespace POS
             else
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
-            }            
+            }
 
             return response;
         }
@@ -272,7 +269,7 @@ namespace POS
                         bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
 
                         if (response)
-                        {   
+                        {
                             currentCustomer = CreateCustomer(identification);
 
                             if (currentCustomer != null)
@@ -430,7 +427,7 @@ namespace POS
                     newInvoiceXML.Remove();
 
                     CalculateInvoice();
-                    GrcSalesDetail.DataSource = dataSource;                    
+                    GrcSalesDetail.DataSource = dataSource;
                 }
             }
 
@@ -453,7 +450,7 @@ namespace POS
                     functions.PrintDocument(lastId, ClsEnums.DocumentType.INVOICE);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al imprimir la última factura."
@@ -705,7 +702,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(requireMotive: true))
+                if (functions.RequestSupervisorAuth(requireMotive: true, reasonType: 1))
                 {
                     ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
                     SalesLog salesLog = new SalesLog
@@ -750,7 +747,7 @@ namespace POS
                     TxtBarcode.Properties.PasswordChar = '•';
                 }
                 else
-                {   
+                {
                     if (TxtBarcode.Properties.UseSystemPasswordChar)
                     {
                         TxtBarcode.Properties.UseSystemPasswordChar = false;
@@ -766,11 +763,11 @@ namespace POS
                                             , ""
                                             , false
                                         );
-                }                
-            } 
+                }
+            }
         }
 
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)        
+        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
             SendKeys.Send("{ENTER}");
@@ -975,7 +972,7 @@ namespace POS
             XElement invoiceTableXml = new XElement("InvoiceTable");
 
             try
-            { 
+            {
                 InvoiceTable invoiceTable = new InvoiceTable
                 {
                     LocationId = emissionPoint.LocationId,
@@ -1020,7 +1017,7 @@ namespace POS
                         ClearInvoice();
 
                         //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
-                        if (functions.PrintDocument((Int64)invoiceResult.InvoiceId,ClsEnums.DocumentType.INVOICE, true))
+                        if (functions.PrintDocument((Int64)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");
                         }
@@ -1119,6 +1116,7 @@ namespace POS
             CheckGridView();
             LblTotal.Text = "0.00";
             LblDiscAmount.Text = "0.00";
+            ImgSalesOrigin.Visible = false;
             TxtBarcode.Focus();
         }
 
@@ -1175,7 +1173,7 @@ namespace POS
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineDiscount"], _productResult.LineDiscount);
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
                 GrvSalesDetail.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
-                
+
                 foreach (var prop in properties)
                 {
                     var name = prop.Name;
@@ -1188,7 +1186,7 @@ namespace POS
 
                     invoiceLineXml.Add(new XElement(name, value));
                 }
-                
+
                 invoiceXml.Add(invoiceLineXml);
             }
             else

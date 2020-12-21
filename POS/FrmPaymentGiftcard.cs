@@ -30,11 +30,17 @@ namespace POS
 
                     if (result != null)
                     {
-                        LblDocument.Text = result.InvoiceNumber;
-                        LblReference.Text = result.CustomerNameInvoice;
-                        giftcardAmount = (decimal)result.Amount;
-                        giftcardNumber = result.GiftCardNumber;
-                        LblAmount.Text = giftcardAmount.ToString();
+                        if (result.Type == "PR")
+                        {
+                            functions.ShowMessage("El bono ingresado es un bono de producto. Por favor consultar con Supervisor.", ClsEnums.MessageType.WARNING);
+                        } else
+                        {
+                            LblDocument.Text = result.InvoiceNumber;
+                            LblReference.Text = result.CustomerNameInvoice;
+                            giftcardAmount = (decimal)result.Amount;
+                            giftcardNumber = result.GiftCardNumber;
+                            LblAmount.Text = giftcardAmount.ToString();
+                        }                        
                     }
                     else
                     {

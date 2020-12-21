@@ -1,23 +1,29 @@
-﻿using POS.Classes;
+﻿using DevExpress.XtraGrid.Views.Grid;
+using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.IO.Ports;
+using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
     public partial class FrmRedeemGiftCard : DevExpress.XtraEditors.XtraForm
     {
+        List<SP_GiftCard_Consult_Result> result1;
         ClsFunctions functions = new ClsFunctions();
+        public List<GlobalParameter> globalParameters;
+        public SP_Login_Consult_Result loginInformation;
         public bool formActionResult;
         public decimal giftcardAmount;
         public string giftcardNumber;
         public decimal paidAmount;
-        public List<GlobalParameter> globalParameters;
-        public SP_Login_Consult_Result loginInformation;
         EmissionPoint emissionPoint;
         ClsCatchWeight catchWeight;
         ClsEnums.ScaleBrands scaleBrand;
@@ -26,6 +32,11 @@ namespace POS
         public FrmRedeemGiftCard()
         {
             InitializeComponent();
+        }
+
+        private void ClosingGiftcard()
+        {
+            result1 = new List<SP_GiftCard_Consult_Result>();
         }
 
         #region Control Events
@@ -59,31 +70,41 @@ namespace POS
         {
             if (TxtGiftCardNumber.Text != "")
             {
-                SP_GiftCard_Consult_Result result;
                 ClsCustomerTrans customer = new ClsCustomerTrans();
 
                 try
                 {
-                    result = customer.GetGiftCard(TxtGiftCardNumber.Text);
-
-                    if (result != null)
+                    result1 = customer.GetGiftCardProducts(TxtGiftCardNumber.Text);
+                    SP_GiftCard_Consult_Result result = result1[0];
+                    if (result1 != null)
                     {
                         if (result.Type == "CC")
                         {
                             functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                            LblGiftCardStatus.Text = "bono tipo consumo".ToUpper();
                             LblGiftCardInvoice.Text = result.InvoiceNumber;
                             LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
                             LblExpirationDate.Text = result.Expiration.ToString();
                         }
-                        else if (DateTime.Today.CompareTo(((DateTime)result.Expiration).Date) > 0)
+                        else if (DateTime.Today.CompareTo(result.Expiration.Date) > 0)
                         {
+                            LblGiftCardStatus.Text = "expirado".ToUpper();
                             functions.ShowMessage("El bono ingresado esta caducado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                            LblGiftCardInvoice.Text = result.InvoiceNumber;
+                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
+                            LblExpirationDate.Text = result.Expiration.ToString();
+                        }
+                        else if (result.StatusLine == "C")
+                        {
+                            LblGiftCardStatus.Text = "consumido".ToUpper();
+                            functions.ShowMessage("El bono ingresado ya fue consumido. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
                             LblGiftCardInvoice.Text = result.InvoiceNumber;
                             LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
                             LblExpirationDate.Text = result.Expiration.ToString();
                         }
                         else if (result.StatusLine != "A")
                         {
+                            LblGiftCardStatus.Text = "anulado".ToUpper();
                             functions.ShowMessage("El bono ingresado esta anulado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
                             LblGiftCardInvoice.Text = result.InvoiceNumber;
                             LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
@@ -91,6 +112,7 @@ namespace POS
                         }
                         else
                         {
+                            LblGiftCardStatus.Text = "activo".ToUpper();
                             LblGiftCardInvoice.Text = result.InvoiceNumber;
                             LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
                             LblExpirationDate.Text = result.Expiration.ToString();
@@ -127,7 +149,6 @@ namespace POS
 
         private void FrmRedeemGiftCard_Load(object sender, EventArgs e)
         {
-
             if (GetEmissionPointInformation())
             {
                 if (emissionPoint.ScaleBrand != "")
@@ -155,10 +176,22 @@ namespace POS
                     }
                 }
                 LblCashierUser.Text = loginInformation.UserName;
+                CheckGridView();
                 ClearGiftCard();
             }
         }
-       
+
+        private void CheckGridView()
+        {
+            GrvProduct.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcProduct.DataSource = null;
+            GrvProduct.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
+            bindingList.AllowNew = true;
+
+            GrcProduct.DataSource = bindingList;
+        }
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             bool valida = true;
@@ -168,14 +201,65 @@ namespace POS
                 return;
             }
 
-            if (TxtRedeemIdentification.Text == "" || TxtRedeemName.Text == "") {
+            if (TxtRedeemIdentification.Text == "" || TxtRedeemName.Text == "")
+            {
                 functions.ShowMessage("Los datos del canje no pueden estar vacios.", ClsEnums.MessageType.WARNING);
+                return;
+            }
+
+            if (((BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource).Count == 0)
+            {
+                functions.ShowMessage("Debe existir productos registrados.", ClsEnums.MessageType.WARNING);
                 return;
             }
 
             if (valida)
             {
-                
+                XElement giftCardLine = new XElement("GiftCardLine");                
+                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
+                foreach (SP_Product_Consult_Result item in dataSource)
+                {
+                    XElement giftCardTrans = new XElement("GiftCardTrans");
+                    GiftCardTrans gift = new GiftCardTrans();
+                    gift.ProductId = item.ProductId;
+                    gift.Quantity = (decimal)item.Quantity;
+                    gift.RedeemQuantity = 1;
+
+                    Type type = gift.GetType();
+                    PropertyInfo[] properties = type.GetProperties();
+
+                    foreach (var prop in properties)
+                    {
+                        var name = prop.Name;
+                        var value = prop.GetValue(gift);
+
+                        if (value == null)
+                        {
+                            value = "";
+                        }
+
+                        giftCardTrans.Add(new XElement(name, value));                        
+                    }
+                    giftCardLine.Add(giftCardTrans);
+                }
+
+                try
+                {
+                    var response = new ClsCustomerTrans().GiftCardRedeemInsert(TxtGiftCardNumber.Text, 
+                        TxtRedeemName.Text, 
+                        TxtRedeemIdentification.Text,
+                        emissionPoint.LocationId, 
+                        giftCardLine.ToString());                
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                             "Ocurrio un problema al consultar el bono."
+                                             , ClsEnums.MessageType.ERROR
+                                             , true
+                                             , ex.InnerException.Message
+                                             );
+                }
             }
         }
 
@@ -203,7 +287,7 @@ namespace POS
                                     );
             }
         }
-        
+
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
@@ -216,7 +300,52 @@ namespace POS
 
         private void ClearGiftCard()
         {
+            LblGiftCardStatus.Text = "Pendiente".ToUpper();
+            TxtGiftCardNumber.Text = string.Empty;
+            TxtRedeemName.Text = string.Empty;
+            TxtRedeemIdentification.Text = string.Empty;
             LblExpirationDate.Text = DateTime.Today.ToString();
+            CheckGridView();
+        }
+
+        private void AddRecordToGrid(SP_Product_Consult_Result _productResult, bool _updateRecord)
+        {
+            Type type = _productResult.GetType();
+            PropertyInfo[] properties = type.GetProperties();           
+
+            if (!_updateRecord)
+            {
+                GrvProduct.AddNewRow();
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["ProductId"], _productResult.ProductId);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["ProductName"], _productResult.ProductName);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["Quantity"], _productResult.Quantity);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["FinalPrice"], _productResult.FinalPrice);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["LineDiscount"], _productResult.LineDiscount);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["LineAmount"], _productResult.LineAmount);
+                GrvProduct.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);              
+            }
+            else
+            {
+                int rowIndex = GrvProduct.LocateByValue("ProductId", _productResult.ProductId);
+
+                if (rowIndex < 0)
+                {
+                    rowIndex = GrvProduct.FocusedRowHandle;
+                }
+
+                GrvProduct.FocusedRowHandle = rowIndex;
+                GrvProduct.UpdateCurrentRow();
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["ProductId"], _productResult.ProductId);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["ProductName"], _productResult.ProductName);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["Quantity"], _productResult.Quantity);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["FinalPrice"], _productResult.FinalPrice);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["LineDiscount"], _productResult.LineDiscount);
+                GrvProduct.SetRowCellValue(GrvProduct.FocusedRowHandle, GrvProduct.Columns["LineAmount"], _productResult.LineAmount);
+                GrvProduct.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
+            }
+
+            TxtBarcode.Text = "";
+            TxtBarcode.Focus();
         }
 
         private bool GetEmissionPointInformation()
@@ -350,8 +479,7 @@ namespace POS
                                                                                 , barcodeBefore
                                                                                 );
 
-                                        TxtProductDescription.Text = result.ProductName;
-                                        LblWeightValue.Text = weight.ToString("");
+                                        AddRecordToGrid(result, false);
                                     }
                                     else
                                     {
@@ -360,8 +488,12 @@ namespace POS
                                 }
                             }
                         }
+                        else
+                        {
+                            AddRecordToGrid(result, false);
+                        }
 
-                    }
+                     } 
                     else
                     {
                         functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", ClsEnums.MessageType.WARNING);
@@ -385,5 +517,33 @@ namespace POS
             }
         }
         #endregion
+
+        private void BtnRemove_Click(object sender, EventArgs e)
+        {
+            int rowIndex = GrvProduct.FocusedRowHandle;
+
+            if (rowIndex < 0)
+            {
+                functions.ShowMessage("No se ha seleccionado producto a eliminar.", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvProduct.GetRow(rowIndex);
+
+                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
+                foreach (SP_Product_Consult_Result item in dataSource)
+                {
+                    if (item.ProductId == selectedRow.ProductId)
+                    {
+                        dataSource.Remove(item);
+                        break;
+                    }
+                }
+
+                GrcProduct.DataSource = dataSource;
+            }
+
+            TxtBarcode.Focus();
+        }       
     }
 }

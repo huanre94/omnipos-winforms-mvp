@@ -1,5 +1,6 @@
 ﻿using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -127,7 +128,7 @@ namespace POS
 
         private bool GetGlobalParameters()
         {
-            DLL.Catalog.ClsGeneral clsGeneral = new DLL.Catalog.ClsGeneral();
+            ClsGeneral clsGeneral = new ClsGeneral();
             bool response = false;
 
             try
@@ -212,12 +213,12 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD;
             keyPad.ShowDialog();
             TxtPassword.Text = keyPad.loginPassword;
-        }       
+        }
 
         private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
                 ProcessLogin();
-        }        
+        }
     }
 }

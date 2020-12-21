@@ -1,4 +1,5 @@
-﻿using POS.Classes;
+﻿using DevExpress.XtraEditors.Controls;
+using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Transaction;
@@ -150,6 +151,37 @@ namespace POS
 
             return response;
         }
+
+        private void LoadPartialClosingReason()
+        {            
+            List<CancelReason> cancelReasons;
+
+            try
+            {
+                cancelReasons = new ClsAuthorizationTrans().ConsultReasons(2);
+
+                if (cancelReasons != null)
+                {
+                    if (cancelReasons.Count > 0)
+                    {
+                        foreach (var reason in cancelReasons)
+                        {
+                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar motivos de cierre."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
+            }
+
+        }
         #endregion
 
         #region Keypad Buttons
@@ -166,11 +198,15 @@ namespace POS
         {
             if (decimal.Parse(LblTotalCashier.Text) <= 0)
             {
-                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El valor a retirar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
             }
             else if (decimal.Parse(LblTotalCashier.Text) > cashAmount)
             {
                 functions.ShowMessage("No puede retirar un valor mayor a la venta", ClsEnums.MessageType.WARNING);
+            }
+            else if (CmbMotive.SelectedItem == null)
+            {
+                functions.ShowMessage("Debe seleccionar un motivo de cierre parcial", ClsEnums.MessageType.WARNING);
             }
             else
             {
@@ -180,7 +216,6 @@ namespace POS
                     XElement closingCashierTableXml = new XElement("ClosingCashierTable");
                     ClosingCashierTable cashierTable = new ClosingCashierTable()
                     {
-
                         LocationId = emissionPoint.LocationId,
                         EmissionPointId = emissionPoint.EmissionPointId,
                         UserId = (int)loginInformation.UserId,
@@ -188,7 +223,8 @@ namespace POS
                         Authorization = functions.supervisorAuthorization,
                         Status = "A",
                         CreatedBy = (int)loginInformation.UserId,
-                        Workstation = emissionPoint.Workstation
+                        Workstation = emissionPoint.Workstation,
+                        ReasonId = int.Parse(CmbMotive.EditValue.ToString())
                     };
 
                     Type type = cashierTable.GetType();
@@ -385,12 +421,13 @@ namespace POS
         {
             if (GetEmissionPointInformation())
             {
+                //LoadPartialClosingReason();
                 LoadGridInformation();
                 if (cashAmount <= 0)
                 {
                     //functions.ShowMessage("No se ha realizado ", ClsEnums.MessageType.WARNING);
                 }
-
+                LoadPartialClosingReason();
                 CheckGridView();
                 CalculatePayment();
 
@@ -408,57 +445,27 @@ namespace POS
             }
         }
 
-        //private bool PrintInvoice(Int64 _invoiceId)
-        //{
-        //    ClsClosingTrans clsInvoiceTrans = new ClsClosingTrans();
-        //    List<SP_ClosingCashierTicket_Consult_Result> invoiceTicket;
-        //    bool response = false;
-        //    string bodyText = "";
-
-        //    try
-        //    {
-        //        invoiceTicket = clsInvoiceTrans.GetClosingTicket(_invoiceId);
-
-        //        if (invoiceTicket != null)
-        //        {
-        //            if (invoiceTicket.Count > 0)
-        //            {
-
-        //                foreach (var line in invoiceTicket)
-        //                {
-        //                    bodyText += line.BodyText + Environment.NewLine;
-        //                }
-
-        //                bool PrinterDocumentOk = functions.ProcessDocumentToPrint(bodyText);
-
-        //                if (PrinterDocumentOk == true)
-        //                {
-        //                    response = true;
-        //                }
-
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        functions.ShowMessage(
-        //                                "Ha ocurrido un problema al imprimir la factura."
-        //                                , ClsEnums.MessageType.ERROR
-        //                                , true
-        //                                , ex.Message
-        //                            );
-        //    }
-
-        //    return response;
-        //}
-
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
-            Int64 lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
-            //if (PrintInvoice(lastId))
+            Int64 lastId = 0;
+            try
+            {
+                lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
+            }
+            catch (Exception ex)
+            {
+
+                functions.ShowMessage(
+                                         "Ocurrio un problema al cargar lista de Bancos."
+                                         , ClsEnums.MessageType.ERROR
+                                         , true
+                                         , ex.InnerException.Message
+                                     );
+            }
+
             if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
             {
-                functions.ShowMessage("Ok.");
+                functions.ShowMessage("Cierre parcial impreso.");
             }
         }
     }

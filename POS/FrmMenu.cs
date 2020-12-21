@@ -100,7 +100,18 @@ namespace POS
             frmPartial.globalParameters = globalParameters;
             frmPartial.Show();
 
-            if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
+            if (Application.OpenForms.OfType<FrmRedeemGiftCard>().Count() == 1)
+                this.Hide();
+        }
+
+        private void BtnInvoiceCancel_Click(object sender, EventArgs e)
+        {
+            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel();
+            frmPartial.loginInformation = loginInformation;
+            frmPartial.globalParameters = globalParameters;
+            frmPartial.ShowDialog();
+
+            if (Application.OpenForms.OfType<FrmInvoiceCancel>().Count() == 1)
                 this.Hide();
         }
 

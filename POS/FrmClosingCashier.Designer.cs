@@ -31,7 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClosingCashier));
             DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
             DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
-            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Amount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
@@ -82,27 +83,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // Amount2
-            // 
-            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
-            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Amount2.Caption = "#";
-            this.Amount2.DisplayFormat.FormatString = "n0";
-            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Amount2.FieldName = "TypedAmount";
-            this.Amount2.MaxWidth = 100;
-            this.Amount2.Name = "Amount2";
-            this.Amount2.OptionsColumn.AllowEdit = false;
-            this.Amount2.OptionsColumn.AllowSize = false;
-            this.Amount2.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.Amount2.OptionsColumn.FixedWidth = true;
-            this.Amount2.OptionsColumn.ReadOnly = true;
-            this.Amount2.OptionsFilter.AllowFilter = false;
-            this.Amount2.Visible = true;
-            this.Amount2.VisibleIndex = 2;
-            this.Amount2.Width = 93;
+            this.SuspendLayout();           
             // 
             // gridColumn7
             // 
@@ -381,12 +362,10 @@
             this.GrvDenomination.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
             this.GrvDenomination.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.DenominationTypeName,
-            this.gridColumn1,
-            this.Amount2,
+            this.gridColumn1,            
             this.Monto,
             this.PaymModeId});
-            gridFormatRule1.ApplyToRow = true;
-            gridFormatRule1.Column = this.Amount2;
+            gridFormatRule1.ApplyToRow = true;            
             gridFormatRule1.Name = "Format0";
             formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             formatConditionRuleValue1.Appearance.Options.UseFont = true;
@@ -773,8 +752,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
         private DevExpress.XtraGrid.GridControl GrcDenomination;
         private DevExpress.XtraGrid.Views.Grid.GridView GrvDenomination;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn Amount2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;        
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraGrid.GridControl GrcPartialClosing;

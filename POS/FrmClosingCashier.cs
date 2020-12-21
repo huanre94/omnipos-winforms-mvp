@@ -219,7 +219,8 @@ namespace POS
             if (payments.Count == 0)
             {
                 functions.ShowMessage("No hay metodos de pago registrados.", ClsEnums.MessageType.WARNING);
-            } else
+            }
+            else
             {
                 if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
                 {
@@ -372,7 +373,7 @@ namespace POS
                 {
                     functions.ShowMessage("El cierre supera el margen maximo permitido", ClsEnums.MessageType.ERROR);
                 }
-            }          
+            }
         }
 
         private void GrvDenomination_RowClick(object sender, RowClickEventArgs e)
@@ -527,7 +528,7 @@ namespace POS
             //if (PrintInvoice(lastId))
             if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
             {
-                functions.ShowMessage("Ok.");
+                functions.ShowMessage("Cierre total impreso.");
             }
         }
     }

@@ -141,6 +141,12 @@
     <Compile Include="FrmCustomer.Designer.cs">
       <DependentUpon>FrmCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmInvoiceCancel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmInvoiceCancel.Designer.cs">
+      <DependentUpon>FrmInvoiceCancel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,6 +231,12 @@
     <Compile Include="FrmProductSearch.Designer.cs">
       <DependentUpon>FrmProductSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmRedeemGiftCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRedeemGiftCard.Designer.cs">
+      <DependentUpon>FrmRedeemGiftCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmSalesOrigin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmCustomer.resx">
       <DependentUpon>FrmCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmInvoiceCancel.resx">
+      <DependentUpon>FrmInvoiceCancel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmKeyBoard.resx">
       <DependentUpon>FrmKeyBoard.cs</DependentUpon>
@@ -298,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProductSearch.resx">
       <DependentUpon>FrmProductSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRedeemGiftCard.resx">
+      <DependentUpon>FrmRedeemGiftCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSalesOrigin.resx">
       <DependentUpon>FrmSalesOrigin.cs</DependentUpon>
@@ -343,6 +361,7 @@
     <None Include="Resources\payment.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SUPERMERCADOS.svg" />
     <None Include="Resources\SuspendSale.svg" />
   </ItemGroup>
   <ItemGroup>
@@ -445,9 +464,6 @@
     <None Include="Resources\RAPPI.svg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SUPERMERCADOS.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\LLAMADA CELULAR.svg" />
   </ItemGroup>
   <ItemGroup>
@@ -460,9 +476,9 @@
     <None Include="Resources\GLOVO.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\e_commerce.svg" />
+    <None Include="Resources\bonus_exchange.svg" />
     <Content Include="Resources\LLAMADA CONVENCIONAL.svg" />
-    <Content Include="Resources\salesOrigin.svg" />
-    <None Include="Resources\salesOrigin1.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

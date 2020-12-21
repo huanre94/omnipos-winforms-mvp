@@ -204,8 +204,6 @@ namespace POS
 
         private void BtnWithhold_Click(object sender, EventArgs e)
         {
-            //todo: validar que no exista un metodo de pago retencion previo, solo puede tener 1
-
             if (taxAmount == 0 && baseAmount == 0)
             {
                 functions.ShowMessage("La venta no aplica retención, la base imponible es cero", ClsEnums.MessageType.WARNING);
@@ -218,7 +216,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;            
+            BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;
             if (bindingList.Count > 0)
             {
                 bool response;
@@ -423,7 +421,7 @@ namespace POS
                     hasRetention = true;
                 }
             }
-            catch 
+            catch
             {
                 hasRetention = false;
             }
@@ -485,7 +483,7 @@ namespace POS
 
         private void AddRecordToGrid(InvoicePayment _invoicePayment)
         {
-            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;            
+            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
 
             GrvPayment.AddNewRow();
             GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Description"], paymModeEnum);
@@ -519,11 +517,11 @@ namespace POS
             paidAmount += decimal.Parse(TxtAmount.Text);
             paidAmount *= 1.00M;
             paidAmount = Math.Round(paidAmount, 2);
-            
+
             if (paidAmount > invoiceAmount)
             {
                 paidAmount = invoiceAmount;
-            }            
+            }
 
             if (invoiceAmount >= paidAmount)
             {

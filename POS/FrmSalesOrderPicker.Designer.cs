@@ -211,7 +211,7 @@
             this.BtnRefresh.Appearance.Options.UseBackColor = true;
             this.BtnRefresh.Appearance.Options.UseFont = true;
             this.BtnRefresh.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnRefresh.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.BtnRefresh.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnRefresh.ImageOptions.Image")));
             this.BtnRefresh.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnRefresh.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnRefresh.Location = new System.Drawing.Point(852, 704);
@@ -223,8 +223,7 @@
             // 
             // FrmSalesOrderPicker
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);
