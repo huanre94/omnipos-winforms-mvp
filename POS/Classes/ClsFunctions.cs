@@ -21,6 +21,7 @@ namespace POS
         public string PrinterName { get; set; }
         public int motiveId;
         public string supervisorAuthorization;
+        public int reasonType;
 
         public bool ShowMessage(
                                 string _messageText
@@ -41,17 +42,21 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false)
+        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 1)
         {
             FrmSupervisorAuth auth = new FrmSupervisorAuth();
             auth.scanner = AxOPOSScanner;
             auth.emissionPoint = emissionPoint;
             auth.requireMotive = requireMotive;
+            auth.reasonType = reasonType;
             auth.ShowDialog();
+
+
 
             if (auth.formActionResult)
             {
                 this.motiveId = auth.motiveId;
+                this.reasonType = auth.reasonType;
                 this.supervisorAuthorization = auth.supervisorAuthorization;
             }
 
@@ -273,7 +278,7 @@ namespace POS
         }
 
         public bool PrintDocument(
-                                    long _invoiceId
+                                    long _documentId
                                     , ClsEnums.DocumentType _documentType
                                     , bool _openCashier = false
                                 )
@@ -290,7 +295,7 @@ namespace POS
                 switch (_documentType)
                 {
                     case ClsEnums.DocumentType.INVOICE:
-                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_invoiceId, _openCashier);
+                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier);
 
                         if (invoiceTicket != null)
                         {
@@ -304,7 +309,7 @@ namespace POS
                         }
                         break;
                     case ClsEnums.DocumentType.CLOSINGCASHIER:
-                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_invoiceId);
+                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId);
 
                         if (closingCashierTicket != null)
                         {

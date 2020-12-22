@@ -161,11 +161,12 @@
             this.BtnSalesOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.e_commerce;
             this.BtnSalesOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnSalesOrder.Location = new System.Drawing.Point(408, 345);
+            this.BtnSalesOrder.Location = new System.Drawing.Point(406, 345);
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
             this.BtnSalesOrder.Text = "Pedidos \r\nE-commerce";
+            this.BtnSalesOrder.Visible = false;
             this.BtnSalesOrder.Click += new System.EventHandler(this.BtnSalesOrder_Click);
             // 
             // BtnChangePaymMode
@@ -178,7 +179,7 @@
             this.BtnChangePaymMode.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnChangePaymMode.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
             this.BtnChangePaymMode.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnChangePaymMode.Location = new System.Drawing.Point(33, 345);
+            this.BtnChangePaymMode.Location = new System.Drawing.Point(1141, 120);
             this.BtnChangePaymMode.Name = "BtnChangePaymMode";
             this.BtnChangePaymMode.Size = new System.Drawing.Size(350, 200);
             this.BtnChangePaymMode.TabIndex = 169;
@@ -192,8 +193,9 @@
             this.BtnGiftCardRedeem.Appearance.Options.UseBackColor = true;
             this.BtnGiftCardRedeem.Appearance.Options.UseFont = true;
             this.BtnGiftCardRedeem.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnGiftCardRedeem.ImageOptions.SvgImage = global::POS.Properties.Resources.bonus_exchange;
             this.BtnGiftCardRedeem.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(406, 344);
+            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(35, 345);
             this.BtnGiftCardRedeem.Name = "BtnGiftCardRedeem";
             this.BtnGiftCardRedeem.Size = new System.Drawing.Size(350, 200);
             this.BtnGiftCardRedeem.TabIndex = 134;
@@ -208,11 +210,12 @@
             this.BtnInvoiceCancel.Appearance.Options.UseFont = true;
             this.BtnInvoiceCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnInvoiceCancel.Location = new System.Drawing.Point(1142, 120);
+            this.BtnInvoiceCancel.Location = new System.Drawing.Point(773, 345);
             this.BtnInvoiceCancel.Name = "BtnInvoiceCancel";
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(350, 200);
             this.BtnInvoiceCancel.TabIndex = 134;
             this.BtnInvoiceCancel.Text = "Anulacion\r\nFactura";
+            this.BtnInvoiceCancel.Visible = false;
             this.BtnInvoiceCancel.Click += new System.EventHandler(this.BtnInvoiceCancel_Click);
             // 
             // FrmMenu

@@ -346,7 +346,7 @@ namespace POS
                                         }
                                         else
                                         {
-                                            functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                            functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", ClsEnums.MessageType.WARNING);
                                         }
 
                                         FrmMenu frmMenu = new FrmMenu();
@@ -354,6 +354,15 @@ namespace POS
                                         frmMenu.globalParameters = globalParameters;
                                         frmMenu.Visible = true;
                                         Close();
+                                    }
+                                    else
+                                    {
+                                        functions.ShowMessage(
+                                                                "No se ha podido realizar cierre de caja."
+                                                                , ClsEnums.MessageType.WARNING
+                                                                , true
+                                                                , closing.TextError
+                                                                );
                                     }
                                 }
                             }

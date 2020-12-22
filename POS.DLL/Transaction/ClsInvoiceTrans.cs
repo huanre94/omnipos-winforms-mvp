@@ -228,5 +228,92 @@ namespace POS.DLL.Transaction
 
             return response;
         }
+
+        public InvoiceTable ConsultInvoice(Int64 invoiceId)
+        {
+            POSEntities pos = new POSEntities();
+            InvoiceTable invoiceTable;
+            try
+            {
+                invoiceTable = (from y in pos.InvoiceTable
+                                where y.InvoiceId == invoiceId
+                                select y).First();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return invoiceTable;
+        }
+
+        public SP_InvoiceCancel_Consult_Result ConsultInvoiceStatus(EmissionPoint emissionPoint, string emission, int invoiceNumber)
+        {
+            POSEntities pos = new POSEntities();
+            SP_InvoiceCancel_Consult_Result response;
+            EmissionPoint point;
+
+
+
+            try
+            {
+                point = (from y in pos.EmissionPoint
+                         where y.Emission == emission
+                         && y.LocationId == emissionPoint.LocationId
+                         select y).First();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+
+            try
+            {
+                response = pos.SP_InvoiceCancel_Consult(emissionPoint.LocationId, point.EmissionPointId, invoiceNumber).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+
+
+
+                throw new Exception(ex.Message);
+            }
+            return response;
+        }
+
+        public bool CancelInvoice(SalesLog salesLog, InvoiceTable _invoiceTable)
+        {
+            POSEntities context = new POSEntities();
+            try
+            {
+
+                context.SalesLog.Add(salesLog);
+
+
+
+                InvoiceTable invoiceTable = (from y in context.InvoiceTable
+                                             where y.InvoiceId == _invoiceTable.InvoiceId
+                                             select y).First();
+
+
+
+
+                invoiceTable.TransferStatusId = _invoiceTable.TransferStatusId;
+                invoiceTable.Observation = _invoiceTable.Observation;
+                invoiceTable.ClosingCashierId = _invoiceTable.ClosingCashierId;
+                invoiceTable.Status = _invoiceTable.Status;
+                invoiceTable.ModifiedBy = _invoiceTable.ModifiedBy;
+                invoiceTable.ModifiedDatetime = _invoiceTable.ModifiedDatetime;
+
+
+
+                return context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

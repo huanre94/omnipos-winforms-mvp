@@ -476,6 +476,7 @@
     <None Include="Resources\GLOVO.svg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\salesOrigin1.svg" />
     <None Include="Resources\e_commerce.svg" />
     <None Include="Resources\bonus_exchange.svg" />
     <Content Include="Resources\LLAMADA CONVENCIONAL.svg" />

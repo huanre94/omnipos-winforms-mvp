@@ -170,6 +170,7 @@ namespace POS
                 else
                 {
                     GrcPayments.DataSource = null;
+                    functions.ShowMessage("No se encontraron pagos.", ClsEnums.MessageType.WARNING);
                 }
             }
             catch(Exception ex)

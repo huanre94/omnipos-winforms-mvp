@@ -50,18 +50,26 @@ namespace POS
                 LblTitle.Text = string.Empty;
                 BtnCatchWeight.Visible = false;
 
-                catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
-                catchWeight.OpenScale();
-
-                if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
+                if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != "")
                 {
-                    CatchWeightProduct(ScaleBrand, PortName);
+                    catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
+                    catchWeight.OpenScale();
+
+                    if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
+                    {
+                        CatchWeightProduct(ScaleBrand, PortName);
+                    }
+                    else
+                    {
+                        if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                            catchWeight.CloseScale();
+
+                        DialogResult = DialogResult.Cancel;
+                    }
                 }
                 else
                 {
-                    if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
-                        catchWeight.CloseScale();
-
+                    functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", ClsEnums.MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
                 }
             }
@@ -142,7 +150,7 @@ namespace POS
                                         "Ocurrio un problema al capturar peso."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.InnerException.Message
+                                        , ex.Message
                                     );
             }
         }

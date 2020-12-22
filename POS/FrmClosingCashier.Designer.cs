@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClosingCashier));
             DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
             DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Amount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
@@ -75,6 +73,7 @@
             this.LblTotalCashier = new System.Windows.Forms.Label();
             this.LblDifference = new System.Windows.Forms.Label();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
+            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
@@ -83,7 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
-            this.SuspendLayout();           
+            this.SuspendLayout();
             // 
             // gridColumn7
             // 
@@ -362,10 +361,11 @@
             this.GrvDenomination.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
             this.GrvDenomination.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.DenominationTypeName,
-            this.gridColumn1,            
+            this.gridColumn1,
+            this.Amount2,
             this.Monto,
             this.PaymModeId});
-            gridFormatRule1.ApplyToRow = true;            
+            gridFormatRule1.ApplyToRow = true;
             gridFormatRule1.Name = "Format0";
             formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             formatConditionRuleValue1.Appearance.Options.UseFont = true;
@@ -399,7 +399,7 @@
             this.DenominationTypeName.OptionsFilter.AllowFilter = false;
             this.DenominationTypeName.Visible = true;
             this.DenominationTypeName.VisibleIndex = 0;
-            this.DenominationTypeName.Width = 356;
+            this.DenominationTypeName.Width = 123;
             // 
             // gridColumn1
             // 
@@ -433,7 +433,7 @@
             this.Monto.OptionsFilter.AllowFilter = false;
             this.Monto.Visible = true;
             this.Monto.VisibleIndex = 3;
-            this.Monto.Width = 558;
+            this.Monto.Width = 126;
             // 
             // PaymModeId
             // 
@@ -678,6 +678,21 @@
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
             // 
+            // Amount2
+            // 
+            this.Amount2.AppearanceCell.Options.UseTextOptions = true;
+            this.Amount2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
+            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Amount2.Caption = "#";
+            this.Amount2.DisplayFormat.FormatString = "n0";
+            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Amount2.FieldName = "TypedAmount";
+            this.Amount2.Name = "Amount2";
+            this.Amount2.Visible = true;
+            this.Amount2.VisibleIndex = 2;
+            this.Amount2.Width = 93;
+            // 
             // FrmClosingCashier
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -776,5 +791,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private DevExpress.XtraEditors.SimpleButton BtnDot;
         private DevExpress.XtraGrid.Columns.GridColumn DenominationTypeName;
+        private DevExpress.XtraGrid.Columns.GridColumn Amount2;
     }
 }
