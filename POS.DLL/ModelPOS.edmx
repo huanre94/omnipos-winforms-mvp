@@ -584,6 +584,40 @@
           <Property Name="UseFinanceSystem" Type="bit" />
           <Property Name="Status" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="PhysicalStockCountingLine">
+          <Key>
+            <PropertyRef Name="PhysicalStockCountingId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="PhysicalStockCountingId" Type="int" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="InventUnitId" Type="int" Nullable="false" />
+          <Property Name="StockQuantity" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="CountedQuantity" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+          <Property Name="Cost" Type="numeric" Precision="24" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhysicalStockCountingTable">
+          <Key>
+            <PropertyRef Name="PhysicalStockCountingId" />
+          </Key>
+          <Property Name="PhysicalStockCountingId" Type="int" Nullable="false" />
+          <Property Name="PhysicalStockCountingIdLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationId" Type="smallint" Nullable="false" />
+          <Property Name="EmissionPointId" Type="int" Nullable="false" />
+          <Property Name="InventLocationId" Type="int" Nullable="false" />
+          <Property Name="CountingDate" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="char" MaxLength="1" />
+          <Property Name="StockCountingId" Type="int" Nullable="false" />
+          <Property Name="ERPId" Type="int" />
+          <Property Name="Observation" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDatetime" Type="datetime" />
+          <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -1710,6 +1744,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PhysicalStockCountingLine_InventUnit">
+          <End Role="InventUnit" Type="Self.InventUnit" Multiplicity="1" />
+          <End Role="PhysicalStockCountingLine" Type="Self.PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventUnit">
+              <PropertyRef Name="InventUnitId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="InventUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingLine_PhysicalStockCountingTable">
+          <End Role="PhysicalStockCountingTable" Type="Self.PhysicalStockCountingTable" Multiplicity="1" />
+          <End Role="PhysicalStockCountingLine" Type="Self.PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhysicalStockCountingTable">
+              <PropertyRef Name="PhysicalStockCountingId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="PhysicalStockCountingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingLine_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="PhysicalStockCountingLine" Type="Self.PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingTable_InventLocation">
+          <End Role="InventLocation" Type="Self.InventLocation" Multiplicity="1" />
+          <End Role="PhysicalStockCountingTable" Type="Self.PhysicalStockCountingTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventLocation">
+              <PropertyRef Name="InventLocationId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingTable">
+              <PropertyRef Name="InventLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingTable_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="PhysicalStockCountingTable" Type="Self.PhysicalStockCountingTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Product_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -2282,6 +2376,25 @@
           <Parameter Name="Workstation" Type="varchar" Mode="In" />
           <Parameter Name="AddressIP" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_PhysicalStockCounting_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PhysicalStockXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_PhysicalStockLine_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PhysicalStockCountingId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_PhysicalStockLine_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PhysicalStockCountingId" Type="int" Mode="In" />
+          <Parameter Name="PhysicalStockXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_PhysicalStockProduct_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+          <Parameter Name="EmissionPointId" Type="int" Mode="In" />
+          <Parameter Name="ProductBarcode" Type="varchar" Mode="In" />
+          <Parameter Name="ProductInternalId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PhysicalStockTable_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PhysicalStockXml" Type="xml" Mode="In" />
+        </Function>
         <Function Name="SP_Product_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationId" Type="smallint" Mode="In" />
           <Parameter Name="Barcode" Type="varchar" Mode="In" />
@@ -2342,6 +2455,8 @@
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogType" EntityType="Self.LogType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymMode" EntityType="Self.PaymMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhysicalStockCountingLine" EntityType="Self.PhysicalStockCountingLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhysicalStockCountingTable" EntityType="Self.PhysicalStockCountingTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBarcode" EntityType="Self.ProductBarcode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -2574,6 +2689,26 @@
           <AssociationSet Name="FK__Location_Company" Association="Self.FK__Location_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_InventUnit" Association="Self.FK__PhysicalStockCountingLine_InventUnit">
+            <End Role="InventUnit" EntitySet="InventUnit" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_PhysicalStockCountingTable" Association="Self.FK__PhysicalStockCountingLine_PhysicalStockCountingTable">
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_Product" Association="Self.FK__PhysicalStockCountingLine_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingTable_InventLocation" Association="Self.FK__PhysicalStockCountingTable_InventLocation">
+            <End Role="InventLocation" EntitySet="InventLocation" />
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingTable_Location" Association="Self.FK__PhysicalStockCountingTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
           </AssociationSet>
           <AssociationSet Name="FK__Product_Brand" Association="Self.FK__Product_Brand">
             <End Role="Brand" EntitySet="Brand" />
@@ -2867,6 +3002,7 @@
           <NavigationProperty Name="InventProductLocation" Relationship="Self.FK__InventProductLocation_InventLocation" FromRole="InventLocation" ToRole="InventProductLocation" />
           <NavigationProperty Name="EmissionPoint" Relationship="POSModel.FK__EmissionPoint_InventLocation" FromRole="InventLocation" ToRole="EmissionPoint" />
           <NavigationProperty Name="Location" Relationship="POSModel.FK__InventLocation_Location" FromRole="InventLocation" ToRole="Location" />
+          <NavigationProperty Name="PhysicalStockCountingTable" Relationship="POSModel.FK__PhysicalStockCountingTable_InventLocation" FromRole="InventLocation" ToRole="PhysicalStockCountingTable" />
         </EntityType>
         <EntityType Name="InventProductLocation">
           <Key>
@@ -2895,6 +3031,7 @@
           <NavigationProperty Name="Product" Relationship="Self.FK__Product_InventUnit" FromRole="InventUnit" ToRole="Product" />
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InventUnit" FromRole="InventUnit" ToRole="InvoiceLine" />
           <NavigationProperty Name="SalesOrderLine" Relationship="POSModel.FK__SalesOrderLine_InventUnit" FromRole="InventUnit" ToRole="SalesOrderLine" />
+          <NavigationProperty Name="PhysicalStockCountingLine" Relationship="POSModel.FK__PhysicalStockCountingLine_InventUnit" FromRole="InventUnit" ToRole="PhysicalStockCountingLine" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -2935,6 +3072,7 @@
           <NavigationProperty Name="SalesOrderLine" Relationship="POSModel.FK__SalesOrderLine_Product" FromRole="Product" ToRole="SalesOrderLine" />
           <NavigationProperty Name="ProductModule" Relationship="POSModel.FK__ProductModule_Product" FromRole="Product" ToRole="ProductModule" />
           <NavigationProperty Name="GiftCardLineProduct" Relationship="POSModel.FK__GiftCardLineProduct_Product" FromRole="Product" ToRole="GiftCardLineProduct" />
+          <NavigationProperty Name="PhysicalStockCountingLine" Relationship="POSModel.FK__PhysicalStockCountingLine_Product" FromRole="Product" ToRole="PhysicalStockCountingLine" />
         </EntityType>
         <EntityType Name="ProductBarcode">
           <Key>
@@ -3752,6 +3890,47 @@
             <End Role="Location" EntitySet="Location" />
             <End Role="SequenceTable" EntitySet="SequenceTable" />
           </AssociationSet>
+          <FunctionImport Name="SP_PhysicalStockCounting_Insert" ReturnType="Collection(POSModel.SP_PhysicalStockCounting_Insert_Result)">
+          <Parameter Name="PhysicalStockXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PhysicalStockLine_Consult" ReturnType="Collection(POSModel.SP_PhysicalStockLine_Consult_Result)">
+          <Parameter Name="PhysicalStockCountingId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PhysicalStockLine_Insert" ReturnType="Collection(POSModel.SP_PhysicalStockLine_Insert_Result)">
+            <Parameter Name="PhysicalStockCountingId" Mode="In" Type="Int32" />
+            <Parameter Name="PhysicalStockXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PhysicalStockProduct_Consult" ReturnType="Collection(POSModel.SP_PhysicalStockProduct_Consult_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="EmissionPointId" Mode="In" Type="Int32" />
+            <Parameter Name="ProductBarcode" Mode="In" Type="String" />
+            <Parameter Name="ProductInternalId" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="PhysicalStockCountingLine" EntityType="POSModel.PhysicalStockCountingLine" />
+          <EntitySet Name="PhysicalStockCountingTable" EntityType="POSModel.PhysicalStockCountingTable" />
+          <AssociationSet Name="FK__PhysicalStockCountingTable_InventLocation" Association="POSModel.FK__PhysicalStockCountingTable_InventLocation">
+            <End Role="InventLocation" EntitySet="InventLocation" />
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_InventUnit" Association="POSModel.FK__PhysicalStockCountingLine_InventUnit">
+            <End Role="InventUnit" EntitySet="InventUnit" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingTable_Location" Association="POSModel.FK__PhysicalStockCountingTable_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_PhysicalStockCountingTable" Association="POSModel.FK__PhysicalStockCountingLine_PhysicalStockCountingTable">
+            <End Role="PhysicalStockCountingTable" EntitySet="PhysicalStockCountingTable" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhysicalStockCountingLine_Product" Association="POSModel.FK__PhysicalStockCountingLine_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="PhysicalStockCountingLine" EntitySet="PhysicalStockCountingLine" />
+          </AssociationSet>
+          <FunctionImport Name="SP_PhysicalStockTable_Insert" ReturnType="Collection(POSModel.SP_PhysicalStockTable_Insert_Result)">
+            <Parameter Name="PhysicalStockXml" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="InternalCreditCardLine">
           <Key>
@@ -5639,6 +5818,7 @@
           <NavigationProperty Name="SalesOrder" Relationship="POSModel.FK__SalesOrder_Location" FromRole="Location" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesRemissionTable" Relationship="POSModel.FK__SalesRemissionTable_Location" FromRole="Location" ToRole="SalesRemissionTable" />
           <NavigationProperty Name="SequenceTable" Relationship="POSModel.FK__SequenceTable_Location" FromRole="Location" ToRole="SequenceTable" />
+          <NavigationProperty Name="PhysicalStockCountingTable" Relationship="POSModel.FK__PhysicalStockCountingTable_Location" FromRole="Location" ToRole="PhysicalStockCountingTable" />
         </EntityType>
         <Association Name="FK__AccountsReceivable_Location">
           <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
@@ -5832,6 +6012,139 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_PhysicalStockCounting_Insert_Result">
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_PhysicalStockLine_Consult_Result">
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="ProductOldCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Barcode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
+          <Property Type="Int32" Name="InventUnitId" Nullable="false" />
+          <Property Type="String" Name="UM" Nullable="true" MaxLength="220" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="24" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="SP_PhysicalStockLine_Insert_Result">
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SP_PhysicalStockProduct_Consult_Result">
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="Message" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="ProductId" Nullable="false" />
+          <Property Type="String" Name="ProductOldCode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Barcode" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="220" />
+          <Property Type="Int32" Name="InventUnitId" Nullable="false" />
+          <Property Type="String" Name="UM" Nullable="true" MaxLength="220" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <EntityType Name="PhysicalStockCountingLine">
+          <Key>
+            <PropertyRef Name="PhysicalStockCountingId" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="PhysicalStockCountingId" Type="Int32" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="InventUnitId" Type="Int32" Nullable="false" />
+          <Property Name="StockQuantity" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="CountedQuantity" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="24" Scale="6" />
+          <NavigationProperty Name="InventUnit" Relationship="POSModel.FK__PhysicalStockCountingLine_InventUnit" FromRole="PhysicalStockCountingLine" ToRole="InventUnit" />
+          <NavigationProperty Name="PhysicalStockCountingTable" Relationship="POSModel.FK__PhysicalStockCountingLine_PhysicalStockCountingTable" FromRole="PhysicalStockCountingLine" ToRole="PhysicalStockCountingTable" />
+          <NavigationProperty Name="Product" Relationship="POSModel.FK__PhysicalStockCountingLine_Product" FromRole="PhysicalStockCountingLine" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="PhysicalStockCountingTable">
+          <Key>
+            <PropertyRef Name="PhysicalStockCountingId" />
+          </Key>
+          <Property Name="PhysicalStockCountingId" Type="Int32" Nullable="false" />
+          <Property Name="PhysicalStockCountingIdLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="EmissionPointId" Type="Int32" Nullable="false" />
+          <Property Name="InventLocationId" Type="Int32" Nullable="false" />
+          <Property Name="CountingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="StockCountingId" Type="Int32" Nullable="false" />
+          <Property Name="ERPId" Type="Int32" />
+          <Property Name="Observation" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Workstation" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="InventLocation" Relationship="POSModel.FK__PhysicalStockCountingTable_InventLocation" FromRole="PhysicalStockCountingTable" ToRole="InventLocation" />
+          <NavigationProperty Name="Location" Relationship="POSModel.FK__PhysicalStockCountingTable_Location" FromRole="PhysicalStockCountingTable" ToRole="Location" />
+          <NavigationProperty Name="PhysicalStockCountingLine" Relationship="POSModel.FK__PhysicalStockCountingLine_PhysicalStockCountingTable" FromRole="PhysicalStockCountingTable" ToRole="PhysicalStockCountingLine" />
+        </EntityType>
+        <Association Name="FK__PhysicalStockCountingTable_InventLocation">
+          <End Type="POSModel.InventLocation" Role="InventLocation" Multiplicity="1" />
+          <End Type="POSModel.PhysicalStockCountingTable" Role="PhysicalStockCountingTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventLocation">
+              <PropertyRef Name="InventLocationId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingTable">
+              <PropertyRef Name="InventLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingLine_InventUnit">
+          <End Type="POSModel.InventUnit" Role="InventUnit" Multiplicity="1" />
+          <End Type="POSModel.PhysicalStockCountingLine" Role="PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventUnit">
+              <PropertyRef Name="InventUnitId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="InventUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingTable_Location">
+          <End Type="POSModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="POSModel.PhysicalStockCountingTable" Role="PhysicalStockCountingTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingTable">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingLine_PhysicalStockCountingTable">
+          <End Type="POSModel.PhysicalStockCountingTable" Role="PhysicalStockCountingTable" Multiplicity="1" />
+          <End Type="POSModel.PhysicalStockCountingLine" Role="PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhysicalStockCountingTable">
+              <PropertyRef Name="PhysicalStockCountingId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="PhysicalStockCountingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhysicalStockCountingLine_Product">
+          <End Type="POSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="POSModel.PhysicalStockCountingLine" Role="PhysicalStockCountingLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="PhysicalStockCountingLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_PhysicalStockTable_Insert_Result">
+          <Property Type="Boolean" Name="Error" Nullable="true" />
+          <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Sequence" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7282,6 +7595,94 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_PhysicalStockCounting_Insert" FunctionName="POSModel.Store.SP_PhysicalStockCounting_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_PhysicalStockCounting_Insert_Result">
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PhysicalStockLine_Consult" FunctionName="POSModel.Store.SP_PhysicalStockLine_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_PhysicalStockLine_Consult_Result">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductOldCode" ColumnName="ProductOldCode" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="UM" ColumnName="UM" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PhysicalStockLine_Insert" FunctionName="POSModel.Store.SP_PhysicalStockLine_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_PhysicalStockLine_Insert_Result">
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PhysicalStockProduct_Consult" FunctionName="POSModel.Store.SP_PhysicalStockProduct_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_PhysicalStockProduct_Consult_Result">
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductOldCode" ColumnName="ProductOldCode" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="UM" ColumnName="UM" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PhysicalStockCountingLine">
+            <EntityTypeMapping TypeName="POSModel.PhysicalStockCountingLine">
+              <MappingFragment StoreEntitySet="PhysicalStockCountingLine">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="CountedQuantity" ColumnName="CountedQuantity" />
+                <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+                <ScalarProperty Name="InventUnitId" ColumnName="InventUnitId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="PhysicalStockCountingId" ColumnName="PhysicalStockCountingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhysicalStockCountingTable">
+            <EntityTypeMapping TypeName="POSModel.PhysicalStockCountingTable">
+              <MappingFragment StoreEntitySet="PhysicalStockCountingTable">
+                <ScalarProperty Name="Workstation" ColumnName="Workstation" />
+                <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Observation" ColumnName="Observation" />
+                <ScalarProperty Name="ERPId" ColumnName="ERPId" />
+                <ScalarProperty Name="StockCountingId" ColumnName="StockCountingId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CountingDate" ColumnName="CountingDate" />
+                <ScalarProperty Name="InventLocationId" ColumnName="InventLocationId" />
+                <ScalarProperty Name="EmissionPointId" ColumnName="EmissionPointId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="PhysicalStockCountingIdLocal" ColumnName="PhysicalStockCountingIdLocal" />
+                <ScalarProperty Name="PhysicalStockCountingId" ColumnName="PhysicalStockCountingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_PhysicalStockTable_Insert" FunctionName="POSModel.Store.SP_PhysicalStockTable_Insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_PhysicalStockTable_Insert_Result">
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="TextError" ColumnName="TextError" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

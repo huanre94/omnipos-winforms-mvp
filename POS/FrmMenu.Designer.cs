@@ -41,6 +41,7 @@
             this.BtnChangePaymMode = new DevExpress.XtraEditors.SimpleButton();
             this.BtnGiftCardRedeem = new DevExpress.XtraEditors.SimpleButton();
             this.BtnInvoiceCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnPhysicalInventory = new DevExpress.XtraEditors.SimpleButton();
             this.SuspendLayout();
             // 
             // BtnPOS
@@ -161,7 +162,7 @@
             this.BtnSalesOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.e_commerce;
             this.BtnSalesOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnSalesOrder.Location = new System.Drawing.Point(406, 345);
+            this.BtnSalesOrder.Location = new System.Drawing.Point(773, 345);
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
@@ -176,6 +177,8 @@
             this.BtnChangePaymMode.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnChangePaymMode.Appearance.Options.UseBackColor = true;
             this.BtnChangePaymMode.Appearance.Options.UseFont = true;
+            this.BtnChangePaymMode.Appearance.Options.UseTextOptions = true;
+            this.BtnChangePaymMode.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.BtnChangePaymMode.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnChangePaymMode.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
             this.BtnChangePaymMode.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
@@ -210,7 +213,7 @@
             this.BtnInvoiceCancel.Appearance.Options.UseFont = true;
             this.BtnInvoiceCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnInvoiceCancel.Location = new System.Drawing.Point(773, 345);
+            this.BtnInvoiceCancel.Location = new System.Drawing.Point(1140, 345);
             this.BtnInvoiceCancel.Name = "BtnInvoiceCancel";
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(350, 200);
             this.BtnInvoiceCancel.TabIndex = 134;
@@ -218,12 +221,31 @@
             this.BtnInvoiceCancel.Visible = false;
             this.BtnInvoiceCancel.Click += new System.EventHandler(this.BtnInvoiceCancel_Click);
             // 
+            // BtnPhysicalInventory
+            // 
+            this.BtnPhysicalInventory.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPhysicalInventory.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
+            this.BtnPhysicalInventory.Appearance.Options.UseBackColor = true;
+            this.BtnPhysicalInventory.Appearance.Options.UseFont = true;
+            this.BtnPhysicalInventory.Appearance.Options.UseTextOptions = true;
+            this.BtnPhysicalInventory.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.BtnPhysicalInventory.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPhysicalInventory.ImageOptions.SvgImage = global::POS.Properties.Resources.inventory;
+            this.BtnPhysicalInventory.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
+            this.BtnPhysicalInventory.Location = new System.Drawing.Point(406, 345);
+            this.BtnPhysicalInventory.Name = "BtnPhysicalInventory";
+            this.BtnPhysicalInventory.Size = new System.Drawing.Size(350, 200);
+            this.BtnPhysicalInventory.TabIndex = 170;
+            this.BtnPhysicalInventory.Text = "Toma de Inventario";
+            this.BtnPhysicalInventory.Click += new System.EventHandler(this.BtnPhysicalInventory_Click);
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnPhysicalInventory);
             this.Controls.Add(this.BtnChangePaymMode);
             this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.LblUsername);
@@ -260,5 +282,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnGiftCardRedeem;
         private DevExpress.XtraEditors.SimpleButton BtnChangePaymMode;
         private DevExpress.XtraEditors.SimpleButton BtnInvoiceCancel;
+        private DevExpress.XtraEditors.SimpleButton BtnPhysicalInventory;
     }
 }

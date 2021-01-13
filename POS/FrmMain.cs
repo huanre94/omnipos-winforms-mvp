@@ -16,6 +16,7 @@ using System.Xml.Linq;
 
 // IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
 // IG002 Israel Gonzalez 2020-12-20: Update field BarcodeBefore in xml with the last generated barcode
+// IG003 Israel Gonzalez 2021-01-13: Avoid product with price zero
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -882,6 +883,14 @@ namespace POS
 
                     if (result != null)
                     {
+                        // Begin(IG003)
+                        if (result.Price == 0)
+                        {
+                            functions.ShowMessage("No se puede procesar un producto con precio cero.", ClsEnums.MessageType.WARNING);
+                            return;
+                        }
+                        // End(IG003)
+
                         if ((bool)result.WeightControl)
                         {
                             functions.globalParameters = globalParameters;
@@ -1032,14 +1041,13 @@ namespace POS
                         }
                     }
                     else
-                    {
+                    {                        
                         functions.ShowMessage(
-                                               "No se ha podido registrar la factura."
+                                               "No se ha podido registrar la factura. Revisar detalle."
                                                , ClsEnums.MessageType.WARNING
                                                , true
                                                , invoiceResult.TextError
                                             );
-
                     }
                 }
             }
@@ -1049,7 +1057,7 @@ namespace POS
                                         "Ha ocurrido un problema al registrar la factura."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.Message
+                                        , ex.InnerException.Message
                                     );
             }
             finally

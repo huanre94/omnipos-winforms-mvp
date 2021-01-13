@@ -19,6 +19,7 @@ namespace POS
         public string productQuantity = "";
         public string emissionPoint = "";
         public string invoiceNumber = "";
+        public string productInventory = "";
 
         public FrmKeyPad()
         {
@@ -36,6 +37,15 @@ namespace POS
             {
                 TxtValue.Properties.UseSystemPasswordChar = false;
                 TxtValue.Properties.PasswordChar = '\0';
+
+                if (inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY)
+                {
+                    BtnDot.Enabled = true;
+                }
+                else
+                {
+                    BtnDot.Enabled = false;
+                }
             }
         }
 
@@ -94,6 +104,11 @@ namespace POS
         {
             TxtValue.Text = "";
         }
+
+        private void BtnDot_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text += ".";
+        }
         #endregion
 
         private void BtnEnter_Click(object sender, EventArgs e)
@@ -141,6 +156,9 @@ namespace POS
                     case ClsEnums.InputFromOption.INVOICE_NUMBER:
                         invoiceNumber = TxtValue.Text;
                         break;
+                    case ClsEnums.InputFromOption.PRODUCT_INVENTORY:
+                        productInventory = TxtValue.Text;
+                        break;
                     default:
                         break;
                 }
@@ -152,6 +170,8 @@ namespace POS
                 ClsFunctions functions = new ClsFunctions();
                 functions.ShowMessage("Debe ingresar un numero", ClsEnums.MessageType.WARNING);
             }
-        }  
+        }
+
+        
     }
 }

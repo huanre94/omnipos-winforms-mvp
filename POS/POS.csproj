@@ -225,6 +225,12 @@
     <Compile Include="FrmPaymentWithhold.designer.cs">
       <DependentUpon>FrmPaymentWithhold.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmPhysicalStockCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPhysicalStockCount.Designer.cs">
+      <DependentUpon>FrmPhysicalStockCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmProductSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentWithhold.resx">
       <DependentUpon>FrmPaymentWithhold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPhysicalStockCount.resx">
+      <DependentUpon>FrmPhysicalStockCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProductSearch.resx">
       <DependentUpon>FrmProductSearch.cs</DependentUpon>
@@ -476,6 +485,7 @@
     <None Include="Resources\GLOVO.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\inventory.svg" />
     <Content Include="Resources\salesOrigin1.svg" />
     <None Include="Resources\e_commerce.svg" />
     <None Include="Resources\bonus_exchange.svg" />

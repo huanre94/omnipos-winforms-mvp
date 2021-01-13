@@ -48,7 +48,8 @@
             LOGIN_PASSWORD,
             PRODUCT_QUANTITY,
             EMISSIONPOINT_NUMBER,
-            INVOICE_NUMBER
+            INVOICE_NUMBER,
+            PRODUCT_INVENTORY
         }
 
         public enum ScaleBrands

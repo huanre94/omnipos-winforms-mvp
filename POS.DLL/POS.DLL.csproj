@@ -191,6 +191,12 @@
     <Compile Include="PaymMode.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="PhysicalStockCountingLine.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicalStockCountingTable.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -315,6 +321,21 @@
     <Compile Include="SP_Login_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_PhysicalStockCounting_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PhysicalStockLine_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PhysicalStockLine_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PhysicalStockProduct_Consult_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_PhysicalStockTable_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_ProductBarcode_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
@@ -339,6 +360,7 @@
     <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
     <Compile Include="Transaction\ClsClosingTrans.cs" />
     <Compile Include="Transaction\ClsCustomerTrans.cs" />
+    <Compile Include="Transaction\ClsInventoryTrans.cs" />
     <Compile Include="Transaction\ClsInvoiceTrans.cs" />
     <Compile Include="Transaction\ClsSalesOrderTrans.cs" />
     <Compile Include="TransferStatus.cs">

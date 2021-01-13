@@ -190,7 +190,6 @@ namespace POS
                                                 , string _portName = ""
                                                 )
         {
-            //MessageBox.Show(_portName + " - " + _scaleBrand);
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
             frmCatchWeight.productName = _productName;
@@ -198,13 +197,14 @@ namespace POS
             frmCatchWeight.ShowDialog();
             bool response = true;
             decimal lostWeight = 0;
-            decimal catchWeight = frmCatchWeight.weight;
+            decimal catchWeight = 0;
+            string parameter = String.Empty;
 
-            string parameter = (from par in globalParameters.ToList()
-                             where par.Name == "LostWeightQty"
-                             select par.Value).FirstOrDefault();
+            catchWeight = frmCatchWeight.weight;
+            parameter = (from par in globalParameters.ToList()
+                         where par.Name == "LostWeightQty"
+                         select par.Value).FirstOrDefault();
 
-            //MessageBox.Show(_qty.ToString() + " " + catchWeight.ToString());
             lostWeight = _qty - catchWeight;
             lostWeight = Math.Abs(lostWeight);
 

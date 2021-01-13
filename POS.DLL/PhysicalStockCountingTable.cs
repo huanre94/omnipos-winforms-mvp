@@ -12,29 +12,33 @@ namespace POS.DLL
     using System;
     using System.Collections.Generic;
     
-    public partial class InventUnit
+    public partial class PhysicalStockCountingTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InventUnit()
+        public PhysicalStockCountingTable()
         {
-            this.Product = new HashSet<Product>();
-            this.InvoiceLine = new HashSet<InvoiceLine>();
-            this.SalesOrderLine = new HashSet<SalesOrderLine>();
             this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
         }
     
-        public int InventUnitId { get; set; }
-        public string Name { get; set; }
-        public string SAPCode { get; set; }
-        public bool WeightControl { get; set; }
+        public int PhysicalStockCountingId { get; set; }
+        public int PhysicalStockCountingIdLocal { get; set; }
+        public short LocationId { get; set; }
+        public int EmissionPointId { get; set; }
+        public int InventLocationId { get; set; }
+        public System.DateTime CountingDate { get; set; }
+        public string Type { get; set; }
+        public int StockCountingId { get; set; }
+        public Nullable<int> ERPId { get; set; }
+        public string Observation { get; set; }
         public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
+        public virtual InventLocation InventLocation { get; set; }
+        public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
     }

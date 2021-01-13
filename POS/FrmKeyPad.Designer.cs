@@ -43,6 +43,7 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
             this.TxtValue = new DevExpress.XtraEditors.TextEdit();
+            this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.TxtValue.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -195,7 +196,7 @@
             this.Btn0.Location = new System.Drawing.Point(32, 279);
             this.Btn0.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Btn0.Name = "Btn0";
-            this.Btn0.Size = new System.Drawing.Size(159, 65);
+            this.Btn0.Size = new System.Drawing.Size(102, 65);
             this.Btn0.TabIndex = 148;
             this.Btn0.Text = "0";
             this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
@@ -241,12 +242,28 @@
             this.TxtValue.Size = new System.Drawing.Size(244, 44);
             this.TxtValue.TabIndex = 1;
             // 
+            // BtnDot
+            // 
+            this.BtnDot.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnDot.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
+            this.BtnDot.Appearance.Options.UseBackColor = true;
+            this.BtnDot.Appearance.Options.UseFont = true;
+            this.BtnDot.Enabled = false;
+            this.BtnDot.Location = new System.Drawing.Point(142, 279);
+            this.BtnDot.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnDot.Name = "BtnDot";
+            this.BtnDot.Size = new System.Drawing.Size(50, 65);
+            this.BtnDot.TabIndex = 158;
+            this.BtnDot.Text = ".";
+            this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
+            // 
             // FrmKeyPad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 496);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.TxtValue);
             this.Controls.Add(this.BtnDelete);
             this.Controls.Add(this.BtnCancel);
@@ -288,5 +305,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraEditors.SimpleButton BtnDelete;
         private DevExpress.XtraEditors.TextEdit TxtValue;
+        private DevExpress.XtraEditors.SimpleButton BtnDot;
     }
 }

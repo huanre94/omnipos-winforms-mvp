@@ -121,5 +121,30 @@ namespace POS
             frmChange.loginInformation = loginInformation;
             frmChange.ShowDialog();
         }
+
+        private void BtnPhysicalInventory_Click(object sender, EventArgs e)
+        {
+            string allowInventory = String.Empty;
+
+            allowInventory = (from par in globalParameters.ToList()
+                              where par.Name == "AllowPhysicalInventory"
+                              select par.Value).FirstOrDefault();
+
+            if (allowInventory == "1")
+            {
+
+                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount();
+                frmPhysicalStock.loginInformation = loginInformation;
+                frmPhysicalStock.globalParameters = globalParameters;
+                frmPhysicalStock.ShowDialog();
+
+                if (Application.OpenForms.OfType<FrmPhysicalStockCount>().Count() == 1)
+                    this.Hide();
+            }
+            else
+            {
+                functions.ShowMessage("La toma de inventario no se encuentra habilitada.", ClsEnums.MessageType.WARNING);
+            }
+        }
     }
 }

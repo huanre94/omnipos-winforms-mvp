@@ -166,6 +166,13 @@
         <AssociationConnector Association="POSModel.FK__SalesOrder_Location" />
         <AssociationConnector Association="POSModel.FK__SalesRemissionTable_Location" />
         <AssociationConnector Association="POSModel.FK__SequenceTable_Location" />
+        <EntityTypeShape EntityType="POSModel.PhysicalStockCountingLine" Width="1.5" PointX="16.5" PointY="44.125" />
+        <EntityTypeShape EntityType="POSModel.PhysicalStockCountingTable" Width="1.5" PointX="14.25" PointY="56.5" />
+        <AssociationConnector Association="POSModel.FK__PhysicalStockCountingTable_InventLocation" />
+        <AssociationConnector Association="POSModel.FK__PhysicalStockCountingLine_InventUnit" />
+        <AssociationConnector Association="POSModel.FK__PhysicalStockCountingTable_Location" />
+        <AssociationConnector Association="POSModel.FK__PhysicalStockCountingLine_PhysicalStockCountingTable" />
+        <AssociationConnector Association="POSModel.FK__PhysicalStockCountingLine_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

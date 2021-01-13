@@ -98,6 +98,8 @@ namespace POS.DLL
         public virtual DbSet<TransferStatus> TransferStatus { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
+        public virtual DbSet<PhysicalStockCountingTable> PhysicalStockCountingTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -444,6 +446,67 @@ namespace POS.DLL
                 new ObjectParameter("InvoiceNumber", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceCancel_Consult_Result>("SP_InvoiceCancel_Consult", locationIdParameter, emissionPointIdParameter, invoiceNumberParameter);
+        }
+    
+        public virtual ObjectResult<SP_PhysicalStockCounting_Insert_Result> SP_PhysicalStockCounting_Insert(string physicalStockXml)
+        {
+            var physicalStockXmlParameter = physicalStockXml != null ?
+                new ObjectParameter("PhysicalStockXml", physicalStockXml) :
+                new ObjectParameter("PhysicalStockXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockCounting_Insert_Result>("SP_PhysicalStockCounting_Insert", physicalStockXmlParameter);
+        }
+    
+        public virtual ObjectResult<SP_PhysicalStockLine_Consult_Result> SP_PhysicalStockLine_Consult(Nullable<int> physicalStockCountingId)
+        {
+            var physicalStockCountingIdParameter = physicalStockCountingId.HasValue ?
+                new ObjectParameter("PhysicalStockCountingId", physicalStockCountingId) :
+                new ObjectParameter("PhysicalStockCountingId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockLine_Consult_Result>("SP_PhysicalStockLine_Consult", physicalStockCountingIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_PhysicalStockLine_Insert_Result> SP_PhysicalStockLine_Insert(Nullable<int> physicalStockCountingId, string physicalStockXml)
+        {
+            var physicalStockCountingIdParameter = physicalStockCountingId.HasValue ?
+                new ObjectParameter("PhysicalStockCountingId", physicalStockCountingId) :
+                new ObjectParameter("PhysicalStockCountingId", typeof(int));
+    
+            var physicalStockXmlParameter = physicalStockXml != null ?
+                new ObjectParameter("PhysicalStockXml", physicalStockXml) :
+                new ObjectParameter("PhysicalStockXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockLine_Insert_Result>("SP_PhysicalStockLine_Insert", physicalStockCountingIdParameter, physicalStockXmlParameter);
+        }
+    
+        public virtual ObjectResult<SP_PhysicalStockProduct_Consult_Result> SP_PhysicalStockProduct_Consult(Nullable<int> locationId, Nullable<int> emissionPointId, string productBarcode, string productInternalId)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(int));
+    
+            var productBarcodeParameter = productBarcode != null ?
+                new ObjectParameter("ProductBarcode", productBarcode) :
+                new ObjectParameter("ProductBarcode", typeof(string));
+    
+            var productInternalIdParameter = productInternalId != null ?
+                new ObjectParameter("ProductInternalId", productInternalId) :
+                new ObjectParameter("ProductInternalId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockProduct_Consult_Result>("SP_PhysicalStockProduct_Consult", locationIdParameter, emissionPointIdParameter, productBarcodeParameter, productInternalIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_PhysicalStockTable_Insert_Result> SP_PhysicalStockTable_Insert(string physicalStockXml)
+        {
+            var physicalStockXmlParameter = physicalStockXml != null ?
+                new ObjectParameter("PhysicalStockXml", physicalStockXml) :
+                new ObjectParameter("PhysicalStockXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockTable_Insert_Result>("SP_PhysicalStockTable_Insert", physicalStockXmlParameter);
         }
     }
 }

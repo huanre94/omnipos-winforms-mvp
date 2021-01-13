@@ -95,5 +95,27 @@ namespace POS.DLL.Catalog
 
             return sequenceTable;
         }
+
+        public List<InventLocation> GetMainWarehouseByLocationId(int _locationId)
+        {
+            var pos = new POSEntities();
+            List<InventLocation> inventLocation;
+            try
+            {
+                inventLocation = (from inl in pos.InventLocation
+                                  where inl.LocationId == _locationId
+                                  && inl.Status == "A"
+                                  && inl.IsMain == true
+                                  select inl).ToList();
+            }
+            catch (Exception ex)
+            {
+
+
+
+                throw new Exception(ex.Message);
+            }
+            return inventLocation;
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace POS.DLL
         {
             this.InventProductLocation = new HashSet<InventProductLocation>();
             this.EmissionPoint = new HashSet<EmissionPoint>();
+            this.PhysicalStockCountingTable = new HashSet<PhysicalStockCountingTable>();
         }
     
         public int InventLocationId { get; set; }
@@ -34,5 +35,7 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmissionPoint> EmissionPoint { get; set; }
         public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhysicalStockCountingTable> PhysicalStockCountingTable { get; set; }
     }
 }

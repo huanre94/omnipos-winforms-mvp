@@ -23,6 +23,7 @@ namespace POS.DLL
             this.SalesOrderLine = new HashSet<SalesOrderLine>();
             this.ProductModule = new HashSet<ProductModule>();
             this.GiftCardLineProduct = new HashSet<GiftCardLineProduct>();
+            this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
         }
     
         public long ProductId { get; set; }
@@ -67,5 +68,7 @@ namespace POS.DLL
         public virtual ICollection<ProductModule> ProductModule { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardLineProduct> GiftCardLineProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
     }
 }

@@ -31,6 +31,7 @@ namespace POS.DLL
             this.SalesOrder = new HashSet<SalesOrder>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.SequenceTable = new HashSet<SequenceTable>();
+            this.PhysicalStockCountingTable = new HashSet<PhysicalStockCountingTable>();
         }
     
         public short LocationId { get; set; }
@@ -74,5 +75,7 @@ namespace POS.DLL
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SequenceTable> SequenceTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhysicalStockCountingTable> PhysicalStockCountingTable { get; set; }
     }
 }
