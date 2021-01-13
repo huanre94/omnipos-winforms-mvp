@@ -18,6 +18,7 @@ using System.Xml.Linq;
 // IG002 Israel Gonzalez 2020-12-20: Update field BarcodeBefore in xml with the last generated barcode
 // IG003 Israel Gonzalez 2021-01-12: Avoid product with price zero
 // IG004 Israel Gonzalez 2021-01-13: Remove Payment node from xml when error is true 
+// HR001 Hugo Restrepo 2021-01-13: Substract discount from base amount for retention
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -508,7 +509,8 @@ namespace POS
 
                 foreach (var item in line)
                 {
-                    baseAmount += decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value);
+                    //baseAmount += decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value); // HR001 Commented
+                    baseAmount += (decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value)) - decimal.Parse(item.Element("LineDiscount").Value); // HR001
                     taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
                 }
 
