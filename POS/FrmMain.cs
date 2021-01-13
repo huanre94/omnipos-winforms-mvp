@@ -16,7 +16,8 @@ using System.Xml.Linq;
 
 // IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
 // IG002 Israel Gonzalez 2020-12-20: Update field BarcodeBefore in xml with the last generated barcode
-// IG003 Israel Gonzalez 2021-01-13: Avoid product with price zero
+// IG003 Israel Gonzalez 2021-01-12: Avoid product with price zero
+// IG004 Israel Gonzalez 2021-01-13: Remove Payment node from xml when error is true 
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -1041,7 +1042,13 @@ namespace POS
                         }
                     }
                     else
-                    {                        
+                    {
+                        // Begin(IG004)
+                        var invoiceRemoveXml = from xm in invoiceXml.Descendants("Payment")
+                                                select xm;
+                        invoiceRemoveXml.Remove();
+                        // End(IG004)
+
                         functions.ShowMessage(
                                                "No se ha podido registrar la factura. Revisar detalle."
                                                , ClsEnums.MessageType.WARNING
