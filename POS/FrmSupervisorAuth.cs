@@ -4,7 +4,7 @@ using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
+// IG001 Israel Gonzalez 2021-01-14: Disable scanner only when using Datalogic
 namespace POS
 {
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
@@ -101,17 +101,23 @@ namespace POS
 
                             if (result != null)
                             {
-
                                 if (CmbMotive.SelectedItem != null)
                                 {
                                     motiveId = int.Parse(CmbMotive.EditValue.ToString());
                                 }
+
                                 formActionResult = true;
                                 supervisorAuthorization = TxtAuthorization.Text;
                                 TxtAuthorization.Text = "";
-                                functions.DisableScanner();
-                                functions.AxOPOSScanner = scanner;
-                                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+
+                                // Begin(IG001)
+                                if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                                {
+                                    functions.DisableScanner();
+                                    functions.AxOPOSScanner = scanner;
+                                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                                }
+                                // End(IG001)
                             }
                             else
                             {
