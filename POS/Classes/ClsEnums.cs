@@ -49,7 +49,8 @@
             PRODUCT_QUANTITY,
             EMISSIONPOINT_NUMBER,
             INVOICE_NUMBER,
-            PRODUCT_INVENTORY
+            PRODUCT_INVENTORY,
+            SUPERVISOR_PASSWORD
         }
 
         public enum ScaleBrands
