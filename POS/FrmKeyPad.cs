@@ -19,7 +19,8 @@ namespace POS
         public string productQuantity = "";
         public string emissionPoint = "";
         public string invoiceNumber = "";
-        public string productInventory = "";
+        public string productInventory = ""; 
+        public string supervisorPassword = "";
 
         public FrmKeyPad()
         {
@@ -159,6 +160,9 @@ namespace POS
                     case ClsEnums.InputFromOption.PRODUCT_INVENTORY:
                         productInventory = TxtValue.Text;
                         break;
+                    case ClsEnums.InputFromOption.SUPERVISOR_PASSWORD:
+                        supervisorPassword = TxtValue.Text;
+                        break;
                     default:
                         break;
                 }
@@ -172,6 +176,6 @@ namespace POS
             }
         }
 
-        
+
     }
 }
