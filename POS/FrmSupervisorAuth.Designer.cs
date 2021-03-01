@@ -36,9 +36,13 @@
             this.LblMotive = new System.Windows.Forms.Label();
             this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TxtSupervisorPassword = new DevExpress.XtraEditors.TextEdit();
+            this.BtnKeypadPassword = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtSupervisorPassword.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // LblAuthorization
@@ -72,7 +76,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(299, 191);
+            this.BtnAccept.Location = new System.Drawing.Point(299, 233);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
@@ -91,7 +95,7 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(129, 191);
+            this.BtnCancel.Location = new System.Drawing.Point(129, 233);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -103,7 +107,7 @@
             // 
             this.LblMotive.AutoSize = true;
             this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblMotive.Location = new System.Drawing.Point(51, 119);
+            this.LblMotive.Location = new System.Drawing.Point(51, 174);
             this.LblMotive.Name = "LblMotive";
             this.LblMotive.Size = new System.Drawing.Size(60, 18);
             this.LblMotive.TabIndex = 7;
@@ -111,7 +115,7 @@
             // 
             // CmbMotive
             // 
-            this.CmbMotive.Location = new System.Drawing.Point(132, 110);
+            this.CmbMotive.Location = new System.Drawing.Point(132, 165);
             this.CmbMotive.Name = "CmbMotive";
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -121,19 +125,61 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(353, 4);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(12, -2);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(50, 56);
             this.AxOPOSScanner.TabIndex = 13;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.label1.Location = new System.Drawing.Point(51, 116);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 18);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Clave";
+            // 
+            // TxtSupervisorPassword
+            // 
+            this.TxtSupervisorPassword.EditValue = "";
+            this.TxtSupervisorPassword.Location = new System.Drawing.Point(132, 107);
+            this.TxtSupervisorPassword.Name = "TxtSupervisorPassword";
+            this.TxtSupervisorPassword.Properties.PasswordChar = '•';
+            this.TxtSupervisorPassword.Properties.UseSystemPasswordChar = true;
+            this.TxtSupervisorPassword.Size = new System.Drawing.Size(220, 38);
+            this.TxtSupervisorPassword.TabIndex = 14;
+            // 
+            // BtnKeypadPassword
+            // 
+            this.BtnKeypadPassword.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnKeypadPassword.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeypadPassword.Appearance.Options.UseBackColor = true;
+            this.BtnKeypadPassword.Appearance.Options.UseFont = true;
+            this.BtnKeypadPassword.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
+            this.BtnKeypadPassword.AppearanceHovered.Options.UseBackColor = true;
+            this.BtnKeypadPassword.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.BtnKeypadPassword.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPassword.ImageOptions.SvgImage")));
+            this.BtnKeypadPassword.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnKeypadPassword.Location = new System.Drawing.Point(358, 100);
+            this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadPassword.Name = "BtnKeypadPassword";
+            this.BtnKeypadPassword.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnKeypadPassword.Size = new System.Drawing.Size(80, 50);
+            this.BtnKeypadPassword.TabIndex = 170;
+            this.BtnKeypadPassword.Click += new System.EventHandler(this.BtnKeypadPassword_Click);
             // 
             // FrmSupervisorAuth
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(473, 255);
+            this.ClientSize = new System.Drawing.Size(473, 298);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnKeypadPassword);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.TxtSupervisorPassword);
             this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
@@ -149,6 +195,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtSupervisorPassword.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,5 +210,8 @@
         private System.Windows.Forms.Label LblMotive;
         private DevExpress.XtraEditors.ImageComboBoxEdit CmbMotive;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+        private System.Windows.Forms.Label label1;
+        public DevExpress.XtraEditors.TextEdit TxtSupervisorPassword;
+        private DevExpress.XtraEditors.SimpleButton BtnKeypadPassword;
     }
 }

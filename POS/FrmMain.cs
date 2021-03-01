@@ -523,12 +523,18 @@ namespace POS
                     baseAmount = baseAmount,
                     loginInformation = loginInformation,
                     scanner = AxOPOSScanner,
-                    internalCreditCardCode = internalCreditCardCode
+                    internalCreditCardCode = internalCreditCardCode, 
+                    invoiceXml = invoiceXml
                 };
                 payment.ShowDialog();
 
                 if (payment.canCloseInvoice)
                 {
+                    if (payment.isInvoicePaymentDiscount)
+                    {
+                        invoiceXml = payment.invoiceXml;
+                    }                    
+
                     if (payment.paymentXml.HasElements)
                     {
                         invoiceXml.Add(payment.paymentXml);
@@ -1047,7 +1053,7 @@ namespace POS
                     {
                         // Begin(IG004)
                         var invoiceRemoveXml = from xm in invoiceXml.Descendants("Payment")
-                                                select xm;
+                                               select xm;
                         invoiceRemoveXml.Remove();
                         // End(IG004)
 

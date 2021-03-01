@@ -18,7 +18,7 @@ namespace POS.DLL.Catalog
                             from ba in db.Bank
                             where ba.Status == "A"
                             select ba
-                        ).ToList();
+                        ).OrderBy(ba => ba.Name).ToList();
             }
             catch (Exception ex)
             {
@@ -96,6 +96,23 @@ namespace POS.DLL.Catalog
             }
 
             return paymModes;
+        }
+
+        public long GetPromotionsCount(long _customerId, int _bankId, int _cardBrandId)
+        {
+            var db = new POSEntities();
+            long promotionPaymMode;
+            try
+            {
+
+                promotionPaymMode = (long)db.SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return promotionPaymMode;
         }
     }
 }

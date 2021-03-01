@@ -6,14 +6,14 @@ namespace POS.DLL.Transaction
 {
     public class ClsAuthorizationTrans
     {
-        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode)
+        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password)
         {
             var db = new POSEntities();
             SP_Supervisor_Validate_Result result;
 
             try
             {
-                result = db.SP_Supervisor_Validate(_barcode).FirstOrDefault();
+                result = db.SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
             catch (Exception ex)
             {

@@ -30,6 +30,8 @@ namespace POS
         public decimal taxAmount = 0;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
         public string internalCreditCardCode = "";
+        public XElement invoiceXml;
+        public bool isInvoicePaymentDiscount = false;
 
         public FrmPayment()
         {
@@ -268,20 +270,33 @@ namespace POS
 
         private void CreditCard()
         {
-            FrmPaymentCard paymentCard = new FrmPaymentCard();
-            paymentCard.creditCardAmount = decimal.Parse(TxtAmount.Text);
-            paymentCard.customer = customer;
+            FrmPaymentCard paymentCard = new FrmPaymentCard
+            {
+                creditCardAmount = decimal.Parse(TxtAmount.Text),
+                customer = customer,
+                applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text),
+                invoiceXml = invoiceXml,
+                emissionPoint = emissionPoint
+            };
             paymentCard.ShowDialog();
 
             if (paymentCard.processResponse)
             {
+                if (paymentCard.applyPaymmodeDiscount)
+                {
+                    isInvoicePaymentDiscount = paymentCard.applyPaymmodeDiscount;
+                    invoiceXml = paymentCard.invoiceXml;
+                    invoiceAmount = paymentCard.amountPaymmodeDiscount;
+                    TxtAmount.Text = paymentCard.amountPaymmodeDiscount.ToString();
+                }
+
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
                     PaymModeId = (int)paymentCard.paymModeEnum,
                     BankId = paymentCard.bankId,
                     CreditCardId = paymentCard.creditCardId,
                     Authorization = paymentCard.authorization,
-                    Amount = decimal.Parse(TxtAmount.Text)
+                    Amount =  decimal.Parse(TxtAmount.Text)
                 };
 
                 AddRecordToGrid(invoicePayment);

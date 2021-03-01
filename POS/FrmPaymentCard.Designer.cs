@@ -44,6 +44,8 @@
             this.LblCustomerName = new System.Windows.Forms.Label();
             this.LblAmount = new System.Windows.Forms.Label();
             this.LblTitleAmount = new System.Windows.Forms.Label();
+            this.LblAmountDiscounted = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CmbCardType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbCardBank.Properties)).BeginInit();
@@ -189,6 +191,7 @@
             this.CmbCardBrand.Properties.DropDownRows = 10;
             this.CmbCardBrand.Size = new System.Drawing.Size(286, 38);
             this.CmbCardBrand.TabIndex = 9;
+            this.CmbCardBrand.SelectedIndexChanged += new System.EventHandler(this.CmbCardBrand_SelectedIndexChanged);
             // 
             // LblTitleCustomerName
             // 
@@ -213,7 +216,7 @@
             this.LblAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
             this.LblAmount.Location = new System.Drawing.Point(151, 81);
             this.LblAmount.Name = "LblAmount";
-            this.LblAmount.Size = new System.Drawing.Size(286, 18);
+            this.LblAmount.Size = new System.Drawing.Size(184, 18);
             this.LblAmount.TabIndex = 13;
             // 
             // LblTitleAmount
@@ -226,13 +229,35 @@
             this.LblTitleAmount.TabIndex = 12;
             this.LblTitleAmount.Text = "Monto";
             // 
+            // LblAmountDiscounted
+            // 
+            this.LblAmountDiscounted.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblAmountDiscounted.Location = new System.Drawing.Point(443, 81);
+            this.LblAmountDiscounted.Name = "LblAmountDiscounted";
+            this.LblAmountDiscounted.Size = new System.Drawing.Size(165, 18);
+            this.LblAmountDiscounted.TabIndex = 13;
+            this.LblAmountDiscounted.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.label1.Location = new System.Drawing.Point(341, 81);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 18);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Monto Disc";
+            this.label1.Visible = false;
+            // 
             // FrmPaymentCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(627, 451);
             this.ControlBox = false;
+            this.Controls.Add(this.LblAmountDiscounted);
             this.Controls.Add(this.LblAmount);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.LblTitleAmount);
             this.Controls.Add(this.LblCustomerName);
             this.Controls.Add(this.LblTitleCustomerName);
@@ -278,5 +303,7 @@
         private System.Windows.Forms.Label LblCustomerName;
         private System.Windows.Forms.Label LblAmount;
         private System.Windows.Forms.Label LblTitleAmount;
+        private System.Windows.Forms.Label LblAmountDiscounted;
+        private System.Windows.Forms.Label label1;
     }
 }
