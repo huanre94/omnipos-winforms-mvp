@@ -216,7 +216,7 @@
             this.LblAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
             this.LblAmount.Location = new System.Drawing.Point(151, 81);
             this.LblAmount.Name = "LblAmount";
-            this.LblAmount.Size = new System.Drawing.Size(184, 18);
+            this.LblAmount.Size = new System.Drawing.Size(171, 18);
             this.LblAmount.TabIndex = 13;
             // 
             // LblTitleAmount
@@ -242,11 +242,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label1.Location = new System.Drawing.Point(341, 81);
+            this.label1.Location = new System.Drawing.Point(328, 81);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 18);
+            this.label1.Size = new System.Drawing.Size(112, 18);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Monto Disc";
+            this.label1.Text = "Nuevo Monto";
             this.label1.Visible = false;
             // 
             // FrmPaymentCard

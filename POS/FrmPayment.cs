@@ -270,12 +270,13 @@ namespace POS
 
         private void CreditCard()
         {
+            string AuxXml = invoiceXml.ToString();
             FrmPaymentCard paymentCard = new FrmPaymentCard
             {
                 creditCardAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer,
                 applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text),
-                invoiceXml = invoiceXml,
+                invoiceXml = invoiceXml,                
                 emissionPoint = emissionPoint
             };
             paymentCard.ShowDialog();
@@ -284,10 +285,16 @@ namespace POS
             {
                 if (paymentCard.applyPaymmodeDiscount)
                 {
-                    isInvoicePaymentDiscount = paymentCard.applyPaymmodeDiscount;
-                    invoiceXml = paymentCard.invoiceXml;
-                    invoiceAmount = paymentCard.amountPaymmodeDiscount;
-                    TxtAmount.Text = paymentCard.amountPaymmodeDiscount.ToString();
+                    isInvoicePaymentDiscount = paymentCard.applyPaymmodeDiscount;                    
+                    if (paymentCard.amountPaymmodeDiscount > 0)
+                    {
+                        invoiceAmount = paymentCard.amountPaymmodeDiscount;
+                        TxtAmount.Text = paymentCard.amountPaymmodeDiscount.ToString();
+                        invoiceXml = paymentCard.invoiceXml;
+                    }    else
+                    {
+                        invoiceXml = XElement.Parse(AuxXml);
+                    }                
                 }
 
                 InvoicePayment invoicePayment = new InvoicePayment
