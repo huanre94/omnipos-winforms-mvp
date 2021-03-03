@@ -22,9 +22,9 @@ namespace POS
         public bool processResponse;
         public Customer customer = null;
         public bool applyPaymmodeDiscount = false;
-        public XElement invoiceXml;        
+        public XElement invoiceXml;
         public EmissionPoint emissionPoint;
-        public decimal amountPaymmodeDiscount = 0;        
+        public decimal amountPaymmodeDiscount = 0;
 
         public FrmPaymentCard()
         {
@@ -114,7 +114,7 @@ namespace POS
             CmbCardBrand.SelectedIndex = -1;
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;         
+            LblAmountDiscounted.Text = string.Empty;
         }
 
         private void LoadCreditCards(int _bankId)
@@ -169,7 +169,7 @@ namespace POS
                 bankId = int.Parse(CmbCardBank.EditValue.ToString());
                 creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
                 authorization = TxtAuthorization.Text;
-                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);                
+                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);
                 processResponse = true;
             }
             else
@@ -185,7 +185,7 @@ namespace POS
             CmbCardBrand.Properties.Items.Clear();
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;            
+            LblAmountDiscounted.Text = string.Empty;
             LoadBanks();
         }
 
@@ -212,7 +212,7 @@ namespace POS
         }
 
         private void CmbCardBrand_SelectedIndexChanged(object sender, EventArgs e)
-        {            
+        {
             int selectedCardBank = int.Parse(CmbCardBank.EditValue.ToString());
             if (CmbCardBrand.EditValue == null)
             {
@@ -229,8 +229,6 @@ namespace POS
                     long availableProm = new ClsPaymMode().GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
                     if (availableProm > 0)
                     {
-                        label1.Visible = true;
-                        LblAmountDiscounted.Visible = true;
                         string paymmode = string.Format("{0}|{1}|{2}", (int)paymModeEnum, selectedCardBank, selectedCardBrand);
 
                         var invoiceDetails = (from li in invoiceXml.Descendants("InvoiceLine") select li).ToList();
@@ -296,7 +294,13 @@ namespace POS
                                 //query.Element("BarcodeBefore").SetValue(_barcode);  // IG002
                             }
                         }
-                        LblAmountDiscounted.Text = CalculateInvoice().ToString();                        
+                        decimal newAmount = CalculateInvoice();
+                        if (creditCardAmount != newAmount)
+                        {
+                            label1.Visible = true;
+                            LblAmountDiscounted.Text = newAmount.ToString();
+                            LblAmountDiscounted.Visible = true;
+                        }
                     }
                 }
                 catch (Exception ex)
