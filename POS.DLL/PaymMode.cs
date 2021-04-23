@@ -17,10 +17,10 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PaymMode()
         {
-            this.SalesOrderPayment = new HashSet<SalesOrderPayment>();
+            this.PromotionPaymMode = new HashSet<PromotionPaymMode>();
             this.ClosingCashierLine = new HashSet<ClosingCashierLine>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
-            this.PromotionPaymMode = new HashSet<PromotionPaymMode>();
+            this.SalesOrderPayment = new HashSet<SalesOrderPayment>();
         }
     
         public int PaymModeId { get; set; }
@@ -29,14 +29,19 @@ namespace POS.DLL
         public Nullable<bool> UseRetention { get; set; }
         public Nullable<bool> UseFinanceSystem { get; set; }
         public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderPayment> SalesOrderPayment { get; set; }
+        public virtual ICollection<PromotionPaymMode> PromotionPaymMode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashierLine> ClosingCashierLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PromotionPaymMode> PromotionPaymMode { get; set; }
+        public virtual ICollection<SalesOrderPayment> SalesOrderPayment { get; set; }
     }
 }

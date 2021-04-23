@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
-
+// IG001 Israel Gonzalez 2021-01-30: Validate catched weight
 namespace POS
 {
     public class ClsFunctions
@@ -201,6 +201,15 @@ namespace POS
             string parameter = String.Empty;
 
             catchWeight = frmCatchWeight.weight;
+
+            //Begin(IG001)
+            if (catchWeight == 0)
+            {
+                response = false;
+                ShowMessage("No se ha realizado captura de peso.", ClsEnums.MessageType.WARNING);
+            }
+            //End(IG001)
+
             parameter = (from par in globalParameters.ToList()
                          where par.Name == "LostWeightQty"
                          select par.Value).FirstOrDefault();
@@ -285,8 +294,12 @@ namespace POS
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
+            ClsSalesOrderTrans clsSalesOrderTrans = new ClsSalesOrderTrans();
+
             List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             List<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
+            List<SP_SalesOrderTicket_Consult_Result> salesOrderTicket;
+            List<string> remissionGuideTicket;
             bool response = false;
             string bodyText = "";
 
@@ -318,6 +331,38 @@ namespace POS
                                 foreach (var line in closingCashierTicket)
                                 {
                                     bodyText += line.BodyText + Environment.NewLine;
+                                }
+                            }
+                        }
+                        break;
+                    case ClsEnums.DocumentType.SALESORDER:
+                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId);
+
+
+
+                        if (salesOrderTicket != null)
+                        {
+                            if (salesOrderTicket.Count > 0)
+                            {
+                                foreach (var line in salesOrderTicket)
+                                {
+                                    bodyText += line.BodyText + Environment.NewLine;
+                                }
+                            }
+                        }
+                        break;
+                    case ClsEnums.DocumentType.REMISSIONGUIDE:
+                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
+
+
+
+                        if (remissionGuideTicket != null)
+                        {
+                            if (remissionGuideTicket.Count > 0)
+                            {
+                                foreach (var line in remissionGuideTicket)
+                                {
+                                    bodyText += line + Environment.NewLine;
                                 }
                             }
                         }

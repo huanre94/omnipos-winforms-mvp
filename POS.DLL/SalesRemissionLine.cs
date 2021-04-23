@@ -16,11 +16,14 @@ namespace POS.DLL
     {
         public long SalesRemissionId { get; set; }
         public int Sequence { get; set; }
-        public long InvoiceId { get; set; }
-        public long SalesRemissionNumber { get; set; }
+        public long SalesOrderId { get; set; }
         public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual SalesRemissionTable SalesRemissionTable { get; set; }
-        public virtual InvoiceTable InvoiceTable { get; set; }
     }
 }

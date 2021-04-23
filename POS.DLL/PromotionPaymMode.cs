@@ -23,6 +23,11 @@ namespace POS.DLL
         public string StatusPromPaym { get; set; }
         public string RewardMultiplierType { get; set; }
         public int RewardMultiplierValue { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual PaymMode PaymMode { get; set; }
         public virtual PromotionTable PromotionTable { get; set; }

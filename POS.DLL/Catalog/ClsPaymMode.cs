@@ -102,9 +102,9 @@ namespace POS.DLL.Catalog
         {
             var db = new POSEntities();
             long promotionPaymMode;
+
             try
             {
-
                 promotionPaymMode = (long)db.SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
             }
             catch (Exception ex)

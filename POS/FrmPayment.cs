@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+// HR002 Hugo Restrepo 2021-03-02: Recalculate discount with payment mode
 namespace POS
 {
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
@@ -30,8 +31,8 @@ namespace POS
         public decimal taxAmount = 0;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
         public string internalCreditCardCode = "";
-        public XElement invoiceXml;
-        public bool isInvoicePaymentDiscount = false;
+        public XElement invoiceXml; //HR002
+        public bool isInvoicePaymentDiscount = false;   //HR002
 
         public FrmPayment()
         {
@@ -270,32 +271,34 @@ namespace POS
 
         private void CreditCard()
         {
-            string AuxXml = invoiceXml.ToString();
-            FrmPaymentCard paymentCard = new FrmPaymentCard
-            {
-                creditCardAmount = decimal.Parse(TxtAmount.Text),
-                customer = customer,
-                applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text),
-                invoiceXml = invoiceXml,                
-                emissionPoint = emissionPoint
-            };
+            string AuxXml = invoiceXml.ToString(); //HR002
+            FrmPaymentCard paymentCard = new FrmPaymentCard();
+            paymentCard.creditCardAmount = decimal.Parse(TxtAmount.Text);
+            paymentCard.customer = customer;
+            paymentCard.applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text);   //HR002
+            paymentCard.invoiceXml = invoiceXml;    //HR002
+            paymentCard.emissionPoint = emissionPoint; //HR002
             paymentCard.ShowDialog();
 
             if (paymentCard.processResponse)
             {
+                //Begin(HR002)
                 if (paymentCard.applyPaymmodeDiscount)
                 {
-                    isInvoicePaymentDiscount = paymentCard.applyPaymmodeDiscount;                    
+                    isInvoicePaymentDiscount = paymentCard.applyPaymmodeDiscount;
+
                     if (paymentCard.amountPaymmodeDiscount > 0)
                     {
                         invoiceAmount = paymentCard.amountPaymmodeDiscount;
                         TxtAmount.Text = paymentCard.amountPaymmodeDiscount.ToString();
                         invoiceXml = paymentCard.invoiceXml;
-                    }    else
+                    }
+                    else
                     {
                         invoiceXml = XElement.Parse(AuxXml);
-                    }                
+                    }
                 }
+                //End(HR002)
 
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
@@ -303,7 +306,7 @@ namespace POS
                     BankId = paymentCard.bankId,
                     CreditCardId = paymentCard.creditCardId,
                     Authorization = paymentCard.authorization,
-                    Amount =  decimal.Parse(TxtAmount.Text)
+                    Amount = decimal.Parse(TxtAmount.Text)
                 };
 
                 AddRecordToGrid(invoicePayment);

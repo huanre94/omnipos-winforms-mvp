@@ -117,5 +117,33 @@ namespace POS.DLL.Catalog
             }
             return inventLocation;
         }
+
+        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _sequenceType)
+        {
+            var db = new POSEntities();
+            SequenceTable sequenceTable;
+
+            try
+            {
+
+
+
+                sequenceTable = (
+                                    from seq in db.SequenceTable
+                                    where seq.EmissionPointId == _emissionPointId
+                                    && seq.SequenceTypeId == _sequenceType
+                                    && seq.Status == "A"
+                                    select seq
+                                    ).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+
+
+            return sequenceTable;
+        }
     }
 }

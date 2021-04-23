@@ -18,7 +18,30 @@ namespace POS.DLL
         public int Sequence { get; set; }
         public int PaymModeId { get; set; }
         public decimal Amount { get; set; }
-        public string Reference { get; set; }
+        public int BankId { get; set; }
+        public int CreditCardId { get; set; }
+        public short LocationId { get; set; }
+        public decimal Received { get; set; }
+        public decimal Change { get; set; }
+        public System.DateTime PaymentDate { get; set; }
+        public string AccountNumber { get; set; }
+        public int CkeckNumber { get; set; }
+        public string CkeckType { get; set; }
+        public System.DateTime CkeckDate { get; set; }
+        public string CheckOwner { get; set; }
+        public string Authorization { get; set; }
+        public bool IsProtest { get; set; }
+        public System.DateTime ProtestDate { get; set; }
+        public long InternalCreditCardId { get; set; }
+        public string GiftCardNumber { get; set; }
+        public int RetentionCode { get; set; }
+        public string RetentionNumber { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual PaymMode PaymMode { get; set; }
         public virtual SalesOrder SalesOrder { get; set; }

@@ -19,6 +19,8 @@ using System.Xml.Linq;
 // IG003 Israel Gonzalez 2021-01-12: Avoid product with price zero
 // IG004 Israel Gonzalez 2021-01-13: Remove Payment node from xml when error is true 
 // HR001 Hugo Restrepo 2021-01-13: Substract discount from base amount for retention
+// IG005 Israel Gonzalez 2021-01-30: Fix sum of weight with taxes
+// HR002 Hugo Restrepo 2021-03-02: Recalculate discount with payment mode
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
@@ -523,17 +525,19 @@ namespace POS
                     baseAmount = baseAmount,
                     loginInformation = loginInformation,
                     scanner = AxOPOSScanner,
-                    internalCreditCardCode = internalCreditCardCode, 
-                    invoiceXml = invoiceXml
+                    internalCreditCardCode = internalCreditCardCode
+                    ,invoiceXml = invoiceXml // HR002
                 };
                 payment.ShowDialog();
 
                 if (payment.canCloseInvoice)
                 {
+                    //Begin(HR002)
                     if (payment.isInvoicePaymentDiscount)
                     {
                         invoiceXml = payment.invoiceXml;
-                    }                    
+                    }
+                    //End(HR002)
 
                     if (payment.paymentXml.HasElements)
                     {
@@ -787,8 +791,12 @@ namespace POS
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            functions.DisableScanner();
-            functions.DisableScale();
+            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            {
+                functions.DisableScanner();
+                //functions.DisableScale();
+                catchWeight.DisableScale();
+            }
         }
         #endregion
 
@@ -814,6 +822,7 @@ namespace POS
             bool useCatchWeight = false;
             bool canInsert = true;
             string barcodeBefore = _barcode;
+            decimal taxAmountFound = 0;     // IG005
 
             if (_barcode != "")
             {
@@ -855,6 +864,11 @@ namespace POS
                             case "BaseTaxAmount":
                                 amountTaxFound = decimal.Parse(node.Value);
                                 break;
+                            //Begin(IG005)
+                            case "TaxAmount":
+                                taxAmountFound = decimal.Parse(node.Value);
+                                break;
+                            //End(IG005)
                         }
                     }
 
@@ -867,6 +881,7 @@ namespace POS
                             string decimals = _barcode.Substring(10, 3);
                             string newNumber = entere + "." + decimals;
                             decimal newAmount = decimal.Parse(newNumber);
+                            amountTaxFound += taxAmountFound;   // IG005
                             newAmount += amountFound + amountTaxFound;
                             newAmount = Math.Round(newAmount, 3);
                             string value = newAmount.ToString();

@@ -79,13 +79,18 @@
   <ItemGroup>
     <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Pdf.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -117,6 +122,54 @@
   <ItemGroup>
     <Compile Include="Classes\ClsCatchWeight.cs" />
     <Compile Include="Classes\ClsEnums.cs" />
+    <Compile Include="FrmAddressPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddressPicker.Designer.cs">
+      <DependentUpon>FrmAddressPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRemissionGuide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRemissionGuide.Designer.cs">
+      <DependentUpon>FrmRemissionGuide.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRemissionGuideOrderSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRemissionGuideOrderSelector.Designer.cs">
+      <DependentUpon>FrmRemissionGuideOrderSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRemissionGuideOrderToInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRemissionGuideOrderToInvoice.Designer.cs">
+      <DependentUpon>FrmRemissionGuideOrderToInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSalesOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalesOrder.Designer.cs">
+      <DependentUpon>FrmSalesOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSalesOrderEcommerce.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalesOrderEcommerce.Designer.cs">
+      <DependentUpon>FrmSalesOrderEcommerce.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSalesOrderHeader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalesOrderHeader.Designer.cs">
+      <DependentUpon>FrmSalesOrderHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSalesOrderText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSalesOrderText.Designer.cs">
+      <DependentUpon>FrmSalesOrderText.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmCatchWeight.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +316,30 @@
     </Compile>
     <Compile Include="Classes\ClsFunctions.cs" />
     <Compile Include="Program.cs" />
+    <EmbeddedResource Include="FrmAddressPicker.resx">
+      <DependentUpon>FrmAddressPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRemissionGuide.resx">
+      <DependentUpon>FrmRemissionGuide.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRemissionGuideOrderSelector.resx">
+      <DependentUpon>FrmRemissionGuideOrderSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRemissionGuideOrderToInvoice.resx">
+      <DependentUpon>FrmRemissionGuideOrderToInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalesOrder.resx">
+      <DependentUpon>FrmSalesOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalesOrderEcommerce.resx">
+      <DependentUpon>FrmSalesOrderEcommerce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalesOrderHeader.resx">
+      <DependentUpon>FrmSalesOrderHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSalesOrderText.resx">
+      <DependentUpon>FrmSalesOrderText.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmCatchWeight.resx">
       <DependentUpon>FrmCatchWeight.cs</DependentUpon>
     </EmbeddedResource>

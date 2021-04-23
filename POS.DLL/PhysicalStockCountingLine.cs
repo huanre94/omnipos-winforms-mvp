@@ -21,6 +21,12 @@ namespace POS.DLL
         public decimal StockQuantity { get; set; }
         public decimal CountedQuantity { get; set; }
         public decimal Cost { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
         public virtual PhysicalStockCountingTable PhysicalStockCountingTable { get; set; }

@@ -18,11 +18,12 @@ namespace POS.DLL
         public Customer()
         {
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
-            this.GiftCardLine = new HashSet<GiftCardLine>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
             this.InternalCreditCard = new HashSet<InternalCreditCard>();
             this.InvoiceTable = new HashSet<InvoiceTable>();
             this.PromotionCustomer = new HashSet<PromotionCustomer>();
+            this.CustomerAddress = new HashSet<CustomerAddress>();
+            this.GiftCardLine = new HashSet<GiftCardLine>();
             this.SalesOrder = new HashSet<SalesOrder>();
         }
     
@@ -56,11 +57,6 @@ namespace POS.DLL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountsReceivable> AccountsReceivable { get; set; }
-        public virtual City City { get; set; }
-        public virtual CustomerType CustomerType { get; set; }
-        public virtual IdentType IdentType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiftCardLine> GiftCardLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTable> GiftCardTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -69,8 +65,15 @@ namespace POS.DLL
         public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual City City { get; set; }
+        public virtual CustomerType CustomerType { get; set; }
+        public virtual IdentType IdentType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerAddress> CustomerAddress { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardLine> GiftCardLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
-        public virtual Location Location { get; set; }
     }
 }

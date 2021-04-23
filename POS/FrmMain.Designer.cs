@@ -397,6 +397,7 @@
             this.Qty.AppearanceHeader.Options.UseTextOptions = true;
             this.Qty.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Qty.Caption = "Cantidad";
+            this.Qty.DisplayFormat.FormatString = "n3";
             this.Qty.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.Qty.FieldName = "Quantity";
             this.Qty.MaxWidth = 85;

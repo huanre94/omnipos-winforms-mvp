@@ -18,5 +18,10 @@ namespace POS.DLL
         public Nullable<int> ReasonType { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     }
 }

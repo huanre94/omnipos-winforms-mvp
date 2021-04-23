@@ -17,8 +17,8 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GiftCardBlockTable()
         {
-            this.GiftCardBlockLine = new HashSet<GiftCardBlockLine>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
+            this.GiftCardBlockLine = new HashSet<GiftCardBlockLine>();
         }
     
         public long GiftCardBlockId { get; set; }
@@ -34,9 +34,9 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GiftCardBlockLine> GiftCardBlockLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardTable> GiftCardTable { get; set; }
         public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCardBlockLine> GiftCardBlockLine { get; set; }
     }
 }

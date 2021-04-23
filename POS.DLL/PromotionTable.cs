@@ -20,8 +20,8 @@ namespace POS.DLL
             this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.PromotionProducts = new HashSet<PromotionProducts>();
             this.PromotionReward = new HashSet<PromotionReward>();
-            this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
             this.PromotionPaymMode = new HashSet<PromotionPaymMode>();
+            this.InternalCreditCardLine = new HashSet<InternalCreditCardLine>();
         }
     
         public long PromotionId { get; set; }
@@ -51,10 +51,10 @@ namespace POS.DLL
         public virtual ICollection<PromotionProducts> PromotionProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionReward> PromotionReward { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
         public virtual PromotionType PromotionType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionPaymMode> PromotionPaymMode { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InternalCreditCardLine> InternalCreditCardLine { get; set; }
     }
 }

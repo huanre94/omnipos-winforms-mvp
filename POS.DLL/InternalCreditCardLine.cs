@@ -16,8 +16,14 @@ namespace POS.DLL
     {
         public long InternalCreditCardId { get; set; }
         public int Sequence { get; set; }
+        public long PromotionId { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
-        public virtual PromotionTable PromotionTable { get; set; }
         public virtual InternalCreditCard InternalCreditCard { get; set; }
+        public virtual PromotionTable PromotionTable { get; set; }
     }
 }

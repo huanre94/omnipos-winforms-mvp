@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+// HR002 Hugo Restrepo 2021-03-02: Recalculate discount with payment mode
 namespace POS
 {
     public partial class FrmPaymentCard : DevExpress.XtraEditors.XtraForm
@@ -21,10 +22,12 @@ namespace POS
         public string authorization = "";
         public bool processResponse;
         public Customer customer = null;
-        public bool applyPaymmodeDiscount = false;
-        public XElement invoiceXml;
+        //Begin(HR002)
+        public bool applyPaymmodeDiscount = false;  
+        public XElement invoiceXml;         
         public EmissionPoint emissionPoint;
-        public decimal amountPaymmodeDiscount = 0;
+        public decimal amountPaymmodeDiscount = 0; 
+        //End(HR002)
 
         public FrmPaymentCard()
         {
@@ -114,7 +117,7 @@ namespace POS
             CmbCardBrand.SelectedIndex = -1;
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;
+            LblAmountDiscounted.Text = string.Empty;         
         }
 
         private void LoadCreditCards(int _bankId)
@@ -169,7 +172,7 @@ namespace POS
                 bankId = int.Parse(CmbCardBank.EditValue.ToString());
                 creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
                 authorization = TxtAuthorization.Text;
-                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);
+                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);                
                 processResponse = true;
             }
             else
@@ -185,7 +188,7 @@ namespace POS
             CmbCardBrand.Properties.Items.Clear();
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;
+            LblAmountDiscounted.Text = string.Empty;            
             LoadBanks();
         }
 

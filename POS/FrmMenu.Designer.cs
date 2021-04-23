@@ -166,8 +166,7 @@
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
-            this.BtnSalesOrder.Text = "Pedidos \r\nE-commerce";
-            this.BtnSalesOrder.Visible = false;
+            this.BtnSalesOrder.Text = "Pedidos \r\nDomicilio";
             this.BtnSalesOrder.Click += new System.EventHandler(this.BtnSalesOrder_Click);
             // 
             // BtnChangePaymMode

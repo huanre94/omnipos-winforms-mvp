@@ -107,6 +107,61 @@ namespace POS.DLL.Catalog
             }
 
             return result;
-        }       
+        }
+
+        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
+        {
+            var db = new POSEntities();
+            List<CustomerAddress> result;
+            try
+            {
+                result = (from ca in db.CustomerAddress
+                          join cu in db.Customer on ca.CustomerId equals cu.CustomerId
+                          where ca.CustomerId == _customer.CustomerId
+                          && ca.Status.Equals("A")
+                          select ca).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return result;
+        }
+        public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
+        {
+            var db = new POSEntities();
+            SP_CustomerAddress_Insert_Result result;
+            try
+            {
+                result = db.SP_CustomerAddress_Insert(xml).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return result;
+        }
+        public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress)
+        {
+            var db = new POSEntities();
+            CustomerAddress address;
+            try
+            {
+                address = (from cu in db.CustomerAddress
+                           where cu.CustomerAddressId == customerAddress.CustomerAddressId
+                           && cu.CustomerId == customerAddress.CustomerId
+                           select cu).First();
+                address.Address = customerAddress.Address;
+                address.AddressReference = customerAddress.AddressReference;
+                address.Telephone = customerAddress.Telephone;
+                address.ModifiedBy = customerAddress.ModifiedBy;
+                address.ModifiedDatetime = customerAddress.ModifiedDatetime;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return db.SaveChanges() > 0;
+        }
     }
 }

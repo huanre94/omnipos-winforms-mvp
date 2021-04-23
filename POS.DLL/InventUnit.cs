@@ -18,9 +18,9 @@ namespace POS.DLL
         public InventUnit()
         {
             this.Product = new HashSet<Product>();
+            this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
             this.InvoiceLine = new HashSet<InvoiceLine>();
             this.SalesOrderLine = new HashSet<SalesOrderLine>();
-            this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
         }
     
         public int InventUnitId { get; set; }
@@ -28,14 +28,19 @@ namespace POS.DLL
         public string SAPCode { get; set; }
         public bool WeightControl { get; set; }
         public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
     }
 }

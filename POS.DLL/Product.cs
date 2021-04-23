@@ -17,13 +17,13 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.InventProductLocation = new HashSet<InventProductLocation>();
             this.ProductBarcode = new HashSet<ProductBarcode>();
+            this.ProductModule = new HashSet<ProductModule>();
+            this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
+            this.GiftCardLineProduct = new HashSet<GiftCardLineProduct>();
+            this.InventProductLocation = new HashSet<InventProductLocation>();
             this.InvoiceLine = new HashSet<InvoiceLine>();
             this.SalesOrderLine = new HashSet<SalesOrderLine>();
-            this.ProductModule = new HashSet<ProductModule>();
-            this.GiftCardLineProduct = new HashSet<GiftCardLineProduct>();
-            this.PhysicalStockCountingLine = new HashSet<PhysicalStockCountingLine>();
         }
     
         public long ProductId { get; set; }
@@ -51,9 +51,6 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        public virtual Brand Brand { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InventProductLocation> InventProductLocation { get; set; }
         public virtual InventUnit InventUnit { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
@@ -61,14 +58,17 @@ namespace POS.DLL
         public virtual ICollection<ProductBarcode> ProductBarcode { get; set; }
         public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductModule> ProductModule { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
+        public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCardLineProduct> GiftCardLineProduct { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
+        public virtual ICollection<InventProductLocation> InventProductLocation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderLine> SalesOrderLine { get; set; }
     }
 }

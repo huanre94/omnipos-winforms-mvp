@@ -18,6 +18,12 @@ namespace POS.DLL
         public int Sequence { get; set; }
         public long GiftCardNumberStart { get; set; }
         public long GiftCardNumberFinal { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual GiftCardBlockTable GiftCardBlockTable { get; set; }
     }

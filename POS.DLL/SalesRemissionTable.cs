@@ -26,6 +26,7 @@ namespace POS.DLL
         public short TypeDoc { get; set; }
         public int EmissionPointId { get; set; }
         public string Establishment { get; set; }
+        public Nullable<long> RemissionNumber { get; set; }
         public string Emission { get; set; }
         public int TransportDriverId { get; set; }
         public int TransportId { get; set; }
@@ -39,12 +40,12 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual Transport Transport { get; set; }
         public virtual TransportDriver TransportDriver { get; set; }
         public virtual TransportReason TransportReason { get; set; }
-        public virtual EmissionPoint EmissionPoint { get; set; }
-        public virtual Transport Transport { get; set; }
-        public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
     }
 }

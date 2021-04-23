@@ -28,15 +28,8 @@ namespace POS.DLL
         }
     
         public virtual DbSet<AccountsReceivable> AccountsReceivable { get; set; }
-        public virtual DbSet<Bank> Bank { get; set; }
-        public virtual DbSet<BankCreditCard> BankCreditCard { get; set; }
-        public virtual DbSet<Brand> Brand { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<CustomerType> CustomerType { get; set; }
-        public virtual DbSet<IdentType> IdentType { get; set; }
         public virtual DbSet<InventLocation> InventLocation { get; set; }
-        public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
@@ -48,51 +41,30 @@ namespace POS.DLL
         public virtual DbSet<PromotionTable> PromotionTable { get; set; }
         public virtual DbSet<Salesman> Salesman { get; set; }
         public virtual DbSet<Server> Server { get; set; }
-        public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
         public virtual DbSet<TaxTable> TaxTable { get; set; }
         public virtual DbSet<PromotionType> PromotionType { get; set; }
-        public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
-        public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
-        public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
         public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
         public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
-        public virtual DbSet<City> City { get; set; }
         public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<Province> Province { get; set; }
-        public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
-        public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
         public virtual DbSet<Transport> Transport { get; set; }
         public virtual DbSet<TransportDriver> TransportDriver { get; set; }
         public virtual DbSet<TransportReason> TransportReason { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
-        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<PaymMode> PaymMode { get; set; }
         public virtual DbSet<RetentionTable> RetentionTable { get; set; }
         public virtual DbSet<Supervisor> Supervisor { get; set; }
         public virtual DbSet<LogType> LogType { get; set; }
         public virtual DbSet<SalesLog> SalesLog { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
-        public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
         public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
-        public virtual DbSet<CurrencyDenomination> CurrencyDenomination { get; set; }
-        public virtual DbSet<CurrencyType> CurrencyType { get; set; }
-        public virtual DbSet<DenominationType> DenominationType { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<SequenceType> SequenceType { get; set; }
-        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<ProductModule> ProductModule { get; set; }
-        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
-        public virtual DbSet<CancelReason> CancelReason { get; set; }
-        public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
         public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
-        public virtual DbSet<GiftCardLine> GiftCardLine { get; set; }
-        public virtual DbSet<GiftCardLineProduct> GiftCardLineProduct { get; set; }
         public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
-        public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<PromotionPaymMode> PromotionPaymMode { get; set; }
         public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<TransferStatus> TransferStatus { get; set; }
@@ -100,6 +72,36 @@ namespace POS.DLL
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<PhysicalStockCountingLine> PhysicalStockCountingLine { get; set; }
         public virtual DbSet<PhysicalStockCountingTable> PhysicalStockCountingTable { get; set; }
+        public virtual DbSet<Bank> Bank { get; set; }
+        public virtual DbSet<BankCreditCard> BankCreditCard { get; set; }
+        public virtual DbSet<Brand> Brand { get; set; }
+        public virtual DbSet<CancelReason> CancelReason { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
+        public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
+        public virtual DbSet<CreditCard> CreditCard { get; set; }
+        public virtual DbSet<CurrencyDenomination> CurrencyDenomination { get; set; }
+        public virtual DbSet<CurrencyType> CurrencyType { get; set; }
+        public virtual DbSet<CustomerAddress> CustomerAddress { get; set; }
+        public virtual DbSet<CustomerType> CustomerType { get; set; }
+        public virtual DbSet<DenominationType> DenominationType { get; set; }
+        public virtual DbSet<GiftCardBlockLine> GiftCardBlockLine { get; set; }
+        public virtual DbSet<GiftCardLine> GiftCardLine { get; set; }
+        public virtual DbSet<GiftCardLineProduct> GiftCardLineProduct { get; set; }
+        public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
+        public virtual DbSet<IdentType> IdentType { get; set; }
+        public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
+        public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
+        public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
+        public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
+        public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
+        public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
+        public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
+        public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrder { get; set; }
+        public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
+        public virtual DbSet<SalesOrderStatus> SalesOrderStatus { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -362,15 +364,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierTicket_Consult_Result>("SP_ClosingCashierTicket_Consult", closingCashierIdParameter);
         }
     
-        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode)
-        {
-            var barcodeParameter = barcode != null ?
-                new ObjectParameter("barcode", barcode) :
-                new ObjectParameter("barcode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter);
-        }
-    
         public virtual ObjectResult<SP_InvoiceTicket_Consult_Result> SP_InvoiceTicket_Consult(Nullable<long> invoiceId, Nullable<bool> openCashier)
         {
             var invoiceIdParameter = invoiceId.HasValue ?
@@ -507,6 +500,214 @@ namespace POS.DLL
                 new ObjectParameter("PhysicalStockXml", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PhysicalStockTable_Insert_Result>("SP_PhysicalStockTable_Insert", physicalStockXmlParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<long>> SP_PromotionPaymmode_Consult(Nullable<long> customerId, Nullable<short> bankId, Nullable<short> cardBrandId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(long));
+    
+            var bankIdParameter = bankId.HasValue ?
+                new ObjectParameter("BankId", bankId) :
+                new ObjectParameter("BankId", typeof(short));
+    
+            var cardBrandIdParameter = cardBrandId.HasValue ?
+                new ObjectParameter("CardBrandId", cardBrandId) :
+                new ObjectParameter("CardBrandId", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("SP_PromotionPaymmode_Consult", customerIdParameter, bankIdParameter, cardBrandIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_Supervisor_Validate_Result> SP_Supervisor_Validate(string barcode, string password)
+        {
+            var barcodeParameter = barcode != null ?
+                new ObjectParameter("barcode", barcode) :
+                new ObjectParameter("barcode", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Supervisor_Validate_Result>("SP_Supervisor_Validate", barcodeParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderStatus_Consult_Result> SP_SalesOrderStatus_Consult(string orderDate, Nullable<int> salesOriginId, string status)
+        {
+            var orderDateParameter = orderDate != null ?
+                new ObjectParameter("OrderDate", orderDate) :
+                new ObjectParameter("OrderDate", typeof(string));
+    
+            var salesOriginIdParameter = salesOriginId.HasValue ?
+                new ObjectParameter("SalesOriginId", salesOriginId) :
+                new ObjectParameter("SalesOriginId", typeof(int));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderStatus_Consult_Result>("SP_SalesOrderStatus_Consult", orderDateParameter, salesOriginIdParameter, statusParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionGuide_Cancel_Result> SP_RemissionGuide_Cancel(Nullable<long> salesRemissionId, Nullable<long> userId)
+        {
+            var salesRemissionIdParameter = salesRemissionId.HasValue ?
+                new ObjectParameter("SalesRemissionId", salesRemissionId) :
+                new ObjectParameter("SalesRemissionId", typeof(long));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Cancel_Result>("SP_RemissionGuide_Cancel", salesRemissionIdParameter, userIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionGuide_Consult_Result> SP_RemissionGuide_Consult()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Consult_Result>("SP_RemissionGuide_Consult");
+        }
+    
+        public virtual ObjectResult<string> SP_RemissionGuideTicket_Consult(Nullable<long> remissionGuideId)
+        {
+            var remissionGuideIdParameter = remissionGuideId.HasValue ?
+                new ObjectParameter("RemissionGuideId", remissionGuideId) :
+                new ObjectParameter("RemissionGuideId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_RemissionGuideTicket_Consult", remissionGuideIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionPendingSalesOrder_Consult_Result> SP_RemissionPendingSalesOrder_Consult()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionPendingSalesOrder_Consult_Result>("SP_RemissionPendingSalesOrder_Consult");
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderProduct_Consult_Result> SP_SalesOrderProduct_Consult(Nullable<long> salesOrderId)
+        {
+            var salesOrderIdParameter = salesOrderId.HasValue ?
+                new ObjectParameter("SalesOrderId", salesOrderId) :
+                new ObjectParameter("SalesOrderId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderProduct_Consult_Result>("SP_SalesOrderProduct_Consult", salesOrderIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderToInvoice_Insert_Result> SP_SalesOrderToInvoice_Insert(Nullable<long> salesOrderId, Nullable<short> emissionPointId, Nullable<short> locationId, Nullable<int> userId, string workstation)
+        {
+            var salesOrderIdParameter = salesOrderId.HasValue ?
+                new ObjectParameter("SalesOrderId", salesOrderId) :
+                new ObjectParameter("SalesOrderId", typeof(long));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(short));
+    
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var workstationParameter = workstation != null ?
+                new ObjectParameter("Workstation", workstation) :
+                new ObjectParameter("Workstation", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderToInvoice_Insert_Result>("SP_SalesOrderToInvoice_Insert", salesOrderIdParameter, emissionPointIdParameter, locationIdParameter, userIdParameter, workstationParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderOmnipos_Insert_Result> SP_SalesOrderOmnipos_Insert(string paramXML, Nullable<long> orderId)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderOmnipos_Insert_Result>("SP_SalesOrderOmnipos_Insert", paramXMLParameter, orderIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderRemission_Insert_Result> SP_SalesOrderRemission_Insert(string paramXml)
+        {
+            var paramXmlParameter = paramXml != null ?
+                new ObjectParameter("ParamXml", paramXml) :
+                new ObjectParameter("ParamXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderRemission_Insert_Result>("SP_SalesOrderRemission_Insert", paramXmlParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderPayment_Insert_Result> SP_SalesOrderPayment_Insert(string paramXML, Nullable<long> salesOrderId)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            var salesOrderIdParameter = salesOrderId.HasValue ?
+                new ObjectParameter("SalesOrderId", salesOrderId) :
+                new ObjectParameter("SalesOrderId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderPayment_Insert_Result>("SP_SalesOrderPayment_Insert", paramXMLParameter, salesOrderIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_CustomerAddress_Insert_Result> SP_CustomerAddress_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CustomerAddress_Insert_Result>("SP_CustomerAddress_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionGuideSalesOrder_Consult_Result> SP_RemissionGuideSalesOrder_Consult(Nullable<long> remissionGuideId)
+        {
+            var remissionGuideIdParameter = remissionGuideId.HasValue ?
+                new ObjectParameter("RemissionGuideId", remissionGuideId) :
+                new ObjectParameter("RemissionGuideId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuideSalesOrder_Consult_Result>("SP_RemissionGuideSalesOrder_Consult", remissionGuideIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_SalesOrderTicket_Consult_Result> SP_SalesOrderTicket_Consult(Nullable<long> salesOrderId, Nullable<bool> openCashier, Nullable<short> emissionPointId)
+        {
+            var salesOrderIdParameter = salesOrderId.HasValue ?
+                new ObjectParameter("SalesOrderId", salesOrderId) :
+                new ObjectParameter("SalesOrderId", typeof(long));
+    
+            var openCashierParameter = openCashier.HasValue ?
+                new ObjectParameter("OpenCashier", openCashier) :
+                new ObjectParameter("OpenCashier", typeof(bool));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SalesOrderTicket_Consult_Result>("SP_SalesOrderTicket_Consult", salesOrderIdParameter, openCashierParameter, emissionPointIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionGuideInvoice_Insert_Result> SP_RemissionGuideInvoice_Insert(Nullable<long> remissionGuideId, Nullable<short> emissionPointId, Nullable<short> locationId, Nullable<int> userId, string workstation)
+        {
+            var remissionGuideIdParameter = remissionGuideId.HasValue ?
+                new ObjectParameter("RemissionGuideId", remissionGuideId) :
+                new ObjectParameter("RemissionGuideId", typeof(long));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(short));
+    
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(short));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var workstationParameter = workstation != null ?
+                new ObjectParameter("Workstation", workstation) :
+                new ObjectParameter("Workstation", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuideInvoice_Insert_Result>("SP_RemissionGuideInvoice_Insert", remissionGuideIdParameter, emissionPointIdParameter, locationIdParameter, userIdParameter, workstationParameter);
         }
     }
 }

@@ -19,6 +19,12 @@ namespace POS.DLL
         public int ProdSeq { get; set; }
         public long ProductId { get; set; }
         public decimal Quantity { get; set; }
+        public string Status { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDatetime { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDatetime { get; set; }
+        public string Workstation { get; set; }
     
         public virtual GiftCardLine GiftCardLine { get; set; }
         public virtual Product Product { get; set; }
