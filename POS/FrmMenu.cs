@@ -12,7 +12,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
-        public EmissionPoint emissionPoint;
+        public static EmissionPoint emissionPoint;
 
         public FrmMenu()
         {

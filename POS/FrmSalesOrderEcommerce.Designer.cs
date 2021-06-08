@@ -411,7 +411,7 @@ namespace POS
             this.BtnExit.Appearance.Options.UseFont = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(1105, 713);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
@@ -817,6 +817,7 @@ namespace POS
             this.Name = "FrmSalesOrderEcommerce";
             this.Text = "FrmSalesOrderEcommerce";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSalesOrderEcommerce_FormClosing);
             this.Load += new System.EventHandler(this.FrmSalesOrderEcommerce_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();

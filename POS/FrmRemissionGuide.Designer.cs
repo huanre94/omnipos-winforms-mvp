@@ -53,10 +53,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.BtnRefresh = new DevExpress.XtraEditors.SimpleButton();
             this.BtnPrintRemissionGuide = new DevExpress.XtraEditors.SimpleButton();
+            this.ChkMyGuides = new DevExpress.XtraEditors.CheckEdit();
+            this.CmbTransportDriver = new DevExpress.XtraEditors.ImageComboBoxEdit();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcRemissionGuide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvRemissionGuide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChkMyGuides.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbTransportDriver.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // GrcRemissionGuide
@@ -69,7 +74,7 @@
             this.GrcRemissionGuide.Location = new System.Drawing.Point(26, 72);
             this.GrcRemissionGuide.MainView = this.GrvRemissionGuide;
             this.GrcRemissionGuide.Name = "GrcRemissionGuide";
-            this.GrcRemissionGuide.Size = new System.Drawing.Size(1310, 248);
+            this.GrcRemissionGuide.Size = new System.Drawing.Size(1310, 294);
             this.GrcRemissionGuide.TabIndex = 140;
             this.GrcRemissionGuide.UseEmbeddedNavigator = true;
             this.GrcRemissionGuide.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -109,7 +114,11 @@
             // 
             // gridColumn8
             // 
+            this.gridColumn8.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn8.Caption = "Fecha ";
+            this.gridColumn8.DisplayFormat.FormatString = "g";
+            this.gridColumn8.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.gridColumn8.FieldName = "SalesRemissionDate";
             this.gridColumn8.Name = "gridColumn8";
             this.gridColumn8.OptionsColumn.AllowEdit = false;
@@ -118,6 +127,8 @@
             // 
             // gridColumn9
             // 
+            this.gridColumn9.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn9.Caption = "Placa";
             this.gridColumn9.FieldName = "LicencePlate";
             this.gridColumn9.Name = "gridColumn9";
@@ -127,6 +138,8 @@
             // 
             // gridColumn10
             // 
+            this.gridColumn10.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn10.Caption = "Conductor";
             this.gridColumn10.FieldName = "Name";
             this.gridColumn10.Name = "gridColumn10";
@@ -136,6 +149,8 @@
             // 
             // gridColumn11
             // 
+            this.gridColumn11.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn11.Caption = "Cant. Ped.";
             this.gridColumn11.FieldName = "OrderQuantity";
             this.gridColumn11.Name = "gridColumn11";
@@ -145,6 +160,8 @@
             // 
             // gridColumn13
             // 
+            this.gridColumn13.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn13.Caption = "Estado";
             this.gridColumn13.FieldName = "Status";
             this.gridColumn13.Name = "gridColumn13";
@@ -159,10 +176,10 @@
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.Edit.Visible = false;
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.Remove.Visible = false;
-            this.GrcSalesOrder.Location = new System.Drawing.Point(26, 372);
+            this.GrcSalesOrder.Location = new System.Drawing.Point(26, 412);
             this.GrcSalesOrder.MainView = this.GrvSalesOrder;
             this.GrcSalesOrder.Name = "GrcSalesOrder";
-            this.GrcSalesOrder.Size = new System.Drawing.Size(1310, 310);
+            this.GrcSalesOrder.Size = new System.Drawing.Size(1310, 270);
             this.GrcSalesOrder.TabIndex = 140;
             this.GrcSalesOrder.UseEmbeddedNavigator = true;
             this.GrcSalesOrder.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -325,7 +342,7 @@
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(956, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
@@ -356,7 +373,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(23, 339);
+            this.label1.Location = new System.Drawing.Point(23, 380);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 16);
             this.label1.TabIndex = 251;
@@ -366,7 +383,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(23, 43);
+            this.label4.Location = new System.Drawing.Point(23, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 16);
             this.label4.TabIndex = 252;
@@ -398,7 +415,7 @@
             this.BtnPrintRemissionGuide.Appearance.Options.UseBackColor = true;
             this.BtnPrintRemissionGuide.Appearance.Options.UseFont = true;
             this.BtnPrintRemissionGuide.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPrintRemissionGuide.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnPrintRemissionGuide.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintRemissionGuide.ImageOptions.SvgImage")));
             this.BtnPrintRemissionGuide.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintRemissionGuide.Location = new System.Drawing.Point(536, 704);
             this.BtnPrintRemissionGuide.Name = "BtnPrintRemissionGuide";
@@ -407,11 +424,41 @@
             this.BtnPrintRemissionGuide.Text = "Imp. Guia";
             this.BtnPrintRemissionGuide.Click += new System.EventHandler(this.BtnPrintRemissionGuide_Click);
             // 
+            // ChkMyGuides
+            // 
+            this.ChkMyGuides.Location = new System.Drawing.Point(344, 20);
+            this.ChkMyGuides.Name = "ChkMyGuides";
+            this.ChkMyGuides.Properties.Caption = "Mis Guias";
+            this.ChkMyGuides.Size = new System.Drawing.Size(164, 44);
+            this.ChkMyGuides.TabIndex = 256;
+            // 
+            // CmbTransportDriver
+            // 
+            this.CmbTransportDriver.Location = new System.Drawing.Point(689, 23);
+            this.CmbTransportDriver.Name = "CmbTransportDriver";
+            this.CmbTransportDriver.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.CmbTransportDriver.Size = new System.Drawing.Size(291, 38);
+            this.CmbTransportDriver.TabIndex = 258;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(587, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 16);
+            this.label2.TabIndex = 257;
+            this.label2.Text = "Conductor";
+            // 
             // FrmRemissionGuide
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.CmbTransportDriver);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.ChkMyGuides);
             this.Controls.Add(this.BtnPrintRemissionGuide);
             this.Controls.Add(this.BtnRefresh);
             this.Controls.Add(this.label1);
@@ -430,6 +477,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvRemissionGuide)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChkMyGuides.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CmbTransportDriver.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -461,5 +510,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn13;
         private DevExpress.XtraEditors.SimpleButton BtnPrintRemissionGuide;
+        private DevExpress.XtraEditors.CheckEdit ChkMyGuides;
+        private DevExpress.XtraEditors.ImageComboBoxEdit CmbTransportDriver;
+        private System.Windows.Forms.Label label2;
     }
 }

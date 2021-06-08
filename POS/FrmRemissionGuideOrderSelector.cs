@@ -15,6 +15,7 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Reflection;
 using System.Xml.Linq;
+using POS.DLL.Transaction;
 
 namespace POS
 {
@@ -185,6 +186,7 @@ namespace POS
                                                       );
             }
         }
+
         private void LoadTranports()
         {
             try
@@ -328,7 +330,7 @@ namespace POS
                     }
                 }
 
-                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrder().CreateNewRemissionGuide(salesRemission.ToString());
+                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString());
                 if (!(bool)result.Error)
                 {
                     isUpdated = true;
@@ -336,11 +338,13 @@ namespace POS
                     if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE))
                     {
                         functions.ShowMessage("Guia de remision creada exitosamente.", ClsEnums.MessageType.INFO);
+                        //DELETE PAYMODES
                         Close();
                     }
                     else
                     {
                         functions.ShowMessage("La guia se creo correctamente pero no se pudo imprimir.", ClsEnums.MessageType.WARNING);
+                        Close();
                     }
                 }
                 else
@@ -358,6 +362,25 @@ namespace POS
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            FrmKeyPad keyPad = new FrmKeyPad();
+            keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
+            keyPad.ShowDialog();
+
+            int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);
+
+            if (rowIndex < 0)
+            {
+                GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
+                return;
+            }
+
+            GrvSalesOrder.FocusedRowHandle = rowIndex;
+            GrvSalesOrder.UpdateCurrentRow();
+            GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
         }
     }
 }

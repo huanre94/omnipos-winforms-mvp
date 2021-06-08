@@ -252,7 +252,7 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING, true, result.Text);
                         }
                     }
                 }

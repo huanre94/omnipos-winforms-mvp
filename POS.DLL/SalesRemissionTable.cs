@@ -33,6 +33,9 @@ namespace POS.DLL
         public int TransportReasonId { get; set; }
         public System.DateTime SalesRemissionDate { get; set; }
         public System.DateTime DeliveryDate { get; set; }
+        public string Observation { get; set; }
+        public string KeyAccessSri { get; set; }
+        public int TransferStatusId { get; set; }
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDatetime { get; set; }
@@ -42,10 +45,10 @@ namespace POS.DLL
     
         public virtual EmissionPoint EmissionPoint { get; set; }
         public virtual Location Location { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual Transport Transport { get; set; }
         public virtual TransportDriver TransportDriver { get; set; }
         public virtual TransportReason TransportReason { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesRemissionLine> SalesRemissionLine { get; set; }
     }
 }

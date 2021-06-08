@@ -49,6 +49,8 @@
             this.CmbSalesOrderOrigin = new DevExpress.XtraEditors.ImageComboBoxEdit();
             this.label5 = new System.Windows.Forms.Label();
             this.EdtDeliveryDate = new DevExpress.XtraEditors.DateEdit();
+            this.TxtObservation = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CmbSalesOrderOrigin.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EdtDeliveryDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EdtDeliveryDate.Properties)).BeginInit();
@@ -253,7 +255,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(386, 322);
+            this.label5.Location = new System.Drawing.Point(386, 311);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(118, 16);
             this.label5.TabIndex = 233;
@@ -262,7 +264,7 @@
             // EdtDeliveryDate
             // 
             this.EdtDeliveryDate.EditValue = null;
-            this.EdtDeliveryDate.Location = new System.Drawing.Point(389, 353);
+            this.EdtDeliveryDate.Location = new System.Drawing.Point(389, 342);
             this.EdtDeliveryDate.Name = "EdtDeliveryDate";
             this.EdtDeliveryDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -277,11 +279,31 @@
             this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 38);
             this.EdtDeliveryDate.TabIndex = 249;
             // 
+            // TxtObservation
+            // 
+            this.TxtObservation.Location = new System.Drawing.Point(389, 422);
+            this.TxtObservation.Name = "TxtObservation";
+            this.TxtObservation.Size = new System.Drawing.Size(250, 116);
+            this.TxtObservation.TabIndex = 253;
+            this.TxtObservation.Text = "";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label6.Location = new System.Drawing.Point(386, 403);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(105, 16);
+            this.label6.TabIndex = 252;
+            this.label6.Text = "Observacion";
+            // 
             // FrmSalesOrderHeader
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(716, 627);
+            this.ClientSize = new System.Drawing.Size(724, 635);
             this.ControlBox = false;
+            this.Controls.Add(this.TxtObservation);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.CmbSalesOrderOrigin);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.richTextBox1);
@@ -337,5 +359,7 @@
         private DevExpress.XtraEditors.ImageComboBoxEdit CmbSalesOrderOrigin;
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.DateEdit EdtDeliveryDate;
+        private System.Windows.Forms.RichTextBox TxtObservation;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -1,11 +1,13 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Views.Grid;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace POS
@@ -16,6 +18,8 @@ namespace POS
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
+        System.Timers.Timer timer;
+
         public FrmSalesOrderPicker()
         {
             InitializeComponent();
@@ -97,12 +101,44 @@ namespace POS
             }
         }
 
+
+
         private void FrmSalesOrderPicker_Load(object sender, EventArgs e)
         {
+            bool orderTimerEnabled = false;
+            long orderTimerInvertal = 0;
+            try
+            {
+                orderTimerEnabled = (from par in new POSEntities().GlobalParameter.ToList()
+                                     where par.Name == "OrderTimerEnabled"
+                                     select par.Value).FirstOrDefault() == "1";
+                orderTimerInvertal = long.Parse((from par in new POSEntities().GlobalParameter.ToList()
+                                                 where par.Name == "OrderUpdateTimer"
+                                                 select par.Value).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                     "Ocurrio un problema al configurar temporizador."
+                                     , ClsEnums.MessageType.ERROR
+                                     , true
+                                     , ex.Message
+                                   );
+            }
+
             if (GetEmissionPointInformation())
             {
+                timer = new System.Timers.Timer();
+                timer.Enabled = orderTimerEnabled;
+                timer.Interval = orderTimerInvertal;
+                timer.Elapsed += Timer_Elapsed;
+
+                if (timer.Enabled)
+                {
+                    timer.Start();
+                }
+
                 chkDate.Checked = true;
-                //LoadGridInformation();
                 ETOrderDate.Text = DateTime.Today.ToShortDateString();
                 CheckGridView();
                 LoadOrderStatus();
@@ -119,17 +155,33 @@ namespace POS
             }
         }
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                LoadSaleOrdesByFilters();
+            }));
+
+        }
+
         private void LoadSaleOrdesByFilters()
         {
-            Cursor.Current = Cursors.WaitCursor;
             List<SP_SalesOrderStatus_Consult_Result> sales;
             try
             {
                 sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
 
+                if (sales.Count == 0)
+                {
+                    functions.ShowMessage("No existen ordenes generadas.", ClsEnums.MessageType.WARNING);
+                    return;
+                }
+
                 BindingList<SP_SalesOrderStatus_Consult_Result> list = new BindingList<SP_SalesOrderStatus_Consult_Result>(sales);
                 GrcSalesOrder.DataSource = list;
-                Cursor.Current = Cursors.Default;
+                GrvSalesOrder.ActiveFilter.Clear();
+                GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
+
             }
             catch (Exception ex)
             {
@@ -139,7 +191,6 @@ namespace POS
                                       , true
                                       , ex.Message
                                     );
-                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -334,6 +385,33 @@ namespace POS
             {
                 ETOrderDate.Enabled = true;
             }
+        }
+
+        private void FrmSalesOrderPicker_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            FrmKeyPad keyPad = new FrmKeyPad();
+            keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
+            keyPad.ShowDialog();
+
+            int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);
+
+            if (rowIndex < 0)
+            {
+                GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
+                return;
+            }
+
+            GrvSalesOrder.FocusedRowHandle = rowIndex;
+            GrvSalesOrder.UpdateCurrentRow();
+            GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
         }
     }
 }

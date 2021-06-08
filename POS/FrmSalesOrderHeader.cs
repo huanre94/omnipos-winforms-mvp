@@ -14,6 +14,7 @@ using POS.Classes;
 using DevExpress.XtraEditors.Controls;
 using System.Reflection;
 using System.Xml.Linq;
+using POS.DLL.Transaction;
 
 namespace POS
 {
@@ -283,6 +284,7 @@ namespace POS
                     CustomerAddressId = customerAddress.CustomerAddressId,
                     SalesmanId = origin.SalesmanId,
                     SalesOriginId = origin.SalesOriginId,
+                    Observation = TxtObservation.Text,
                     Status = "O",
                     CreatedBy = (int)loginInformation.UserId,
                     ModifiedBy = (int)loginInformation.UserId,
@@ -340,7 +342,7 @@ namespace POS
 
                 try
                 {
-                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrder().CreateOrUpdateSalesOrder(header.ToString());
+                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString());
                     if ((bool)result.Error)
                     {
                         functions.ShowMessage("No se pudo crear orden de venta.", ClsEnums.MessageType.WARNING, true, result.TextError);

@@ -1,6 +1,7 @@
 ﻿using DevExpress.Utils;
 using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace POS
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrderTrans().GetSalesOrigins();
+                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins();
 
                 BindingList<SP_SalesOrigin_Consult_Result> bindingOrigins = new BindingList<SP_SalesOrigin_Consult_Result>();
                 foreach (SP_SalesOrigin_Consult_Result item in salesOrigins)

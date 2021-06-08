@@ -78,29 +78,22 @@ namespace POS.DLL.Catalog
             return salesOrders;
         }
 
-        public SP_SalesOrderOmnipos_Insert_Result CreateOrUpdateSalesOrder(string _xml, long _salesOrderId = 0)
+        public SalesOrder GetSalesOrderById(long _id)
         {
             var db = new POSEntities();
-            SP_SalesOrderOmnipos_Insert_Result result;
+            SalesOrder salesOrder;
             try
             {
-                if (_salesOrderId != 0)
-                {
-                    SalesOrder sales = (from so in db.SalesOrder
-                                        where so.SalesOrderId == _salesOrderId
-                                        select so).First();
-                    sales.ModifiedBy = loginInformation.UserId;
-                    sales.ModifiedDatetime = DateTime.Now;
-                    db.SaveChanges();
-                }
-                result = db.SP_SalesOrderOmnipos_Insert(_xml, _salesOrderId).FirstOrDefault();
+                salesOrder = (from so in db.SalesOrder
+                              where so.SalesOrderId == _id
+                              select so).First();
             }
             catch (Exception ex)
             {
 
                 throw new Exception(ex.Message);
             }
-            return result;
+            return salesOrder;
         }
 
         public List<Transport> GetTransports()
@@ -157,24 +150,6 @@ namespace POS.DLL.Catalog
             return transportReasons;
         }
 
-        public SalesOrder GetSalesOrderById(long _id)
-        {
-            var db = new POSEntities();
-            SalesOrder salesOrder;
-            try
-            {
-                salesOrder = (from so in db.SalesOrder
-                              where so.SalesOrderId == _id
-                              select so).First();
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-            return salesOrder;
-        }
-
         public List<SP_SalesOrderProduct_Consult_Result> GetSalesOrderProductsById(long _id)
         {
             var db = new POSEntities();
@@ -189,82 +164,6 @@ namespace POS.DLL.Catalog
                 throw new Exception(ex.Message);
             }
             return salesOrderProducts;
-        }
-
-        public bool CancelSalesOrder(long _id, bool cancelFromGuide = false)
-        {
-            var db = new POSEntities();
-            SalesOrder order;
-            try
-            {
-                if (!cancelFromGuide)
-                {
-                    var result = (from so in db.SalesOrder
-                                  join sr in db.SalesRemissionLine on so.SalesOrderId equals sr.SalesOrderId
-                                  where so.SalesOrderId == _id
-                                  && so.Status == "S"
-                                  && sr.Status == "A"
-                                  select so).FirstOrDefault();
-
-                    if (result != null)
-                    {
-                        if (result.SalesOrderId > 0)
-                        {
-                            return false;
-                        }
-                    }
-
-                }
-
-                order = (from so in db.SalesOrder
-                         where so.SalesOrderId == _id
-                         select so).First();
-
-                order.Status = "I";
-                order.ModifiedBy = loginInformation.UserId;
-                order.ModifiedDatetime = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return db.SaveChanges() > 0;
-        }
-
-        public bool FinishSalesOrder(long _id)
-        {
-            var db = new POSEntities();
-            SalesOrder order;
-            try
-            {
-                order = (from so in db.SalesOrder
-                         where so.SalesOrderId == _id
-                         select so).First();
-                order.Status = "E";
-                order.ModifiedBy = loginInformation.UserId;
-                order.ModifiedDatetime = DateTime.Now;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return db.SaveChanges() > 0;
-        }
-
-        public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _xml)
-        {
-            var db = new POSEntities();
-            SP_SalesOrderRemission_Insert_Result result;
-            try
-            {
-                result = db.SP_SalesOrderRemission_Insert(_xml).First();
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-            return result;
         }
 
         public List<SP_RemissionPendingSalesOrder_Consult_Result> GetPendingSalesOrders()
@@ -282,13 +181,13 @@ namespace POS.DLL.Catalog
             return list;
         }
 
-        public List<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides()
+        public List<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides(long userId = 0, long driverId = 0)
         {
             var db = new POSEntities();
             List<SP_RemissionGuide_Consult_Result> list;
             try
             {
-                list = db.SP_RemissionGuide_Consult().ToList();
+                list = db.SP_RemissionGuide_Consult(userId, driverId).ToList();
             }
             catch (Exception ex)
             {
@@ -310,21 +209,6 @@ namespace POS.DLL.Catalog
                 throw new Exception(ex.Message);
             }
             return list;
-        }
-
-        public SP_RemissionGuide_Cancel_Result CancelRemissionGuide(long _remissionId)
-        {
-            var db = new POSEntities();
-            SP_RemissionGuide_Cancel_Result result;
-            try
-            {
-                result = db.SP_RemissionGuide_Cancel(_remissionId, loginInformation.UserId).First();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return result;
         }
 
         public List<SalesOrderText> ConsultCommand(long _salesOrderId)
@@ -359,19 +243,19 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public SP_RemissionGuideInvoice_Insert_Result FinishRemissionGuide(long _remissionGuideId, int _emissionPointId, int _locationId)
+        public List<SP_SalesOrigin_Consult_Result> GetSalesOrigins()
         {
+            List<SP_SalesOrigin_Consult_Result> salesOrigins;
             var db = new POSEntities();
-            SP_RemissionGuideInvoice_Insert_Result result;
             try
             {
-                result = db.SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, loginInformation.UserId, loginInformation.Workstation).FirstOrDefault();
+                salesOrigins = db.SP_SalesOrigin_Consult().ToList();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
-            return result;
-        }
+            return salesOrigins;
+        }       
     }
 }

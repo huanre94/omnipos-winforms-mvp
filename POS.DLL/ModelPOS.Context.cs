@@ -44,7 +44,6 @@ namespace POS.DLL
         public virtual DbSet<TaxTable> TaxTable { get; set; }
         public virtual DbSet<PromotionType> PromotionType { get; set; }
         public virtual DbSet<InternalCreditCard> InternalCreditCard { get; set; }
-        public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
         public virtual DbSet<GlobalParameter> GlobalParameter { get; set; }
         public virtual DbSet<InventTransType> InventTransType { get; set; }
         public virtual DbSet<Province> Province { get; set; }
@@ -92,16 +91,17 @@ namespace POS.DLL
         public virtual DbSet<GiftCardTrans> GiftCardTrans { get; set; }
         public virtual DbSet<IdentType> IdentType { get; set; }
         public virtual DbSet<InternalCreditCardLine> InternalCreditCardLine { get; set; }
-        public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<InvoiceLine> InvoiceLine { get; set; }
         public virtual DbSet<InvoicePayment> InvoicePayment { get; set; }
         public virtual DbSet<SalesOrderLine> SalesOrderLine { get; set; }
         public virtual DbSet<SalesOrderPayment> SalesOrderPayment { get; set; }
         public virtual DbSet<SalesOrderText> SalesOrderText { get; set; }
-        public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
         public virtual DbSet<SalesRemissionLine> SalesRemissionLine { get; set; }
         public virtual DbSet<SalesOrderStatus> SalesOrderStatus { get; set; }
+        public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
+        public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
+        public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -562,11 +562,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Cancel_Result>("SP_RemissionGuide_Cancel", salesRemissionIdParameter, userIdParameter);
         }
     
-        public virtual ObjectResult<SP_RemissionGuide_Consult_Result> SP_RemissionGuide_Consult()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Consult_Result>("SP_RemissionGuide_Consult");
-        }
-    
         public virtual ObjectResult<string> SP_RemissionGuideTicket_Consult(Nullable<long> remissionGuideId)
         {
             var remissionGuideIdParameter = remissionGuideId.HasValue ?
@@ -708,6 +703,19 @@ namespace POS.DLL
                 new ObjectParameter("Workstation", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuideInvoice_Insert_Result>("SP_RemissionGuideInvoice_Insert", remissionGuideIdParameter, emissionPointIdParameter, locationIdParameter, userIdParameter, workstationParameter);
+        }
+    
+        public virtual ObjectResult<SP_RemissionGuide_Consult_Result> SP_RemissionGuide_Consult(Nullable<long> remissionGuideUserId, Nullable<long> transportDriverId)
+        {
+            var remissionGuideUserIdParameter = remissionGuideUserId.HasValue ?
+                new ObjectParameter("RemissionGuideUserId", remissionGuideUserId) :
+                new ObjectParameter("RemissionGuideUserId", typeof(long));
+    
+            var transportDriverIdParameter = transportDriverId.HasValue ?
+                new ObjectParameter("TransportDriverId", transportDriverId) :
+                new ObjectParameter("TransportDriverId", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Consult_Result>("SP_RemissionGuide_Consult", remissionGuideUserIdParameter, transportDriverIdParameter);
         }
     }
 }

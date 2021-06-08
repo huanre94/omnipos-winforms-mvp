@@ -52,6 +52,7 @@
             this.ETOrderDate = new DevExpress.XtraEditors.DateEdit();
             this.chkDate = new DevExpress.XtraEditors.CheckButton();
             this.BtnPrintSaleOrder = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnSearch = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbOrderStatus.Properties)).BeginInit();
@@ -249,7 +250,7 @@
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(1008, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
@@ -318,7 +319,7 @@
             // 
             this.LblMotive.AutoSize = true;
             this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblMotive.Location = new System.Drawing.Point(396, 38);
+            this.LblMotive.Location = new System.Drawing.Point(345, 38);
             this.LblMotive.Name = "LblMotive";
             this.LblMotive.Size = new System.Drawing.Size(64, 18);
             this.LblMotive.TabIndex = 142;
@@ -326,11 +327,11 @@
             // 
             // CmbOrderStatus
             // 
-            this.CmbOrderStatus.Location = new System.Drawing.Point(476, 29);
+            this.CmbOrderStatus.Location = new System.Drawing.Point(425, 29);
             this.CmbOrderStatus.Name = "CmbOrderStatus";
             this.CmbOrderStatus.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbOrderStatus.Size = new System.Drawing.Size(282, 38);
+            this.CmbOrderStatus.Size = new System.Drawing.Size(238, 38);
             this.CmbOrderStatus.TabIndex = 143;
             // 
             // label1
@@ -345,18 +346,18 @@
             // 
             // CmbSalesOrderOrigin
             // 
-            this.CmbSalesOrderOrigin.Location = new System.Drawing.Point(859, 29);
+            this.CmbSalesOrderOrigin.Location = new System.Drawing.Point(758, 29);
             this.CmbSalesOrderOrigin.Name = "CmbSalesOrderOrigin";
             this.CmbSalesOrderOrigin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(255, 38);
+            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(245, 38);
             this.CmbSalesOrderOrigin.TabIndex = 143;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label2.Location = new System.Drawing.Point(786, 38);
+            this.label2.Location = new System.Drawing.Point(685, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 18);
             this.label2.TabIndex = 142;
@@ -375,7 +376,7 @@
             this.ETOrderDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.ETOrderDate.Properties.Mask.EditMask = "";
             this.ETOrderDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
-            this.ETOrderDate.Size = new System.Drawing.Size(205, 38);
+            this.ETOrderDate.Size = new System.Drawing.Size(186, 38);
             this.ETOrderDate.TabIndex = 143;
             // 
             // chkDate
@@ -397,7 +398,7 @@
             this.BtnPrintSaleOrder.Appearance.Options.UseBackColor = true;
             this.BtnPrintSaleOrder.Appearance.Options.UseFont = true;
             this.BtnPrintSaleOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPrintSaleOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnPrintSaleOrder.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintSaleOrder.ImageOptions.SvgImage")));
             this.BtnPrintSaleOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintSaleOrder.Location = new System.Drawing.Point(646, 704);
             this.BtnPrintSaleOrder.Name = "BtnPrintSaleOrder";
@@ -406,11 +407,30 @@
             this.BtnPrintSaleOrder.Text = "Ult. Orden";
             this.BtnPrintSaleOrder.Click += new System.EventHandler(this.BtnPrintSaleOrder_Click);
             // 
+            // BtnSearch
+            // 
+            this.BtnSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnSearch.Appearance.Options.UseBackColor = true;
+            this.BtnSearch.Appearance.Options.UseFont = true;
+            this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.BtnSearch.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSearch.ImageOptions.SvgImage")));
+            this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
+            this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
+            this.BtnSearch.Location = new System.Drawing.Point(1034, 20);
+            this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnSearch.Size = new System.Drawing.Size(63, 55);
+            this.BtnSearch.TabIndex = 158;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
+            // 
             // FrmSalesOrderPicker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.BtnPrintSaleOrder);
             this.Controls.Add(this.chkDate);
             this.Controls.Add(this.label1);
@@ -430,6 +450,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmSalesOrderPicker";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSalesOrderPicker_FormClosing);
             this.Load += new System.EventHandler(this.FrmSalesOrderPicker_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).EndInit();
@@ -467,5 +488,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn RemGuide;
         private DevExpress.XtraEditors.CheckButton chkDate;
         private DevExpress.XtraEditors.SimpleButton BtnPrintSaleOrder;
+        private DevExpress.XtraEditors.SimpleButton BtnSearch;
     }
 }

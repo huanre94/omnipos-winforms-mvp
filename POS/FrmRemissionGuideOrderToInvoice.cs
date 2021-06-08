@@ -1,6 +1,7 @@
 ﻿using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace POS
                         if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                         {
                             functions.AxOPOSScanner = AxOPOSScanner;
-                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                            //functions.EnableScanner(emissionPoint.ScanBarcodeName);
                         }
                         else
                         {
@@ -113,10 +114,9 @@ namespace POS
             {
                 functions.emissionPoint = emissionPoint;
                 bool isApproved = functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.REMISSIONGUIDE_CANCEL);
-
                 if (isApproved)
                 {
-                    ClsSalesOrder clsSalesOrder = new ClsSalesOrder();
+                    ClsSalesOrderTrans clsSalesOrder = new ClsSalesOrderTrans();
                     clsSalesOrder.loginInformation = loginInformation;
                     SP_RemissionGuide_Cancel_Result result = clsSalesOrder.CancelRemissionGuide(remission.SalesRemissionId);
                     if (!(bool)result.Error)
@@ -174,7 +174,6 @@ namespace POS
                             taxAmount = taxAmount,
                             baseAmount = baseAmount,
                             loginInformation = loginInformation,
-                            //scanner = AxOPOSScanner,
                             internalCreditCardCode = "",
                             invoiceXml = salesOrderXml
                         };
@@ -211,7 +210,93 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("Pedido ya cuenta con un metodo de pago.", ClsEnums.MessageType.WARNING);
+                        if (functions.ShowMessage("Pedido ya cuenta con un metodo de pago. Desea reemplazar el metodo de pago actual?", ClsEnums.MessageType.CONFIRM))
+                        {
+                            bool isWebPayment = false;
+                            try
+                            {
+                                var webPayment = (from sp in new POSEntities().SalesOrderPayment
+                                                  where sp.SalesOrderId == result.SalesOrderId
+                                                  && sp.PaymModeId == (int)ClsEnums.PaymModeEnum.PAGOS_WEB
+                                                  select sp).ToList().Count();
+                                isWebPayment = webPayment > 0;
+                            }
+                            catch (Exception)
+                            {
+
+                                throw;
+                            }
+
+                            if (isWebPayment)
+                            {
+                                functions.ShowMessage("No se puede modificar un pedido con pago web", ClsEnums.MessageType.ERROR);
+                                return;
+                            }
+
+                            functions.emissionPoint = emissionPoint;
+                            bool isApproved = functions.RequestSupervisorAuth();
+                            if (isApproved)
+                            {
+                                {
+                                    decimal baseAmount = 0;
+                                    decimal taxAmount = 0;
+
+                                    var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId);
+                                    if (list.Count != 0)
+                                    {
+                                        foreach (var item in list)
+                                        {
+                                            baseAmount = (decimal)(item.BaseAmount + item.BaseTaxAmount - item.LineDiscount);
+                                            taxAmount = (decimal)item.TaxAmount;
+                                        }
+                                    }
+
+                                    Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId);
+
+                                    FrmPayment payment = new FrmPayment
+                                    {
+                                        invoiceAmount = (decimal)result.Amount,
+                                        customer = customer,
+                                        emissionPoint = emissionPoint,
+                                        taxAmount = taxAmount,
+                                        baseAmount = baseAmount,
+                                        loginInformation = loginInformation,
+                                        internalCreditCardCode = "",
+                                        invoiceXml = salesOrderXml
+                                    };
+                                    payment.ShowDialog();
+
+                                    if (payment.canCloseInvoice)
+                                    {
+                                        if (payment.isInvoicePaymentDiscount)
+                                        {
+                                            salesOrderXml = payment.invoiceXml;
+                                        }
+
+                                        if (payment.paymentXml.HasElements)
+                                        {
+                                            try
+                                            {
+                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                                if ((bool)update.Error)
+                                                {
+                                                    result.HavePaymentMethod = update.Error;
+                                                    GrcSalesOrder.RefreshDataSource();
+                                                }
+                                                else
+                                                {
+                                                    functions.ShowMessage("No se pudo actualizar forma de pago", ClsEnums.MessageType.ERROR, true, update.TextError);
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                functions.ShowMessage("Ocurrio un error al guardar forma de pago", ClsEnums.MessageType.ERROR, true, ex.Message);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 else
@@ -239,20 +324,21 @@ namespace POS
                 {
                     try
                     {
-                        ClsSalesOrder sales = new ClsSalesOrder();
+                        ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
                         sales.loginInformation = loginInformation;
 
                         SP_RemissionGuideInvoice_Insert_Result response = sales.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
-                        
+
                         if (!(bool)response.Error)
                         {
+                            functions.PrintDocument(remission.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE);
                             functions.ShowMessage("Facturas generadas exitosamente", ClsEnums.MessageType.INFO);
                             isUpdated = true;
                             Close();
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudieron generar las facturas", ClsEnums.MessageType.ERROR);
+                            functions.ShowMessage("No se pudieron generar las facturas", ClsEnums.MessageType.ERROR, true, response.TextError);
                         }
                     }
                     catch (Exception ex)
@@ -277,7 +363,7 @@ namespace POS
             SP_RemissionGuideSalesOrder_Consult_Result result = (SP_RemissionGuideSalesOrder_Consult_Result)GrvSalesOrder.GetRow(GrvSalesOrder.FocusedRowHandle);
             if ((bool)!result.HavePaymentMethod)
             {
-                ClsSalesOrder sales = new ClsSalesOrder();
+                ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
                 if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", ClsEnums.MessageType.CONFIRM))
                 {
                     functions.emissionPoint = emissionPoint;

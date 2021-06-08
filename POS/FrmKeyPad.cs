@@ -19,8 +19,10 @@ namespace POS
         public string productQuantity = "";
         public string emissionPoint = "";
         public string invoiceNumber = "";
-        public string productInventory = ""; 
+        public string productInventory = "";
         public string supervisorPassword = "";
+        public string salesOrderId = "";
+
 
         public FrmKeyPad()
         {
@@ -162,6 +164,9 @@ namespace POS
                         break;
                     case ClsEnums.InputFromOption.SUPERVISOR_PASSWORD:
                         supervisorPassword = TxtValue.Text;
+                        break;
+                    case ClsEnums.InputFromOption.SALESORDER_ID:
+                        salesOrderId = TxtValue.Text;
                         break;
                     default:
                         break;

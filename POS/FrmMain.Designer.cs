@@ -727,7 +727,7 @@
             this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
             this.BtnPrintLastInvoice.Appearance.Options.UseFont = true;
             this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPrintLastInvoice.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnPrintLastInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastInvoice.ImageOptions.SvgImage")));
             this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintLastInvoice.Location = new System.Drawing.Point(471, 695);
             this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
@@ -745,7 +745,7 @@
             this.BtnExit.Appearance.Options.UseFont = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(1102, 695);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);

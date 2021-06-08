@@ -347,7 +347,7 @@
             this.BtnKeypadPhone.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadPhone.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadPhone.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadPhone.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.BtnKeypadPhone.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPhone.ImageOptions.SvgImage")));
             this.BtnKeypadPhone.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnKeypadPhone.Location = new System.Drawing.Point(319, 292);
             this.BtnKeypadPhone.Margin = new System.Windows.Forms.Padding(6);

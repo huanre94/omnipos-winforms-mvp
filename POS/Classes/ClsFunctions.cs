@@ -249,7 +249,7 @@ namespace POS
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
-
+                
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
                 response = true;

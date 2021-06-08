@@ -1,5 +1,6 @@
 ﻿using POS.Classes;
 using POS.DLL;
+using POS.DLL.Transaction;
 using System;
 using System.Drawing.Printing;
 using System.Windows.Forms;
@@ -19,6 +20,7 @@ namespace POS
         public Int64 internalCreditCardId;
         public string internalCreditCardCode = string.Empty;
         ClsEnums.ScaleBrands scaleBrand;
+        public int salesOriginId;
 
         public FrmPaymentCredit()
         {
@@ -27,48 +29,56 @@ namespace POS
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            if (ValidateCustomerInformation())
+            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId))
             {
-                if (ValidateCredit())
+                formActionResult = true;
+                Close();
+            }
+            else
+            {
+                if (ValidateCustomerInformation())
                 {
-                    if (isPresentingCreditCard)
+                    if (ValidateCredit())
                     {
-                        LblAuthorization.Visible = true;
-                        TxtCreditCardCode.Visible = true;
-
-                        scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
-
-                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                        if (isPresentingCreditCard)
                         {
-                            functions.AxOPOSScanner = scanner;
-                            functions.DisableScanner();
-                            functions.AxOPOSScanner = AxOPOSScanner;
-                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                            LblAuthorization.Visible = true;
+                            TxtCreditCardCode.Visible = true;
+
+                            scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                            {
+                                functions.AxOPOSScanner = scanner;
+                                functions.DisableScanner();
+                                functions.AxOPOSScanner = AxOPOSScanner;
+                                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                            }
+                        }
+                        else
+                        {
+                            if (internalCreditCardCode != "")
+                            {
+                                GetInternalCreditCard(internalCreditCardCode);
+                            }
+                            else
+                            {
+                                if (customer.IsEmployee && !(bool)customer.IsCredit)
+                                {
+                                    functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
+                                    Close();
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        if (internalCreditCardCode != "")
-                        {
-                            GetInternalCreditCard(internalCreditCardCode);
-                        }
-                        else
-                        {
-                            if (customer.IsEmployee && !(bool)customer.IsCredit)
-                            {
-                                functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
-                                Close();
-                            }
-                        }
+                        functions.ShowMessage("El cliente no puede realizar compra a Crédito.", ClsEnums.MessageType.WARNING);
+                        DialogResult = DialogResult.Cancel;
                     }
                 }
-                else
-                {
-                    functions.ShowMessage("El cliente no puede realizar compra a Crédito.", ClsEnums.MessageType.WARNING);
-                    DialogResult = DialogResult.Cancel;
-                }
             }
-        }        
+        }
 
         private bool ValidateCredit()
         {
@@ -110,22 +120,22 @@ namespace POS
             }
 
             return response;
-        }        
+        }
 
         private bool ValidateInternalCreditFields()
         {
             bool response = false;
 
             if (customer.IsEmployee)
-            {               
+            {
                 if (LblHolderName.Text != "" && LblCreditLimit.Text != "")
                 {
-                    response = true;                        
+                    response = true;
                 }
                 else
                 {
                     functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", ClsEnums.MessageType.WARNING);
-                }               
+                }
             }
             else
             {
@@ -139,8 +149,8 @@ namespace POS
 
             return response;
         }
-        
-      
+
+
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             if (isPresentingCreditCard && scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
@@ -149,7 +159,7 @@ namespace POS
                 functions.AxOPOSScanner = scanner;
                 functions.EnableScanner(emissionPoint.ScanBarcodeName);
             }
-        }        
+        }
 
         private void TxtCreditCardCode_KeyDown(object sender, KeyEventArgs e)
         {
