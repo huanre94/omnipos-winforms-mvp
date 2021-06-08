@@ -33,6 +33,7 @@ namespace POS
         public string internalCreditCardCode = "";
         public XElement invoiceXml; //HR002
         public bool isInvoicePaymentDiscount = false;   //HR002
+        public int salesOriginId;
 
         public FrmPayment()
         {
@@ -290,7 +291,7 @@ namespace POS
                     if (paymentCard.amountPaymmodeDiscount > 0)
                     {
                         invoiceAmount = paymentCard.amountPaymmodeDiscount;
-                        TxtAmount.Text = paymentCard.amountPaymmodeDiscount.ToString();
+                        TxtAmount.Text = invoiceAmount.ToString();
                         invoiceXml = paymentCard.invoiceXml;
                     }
                     else
@@ -311,6 +312,10 @@ namespace POS
 
                 AddRecordToGrid(invoicePayment);
                 CalculatePayment();
+            }
+            else
+            {
+                invoiceXml = XElement.Parse(AuxXml);
             }
         }
 
@@ -358,6 +363,7 @@ namespace POS
             paymentCredit.emissionPoint = emissionPoint;
             //paymentCredit.scanner = scanner;
             paymentCredit.internalCreditCardCode = internalCreditCardCode;
+            paymentCredit.salesOriginId = salesOriginId;
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)

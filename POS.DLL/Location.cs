@@ -30,8 +30,8 @@ namespace POS.DLL
             this.PhysicalStockCountingTable = new HashSet<PhysicalStockCountingTable>();
             this.GiftCardTrans = new HashSet<GiftCardTrans>();
             this.InvoicePayment = new HashSet<InvoicePayment>();
-            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
+            this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
         }
     
         public short LocationId { get; set; }
@@ -79,8 +79,8 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
     }
 }

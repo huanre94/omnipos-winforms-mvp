@@ -263,7 +263,7 @@
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(657, 426);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
@@ -363,7 +363,7 @@
             this.BtnCreditCard.Appearance.Options.UseBackColor = true;
             this.BtnCreditCard.Appearance.Options.UseFont = true;
             this.BtnCreditCard.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCreditCard.ImageOptions.SvgImage = global::POS.Properties.Resources.creditCard;
+            this.BtnCreditCard.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCreditCard.ImageOptions.SvgImage")));
             this.BtnCreditCard.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.CommonPalette;
             this.BtnCreditCard.ImageOptions.SvgImageSize = new System.Drawing.Size(75, 75);
             this.BtnCreditCard.Location = new System.Drawing.Point(285, 86);

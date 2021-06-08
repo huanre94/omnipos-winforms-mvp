@@ -20,8 +20,7 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         List<SP_ClosingCashierDenominations_Consult_Result> denominations;
         List<SP_ClosingCashierPartial_Consult_Result> partials;
-        List<SP_ClosingCashierPayment_Consult_Result> payments;
-        XElement closingXml = new XElement("ClosingCashier");
+        List<SP_ClosingCashierPayment_Consult_Result> payments;        
         GridView selectedGrv;
         decimal totalHideCash = 0;
 
@@ -222,6 +221,7 @@ namespace POS
             }
             else
             {
+                XElement closingXml = new XElement("ClosingCashier");
                 if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
                 {
                     functions.emissionPoint = emissionPoint;

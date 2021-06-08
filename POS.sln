@@ -28,16 +28,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B381970-A76A-4218-904B-8D05551064AB}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dev.azure.com/laespanola
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = POS\\POS.csproj
-		SccProjectName1 = POS
-		SccLocalPath1 = POS
-		SccProjectUniqueName2 = POS.DLL\\POS.DLL.csproj
-		SccProjectName2 = POS.DLL
-		SccLocalPath2 = POS.DLL
-	EndGlobalSection
 EndGlobal

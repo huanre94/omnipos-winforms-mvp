@@ -442,30 +442,34 @@ namespace POS
 
         private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
         {
-            try
+            functions.emissionPoint = emissionPoint;
+            bool isApproved = functions.RequestSupervisorAuth();
+            if (isApproved)
             {
-                Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
+                try
+                {
+                    Int64 lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
 
-                if (lastId == 0)
-                {
-                    functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                    if (lastId == 0)
+                    {
+                        functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                    }
+                    else
+                    {
+                        //PrintInvoice(lastId, false);
+                        functions.PrintDocument(lastId, ClsEnums.DocumentType.INVOICE);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    //PrintInvoice(lastId, false);
-                    functions.PrintDocument(lastId, ClsEnums.DocumentType.INVOICE);
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al imprimir la última factura."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
                 }
             }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al imprimir la última factura."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
-            }
-
             TxtBarcode.Focus();
         }
 
@@ -525,8 +529,9 @@ namespace POS
                     baseAmount = baseAmount,
                     loginInformation = loginInformation,
                     scanner = AxOPOSScanner,
-                    internalCreditCardCode = internalCreditCardCode
-                    ,invoiceXml = invoiceXml // HR002
+                    internalCreditCardCode = internalCreditCardCode,
+                    invoiceXml = invoiceXml, // HR002
+                    salesOriginId = salesOriginId
                 };
                 payment.ShowDialog();
 
@@ -598,113 +603,117 @@ namespace POS
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
         {
-            if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
+            functions.emissionPoint = emissionPoint;
+            bool isApproved = functions.RequestSupervisorAuth();
+            if (isApproved)
             {
-                if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
+                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
                 {
-                    BtnSuspendSale.Text = "Suspender";
-                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.SuspendSale;
-
-                    SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint);
-                    XElement element = XElement.Parse(sales.XmlLog);
-
-                    var listProducts = (from li in element.Descendants("InvoiceLine")
-                                        select li).ToList();
-
-                    foreach (XElement item in listProducts)
+                    if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
                     {
-                        decimal qtyFound = 0;
-                        string barcode = "";
+                        BtnSuspendSale.Text = "Suspender";
+                        BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.SuspendSale;
 
-                        foreach (var node in item.Elements())
+                        SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint);
+                        XElement element = XElement.Parse(sales.XmlLog);
+
+                        var listProducts = (from li in element.Descendants("InvoiceLine")
+                                            select li).ToList();
+
+                        foreach (XElement item in listProducts)
                         {
-                            switch (node.Name.ToString())
+                            decimal qtyFound = 0;
+                            string barcode = "";
+
+                            foreach (var node in item.Elements())
                             {
-                                case "Barcode":
-                                    barcode = node.Value;
-                                    break;
-                                case "BarcodeBefore":
-                                    if (node.Value != "")
-                                    {
+                                switch (node.Name.ToString())
+                                {
+                                    case "Barcode":
                                         barcode = node.Value;
-                                    }
-                                    break;
-                                case "Quantity":
-                                    qtyFound = decimal.Parse(node.Value);
-                                    break;
+                                        break;
+                                    case "BarcodeBefore":
+                                        if (node.Value != "")
+                                        {
+                                            barcode = node.Value;
+                                        }
+                                        break;
+                                    case "Quantity":
+                                        qtyFound = decimal.Parse(node.Value);
+                                        break;
+                                }
+                            }
+
+                            GetProductInformation(
+                                                 emissionPoint.LocationId
+                                                 , barcode
+                                                 , qtyFound
+                                                 , currentCustomer.CustomerId
+                                                 , internalCreditCardId
+                                                 , ""
+                                                 , true
+                                                 );
+                        }
+
+                        currentCustomer = new ClsCustomer().GetCustomerById(sales.CustomerId);
+
+                        if (currentCustomer != null)
+                        {
+                            if (currentCustomer.CustomerId > 0)
+                            {
+                                LblCustomerId.Text = currentCustomer.Identification;
+                                LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                                LblCustomerAddress.Text = currentCustomer.Address;
+                                TxtBarcode.Focus();
                             }
                         }
 
-                        GetProductInformation(
-                                             emissionPoint.LocationId
-                                             , barcode
-                                             , qtyFound
-                                             , currentCustomer.CustomerId
-                                             , internalCreditCardId
-                                             , ""
-                                             , true
-                                             );
-                    }
-
-                    currentCustomer = new ClsCustomer().GetCustomerById(sales.CustomerId);
-
-                    if (currentCustomer != null)
-                    {
-                        if (currentCustomer.CustomerId > 0)
-                        {
-                            LblCustomerId.Text = currentCustomer.Identification;
-                            LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
-                            LblCustomerAddress.Text = currentCustomer.Address;
-                            TxtBarcode.Focus();
-                        }
-                    }
-
-                    CalculateInvoice();
-                }
-                else
-                {
-                    functions.ShowMessage("No puede reanudar una venta mientras exista otra en proceso", ClsEnums.MessageType.WARNING);
-                }
-            }
-            else
-            {
-                if (decimal.Parse(LblTotal.Text) <= 0)
-                {
-                    functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
-                }
-                else
-                {
-                    BtnSuspendSale.Text = "Reanudar";
-                    BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.resume;
-
-                    ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
-                    SalesLog salesLog = new SalesLog
-                    {
-                        CustomerId = currentCustomer.CustomerId,
-                        EmissionPointId = emissionPoint.EmissionPointId,
-                        LocationId = emissionPoint.LocationId,
-                        InvoiceNumber = sequenceNumber,
-                        XmlLog = invoiceXml.ToString(),
-                        ReasonId = functions.motiveId,
-                        LogTypeId = (int)ClsEnums.LogType.SUSPENDER_DOCUMENTO,
-                        Authorization = "",
-                        CreatedDatetime = DateTime.Now,
-                        CreatedBy = (int)loginInformation.UserId,
-                        Status = "A",
-                        Workstation = loginInformation.Workstation
-                    };
-
-                    if (invoiceTrans.InsertCancelledSales(salesLog))
-                    {
-                        ClearInvoice();
+                        CalculateInvoice();
                     }
                     else
                     {
-                        functions.ShowMessage("Hubo un error al poner la venta en espera, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                        functions.ShowMessage("No puede reanudar una venta mientras exista otra en proceso", ClsEnums.MessageType.WARNING);
+                    }
+                }
+                else
+                {
+                    if (decimal.Parse(LblTotal.Text) <= 0)
+                    {
+                        functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                    }
+                    else
+                    {
+                        BtnSuspendSale.Text = "Reanudar";
+                        BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.resume;
+
+                        ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+                        SalesLog salesLog = new SalesLog
+                        {
+                            CustomerId = currentCustomer.CustomerId,
+                            EmissionPointId = emissionPoint.EmissionPointId,
+                            LocationId = emissionPoint.LocationId,
+                            InvoiceNumber = sequenceNumber,
+                            XmlLog = invoiceXml.ToString(),
+                            ReasonId = functions.motiveId,
+                            LogTypeId = (int)ClsEnums.LogType.SUSPENDER_DOCUMENTO,
+                            Authorization = "",
+                            CreatedDatetime = DateTime.Now,
+                            CreatedBy = (int)loginInformation.UserId,
+                            Status = "A",
+                            Workstation = loginInformation.Workstation
+                        };
+
+                        if (invoiceTrans.InsertCancelledSales(salesLog))
+                        {
+                            ClearInvoice();
+                        }
+                        else
+                        {
+                            functions.ShowMessage("Hubo un error al poner la venta en espera, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                        }
                     }
                 }
             }
-
             TxtBarcode.Focus();
         }
 
@@ -794,7 +803,6 @@ namespace POS
             if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
-                //functions.DisableScale();
                 catchWeight.DisableScale();
             }
         }
@@ -868,7 +876,7 @@ namespace POS
                             case "TaxAmount":
                                 taxAmountFound = decimal.Parse(node.Value);
                                 break;
-                            //End(IG005)
+                                //End(IG005)
                         }
                     }
 

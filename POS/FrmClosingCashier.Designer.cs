@@ -53,6 +53,7 @@
             this.GrvDenomination = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.DenominationTypeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Monto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PaymModeId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -73,7 +74,6 @@
             this.LblTotalCashier = new System.Windows.Forms.Label();
             this.LblDifference = new System.Windows.Forms.Label();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
-            this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
@@ -420,6 +420,21 @@
             this.gridColumn1.VisibleIndex = 1;
             this.gridColumn1.Width = 118;
             // 
+            // Amount2
+            // 
+            this.Amount2.AppearanceCell.Options.UseTextOptions = true;
+            this.Amount2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
+            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Amount2.Caption = "#";
+            this.Amount2.DisplayFormat.FormatString = "n0";
+            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.Amount2.FieldName = "TypedAmount";
+            this.Amount2.Name = "Amount2";
+            this.Amount2.Visible = true;
+            this.Amount2.VisibleIndex = 2;
+            this.Amount2.Width = 93;
+            // 
             // Monto
             // 
             this.Monto.AppearanceHeader.Options.UseTextOptions = true;
@@ -472,7 +487,7 @@
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(1007, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
@@ -575,7 +590,7 @@
             this.BtnLastClosing.Appearance.Options.UseBackColor = true;
             this.BtnLastClosing.Appearance.Options.UseFont = true;
             this.BtnLastClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnLastClosing.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnLastClosing.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLastClosing.ImageOptions.SvgImage")));
             this.BtnLastClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnLastClosing.Location = new System.Drawing.Point(772, 704);
             this.BtnLastClosing.Margin = new System.Windows.Forms.Padding(5);
@@ -677,21 +692,6 @@
             this.BtnDot.TabIndex = 161;
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
-            // 
-            // Amount2
-            // 
-            this.Amount2.AppearanceCell.Options.UseTextOptions = true;
-            this.Amount2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Amount2.AppearanceHeader.Options.UseTextOptions = true;
-            this.Amount2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Amount2.Caption = "#";
-            this.Amount2.DisplayFormat.FormatString = "n0";
-            this.Amount2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Amount2.FieldName = "TypedAmount";
-            this.Amount2.Name = "Amount2";
-            this.Amount2.Visible = true;
-            this.Amount2.VisibleIndex = 2;
-            this.Amount2.Width = 93;
             // 
             // FrmClosingCashier
             // 

@@ -50,7 +50,7 @@
             this.GrcProduct = new DevExpress.XtraGrid.GridControl();
             this.GrvProduct = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
@@ -310,8 +310,8 @@
             this.GrvProduct.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
             this.GrvProduct.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.ProductName,
-            this.gridColumn2});
+            this.gridColumn2,
+            this.gridColumn3});
             this.GrvProduct.GridControl = this.GrcProduct;
             this.GrvProduct.Name = "GrvProduct";
             this.GrvProduct.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -334,22 +334,22 @@
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Width = 10;
             // 
-            // ProductName
+            // gridColumn3
             // 
-            this.ProductName.AppearanceHeader.Options.UseTextOptions = true;
-            this.ProductName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ProductName.Caption = "Nombre Producto";
-            this.ProductName.FieldName = "ProductName";
-            this.ProductName.MaxWidth = 500;
-            this.ProductName.Name = "ProductName";
-            this.ProductName.OptionsColumn.AllowEdit = false;
-            this.ProductName.OptionsColumn.AllowSize = false;
-            this.ProductName.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.ProductName.OptionsColumn.FixedWidth = true;
-            this.ProductName.OptionsColumn.ReadOnly = true;
-            this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 0;
-            this.ProductName.Width = 500;
+            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn3.Caption = "Nombre Producto";
+            this.gridColumn3.FieldName = "ProductName";
+            this.gridColumn3.MaxWidth = 500;
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowSize = false;
+            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.OptionsColumn.FixedWidth = true;
+            this.gridColumn3.OptionsColumn.ReadOnly = true;
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 0;
+            this.gridColumn3.Width = 500;
             // 
             // gridColumn2
             // 
@@ -563,7 +563,7 @@
         private DevExpress.XtraGrid.GridControl GrcProduct;
         private DevExpress.XtraGrid.Views.Grid.GridView GrvProduct;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;

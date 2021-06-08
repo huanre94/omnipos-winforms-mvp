@@ -66,7 +66,7 @@ namespace POS.DLL.Transaction
 
             try
             {
-                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();                
+                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace POS.DLL.Transaction
 
             try
             {
-                consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();                
+                consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -116,9 +116,9 @@ namespace POS.DLL.Transaction
             }
 
             return consult;
-        }      
+        }
 
-        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint) 
+        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint)
         {
             POSEntities pos = new POSEntities();
             long consult;
@@ -130,8 +130,8 @@ namespace POS.DLL.Transaction
                     .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId && it.LocationId == emissionPoint.LocationId && it.ClosingCashierId == 0)
                     .OrderByDescending(it => it.InvoiceId)
                     .Take(1)
-                    .Select(it=>it.InvoiceId)
-                    .FirstOrDefault();                                               
+                    .Select(it => it.InvoiceId)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -143,8 +143,8 @@ namespace POS.DLL.Transaction
 
         public List<SP_InvoicePayment_Consult_Result> GetInvoicePayments(
                                                                             int _locationId
-                                                                            ,string _emissionPoint
-                                                                            ,string _invoiceNumber
+                                                                            , string _emissionPoint
+                                                                            , string _invoiceNumber
                                                                         )
         {
             var db = new POSEntities();
@@ -158,7 +158,7 @@ namespace POS.DLL.Transaction
                                                         , _invoiceNumber
                                                         ).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -196,7 +196,7 @@ namespace POS.DLL.Transaction
             invoiceTable.Workstation = _workStation;
 
             if (_invoicePayment.PaymModeId == 5 || _invoicePayment.PaymModeId == 13)
-            {                
+            {
                 invoicePayment.BankId = _invoicePayment.BankId;
                 invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
                 invoicePayment.Authorization = _invoicePayment.Authorization;
@@ -314,6 +314,23 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public bool ConsultSalesOriginCredit(int salesOriginId)
+        {
+            bool allowCredit = false;
+            var db = new POSEntities();
+            try
+            {
+                allowCredit = (bool)(from so in db.SalesOrigin
+                               where so.SalesOriginId == salesOriginId
+                               select so.AllowCredit).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return allowCredit;
         }
     }
 }

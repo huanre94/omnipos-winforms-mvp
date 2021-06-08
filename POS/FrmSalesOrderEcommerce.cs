@@ -26,7 +26,7 @@ namespace POS
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder;
         ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrder sales = new ClsSalesOrder();
+        ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
         XElement salesOrderXml = new XElement("SalesOrder");
         public List<GlobalParameter> globalParameters;
         ClsEnums.ScaleBrands scaleBrand;
@@ -718,6 +718,14 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+            }
+        }
+
+        private void FrmSalesOrderEcommerce_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            {
+                functions.DisableScanner();
             }
         }
     }

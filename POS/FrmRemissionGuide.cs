@@ -11,6 +11,7 @@ using DevExpress.XtraEditors;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.Classes;
+using DevExpress.XtraEditors.Controls;
 
 namespace POS
 {
@@ -78,7 +79,37 @@ namespace POS
             if (GetEmissionPointInformation())
             {
                 CheckGridView();
+                LoadDrivers();
                 LoadPendingRemissionGuides();
+            }
+        }
+
+        private void LoadDrivers()
+        {
+            try
+            {
+                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
+                if (transportDrivers != null)
+                {
+                    if (transportDrivers.Count > 0)
+                    {
+                        foreach (TransportDriver transportDriver in transportDrivers)
+                        {
+                            CmbTransportDriver.Properties.Items.Add(new ImageComboBoxItem { Value = transportDriver.TransportDriverId, Description = transportDriver.Firtsname + " " + transportDriver.Lastname });
+                        }
+                        CmbTransportDriver.Properties.Items.Insert(0, new ImageComboBoxItem { Value = 0, Description = "Todos" });
+                        CmbTransportDriver.SelectedIndex = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                                          "Ocurrio un problema al consultar conductores."
+                                                          , ClsEnums.MessageType.ERROR
+                                                          , true
+                                                          , ex.InnerException.Message
+                                                      );
             }
         }
 
@@ -125,11 +156,22 @@ namespace POS
 
         private void LoadPendingRemissionGuides()
         {
-            Cursor.Current = Cursors.WaitCursor;
             List<SP_RemissionGuide_Consult_Result> result;
             try
             {
-                result = new ClsSalesOrder().GetActiveRemissionGuides();
+                long userId = 0;
+                int driverId = 0;
+                if (ChkMyGuides.Checked)
+                {
+                    userId = (long)loginInformation.UserId;
+                }
+                if (CmbTransportDriver.EditValue != null)
+                {
+                    driverId = (int)CmbTransportDriver.EditValue;
+                }
+                
+
+                result = new ClsSalesOrder().GetActiveRemissionGuides(userId, driverId);
                 if (result.Count == 0)
                 {
                     GrcSalesOrder.DataSource = null;
@@ -137,7 +179,6 @@ namespace POS
 
                 BindingList<SP_RemissionGuide_Consult_Result> bindingList = new BindingList<SP_RemissionGuide_Consult_Result>(result);
                 GrcRemissionGuide.DataSource = bindingList;
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex)
             {
@@ -206,7 +247,7 @@ namespace POS
                 try
                 {
                     SP_RemissionGuide_Consult_Result result = (SP_RemissionGuide_Consult_Result)GrvRemissionGuide.GetRow(GrvRemissionGuide.FocusedRowHandle);
-                    Int64 lastId = result.SalesRemissionId;
+                    long lastId = result.SalesRemissionId;
                     if (lastId == 0)
                     {
                         functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);

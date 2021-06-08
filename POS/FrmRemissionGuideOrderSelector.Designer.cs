@@ -33,7 +33,7 @@
             this.GrvSalesOrder = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SalesOrderId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -54,6 +54,7 @@
             this.LblRemissionGuideNumber = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.LblCashier = new System.Windows.Forms.Label();
+            this.BtnSearch = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
@@ -69,12 +70,12 @@
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.Edit.Visible = false;
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
             this.GrcSalesOrder.EmbeddedNavigator.Buttons.Remove.Visible = false;
-            this.GrcSalesOrder.Location = new System.Drawing.Point(15, 127);
+            this.GrcSalesOrder.Location = new System.Drawing.Point(17, 136);
             this.GrcSalesOrder.MainView = this.GrvSalesOrder;
             this.GrcSalesOrder.Name = "GrcSalesOrder";
             this.GrcSalesOrder.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.GrcSalesOrder.Size = new System.Drawing.Size(1019, 437);
+            this.GrcSalesOrder.Size = new System.Drawing.Size(1335, 560);
             this.GrcSalesOrder.TabIndex = 141;
             this.GrcSalesOrder.UseEmbeddedNavigator = true;
             this.GrcSalesOrder.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -84,7 +85,7 @@
             // 
             this.GrvSalesOrder.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.gridColumn2,
+            this.SalesOrderId,
             this.gridColumn5,
             this.gridColumn4,
             this.gridColumn6,
@@ -95,10 +96,14 @@
             // 
             // gridColumn1
             // 
+            this.gridColumn1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn1.Caption = " ";
             this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
             this.gridColumn1.FieldName = "isSelected";
             this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
             this.gridColumn1.Width = 99;
@@ -108,59 +113,78 @@
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
-            // gridColumn2
+            // SalesOrderId
             // 
-            this.gridColumn2.Caption = "# Ord";
-            this.gridColumn2.FieldName = "SalesOrderId";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.OptionsColumn.AllowEdit = false;
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 93;
+            this.SalesOrderId.AppearanceHeader.Options.UseTextOptions = true;
+            this.SalesOrderId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SalesOrderId.Caption = "# Ord";
+            this.SalesOrderId.FieldName = "SalesOrderId";
+            this.SalesOrderId.Name = "SalesOrderId";
+            this.SalesOrderId.OptionsColumn.AllowEdit = false;
+            this.SalesOrderId.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SalesOrderId.Visible = true;
+            this.SalesOrderId.VisibleIndex = 1;
+            this.SalesOrderId.Width = 93;
             // 
             // gridColumn5
             // 
+            this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn5.Caption = "Fecha";
             this.gridColumn5.FieldName = "OrderDate";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.OptionsColumn.AllowEdit = false;
+            this.gridColumn5.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn5.OptionsFilter.AllowFilter = false;
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 2;
             this.gridColumn5.Width = 145;
             // 
             // gridColumn4
             // 
+            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "Canal";
             this.gridColumn4.FieldName = "SalesOrigin";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 3;
             this.gridColumn4.Width = 160;
             // 
             // gridColumn6
             // 
+            this.gridColumn6.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn6.Caption = "Cliente";
             this.gridColumn6.FieldName = "CustomerName";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.OptionsColumn.AllowEdit = false;
+            this.gridColumn6.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn6.OptionsFilter.AllowFilter = false;
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 4;
             this.gridColumn6.Width = 291;
             // 
             // gridColumn3
             // 
+            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn3.Caption = "Direccion";
             this.gridColumn3.FieldName = "Address";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 5;
             this.gridColumn3.Width = 337;
             // 
             // CmbTransport
             // 
-            this.CmbTransport.Location = new System.Drawing.Point(257, 69);
+            this.CmbTransport.Location = new System.Drawing.Point(260, 78);
             this.CmbTransport.Name = "CmbTransport";
             this.CmbTransport.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -171,7 +195,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(254, 50);
+            this.label4.Location = new System.Drawing.Point(257, 59);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 16);
             this.label4.TabIndex = 250;
@@ -181,7 +205,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(484, 50);
+            this.label1.Location = new System.Drawing.Point(487, 59);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 16);
             this.label1.TabIndex = 250;
@@ -197,7 +221,7 @@
             this.BtnModify.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnModify.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnModify.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnModify.Location = new System.Drawing.Point(874, 581);
+            this.BtnModify.Location = new System.Drawing.Point(1192, 704);
             this.BtnModify.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModify.Name = "BtnModify";
             this.BtnModify.Size = new System.Drawing.Size(160, 50);
@@ -212,9 +236,9 @@
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(704, 581);
+            this.BtnCancel.Location = new System.Drawing.Point(1022, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -224,7 +248,7 @@
             // 
             // CmbTransportDriver
             // 
-            this.CmbTransportDriver.Location = new System.Drawing.Point(487, 69);
+            this.CmbTransportDriver.Location = new System.Drawing.Point(490, 78);
             this.CmbTransportDriver.Name = "CmbTransportDriver";
             this.CmbTransportDriver.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -235,7 +259,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(796, 50);
+            this.label2.Location = new System.Drawing.Point(799, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 16);
             this.label2.TabIndex = 250;
@@ -244,7 +268,7 @@
             // CmbTransportReason
             // 
             this.CmbTransportReason.Enabled = false;
-            this.CmbTransportReason.Location = new System.Drawing.Point(799, 69);
+            this.CmbTransportReason.Location = new System.Drawing.Point(802, 78);
             this.CmbTransportReason.Name = "CmbTransportReason";
             this.CmbTransportReason.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -255,7 +279,7 @@
             // 
             this.LblLine2.AutoSize = true;
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.LblLine2.Location = new System.Drawing.Point(12, 9);
+            this.LblLine2.Location = new System.Drawing.Point(15, 18);
             this.LblLine2.Name = "LblLine2";
             this.LblLine2.Size = new System.Drawing.Size(79, 26);
             this.LblLine2.TabIndex = 259;
@@ -265,7 +289,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(225, 6);
+            this.label3.Location = new System.Drawing.Point(228, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(21, 28);
             this.label3.TabIndex = 254;
@@ -275,7 +299,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(149, 6);
+            this.label5.Location = new System.Drawing.Point(152, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(21, 28);
             this.label5.TabIndex = 255;
@@ -285,7 +309,7 @@
             // 
             this.LblEmissionPoint.AutoSize = true;
             this.LblEmissionPoint.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblEmissionPoint.Location = new System.Drawing.Point(176, 6);
+            this.LblEmissionPoint.Location = new System.Drawing.Point(179, 15);
             this.LblEmissionPoint.Name = "LblEmissionPoint";
             this.LblEmissionPoint.Size = new System.Drawing.Size(57, 28);
             this.LblEmissionPoint.TabIndex = 256;
@@ -295,7 +319,7 @@
             // 
             this.LblEstablishment.AutoSize = true;
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblEstablishment.Location = new System.Drawing.Point(97, 6);
+            this.LblEstablishment.Location = new System.Drawing.Point(100, 15);
             this.LblEstablishment.Name = "LblEstablishment";
             this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
             this.LblEstablishment.TabIndex = 257;
@@ -305,7 +329,7 @@
             // 
             this.LblRemissionGuideNumber.AutoSize = true;
             this.LblRemissionGuideNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
-            this.LblRemissionGuideNumber.Location = new System.Drawing.Point(252, 6);
+            this.LblRemissionGuideNumber.Location = new System.Drawing.Point(255, 15);
             this.LblRemissionGuideNumber.Name = "LblRemissionGuideNumber";
             this.LblRemissionGuideNumber.Size = new System.Drawing.Size(147, 28);
             this.LblRemissionGuideNumber.TabIndex = 258;
@@ -315,7 +339,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(14, 50);
+            this.label6.Location = new System.Drawing.Point(17, 59);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(58, 16);
             this.label6.TabIndex = 260;
@@ -324,17 +348,36 @@
             // LblCashier
             // 
             this.LblCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblCashier.Location = new System.Drawing.Point(12, 80);
+            this.LblCashier.Location = new System.Drawing.Point(15, 89);
             this.LblCashier.Name = "LblCashier";
             this.LblCashier.Size = new System.Drawing.Size(232, 27);
             this.LblCashier.TabIndex = 260;
             this.LblCashier.Text = "Usuario";
             // 
+            // BtnSearch
+            // 
+            this.BtnSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnSearch.Appearance.Options.UseBackColor = true;
+            this.BtnSearch.Appearance.Options.UseFont = true;
+            this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.BtnSearch.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSearch.ImageOptions.SvgImage")));
+            this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
+            this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
+            this.BtnSearch.Location = new System.Drawing.Point(1056, 61);
+            this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnSearch.Size = new System.Drawing.Size(63, 55);
+            this.BtnSearch.TabIndex = 261;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
+            // 
             // FrmRemissionGuideOrderSelector
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1082, 657);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.LblCashier);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.LblLine2);
@@ -352,10 +395,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.GrcSalesOrder);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmRemissionGuideOrderSelector";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nueva Guia de Remision";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmRemissionGuideOrderSelector_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).EndInit();
@@ -379,7 +422,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Columns.GridColumn SalesOrderId;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.ImageComboBoxEdit CmbTransportDriver;
@@ -395,5 +438,6 @@
         private System.Windows.Forms.Label LblRemissionGuideNumber;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label LblCashier;
+        private DevExpress.XtraEditors.SimpleButton BtnSearch;
     }
 }

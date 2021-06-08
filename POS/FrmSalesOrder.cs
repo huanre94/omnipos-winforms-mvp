@@ -25,10 +25,10 @@ namespace POS
         public long salesOrderId;
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder;
-        ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrder sales = new ClsSalesOrder();
-        XElement salesOrderXml = new XElement("SalesOrder");
         public List<GlobalParameter> globalParameters;
+        ClsFunctions functions = new ClsFunctions();
+        ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
+        XElement salesOrderXml = new XElement("SalesOrder");
         ClsCatchWeight catchWeight;
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
@@ -165,11 +165,20 @@ namespace POS
             LblObservation.Text = salesOrder.Observation;
 
             List<CustomerAddress> customerAddress = new ClsCustomer().GetCustomerAddressesById(customer);
-            CustomerAddress selectedAddress = (from ca in customerAddress
-                                               where ca.CustomerAddressId == salesOrder.CustomerAddressId
-                                               select ca).FirstOrDefault();
-            LblDeliveryAddress.Text = selectedAddress.Address;
-            LblDeliveryAddressRef.Text = selectedAddress.AddressReference;
+            CustomerAddress selectedAddress = null;
+            selectedAddress = (from ca in customerAddress
+                               where ca.CustomerAddressId == salesOrder.CustomerAddressId
+                               select ca).FirstOrDefault();
+            if (selectedAddress == null)
+            {
+                functions.ShowMessage("Ocurrio un error al cargar direccion del pedido", ClsEnums.MessageType.ERROR);
+                return;
+            }
+            else
+            {
+                LblDeliveryAddress.Text = selectedAddress.Address;
+                LblDeliveryAddressRef.Text = selectedAddress.AddressReference;
+            }
             bool canAddNewItems = !(salesOrder.OrderECommerce > 0);
             CheckGridView(canAddNewItems);
             EnableKeypad(canAddNewItems);
@@ -696,7 +705,7 @@ namespace POS
             }
             else
             {
-                salesOrder = sales.GetSalesOrderById(salesOrderId);
+                salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId);
                 if (salesOrder.Status != "A" && salesOrder.Status != "S")
                 {
                     functions.ShowMessage("Solo puede finalizar la orden posterior al picking.", ClsEnums.MessageType.WARNING);

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartialClosing));
             DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
             DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartialClosing));
             this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Monto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PaymModeId = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -209,7 +209,7 @@
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
+            this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(1022, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
@@ -290,7 +290,7 @@
             this.BtnLastClosing.Appearance.Options.UseBackColor = true;
             this.BtnLastClosing.Appearance.Options.UseFont = true;
             this.BtnLastClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnLastClosing.ImageOptions.SvgImage = global::POS.Properties.Resources.printer;
+            this.BtnLastClosing.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLastClosing.ImageOptions.SvgImage")));
             this.BtnLastClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnLastClosing.Location = new System.Drawing.Point(741, 704);
             this.BtnLastClosing.Margin = new System.Windows.Forms.Padding(5);
