@@ -537,9 +537,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GLOVO.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\LLAMADA CELULAR.svg" />
   </ItemGroup>
   <ItemGroup>
@@ -555,10 +552,9 @@
     <None Include="Resources\RAPPI.svg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GLOVO.svg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\inventory.svg" />
+    <None Include="Resources\GLOVO.svg" />
+    <None Include="Resources\PEDIDOS YA.svg" />
     <Content Include="Resources\salesOrigin1.svg" />
     <None Include="Resources\e_commerce.svg" />
     <None Include="Resources\bonus_exchange.svg" />
