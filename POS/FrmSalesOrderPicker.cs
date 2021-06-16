@@ -174,6 +174,7 @@ namespace POS
                 if (sales.Count == 0)
                 {
                     functions.ShowMessage("No existen ordenes generadas.", ClsEnums.MessageType.WARNING);
+                    GrcSalesOrder.DataSource = null;
                     return;
                 }
 
