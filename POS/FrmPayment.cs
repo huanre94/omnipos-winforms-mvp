@@ -33,7 +33,7 @@ namespace POS
         public string internalCreditCardCode = "";
         public XElement invoiceXml; //HR002
         public bool isInvoicePaymentDiscount = false;   //HR002
-        public int salesOriginId;
+        public int salesOriginId = 1;
 
         public FrmPayment()
         {

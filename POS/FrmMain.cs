@@ -254,6 +254,7 @@ namespace POS
                                     paymentCredit.emissionPoint = emissionPoint;
                                     paymentCredit.scanner = AxOPOSScanner;
                                     paymentCredit.isPresentingCreditCard = true;
+                                    paymentCredit.salesOriginId = salesOriginId;
                                     paymentCredit.ShowDialog();
 
                                     if (paymentCredit.formActionResult)

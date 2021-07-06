@@ -51,7 +51,7 @@ namespace POS
         {
             FrmMain frmMain = new FrmMain();
             frmMain.loginInformation = loginInformation;
-            frmMain.globalParameters = globalParameters;            
+            frmMain.globalParameters = globalParameters;
             frmMain.Show();
 
             if (Application.OpenForms.OfType<FrmMain>().Count() == 1)
@@ -63,8 +63,8 @@ namespace POS
             FrmClosingCashier frmClosing = new FrmClosingCashier
             {
                 loginInformation = loginInformation,
-                globalParameters = globalParameters                
-            };            
+                globalParameters = globalParameters
+            };
             frmClosing.Show();
 
             if (Application.OpenForms.OfType<FrmClosingCashier>().Count() == 1)
@@ -75,7 +75,7 @@ namespace POS
         {
             FrmPartialClosing frmPartial = new FrmPartialClosing();
             frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;            
+            frmPartial.globalParameters = globalParameters;
             frmPartial.Show();
 
             if (Application.OpenForms.OfType<FrmPartialClosing>().Count() == 1)
@@ -90,7 +90,7 @@ namespace POS
             frmPartial.Show();
 
             if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
-                this.Hide(); 
+                this.Hide();
         }
 
         private void BtnGiftCardRedeem_Click(object sender, EventArgs e)
@@ -124,13 +124,26 @@ namespace POS
 
         private void BtnPhysicalInventory_Click(object sender, EventArgs e)
         {
-            string allowInventory = String.Empty;
+            bool allowInventory = false;            
+            
+            try
+            {
+                allowInventory = (from par in new POSEntities().GlobalParameter.ToList()
+                                  where par.Name == "AllowPhysicalInventory"
+                                  select par.Value).FirstOrDefault() == "1";
+                        
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                    "Ocurrio un problema al configurar temporizador."
+                                    , ClsEnums.MessageType.ERROR
+                                    , true
+                                    , ex.Message
+                                  );
+            }
 
-            allowInventory = (from par in globalParameters.ToList()
-                              where par.Name == "AllowPhysicalInventory"
-                              select par.Value).FirstOrDefault();
-
-            if (allowInventory == "1")
+            if (allowInventory)
             {
 
                 FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount();
