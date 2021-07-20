@@ -133,6 +133,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage cancel_invoice {
+            get {
+                object obj = ResourceManager.GetObject("cancel_invoice", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage cancel2 {
             get {
                 object obj = ResourceManager.GetObject("cancel2", resourceCulture);

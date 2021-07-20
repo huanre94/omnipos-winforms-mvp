@@ -127,7 +127,7 @@
             this.LblTitleUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblTitleUsername.AutoSize = true;
             this.LblTitleUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblTitleUsername.Location = new System.Drawing.Point(12, 740);
+            this.LblTitleUsername.Location = new System.Drawing.Point(12, 743);
             this.LblTitleUsername.Name = "LblTitleUsername";
             this.LblTitleUsername.Size = new System.Drawing.Size(65, 16);
             this.LblTitleUsername.TabIndex = 166;
@@ -137,7 +137,7 @@
             // 
             this.LblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblUsername.Location = new System.Drawing.Point(83, 740);
+            this.LblUsername.Location = new System.Drawing.Point(82, 740);
             this.LblUsername.Name = "LblUsername";
             this.LblUsername.Size = new System.Drawing.Size(275, 16);
             this.LblUsername.TabIndex = 167;
@@ -146,7 +146,7 @@
             // 
             this.LblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
-            this.LblVersion.Location = new System.Drawing.Point(364, 740);
+            this.LblVersion.Location = new System.Drawing.Point(363, 740);
             this.LblVersion.Name = "LblVersion";
             this.LblVersion.Size = new System.Drawing.Size(275, 16);
             this.LblVersion.TabIndex = 168;
@@ -162,7 +162,7 @@
             this.BtnSalesOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrder.ImageOptions.SvgImage = global::POS.Properties.Resources.e_commerce;
             this.BtnSalesOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnSalesOrder.Location = new System.Drawing.Point(773, 345);
+            this.BtnSalesOrder.Location = new System.Drawing.Point(35, 345);
             this.BtnSalesOrder.Name = "BtnSalesOrder";
             this.BtnSalesOrder.Size = new System.Drawing.Size(350, 200);
             this.BtnSalesOrder.TabIndex = 134;
@@ -197,7 +197,7 @@
             this.BtnGiftCardRedeem.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnGiftCardRedeem.ImageOptions.SvgImage = global::POS.Properties.Resources.bonus_exchange;
             this.BtnGiftCardRedeem.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(35, 345);
+            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(773, 345);
             this.BtnGiftCardRedeem.Name = "BtnGiftCardRedeem";
             this.BtnGiftCardRedeem.Size = new System.Drawing.Size(350, 200);
             this.BtnGiftCardRedeem.TabIndex = 134;
@@ -210,14 +210,14 @@
             this.BtnInvoiceCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnInvoiceCancel.Appearance.Options.UseBackColor = true;
             this.BtnInvoiceCancel.Appearance.Options.UseFont = true;
+            this.BtnInvoiceCancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnInvoiceCancel.ImageOptions.Image")));
             this.BtnInvoiceCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnInvoiceCancel.Location = new System.Drawing.Point(1140, 345);
+            this.BtnInvoiceCancel.Location = new System.Drawing.Point(406, 345);
             this.BtnInvoiceCancel.Name = "BtnInvoiceCancel";
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(350, 200);
             this.BtnInvoiceCancel.TabIndex = 134;
             this.BtnInvoiceCancel.Text = "Anulacion\r\nFactura";
-            this.BtnInvoiceCancel.Visible = false;
             this.BtnInvoiceCancel.Click += new System.EventHandler(this.BtnInvoiceCancel_Click);
             // 
             // BtnPhysicalInventory
@@ -231,7 +231,7 @@
             this.BtnPhysicalInventory.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPhysicalInventory.ImageOptions.SvgImage = global::POS.Properties.Resources.inventory;
             this.BtnPhysicalInventory.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnPhysicalInventory.Location = new System.Drawing.Point(406, 345);
+            this.BtnPhysicalInventory.Location = new System.Drawing.Point(1141, 345);
             this.BtnPhysicalInventory.Name = "BtnPhysicalInventory";
             this.BtnPhysicalInventory.Size = new System.Drawing.Size(350, 200);
             this.BtnPhysicalInventory.TabIndex = 170;
@@ -240,8 +240,9 @@
             // 
             // FrmMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnPhysicalInventory);

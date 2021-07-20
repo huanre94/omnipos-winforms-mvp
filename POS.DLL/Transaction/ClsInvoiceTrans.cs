@@ -252,8 +252,6 @@ namespace POS.DLL.Transaction
             SP_InvoiceCancel_Consult_Result response;
             EmissionPoint point;
 
-
-
             try
             {
                 point = (from y in pos.EmissionPoint
@@ -261,12 +259,10 @@ namespace POS.DLL.Transaction
                          && y.LocationId == emissionPoint.LocationId
                          select y).First();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
-
-
 
             try
             {
@@ -274,9 +270,6 @@ namespace POS.DLL.Transaction
             }
             catch (Exception ex)
             {
-
-
-
                 throw new Exception(ex.Message);
             }
             return response;

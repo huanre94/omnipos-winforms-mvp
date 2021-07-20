@@ -32,7 +32,7 @@ namespace POS
         public FrmRedeemGiftCard()
         {
             InitializeComponent();
-        }     
+        }
 
         #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
@@ -181,7 +181,11 @@ namespace POS
                                             , ex.InnerException.Message
                                             );
                 }
-
+            }
+            else
+            {
+                functions.ShowMessage("Campo N. Bono no puede estar vacio.", ClsEnums.MessageType.WARNING);
+                ClearGiftCard();
             }
         }
 
@@ -359,7 +363,7 @@ namespace POS
             LblExpirationDate.Text = DateTime.Today.ToString();
 
             bool status = false;
-            BtnAccept.Enabled = status;            
+            BtnAccept.Enabled = status;
             TxtRedeemIdentification.Enabled = status;
             TxtRedeemName.Enabled = status;
             TxtBarcode.Enabled = status;
@@ -607,6 +611,6 @@ namespace POS
             }
 
             TxtBarcode.Focus();
-        }        
+        }
     }
 }
