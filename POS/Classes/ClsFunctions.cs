@@ -17,7 +17,7 @@ namespace POS
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
 
         public List<GlobalParameter> globalParameters;
-        public DLL.EmissionPoint emissionPoint;
+        public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
         public int motiveId;
         public string supervisorAuthorization;
@@ -51,8 +51,6 @@ namespace POS
             auth.reasonType = reasonType;
             auth.ShowDialog();
 
-
-
             if (auth.formActionResult)
             {
                 this.motiveId = auth.motiveId;
@@ -64,7 +62,7 @@ namespace POS
         }
 
         public void EnableScanner(string _scannerName)
-        {            
+        {
             try
             {
                 AxOPOSScanner.BeginInit();
@@ -97,7 +95,7 @@ namespace POS
                             );
             }
         }
-        
+
         public void DisableScanner()
         {
             if (AxOPOSScanner != null)
@@ -123,7 +121,7 @@ namespace POS
                 }
             }
         }
-       
+
         public void EnableScale(string _scaleName)
         {
             try
@@ -156,39 +154,37 @@ namespace POS
                             );
             }
         }
-        
-       public void DisableScale()
-       {
-           if (AxOPOSScale != null)
-           {
-               try
-               {                    
+
+        public void DisableScale()
+        {
+            if (AxOPOSScale != null)
+            {
+                try
+                {
                     AxOPOSScale.DeviceEnabled = false;
                     AxOPOSScale.Close();
-               }
-               catch (Exception ex)
-               {
-                   ShowMessage(
-                                "Ocurrio un problema al deshabilitar balanza."
-                                , ClsEnums.MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
-               }
-               finally
-               {
+                }
+                catch (Exception ex)
+                {
+                    ShowMessage(
+                                 "Ocurrio un problema al deshabilitar balanza."
+                                 , ClsEnums.MessageType.ERROR
+                                 , true
+                                 , ex.Message
+                             );
+                }
+                finally
+                {
                     AxOPOSScale = null;
-               }
-           }
-       }
+                }
+            }
+        }
 
-        public bool ValidateCatchWeightProduct(
-                                                AxOposScale_CCO.AxOPOSScale _axOposScale
-                                                , decimal _qty
-                                                , string _productName
-                                                , ClsEnums.ScaleBrands _scaleBrand
-                                                , string _portName = ""
-                                                )
+        public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+                                                decimal _qty,
+                                                string _productName,
+                                                ClsEnums.ScaleBrands _scaleBrand,
+                                                string _portName = "")
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
@@ -226,12 +222,18 @@ namespace POS
             return response;
         }
 
-        public decimal CatchWeightProduct(
-                                            AxOposScale_CCO.AxOPOSScale _axOposScale
-                                            , string _productName
-                                            , ClsEnums.ScaleBrands _scaleBrand
-                                            , string _portName = ""
-                                        )
+        /// <summary>
+        /// Show catchweight form
+        /// </summary>
+        /// <param name="_axOposScale"></param>
+        /// <param name="_productName"></param>
+        /// <param name="_scaleBrand"></param>
+        /// <param name="_portName"></param>
+        /// <returns></returns>
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+                                    string _productName,
+                                    ClsEnums.ScaleBrands _scaleBrand,
+                                    string _portName = "")
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
@@ -239,7 +241,7 @@ namespace POS
             frmCatchWeight.globalParameters = globalParameters;
             frmCatchWeight.ShowDialog();
 
-            return frmCatchWeight.weight;;
+            return frmCatchWeight.weight;
         }
 
         public bool ProcessDocumentToPrint(string TextDocument)
@@ -249,7 +251,7 @@ namespace POS
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
-                
+
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
                 response = true;
@@ -369,7 +371,7 @@ namespace POS
                         break;
                     default:
                         return response;
-                }               
+                }
 
                 response = ProcessDocumentToPrint(bodyText);
             }

@@ -283,14 +283,9 @@ namespace POS.DLL.Transaction
 
                 context.SalesLog.Add(salesLog);
 
-
-
                 InvoiceTable invoiceTable = (from y in context.InvoiceTable
                                              where y.InvoiceId == _invoiceTable.InvoiceId
                                              select y).First();
-
-
-
 
                 invoiceTable.TransferStatusId = _invoiceTable.TransferStatusId;
                 invoiceTable.Observation = _invoiceTable.Observation;
@@ -298,8 +293,6 @@ namespace POS.DLL.Transaction
                 invoiceTable.Status = _invoiceTable.Status;
                 invoiceTable.ModifiedBy = _invoiceTable.ModifiedBy;
                 invoiceTable.ModifiedDatetime = _invoiceTable.ModifiedDatetime;
-
-
 
                 return context.SaveChanges() > 0;
             }
@@ -316,8 +309,8 @@ namespace POS.DLL.Transaction
             try
             {
                 allowCredit = (bool)(from so in db.SalesOrigin
-                               where so.SalesOriginId == salesOriginId
-                               select so.AllowCredit).FirstOrDefault();
+                                     where so.SalesOriginId == salesOriginId
+                                     select so.AllowCredit).FirstOrDefault();
             }
             catch (Exception ex)
             {

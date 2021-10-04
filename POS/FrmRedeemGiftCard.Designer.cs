@@ -50,8 +50,8 @@
             this.GrcProduct = new DevExpress.XtraGrid.GridControl();
             this.GrvProduct = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.BtnRedeemCustomerName = new DevExpress.XtraEditors.SimpleButton();
@@ -334,6 +334,18 @@
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Width = 10;
             // 
+            // gridColumn2
+            // 
+            this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn2.Caption = "Cantidad";
+            this.gridColumn2.FieldName = "Quantity";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 1;
+            this.gridColumn2.Width = 680;
+            // 
             // gridColumn3
             // 
             this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
@@ -350,18 +362,6 @@
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 0;
             this.gridColumn3.Width = 500;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn2.Caption = "Cantidad";
-            this.gridColumn2.FieldName = "Quantity";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.OptionsColumn.AllowEdit = false;
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 680;
             // 
             // AxOPOSScale
             // 

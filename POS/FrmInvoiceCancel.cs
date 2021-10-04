@@ -71,7 +71,7 @@ namespace POS
                 LblEstablishment.Text = emissionPoint.Establishment;
                 TxtEmissionPoint.Text = emissionPoint.Emission;
                 TxtEmissionPoint.Enabled = false;
-                functions.PrinterName = emissionPoint.PrinterName;
+                //functions.PrinterName = emissionPoint.PrinterName;                 
             }
             else
             {
@@ -80,17 +80,6 @@ namespace POS
             }
 
             return response;
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            FrmMenu frmMenu = new FrmMenu
-            {
-                loginInformation = loginInformation,
-                globalParameters = globalParameters,
-                Visible = true
-            };
-            Close();
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -120,7 +109,20 @@ namespace POS
                         Workstation = loginInformation.Workstation
                     };
 
-                    InvoiceTable invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                    InvoiceTable invoiceTable = null;
+                    try
+                    {
+                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        functions.ShowMessage(
+                                            "Ocurrio un problema al consultar documento."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message);
+                    }
+
                     invoiceTable.TransferStatusId = 4;
                     invoiceTable.Observation = TxtObservation.Text;
                     invoiceTable.ClosingCashierId = -99;
@@ -229,7 +231,7 @@ namespace POS
             FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
-            TxtSequence.Text = keyBoard.checkOwnerName;
+            TxtObservation.Text = keyBoard.checkOwnerName;
         }
     }
 }

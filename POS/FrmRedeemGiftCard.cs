@@ -16,7 +16,7 @@ namespace POS
 {
     public partial class FrmRedeemGiftCard : DevExpress.XtraEditors.XtraForm
     {
-        List<SP_GiftCard_Consult_Result> result1;
+        List<SP_GiftCard_Consult_Result> result;
         ClsFunctions functions = new ClsFunctions();
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
@@ -65,111 +65,117 @@ namespace POS
         {
             if (TxtGiftCardNumber.Text != "")
             {
-                ClsCustomerTrans customer = new ClsCustomerTrans();
-
                 try
                 {
-                    result1 = customer.GetGiftCardProducts(TxtGiftCardNumber.Text);
-                    SP_GiftCard_Consult_Result result = result1[0];
-                    if (result1 != null)
-                    {
-                        if (result.Type == "CC")
-                        {
-                            bool status = false;
-                            BtnAccept.Enabled = status;
-                            TxtRedeemIdentification.Enabled = status;
-                            TxtRedeemName.Enabled = status;
-                            TxtBarcode.Enabled = status;
-                            BtnBarcodeKeyPad.Enabled = status;
-                            BtnIdentificationKeyPad.Enabled = status;
-                            BtnRedeemCustomerName.Enabled = status;
-                            BtnRemove.Enabled = status;
-
-                            functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
-                            LblGiftCardStatus.Text = "bono tipo consumo".ToUpper();
-                            LblGiftCardInvoice.Text = result.InvoiceNumber;
-                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
-                            LblExpirationDate.Text = result.Expiration.ToString();
-                        }
-                        else if (DateTime.Today.CompareTo(result.Expiration) > 0)
-                        {
-                            bool status = false;
-                            BtnAccept.Enabled = status;
-                            TxtRedeemIdentification.Enabled = status;
-                            TxtRedeemName.Enabled = status;
-                            TxtBarcode.Enabled = status;
-                            BtnBarcodeKeyPad.Enabled = status;
-                            BtnIdentificationKeyPad.Enabled = status;
-                            BtnRedeemCustomerName.Enabled = status;
-                            BtnRemove.Enabled = status;
-
-                            LblGiftCardStatus.Text = "expirado".ToUpper();
-                            functions.ShowMessage("El bono ingresado esta caducado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
-                            LblGiftCardInvoice.Text = result.InvoiceNumber;
-                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
-                            LblExpirationDate.Text = result.Expiration.ToString();
-                        }
-                        else if (result.StatusLine == "C")
-                        {
-                            bool status = false;
-                            BtnAccept.Enabled = status;
-                            TxtRedeemIdentification.Enabled = status;
-                            TxtRedeemName.Enabled = status;
-                            TxtBarcode.Enabled = status;
-                            BtnBarcodeKeyPad.Enabled = status;
-                            BtnIdentificationKeyPad.Enabled = status;
-                            BtnRedeemCustomerName.Enabled = status;
-                            BtnRemove.Enabled = status;
-
-                            LblGiftCardStatus.Text = "consumido".ToUpper();
-                            functions.ShowMessage("El bono ingresado ya fue consumido. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
-                            LblGiftCardInvoice.Text = result.InvoiceNumber;
-                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
-                            LblExpirationDate.Text = result.Expiration.ToString();
-                        }
-                        else if (result.StatusLine == "I")
-                        {
-                            bool status = false;
-                            BtnAccept.Enabled = status;
-                            TxtRedeemIdentification.Enabled = status;
-                            TxtRedeemName.Enabled = status;
-                            TxtBarcode.Enabled = status;
-                            BtnBarcodeKeyPad.Enabled = status;
-                            BtnIdentificationKeyPad.Enabled = status;
-                            BtnRedeemCustomerName.Enabled = status;
-                            BtnRemove.Enabled = status;
-
-                            LblGiftCardStatus.Text = "anulado".ToUpper();
-                            functions.ShowMessage("El bono ingresado esta anulado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
-                            LblGiftCardInvoice.Text = result.InvoiceNumber;
-                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
-                            LblExpirationDate.Text = result.Expiration.ToString();
-                        }
-                        else
-                        {
-                            bool status = true;
-                            BtnAccept.Enabled = status;
-                            TxtRedeemIdentification.Enabled = status;
-                            TxtRedeemName.Enabled = status;
-                            TxtBarcode.Enabled = status;
-                            BtnBarcodeKeyPad.Enabled = status;
-                            BtnIdentificationKeyPad.Enabled = status;
-                            BtnRedeemCustomerName.Enabled = status;
-                            BtnRemove.Enabled = status;
-
-                            BtnAccept.Enabled = true;
-                            LblGiftCardStatus.Text = "activo".ToUpper();
-                            LblGiftCardInvoice.Text = result.InvoiceNumber;
-                            LblCustomerNameRegistered.Text = result.CustomerNameInvoice;
-                            LblExpirationDate.Text = result.Expiration.ToString();
-                            giftcardNumber = result.GiftCardNumber;
-                            //LblAmount.Text = giftcardAmount.ToString
-                        }
-                    }
-                    else
+                    result = new ClsCustomerTrans().GetGiftCardProducts(TxtGiftCardNumber.Text);
+                    if (result.Count == 0)
                     {
                         functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
                         TxtGiftCardNumber.Text = "";
+                    }
+                    else
+                    {
+                        SP_GiftCard_Consult_Result giftcard = result[0];
+                        if (result != null)
+                        {
+                            if (giftcard.Type == "CC")
+                            {
+                                bool status = false;
+                                BtnAccept.Enabled = status;
+                                TxtRedeemIdentification.Enabled = status;
+                                TxtRedeemName.Enabled = status;
+                                TxtBarcode.Enabled = status;
+                                BtnBarcodeKeyPad.Enabled = status;
+                                BtnIdentificationKeyPad.Enabled = status;
+                                BtnRedeemCustomerName.Enabled = status;
+                                BtnRemove.Enabled = status;
+
+                                functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                                LblGiftCardStatus.Text = "bono tipo consumo".ToUpper();
+                                LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                                LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                                LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            }
+                            else if (DateTime.Today.CompareTo(giftcard.Expiration) > 0)
+                            {
+                                bool status = false;
+                                BtnAccept.Enabled = status;
+                                TxtRedeemIdentification.Enabled = status;
+                                TxtRedeemName.Enabled = status;
+                                TxtBarcode.Enabled = status;
+                                BtnBarcodeKeyPad.Enabled = status;
+                                BtnIdentificationKeyPad.Enabled = status;
+                                BtnRedeemCustomerName.Enabled = status;
+                                BtnRemove.Enabled = status;
+
+                                LblGiftCardStatus.Text = "expirado".ToUpper();
+                                functions.ShowMessage("El bono ingresado esta caducado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                                LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                                LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                                LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            }
+                            else if (giftcard.StatusLine == "C")
+                            {
+                                bool status = false;
+                                BtnAccept.Enabled = status;
+                                TxtRedeemIdentification.Enabled = status;
+                                TxtRedeemName.Enabled = status;
+                                TxtBarcode.Enabled = status;
+                                BtnBarcodeKeyPad.Enabled = status;
+                                BtnIdentificationKeyPad.Enabled = status;
+                                BtnRedeemCustomerName.Enabled = status;
+                                BtnRemove.Enabled = status;
+
+                                LblGiftCardStatus.Text = "consumido".ToUpper();
+                                functions.ShowMessage("El bono ingresado ya fue consumido. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                                LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                                LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                                LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            }
+                            else if (giftcard.StatusLine == "I")
+                            {
+                                bool status = false;
+                                BtnAccept.Enabled = status;
+                                TxtRedeemIdentification.Enabled = status;
+                                TxtRedeemName.Enabled = status;
+                                TxtBarcode.Enabled = status;
+                                BtnBarcodeKeyPad.Enabled = status;
+                                BtnIdentificationKeyPad.Enabled = status;
+                                BtnRedeemCustomerName.Enabled = status;
+                                BtnRemove.Enabled = status;
+
+                                LblGiftCardStatus.Text = "anulado".ToUpper();
+                                functions.ShowMessage("El bono ingresado esta anulado. Consulte con Supervisor.", ClsEnums.MessageType.WARNING);
+                                LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                                LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                                LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            }
+                            else
+                            {
+                                bool status = true;
+                                BtnAccept.Enabled = status;
+                                TxtRedeemIdentification.Enabled = status;
+                                TxtRedeemName.Enabled = status;
+                                TxtBarcode.Enabled = status;
+                                BtnBarcodeKeyPad.Enabled = status;
+                                BtnIdentificationKeyPad.Enabled = status;
+                                BtnRedeemCustomerName.Enabled = status;
+                                BtnRemove.Enabled = status;
+
+                                BtnAccept.Enabled = true;
+                                LblGiftCardStatus.Text = "activo".ToUpper();
+                                LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                                LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                                LblExpirationDate.Text = giftcard.Expiration.ToString();
+                                giftcardNumber = giftcard.GiftCardNumber;
+                                //LblAmount.Text = giftcardAmount.ToString
+                            }
+                        }
+                        else
+                        {
+                            functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
+                            TxtGiftCardNumber.Text = "";
+                        }
                     }
                 }
                 catch (Exception ex)

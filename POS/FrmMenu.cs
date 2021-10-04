@@ -109,6 +109,7 @@ namespace POS
             FrmInvoiceCancel frmPartial = new FrmInvoiceCancel();
             frmPartial.loginInformation = loginInformation;
             frmPartial.globalParameters = globalParameters;
+            //frmPartial.emissionPoint = emissionPoint;
             frmPartial.ShowDialog();
 
             if (Application.OpenForms.OfType<FrmInvoiceCancel>().Count() == 1)
@@ -124,14 +125,14 @@ namespace POS
 
         private void BtnPhysicalInventory_Click(object sender, EventArgs e)
         {
-            bool allowInventory = false;            
-            
+            bool allowInventory = false;
+
             try
             {
                 allowInventory = (from par in new POSEntities().GlobalParameter.ToList()
                                   where par.Name == "AllowPhysicalInventory"
                                   select par.Value).FirstOrDefault() == "1";
-                        
+
             }
             catch (Exception ex)
             {

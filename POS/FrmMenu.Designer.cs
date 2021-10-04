@@ -210,9 +210,9 @@
             this.BtnInvoiceCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.BtnInvoiceCancel.Appearance.Options.UseBackColor = true;
             this.BtnInvoiceCancel.Appearance.Options.UseFont = true;
-            this.BtnInvoiceCancel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnInvoiceCancel.ImageOptions.Image")));
             this.BtnInvoiceCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
+            this.BtnInvoiceCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel_invoice;
+            this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
             this.BtnInvoiceCancel.Location = new System.Drawing.Point(406, 345);
             this.BtnInvoiceCancel.Name = "BtnInvoiceCancel";
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(350, 200);
