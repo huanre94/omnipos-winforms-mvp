@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
 // IG001 Israel Gonzalez 2021-01-30: Validate catched weight
@@ -23,6 +22,14 @@ namespace POS
         public string supervisorAuthorization;
         public int reasonType;
 
+        /// <summary>
+        /// Common message box to show warnings
+        /// </summary>
+        /// <param name="_messageText"></param>
+        /// <param name="_messageType"></param>
+        /// <param name="_showMessageDetail"></param>
+        /// <param name="_messageTextDetail"></param>
+        /// <returns></returns>
         public bool ShowMessage(
                                 string _messageText
                                 , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
@@ -235,10 +242,12 @@ namespace POS
                                     ClsEnums.ScaleBrands _scaleBrand,
                                     string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
-            frmCatchWeight.axOposScale = _axOposScale;
-            frmCatchWeight.productName = _productName;
-            frmCatchWeight.globalParameters = globalParameters;
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
+            {
+                axOposScale = _axOposScale,
+                productName = _productName,
+                globalParameters = globalParameters
+            };
             frmCatchWeight.ShowDialog();
 
             return frmCatchWeight.weight;
@@ -251,7 +260,6 @@ namespace POS
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
-
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
                 response = true;
@@ -288,11 +296,7 @@ namespace POS
             }
         }
 
-        public bool PrintDocument(
-                                    long _documentId
-                                    , ClsEnums.DocumentType _documentType
-                                    , bool _openCashier = false
-                                )
+        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false)
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
@@ -340,8 +344,6 @@ namespace POS
                     case ClsEnums.DocumentType.SALESORDER:
                         salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId);
 
-
-
                         if (salesOrderTicket != null)
                         {
                             if (salesOrderTicket.Count > 0)
@@ -355,8 +357,6 @@ namespace POS
                         break;
                     case ClsEnums.DocumentType.REMISSIONGUIDE:
                         remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
-
-
 
                         if (remissionGuideTicket != null)
                         {

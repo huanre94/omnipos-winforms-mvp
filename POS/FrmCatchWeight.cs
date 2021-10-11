@@ -1,15 +1,10 @@
-﻿using System;
+﻿using POS.Classes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
-using System.Threading;
 
 namespace POS
 {
@@ -39,13 +34,13 @@ namespace POS
         {
             if (ScaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
-                LblTitle.Text = "Coloque el Producto en la Balanza";                
+                LblTitle.Text = "Coloque el Producto en la Balanza";
             }
             else
             {
                 strWaitTime = (from par in globalParameters.ToList()
-                                    where par.Name == "MaxScaleWaitTime"
-                                    select par.Value).FirstOrDefault();
+                               where par.Name == "MaxScaleWaitTime"
+                               select par.Value).FirstOrDefault();
 
                 LblTitle.Text = string.Empty;
                 BtnCatchWeight.Visible = false;
@@ -78,7 +73,7 @@ namespace POS
         }
 
         private void BtnCatchWeight_Click(object sender, EventArgs e)
-        {           
+        {
             CatchWeightProduct(ScaleBrand, PortName);
         }
 
@@ -112,7 +107,7 @@ namespace POS
                     //catchWeight = new ClsCatchWeight(_scaleBrand, _portName, false, true, false);
                     //catchWeight.OpenScale();
                     catchWeight.Serial.WriteLine(string.Format("W", Convert.ToString("\x0D"), Convert.ToString("\x0A")));
-                    
+
                     DateTime endTime = DateTime.Now.AddSeconds(waitTime);
                     while (DateTime.Now < endTime && catchWeight.Weight == 0)
                     {
@@ -142,7 +137,7 @@ namespace POS
                     }
 
                     catchWeight.CloseScale();
-                }                     
+                }
             }
             catch (Exception ex)
             {
@@ -174,6 +169,6 @@ namespace POS
                     formActionResult = true;
             }
         }
-        
+
     }
 }

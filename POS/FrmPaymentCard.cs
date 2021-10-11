@@ -23,10 +23,10 @@ namespace POS
         public bool processResponse;
         public Customer customer = null;
         //Begin(HR002)
-        public bool applyPaymmodeDiscount = false;  
-        public XElement invoiceXml;         
+        public bool applyPaymmodeDiscount = false;
+        public XElement invoiceXml;
         public EmissionPoint emissionPoint;
-        public decimal amountPaymmodeDiscount = 0; 
+        public decimal amountPaymmodeDiscount = 0;
         //End(HR002)
 
         public FrmPaymentCard()
@@ -117,7 +117,7 @@ namespace POS
             CmbCardBrand.SelectedIndex = -1;
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;         
+            LblAmountDiscounted.Text = string.Empty;
         }
 
         private void LoadCreditCards(int _bankId)
@@ -172,7 +172,7 @@ namespace POS
                 bankId = int.Parse(CmbCardBank.EditValue.ToString());
                 creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
                 authorization = TxtAuthorization.Text;
-                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);                
+                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);
                 processResponse = true;
             }
             else
@@ -188,7 +188,7 @@ namespace POS
             CmbCardBrand.Properties.Items.Clear();
             label1.Visible = false;
             LblAmountDiscounted.Visible = false;
-            LblAmountDiscounted.Text = string.Empty;            
+            LblAmountDiscounted.Text = string.Empty;
             LoadBanks();
         }
 

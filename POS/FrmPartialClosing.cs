@@ -153,7 +153,7 @@ namespace POS
         }
 
         private void LoadPartialClosingReason()
-        {            
+        {
             List<CancelReason> cancelReasons;
 
             try
@@ -334,7 +334,7 @@ namespace POS
                             }
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         functions.ShowMessage(
                                                 "Ocurrio un problema al registrar cierre parcial de caja."

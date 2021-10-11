@@ -85,7 +85,8 @@
             CLOSINGCASHIER,
             SALESORDER,
             REMISSIONGUIDE,
-            PURCHASEORDER
+            PURCHASEORDER,
+            ADVANCE
         }
 
         public enum CancelReasonType
@@ -95,6 +96,13 @@
             ITEM_CANCEL = 3,
             SALESORDER_CANCEL = 4,
             REMISSIONGUIDE_CANCEL = 5
+        }
+
+        public enum SequenceType
+        {
+            INVOICE = 1,
+            SALESORDER = 2,
+            REMISSIONGUIDE = 3
         }
     }
 }

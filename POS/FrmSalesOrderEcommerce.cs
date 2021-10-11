@@ -1,5 +1,4 @@
-﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Views.Grid;
+﻿using DevExpress.XtraGrid.Views.Grid;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
@@ -12,8 +11,6 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 

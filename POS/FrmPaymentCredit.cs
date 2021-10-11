@@ -2,7 +2,6 @@
 using POS.DLL;
 using POS.DLL.Transaction;
 using System;
-using System.Drawing.Printing;
 using System.Windows.Forms;
 
 namespace POS

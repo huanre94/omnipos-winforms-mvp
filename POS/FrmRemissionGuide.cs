@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors.Controls;
+using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
-using POS.Classes;
-using DevExpress.XtraEditors.Controls;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace POS
 {
@@ -169,7 +162,7 @@ namespace POS
                 {
                     driverId = (int)CmbTransportDriver.EditValue;
                 }
-                
+
 
                 result = new ClsSalesOrder().GetActiveRemissionGuides(userId, driverId);
                 if (result.Count == 0)

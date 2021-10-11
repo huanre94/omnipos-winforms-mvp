@@ -33,7 +33,7 @@ namespace POS
                         if (result.Type == "PR")
                         {
                             functions.ShowMessage("El bono ingresado es un bono de producto. Por favor consultar con Supervisor.", ClsEnums.MessageType.WARNING);
-                        } 
+                        }
                         else
                         {
                             LblDocument.Text = result.InvoiceNumber;
@@ -41,7 +41,7 @@ namespace POS
                             giftcardAmount = (decimal)result.Amount;
                             giftcardNumber = result.GiftCardNumber;
                             LblAmount.Text = giftcardAmount.ToString();
-                        }                        
+                        }
                     }
                     else
                     {
@@ -123,6 +123,6 @@ namespace POS
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
-        }        
+        }
     }
 }

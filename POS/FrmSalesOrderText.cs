@@ -1,15 +1,6 @@
-﻿using System;
+﻿using POS.Classes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.Classes;
-using System.Threading;
 
 namespace POS
 {
@@ -20,13 +11,13 @@ namespace POS
 
         public FrmSalesOrderText()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         private void FrmSalesOrderText_Load(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 List<DLL.SalesOrderText> command = new DLL.Catalog.ClsSalesOrder().ConsultCommand(salesOrder.SalesOrderId);
                 string list = "";
 

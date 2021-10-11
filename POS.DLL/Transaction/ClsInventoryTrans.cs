@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POS.DLL.Transaction
 {
@@ -52,13 +50,13 @@ namespace POS.DLL.Transaction
             {
                 consult = pos.PhysicalStockCountingTable.Count(a => a.EmissionPointId == emissionPoint.EmissionPointId
                 && a.Status == "O"
-                && a.CreatedBy == UserId);                
-                
+                && a.CreatedBy == UserId);
+
                 if (consult > 0)
                 {
                     response = true;
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -110,8 +108,8 @@ namespace POS.DLL.Transaction
             try
             {
                 table = (from ta in db.PhysicalStockCountingTable
-                                              where ta.PhysicalStockCountingId == sequence
-                                              select ta).First();
+                         where ta.PhysicalStockCountingId == sequence
+                         select ta).First();
 
                 table.ModifiedBy = table.CreatedBy;
                 table.ModifiedDatetime = DateTime.Now;

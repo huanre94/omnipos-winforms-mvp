@@ -2,7 +2,6 @@
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
-using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,7 +53,7 @@ namespace POS
                                         , ex.Message
                                     );
             }
-        }       
+        }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {

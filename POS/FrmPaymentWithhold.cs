@@ -48,10 +48,10 @@ namespace POS
                 List<RetentionTable> retentions = LoadRetentions((int)ClsEnums.Taxtype.RENTA);
                 RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
                 decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
-                LblBaseAmount.Text = Math.Round(baseAmount,2).ToString();
+                LblBaseAmount.Text = Math.Round(baseAmount, 2).ToString();
                 LblBasePercent.Text = retentionPercent.Percent.ToString();
-                LblAmount.Text = Math.Round(totalBaseCalculated,2).ToString();
-                LblTaxBaseAmount.Text = Math.Round(taxAmount,2).ToString();
+                LblAmount.Text = Math.Round(totalBaseCalculated, 2).ToString();
+                LblTaxBaseAmount.Text = Math.Round(taxAmount, 2).ToString();
 
                 InvoicePayment invoicePayment = new InvoicePayment
                 {

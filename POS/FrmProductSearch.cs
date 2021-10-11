@@ -1,5 +1,4 @@
-﻿using DevExpress.Utils.Filtering;
-using POS.Classes;
+﻿using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using System;

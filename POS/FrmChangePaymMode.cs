@@ -1,16 +1,10 @@
-﻿using System;
+﻿using DevExpress.XtraEditors.Controls;
+using POS.Classes;
+using POS.DLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.DLL;
-using POS.Classes;
-using DevExpress.XtraEditors.Controls;
 
 namespace POS
 {
@@ -102,7 +96,7 @@ namespace POS
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                            "Ocurrio un problema al catálogo de formas de pago."
@@ -133,22 +127,22 @@ namespace POS
         {
             GetPaymentsInformation(
                                     (int)loginInformation.LocationId
-                                    ,TxtEmissionPoint.Text
-                                    ,TxtInvoiceNumber.Text
+                                    , TxtEmissionPoint.Text
+                                    , TxtInvoiceNumber.Text
                                     );
         }
 
         private void GetPaymentsInformation(
                                             int _locationId
-                                            ,string _emissionPoint
-                                            ,string _invoiceNumber
+                                            , string _emissionPoint
+                                            , string _invoiceNumber
                                             )
         {
             DLL.Transaction.ClsInvoiceTrans invoiceTrans = new DLL.Transaction.ClsInvoiceTrans();
             DLL.Catalog.ClsCustomer clsCustomer = new DLL.Catalog.ClsCustomer();
             List<SP_InvoicePayment_Consult_Result> payments;
 
-            try 
+            try
             {
                 payments = invoiceTrans.GetInvoicePayments(
                                                             _locationId
@@ -173,7 +167,7 @@ namespace POS
                     functions.ShowMessage("No se encontraron pagos.", ClsEnums.MessageType.WARNING);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar lista de pagos de factura."
@@ -275,7 +269,7 @@ namespace POS
             {
                 functions.emissionPoint = emissionPoint;
 
-                if (emissionPoint != null ? functions.RequestSupervisorAuth(): true)
+                if (emissionPoint != null ? functions.RequestSupervisorAuth() : true)
                 {
                     try
                     {
