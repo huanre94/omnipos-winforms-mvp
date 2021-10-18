@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using POS.Classes;
 using POS.DLL;
-using POS.Classes;
 using POS.DLL.Catalog;
 using POS.DLL.Transaction;
+using System;
+using System.Collections.Generic;
 
 namespace POS
 {
@@ -71,7 +63,7 @@ namespace POS
                 LblEstablishment.Text = emissionPoint.Establishment;
                 TxtEmissionPoint.Text = emissionPoint.Emission;
                 TxtEmissionPoint.Enabled = false;
-                functions.PrinterName = emissionPoint.PrinterName;
+                //functions.PrinterName = emissionPoint.PrinterName;                 
             }
             else
             {
@@ -80,15 +72,6 @@ namespace POS
             }
 
             return response;
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.globalParameters = globalParameters;
-            frmMenu.Visible = true;
-            Close();
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -100,9 +83,8 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(requireMotive: true, reasonType: 3))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL))
                 {
-                    //ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
                     SalesLog salesLog = new SalesLog
                     {
                         CustomerId = 1,
@@ -119,7 +101,20 @@ namespace POS
                         Workstation = loginInformation.Workstation
                     };
 
-                    InvoiceTable invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse( LblInvoiceId.Text));
+                    InvoiceTable invoiceTable = null;
+                    try
+                    {
+                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        functions.ShowMessage(
+                                            "Ocurrio un problema al consultar documento."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message);
+                    }
+
                     invoiceTable.TransferStatusId = 4;
                     invoiceTable.Observation = TxtObservation.Text;
                     invoiceTable.ClosingCashierId = -99;
@@ -161,7 +156,7 @@ namespace POS
             LblInvoiceStatus.Text = "PENDIENTE";
             LblCustomerIdentification.Text = "9999999999";
             LblCustomerName.Text = "CONSUMIDOR FINAL";
-            LblInvoiceAmount.Text = String.Format("${0}", 0);
+            LblInvoiceAmount.Text = string.Format("${0}", 0);
             TxtObservation.Text = string.Empty;
         }
 
@@ -184,14 +179,16 @@ namespace POS
 
                     if (response != null)
                     {
-                        LblInvoiceId.Text =  response.InvoiceId.ToString();
+                        LblInvoiceId.Text = response.InvoiceId.ToString();
                         LblInvoiceStatus.Text = response.Status;
                         LblCustomerIdentification.Text = response.Identification;
                         LblCustomerName.Text = response.CustomerName;
-                        LblInvoiceAmount.Text = String.Format("${0}",response.Total);
-                    } else
+                        LblInvoiceAmount.Text = string.Format("${0}", response.Total);
+                    }
+                    else
                     {
                         functions.ShowMessage("No existe factura con la secuencia digitada.", ClsEnums.MessageType.WARNING);
+                        ClearInvoice();
                     }
                 }
                 catch (Exception ex)
@@ -226,7 +223,7 @@ namespace POS
             FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
-            TxtSequence.Text = keyBoard.checkOwnerName;
-        }        
+            TxtObservation.Text = keyBoard.checkOwnerName;
+        }
     }
 }

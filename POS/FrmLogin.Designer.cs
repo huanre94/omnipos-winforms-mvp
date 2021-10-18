@@ -35,9 +35,9 @@
             this.TxtPassword = new DevExpress.XtraEditors.TextEdit();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.ImgLogo = new System.Windows.Forms.PictureBox();
             this.BtnKeypadUsername = new DevExpress.XtraEditors.SimpleButton();
             this.BtnKeypadPassword = new DevExpress.XtraEditors.SimpleButton();
+            this.ImgLogo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.TxtUsername.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtPassword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
@@ -117,16 +117,6 @@
             this.BtnCancel.Text = "Salir";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // ImgLogo
-            // 
-            this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola;
-            this.ImgLogo.Location = new System.Drawing.Point(702, 177);
-            this.ImgLogo.Name = "ImgLogo";
-            this.ImgLogo.Size = new System.Drawing.Size(194, 169);
-            this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ImgLogo.TabIndex = 23;
-            this.ImgLogo.TabStop = false;
-            // 
             // BtnKeypadUsername
             // 
             this.BtnKeypadUsername.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -164,6 +154,16 @@
             this.BtnKeypadPassword.Size = new System.Drawing.Size(80, 50);
             this.BtnKeypadPassword.TabIndex = 169;
             this.BtnKeypadPassword.Click += new System.EventHandler(this.BtnKeypadPassword_Click);
+            // 
+            // ImgLogo
+            // 
+            this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola_New;
+            this.ImgLogo.Location = new System.Drawing.Point(702, 177);
+            this.ImgLogo.Name = "ImgLogo";
+            this.ImgLogo.Size = new System.Drawing.Size(194, 169);
+            this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ImgLogo.TabIndex = 23;
+            this.ImgLogo.TabStop = false;
             // 
             // FrmLogin
             // 

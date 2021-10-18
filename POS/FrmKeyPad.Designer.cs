@@ -196,7 +196,7 @@
             this.Btn0.Location = new System.Drawing.Point(32, 279);
             this.Btn0.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Btn0.Name = "Btn0";
-            this.Btn0.Size = new System.Drawing.Size(102, 65);
+            this.Btn0.Size = new System.Drawing.Size(75, 65);
             this.Btn0.TabIndex = 148;
             this.Btn0.Text = "0";
             this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
@@ -249,10 +249,10 @@
             this.BtnDot.Appearance.Options.UseBackColor = true;
             this.BtnDot.Appearance.Options.UseFont = true;
             this.BtnDot.Enabled = false;
-            this.BtnDot.Location = new System.Drawing.Point(142, 279);
+            this.BtnDot.Location = new System.Drawing.Point(116, 279);
             this.BtnDot.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnDot.Name = "BtnDot";
-            this.BtnDot.Size = new System.Drawing.Size(50, 65);
+            this.BtnDot.Size = new System.Drawing.Size(76, 65);
             this.BtnDot.TabIndex = 158;
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);

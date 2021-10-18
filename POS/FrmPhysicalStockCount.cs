@@ -1,18 +1,18 @@
-﻿using System;
+﻿using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Views.Grid;
+using POS.Classes;
+using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Transaction;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
-using POS.DLL;
-using POS.DLL.Catalog;
-using POS.Classes;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraEditors.Controls;
-using System.Xml.Linq;
 using System.Reflection;
-using POS.DLL.Transaction;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -44,7 +44,7 @@ namespace POS
                     {
                         functions.AxOPOSScanner = AxOPOSScanner;
                         functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                    }                   
+                    }
                 }
 
                 try
@@ -414,7 +414,7 @@ namespace POS
             else
             {
                 BindingList<SP_PhysicalStockProduct_Consult_Result> list = (BindingList<SP_PhysicalStockProduct_Consult_Result>)GrvPhysicalStock.DataSource;
-                
+
                 if (list.Count == 0)
                 {
                     functions.ShowMessage("No existen items por agregar.", ClsEnums.MessageType.WARNING);
@@ -464,7 +464,7 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudo generar conteo fisico.", ClsEnums.MessageType.WARNING,true,response.TextError);
+                            functions.ShowMessage("No se pudo generar conteo fisico.", ClsEnums.MessageType.WARNING, true, response.TextError);
                         }
                     }
                     catch (Exception ex)
@@ -509,8 +509,8 @@ namespace POS
             else
             {
                 SP_PhysicalStockProduct_Consult_Result item = (SP_PhysicalStockProduct_Consult_Result)GrvPhysicalStock.GetRow(rowIndex);
-                
-                
+
+
 
                 FrmKeyPad keyPad = new FrmKeyPad();
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
@@ -630,7 +630,7 @@ namespace POS
                     SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans().InsertNewSequence(physicalCountingList.ToString());
 
                     if (!(bool)response.Error)
-                    {                       
+                    {
                         sequence = (int)response.Sequence;
                         functions.ShowMessage("Secuencia generada exitosamente.", ClsEnums.MessageType.INFO);
                         BtnNew.Text = "Finalizar";

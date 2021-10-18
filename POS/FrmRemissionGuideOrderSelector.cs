@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Views.Grid;
+using POS.DLL.Transaction;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
-using POS.DLL.Transaction;
 
 namespace POS
 {
@@ -80,7 +73,7 @@ namespace POS
                 functions.PrinterName = emissionPoint.PrinterName;
                 LblCashier.Text = loginInformation.UserName;
 
-                GetNewSequenceNumber(emissionPoint.EmissionPointId);
+                GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
             }
             else
             {
@@ -91,14 +84,14 @@ namespace POS
         }
 
 
-        private void GetNewSequenceNumber(int _emissionPointId)
+        private void GetNewSequenceNumber(int _emissionPointId, int _locationId)
         {
             ClsGeneral clsGeneral = new ClsGeneral();
             SequenceTable sequenceTable;
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, 3);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE);
 
                 if (sequenceTable != null)
                 {

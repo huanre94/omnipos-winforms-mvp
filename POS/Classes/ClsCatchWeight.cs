@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace POS.Classes
 {
     public class ClsCatchWeight
     {
-        private ClsFunctions functions = new ClsFunctions();        
+        private ClsFunctions functions = new ClsFunctions();
         private SerialPort serialPort;
         private string portName;
         private decimal weight;
@@ -56,13 +51,13 @@ namespace POS.Classes
         public decimal Weight
         {
             get { return this.weight; }
-        }              
+        }
 
         public System.Windows.Forms.Control ControlToShowText
         {
             get;
             set;
-        }       
+        }
 
         public string PortName
         {
@@ -71,7 +66,7 @@ namespace POS.Classes
         }
 
         public ClsCatchWeight(
-                                ClsEnums.ScaleBrands _scaleBrand 
+                                ClsEnums.ScaleBrands _scaleBrand
                                 , string _portName = ""
                                 , bool _useScanner = false
                                 , bool _requestWeight = false
@@ -79,7 +74,7 @@ namespace POS.Classes
                             )
         {
             this.scaleBrand = _scaleBrand;
-            this.portName = _portName;            
+            this.portName = _portName;
             this.useScanner = _useScanner;
             this.requestWeight = _requestWeight;
             this.useCatchWeight = _useCatchWeight;
@@ -189,11 +184,11 @@ namespace POS.Classes
                         if (requestWeight)
                         {
                             serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
-                        }                        
+                        }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                          "Ocurrio un problema al abrir puerto serial de la balanza."
@@ -222,7 +217,7 @@ namespace POS.Classes
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 functions.ShowMessage(
                                          "Ocurrio un problema en la lectura desde el puerto serial de la balanza."

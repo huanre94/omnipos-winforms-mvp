@@ -167,7 +167,6 @@
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
-            this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -197,7 +196,6 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 169;
             this.BtnCancel.Text = "Cancelar";
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // BtnEmissionPointKeyPad
             // 
@@ -383,7 +381,7 @@
             this.Controls.Add(this.TxtSequence);
             this.Name = "FrmInvoiceCancel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmInvoiceCancel";
+            this.Text = "Anulacion Factura";
             this.Load += new System.EventHandler(this.FrmInvoiceCancel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtSequence.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtEmissionPoint.Properties)).EndInit();

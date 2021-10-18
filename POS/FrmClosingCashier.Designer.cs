@@ -284,7 +284,7 @@
             this.GrcPayment.Location = new System.Drawing.Point(911, 61);
             this.GrcPayment.MainView = this.GrvPayment;
             this.GrcPayment.Name = "GrcPayment";
-            this.GrcPayment.Size = new System.Drawing.Size(426, 540);
+            this.GrcPayment.Size = new System.Drawing.Size(426, 539);
             this.GrcPayment.TabIndex = 151;
             this.GrcPayment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPayment});

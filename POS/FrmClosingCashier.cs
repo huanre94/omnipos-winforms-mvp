@@ -20,7 +20,7 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         List<SP_ClosingCashierDenominations_Consult_Result> denominations;
         List<SP_ClosingCashierPartial_Consult_Result> partials;
-        List<SP_ClosingCashierPayment_Consult_Result> payments;        
+        List<SP_ClosingCashierPayment_Consult_Result> payments;
         GridView selectedGrv;
         decimal totalHideCash = 0;
 
@@ -330,7 +330,7 @@ namespace POS
 
                         try
                         {
-                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);                        
+                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);
 
                             if (clsClosing != null)
                             {
@@ -486,50 +486,6 @@ namespace POS
             TxtBarcode.Text = "";
         }
         #endregion
-
-        //private bool PrintInvoice(Int64 _invoiceId)
-        //{
-        //    ClsClosingTrans clsInvoiceTrans = new ClsClosingTrans();
-        //    List<SP_ClosingCashierTicket_Consult_Result> invoiceTicket;
-        //    bool response = false;
-        //    string bodyText = "";
-
-        //    try
-        //    {
-        //        invoiceTicket = clsInvoiceTrans.GetClosingTicket(_invoiceId);
-
-        //        if (invoiceTicket != null)
-        //        {
-        //            if (invoiceTicket.Count > 0)
-        //            {
-
-        //                foreach (var line in invoiceTicket)
-        //                {
-        //                    bodyText += line.BodyText + Environment.NewLine;
-        //                }
-
-        //                bool PrinterDocumentOk = functions.ProcessDocumentToPrint(bodyText);
-
-        //                if (PrinterDocumentOk == true)
-        //                {
-        //                    response = true;
-        //                }
-
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        functions.ShowMessage(
-        //                                "Ha ocurrido un problema al imprimir la factura."
-        //                                , ClsEnums.MessageType.ERROR
-        //                                , true
-        //                                , ex.Message
-        //                            );
-        //    }
-
-        //    return response;
-        //}
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {

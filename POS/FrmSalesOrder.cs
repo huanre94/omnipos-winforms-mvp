@@ -1,21 +1,18 @@
-﻿using System;
+﻿using DevExpress.XtraGrid.Views.Grid;
+using POS.Classes;
+using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Transaction;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using POS.DLL;
-using POS.DLL.Catalog;
-using System.Xml.Linq;
-using System.Reflection;
-using DevExpress.XtraGrid.Views.Grid;
-using POS.Classes;
-using POS.DLL.Transaction;
 using System.IO.Ports;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {

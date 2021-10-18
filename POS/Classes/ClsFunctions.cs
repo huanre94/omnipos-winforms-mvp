@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using Vip.Printer;
 using Vip.Printer.Enums;
 // IG001 Israel Gonzalez 2021-01-30: Validate catched weight
@@ -17,12 +16,20 @@ namespace POS
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
 
         public List<GlobalParameter> globalParameters;
-        public DLL.EmissionPoint emissionPoint;
+        public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
         public int motiveId;
         public string supervisorAuthorization;
         public int reasonType;
 
+        /// <summary>
+        /// Common message box to show warnings
+        /// </summary>
+        /// <param name="_messageText"></param>
+        /// <param name="_messageType"></param>
+        /// <param name="_showMessageDetail"></param>
+        /// <param name="_messageTextDetail"></param>
+        /// <returns></returns>
         public bool ShowMessage(
                                 string _messageText
                                 , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
@@ -42,16 +49,16 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 1)
+        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
         {
-            FrmSupervisorAuth auth = new FrmSupervisorAuth();
-            auth.scanner = AxOPOSScanner;
-            auth.emissionPoint = emissionPoint;
-            auth.requireMotive = requireMotive;
-            auth.reasonType = reasonType;
+            FrmSupervisorAuth auth = new FrmSupervisorAuth
+            {
+                scanner = AxOPOSScanner,
+                emissionPoint = emissionPoint,
+                requireMotive = requireMotive,
+                reasonType = reasonType
+            };
             auth.ShowDialog();
-
-
 
             if (auth.formActionResult)
             {
@@ -64,7 +71,7 @@ namespace POS
         }
 
         public void EnableScanner(string _scannerName)
-        {            
+        {
             try
             {
                 AxOPOSScanner.BeginInit();
@@ -97,7 +104,7 @@ namespace POS
                             );
             }
         }
-        
+
         public void DisableScanner()
         {
             if (AxOPOSScanner != null)
@@ -123,7 +130,7 @@ namespace POS
                 }
             }
         }
-       
+
         public void EnableScale(string _scaleName)
         {
             try
@@ -156,39 +163,37 @@ namespace POS
                             );
             }
         }
-        
-       public void DisableScale()
-       {
-           if (AxOPOSScale != null)
-           {
-               try
-               {                    
+
+        public void DisableScale()
+        {
+            if (AxOPOSScale != null)
+            {
+                try
+                {
                     AxOPOSScale.DeviceEnabled = false;
                     AxOPOSScale.Close();
-               }
-               catch (Exception ex)
-               {
-                   ShowMessage(
-                                "Ocurrio un problema al deshabilitar balanza."
-                                , ClsEnums.MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
-               }
-               finally
-               {
+                }
+                catch (Exception ex)
+                {
+                    ShowMessage(
+                                 "Ocurrio un problema al deshabilitar balanza."
+                                 , ClsEnums.MessageType.ERROR
+                                 , true
+                                 , ex.Message
+                             );
+                }
+                finally
+                {
                     AxOPOSScale = null;
-               }
-           }
-       }
+                }
+            }
+        }
 
-        public bool ValidateCatchWeightProduct(
-                                                AxOposScale_CCO.AxOPOSScale _axOposScale
-                                                , decimal _qty
-                                                , string _productName
-                                                , ClsEnums.ScaleBrands _scaleBrand
-                                                , string _portName = ""
-                                                )
+        public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+                                                decimal _qty,
+                                                string _productName,
+                                                ClsEnums.ScaleBrands _scaleBrand,
+                                                string _portName = "")
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
             frmCatchWeight.axOposScale = _axOposScale;
@@ -226,20 +231,28 @@ namespace POS
             return response;
         }
 
-        public decimal CatchWeightProduct(
-                                            AxOposScale_CCO.AxOPOSScale _axOposScale
-                                            , string _productName
-                                            , ClsEnums.ScaleBrands _scaleBrand
-                                            , string _portName = ""
-                                        )
+        /// <summary>
+        /// Show catchweight form
+        /// </summary>
+        /// <param name="_axOposScale"></param>
+        /// <param name="_productName"></param>
+        /// <param name="_scaleBrand"></param>
+        /// <param name="_portName"></param>
+        /// <returns></returns>
+        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+                                    string _productName,
+                                    ClsEnums.ScaleBrands _scaleBrand,
+                                    string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
-            frmCatchWeight.axOposScale = _axOposScale;
-            frmCatchWeight.productName = _productName;
-            frmCatchWeight.globalParameters = globalParameters;
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
+            {
+                axOposScale = _axOposScale,
+                productName = _productName,
+                globalParameters = globalParameters
+            };
             frmCatchWeight.ShowDialog();
 
-            return frmCatchWeight.weight;;
+            return frmCatchWeight.weight;
         }
 
         public bool ProcessDocumentToPrint(string TextDocument)
@@ -249,7 +262,6 @@ namespace POS
             try
             {
                 var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
-                
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
                 response = true;
@@ -286,11 +298,7 @@ namespace POS
             }
         }
 
-        public bool PrintDocument(
-                                    long _documentId
-                                    , ClsEnums.DocumentType _documentType
-                                    , bool _openCashier = false
-                                )
+        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false)
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
@@ -338,8 +346,6 @@ namespace POS
                     case ClsEnums.DocumentType.SALESORDER:
                         salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId);
 
-
-
                         if (salesOrderTicket != null)
                         {
                             if (salesOrderTicket.Count > 0)
@@ -354,8 +360,6 @@ namespace POS
                     case ClsEnums.DocumentType.REMISSIONGUIDE:
                         remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
 
-
-
                         if (remissionGuideTicket != null)
                         {
                             if (remissionGuideTicket.Count > 0)
@@ -369,7 +373,7 @@ namespace POS
                         break;
                     default:
                         return response;
-                }               
+                }
 
                 response = ProcessDocumentToPrint(bodyText);
             }

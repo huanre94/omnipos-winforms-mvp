@@ -1,6 +1,4 @@
-﻿using DevExpress.XtraSplashScreen;
-using System;
-using System.Drawing;
+﻿using System;
 using System.Windows.Forms;
 
 namespace POS

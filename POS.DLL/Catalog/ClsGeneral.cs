@@ -73,28 +73,28 @@ namespace POS.DLL.Catalog
             return emissionPoint;
         }
 
-        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId)
-        {
-            var db = new POSEntities();
-            SequenceTable sequenceTable;
+        //public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId)
+        //{
+        //    var db = new POSEntities();
+        //    SequenceTable sequenceTable;
 
-            try
-            {
+        //    try
+        //    {
 
-                sequenceTable = (
-                                    from seq in db.SequenceTable
-                                    where seq.EmissionPointId == _emissionPointId
-                                    && seq.Status == "A"
-                                    select seq
-                                    ).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+        //        sequenceTable = (
+        //                            from seq in db.SequenceTable
+        //                            where seq.EmissionPointId == _emissionPointId
+        //                            && seq.Status == "A"
+        //                            select seq
+        //                            ).FirstOrDefault();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
 
-            return sequenceTable;
-        }
+        //    return sequenceTable;
+        //}
 
         public List<InventLocation> GetMainWarehouseByLocationId(int _locationId)
         {
@@ -110,39 +110,31 @@ namespace POS.DLL.Catalog
             }
             catch (Exception ex)
             {
-
-
-
                 throw new Exception(ex.Message);
             }
             return inventLocation;
         }
 
-        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _sequenceType)
+        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _locationId, int _sequenceType)
         {
             var db = new POSEntities();
             SequenceTable sequenceTable;
 
             try
             {
-
-
-
                 sequenceTable = (
-                                    from seq in db.SequenceTable
-                                    where seq.EmissionPointId == _emissionPointId
-                                    && seq.SequenceTypeId == _sequenceType
-                                    && seq.Status == "A"
-                                    select seq
-                                    ).FirstOrDefault();
+                                                 from seq in db.SequenceTable
+                                                 where seq.EmissionPointId == _emissionPointId
+                                                 && seq.LocationId == _locationId
+                                                 && seq.SequenceTypeId == _sequenceType
+                                                 && seq.Status == "A"
+                                                 select seq
+                                                 ).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-
-
             return sequenceTable;
         }
     }

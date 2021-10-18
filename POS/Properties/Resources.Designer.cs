@@ -133,6 +133,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage cancel_invoice {
+            get {
+                object obj = ResourceManager.GetObject("cancel_invoice", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage cancel2 {
             get {
                 object obj = ResourceManager.GetObject("cancel2", resourceCulture);
@@ -316,6 +326,16 @@ namespace POS.Properties {
         internal static System.Drawing.Bitmap Logo_LaEspanola {
             get {
                 object obj = ResourceManager.GetObject("Logo_LaEspanola", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Logo_LaEspanola_New {
+            get {
+                object obj = ResourceManager.GetObject("Logo_LaEspanola_New", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
