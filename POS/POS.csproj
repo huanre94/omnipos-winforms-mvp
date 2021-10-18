@@ -558,6 +558,7 @@
     <None Include="Resources\GLOVO.svg" />
     <None Include="Resources\PEDIDOS YA.svg" />
     <None Include="Resources\cancel_invoice.svg" />
+    <None Include="Resources\Logo_LaEspanola_New.png" />
     <Content Include="Resources\salesOrigin1.svg" />
     <None Include="Resources\e_commerce.svg" />
     <None Include="Resources\bonus_exchange.svg" />
@@ -568,7 +569,7 @@
       <Version>20.1.3</Version>
     </PackageReference>
     <PackageReference Include="EntityFramework">
-      <Version>6.2.0</Version>
+      <Version>6.4.4</Version>
     </PackageReference>
     <PackageReference Include="Vip.Printer">
       <Version>1.0.22</Version>

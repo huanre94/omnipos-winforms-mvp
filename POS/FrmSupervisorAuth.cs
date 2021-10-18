@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
+using POS.DLL;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace POS
     {
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
-        public DLL.EmissionPoint emissionPoint;
+        public EmissionPoint emissionPoint;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
         public int motiveId;
         public string supervisorAuthorization;
@@ -95,7 +96,7 @@ namespace POS
                         if (CmbMotive.SelectedItem != null)
                         {
                             ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
-                            DLL.SP_Supervisor_Validate_Result result;
+                            SP_Supervisor_Validate_Result result;
 
                             try
                             {
@@ -148,13 +149,13 @@ namespace POS
                         else
                         {
                             functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
-                            this.DialogResult = DialogResult.None;
+                            DialogResult = DialogResult.None;
                         }
                     }
                     else
                     {
                         ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
-                        DLL.SP_Supervisor_Validate_Result result;
+                        SP_Supervisor_Validate_Result result;
 
                         try
                         {
@@ -213,13 +214,13 @@ namespace POS
                 else
                 {
                     functions.ShowMessage("Debe proporcionar clave del supervisor.", ClsEnums.MessageType.WARNING);
-                    this.DialogResult = DialogResult.None;
+                    DialogResult = DialogResult.None;
                 }
             }
             else
             {
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
 
         }
@@ -246,8 +247,10 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad passwordKeypad = new FrmKeyPad();
-            passwordKeypad.inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD;
+            FrmKeyPad passwordKeypad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
+            };
             passwordKeypad.ShowDialog();
             TxtSupervisorPassword.Text = passwordKeypad.loginPassword;
         }

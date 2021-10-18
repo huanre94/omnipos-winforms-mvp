@@ -488,7 +488,7 @@
             // 
             // ImgLogo
             // 
-            this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola;
+            this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola_New;
             this.ImgLogo.Location = new System.Drawing.Point(1, -7);
             this.ImgLogo.Margin = new System.Windows.Forms.Padding(0);
             this.ImgLogo.Name = "ImgLogo";

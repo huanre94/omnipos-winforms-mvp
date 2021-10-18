@@ -322,9 +322,11 @@ namespace POS
         private void Check()
         {
             ClsEnums.PaymModeEnum paymModeEnum;
-            FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
-            paymentCheck.checkAmount = decimal.Parse(TxtAmount.Text);
-            paymentCheck.customer = customer;
+            FrmPaymentCheck paymentCheck = new FrmPaymentCheck
+            {
+                checkAmount = decimal.Parse(TxtAmount.Text),
+                customer = customer
+            };
             paymentCheck.ShowDialog();
 
             if (paymentCheck.processResponse)

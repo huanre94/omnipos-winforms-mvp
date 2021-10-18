@@ -197,7 +197,7 @@
             this.BtnGiftCardRedeem.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnGiftCardRedeem.ImageOptions.SvgImage = global::POS.Properties.Resources.bonus_exchange;
             this.BtnGiftCardRedeem.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(773, 345);
+            this.BtnGiftCardRedeem.Location = new System.Drawing.Point(406, 345);
             this.BtnGiftCardRedeem.Name = "BtnGiftCardRedeem";
             this.BtnGiftCardRedeem.Size = new System.Drawing.Size(350, 200);
             this.BtnGiftCardRedeem.TabIndex = 134;
@@ -213,11 +213,12 @@
             this.BtnInvoiceCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnInvoiceCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel_invoice;
             this.BtnInvoiceCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnInvoiceCancel.Location = new System.Drawing.Point(406, 345);
+            this.BtnInvoiceCancel.Location = new System.Drawing.Point(35, 559);
             this.BtnInvoiceCancel.Name = "BtnInvoiceCancel";
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(350, 200);
             this.BtnInvoiceCancel.TabIndex = 134;
             this.BtnInvoiceCancel.Text = "Anulacion\r\nFactura";
+            this.BtnInvoiceCancel.Visible = false;
             this.BtnInvoiceCancel.Click += new System.EventHandler(this.BtnInvoiceCancel_Click);
             // 
             // BtnPhysicalInventory
@@ -231,7 +232,7 @@
             this.BtnPhysicalInventory.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPhysicalInventory.ImageOptions.SvgImage = global::POS.Properties.Resources.inventory;
             this.BtnPhysicalInventory.ImageOptions.SvgImageSize = new System.Drawing.Size(90, 90);
-            this.BtnPhysicalInventory.Location = new System.Drawing.Point(1141, 345);
+            this.BtnPhysicalInventory.Location = new System.Drawing.Point(773, 345);
             this.BtnPhysicalInventory.Name = "BtnPhysicalInventory";
             this.BtnPhysicalInventory.Size = new System.Drawing.Size(350, 200);
             this.BtnPhysicalInventory.TabIndex = 170;

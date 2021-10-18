@@ -95,7 +95,8 @@
             PARTIAL_CLOSING = 2,
             ITEM_CANCEL = 3,
             SALESORDER_CANCEL = 4,
-            REMISSIONGUIDE_CANCEL = 5
+            REMISSIONGUIDE_CANCEL = 5,
+            CLOSINGCASHIER = 6
         }
 
         public enum SequenceType

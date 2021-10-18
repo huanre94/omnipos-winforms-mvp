@@ -49,13 +49,15 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 1)
+        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
         {
-            FrmSupervisorAuth auth = new FrmSupervisorAuth();
-            auth.scanner = AxOPOSScanner;
-            auth.emissionPoint = emissionPoint;
-            auth.requireMotive = requireMotive;
-            auth.reasonType = reasonType;
+            FrmSupervisorAuth auth = new FrmSupervisorAuth
+            {
+                scanner = AxOPOSScanner,
+                emissionPoint = emissionPoint,
+                requireMotive = requireMotive,
+                reasonType = reasonType
+            };
             auth.ShowDialog();
 
             if (auth.formActionResult)

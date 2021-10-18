@@ -129,12 +129,12 @@
             // 
             // TxtCreditCardCode
             // 
-            this.TxtCreditCardCode.Location = new System.Drawing.Point(141, 18);
+            this.TxtCreditCardCode.Location = new System.Drawing.Point(145, 18);
             this.TxtCreditCardCode.Name = "TxtCreditCardCode";
             this.TxtCreditCardCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtCreditCardCode.Properties.Appearance.Options.UseFont = true;
             this.TxtCreditCardCode.Properties.PasswordChar = '•';
-            this.TxtCreditCardCode.Size = new System.Drawing.Size(2855, 44);
+            this.TxtCreditCardCode.Size = new System.Drawing.Size(420, 44);
             this.TxtCreditCardCode.TabIndex = 1;
             this.TxtCreditCardCode.Visible = false;
             this.TxtCreditCardCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCreditCardCode_KeyDown);
@@ -142,10 +142,10 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(394, 12);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(64, 204);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(143, 92);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 

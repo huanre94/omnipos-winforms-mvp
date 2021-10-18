@@ -245,16 +245,18 @@ namespace POS
                         {
                             if (currentCustomer.IsEmployee)
                             {
-                                bool response = functions.ShowMessage("El cliente es un empleado, desea utilizar la tarjeta de afiliado?.", ClsEnums.MessageType.CONFIRM);
+                                bool response = functions.ShowMessage("El cliente es un empleado, ¿Desea utilizar la tarjeta de afiliado?", ClsEnums.MessageType.CONFIRM);
 
                                 if (response)
                                 {
-                                    FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
-                                    paymentCredit.customer = currentCustomer;
-                                    paymentCredit.emissionPoint = emissionPoint;
-                                    paymentCredit.scanner = AxOPOSScanner;
-                                    paymentCredit.isPresentingCreditCard = true;
-                                    paymentCredit.salesOriginId = salesOriginId;
+                                    FrmPaymentCredit paymentCredit = new FrmPaymentCredit
+                                    {
+                                        customer = currentCustomer,
+                                        emissionPoint = emissionPoint,
+                                        scanner = AxOPOSScanner,
+                                        isPresentingCreditCard = true,
+                                        salesOriginId = salesOriginId
+                                    };
                                     paymentCredit.ShowDialog();
 
                                     if (paymentCredit.formActionResult)
@@ -730,7 +732,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(requireMotive: true, reasonType: 1))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.INVOICE_CANCEL))
                 {
                     ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
                     SalesLog salesLog = new SalesLog
@@ -1275,11 +1277,13 @@ namespace POS
 
         private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer();
-            frmCustomer.emissionPoint = emissionPoint;
-            frmCustomer.isNewCustomer = true;
-            frmCustomer.customerIdentification = _identification;
-            frmCustomer.loginInformation = loginInformation;
+            FrmCustomer frmCustomer = new FrmCustomer
+            {
+                emissionPoint = emissionPoint,
+                isNewCustomer = true,
+                customerIdentification = _identification,
+                loginInformation = loginInformation
+            };
             frmCustomer.ShowDialog();
 
             return frmCustomer.currentCustomer;

@@ -83,7 +83,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(requireMotive: true, reasonType: 3))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL))
                 {
                     SalesLog salesLog = new SalesLog
                     {
