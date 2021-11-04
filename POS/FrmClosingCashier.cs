@@ -293,7 +293,7 @@ namespace POS
                             closingXml.Add(closingCashierMoneyXml);
                         }
 
-                        for (int i = 0; i < GrvPayment.DataRowCount; i++)
+                        for (int i   = 0; i < GrvPayment.DataRowCount; i++)
                         {
                             SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
 
@@ -339,8 +339,7 @@ namespace POS
                                     SP_ClosingCashier_Insert_Result closing = clsClosing[0];
                                     if (!(bool)closing.Error)
                                     {
-                                        //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                                        if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                                        if (functions.PrintDocument((long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
                                         {
                                             functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                                         }
@@ -489,12 +488,16 @@ namespace POS
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
-            Int64 lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F");
-            //if (PrintInvoice(lastId))
+            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F");
             if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
             {
                 functions.ShowMessage("Cierre total impreso.");
             }
+        }
+
+        private void BtnCancelClosing_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

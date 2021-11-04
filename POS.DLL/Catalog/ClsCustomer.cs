@@ -59,7 +59,6 @@ namespace POS.DLL.Catalog
 
             try
             {
-
                 customer = (
                             from cust in db.Customer
                             where cust.Status == "A"
@@ -127,6 +126,7 @@ namespace POS.DLL.Catalog
             }
             return result;
         }
+
         public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
         {
             var db = new POSEntities();
@@ -141,6 +141,7 @@ namespace POS.DLL.Catalog
             }
             return result;
         }
+
         public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress)
         {
             var db = new POSEntities();

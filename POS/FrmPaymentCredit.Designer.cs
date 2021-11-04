@@ -145,7 +145,7 @@
             this.AxOPOSScanner.Location = new System.Drawing.Point(64, 204);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(143, 92);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 

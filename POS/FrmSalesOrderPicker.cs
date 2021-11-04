@@ -304,9 +304,11 @@ namespace POS
 
         private void BtnRemissionGuide_Click(object sender, EventArgs e)
         {
-            FrmRemissionGuide frmRemission = new FrmRemissionGuide();
-            frmRemission.emissionPoint = emissionPoint;
-            frmRemission.loginInformation = loginInformation;
+            FrmRemissionGuide frmRemission = new FrmRemissionGuide
+            {
+                emissionPoint = emissionPoint,
+                loginInformation = loginInformation
+            };
             frmRemission.ShowDialog();
         }
 

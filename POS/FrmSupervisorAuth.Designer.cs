@@ -35,14 +35,14 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.LblMotive = new System.Windows.Forms.Label();
             this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtSupervisorPassword = new DevExpress.XtraEditors.TextEdit();
             this.BtnKeypadPassword = new DevExpress.XtraEditors.SimpleButton();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtSupervisorPassword.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // LblAuthorization
@@ -122,16 +122,6 @@
             this.CmbMotive.Size = new System.Drawing.Size(306, 38);
             this.CmbMotive.TabIndex = 12;
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(358, 45);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(69, 41);
-            this.AxOPOSScanner.TabIndex = 13;
-            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -171,6 +161,16 @@
             this.BtnKeypadPassword.TabIndex = 170;
             this.BtnKeypadPassword.Click += new System.EventHandler(this.BtnKeypadPassword_Click);
             // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(358, 45);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.TabIndex = 13;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
             // FrmSupervisorAuth
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -194,8 +194,8 @@
             this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtSupervisorPassword.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

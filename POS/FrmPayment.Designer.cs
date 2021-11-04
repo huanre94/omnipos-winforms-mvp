@@ -61,6 +61,8 @@
             this.BtnWithhold = new DevExpress.XtraEditors.SimpleButton();
             this.LblChange = new System.Windows.Forms.Label();
             this.LblTitleChange = new System.Windows.Forms.Label();
+            this.BtnAdvance = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnReturn = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAmount.Properties)).BeginInit();
@@ -248,7 +250,7 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(134, 66);
+            this.LblTotal.Location = new System.Drawing.Point(141, 65);
             this.LblTotal.Name = "LblTotal";
             this.LblTotal.Size = new System.Drawing.Size(136, 34);
             this.LblTotal.TabIndex = 148;
@@ -265,7 +267,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(657, 426);
+            this.BtnCancel.Location = new System.Drawing.Point(657, 578);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -278,7 +280,7 @@
             this.GrcPayment.Location = new System.Drawing.Point(523, 6);
             this.GrcPayment.MainView = this.GrvPayment;
             this.GrcPayment.Name = "GrcPayment";
-            this.GrcPayment.Size = new System.Drawing.Size(294, 276);
+            this.GrcPayment.Size = new System.Drawing.Size(294, 429);
             this.GrcPayment.TabIndex = 150;
             this.GrcPayment.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPayment});
@@ -412,7 +414,7 @@
             // LblPaid
             // 
             this.LblPaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPaid.Location = new System.Drawing.Point(733, 299);
+            this.LblPaid.Location = new System.Drawing.Point(733, 451);
             this.LblPaid.Name = "LblPaid";
             this.LblPaid.Size = new System.Drawing.Size(84, 22);
             this.LblPaid.TabIndex = 156;
@@ -423,7 +425,7 @@
             // 
             this.LblTitlePaid.AutoSize = true;
             this.LblTitlePaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePaid.Location = new System.Drawing.Point(627, 299);
+            this.LblTitlePaid.Location = new System.Drawing.Point(627, 451);
             this.LblTitlePaid.Name = "LblTitlePaid";
             this.LblTitlePaid.Size = new System.Drawing.Size(102, 22);
             this.LblTitlePaid.TabIndex = 155;
@@ -432,7 +434,7 @@
             // LblPending
             // 
             this.LblPending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblPending.Location = new System.Drawing.Point(733, 330);
+            this.LblPending.Location = new System.Drawing.Point(733, 482);
             this.LblPending.Name = "LblPending";
             this.LblPending.Size = new System.Drawing.Size(84, 22);
             this.LblPending.TabIndex = 158;
@@ -443,7 +445,7 @@
             // 
             this.LblTitlePending.AutoSize = true;
             this.LblTitlePending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePending.Location = new System.Drawing.Point(605, 330);
+            this.LblTitlePending.Location = new System.Drawing.Point(605, 482);
             this.LblTitlePending.Name = "LblTitlePending";
             this.LblTitlePending.Size = new System.Drawing.Size(124, 22);
             this.LblTitlePending.TabIndex = 157;
@@ -506,7 +508,7 @@
             // LblChange
             // 
             this.LblChange.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblChange.Location = new System.Drawing.Point(733, 362);
+            this.LblChange.Location = new System.Drawing.Point(733, 514);
             this.LblChange.Name = "LblChange";
             this.LblChange.Size = new System.Drawing.Size(84, 22);
             this.LblChange.TabIndex = 166;
@@ -518,20 +520,54 @@
             // 
             this.LblTitleChange.AutoSize = true;
             this.LblTitleChange.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitleChange.Location = new System.Drawing.Point(626, 362);
+            this.LblTitleChange.Location = new System.Drawing.Point(626, 514);
             this.LblTitleChange.Name = "LblTitleChange";
             this.LblTitleChange.Size = new System.Drawing.Size(102, 22);
             this.LblTitleChange.TabIndex = 165;
             this.LblTitleChange.Text = "Cambio: $";
             this.LblTitleChange.Visible = false;
             // 
+            // BtnAdvance
+            // 
+            this.BtnAdvance.AllowFocus = false;
+            this.BtnAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnAdvance.Appearance.Options.UseBackColor = true;
+            this.BtnAdvance.Appearance.Options.UseFont = true;
+            this.BtnAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnAdvance.ImageOptions.Image")));
+            this.BtnAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
+            this.BtnAdvance.Location = new System.Drawing.Point(285, 484);
+            this.BtnAdvance.Name = "BtnAdvance";
+            this.BtnAdvance.Size = new System.Drawing.Size(220, 70);
+            this.BtnAdvance.TabIndex = 168;
+            this.BtnAdvance.Text = "Anticipos";
+            // 
+            // BtnReturn
+            // 
+            this.BtnReturn.AllowFocus = false;
+            this.BtnReturn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnReturn.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnReturn.Appearance.Options.UseBackColor = true;
+            this.BtnReturn.Appearance.Options.UseFont = true;
+            this.BtnReturn.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnReturn.ImageOptions.Image")));
+            this.BtnReturn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnReturn.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
+            this.BtnReturn.Location = new System.Drawing.Point(285, 566);
+            this.BtnReturn.Name = "BtnReturn";
+            this.BtnReturn.Size = new System.Drawing.Size(220, 70);
+            this.BtnReturn.TabIndex = 168;
+            this.BtnReturn.Text = "Nota de Credito";
+            // 
             // FrmPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(837, 512);
+            this.ClientSize = new System.Drawing.Size(837, 648);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnReturn);
+            this.Controls.Add(this.BtnAdvance);
             this.Controls.Add(this.LblChange);
             this.Controls.Add(this.LblTitleChange);
             this.Controls.Add(this.BtnWithhold);
@@ -609,5 +645,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnWithhold;
         private System.Windows.Forms.Label LblChange;
         private System.Windows.Forms.Label LblTitleChange;
+        private DevExpress.XtraEditors.SimpleButton BtnAdvance;
+        private DevExpress.XtraEditors.SimpleButton BtnReturn;
     }
 }

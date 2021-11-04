@@ -23,7 +23,7 @@ namespace POS
         public int reasonType;
 
         /// <summary>
-        /// Common message box to show warnings
+        /// Common message box to show information or warnings.
         /// </summary>
         /// <param name="_messageText"></param>
         /// <param name="_messageType"></param>

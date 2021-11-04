@@ -74,6 +74,7 @@
             this.LblTotalCashier = new System.Windows.Forms.Label();
             this.LblDifference = new System.Windows.Forms.Label();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnCancelClosing = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
@@ -638,7 +639,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.label4.Location = new System.Drawing.Point(1158, 632);
+            this.label4.Location = new System.Drawing.Point(1158, 637);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 22);
             this.label4.TabIndex = 159;
@@ -649,7 +650,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.label5.Location = new System.Drawing.Point(1110, 607);
+            this.label5.Location = new System.Drawing.Point(1108, 612);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(124, 22);
             this.label5.TabIndex = 159;
@@ -660,7 +661,7 @@
             // 
             this.LblTotalCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblTotalCashier.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.LblTotalCashier.Location = new System.Drawing.Point(1229, 632);
+            this.LblTotalCashier.Location = new System.Drawing.Point(1229, 637);
             this.LblTotalCashier.Name = "LblTotalCashier";
             this.LblTotalCashier.Size = new System.Drawing.Size(108, 22);
             this.LblTotalCashier.TabIndex = 159;
@@ -671,7 +672,7 @@
             // 
             this.LblDifference.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblDifference.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.LblDifference.Location = new System.Drawing.Point(1231, 607);
+            this.LblDifference.Location = new System.Drawing.Point(1229, 612);
             this.LblDifference.Name = "LblDifference";
             this.LblDifference.Size = new System.Drawing.Size(106, 22);
             this.LblDifference.TabIndex = 159;
@@ -693,12 +694,30 @@
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
             // 
+            // BtnCancelClosing
+            // 
+            this.BtnCancelClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnCancelClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancelClosing.Appearance.Options.UseBackColor = true;
+            this.BtnCancelClosing.Appearance.Options.UseFont = true;
+            this.BtnCancelClosing.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnCancelClosing.ImageOptions.Image")));
+            this.BtnCancelClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnCancelClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnCancelClosing.Location = new System.Drawing.Point(361, 704);
+            this.BtnCancelClosing.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancelClosing.Name = "BtnCancelClosing";
+            this.BtnCancelClosing.Size = new System.Drawing.Size(191, 50);
+            this.BtnCancelClosing.TabIndex = 162;
+            this.BtnCancelClosing.Text = "Anula Cierre";
+            this.BtnCancelClosing.Click += new System.EventHandler(this.BtnCancelClosing_Click);
+            // 
             // FrmClosingCashier
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnCancelClosing);
             this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -792,5 +811,6 @@
         private DevExpress.XtraEditors.SimpleButton BtnDot;
         private DevExpress.XtraGrid.Columns.GridColumn DenominationTypeName;
         private DevExpress.XtraGrid.Columns.GridColumn Amount2;
+        private DevExpress.XtraEditors.SimpleButton BtnCancelClosing;
     }
 }

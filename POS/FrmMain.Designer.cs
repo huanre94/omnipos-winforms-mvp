@@ -82,6 +82,8 @@
             this.LblTitleCashier = new System.Windows.Forms.Label();
             this.BtnSalesOrigin = new DevExpress.XtraEditors.SimpleButton();
             this.ImgSalesOrigin = new DevExpress.XtraEditors.SvgImageBox();
+            this.BtnAdvance = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnReturns = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -492,7 +494,7 @@
             this.ImgLogo.Location = new System.Drawing.Point(1, -7);
             this.ImgLogo.Margin = new System.Windows.Forms.Padding(0);
             this.ImgLogo.Name = "ImgLogo";
-            this.ImgLogo.Size = new System.Drawing.Size(196, 160);
+            this.ImgLogo.Size = new System.Drawing.Size(196, 163);
             this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImgLogo.TabIndex = 139;
             this.ImgLogo.TabStop = false;
@@ -703,7 +705,7 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(542, 30);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(651, 12);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
@@ -713,7 +715,7 @@
             // AxOPOSScale
             // 
             this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(441, 49);
+            this.AxOPOSScale.Location = new System.Drawing.Point(529, 12);
             this.AxOPOSScale.Name = "AxOPOSScale";
             this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
             this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
@@ -801,6 +803,40 @@
             this.ImgSalesOrigin.Text = "svgImageBox1";
             this.ImgSalesOrigin.Visible = false;
             // 
+            // BtnAdvance
+            // 
+            this.BtnAdvance.AllowFocus = false;
+            this.BtnAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnAdvance.Appearance.Options.UseBackColor = true;
+            this.BtnAdvance.Appearance.Options.UseFont = true;
+            this.BtnAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnAdvance.ImageOptions.Image")));
+            this.BtnAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
+            this.BtnAdvance.Location = new System.Drawing.Point(1132, 521);
+            this.BtnAdvance.Name = "BtnAdvance";
+            this.BtnAdvance.Size = new System.Drawing.Size(220, 80);
+            this.BtnAdvance.TabIndex = 137;
+            this.BtnAdvance.Text = "Anticipos";
+            this.BtnAdvance.Click += new System.EventHandler(this.BtnAdvance_Click);
+            // 
+            // BtnReturns
+            // 
+            this.BtnReturns.AllowFocus = false;
+            this.BtnReturns.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnReturns.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnReturns.Appearance.Options.UseBackColor = true;
+            this.BtnReturns.Appearance.Options.UseFont = true;
+            this.BtnReturns.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnReturns.ImageOptions.Image")));
+            this.BtnReturns.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnReturns.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
+            this.BtnReturns.Location = new System.Drawing.Point(1132, 607);
+            this.BtnReturns.Name = "BtnReturns";
+            this.BtnReturns.Size = new System.Drawing.Size(220, 80);
+            this.BtnReturns.TabIndex = 165;
+            this.BtnReturns.Text = "Nota Crédito";
+            this.BtnReturns.Click += new System.EventHandler(this.BtnReturns_Click);
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -808,6 +844,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.BtnReturns);
             this.Controls.Add(this.ImgSalesOrigin);
             this.Controls.Add(this.BtnSalesOrigin);
             this.Controls.Add(this.LblCashier);
@@ -837,6 +874,7 @@
             this.Controls.Add(this.ImgLogo);
             this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.GrcSalesDetail);
+            this.Controls.Add(this.BtnAdvance);
             this.Controls.Add(this.BtnCancelSale);
             this.Controls.Add(this.BtnSuspendSale);
             this.Controls.Add(this.BtnProductSearch);
@@ -859,7 +897,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "POS";
+            this.Text = " ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
@@ -930,5 +968,7 @@
         private System.Windows.Forms.Label LblTitleCashier;
         private DevExpress.XtraEditors.SimpleButton BtnSalesOrigin;
         private DevExpress.XtraEditors.SvgImageBox ImgSalesOrigin;
+        private DevExpress.XtraEditors.SimpleButton BtnAdvance;
+        private DevExpress.XtraEditors.SimpleButton BtnReturns;
     }
 }

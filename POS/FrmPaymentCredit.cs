@@ -1,5 +1,6 @@
 ﻿using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
 using POS.DLL.Transaction;
 using System;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace POS
         public EmissionPoint emissionPoint;
         public AxOposScanner_CCO.AxOPOSScanner scanner;
         public bool isPresentingCreditCard;
-        public Int64 internalCreditCardId;
+        public long internalCreditCardId;
         public string internalCreditCardCode = string.Empty;
         ClsEnums.ScaleBrands scaleBrand;
         public int salesOriginId;
@@ -87,6 +88,7 @@ namespace POS
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
+                customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
                 decimal _creditLimit = customer.CreditLimit;
                 LblCreditLimit.Text = _creditLimit.ToString("#.00");
                 LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;

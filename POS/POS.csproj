@@ -125,6 +125,18 @@
     <Compile Include="FrmAddressPicker.Designer.cs">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmAdvance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAdvance.Designer.cs">
+      <DependentUpon>FrmAdvance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPaymentAdvance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPaymentAdvance.Designer.cs">
+      <DependentUpon>FrmPaymentAdvance.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmRemissionGuide.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +154,12 @@
     </Compile>
     <Compile Include="FrmRemissionGuideOrderToInvoice.Designer.cs">
       <DependentUpon>FrmRemissionGuideOrderToInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmReturns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmReturns.Designer.cs">
+      <DependentUpon>FrmReturns.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmSalesOrder.cs">
       <SubType>Form</SubType>
@@ -316,6 +334,9 @@
     <EmbeddedResource Include="FrmAddressPicker.resx">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmAdvance.resx">
+      <DependentUpon>FrmAdvance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmRemissionGuide.resx">
       <DependentUpon>FrmRemissionGuide.cs</DependentUpon>
     </EmbeddedResource>
@@ -324,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmRemissionGuideOrderToInvoice.resx">
       <DependentUpon>FrmRemissionGuideOrderToInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmReturns.resx">
+      <DependentUpon>FrmReturns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSalesOrder.resx">
       <DependentUpon>FrmSalesOrder.cs</DependentUpon>

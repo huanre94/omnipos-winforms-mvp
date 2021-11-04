@@ -9,12 +9,11 @@ namespace POS.DLL.Catalog
         public List<Product> GetProducts(string _productName)
         {
             var db = new POSEntities();
-            List<Product> banks;
+            List<Product> products;
 
             try
             {
-
-                banks =
+                products =
                         (
                             from pr in db.Product
                             join bar in db.ProductBarcode on pr.ProductId equals bar.ProductId
@@ -27,8 +26,7 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-
-            return banks;
+            return products;
         }
 
         public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
@@ -44,18 +42,16 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-
             return result;
         }
 
         public SP_PhysicalStockProduct_Consult_Result GetProductPhysicalStock(EmissionPoint emissionPoint, string barcode, string internal_code)
         {
-            var db = new POSEntities();
             SP_PhysicalStockProduct_Consult_Result result;
 
             try
             {
-                result = db.SP_PhysicalStockProduct_Consult(
+                result = new POSEntities().SP_PhysicalStockProduct_Consult(
                                                             emissionPoint.LocationId
                                                             , emissionPoint.EmissionPointId
                                                             , barcode, internal_code
@@ -65,7 +61,6 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-
             return result;
         }
     }

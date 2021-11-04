@@ -231,11 +231,11 @@ namespace POS
                 {
                     GrcPayment.DataSource = null;
                     paymentXml.RemoveAll();
-                    this.Close();
+                    Close();
                 }
                 else
                 {
-                    this.DialogResult = DialogResult.None;
+                    DialogResult = DialogResult.None;
                 }
             }
         }
@@ -495,8 +495,10 @@ namespace POS
             GrcPayment.DataSource = null;
             GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
-            BindingList<PaymentEntry> bindingList = new BindingList<PaymentEntry>();
-            bindingList.AllowNew = true;
+            BindingList<PaymentEntry> bindingList = new BindingList<PaymentEntry>
+            {
+                AllowNew = true
+            };
 
             GrcPayment.DataSource = bindingList;
         }

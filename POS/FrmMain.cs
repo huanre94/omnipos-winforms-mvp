@@ -26,16 +26,16 @@ namespace POS
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        public List<GlobalParameter> globalParameters;
         EmissionPoint emissionPoint;
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
-        Int64 sequenceNumber;
-        public SP_Login_Consult_Result loginInformation;
-        public Int64 internalCreditCardId = 0;
-        public string internalCreditCardCode = "";
         ClsCatchWeight catchWeight;
         ClsEnums.ScaleBrands scaleBrand;
+        long sequenceNumber;
+        public List<GlobalParameter> globalParameters;
+        public SP_Login_Consult_Result loginInformation;
+        public long internalCreditCardId = 0;
+        public string internalCreditCardCode = "";
         private string portName = "";
         private int salesOriginId;
         private int salesManId;
@@ -143,8 +143,10 @@ namespace POS
             GrcSalesDetail.DataSource = null;
             GrvSalesDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
-            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
-            bindingList.AllowNew = true;
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>
+            {
+                AllowNew = true
+            };
 
             GrcSalesDetail.DataSource = bindingList;
         }
@@ -275,7 +277,7 @@ namespace POS
                     }
                     else
                     {
-                        bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
+                        bool response = functions.ShowMessage("El cliente ingresado no está registrado. ¿Desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
 
                         if (response)
                         {
@@ -313,7 +315,7 @@ namespace POS
 
             if (list.Count > 0)
             {
-                functions.ShowMessage("No puede salir con una venta en proceso.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("No puede salir mientras existe una venta en proceso. Por favor anule la venta.", ClsEnums.MessageType.ERROR);
                 TxtBarcode.Focus();
             }
             else
@@ -329,17 +331,13 @@ namespace POS
 
         private void BtnQty_Click(object sender, EventArgs e)
         {
-            if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+            if (rowIndex < 0)
             {
                 functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
             }
             else
             {
-                if (GrvSalesDetail.FocusedRowHandle < 0)
-                {
-                    GrvSalesDetail.FocusedRowHandle = 0;
-                }
-
                 FrmKeyPad keyPad = new FrmKeyPad();
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
                 keyPad.ShowDialog();
@@ -348,7 +346,7 @@ namespace POS
                 {
                     int newAmount = int.Parse(keyPad.productQuantity);
                     //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
-                    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(GrvSalesDetail.FocusedRowHandle);
+                    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
 
                     if (newAmount > row.Quantity)
                     {
@@ -379,30 +377,27 @@ namespace POS
                     {
                         functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.WARNING);
                     }
-
                 }
             }
+
             TxtBarcode.Focus();
         }
 
         private void BtnRemove_Click(object sender, EventArgs e)
         {
-            if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+
+            if (rowIndex < 0)
             {
-                functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
             }
             else
             {
-                if (GrvSalesDetail.FocusedRowHandle < 0)
-                {
-                    GrvSalesDetail.FocusedRowHandle = 0;
-                }
-
                 functions.emissionPoint = emissionPoint;
                 bool isApproved = functions.RequestSupervisorAuth();
                 if (isApproved)
                 {
-                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(GrvSalesDetail.FocusedRowHandle);
+                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
 
                     BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
                     foreach (SP_Product_Consult_Result item in dataSource)
@@ -820,8 +815,8 @@ namespace POS
                                             short _locationId
                                             , string _barcode
                                             , decimal _qty
-                                            , Int64 _customerId
-                                            , Int64 _internalCreditCardId
+                                            , long _customerId
+                                            , long _internalCreditCardId
                                             , string _paymMode
                                             , bool _skipCatchWeight
                                             )
@@ -1069,7 +1064,7 @@ namespace POS
                         ClearInvoice();
 
                         //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
-                        if (functions.PrintDocument((Int64)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true))
+                        if (functions.PrintDocument((long)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");
                         }
@@ -1085,6 +1080,10 @@ namespace POS
                                                select xm;
                         invoiceRemoveXml.Remove();
                         // End(IG004)
+
+                        var invoiceTableRemoveXml = from xm in invoiceXml.Descendants("InvoiceTable")
+                                                    select xm;
+                        invoiceTableRemoveXml.Remove();
 
                         functions.ShowMessage(
                                                "No se ha podido registrar la factura. Revisar detalle."
@@ -1290,5 +1289,18 @@ namespace POS
         }
 
         #endregion
+
+        private void BtnAdvance_Click(object sender, EventArgs e)
+        {
+            FrmAdvance frmAdvance = new FrmAdvance();
+            frmAdvance._currentCustomer = currentCustomer;
+            frmAdvance.ShowDialog();
+        }
+
+        private void BtnReturns_Click(object sender, EventArgs e)
+        {
+            FrmReturns frmReturns = new FrmReturns();
+            frmReturns.ShowDialog();
+        }
     }
 }
