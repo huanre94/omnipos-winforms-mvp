@@ -14,8 +14,7 @@ namespace POS
 {
     public partial class FrmAdvance : DevExpress.XtraEditors.XtraForm
     {
-        public Customer _currentCustomer;
-        Customer currentCustomer = new Customer();
+        public Customer _currentCustomer;       
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
 
@@ -35,6 +34,7 @@ namespace POS
 
         }
 
+        #region Keypad
         private void Btn0_Click(object sender, EventArgs e)
         {
             TxtBarcode.Text += "0";
@@ -90,6 +90,7 @@ namespace POS
             TxtBarcode.Text = "";
             TxtBarcode.Focus();
         }
+        #endregion
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
@@ -110,7 +111,7 @@ namespace POS
             DialogResult = DialogResult.Cancel;
         }
 
-        private void simpleButton3_Click(object sender, EventArgs e)
+        private void BtnNewAdvance_Click(object sender, EventArgs e)
         {
 
         }

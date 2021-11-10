@@ -38,9 +38,9 @@ namespace POS
             this.LblTotalCashier = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnLastClosing = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnPrintHistoricAdvance = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnPrintLastAdvance = new DevExpress.XtraEditors.SimpleButton();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             this.Btn9 = new DevExpress.XtraEditors.SimpleButton();
             this.Btn8 = new DevExpress.XtraEditors.SimpleButton();
@@ -55,7 +55,7 @@ namespace POS
             this.Btn3 = new DevExpress.XtraEditors.SimpleButton();
             this.BtnEnter = new DevExpress.XtraEditors.SimpleButton();
             this.Btn0 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnRefreshAdvances = new DevExpress.XtraEditors.SimpleButton();
             this.BtnPayment = new DevExpress.XtraEditors.SimpleButton();
             this.LblTotal = new System.Windows.Forms.Label();
             this.LblTitleTotal = new System.Windows.Forms.Label();
@@ -63,7 +63,7 @@ namespace POS
             this.GrvPayment = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Amount = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnNewAdvance = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcAdvance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvAdvance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -188,21 +188,21 @@ namespace POS
             this.BtnAccept.TabIndex = 179;
             this.BtnAccept.Text = "Aceptar";
             // 
-            // BtnLastClosing
+            // BtnPrintHistoricAdvance
             // 
-            this.BtnLastClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnLastClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnLastClosing.Appearance.Options.UseBackColor = true;
-            this.BtnLastClosing.Appearance.Options.UseFont = true;
-            this.BtnLastClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnLastClosing.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLastClosing.ImageOptions.SvgImage")));
-            this.BtnLastClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnLastClosing.Location = new System.Drawing.Point(1192, 127);
-            this.BtnLastClosing.Margin = new System.Windows.Forms.Padding(5);
-            this.BtnLastClosing.Name = "BtnLastClosing";
-            this.BtnLastClosing.Size = new System.Drawing.Size(160, 50);
-            this.BtnLastClosing.TabIndex = 180;
-            this.BtnLastClosing.Text = "Historico \r\nAnticipos";
+            this.BtnPrintHistoricAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPrintHistoricAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintHistoricAdvance.Appearance.Options.UseBackColor = true;
+            this.BtnPrintHistoricAdvance.Appearance.Options.UseFont = true;
+            this.BtnPrintHistoricAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPrintHistoricAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintHistoricAdvance.ImageOptions.SvgImage")));
+            this.BtnPrintHistoricAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnPrintHistoricAdvance.Location = new System.Drawing.Point(1192, 127);
+            this.BtnPrintHistoricAdvance.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnPrintHistoricAdvance.Name = "BtnPrintHistoricAdvance";
+            this.BtnPrintHistoricAdvance.Size = new System.Drawing.Size(160, 50);
+            this.BtnPrintHistoricAdvance.TabIndex = 180;
+            this.BtnPrintHistoricAdvance.Text = "Historico \r\nAnticipos";
             // 
             // BtnCancel
             // 
@@ -221,21 +221,21 @@ namespace POS
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // simpleButton1
+            // BtnPrintLastAdvance
             // 
-            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.simpleButton1.Appearance.Options.UseBackColor = true;
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.simpleButton1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
-            this.simpleButton1.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.simpleButton1.Location = new System.Drawing.Point(184, 704);
-            this.simpleButton1.Margin = new System.Windows.Forms.Padding(5);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(160, 50);
-            this.simpleButton1.TabIndex = 186;
-            this.simpleButton1.Text = "Ultimo \r\nAnticipo";
+            this.BtnPrintLastAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnPrintLastAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastAdvance.Appearance.Options.UseBackColor = true;
+            this.BtnPrintLastAdvance.Appearance.Options.UseFont = true;
+            this.BtnPrintLastAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnPrintLastAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastAdvance.ImageOptions.SvgImage")));
+            this.BtnPrintLastAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnPrintLastAdvance.Location = new System.Drawing.Point(184, 704);
+            this.BtnPrintLastAdvance.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnPrintLastAdvance.Name = "BtnPrintLastAdvance";
+            this.BtnPrintLastAdvance.Size = new System.Drawing.Size(160, 50);
+            this.BtnPrintLastAdvance.TabIndex = 186;
+            this.BtnPrintLastAdvance.Text = "Ultimo \r\nAnticipo";
             // 
             // TxtBarcode
             // 
@@ -438,21 +438,21 @@ namespace POS
             this.Btn0.Text = "0";
             this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
             // 
-            // simpleButton2
+            // BtnRefreshAdvances
             // 
-            this.simpleButton2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.simpleButton2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.simpleButton2.Appearance.Options.UseBackColor = true;
-            this.simpleButton2.Appearance.Options.UseFont = true;
-            this.simpleButton2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
-            this.simpleButton2.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.simpleButton2.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.simpleButton2.Location = new System.Drawing.Point(1192, 67);
-            this.simpleButton2.Margin = new System.Windows.Forms.Padding(5);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(160, 50);
-            this.simpleButton2.TabIndex = 186;
-            this.simpleButton2.Text = "Actualizar";
+            this.BtnRefreshAdvances.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnRefreshAdvances.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRefreshAdvances.Appearance.Options.UseBackColor = true;
+            this.BtnRefreshAdvances.Appearance.Options.UseFont = true;
+            this.BtnRefreshAdvances.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnRefreshAdvances.ImageOptions.Image")));
+            this.BtnRefreshAdvances.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnRefreshAdvances.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnRefreshAdvances.Location = new System.Drawing.Point(1192, 67);
+            this.BtnRefreshAdvances.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnRefreshAdvances.Name = "BtnRefreshAdvances";
+            this.BtnRefreshAdvances.Size = new System.Drawing.Size(160, 50);
+            this.BtnRefreshAdvances.TabIndex = 186;
+            this.BtnRefreshAdvances.Text = "Actualizar";
             // 
             // BtnPayment
             // 
@@ -463,7 +463,7 @@ namespace POS
             this.BtnPayment.Appearance.Options.UseFont = true;
             this.BtnPayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPayment.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPayment.ImageOptions.SvgImage")));
-            this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
+            this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
             this.BtnPayment.Location = new System.Drawing.Point(399, 59);
             this.BtnPayment.Name = "BtnPayment";
             this.BtnPayment.Size = new System.Drawing.Size(160, 50);
@@ -557,22 +557,22 @@ namespace POS
             this.Amount.VisibleIndex = 1;
             this.Amount.Width = 100;
             // 
-            // simpleButton3
+            // BtnNewAdvance
             // 
-            this.simpleButton3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.simpleButton3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.simpleButton3.Appearance.Options.UseBackColor = true;
-            this.simpleButton3.Appearance.Options.UseFont = true;
-            this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
-            this.simpleButton3.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.simpleButton3.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.simpleButton3.Location = new System.Drawing.Point(14, 704);
-            this.simpleButton3.Margin = new System.Windows.Forms.Padding(5);
-            this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(160, 50);
-            this.simpleButton3.TabIndex = 186;
-            this.simpleButton3.Text = "Nuevo\r\nAnticipo";
-            this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
+            this.BtnNewAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnNewAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnNewAdvance.Appearance.Options.UseBackColor = true;
+            this.BtnNewAdvance.Appearance.Options.UseFont = true;
+            this.BtnNewAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnNewAdvance.ImageOptions.Image")));
+            this.BtnNewAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnNewAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnNewAdvance.Location = new System.Drawing.Point(14, 704);
+            this.BtnNewAdvance.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnNewAdvance.Name = "BtnNewAdvance";
+            this.BtnNewAdvance.Size = new System.Drawing.Size(160, 50);
+            this.BtnNewAdvance.TabIndex = 186;
+            this.BtnNewAdvance.Text = "Nuevo\r\nAnticipo";
+            this.BtnNewAdvance.Click += new System.EventHandler(this.BtnNewAdvance_Click);
             // 
             // FrmAdvance
             // 
@@ -597,13 +597,13 @@ namespace POS
             this.Controls.Add(this.Btn3);
             this.Controls.Add(this.BtnEnter);
             this.Controls.Add(this.Btn0);
-            this.Controls.Add(this.simpleButton2);
-            this.Controls.Add(this.simpleButton3);
-            this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.BtnRefreshAdvances);
+            this.Controls.Add(this.BtnNewAdvance);
+            this.Controls.Add(this.BtnPrintLastAdvance);
             this.Controls.Add(this.LblTotalCashier);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BtnAccept);
-            this.Controls.Add(this.BtnLastClosing);
+            this.Controls.Add(this.BtnPrintHistoricAdvance);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GrcAdvance);
@@ -632,9 +632,9 @@ namespace POS
         private System.Windows.Forms.Label LblTotalCashier;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
-        private DevExpress.XtraEditors.SimpleButton BtnLastClosing;
+        private DevExpress.XtraEditors.SimpleButton BtnPrintHistoricAdvance;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton BtnPrintLastAdvance;
         private DevExpress.XtraEditors.TextEdit TxtBarcode;
         private DevExpress.XtraEditors.SimpleButton Btn9;
         private DevExpress.XtraEditors.SimpleButton Btn8;
@@ -649,7 +649,7 @@ namespace POS
         private DevExpress.XtraEditors.SimpleButton Btn3;
         private DevExpress.XtraEditors.SimpleButton BtnEnter;
         private DevExpress.XtraEditors.SimpleButton Btn0;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton BtnRefreshAdvances;
         private DevExpress.XtraEditors.SimpleButton BtnPayment;
         private System.Windows.Forms.Label LblTotal;
         private System.Windows.Forms.Label LblTitleTotal;
@@ -657,6 +657,6 @@ namespace POS
         private DevExpress.XtraGrid.Views.Grid.GridView GrvPayment;
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
-        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton BtnNewAdvance;
     }
 }

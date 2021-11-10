@@ -63,6 +63,7 @@
     <Compile Include="CancelReason.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Catalog\ClsAccountsReceivable.cs" />
     <Compile Include="Catalog\ClsAdministration.cs" />
     <Compile Include="Catalog\ClsCustomer.cs" />
     <Compile Include="Catalog\ClsGeneral.cs" />
@@ -397,6 +398,7 @@
     <Compile Include="TaxTable.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Transaction\ClsAccountsReceivableTrans.cs" />
     <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
     <Compile Include="Transaction\ClsClosingTrans.cs" />
     <Compile Include="Transaction\ClsCustomerTrans.cs" />

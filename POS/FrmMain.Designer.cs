@@ -835,6 +835,7 @@
             this.BtnReturns.Size = new System.Drawing.Size(220, 80);
             this.BtnReturns.TabIndex = 165;
             this.BtnReturns.Text = "Nota Crédito";
+            this.BtnReturns.Visible = false;
             this.BtnReturns.Click += new System.EventHandler(this.BtnReturns_Click);
             // 
             // FrmMain
