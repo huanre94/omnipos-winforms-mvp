@@ -1,5 +1,7 @@
 ﻿using DevExpress.XtraEditors;
+using POS.Classes;
 using POS.DLL;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +16,10 @@ namespace POS
 {
     public partial class FrmAdvance : DevExpress.XtraEditors.XtraForm
     {
-        public Customer _currentCustomer;       
+        public Customer _currentCustomer;
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
+        ClsFunctions functions = new ClsFunctions();
 
         public FrmAdvance()
         {
@@ -94,7 +97,7 @@ namespace POS
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-         
+
         }
 
         private void CheckGridView()
@@ -114,6 +117,32 @@ namespace POS
         private void BtnNewAdvance_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void BtnPrintLastAdvance_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                long lastId = new ClsAccountsReceivableTrans().;
+
+                if (lastId == 0)
+                {
+                    functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                }
+                else
+                {
+                    functions.PrintDocument(lastId, ClsEnums.DocumentType.ADVANCE);
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al imprimir la última factura."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
         }
     }
 }

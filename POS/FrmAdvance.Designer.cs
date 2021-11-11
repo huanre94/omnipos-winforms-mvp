@@ -64,6 +64,7 @@ namespace POS
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Amount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.BtnNewAdvance = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcAdvance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvAdvance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -236,6 +237,7 @@ namespace POS
             this.BtnPrintLastAdvance.Size = new System.Drawing.Size(160, 50);
             this.BtnPrintLastAdvance.TabIndex = 186;
             this.BtnPrintLastAdvance.Text = "Ultimo \r\nAnticipo";
+            this.BtnPrintLastAdvance.Click += new System.EventHandler(this.BtnPrintLastAdvance_Click);
             // 
             // TxtBarcode
             // 
@@ -476,7 +478,7 @@ namespace POS
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
             this.LblTotal.Location = new System.Drawing.Point(168, 67);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(136, 34);
+            this.LblTotal.Size = new System.Drawing.Size(122, 34);
             this.LblTotal.TabIndex = 203;
             this.LblTotal.Text = "00.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -574,11 +576,28 @@ namespace POS
             this.BtnNewAdvance.Text = "Nuevo\r\nAnticipo";
             this.BtnNewAdvance.Click += new System.EventHandler(this.BtnNewAdvance_Click);
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.simpleButton1.Appearance.Options.UseBackColor = true;
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.simpleButton1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.simpleButton1.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.simpleButton1.Location = new System.Drawing.Point(1192, 187);
+            this.simpleButton1.Margin = new System.Windows.Forms.Padding(5);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(160, 50);
+            this.simpleButton1.TabIndex = 205;
+            this.simpleButton1.Text = "Anulacion";
+            // 
             // FrmAdvance
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.GrcPayment);
             this.Controls.Add(this.LblTotal);
             this.Controls.Add(this.LblTitleTotal);
@@ -658,5 +677,6 @@ namespace POS
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn Amount;
         private DevExpress.XtraEditors.SimpleButton BtnNewAdvance;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }

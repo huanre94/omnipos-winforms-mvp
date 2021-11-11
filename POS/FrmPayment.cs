@@ -581,5 +581,28 @@ namespace POS
             }
         }
         #endregion
+
+        private void BtnAdvance_Click(object sender, EventArgs e)
+        {
+            Advance();
+        }
+
+        private void Advance()
+        {
+            FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
+            {
+                advanceAmount = decimal.Parse(TxtAmount.Text),
+                currentCustomer = customer
+            };
+            paymentAdvance.ShowDialog();
+
+            InvoicePayment invoicePayment = new InvoicePayment
+            {
+                PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,                
+                //AccountNumber = paymentAdvance.checkAccountNumber,
+                //Authorization = paymentAdvance.checkAuthorization,
+                Amount = decimal.Parse(TxtAmount.Text)
+            };
+        }
     }
 }

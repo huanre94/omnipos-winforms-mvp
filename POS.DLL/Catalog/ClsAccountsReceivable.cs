@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS.DLL.Catalog
 {
-    class ClsAccountsReceivable
+  public  class ClsAccountsReceivable
     {
         /// <summary>
         /// Show a list of pending active advances by customerid
