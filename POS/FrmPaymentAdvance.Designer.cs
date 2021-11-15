@@ -31,17 +31,19 @@ namespace POS
         {
             this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.GrcPaymentAdvances = new DevExpress.XtraGrid.GridControl();
-            this.GrvPaymentAdvances = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.GrcAdvanceHistory = new DevExpress.XtraGrid.GridControl();
+            this.GrvAdvanceHistory = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.LblAmount = new System.Windows.Forms.Label();
-            this.LblTitleAmount = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.GrcPaymentAdvances)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrvPaymentAdvances)).BeginInit();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LblSelectedAmount = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.GrcAdvanceHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrvAdvanceHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,6 +64,7 @@ namespace POS
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 8;
             this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
@@ -79,35 +82,36 @@ namespace POS
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 9;
             this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // GrcPaymentAdvances
+            // GrcAdvanceHistory
             // 
-            this.GrcPaymentAdvances.EmbeddedNavigator.Buttons.Append.Visible = false;
-            this.GrcPaymentAdvances.EmbeddedNavigator.Buttons.CancelEdit.Visible = false;
-            this.GrcPaymentAdvances.EmbeddedNavigator.Buttons.Edit.Visible = false;
-            this.GrcPaymentAdvances.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
-            this.GrcPaymentAdvances.EmbeddedNavigator.Buttons.Remove.Visible = false;
-            this.GrcPaymentAdvances.Location = new System.Drawing.Point(12, 12);
-            this.GrcPaymentAdvances.MainView = this.GrvPaymentAdvances;
-            this.GrcPaymentAdvances.Name = "GrcPaymentAdvances";
-            this.GrcPaymentAdvances.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.GrcAdvanceHistory.EmbeddedNavigator.Buttons.Append.Visible = false;
+            this.GrcAdvanceHistory.EmbeddedNavigator.Buttons.CancelEdit.Visible = false;
+            this.GrcAdvanceHistory.EmbeddedNavigator.Buttons.Edit.Visible = false;
+            this.GrcAdvanceHistory.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
+            this.GrcAdvanceHistory.EmbeddedNavigator.Buttons.Remove.Visible = false;
+            this.GrcAdvanceHistory.Location = new System.Drawing.Point(12, 12);
+            this.GrcAdvanceHistory.MainView = this.GrvAdvanceHistory;
+            this.GrcAdvanceHistory.Name = "GrcAdvanceHistory";
+            this.GrcAdvanceHistory.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.GrcPaymentAdvances.Size = new System.Drawing.Size(863, 447);
-            this.GrcPaymentAdvances.TabIndex = 142;
-            this.GrcPaymentAdvances.UseEmbeddedNavigator = true;
-            this.GrcPaymentAdvances.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.GrvPaymentAdvances});
+            this.GrcAdvanceHistory.Size = new System.Drawing.Size(863, 447);
+            this.GrcAdvanceHistory.TabIndex = 142;
+            this.GrcAdvanceHistory.UseEmbeddedNavigator = true;
+            this.GrcAdvanceHistory.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.GrvAdvanceHistory});
             // 
-            // GrvPaymentAdvances
+            // GrvAdvanceHistory
             // 
-            this.GrvPaymentAdvances.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.GrvAdvanceHistory.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn5,
             this.gridColumn4,
             this.gridColumn3});
-            this.GrvPaymentAdvances.GridControl = this.GrcPaymentAdvances;
-            this.GrvPaymentAdvances.Name = "GrvPaymentAdvances";
-            this.GrvPaymentAdvances.OptionsView.ShowGroupPanel = false;
+            this.GrvAdvanceHistory.GridControl = this.GrcAdvanceHistory;
+            this.GrvAdvanceHistory.Name = "GrvAdvanceHistory";
+            this.GrvAdvanceHistory.OptionsView.ShowGroupPanel = false;
             // 
             // gridColumn1
             // 
@@ -115,7 +119,7 @@ namespace POS
             this.gridColumn1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn1.Caption = " ";
             this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
-            this.gridColumn1.FieldName = "isSelected";
+            this.gridColumn1.FieldName = "IsSelected";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn1.OptionsFilter.AllowFilter = false;
@@ -128,25 +132,12 @@ namespace POS
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
-            // gridColumn3
-            // 
-            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn3.Caption = "Establecimiento";
-            this.gridColumn3.FieldName = "SalesOrderId";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.OptionsColumn.AllowEdit = false;
-            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 3;
-            this.gridColumn3.Width = 525;
-            // 
             // gridColumn5
             // 
             this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn5.Caption = "Fecha";
-            this.gridColumn5.FieldName = "OrderDate";
+            this.gridColumn5.FieldName = "AdvanceDate";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.OptionsColumn.AllowEdit = false;
             this.gridColumn5.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
@@ -160,7 +151,7 @@ namespace POS
             this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "Monto";
-            this.gridColumn4.FieldName = "SalesOrigin";
+            this.gridColumn4.FieldName = "AdvanceAmount";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowEdit = false;
             this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
@@ -169,23 +160,54 @@ namespace POS
             this.gridColumn4.VisibleIndex = 2;
             this.gridColumn4.Width = 177;
             // 
+            // gridColumn3
+            // 
+            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn3.Caption = "Establecimiento";
+            this.gridColumn3.FieldName = "EstablishmentName";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 3;
+            this.gridColumn3.Width = 525;
+            // 
             // LblAmount
             // 
             this.LblAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblAmount.Location = new System.Drawing.Point(137, 485);
+            this.LblAmount.Location = new System.Drawing.Point(219, 467);
             this.LblAmount.Name = "LblAmount";
             this.LblAmount.Size = new System.Drawing.Size(171, 18);
             this.LblAmount.TabIndex = 144;
             // 
-            // LblTitleAmount
+            // label2
             // 
-            this.LblTitleAmount.AutoSize = true;
-            this.LblTitleAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblTitleAmount.Location = new System.Drawing.Point(12, 485);
-            this.LblTitleAmount.Name = "LblTitleAmount";
-            this.LblTitleAmount.Size = new System.Drawing.Size(57, 18);
-            this.LblTitleAmount.TabIndex = 143;
-            this.LblTitleAmount.Text = "Monto";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.label2.Location = new System.Drawing.Point(24, 499);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(189, 18);
+            this.label2.TabIndex = 143;
+            this.label2.Text = "Monto Seleccionado $:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.label1.Location = new System.Drawing.Point(24, 467);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 18);
+            this.label1.TabIndex = 143;
+            this.label1.Text = "Monto Digitado            $:";
+            // 
+            // LblSelectedAmount
+            // 
+            this.LblSelectedAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblSelectedAmount.Location = new System.Drawing.Point(219, 499);
+            this.LblSelectedAmount.Name = "LblSelectedAmount";
+            this.LblSelectedAmount.Size = new System.Drawing.Size(171, 18);
+            this.LblSelectedAmount.TabIndex = 144;
             // 
             // FrmPaymentAdvance
             // 
@@ -193,16 +215,19 @@ namespace POS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 533);
             this.ControlBox = false;
+            this.Controls.Add(this.LblSelectedAmount);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.LblAmount);
-            this.Controls.Add(this.LblTitleAmount);
-            this.Controls.Add(this.GrcPaymentAdvances);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.GrcAdvanceHistory);
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.Name = "FrmPaymentAdvance";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Anticipos";
-            ((System.ComponentModel.ISupportInitialize)(this.GrcPaymentAdvances)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GrvPaymentAdvances)).EndInit();
+            this.Load += new System.EventHandler(this.FrmPaymentAdvance_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.GrcAdvanceHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GrvAdvanceHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -213,14 +238,16 @@ namespace POS
 
         private DevExpress.XtraEditors.SimpleButton BtnAccept;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
-        private DevExpress.XtraGrid.GridControl GrcPaymentAdvances;
-        private DevExpress.XtraGrid.Views.Grid.GridView GrvPaymentAdvances;
+        private DevExpress.XtraGrid.GridControl GrcAdvanceHistory;
+        private DevExpress.XtraGrid.Views.Grid.GridView GrvAdvanceHistory;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private System.Windows.Forms.Label LblAmount;
-        private System.Windows.Forms.Label LblTitleAmount;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LblSelectedAmount;
     }
 }

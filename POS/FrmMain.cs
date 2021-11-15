@@ -1294,8 +1294,10 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            FrmAdvance frmAdvance = new FrmAdvance();
-            frmAdvance._currentCustomer = currentCustomer;
+            FrmAdvance frmAdvance = new FrmAdvance
+            {
+                _currentCustomer = currentCustomer
+            };
             frmAdvance.ShowDialog();
         }
 

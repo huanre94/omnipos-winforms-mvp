@@ -717,5 +717,18 @@ namespace POS.DLL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Consult_Result>("SP_RemissionGuide_Consult", remissionGuideUserIdParameter, transportDriverIdParameter);
         }
+    
+        public virtual ObjectResult<SP_Advance_Consult_Result> SP_Advance_Consult(Nullable<long> customerId, string identification)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("customerId", customerId) :
+                new ObjectParameter("customerId", typeof(long));
+    
+            var identificationParameter = identification != null ?
+                new ObjectParameter("identification", identification) :
+                new ObjectParameter("identification", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Consult_Result>("SP_Advance_Consult", customerIdParameter, identificationParameter);
+        }
     }
 }

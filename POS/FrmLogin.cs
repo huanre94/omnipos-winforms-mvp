@@ -82,8 +82,8 @@ namespace POS
                                             , string _addressIP
                                         )
         {
-            DLL.Catalog.ClsAdministration admin = new DLL.Catalog.ClsAdministration();
-            DLL.SP_Login_Consult_Result result;
+            ClsAdministration admin = new ClsAdministration();
+            SP_Login_Consult_Result result;
             bool response = false;
 
             try

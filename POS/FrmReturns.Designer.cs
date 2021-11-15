@@ -452,7 +452,7 @@ namespace POS
             this.BtnPrintLastReturn.Appearance.Options.UseBackColor = true;
             this.BtnPrintLastReturn.Appearance.Options.UseFont = true;
             this.BtnPrintLastReturn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnPrintLastReturn.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastInvoice.ImageOptions.SvgImage")));
+            this.BtnPrintLastReturn.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastReturn.ImageOptions.SvgImage")));
             this.BtnPrintLastReturn.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintLastReturn.Location = new System.Drawing.Point(570, 711);
             this.BtnPrintLastReturn.Name = "BtnPrintLastReturn";

@@ -13,20 +13,20 @@ namespace POS.DLL.Transaction
 
         }
 
-        public List<> GetInvoiceTicket(long _invoiceId, bool _openCashier = false)
-        {
-            List<> advanceTicketResult;
+        //public List<> GetInvoiceTicket(long _invoiceId, bool _openCashier = false)
+        //{
+        //    List<> advanceTicketResult;
 
-            try
-            {
-                advanceTicketResult = new POSEntities().SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+        //    try
+        //    {
+        //        advanceTicketResult = new POSEntities().SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
 
-            return advanceTicketResult;
-        }
+        //    return advanceTicketResult;
+        //}
     }
 }

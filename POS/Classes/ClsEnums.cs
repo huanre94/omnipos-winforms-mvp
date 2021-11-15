@@ -51,7 +51,8 @@
             INVOICE_NUMBER,
             PRODUCT_INVENTORY,
             SUPERVISOR_PASSWORD,
-            SALESORDER_ID
+            SALESORDER_ID,
+            ADVANCE_AMOUNT
         }
 
         public enum ScaleBrands

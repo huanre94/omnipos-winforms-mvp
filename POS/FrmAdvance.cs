@@ -1,15 +1,9 @@
-﻿using DevExpress.XtraEditors;
-using POS.Classes;
+﻿using POS.Classes;
 using POS.DLL;
-using POS.DLL.Transaction;
+using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POS
@@ -20,6 +14,9 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
         ClsFunctions functions = new ClsFunctions();
+        List<SP_Advance_Consult_Result> advances;
+        decimal TypedAmount = 0.00M;
+        decimal TotalAdvances = 0.00M;
 
         public FrmAdvance()
         {
@@ -28,85 +25,59 @@ namespace POS
 
         private void FrmAdvance_Load(object sender, EventArgs e)
         {
-            LoadPreviousAdvances();
-            CheckGridView();
+            if (ValidateCustomerInformation())
+            {
+                CheckGridView();
+                LoadPreviousAdvances();
+            }
         }
 
         private void LoadPreviousAdvances()
         {
+            try
+            {
+                advances = new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId);
+                if (advances.Count == 0)
+                {
+                    advances = new List<SP_Advance_Consult_Result>();
 
-        }
+                    functions.ShowMessage(
+                                  "No existen anticipos previamente registrados."
+                                  , ClsEnums.MessageType.WARNING
+                                  , false
+                                  );
 
-        #region Keypad
-        private void Btn0_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "0";
-        }
+                }
 
-        private void Btn1_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "1";
-        }
 
-        private void Btn2_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "2";
-        }
+                foreach (var item in advances)
+                {
+                    TotalAdvances += (decimal)item.AdvanceAmount;
+                }
 
-        private void Btn3_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "3";
-        }
-
-        private void Btn4_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "4";
-        }
-
-        private void Btn5_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "5";
-        }
-
-        private void Btn6_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "6";
-        }
-
-        private void Btn7_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "7";
-        }
-
-        private void Btn8_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "8";
-        }
-
-        private void Btn9_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "9";
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text = "";
-            TxtBarcode.Focus();
-        }
-        #endregion
-
-        private void BtnEnter_Click(object sender, EventArgs e)
-        {
-
+                GrcAdvanceHistory.DataSource = advances;
+                LblTotalAdvance.Text = TotalAdvances.ToString("0.00");
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                                  "No se ha podido iniciar sesión."
+                                                  , ClsEnums.MessageType.WARNING
+                                                  , true
+                                                  , ex.InnerException.Message
+                                                  );
+            }
         }
 
         private void CheckGridView()
         {
-            GrvAdvance.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            GrcAdvance.DataSource = null;
-            //BindingList<> bindingList = new BindingList<>(denominations);
-            //bindingList.AllowNew = false;
-            //GrcAdvance.DataSource = bindingList;
+            GrvAdvanceHistory.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcAdvanceHistory.DataSource = null;
+            BindingList<SP_Advance_Consult_Result> bindingList = new BindingList<SP_Advance_Consult_Result>
+            {
+                AllowNew = false
+            };
+            GrcAdvanceHistory.DataSource = bindingList;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -123,7 +94,7 @@ namespace POS
         {
             try
             {
-                long lastId = new ClsAccountsReceivableTrans().;
+                long lastId = 0;// new ClsAccountsReceivableTrans().;
 
                 if (lastId == 0)
                 {
@@ -137,11 +108,60 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                        "Ocurrio un problema al imprimir la última factura."
+                                        "Ocurrio un problema al imprimir la último anticipo."
                                         , ClsEnums.MessageType.ERROR
                                         , true
                                         , ex.Message
                                     );
+            }
+        }
+
+        private bool ValidateCustomerInformation()
+        {
+            bool response = false;
+
+            if (_currentCustomer != null)
+            {
+                if (_currentCustomer.CustomerId != 1)
+                {
+                    LblCustomerName.Text = _currentCustomer.Firtsname + " " + _currentCustomer.Lastname;
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage("No se puede realizar anticipos a CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    this.DialogResult = DialogResult.Cancel;
+                }
+            }
+
+            return response;
+        }
+
+        private void BtnAdvancePayment_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnKeypadAdvance_Click(object sender, EventArgs e)
+        {
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.ADVANCE_AMOUNT
+            };
+            keyPad.ShowDialog();
+
+            if (keyPad.advanceAmount != "")
+            {
+                TypedAmount = decimal.Parse(keyPad.advanceAmount);
+                LblTotal.Text = TypedAmount.ToString();
+            }
+            else
+            {
+                functions.ShowMessage(
+                                                 "No se ."
+                                                 , ClsEnums.MessageType.WARNING
+                                                 , false
+                                                 );
             }
         }
     }

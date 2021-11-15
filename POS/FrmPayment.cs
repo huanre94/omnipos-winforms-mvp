@@ -255,7 +255,7 @@ namespace POS
                 LblTitleChange.Visible = true;
                 LblChange.Visible = true;
                 LblChange.Text = changeAmount.ToString();
-                functions.ShowMessage("El cambio a entregar es de $" + changeAmount.ToString());
+                functions.ShowMessage("El cambio a entregar es de $ " + changeAmount.ToString());
             }
 
             InvoicePayment invoicePayment = new InvoicePayment
@@ -273,12 +273,14 @@ namespace POS
         private void CreditCard()
         {
             string AuxXml = invoiceXml.ToString(); //HR002
-            FrmPaymentCard paymentCard = new FrmPaymentCard();
-            paymentCard.creditCardAmount = decimal.Parse(TxtAmount.Text);
-            paymentCard.customer = customer;
-            paymentCard.applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text);   //HR002
-            paymentCard.invoiceXml = invoiceXml;    //HR002
-            paymentCard.emissionPoint = emissionPoint; //HR002
+            FrmPaymentCard paymentCard = new FrmPaymentCard
+            {
+                creditCardAmount = decimal.Parse(TxtAmount.Text),
+                customer = customer,
+                applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text),   //HR002
+                invoiceXml = invoiceXml,    //HR002
+                emissionPoint = emissionPoint //HR002
+            };
             paymentCard.ShowDialog();
 
             if (paymentCard.processResponse)
@@ -584,7 +586,14 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            Advance();
+            if (TxtAmount.Text != "")
+            {
+                Advance();
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
         }
 
         private void Advance()
@@ -592,17 +601,21 @@ namespace POS
             FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
                 advanceAmount = decimal.Parse(TxtAmount.Text),
-                currentCustomer = customer
+                _currentCustomer = customer
             };
             paymentAdvance.ShowDialog();
 
-            InvoicePayment invoicePayment = new InvoicePayment
+            if (paymentAdvance.processResponse)
             {
-                PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,                
-                //AccountNumber = paymentAdvance.checkAccountNumber,
-                //Authorization = paymentAdvance.checkAuthorization,
-                Amount = decimal.Parse(TxtAmount.Text)
-            };
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,
+                    Amount = decimal.Parse(TxtAmount.Text)
+                };
+
+                AddRecordToGrid(invoicePayment);
+                CalculatePayment();
+            }
         }
     }
 }

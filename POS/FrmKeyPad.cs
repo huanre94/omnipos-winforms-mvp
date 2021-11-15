@@ -22,6 +22,8 @@ namespace POS
         public string productInventory = "";
         public string supervisorPassword = "";
         public string salesOrderId = "";
+        public string advanceAmount = "";
+
 
 
         public FrmKeyPad()
@@ -168,10 +170,12 @@ namespace POS
                     case ClsEnums.InputFromOption.SALESORDER_ID:
                         salesOrderId = TxtValue.Text;
                         break;
+                    case ClsEnums.InputFromOption.ADVANCE_AMOUNT:
+                        advanceAmount = TxtValue.Text;
+                        break;
                     default:
                         break;
                 }
-
                 Close();
             }
             else
