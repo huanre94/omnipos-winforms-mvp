@@ -43,7 +43,7 @@ namespace POS
                 TxtValue.Properties.UseSystemPasswordChar = false;
                 TxtValue.Properties.PasswordChar = '\0';
 
-                if (inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY)
+                if (inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY || inputFromOption == ClsEnums.InputFromOption.ADVANCE_AMOUNT)
                 {
                     BtnDot.Enabled = true;
                 }
@@ -112,7 +112,10 @@ namespace POS
 
         private void BtnDot_Click(object sender, EventArgs e)
         {
-            TxtValue.Text += ".";
+            if (!TxtValue.Text.Contains("."))
+            {
+                TxtValue.Text += ".";
+            }
         }
         #endregion
 

@@ -141,7 +141,7 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_SalesOrderTicket_Consult_Result> GetSalesOrderTicket(Int64 _salesOrderId, short _emissionPointId, bool _openCashier = false)
+        public List<SP_SalesOrderTicket_Consult_Result> GetSalesOrderTicket(long _salesOrderId, short _emissionPointId, bool _openCashier = false)
         {
             var db = new POSEntities();
             List<SP_SalesOrderTicket_Consult_Result> salesOrderTicketResult;

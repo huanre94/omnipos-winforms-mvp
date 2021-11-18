@@ -34,6 +34,7 @@ namespace POS
         public XElement invoiceXml; //HR002
         public bool isInvoicePaymentDiscount = false;   //HR002
         public int salesOriginId = 1;
+        public bool paymentMethod = true;
 
         public FrmPayment()
         {
@@ -44,6 +45,17 @@ namespace POS
         {
             CheckGridView();
             GetPaymentInformation();
+
+            BtnCash.Enabled = true;
+            BtnCreditCard.Enabled = true;
+            BtnCheck.Enabled = true;
+
+            BtnInternalCredit.Enabled = paymentMethod;
+            BtnGiftcard.Enabled = paymentMethod;
+            BtnWithhold.Enabled = paymentMethod;
+            BtnAdvance.Enabled = paymentMethod;
+            BtnReturn.Enabled = paymentMethod;
+
         }
 
         private void GetPaymentInformation()

@@ -17,11 +17,11 @@ namespace POS.DLL.Catalog
             List<SP_Advance_Consult_Result> advances;
             try
             {
-                advances = // new POSEntities().SP_Advance_Consult(_customerId, "").ToList();
-                    new List<SP_Advance_Consult_Result>();
-                advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 10 });
-                advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 20 });
-                advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 5 });
+                advances = new POSEntities().SP_Advance_Consult(_customerId, "").ToList();
+                //    new List<SP_Advance_Consult_Result>();
+                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 10 });
+                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 20 });
+                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 5 });
                 
             }
             catch (Exception ex)

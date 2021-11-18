@@ -278,6 +278,9 @@
     <Compile Include="SP_Advance_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Advance_Insert_Result.cs">
+      <DependentUpon>ModelPOS.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_ClosingCashierDenominations_Consult_Result.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

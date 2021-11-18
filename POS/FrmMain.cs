@@ -1294,17 +1294,25 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            FrmAdvance frmAdvance = new FrmAdvance
+            FrmAdvance advance = new FrmAdvance
             {
-                _currentCustomer = currentCustomer
+                _currentCustomer = currentCustomer,
+                emissionPoint = emissionPoint,
+                loginInformation = loginInformation
             };
-            frmAdvance.ShowDialog();
+            advance.ShowDialog();
         }
 
         private void BtnReturns_Click(object sender, EventArgs e)
         {
-            FrmReturns frmReturns = new FrmReturns();
-            frmReturns.ShowDialog();
+            FrmReturns returns = new FrmReturns();
+            returns.ShowDialog();
+        }
+
+        private void BtnProductChecker_Click(object sender, EventArgs e)
+        {
+            FrmProductChecker checker = new FrmProductChecker();
+            checker.ShowDialog();
         }
     }
 }

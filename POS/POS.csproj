@@ -137,6 +137,12 @@
     <Compile Include="FrmPaymentAdvance.Designer.cs">
       <DependentUpon>FrmPaymentAdvance.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmProductChecker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProductChecker.Designer.cs">
+      <DependentUpon>FrmProductChecker.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmRemissionGuide.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -339,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentAdvance.resx">
       <DependentUpon>FrmPaymentAdvance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProductChecker.resx">
+      <DependentUpon>FrmProductChecker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmRemissionGuide.resx">
       <DependentUpon>FrmRemissionGuide.cs</DependentUpon>

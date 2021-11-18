@@ -112,6 +112,7 @@ namespace POS
             this.GrvAdvanceHistory.GridControl = this.GrcAdvanceHistory;
             this.GrvAdvanceHistory.Name = "GrvAdvanceHistory";
             this.GrvAdvanceHistory.OptionsView.ShowGroupPanel = false;
+            this.GrvAdvanceHistory.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.GrvAdvanceHistory_CellValueChanged);
             // 
             // gridColumn1
             // 
@@ -211,8 +212,8 @@ namespace POS
             // 
             // FrmPaymentAdvance
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(889, 533);
             this.ControlBox = false;
             this.Controls.Add(this.LblSelectedAmount);

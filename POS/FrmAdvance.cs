@@ -1,10 +1,14 @@
 ﻿using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -13,10 +17,12 @@ namespace POS
         public Customer _currentCustomer;
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
+        public EmissionPoint emissionPoint;
         ClsFunctions functions = new ClsFunctions();
         List<SP_Advance_Consult_Result> advances;
         decimal TypedAmount = 0.00M;
         decimal TotalAdvances = 0.00M;
+        XElement advanceXml = new XElement("Advance");
 
         public FrmAdvance()
         {
@@ -130,7 +136,7 @@ namespace POS
                 else
                 {
                     functions.ShowMessage("No se puede realizar anticipos a CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    this.DialogResult = DialogResult.Cancel;
+                    DialogResult = DialogResult.Cancel;
                 }
             }
 
@@ -139,6 +145,39 @@ namespace POS
 
         private void BtnAdvancePayment_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (LblTotal.Text != "" && TypedAmount != 0)
+                {
+                    FrmPayment payment = new FrmPayment
+                    {
+                        invoiceAmount = decimal.Parse(LblTotal.Text),
+                        customer = _currentCustomer,
+                        emissionPoint = emissionPoint,
+                        loginInformation = loginInformation,
+                        paymentMethod = false,
+                        invoiceXml = advanceXml
+                    };
+                    payment.ShowDialog();
+
+                    if (payment.canCloseInvoice)
+                    {
+                        if (payment.paymentXml.HasElements)
+                        {
+                            advanceXml.Add(payment.paymentXml);
+                            ClosingInvoice();
+                        }
+                    }
+                }
+                else
+                {
+                    functions.ShowMessage("El valor del anticipo debe ser mayor a cero.", ClsEnums.MessageType.ERROR);
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("El valor del anticipo debe ser mayor a cero.", ClsEnums.MessageType.ERROR, true, ex.Message);
+            }
 
         }
 
@@ -150,19 +189,120 @@ namespace POS
             };
             keyPad.ShowDialog();
 
-            if (keyPad.advanceAmount != "")
+            TypedAmount = keyPad.advanceAmount == "" ? 0 : decimal.Parse(keyPad.advanceAmount);
+            LblTotal.Text = TypedAmount.ToString("0.00");
+        }
+
+        private void ClosingInvoice()
+        {
+            SP_Advance_Insert_Result result = null;
+            XElement invoiceTableXml = new XElement("AccountsReceivable");
+
+            try
             {
-                TypedAmount = decimal.Parse(keyPad.advanceAmount);
-                LblTotal.Text = TypedAmount.ToString();
+                AccountsReceivable accountsReceivable = new AccountsReceivable()
+                {
+                    LocationId = emissionPoint.LocationId,
+                    TypeDoc = 8,
+                    CustomerId = _currentCustomer.CustomerId,
+                    Amount = decimal.Parse(LblTotal.Text),
+                    AmountPaid = 0,
+                    Status = "A",
+                    StatusAccounts = "",
+                    CreatedBy = (int)loginInformation.UserId,
+                    Workstation = loginInformation.Workstation
+                };
+
+                Type type = accountsReceivable.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    var name = prop.Name;
+                    var value = prop.GetValue(accountsReceivable);
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    invoiceTableXml.Add(new XElement(name, value));
+                }
+
+                advanceXml.Add(invoiceTableXml);
+
+                result = new ClsAccountsReceivableTrans().AddAdvance(advanceXml);
+
+                if (result != null)
+                {
+                    if (!(bool)result.Error)
+                    {
+                        ClearAdvance();
+
+                        //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
+                        if (functions.PrintDocument((long)result.AccountsReceivableId, ClsEnums.DocumentType.ADVANCE, true))
+                        {
+                            functions.ShowMessage("Venta finalizada exitosamente.");
+                        }
+                        else
+                        {
+                            functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                        }
+                    }
+                    else
+                    {
+                        // Begin(IG004)
+                        var invoiceRemoveXml = from xm in advanceXml.Descendants("Payment")
+                                               select xm;
+                        invoiceRemoveXml.Remove();
+                        // End(IG004)
+
+                        var invoiceTableRemoveXml = from xm in advanceXml.Descendants("InvoiceTable")
+                                                    select xm;
+                        invoiceTableRemoveXml.Remove();
+
+                        functions.ShowMessage(
+                                               "No se ha podido registrar la factura. Revisar detalle."
+                                               , ClsEnums.MessageType.WARNING
+                                               , true
+                                               , result.TextError
+                                            );
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
                 functions.ShowMessage(
-                                                 "No se ."
-                                                 , ClsEnums.MessageType.WARNING
-                                                 , false
-                                                 );
+                                        "Ha ocurrido un problema al registrar la factura."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
             }
+            finally
+            {
+                invoiceTableXml.RemoveAll();
+            }
+        }
+
+        private void BtnRefreshAdvance_Click(object sender, EventArgs e)
+        {
+            LoadPreviousAdvances();
+        }
+
+        private void BtnPrintHistoricAdvance_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCancelAdvance_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ClearAdvance()
+        {
+            LblTotal.Text = "0.00";
         }
     }
 }

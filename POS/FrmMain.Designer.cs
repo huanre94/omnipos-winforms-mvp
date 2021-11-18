@@ -84,6 +84,7 @@
             this.ImgSalesOrigin = new DevExpress.XtraEditors.SvgImageBox();
             this.BtnAdvance = new DevExpress.XtraEditors.SimpleButton();
             this.BtnReturns = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnProductChecker = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -491,10 +492,10 @@
             // ImgLogo
             // 
             this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola_New;
-            this.ImgLogo.Location = new System.Drawing.Point(1, -7);
+            this.ImgLogo.Location = new System.Drawing.Point(1, 1);
             this.ImgLogo.Margin = new System.Windows.Forms.Padding(0);
             this.ImgLogo.Name = "ImgLogo";
-            this.ImgLogo.Size = new System.Drawing.Size(196, 163);
+            this.ImgLogo.Size = new System.Drawing.Size(196, 155);
             this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImgLogo.TabIndex = 139;
             this.ImgLogo.TabStop = false;
@@ -615,9 +616,9 @@
             this.BtnCustomer.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCustomer.ImageOptions.SvgImage = global::POS.Properties.Resources.user4;
             this.BtnCustomer.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCustomer.Location = new System.Drawing.Point(215, 695);
+            this.BtnCustomer.Location = new System.Drawing.Point(196, 695);
             this.BtnCustomer.Name = "BtnCustomer";
-            this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
+            this.BtnCustomer.Size = new System.Drawing.Size(219, 45);
             this.BtnCustomer.TabIndex = 151;
             this.BtnCustomer.Text = "Cliente";
             this.BtnCustomer.Click += new System.EventHandler(this.BtnCustomer_Click);
@@ -731,9 +732,9 @@
             this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintLastInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastInvoice.ImageOptions.SvgImage")));
             this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(471, 695);
+            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(421, 695);
             this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
-            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
+            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(219, 45);
             this.BtnPrintLastInvoice.TabIndex = 151;
             this.BtnPrintLastInvoice.Text = "Ultima Factura";
             this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
@@ -786,11 +787,11 @@
             this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin1;
             this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
-            this.BtnSalesOrigin.Location = new System.Drawing.Point(727, 695);
+            this.BtnSalesOrigin.Location = new System.Drawing.Point(646, 695);
             this.BtnSalesOrigin.Name = "BtnSalesOrigin";
-            this.BtnSalesOrigin.Size = new System.Drawing.Size(250, 45);
+            this.BtnSalesOrigin.Size = new System.Drawing.Size(219, 45);
             this.BtnSalesOrigin.TabIndex = 163;
-            this.BtnSalesOrigin.Text = "Origen de Venta";
+            this.BtnSalesOrigin.Text = "Origen Venta";
             this.BtnSalesOrigin.Click += new System.EventHandler(this.BtnSalesOrigin_Click);
             // 
             // ImgSalesOrigin
@@ -838,6 +839,24 @@
             this.BtnReturns.Visible = false;
             this.BtnReturns.Click += new System.EventHandler(this.BtnReturns_Click);
             // 
+            // BtnProductChecker
+            // 
+            this.BtnProductChecker.AllowFocus = false;
+            this.BtnProductChecker.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnProductChecker.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnProductChecker.Appearance.Options.UseBackColor = true;
+            this.BtnProductChecker.Appearance.Options.UseFont = true;
+            this.BtnProductChecker.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnProductChecker.ImageOptions.Image")));
+            this.BtnProductChecker.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnProductChecker.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
+            this.BtnProductChecker.Location = new System.Drawing.Point(871, 695);
+            this.BtnProductChecker.Name = "BtnProductChecker";
+            this.BtnProductChecker.Size = new System.Drawing.Size(219, 45);
+            this.BtnProductChecker.TabIndex = 163;
+            this.BtnProductChecker.Text = "Producto";
+            this.BtnProductChecker.Visible = false;
+            this.BtnProductChecker.Click += new System.EventHandler(this.BtnProductChecker_Click);
+            // 
             // FrmMain
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
@@ -847,6 +866,7 @@
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.BtnReturns);
             this.Controls.Add(this.ImgSalesOrigin);
+            this.Controls.Add(this.BtnProductChecker);
             this.Controls.Add(this.BtnSalesOrigin);
             this.Controls.Add(this.LblCashier);
             this.Controls.Add(this.LblTitleCashier);
@@ -971,5 +991,6 @@
         private DevExpress.XtraEditors.SvgImageBox ImgSalesOrigin;
         private DevExpress.XtraEditors.SimpleButton BtnAdvance;
         private DevExpress.XtraEditors.SimpleButton BtnReturns;
+        private DevExpress.XtraEditors.SimpleButton BtnProductChecker;
     }
 }

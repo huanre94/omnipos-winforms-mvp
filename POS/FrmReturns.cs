@@ -105,5 +105,33 @@ namespace POS
                                     );
             }
         }
+
+        private void FrmReturns_Load(object sender, EventArgs e)
+        {
+            if (ValidateCustomerInformation())
+            {
+
+            }
+        }
+
+        private bool ValidateCustomerInformation()
+        {
+            bool response = false;
+
+            if (_currentCustomer != null)
+            {
+                if (_currentCustomer.CustomerId != 1)
+                {
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    DialogResult = DialogResult.Cancel;
+                }
+            }
+
+            return response;
+        }
     }
 }

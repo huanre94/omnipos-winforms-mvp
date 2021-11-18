@@ -657,6 +657,7 @@ namespace POS
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmReturns";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.FrmReturns_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtObservation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).EndInit();

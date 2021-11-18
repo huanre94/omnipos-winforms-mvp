@@ -730,5 +730,14 @@ namespace POS.DLL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Consult_Result>("SP_Advance_Consult", customerIdParameter, identificationParameter);
         }
+    
+        public virtual ObjectResult<SP_Advance_Insert_Result> SP_Advance_Insert(string paramXML)
+        {
+            var paramXMLParameter = paramXML != null ?
+                new ObjectParameter("ParamXML", paramXML) :
+                new ObjectParameter("ParamXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Insert_Result>("SP_Advance_Insert", paramXMLParameter);
+        }
     }
 }

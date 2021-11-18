@@ -54,10 +54,13 @@ namespace POS
             this.LblCustomerName = new System.Windows.Forms.Label();
             this.LblTitleCustomerName = new System.Windows.Forms.Label();
             this.BtnKeypadAdvance = new DevExpress.XtraEditors.SimpleButton();
+            this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcAdvanceHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvAdvanceHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -65,7 +68,7 @@ namespace POS
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.label1.Location = new System.Drawing.Point(682, 29);
+            this.label1.Location = new System.Drawing.Point(614, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(201, 22);
             this.label1.TabIndex = 177;
@@ -73,13 +76,13 @@ namespace POS
             // 
             // GrcAdvanceHistory
             // 
-            this.GrcAdvanceHistory.Location = new System.Drawing.Point(686, 67);
+            this.GrcAdvanceHistory.Location = new System.Drawing.Point(618, 67);
             this.GrcAdvanceHistory.MainView = this.GrvAdvanceHistory;
             this.GrcAdvanceHistory.Name = "GrcAdvanceHistory";
             this.GrcAdvanceHistory.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemColorEdit1,
             this.repositoryItemCheckEdit1});
-            this.GrcAdvanceHistory.Size = new System.Drawing.Size(496, 573);
+            this.GrcAdvanceHistory.Size = new System.Drawing.Size(564, 573);
             this.GrcAdvanceHistory.TabIndex = 174;
             this.GrcAdvanceHistory.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvAdvanceHistory});
@@ -210,6 +213,7 @@ namespace POS
             this.BtnPrintHistoricAdvance.Size = new System.Drawing.Size(160, 50);
             this.BtnPrintHistoricAdvance.TabIndex = 180;
             this.BtnPrintHistoricAdvance.Text = "Historico \r\nAnticipos";
+            this.BtnPrintHistoricAdvance.Click += new System.EventHandler(this.BtnPrintHistoricAdvance_Click);
             // 
             // BtnCancel
             // 
@@ -271,6 +275,7 @@ namespace POS
             this.BtnRefreshAdvance.Size = new System.Drawing.Size(160, 50);
             this.BtnRefreshAdvance.TabIndex = 186;
             this.BtnRefreshAdvance.Text = "Actualizar";
+            this.BtnRefreshAdvance.Click += new System.EventHandler(this.BtnRefreshAdvance_Click);
             // 
             // BtnAdvancePayment
             // 
@@ -282,7 +287,7 @@ namespace POS
             this.BtnAdvancePayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAdvancePayment.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnAdvancePayment.ImageOptions.SvgImage")));
             this.BtnAdvancePayment.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
-            this.BtnAdvancePayment.Location = new System.Drawing.Point(424, 99);
+            this.BtnAdvancePayment.Location = new System.Drawing.Point(44, 279);
             this.BtnAdvancePayment.Name = "BtnAdvancePayment";
             this.BtnAdvancePayment.Size = new System.Drawing.Size(160, 50);
             this.BtnAdvancePayment.TabIndex = 201;
@@ -293,9 +298,9 @@ namespace POS
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(204, 106);
+            this.LblTotal.Location = new System.Drawing.Point(204, 212);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(122, 34);
+            this.LblTotal.Size = new System.Drawing.Size(143, 34);
             this.LblTotal.TabIndex = 203;
             this.LblTotal.Text = "00.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -304,7 +309,7 @@ namespace POS
             // 
             this.LblTitleTotal.AutoSize = true;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(38, 107);
+            this.LblTitleTotal.Location = new System.Drawing.Point(38, 212);
             this.LblTitleTotal.Name = "LblTitleTotal";
             this.LblTitleTotal.Size = new System.Drawing.Size(124, 34);
             this.LblTitleTotal.TabIndex = 202;
@@ -342,13 +347,14 @@ namespace POS
             this.BtnCancelAdvance.Size = new System.Drawing.Size(160, 50);
             this.BtnCancelAdvance.TabIndex = 205;
             this.BtnCancelAdvance.Text = "Anulacion";
+            this.BtnCancelAdvance.Click += new System.EventHandler(this.BtnCancelAdvance_Click);
             // 
             // LblCustomerName
             // 
             this.LblCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblCustomerName.Location = new System.Drawing.Point(166, 67);
+            this.LblCustomerName.Location = new System.Drawing.Point(181, 67);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(457, 18);
+            this.LblCustomerName.Size = new System.Drawing.Size(431, 18);
             this.LblCustomerName.TabIndex = 207;
             // 
             // LblTitleCustomerName
@@ -357,9 +363,9 @@ namespace POS
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblTitleCustomerName.Location = new System.Drawing.Point(41, 67);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(64, 18);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(69, 18);
             this.LblTitleCustomerName.TabIndex = 206;
-            this.LblTitleCustomerName.Text = "Cliente";
+            this.LblTitleCustomerName.Text = "Cliente:";
             // 
             // BtnKeypadAdvance
             // 
@@ -370,9 +376,9 @@ namespace POS
             this.BtnKeypadAdvance.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadAdvance.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadAdvance.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardOwner.ImageOptions.SvgImage")));
+            this.BtnKeypadAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadAdvance.ImageOptions.SvgImage")));
             this.BtnKeypadAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadAdvance.Location = new System.Drawing.Point(335, 103);
+            this.BtnKeypadAdvance.Location = new System.Drawing.Point(356, 208);
             this.BtnKeypadAdvance.Margin = new System.Windows.Forms.Padding(6);
             this.BtnKeypadAdvance.Name = "BtnKeypadAdvance";
             this.BtnKeypadAdvance.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -380,13 +386,37 @@ namespace POS
             this.BtnKeypadAdvance.TabIndex = 208;
             this.BtnKeypadAdvance.Click += new System.EventHandler(this.BtnKeypadAdvance_Click);
             // 
+            // radioGroup1
+            // 
+            this.radioGroup1.Location = new System.Drawing.Point(44, 130);
+            this.radioGroup1.Name = "radioGroup1";
+            this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "Anticipo"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(2)), "Bono")});
+            this.radioGroup1.Size = new System.Drawing.Size(392, 57);
+            this.radioGroup1.TabIndex = 209;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.label2.Location = new System.Drawing.Point(41, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 18);
+            this.label2.TabIndex = 206;
+            this.label2.Text = "Tipo";
+            // 
             // FrmAdvance
             // 
+            this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.Appearance.Options.UseBackColor = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.radioGroup1);
             this.Controls.Add(this.BtnKeypadAdvance);
             this.Controls.Add(this.LblCustomerName);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.LblTitleCustomerName);
             this.Controls.Add(this.BtnCancelAdvance);
             this.Controls.Add(this.LblTotal);
@@ -412,6 +442,7 @@ namespace POS
             ((System.ComponentModel.ISupportInitialize)(this.GrvAdvanceHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -442,5 +473,7 @@ namespace POS
         private DevExpress.XtraEditors.Repository.RepositoryItemColorEdit repositoryItemColorEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraEditors.SimpleButton BtnKeypadAdvance;
+        private DevExpress.XtraEditors.RadioGroup radioGroup1;
+        private System.Windows.Forms.Label label2;
     }
 }

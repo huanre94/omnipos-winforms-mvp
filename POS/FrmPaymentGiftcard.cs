@@ -111,7 +111,7 @@ namespace POS
 
             if (!response)
             {
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
 
             return response;
