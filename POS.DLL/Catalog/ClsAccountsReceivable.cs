@@ -12,21 +12,16 @@ namespace POS.DLL.Catalog
         /// Show a list of pending active advances by customerid
         /// </summary>
         /// <param name="customer">Current customer filter</param>
-        public List<SP_Advance_Consult_Result> GetPendingAdvances(long _customerId)
+        public List<SP_Advance_Consult_Result> GetPendingAdvances(long _customerId, int paymmodeId)
         {
             List<SP_Advance_Consult_Result> advances;
             try
             {
-                advances = new POSEntities().SP_Advance_Consult(_customerId, "").ToList();
-                //    new List<SP_Advance_Consult_Result>();
-                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 10 });
-                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 20 });
-                //advances.Add(new SP_Advance_Consult_Result { IsSelected = false, AdvanceDate = DateTime.Today, AdvanceAmount = 5 });
-                
+                advances = new POSEntities().SP_Advance_Consult(_customerId, paymmodeId).ToList();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
             return advances;
         }

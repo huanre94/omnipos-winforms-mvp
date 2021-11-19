@@ -14,6 +14,7 @@ namespace POS.DLL
     public partial class SP_Advance_Consult_Result
     {
         public Nullable<bool> IsSelected { get; set; }
+        public Nullable<long> AdvanceId { get; set; }
         public Nullable<System.DateTime> AdvanceDate { get; set; }
         public Nullable<decimal> AdvanceAmount { get; set; }
     }

@@ -718,19 +718,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_RemissionGuide_Consult_Result>("SP_RemissionGuide_Consult", remissionGuideUserIdParameter, transportDriverIdParameter);
         }
     
-        public virtual ObjectResult<SP_Advance_Consult_Result> SP_Advance_Consult(Nullable<long> customerId, string identification)
-        {
-            var customerIdParameter = customerId.HasValue ?
-                new ObjectParameter("customerId", customerId) :
-                new ObjectParameter("customerId", typeof(long));
-    
-            var identificationParameter = identification != null ?
-                new ObjectParameter("identification", identification) :
-                new ObjectParameter("identification", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Consult_Result>("SP_Advance_Consult", customerIdParameter, identificationParameter);
-        }
-    
         public virtual ObjectResult<SP_Advance_Insert_Result> SP_Advance_Insert(string paramXML)
         {
             var paramXMLParameter = paramXML != null ?
@@ -738,6 +725,19 @@ namespace POS.DLL
                 new ObjectParameter("ParamXML", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Insert_Result>("SP_Advance_Insert", paramXMLParameter);
+        }
+    
+        public virtual ObjectResult<SP_Advance_Consult_Result> SP_Advance_Consult(Nullable<long> customerId, Nullable<int> paymmodeType)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("customerId", customerId) :
+                new ObjectParameter("customerId", typeof(long));
+    
+            var paymmodeTypeParameter = paymmodeType.HasValue ?
+                new ObjectParameter("paymmodeType", paymmodeType) :
+                new ObjectParameter("paymmodeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Consult_Result>("SP_Advance_Consult", customerIdParameter, paymmodeTypeParameter);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId));
+                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS));
                 if (advances.Count == 0)
                 {
                     advances = new BindingList<SP_Advance_Consult_Result>(new List<SP_Advance_Consult_Result>());

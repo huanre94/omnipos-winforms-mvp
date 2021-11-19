@@ -2603,7 +2603,7 @@
         </Function>
         <Function Name="SP_Advance_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customerId" Type="bigint" Mode="In" />
-          <Parameter Name="identification" Type="varchar" Mode="In" />
+          <Parameter Name="paymmodeType" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Advance_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
@@ -4273,12 +4273,12 @@
             <End Role="SalesOrigin" EntitySet="SalesOrigin" />
             <End Role="SalesOrder" EntitySet="SalesOrder" />
           </AssociationSet>
+          <FunctionImport Name="SP_Advance_Insert" ReturnType="Collection(POSModel.SP_Advance_Insert_Result)">
+          <Parameter Name="ParamXML" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="SP_Advance_Consult" ReturnType="Collection(POSModel.SP_Advance_Consult_Result)">
             <Parameter Name="customerId" Mode="In" Type="Int64" />
-            <Parameter Name="identification" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Advance_Insert" ReturnType="Collection(POSModel.SP_Advance_Insert_Result)">
-            <Parameter Name="ParamXML" Mode="In" Type="String" />
+            <Parameter Name="paymmodeType" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="TaxTable">
@@ -7009,15 +7009,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SP_Advance_Consult_Result">
-          <Property Type="Boolean" Name="IsSelected" Nullable="true" />
-          <Property Type="DateTime" Name="AdvanceDate" Nullable="true" Precision="23" />
-          <Property Type="Decimal" Name="AdvanceAmount" Nullable="true" Precision="18" Scale="0" />
-        </ComplexType>
         <ComplexType Name="SP_Advance_Insert_Result">
           <Property Type="Boolean" Name="Error" Nullable="true" />
           <Property Type="String" Name="TextError" Nullable="true" MaxLength="250" />
           <Property Type="Int64" Name="AccountsReceivableId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Advance_Consult_Result">
+          <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+          <Property Type="Int64" Name="AdvanceId" Nullable="true" />
+          <Property Type="DateTime" Name="AdvanceDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="AdvanceAmount" Nullable="true" Precision="16" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9017,21 +9018,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_Advance_Consult" FunctionName="POSModel.Store.SP_Advance_Consult">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="POSModel.SP_Advance_Consult_Result">
-                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
-                <ScalarProperty Name="AdvanceDate" ColumnName="AdvanceDate" />
-                <ScalarProperty Name="AdvanceAmount" ColumnName="AdvanceAmount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Advance_Insert" FunctionName="POSModel.Store.SP_Advance_Insert">
             <ResultMapping>
               <ComplexTypeMapping TypeName="POSModel.SP_Advance_Insert_Result">
                 <ScalarProperty Name="Error" ColumnName="Error" />
                 <ScalarProperty Name="TextError" ColumnName="TextError" />
                 <ScalarProperty Name="AccountsReceivableId" ColumnName="AccountsReceivableId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Advance_Consult" FunctionName="POSModel.Store.SP_Advance_Consult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POSModel.SP_Advance_Consult_Result">
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="AdvanceId" ColumnName="AdvanceId" />
+                <ScalarProperty Name="AdvanceDate" ColumnName="AdvanceDate" />
+                <ScalarProperty Name="AdvanceAmount" ColumnName="AdvanceAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

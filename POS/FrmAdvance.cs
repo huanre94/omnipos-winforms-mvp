@@ -42,7 +42,7 @@ namespace POS
         {
             try
             {
-                advances = new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId);
+                advances = new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS);
                 if (advances.Count == 0)
                 {
                     advances = new List<SP_Advance_Consult_Result>();
