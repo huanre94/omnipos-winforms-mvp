@@ -178,7 +178,7 @@ namespace POS
             else
             {
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
         }
 

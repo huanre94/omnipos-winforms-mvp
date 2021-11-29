@@ -13,8 +13,9 @@ namespace POS
         public Customer _currentCustomer;
         public decimal advanceAmount;
         public bool processResponse;
+        public decimal pendingAmount;
         ClsFunctions functions = new ClsFunctions();
-        BindingList<SP_Advance_Consult_Result> advances;
+        public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
 
         public FrmPaymentAdvance()
@@ -35,14 +36,15 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (advanceAmount - selectedAmount == 0)
+            if (selectedAmount <= advanceAmount)
             {
-                functions.ShowMessage("si pasa.", ClsEnums.MessageType.WARNING);
-
+                pendingAmount = selectedAmount;
+                processResponse = true;
             }
             else
             {
                 functions.ShowMessage("El monto seleccionado debe ser igual al monto digitado.", ClsEnums.MessageType.WARNING);
+                DialogResult = DialogResult.None;
             }
         }
 
@@ -50,19 +52,10 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAdvances(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS));
+                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS));
                 if (advances.Count == 0)
                 {
-                    advances = new BindingList<SP_Advance_Consult_Result>(new List<SP_Advance_Consult_Result>());
-
-                    functions.ShowMessage(
-                                  "No existen anticipos previamente registrados."
-                                  , ClsEnums.MessageType.WARNING
-                                  , false
-                                  );
-
                     DialogResult = DialogResult.Cancel;
-
                 }
 
                 GrcAdvanceHistory.DataSource = advances;
@@ -73,7 +66,7 @@ namespace POS
                                                   "No se ha podido cargar anticipos."
                                                   , ClsEnums.MessageType.WARNING
                                                   , true
-                                                  , ex.InnerException.Message
+                                                  , ex.Message
                                                   );
             }
         }
@@ -126,6 +119,11 @@ namespace POS
             }
 
             return response;
+        }
+
+        private void GrvAdvanceHistory_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+          
         }
     }
 }

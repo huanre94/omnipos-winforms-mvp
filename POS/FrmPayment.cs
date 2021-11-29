@@ -619,13 +619,21 @@ namespace POS
 
             if (paymentAdvance.processResponse)
             {
-                InvoicePayment invoicePayment = new InvoicePayment
+                decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
+                TxtAmount.Text = pendingAdvanceAmount.ToString("#.00");
+                foreach (SP_Advance_Consult_Result item in paymentAdvance.advances)
                 {
-                    PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,
-                    Amount = decimal.Parse(TxtAmount.Text)
-                };
-
-                AddRecordToGrid(invoicePayment);
+                    if ((bool)item.IsSelected)
+                    {
+                        InvoicePayment invoicePayment = new InvoicePayment
+                        {
+                            PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,
+                            Amount = (decimal)item.AdvanceAmount,
+                            GiftCardNumber = item.AdvanceId.ToString()
+                        };
+                        AddRecordToGrid(invoicePayment);
+                    }
+                }
                 CalculatePayment();
             }
         }

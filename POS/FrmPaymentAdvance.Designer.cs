@@ -112,6 +112,7 @@ namespace POS
             this.GrvAdvanceHistory.GridControl = this.GrcAdvanceHistory;
             this.GrvAdvanceHistory.Name = "GrvAdvanceHistory";
             this.GrvAdvanceHistory.OptionsView.ShowGroupPanel = false;
+            this.GrvAdvanceHistory.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.GrvAdvanceHistory_FocusedRowChanged);
             this.GrvAdvanceHistory.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.GrvAdvanceHistory_CellValueChanged);
             // 
             // gridColumn1
@@ -158,21 +159,21 @@ namespace POS
             this.gridColumn4.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn4.OptionsFilter.AllowFilter = false;
             this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 2;
-            this.gridColumn4.Width = 177;
+            this.gridColumn4.VisibleIndex = 3;
+            this.gridColumn4.Width = 337;
             // 
             // gridColumn3
             // 
             this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn3.Caption = "Establecimiento";
-            this.gridColumn3.FieldName = "EstablishmentName";
+            this.gridColumn3.Caption = "Id Anticipo";
+            this.gridColumn3.FieldName = "AdvanceId";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowEdit = false;
             this.gridColumn3.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 3;
-            this.gridColumn3.Width = 525;
+            this.gridColumn3.VisibleIndex = 2;
+            this.gridColumn3.Width = 365;
             // 
             // LblAmount
             // 

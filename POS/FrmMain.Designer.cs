@@ -819,6 +819,7 @@
             this.BtnAdvance.Size = new System.Drawing.Size(220, 80);
             this.BtnAdvance.TabIndex = 137;
             this.BtnAdvance.Text = "Anticipos";
+            this.BtnAdvance.Visible = false;
             this.BtnAdvance.Click += new System.EventHandler(this.BtnAdvance_Click);
             // 
             // BtnReturns

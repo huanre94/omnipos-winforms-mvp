@@ -60,8 +60,10 @@ namespace POS
                     Amount = totalBaseCalculated
                 };
 
-                retentionList = new List<InvoicePayment>();
-                retentionList.Add(invoicePayment);
+                retentionList = new List<InvoicePayment>
+                {
+                    invoicePayment
+                };
 
                 if (taxAmount > 0)
                 {
@@ -155,7 +157,6 @@ namespace POS
                         Amount = decimal.Parse(LblTaxAmount.Text)
                     };
                     retentionList.Add(invoicePayment);
-
                 }
 
                 decimal totalValue = 0;
@@ -172,7 +173,7 @@ namespace POS
             else
             {
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
         }
 
