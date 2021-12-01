@@ -111,8 +111,7 @@ namespace POS
             this.gridColumn3});
             this.GrvAdvanceHistory.GridControl = this.GrcAdvanceHistory;
             this.GrvAdvanceHistory.Name = "GrvAdvanceHistory";
-            this.GrvAdvanceHistory.OptionsView.ShowGroupPanel = false;
-            this.GrvAdvanceHistory.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.GrvAdvanceHistory_FocusedRowChanged);
+            this.GrvAdvanceHistory.OptionsView.ShowGroupPanel = false;            
             this.GrvAdvanceHistory.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.GrvAdvanceHistory_CellValueChanged);
             // 
             // gridColumn1

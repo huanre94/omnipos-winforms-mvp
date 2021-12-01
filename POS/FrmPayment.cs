@@ -600,7 +600,7 @@ namespace POS
         {
             if (TxtAmount.Text != "")
             {
-                Advance();
+                AccountReceivableConsumption((int)ClsEnums.PaymModeEnum.ANTICIPOS);
             }
             else
             {
@@ -608,12 +608,13 @@ namespace POS
             }
         }
 
-        private void Advance()
+        private void AccountReceivableConsumption(int _paymMode)
         {
             FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
                 advanceAmount = decimal.Parse(TxtAmount.Text),
-                _currentCustomer = customer
+                _currentCustomer = customer,
+                _paymMode = _paymMode
             };
             paymentAdvance.ShowDialog();
 
@@ -627,7 +628,7 @@ namespace POS
                     {
                         InvoicePayment invoicePayment = new InvoicePayment
                         {
-                            PaymModeId = (int)ClsEnums.PaymModeEnum.ANTICIPOS,
+                            PaymModeId = _paymMode,
                             Amount = (decimal)item.AdvanceAmount,
                             GiftCardNumber = item.AdvanceId.ToString()
                         };
@@ -635,6 +636,18 @@ namespace POS
                     }
                 }
                 CalculatePayment();
+            }
+        }
+
+        private void BtnReturn_Click(object sender, EventArgs e)
+        {
+            if (TxtAmount.Text != "")
+            {
+                AccountReceivableConsumption((int)ClsEnums.PaymModeEnum.NOTA_CREDITO);
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
             }
         }
     }

@@ -13,6 +13,7 @@ namespace POS
         public Customer _currentCustomer;
         public decimal advanceAmount;
         public bool processResponse;
+        public int _paymMode;
         public decimal pendingAmount;
         ClsFunctions functions = new ClsFunctions();
         public BindingList<SP_Advance_Consult_Result> advances;
@@ -52,9 +53,10 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS));
+                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode));
                 if (advances.Count == 0)
                 {
+                    functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
                 }
 
@@ -63,7 +65,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                                  "No se ha podido cargar anticipos."
+                                                  "No se ha podido cargar registros."
                                                   , ClsEnums.MessageType.WARNING
                                                   , true
                                                   , ex.Message
@@ -75,6 +77,7 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
+                Text = _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
                 LblAmount.Text = advanceAmount.ToString();
@@ -119,11 +122,6 @@ namespace POS
             }
 
             return response;
-        }
-
-        private void GrvAdvanceHistory_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
-        {
-          
         }
     }
 }

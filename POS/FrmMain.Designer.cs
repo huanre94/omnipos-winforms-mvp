@@ -582,7 +582,7 @@
             // LblCustomerId
             // 
             this.LblCustomerId.AutoSize = true;
-            this.LblCustomerId.Location = new System.Drawing.Point(283, 49);
+            this.LblCustomerId.Location = new System.Drawing.Point(292, 48);
             this.LblCustomerId.Name = "LblCustomerId";
             this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
             this.LblCustomerId.TabIndex = 148;
@@ -591,7 +591,7 @@
             // LblCustomerName
             // 
             this.LblCustomerName.AutoSize = true;
-            this.LblCustomerName.Location = new System.Drawing.Point(283, 75);
+            this.LblCustomerName.Location = new System.Drawing.Point(292, 75);
             this.LblCustomerName.Name = "LblCustomerName";
             this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
             this.LblCustomerName.TabIndex = 149;
@@ -600,7 +600,7 @@
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
-            this.LblCustomerAddress.Location = new System.Drawing.Point(283, 102);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(292, 102);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
             this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
             this.LblCustomerAddress.TabIndex = 150;
@@ -616,9 +616,9 @@
             this.BtnCustomer.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCustomer.ImageOptions.SvgImage = global::POS.Properties.Resources.user4;
             this.BtnCustomer.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCustomer.Location = new System.Drawing.Point(196, 695);
+            this.BtnCustomer.Location = new System.Drawing.Point(268, 709);
             this.BtnCustomer.Name = "BtnCustomer";
-            this.BtnCustomer.Size = new System.Drawing.Size(219, 45);
+            this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
             this.BtnCustomer.TabIndex = 151;
             this.BtnCustomer.Text = "Cliente";
             this.BtnCustomer.Click += new System.EventHandler(this.BtnCustomer_Click);
@@ -633,10 +633,10 @@
             this.BtnQty.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnQty.ImageOptions.SvgImage = global::POS.Properties.Resources.calculator2;
             this.BtnQty.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
-            this.BtnQty.Location = new System.Drawing.Point(15, 648);
+            this.BtnQty.Location = new System.Drawing.Point(15, 585);
             this.BtnQty.Margin = new System.Windows.Forms.Padding(6);
             this.BtnQty.Name = "BtnQty";
-            this.BtnQty.Size = new System.Drawing.Size(80, 92);
+            this.BtnQty.Size = new System.Drawing.Size(80, 115);
             this.BtnQty.TabIndex = 152;
             this.BtnQty.Text = "Cant";
             this.BtnQty.Click += new System.EventHandler(this.BtnQty_Click);
@@ -651,10 +651,10 @@
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImage = global::POS.Properties.Resources.remove;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
-            this.BtnRemove.Location = new System.Drawing.Point(107, 648);
+            this.BtnRemove.Location = new System.Drawing.Point(104, 585);
             this.BtnRemove.Margin = new System.Windows.Forms.Padding(6);
             this.BtnRemove.Name = "BtnRemove";
-            this.BtnRemove.Size = new System.Drawing.Size(80, 92);
+            this.BtnRemove.Size = new System.Drawing.Size(80, 115);
             this.BtnRemove.TabIndex = 153;
             this.BtnRemove.Text = "Anul";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
@@ -732,9 +732,9 @@
             this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintLastInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastInvoice.ImageOptions.SvgImage")));
             this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(421, 695);
+            this.BtnPrintLastInvoice.Location = new System.Drawing.Point(524, 709);
             this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
-            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(219, 45);
+            this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
             this.BtnPrintLastInvoice.TabIndex = 151;
             this.BtnPrintLastInvoice.Text = "Ultima Factura";
             this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
@@ -750,7 +750,7 @@
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnExit.Location = new System.Drawing.Point(1102, 695);
+            this.BtnExit.Location = new System.Drawing.Point(1102, 709);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
@@ -761,7 +761,7 @@
             // LblCashier
             // 
             this.LblCashier.AutoSize = true;
-            this.LblCashier.Location = new System.Drawing.Point(283, 129);
+            this.LblCashier.Location = new System.Drawing.Point(292, 129);
             this.LblCashier.Name = "LblCashier";
             this.LblCashier.Size = new System.Drawing.Size(66, 16);
             this.LblCashier.TabIndex = 162;
@@ -787,9 +787,9 @@
             this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin1;
             this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
-            this.BtnSalesOrigin.Location = new System.Drawing.Point(646, 695);
+            this.BtnSalesOrigin.Location = new System.Drawing.Point(780, 709);
             this.BtnSalesOrigin.Name = "BtnSalesOrigin";
-            this.BtnSalesOrigin.Size = new System.Drawing.Size(219, 45);
+            this.BtnSalesOrigin.Size = new System.Drawing.Size(250, 45);
             this.BtnSalesOrigin.TabIndex = 163;
             this.BtnSalesOrigin.Text = "Origen Venta";
             this.BtnSalesOrigin.Click += new System.EventHandler(this.BtnSalesOrigin_Click);
@@ -850,9 +850,9 @@
             this.BtnProductChecker.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnProductChecker.ImageOptions.Image")));
             this.BtnProductChecker.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnProductChecker.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
-            this.BtnProductChecker.Location = new System.Drawing.Point(871, 695);
+            this.BtnProductChecker.Location = new System.Drawing.Point(12, 709);
             this.BtnProductChecker.Name = "BtnProductChecker";
-            this.BtnProductChecker.Size = new System.Drawing.Size(219, 45);
+            this.BtnProductChecker.Size = new System.Drawing.Size(250, 45);
             this.BtnProductChecker.TabIndex = 163;
             this.BtnProductChecker.Text = "Producto";
             this.BtnProductChecker.Visible = false;

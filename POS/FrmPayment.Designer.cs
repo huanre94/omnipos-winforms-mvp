@@ -559,7 +559,7 @@
             this.BtnReturn.Size = new System.Drawing.Size(220, 70);
             this.BtnReturn.TabIndex = 168;
             this.BtnReturn.Text = "Nota \r\nCredito";
-            this.BtnReturn.Visible = false;
+            this.BtnReturn.Click += new System.EventHandler(this.BtnReturn_Click);
             // 
             // FrmPayment
             // 
