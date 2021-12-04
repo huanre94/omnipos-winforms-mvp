@@ -251,6 +251,31 @@ namespace POS
                 }
             }
         }
+
+        private void BtnAdvance_Click(object sender, EventArgs e)
+        {
+            if (TxtAmount.Text != "")
+            {
+                AccountReceivable((int)ClsEnums.PaymModeEnum.ANTICIPOS);
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
+        }
+
+        private void BtnReturn_Click(object sender, EventArgs e)
+        {
+            if (TxtAmount.Text != "")
+            {
+                AccountReceivable((int)ClsEnums.PaymModeEnum.NOTA_CREDITO);
+            }
+            else
+            {
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+            }
+        }
+
         #endregion
 
         #region Payment Functions
@@ -594,21 +619,8 @@ namespace POS
                 functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
             }
         }
-        #endregion
 
-        private void BtnAdvance_Click(object sender, EventArgs e)
-        {
-            if (TxtAmount.Text != "")
-            {
-                AccountReceivableConsumption((int)ClsEnums.PaymModeEnum.ANTICIPOS);
-            }
-            else
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
-            }
-        }
-
-        private void AccountReceivableConsumption(int _paymMode)
+        private void AccountReceivable(int _paymMode)
         {
             FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
@@ -620,35 +632,31 @@ namespace POS
 
             if (paymentAdvance.processResponse)
             {
-                decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
-                TxtAmount.Text = pendingAdvanceAmount.ToString("#.00");
-                foreach (SP_Advance_Consult_Result item in paymentAdvance.advances)
+                functions.emissionPoint = emissionPoint;
+                functions.AxOPOSScanner = scanner;
+                bool responseAuthorization = functions.RequestSupervisorAuth();
+                if (responseAuthorization)
                 {
-                    if ((bool)item.IsSelected)
+                    decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
+                    TxtAmount.Text = pendingAdvanceAmount.ToString("#.00");
+                    foreach (SP_Advance_Consult_Result item in paymentAdvance.advances)
                     {
-                        InvoicePayment invoicePayment = new InvoicePayment
+                        if ((bool)item.IsSelected)
                         {
-                            PaymModeId = _paymMode,
-                            Amount = (decimal)item.AdvanceAmount,
-                            GiftCardNumber = item.AdvanceId.ToString()
-                        };
-                        AddRecordToGrid(invoicePayment);
+                            InvoicePayment invoicePayment = new InvoicePayment
+                            {
+                                PaymModeId = _paymMode,
+                                Amount = (decimal)item.AdvanceAmount,
+                                GiftCardNumber = item.AdvanceId.ToString(),
+                                Authorization = functions.supervisorAuthorization
+                            };
+                            AddRecordToGrid(invoicePayment);
+                        }
                     }
+                    CalculatePayment();
                 }
-                CalculatePayment();
             }
         }
-
-        private void BtnReturn_Click(object sender, EventArgs e)
-        {
-            if (TxtAmount.Text != "")
-            {
-                AccountReceivableConsumption((int)ClsEnums.PaymModeEnum.NOTA_CREDITO);
-            }
-            else
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
-            }
-        }
+        #endregion      
     }
 }

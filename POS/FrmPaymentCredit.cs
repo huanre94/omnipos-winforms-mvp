@@ -116,7 +116,7 @@ namespace POS
                 else
                 {
                     functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    this.DialogResult = DialogResult.Cancel;
+                    DialogResult = DialogResult.Cancel;
                 }
             }
 
@@ -145,7 +145,7 @@ namespace POS
 
             if (!response)
             {
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
 
             return response;
@@ -175,8 +175,8 @@ namespace POS
 
         private void GetInternalCreditCard(string _internalCreditCardCode)
         {
-            DLL.SP_InternalCreditCard_Consult_Result result;
-            DLL.Transaction.ClsCustomerTrans clsCustomer = new DLL.Transaction.ClsCustomerTrans();
+            SP_InternalCreditCard_Consult_Result result;
+            ClsCustomerTrans clsCustomer = new ClsCustomerTrans();
 
             if (_internalCreditCardCode == "")
             {

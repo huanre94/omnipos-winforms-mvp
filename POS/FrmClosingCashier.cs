@@ -293,7 +293,7 @@ namespace POS
                             closingXml.Add(closingCashierMoneyXml);
                         }
 
-                        for (int i   = 0; i < GrvPayment.DataRowCount; i++)
+                        for (int i = 0; i < GrvPayment.DataRowCount; i++)
                         {
                             SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
 

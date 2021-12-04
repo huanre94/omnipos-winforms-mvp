@@ -2,9 +2,8 @@
 using POS.DLL;
 using POS.DLL.Catalog;
 using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace POS
 {

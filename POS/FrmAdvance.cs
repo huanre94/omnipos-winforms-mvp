@@ -43,7 +43,7 @@ namespace POS
             try
             {
                 advances = new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS);
-                
+
                 foreach (var item in advances)
                 {
                     TotalAdvances += (decimal)item.AdvanceAmount;

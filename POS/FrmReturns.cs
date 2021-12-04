@@ -1,15 +1,8 @@
-﻿using DevExpress.XtraEditors;
-using POS.Classes;
+﻿using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POS
