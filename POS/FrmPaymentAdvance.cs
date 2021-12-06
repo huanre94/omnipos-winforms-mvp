@@ -36,14 +36,14 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (selectedAmount <= advanceAmount)
+            if (selectedAmount > 0)
             {
                 pendingAmount = selectedAmount;
                 processResponse = true;
             }
             else
             {
-                functions.ShowMessage("El monto seleccionado debe ser igual al monto digitado.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El monto seleccionado debe ser igual o menor al monto digitado.", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
             }
         }

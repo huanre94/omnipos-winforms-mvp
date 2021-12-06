@@ -703,12 +703,13 @@
             this.BtnCancelClosing.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnCancelClosing.ImageOptions.Image")));
             this.BtnCancelClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancelClosing.Location = new System.Drawing.Point(361, 704);
+            this.BtnCancelClosing.Location = new System.Drawing.Point(14, 704);
             this.BtnCancelClosing.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancelClosing.Name = "BtnCancelClosing";
             this.BtnCancelClosing.Size = new System.Drawing.Size(191, 50);
             this.BtnCancelClosing.TabIndex = 162;
             this.BtnCancelClosing.Text = "Anula Cierre";
+            this.BtnCancelClosing.Visible = false;
             this.BtnCancelClosing.Click += new System.EventHandler(this.BtnCancelClosing_Click);
             // 
             // FrmClosingCashier
