@@ -31,7 +31,7 @@ namespace POS
             else
             {
                 functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
 
             return response;
@@ -46,25 +46,26 @@ namespace POS
         {
             if (ValidateCustomerFields())
             {
-                bool alowLogin = false;
-
-                alowLogin = GetLoginInformation(
+                bool allowLogin;
+                allowLogin = GetLoginInformation(
                                                 TxtUsername.Text
                                                 , TxtPassword.Text
                                                 , Environment.MachineName
                                                 , GetLocalIPAddress()
                                                 );
 
-                if (alowLogin && GetGlobalParameters())
+                if (allowLogin && GetGlobalParameters())
                 {
                     TxtUsername.Text = string.Empty;
                     TxtPassword.Text = string.Empty;
 
-                    FrmMenu frmMenu = new FrmMenu();
-                    frmMenu.loginInformation = loginInfomation;
-                    frmMenu.globalParameters = globalParameters;
+                    FrmMenu frmMenu = new FrmMenu
+                    {
+                        loginInformation = loginInfomation,
+                        globalParameters = globalParameters
+                    };
                     functions.globalParameters = globalParameters;
-                    this.Hide();
+                    Hide();
                     frmMenu.Show();
                 }
             }
@@ -75,20 +76,14 @@ namespace POS
             Close();
         }
 
-        private bool GetLoginInformation(
-                                            string _identification
-                                            , string _password
-                                            , string _workstation
-                                            , string _addressIP
-                                        )
+        private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP)
         {
-            ClsAdministration admin = new ClsAdministration();
             SP_Login_Consult_Result result;
             bool response = false;
 
             try
             {
-                result = admin.GetLoginInformation(
+                result = new ClsAdministration().GetLoginInformation(
                                                     _identification
                                                     , _password
                                                     , _workstation

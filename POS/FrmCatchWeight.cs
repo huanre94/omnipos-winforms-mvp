@@ -1,4 +1,5 @@
 ﻿using POS.Classes;
+using POS.DLL;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,44 +33,51 @@ namespace POS
 
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
-            if (ScaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            try
             {
-                LblTitle.Text = "Coloque el Producto en la Balanza";
-            }
-            else
-            {
-                strWaitTime = (from par in globalParameters.ToList()
-                               where par.Name == "MaxScaleWaitTime"
-                               select par.Value).FirstOrDefault();
-
-                LblTitle.Text = string.Empty;
-                BtnCatchWeight.Visible = false;
-
-                if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != "")
+                if (ScaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                 {
-                    catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
-                    catchWeight.OpenScale();
-
-                    if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
-                    {
-                        CatchWeightProduct(ScaleBrand, PortName);
-                    }
-                    else
-                    {
-                        if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
-                            catchWeight.CloseScale();
-
-                        DialogResult = DialogResult.Cancel;
-                    }
+                    LblTitle.Text = "Coloque el Producto en la Balanza";
                 }
                 else
                 {
-                    functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", ClsEnums.MessageType.WARNING);
-                    DialogResult = DialogResult.Cancel;
-                }
-            }
+                    strWaitTime = (from par in new POSEntities().GlobalParameter.ToList()
+                                   where par.Name == "MaxScaleWaitTime"
+                                   select par.Value).FirstOrDefault();
 
-            LblProductName.Text = productName;
+                    LblTitle.Text = string.Empty;
+                    BtnCatchWeight.Visible = false;
+
+                    if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != "")
+                    {
+                        catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
+                        catchWeight.OpenScale();
+
+                        if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
+                        {
+                            CatchWeightProduct(ScaleBrand, PortName);
+                        }
+                        else
+                        {
+                            if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                                catchWeight.CloseScale();
+
+                            DialogResult = DialogResult.Cancel;
+                        }
+                    }
+                    else
+                    {
+                        functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", ClsEnums.MessageType.WARNING);
+                        DialogResult = DialogResult.Cancel;
+                    }
+                }
+
+                LblProductName.Text = productName;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private void BtnCatchWeight_Click(object sender, EventArgs e)

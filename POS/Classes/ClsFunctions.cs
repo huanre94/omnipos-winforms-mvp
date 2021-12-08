@@ -195,15 +195,17 @@ namespace POS
                                                 ClsEnums.ScaleBrands _scaleBrand,
                                                 string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName);
-            frmCatchWeight.axOposScale = _axOposScale;
-            frmCatchWeight.productName = _productName;
-            frmCatchWeight.globalParameters = globalParameters;
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
+            {
+                axOposScale = _axOposScale,
+                productName = _productName,
+                globalParameters = globalParameters
+            };
             frmCatchWeight.ShowDialog();
             bool response = true;
             decimal lostWeight = 0;
             decimal catchWeight = 0;
-            string parameter = String.Empty;
+            string parameter = string.Empty;
 
             catchWeight = frmCatchWeight.weight;
 
@@ -215,7 +217,7 @@ namespace POS
             }
             //End(IG001)
 
-            parameter = (from par in globalParameters.ToList()
+            parameter = (from par in new POSEntities().GlobalParameter.ToList()
                          where par.Name == "LostWeightQty"
                          select par.Value).FirstOrDefault();
 
