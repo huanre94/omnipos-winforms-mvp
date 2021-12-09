@@ -76,7 +76,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                throw;
+                functions.ShowMessage("Ha ocurrido un error al inicializar la balanza.", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
