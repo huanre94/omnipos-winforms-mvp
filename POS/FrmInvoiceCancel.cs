@@ -63,7 +63,6 @@ namespace POS
                 LblEstablishment.Text = emissionPoint.Establishment;
                 TxtEmissionPoint.Text = emissionPoint.Emission;
                 TxtEmissionPoint.Enabled = false;
-                //functions.PrinterName = emissionPoint.PrinterName;                 
             }
             else
             {

@@ -36,7 +36,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (selectedAmount > 0)
+            if (selectedAmount > 0 && selectedAmount <= advanceAmount)
             {
                 pendingAmount = selectedAmount;
                 processResponse = true;
@@ -63,12 +63,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                                  "No se ha podido cargar registros."
-                                                  , ClsEnums.MessageType.WARNING
-                                                  , true
-                                                  , ex.Message
-                                                  );
+                functions.ShowMessage("No se ha podido cargar registros.", ClsEnums.MessageType.WARNING, true, ex.Message);
             }
         }
 
@@ -79,8 +74,8 @@ namespace POS
                 Text = _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
-                LblAmount.Text = advanceAmount.ToString();
-                LblSelectedAmount.Text = 0.00M.ToString();
+                LblAmount.Text = $"{advanceAmount}";
+                LblSelectedAmount.Text = $"0.00M";
             }
         }
 

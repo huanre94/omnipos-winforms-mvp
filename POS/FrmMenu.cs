@@ -49,13 +49,15 @@ namespace POS
 
         private void BtnPOS_Click(object sender, EventArgs e)
         {
-            FrmMain frmMain = new FrmMain();
-            frmMain.loginInformation = loginInformation;
-            frmMain.globalParameters = globalParameters;
+            FrmMain frmMain = new FrmMain
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
             frmMain.Show();
 
             if (Application.OpenForms.OfType<FrmMain>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnCloseCashier_Click(object sender, EventArgs e)
@@ -68,58 +70,67 @@ namespace POS
             frmClosing.Show();
 
             if (Application.OpenForms.OfType<FrmClosingCashier>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnPartialClosing_Click(object sender, EventArgs e)
         {
-            FrmPartialClosing frmPartial = new FrmPartialClosing();
-            frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;
+            FrmPartialClosing frmPartial = new FrmPartialClosing
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
             frmPartial.Show();
 
             if (Application.OpenForms.OfType<FrmPartialClosing>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnSalesOrder_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker();
-            frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;
+            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
             frmPartial.Show();
 
             if (Application.OpenForms.OfType<FrmSalesOrderPicker>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnGiftCardRedeem_Click(object sender, EventArgs e)
         {
-            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard();
-            frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;
+            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
             frmPartial.Show();
 
             if (Application.OpenForms.OfType<FrmRedeemGiftCard>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnInvoiceCancel_Click(object sender, EventArgs e)
         {
-            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel();
-            frmPartial.loginInformation = loginInformation;
-            frmPartial.globalParameters = globalParameters;
-            //frmPartial.emissionPoint = emissionPoint;
+            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
             frmPartial.ShowDialog();
 
             if (Application.OpenForms.OfType<FrmInvoiceCancel>().Count() == 1)
-                this.Hide();
+                Hide();
         }
 
         private void BtnChangePaymMode_Click(object sender, EventArgs e)
         {
-            FrmChangePaymMode frmChange = new FrmChangePaymMode();
-            frmChange.loginInformation = loginInformation;
+            FrmChangePaymMode frmChange = new FrmChangePaymMode
+            {
+                loginInformation = loginInformation
+            };
             frmChange.ShowDialog();
         }
 
@@ -147,13 +158,15 @@ namespace POS
             if (allowInventory)
             {
 
-                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount();
-                frmPhysicalStock.loginInformation = loginInformation;
-                frmPhysicalStock.globalParameters = globalParameters;
+                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount
+                {
+                    loginInformation = loginInformation,
+                    globalParameters = globalParameters
+                };
                 frmPhysicalStock.ShowDialog();
 
                 if (Application.OpenForms.OfType<FrmPhysicalStockCount>().Count() == 1)
-                    this.Hide();
+                    Hide();
             }
             else
             {

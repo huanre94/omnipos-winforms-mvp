@@ -1,16 +1,16 @@
 # Build Routes
-## DEV
+### DEV
 > 192.168.17.120\shared\OmniPOS\
 
-## Amr
+### Amr
 > 192.168.15.10\shared\OmniPOS\
 
-## Alb
+### Alb
 > 192.168.16.10\shared\OmniPOS
         
-## Smb
-> 192.168.18.10\shared\OmniPOS"
+### Smb
+> \\\ 192.168.18.10\shared\OmniPOS
 
-## Jya
-> 192.168.19.10\sige\OmniPOS"
+### Jya
+> 192.168.19.10\sige\OmniPOS
 
