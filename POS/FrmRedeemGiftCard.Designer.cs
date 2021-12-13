@@ -53,7 +53,6 @@
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.BtnRedeemCustomerName = new DevExpress.XtraEditors.SimpleButton();
             this.BtnIdentificationKeyPad = new DevExpress.XtraEditors.SimpleButton();
             this.BtnBarcodeKeyPad = new DevExpress.XtraEditors.SimpleButton();
@@ -63,14 +62,15 @@
             this.TxtRedeemName = new DevExpress.XtraEditors.TextEdit();
             this.TxtRedeemIdentification = new DevExpress.XtraEditors.TextEdit();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.TxtGiftCardNumber.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtRedeemName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtRedeemIdentification.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnKeyPad
@@ -372,15 +372,6 @@
             this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
             this.AxOPOSScale.TabIndex = 186;
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(440, 471);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
-            this.AxOPOSScanner.TabIndex = 185;
-            // 
             // BtnRedeemCustomerName
             // 
             this.BtnRedeemCustomerName.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
@@ -487,15 +478,25 @@
             this.TxtBarcode.TabIndex = 178;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(1160, 12);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.TabIndex = 189;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
             // FrmRedeemGiftCard
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnRemove);
             this.Controls.Add(this.GrcProduct);
             this.Controls.Add(this.AxOPOSScale);
-            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.BtnRedeemCustomerName);
             this.Controls.Add(this.BtnIdentificationKeyPad);
             this.Controls.Add(this.BtnBarcodeKeyPad);
@@ -531,10 +532,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrcProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtRedeemName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtRedeemIdentification.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -566,7 +567,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
+
         private DevExpress.XtraEditors.SimpleButton BtnRedeemCustomerName;
         private DevExpress.XtraEditors.SimpleButton BtnIdentificationKeyPad;
         private DevExpress.XtraEditors.SimpleButton BtnBarcodeKeyPad;
@@ -576,5 +577,6 @@
         private DevExpress.XtraEditors.TextEdit TxtRedeemName;
         private DevExpress.XtraEditors.TextEdit TxtRedeemIdentification;
         private DevExpress.XtraEditors.TextEdit TxtBarcode;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
     }
 }

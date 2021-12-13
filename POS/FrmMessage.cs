@@ -34,16 +34,16 @@ namespace POS
             switch (messagetype)
             {
                 case ClsEnums.MessageType.INFO:
-                    image = POS.Properties.Resources.info2;
+                    image = Properties.Resources.info2;
                     break;
                 case ClsEnums.MessageType.WARNING:
-                    image = POS.Properties.Resources.warning;
+                    image = Properties.Resources.warning;
                     break;
                 case ClsEnums.MessageType.ERROR:
-                    image = POS.Properties.Resources.cancel3;
+                    image = Properties.Resources.cancel3;
                     break;
                 case ClsEnums.MessageType.CONFIRM:
-                    image = POS.Properties.Resources.warning;
+                    image = Properties.Resources.warning;
                     BtnCancel.Visible = true;
                     break;
             }

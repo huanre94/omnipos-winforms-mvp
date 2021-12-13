@@ -421,24 +421,20 @@ namespace POS
         {
             if (GetEmissionPointInformation())
             {
-                //LoadPartialClosingReason();
                 LoadGridInformation();
-                if (cashAmount <= 0)
-                {
-                    //functions.ShowMessage("No se ha realizado ", ClsEnums.MessageType.WARNING);
-                }
                 LoadPartialClosingReason();
                 CheckGridView();
                 CalculatePayment();
 
-                //functions.AxOPOSScanner = AxOPOSScanner;
                 functions.PrinterName = emissionPoint.PrinterName;
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu();
-                frmMenu.loginInformation = loginInformation;
-                frmMenu.globalParameters = globalParameters;
+                FrmMenu frmMenu = new FrmMenu
+                {
+                    loginInformation = loginInformation,
+                    globalParameters = globalParameters
+                };
                 frmMenu.Show();
                 Close();
 
@@ -447,25 +443,28 @@ namespace POS
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
-            Int64 lastId = 0;
             try
             {
-                lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
+                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
+
+                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                {
+                    functions.ShowMessage("Cierre parcial impreso.");
+                }
+                else
+                {
+                    functions.ShowMessage("Cierre parcial impreso.");
+                }
             }
             catch (Exception ex)
             {
 
                 functions.ShowMessage(
-                                         "Ocurrio un problema al cargar lista de Bancos."
+                                         "Ocurrio un problema al realizar el cierre parcial."
                                          , ClsEnums.MessageType.ERROR
                                          , true
                                          , ex.InnerException.Message
                                      );
-            }
-
-            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
-            {
-                functions.ShowMessage("Cierre parcial impreso.");
             }
         }
     }

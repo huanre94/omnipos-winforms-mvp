@@ -8,17 +8,12 @@ namespace POS.DLL.Transaction
     {
         public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password)
         {
-            var db = new POSEntities();
             SP_Supervisor_Validate_Result result;
-
             try
             {
-                result = db.SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
+                result = new POSEntities().SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
 
             return result;
         }
@@ -34,12 +29,11 @@ namespace POS.DLL.Transaction
                                                                     , string _reference
                                                                 )
         {
-            var db = new POSEntities();
             SP_GaranCheck_Authorize_Result result;
 
             try
             {
-                result = db.SP_GaranCheck_Authorize(
+                result = new POSEntities().SP_GaranCheck_Authorize(
                                                     _bankId
                                                     , _accountNumber
                                                     , _checkNumber
@@ -60,11 +54,10 @@ namespace POS.DLL.Transaction
 
         public List<CancelReason> ConsultReasons(int _reasonType)
         {
-            var db = new POSEntities();
             List<CancelReason> result;
             try
             {
-                result = (from re in db.CancelReason
+                result = (from re in new POSEntities().CancelReason
                           where re.Status.Equals("A")
                           && re.ReasonType == _reasonType
                           select re).ToList();

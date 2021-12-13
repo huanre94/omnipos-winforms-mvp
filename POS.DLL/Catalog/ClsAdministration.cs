@@ -12,12 +12,11 @@ namespace POS.DLL.Catalog
                                                             , string _addressIP
                                                             )
         {
-            var db = new POSEntities();
             SP_Login_Consult_Result result;
 
             try
             {
-                result = db.SP_Login_Consult(
+                result = new POSEntities().SP_Login_Consult(
                                             _user
                                             , _password
                                             , _workstation

@@ -7,22 +7,19 @@ namespace POS.DLL.Transaction
 {
     public class ClsInvoiceTrans
     {
-        public SP_Product_Consult_Result ProductConsult(
-                                                        short _locationId
+        public SP_Product_Consult_Result ProductConsult(short _locationId
                                                         , string _barcode
                                                         , decimal _qty
                                                         , long _customerId
-                                                        , Int64 _internalCreditCardId
+                                                        , long _internalCreditCardId
                                                         , string _paymMode
-                                                        , string _barcodeBefore = ""
-                                                        )
+                                                        , string _barcodeBefore = "")
         {
-            var db = new POSEntities();
             SP_Product_Consult_Result result;
 
             try
             {
-                result = db.SP_Product_Consult(_locationId
+                result = new POSEntities().SP_Product_Consult(_locationId
                                                 , _barcode
                                                 , _qty
                                                 , _customerId
@@ -127,7 +124,9 @@ namespace POS.DLL.Transaction
             {
                 consult = pos
                     .InvoiceTable
-                    .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId && it.LocationId == emissionPoint.LocationId && it.ClosingCashierId == 0)
+                    .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId
+                    && it.LocationId == emissionPoint.LocationId
+                    && it.ClosingCashierId == 0)
                     .OrderByDescending(it => it.InvoiceId)
                     .Take(1)
                     .Select(it => it.InvoiceId)
@@ -141,8 +140,7 @@ namespace POS.DLL.Transaction
             return consult;
         }
 
-        public List<SP_InvoicePayment_Consult_Result> GetInvoicePayments(
-                                                                            int _locationId
+        public List<SP_InvoicePayment_Consult_Result> GetInvoicePayments(int _locationId
                                                                             , string _emissionPoint
                                                                             , string _invoiceNumber
                                                                         )
@@ -195,25 +193,29 @@ namespace POS.DLL.Transaction
             invoiceTable.ModifiedDatetime = DateTime.Now;
             invoiceTable.Workstation = _workStation;
 
-            if (_invoicePayment.PaymModeId == 5 || _invoicePayment.PaymModeId == 13)
+            switch (_invoicePayment.PaymModeId)
             {
-                invoicePayment.BankId = _invoicePayment.BankId;
-                invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
-                invoicePayment.Authorization = _invoicePayment.Authorization;
-            }
-            else if (_invoicePayment.PaymModeId == 2 || _invoicePayment.PaymModeId == 3)
-            {
-                invoicePayment.BankId = _invoicePayment.BankId;
-                invoicePayment.AccountNumber = _invoicePayment.AccountNumber;
-                invoicePayment.CkeckNumber = _invoicePayment.CkeckNumber;
-                invoicePayment.CkeckType = _invoicePayment.CkeckType;
-                invoicePayment.CkeckDate = _invoicePayment.CkeckDate;
-                invoicePayment.CheckOwner = _invoicePayment.CheckOwner;
-                invoicePayment.Authorization = _invoicePayment.Authorization;
-            }
-            else if (_invoicePayment.PaymModeId == 1)
-            {
-                invoicePayment.GiftCardNumber = _invoicePayment.GiftCardNumber;
+                case 1:
+                    invoicePayment.GiftCardNumber = _invoicePayment.GiftCardNumber;
+                    break;
+                case 5:
+                case 13:
+                    invoicePayment.BankId = _invoicePayment.BankId;
+                    invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
+                    invoicePayment.Authorization = _invoicePayment.Authorization;
+                    break;
+                case 2:
+                case 3:
+                    invoicePayment.BankId = _invoicePayment.BankId;
+                    invoicePayment.AccountNumber = _invoicePayment.AccountNumber;
+                    invoicePayment.CkeckNumber = _invoicePayment.CkeckNumber;
+                    invoicePayment.CkeckType = _invoicePayment.CkeckType;
+                    invoicePayment.CkeckDate = _invoicePayment.CkeckDate;
+                    invoicePayment.CheckOwner = _invoicePayment.CheckOwner;
+                    invoicePayment.Authorization = _invoicePayment.Authorization;
+                    break;
+                default:
+                    break;
             }
 
             try

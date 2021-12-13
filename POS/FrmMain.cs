@@ -1117,7 +1117,7 @@ namespace POS
 
             currentCustomer = new ClsCustomer().GetCustomerById(1);
             LblCustomerId.Text = currentCustomer.Identification;
-            LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+            LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
             internalCreditCardId = 0;
             internalCreditCardCode = "";

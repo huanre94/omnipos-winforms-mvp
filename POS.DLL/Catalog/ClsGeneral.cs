@@ -8,14 +8,11 @@ namespace POS.DLL.Catalog
     {
         public List<GlobalParameter> GetGlobalParameters()
         {
-            var db = new POSEntities();
             List<GlobalParameter> globalParameters;
 
             try
             {
-
-                globalParameters = (
-                                    from par in db.GlobalParameter
+                globalParameters = (from par in new POSEntities().GlobalParameter
                                     select par
                                     ).ToList();
             }
@@ -29,17 +26,14 @@ namespace POS.DLL.Catalog
 
         public GlobalParameter GetParameterByName(string _name)
         {
-            var db = new POSEntities();
             GlobalParameter parameter;
 
             try
             {
-
-                parameter = (
-                                from par in db.GlobalParameter
-                                where par.Name == _name
-                                && par.Status == "A"
-                                select par
+                parameter = (from par in new POSEntities().GlobalParameter
+                             where par.Name == _name
+                             && par.Status == "A"
+                             select par
                             ).FirstOrDefault();
             }
             catch (Exception ex)
@@ -56,12 +50,10 @@ namespace POS.DLL.Catalog
 
             try
             {
-
-                emissionPoint = (
-                                    from em in new POSEntities().EmissionPoint
-                                    where em.AddressIP == _addressIP
-                                    && em.Status == "A"
-                                    select em
+                emissionPoint = (from em in new POSEntities().EmissionPoint
+                                 where em.AddressIP == _addressIP
+                                 && em.Status == "A"
+                                 select em
                                     ).FirstOrDefault();
             }
             catch (Exception ex)
@@ -96,13 +88,12 @@ namespace POS.DLL.Catalog
 
             try
             {
-                sequenceTable = (
-                                from seq in new POSEntities().SequenceTable
-                                where seq.EmissionPointId == _emissionPointId
-                                && seq.LocationId == _locationId
-                                && seq.SequenceTypeId == _sequenceType
-                                && seq.Status == "A"
-                                select seq
+                sequenceTable = (from seq in new POSEntities().SequenceTable
+                                 where seq.EmissionPointId == _emissionPointId
+                                 && seq.LocationId == _locationId
+                                 && seq.SequenceTypeId == _sequenceType
+                                 && seq.Status == "A"
+                                 select seq
                                 ).FirstOrDefault();
             }
             catch (Exception ex)

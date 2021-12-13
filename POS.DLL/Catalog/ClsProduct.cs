@@ -8,15 +8,14 @@ namespace POS.DLL.Catalog
     {
         public List<Product> GetProducts(string _productName)
         {
-            var db = new POSEntities();
             List<Product> products;
 
             try
             {
                 products =
                         (
-                            from pr in db.Product
-                            join bar in db.ProductBarcode on pr.ProductId equals bar.ProductId
+                            from pr in new POSEntities().Product
+                            join bar in new POSEntities().ProductBarcode on pr.ProductId equals bar.ProductId
                             where pr.Status == "A"
                             && pr.Name.Contains(_productName)
                             select pr
@@ -31,12 +30,11 @@ namespace POS.DLL.Catalog
 
         public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
         {
-            var db = new POSEntities();
             List<SP_ProductBarcode_Consult_Result> result;
 
             try
             {
-                result = db.SP_ProductBarcode_Consult(_productName, _location).ToList();
+                result = new POSEntities().SP_ProductBarcode_Consult(_productName, _location).ToList();
             }
             catch (Exception ex)
             {

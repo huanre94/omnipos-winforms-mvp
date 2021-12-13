@@ -11,7 +11,7 @@ namespace POS.DLL.Transaction
             SP_Advance_Insert_Result result;
             try
             {
-                result = new POSEntities().SP_Advance_Insert(_advanceXml.ToString()).FirstOrDefault();
+                result = new POSEntities().SP_Advance_Insert($"{_advanceXml}").FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -19,21 +19,5 @@ namespace POS.DLL.Transaction
             }
             return result;
         }
-
-        //public List<> GetInvoiceTicket(long _invoiceId, bool _openCashier = false)
-        //{
-        //    List<> advanceTicketResult;
-
-        //    try
-        //    {
-        //        advanceTicketResult = new POSEntities().SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-
-        //    return advanceTicketResult;
-        //}
     }
 }

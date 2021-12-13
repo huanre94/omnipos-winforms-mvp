@@ -8,16 +8,13 @@ namespace POS.DLL.Catalog
     {
         public List<Bank> GetBanks()
         {
-            var db = new POSEntities();
             List<Bank> banks;
 
             try
             {
-
-                banks = (
-                            from ba in db.Bank
-                            where ba.Status == "A"
-                            select ba
+                banks = (from ba in new POSEntities().Bank
+                         where ba.Status == "A"
+                         select ba
                         ).OrderBy(ba => ba.Name).ToList();
             }
             catch (Exception ex)
@@ -35,11 +32,10 @@ namespace POS.DLL.Catalog
 
             try
             {
-                retentionTable = (
-                                from ret in db.RetentionTable
-                                where ret.Status == "A"
-                                && ret.Type == _retentionType.ToString()
-                                select ret
+                retentionTable = (from ret in new POSEntities().RetentionTable
+                                  where ret.Status == "A"
+                                  && ret.Type == $"{_retentionType}"
+                                  select ret
                                 ).ToList();
             }
             catch (Exception ex)
@@ -52,20 +48,18 @@ namespace POS.DLL.Catalog
 
         public List<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true)
         {
-            var db = new POSEntities();
             List<CreditCard> creditCards;
 
             try
             {
 
-                creditCards = (
-                                from cre in db.CreditCard
-                                join ban in db.BankCreditCard
-                                on cre.CreditCardId equals ban.CreditCardId
-                                where cre.Status == "A"
-                                && ban.BankId == _bankId
-                                && cre.IsCredit == _isCredit
-                                select cre
+                creditCards = (from cre in new POSEntities().CreditCard
+                               join ban in new POSEntities().BankCreditCard
+                               on cre.CreditCardId equals ban.CreditCardId
+                               where cre.Status == "A"
+                               && ban.BankId == _bankId
+                               && cre.IsCredit == _isCredit
+                               select cre
                                 ).ToList();
             }
             catch (Exception ex)
@@ -78,16 +72,14 @@ namespace POS.DLL.Catalog
 
         public List<PaymMode> GetPaymModes()
         {
-            var db = new POSEntities();
             List<PaymMode> paymModes;
 
             try
             {
 
-                paymModes = (
-                            from pa in db.PaymMode
-                            where pa.Status == "A"
-                            select pa
+                paymModes = (from pa in new POSEntities().PaymMode
+                             where pa.Status == "A"
+                             select pa
                             ).ToList();
             }
             catch (Exception ex)
@@ -100,12 +92,11 @@ namespace POS.DLL.Catalog
 
         public long GetPromotionsCount(long _customerId, int _bankId, int _cardBrandId)
         {
-            var db = new POSEntities();
             long promotionPaymMode;
 
             try
             {
-                promotionPaymMode = (long)db.SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
+                promotionPaymMode = (long)new POSEntities().SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
             }
             catch (Exception ex)
             {

@@ -8,17 +8,14 @@ namespace POS.DLL.Catalog
     {
         public List<IdentType> GetIdentTypes()
         {
-            var db = new POSEntities();
             List<IdentType> custIdentTypes;
 
             try
             {
-
-                custIdentTypes = (
-                                    from ide in db.IdentType
-                                    where ide.Status == "A"
-                                    && ide.IdentTypeId != 5
-                                    select ide
+                custIdentTypes = (from ide in new POSEntities().IdentType
+                                  where ide.Status == "A"
+                                  && ide.IdentTypeId != 5
+                                  select ide
                                 ).ToList();
             }
             catch (Exception ex)
@@ -31,14 +28,11 @@ namespace POS.DLL.Catalog
 
         public Customer GetCustomerByIdentification(string _indentification)
         {
-            var db = new POSEntities();
             Customer customer;
 
             try
             {
-
-                customer = (
-                            from cust in db.Customer
+                customer = (from cust in new POSEntities().Customer
                             where cust.Status == "A"
                             && cust.Identification == _indentification
                             select cust
@@ -54,13 +48,11 @@ namespace POS.DLL.Catalog
 
         public Customer GetCustomerById(long _customerId)
         {
-            var db = new POSEntities();
             Customer customer;
 
             try
             {
-                customer = (
-                            from cust in db.Customer
+                customer = (from cust in new POSEntities().Customer
                             where cust.Status == "A"
                             && cust.CustomerId == _customerId
                             select cust
@@ -76,12 +68,11 @@ namespace POS.DLL.Catalog
 
         public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml)
         {
-            var db = new POSEntities();
             SP_Customer_Insert_Result result;
 
             try
             {
-                result = db.SP_Customer_Insert(_customerXml).FirstOrDefault();
+                result = new POSEntities().SP_Customer_Insert(_customerXml).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -93,12 +84,11 @@ namespace POS.DLL.Catalog
 
         public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType)
         {
-            var db = new POSEntities();
             FN_Identification_Validate_Result result;
 
             try
             {
-                result = db.FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
+                result = new POSEntities().FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -110,14 +100,13 @@ namespace POS.DLL.Catalog
 
         public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
         {
-            var db = new POSEntities();
             List<CustomerAddress> result;
             try
             {
-                result = (from ca in db.CustomerAddress
-                          join cu in db.Customer on ca.CustomerId equals cu.CustomerId
+                result = (from ca in new POSEntities().CustomerAddress
+                          join cu in new POSEntities().Customer on ca.CustomerId equals cu.CustomerId
                           where ca.CustomerId == _customer.CustomerId
-                          && ca.Status.Equals("A")
+                          && ca.Status == "A"
                           select ca).ToList();
             }
             catch (Exception ex)
@@ -129,11 +118,10 @@ namespace POS.DLL.Catalog
 
         public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
         {
-            var db = new POSEntities();
             SP_CustomerAddress_Insert_Result result;
             try
             {
-                result = db.SP_CustomerAddress_Insert(xml).FirstOrDefault();
+                result = new POSEntities().SP_CustomerAddress_Insert(xml).FirstOrDefault();
             }
             catch (Exception ex)
             {

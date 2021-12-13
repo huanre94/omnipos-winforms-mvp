@@ -42,15 +42,16 @@ namespace POS.DLL.Transaction
 
         public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId)
         {
-            POSEntities pos = new POSEntities();
             bool response = false;
             int consult = 0;
 
             try
             {
-                consult = pos.PhysicalStockCountingTable.Count(a => a.EmissionPointId == emissionPoint.EmissionPointId
-                && a.Status == "O"
-                && a.CreatedBy == UserId);
+                consult = new POSEntities()
+                    .PhysicalStockCountingTable
+                    .Count(a => a.EmissionPointId == emissionPoint.EmissionPointId
+                    && a.Status == "O"
+                    && a.CreatedBy == UserId);
 
                 if (consult > 0)
                 {
@@ -68,11 +69,11 @@ namespace POS.DLL.Transaction
 
         public int GetPendingCounting(EmissionPoint emissionPoint, Int64 UserId)
         {
-            var db = new POSEntities();
             int id;
+
             try
             {
-                id = (from ta in db.PhysicalStockCountingTable
+                id = (from ta in new POSEntities().PhysicalStockCountingTable
                       where ta.EmissionPointId == emissionPoint.EmissionPointId
                       && ta.Status == "O"
                       && ta.CreatedBy == UserId

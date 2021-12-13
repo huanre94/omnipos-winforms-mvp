@@ -25,11 +25,10 @@ namespace POS.DLL.Transaction
 
         public SP_GiftCard_Consult_Result GetGiftCard(string _giftCard)
         {
-            var db = new POSEntities();
             SP_GiftCard_Consult_Result result;
             try
             {
-                result = db.SP_GiftCard_Consult(_giftCard).FirstOrDefault();
+                result = new POSEntities().SP_GiftCard_Consult(_giftCard).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -41,11 +40,10 @@ namespace POS.DLL.Transaction
 
         public List<SP_GiftCard_Consult_Result> GetGiftCardProducts(string _giftCard)
         {
-            var db = new POSEntities();
             List<SP_GiftCard_Consult_Result> result;
             try
             {
-                result = db.SP_GiftCard_Consult(_giftCard).ToList();
+                result = new POSEntities().SP_GiftCard_Consult(_giftCard).ToList();
             }
             catch (Exception ex)
             {
@@ -57,11 +55,10 @@ namespace POS.DLL.Transaction
 
         public SP_GiftCardRedeem_Insert_Result GiftCardRedeemInsert(string GiftCardNumber, string RedeemName, string RedeemIdentification, int RedeemLocation, string ProductGrid)
         {
-            var db = new POSEntities();
             SP_GiftCardRedeem_Insert_Result result;
             try
             {
-                result = db.SP_GiftCardRedeem_Insert(GiftCardNumber, RedeemName, RedeemIdentification, RedeemLocation, ProductGrid).First();
+                result = new POSEntities().SP_GiftCardRedeem_Insert(GiftCardNumber, RedeemName, RedeemIdentification, RedeemLocation, ProductGrid).First();
             }
             catch (Exception ex)
             {

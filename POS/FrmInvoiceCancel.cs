@@ -155,7 +155,7 @@ namespace POS
             LblInvoiceStatus.Text = "PENDIENTE";
             LblCustomerIdentification.Text = "9999999999";
             LblCustomerName.Text = "CONSUMIDOR FINAL";
-            LblInvoiceAmount.Text = string.Format("${0}", 0);
+            LblInvoiceAmount.Text = $"${0}";
             TxtObservation.Text = string.Empty;
         }
 
@@ -182,7 +182,7 @@ namespace POS
                         LblInvoiceStatus.Text = response.Status;
                         LblCustomerIdentification.Text = response.Identification;
                         LblCustomerName.Text = response.CustomerName;
-                        LblInvoiceAmount.Text = string.Format("${0}", response.Total);
+                        LblInvoiceAmount.Text = $"$ {response.Total}";
                     }
                     else
                     {

@@ -197,8 +197,10 @@ namespace POS
 
         private void BtnRedeemCustomerName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
+            FrmKeyBoard keyBoard = new FrmKeyBoard
+            {
+                inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME
+            };
             keyBoard.ShowDialog();
             TxtRedeemName.Text = keyBoard.checkOwnerName;
         }
@@ -213,8 +215,10 @@ namespace POS
 
                     if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                     {
-                        catchWeight = new ClsCatchWeight(scaleBrand);
-                        catchWeight.AxOPOSScale = AxOPOSScale;
+                        catchWeight = new ClsCatchWeight(scaleBrand)
+                        {
+                            AxOPOSScale = AxOPOSScale
+                        };
                         catchWeight.EnableScale(emissionPoint.ScaleName);
                         functions.AxOPOSScanner = AxOPOSScanner;
                         functions.EnableScanner(emissionPoint.ScanBarcodeName);
@@ -236,26 +240,15 @@ namespace POS
                 ClearGiftCard();
             }
         }
-
-        private void CheckGridView()
-        {
-            GrvProduct.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
-            GrcProduct.DataSource = null;
-            GrvProduct.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
-
-            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
-            bindingList.AllowNew = true;
-
-            GrcProduct.DataSource = bindingList;
-        }
+      
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (TxtGiftCardNumber.Text == "")
+            if (TxtGiftCardNumber.Text.Equals(""))
             {
                 functions.ShowMessage("El numero de bono no puede estar vacio.", ClsEnums.MessageType.WARNING);
                 return;
             }
-            else if (TxtRedeemIdentification.Text == "" || TxtRedeemName.Text == "")
+            else if (TxtRedeemIdentification.Text.Equals("") || TxtRedeemName.Text.Equals(""))
             {
                 functions.ShowMessage("Los datos del canje no pueden estar vacios.", ClsEnums.MessageType.WARNING);
                 return;
@@ -276,10 +269,12 @@ namespace POS
                     foreach (SP_Product_Consult_Result item in dataSource)
                     {
                         XElement giftCardTrans = new XElement("GiftCardTrans");
-                        GiftCardTrans gift = new GiftCardTrans();
-                        gift.ProductId = item.ProductId;
-                        gift.Quantity = (decimal)item.Quantity;
-                        gift.RedeemQuantity = 1;
+                        GiftCardTrans gift = new GiftCardTrans
+                        {
+                            ProductId = item.ProductId,
+                            Quantity = (decimal)item.Quantity,
+                            RedeemQuantity = 1
+                        };
                         Type type = gift.GetType();
                         PropertyInfo[] properties = type.GetProperties();
                         foreach (var prop in properties)
@@ -300,7 +295,7 @@ namespace POS
                             TxtRedeemName.Text,
                             TxtRedeemIdentification.Text,
                             emissionPoint.LocationId,
-                            giftCardLine.ToString());
+                           $"{giftCardLine}");
 
                         if (!(bool)response.Error)
                         {
@@ -309,7 +304,7 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("Bono no pudo ser canjeado.", ClsEnums.MessageType.INFO);
+                            functions.ShowMessage("Bono no pudo ser canjeado.", ClsEnums.MessageType.INFO, true, response.TextError);
                         }
                     }
                     catch (Exception ex)
@@ -327,10 +322,12 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.globalParameters = globalParameters;
-            frmMenu.Visible = true;
+            FrmMenu frmMenu = new FrmMenu
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters,
+                Visible = true
+            };
             Close();
         }
 
@@ -355,6 +352,34 @@ namespace POS
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
             SendKeys.Send("{ENTER}");
             functions.AxOPOSScanner.DataEventEnabled = true;
+        }
+
+        private void BtnRemove_Click(object sender, EventArgs e)
+        {
+            int rowIndex = GrvProduct.FocusedRowHandle;
+
+            if (rowIndex < 0)
+            {
+                functions.ShowMessage("No se ha seleccionado producto a eliminar.", ClsEnums.MessageType.ERROR);
+            }
+            else
+            {
+                SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvProduct.GetRow(rowIndex);
+
+                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
+                foreach (SP_Product_Consult_Result item in dataSource)
+                {
+                    if (item.ProductId == selectedRow.ProductId)
+                    {
+                        dataSource.Remove(item);
+                        break;
+                    }
+                }
+
+                GrcProduct.DataSource = dataSource;
+            }
+
+            TxtBarcode.Focus();
         }
         #endregion
 
@@ -462,12 +487,26 @@ namespace POS
             return response;
         }
 
+        private void CheckGridView()
+        {
+            GrvProduct.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            GrcProduct.DataSource = null;
+            GrvProduct.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>
+            {
+                AllowNew = true
+            };
+
+            GrcProduct.DataSource = bindingList;
+        }
+
         private void GetProductInformation(
                                             short _locationId
                                             , string _barcode
                                             , decimal _qty
-                                            , Int64 _customerId
-                                            , Int64 _internalCreditCardId
+                                            , long _customerId
+                                            , long _internalCreditCardId
                                             , string _paymMode
                                             , bool _skipCatchWeight
                                             )
@@ -569,7 +608,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage($"El producto con codigo de barras {_barcode} no se encuentra registrado.", ClsEnums.MessageType.WARNING);
                         TxtBarcode.Text = "";
                         TxtBarcode.Focus();
                     }
@@ -590,33 +629,5 @@ namespace POS
             }
         }
         #endregion
-
-        private void BtnRemove_Click(object sender, EventArgs e)
-        {
-            int rowIndex = GrvProduct.FocusedRowHandle;
-
-            if (rowIndex < 0)
-            {
-                functions.ShowMessage("No se ha seleccionado producto a eliminar.", ClsEnums.MessageType.ERROR);
-            }
-            else
-            {
-                SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvProduct.GetRow(rowIndex);
-
-                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
-                foreach (SP_Product_Consult_Result item in dataSource)
-                {
-                    if (item.ProductId == selectedRow.ProductId)
-                    {
-                        dataSource.Remove(item);
-                        break;
-                    }
-                }
-
-                GrcProduct.DataSource = dataSource;
-            }
-
-            TxtBarcode.Focus();
-        }
     }
 }
