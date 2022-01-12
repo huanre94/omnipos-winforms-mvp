@@ -70,7 +70,7 @@
             this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.find;
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
-            this.BtnSearch.Location = new System.Drawing.Point(789, 51);
+            this.BtnSearch.Location = new System.Drawing.Point(707, 49);
             this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
             this.BtnSearch.Name = "BtnSearch";
             this.BtnSearch.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -87,7 +87,7 @@
             this.BtnSeqKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnSeqKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSeqKeyPad.ImageOptions.SvgImage")));
             this.BtnSeqKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnSeqKeyPad.Location = new System.Drawing.Point(698, 56);
+            this.BtnSeqKeyPad.Location = new System.Drawing.Point(614, 54);
             this.BtnSeqKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnSeqKeyPad.Name = "BtnSeqKeyPad";
             this.BtnSeqKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -100,31 +100,30 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(174, 19);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(61, 16);
+            this.LblCashierUser.Size = new System.Drawing.Size(0, 16);
             this.LblCashierUser.TabIndex = 158;
-            this.LblCashierUser.Text = "N. Bono";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(31, 19);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 16);
+            this.label6.Size = new System.Drawing.Size(56, 16);
             this.label6.TabIndex = 159;
-            this.label6.Text = "Cajero";
+            this.label6.Text = "Cajero:";
             // 
             // LblBono
             // 
             this.LblBono.AutoSize = true;
             this.LblBono.Location = new System.Drawing.Point(31, 72);
             this.LblBono.Name = "LblBono";
-            this.LblBono.Size = new System.Drawing.Size(61, 16);
+            this.LblBono.Size = new System.Drawing.Size(87, 16);
             this.LblBono.TabIndex = 160;
-            this.LblBono.Text = "N. Bono";
+            this.LblBono.Text = "Documento:";
             // 
             // TxtSequence
             // 
-            this.TxtSequence.Location = new System.Drawing.Point(473, 59);
+            this.TxtSequence.Location = new System.Drawing.Point(389, 56);
             this.TxtSequence.Name = "TxtSequence";
             this.TxtSequence.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtSequence.Properties.Appearance.Options.UseFont = true;
@@ -155,7 +154,7 @@
             // 
             this.LblLine2.AutoSize = true;
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
-            this.LblLine2.Location = new System.Drawing.Point(448, 65);
+            this.LblLine2.Location = new System.Drawing.Point(364, 62);
             this.LblLine2.Name = "LblLine2";
             this.LblLine2.Size = new System.Drawing.Size(19, 26);
             this.LblLine2.TabIndex = 165;
@@ -206,12 +205,13 @@
             this.BtnEmissionPointKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnEmissionPointKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnEmissionPointKeyPad.ImageOptions.SvgImage")));
             this.BtnEmissionPointKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnEmissionPointKeyPad.Location = new System.Drawing.Point(367, 54);
+            this.BtnEmissionPointKeyPad.Location = new System.Drawing.Point(364, -15);
             this.BtnEmissionPointKeyPad.Margin = new System.Windows.Forms.Padding(6);
             this.BtnEmissionPointKeyPad.Name = "BtnEmissionPointKeyPad";
             this.BtnEmissionPointKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnEmissionPointKeyPad.Size = new System.Drawing.Size(82, 50);
             this.BtnEmissionPointKeyPad.TabIndex = 161;
+            this.BtnEmissionPointKeyPad.Visible = false;
             this.BtnEmissionPointKeyPad.Click += new System.EventHandler(this.BtnEmissionPointKeyPad_Click);
             // 
             // TxtEmissionPoint

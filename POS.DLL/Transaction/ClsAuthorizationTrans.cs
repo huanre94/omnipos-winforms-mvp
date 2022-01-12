@@ -13,7 +13,10 @@ namespace POS.DLL.Transaction
             {
                 result = new POSEntities().SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
-            catch (Exception ex) { throw new Exception(ex.Message); }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
             return result;
         }

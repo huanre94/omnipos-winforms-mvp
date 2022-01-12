@@ -13,6 +13,7 @@ namespace POS
         public string customerLastName = "";
         public string customerAddress = "";
         public string customerEmail = "";
+        public string observation = "";
 
         public FrmKeyBoard()
         {
@@ -270,6 +271,9 @@ namespace POS
                         break;
                     case ClsEnums.InputFromOption.CUSTOMER_EMAIL:
                         customerEmail = TxtValue.Text.ToLower();
+                        break;
+                    case ClsEnums.InputFromOption.OBSERVATION:
+                        observation = TxtValue.Text;
                         break;
                     default:
                         break;

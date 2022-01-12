@@ -91,7 +91,7 @@ namespace POS
                 customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
                 decimal _creditLimit = customer.CreditLimit;
                 LblCreditLimit.Text = $"{_creditLimit:#.00}";
-                LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;
+                LblHolderName.Text = $"{customer.Firtsname} {customer.Lastname}";
                 creditLimit = _creditLimit;
                 response = true;
             }
@@ -176,7 +176,6 @@ namespace POS
         private void GetInternalCreditCard(string _internalCreditCardCode)
         {
             SP_InternalCreditCard_Consult_Result result;
-            ClsCustomerTrans clsCustomer = new ClsCustomerTrans();
 
             if (_internalCreditCardCode == "")
             {
@@ -186,7 +185,7 @@ namespace POS
 
             try
             {
-                result = clsCustomer.GetInternalCreditCard(_internalCreditCardCode);
+                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode);
 
                 if (result != null)
                 {
@@ -194,7 +193,7 @@ namespace POS
                     {
                         LblHolderName.Text = result.Name;
                         creditLimit = result.Consumed;
-                        LblCreditLimit.Text = creditLimit.ToString();
+                        LblCreditLimit.Text = $"{creditLimit:0.##}";
                         internalCreditCardId = result.InternalCreditCardId;
                         internalCreditCardCode = result.Barcode;
                     }

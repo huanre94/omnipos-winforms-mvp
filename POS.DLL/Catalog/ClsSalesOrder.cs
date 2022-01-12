@@ -9,15 +9,14 @@ namespace POS.DLL.Catalog
         public SP_Login_Consult_Result loginInformation;
 
         public List<SalesOrderStatus> GetSalesOrderStatus()
-        {
-            var db = new POSEntities();
+        {            
             List<SalesOrderStatus> salesOrderStatus;
 
             try
             {
 
                 salesOrderStatus = (
-                                    from so in db.SalesOrderStatus
+                                    from so in new POSEntities().SalesOrderStatus
                                     where so.Status == "A"
                                     select so
                                 ).ToList();

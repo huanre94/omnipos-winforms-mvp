@@ -24,8 +24,6 @@ namespace POS
         public string salesOrderId = "";
         public string advanceAmount = "";
 
-
-
         public FrmKeyPad()
         {
             InitializeComponent();

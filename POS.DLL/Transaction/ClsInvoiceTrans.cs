@@ -58,12 +58,11 @@ namespace POS.DLL.Transaction
 
         public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId, bool _openCashier = false)
         {
-            var db = new POSEntities();
             List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult;
 
             try
             {
-                invoiceTicketResult = db.SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
+                invoiceTicketResult = new POSEntities().SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
             }
             catch (Exception ex)
             {
@@ -87,16 +86,14 @@ namespace POS.DLL.Transaction
             }
         }
 
-        public bool HasSuspendedSale(EmissionPoint emissionPoint)
-        {
-            POSEntities pos = new POSEntities();
-            int consult = pos.SalesLog.Count(a => a.EmissionPointId == emissionPoint.EmissionPointId && a.Status == "A" && a.LogTypeId == 3);
-            if (consult > 0)
-            {
-                return true;
-            }
-            return false;
-        }
+        public bool HasSuspendedSale(EmissionPoint emissionPoint) =>
+            new POSEntities()
+                .SalesLog
+                .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
+                && a.Status == "A"
+                && a.LogTypeId == 3)
+                .Any();
+
 
         public SP_SalesLog_Consult_Result ConsultSuspendedSale(EmissionPoint emissionPoint)
         {
@@ -234,41 +231,25 @@ namespace POS.DLL.Transaction
         public InvoiceTable ConsultInvoice(long invoiceId)
         {
             POSEntities pos = new POSEntities();
-            InvoiceTable invoiceTable;
+            InvoiceTable invoice;
             try
             {
-                invoiceTable = (from y in pos.InvoiceTable
-                                where y.InvoiceId == invoiceId
-                                select y).First();
+                invoice = new POSEntities().InvoiceTable.Where(inv => inv.InvoiceId == invoiceId).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return invoiceTable;
+            return invoice;
         }
 
-        public SP_InvoiceCancel_Consult_Result ConsultInvoiceStatus(EmissionPoint emissionPoint, string emission, int invoiceNumber)
+        public SP_InvoiceCancel_Consult_Result ConsultInvoiceStatus(EmissionPoint emissionPoint, int invoiceNumber)
         {
-            POSEntities pos = new POSEntities();
             SP_InvoiceCancel_Consult_Result response;
-            EmissionPoint _emissionPoint;
 
             try
             {
-                _emissionPoint = (from y in pos.EmissionPoint
-                                  where y.Emission == emission
-                                  && y.LocationId == emissionPoint.LocationId
-                                  select y).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            try
-            {
-                response = pos.SP_InvoiceCancel_Consult(emissionPoint.LocationId, _emissionPoint.EmissionPointId, invoiceNumber).FirstOrDefault();
+                response = new POSEntities().SP_InvoiceCancel_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId, invoiceNumber).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -282,7 +263,6 @@ namespace POS.DLL.Transaction
             POSEntities context = new POSEntities();
             try
             {
-
                 context.SalesLog.Add(salesLog);
 
                 InvoiceTable invoiceTable = (from y in context.InvoiceTable
@@ -307,12 +287,12 @@ namespace POS.DLL.Transaction
         public bool ConsultSalesOriginCredit(int salesOriginId)
         {
             bool allowCredit = false;
-            var db = new POSEntities();
             try
             {
-                allowCredit = (bool)(from so in db.SalesOrigin
-                                     where so.SalesOriginId == salesOriginId
-                                     select so.AllowCredit).FirstOrDefault();
+                allowCredit = new POSEntities()
+                    .SalesOrigin
+                    .Where(so => so.SalesOriginId == salesOriginId)
+                    .Select(so => so.AllowCredit).FirstOrDefault();
             }
             catch (Exception ex)
             {

@@ -104,10 +104,7 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage("Ocurrio un problema al consultar documento."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message);
+                        functions.ShowMessage("Ocurrio un problema al consultar documento.", ClsEnums.MessageType.ERROR, true, ex.Message);
                     }
 
                     invoiceTable.TransferStatusId = 4;
@@ -146,8 +143,8 @@ namespace POS
         private void ClearInvoice()
         {
             TxtSequence.Text = string.Empty;
-            TxtEmissionPoint.Text = string.Empty;
-            LblInvoiceId.Text = "0";
+            //TxtEmissionPoint.Text = string.Empty;
+            LblInvoiceId.Text = $"{0}";
             LblInvoiceStatus.Text = "PENDIENTE";
             LblCustomerIdentification.Text = "9999999999";
             LblCustomerName.Text = "CONSUMIDOR FINAL";
@@ -170,15 +167,29 @@ namespace POS
 
                 try
                 {
-                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, TxtEmissionPoint.Text, int.Parse(TxtSequence.Text));
+                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
 
                     if (response != null)
                     {
-                        LblInvoiceId.Text = response.InvoiceId.ToString();
-                        LblInvoiceStatus.Text = response.Status;
-                        LblCustomerIdentification.Text = response.Identification;
-                        LblCustomerName.Text = response.CustomerName;
-                        LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
+
+                        if (response.TransferStatusId == (int)ClsEnums.TransferStatus.PENDING_MIGRATE)
+                        {
+                            functions.ShowMessage("La factura aun no ha sido migrada a ERP.", ClsEnums.MessageType.WARNING);
+                            return;
+                        }
+
+                        if (response.Status.Equals("A") || response.Status.Equals("C"))
+                        {
+                            LblInvoiceId.Text = $"{response.InvoiceId}";
+                            LblInvoiceStatus.Text = response.StatusDesc;
+                            LblCustomerIdentification.Text = response.Identification;
+                            LblCustomerName.Text = $"{response.Firtsname} {response.Lastname}";
+                            LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
+                        }
+                        else
+                        {
+                            functions.ShowMessage("La factura ya se encuentra anulada.", ClsEnums.MessageType.WARNING);
+                        }
                     }
                     else
                     {
@@ -198,32 +209,46 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyBoard = new FrmKeyPad
+            using (var emissionPointKeypad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER
-            };
-            keyBoard.ShowDialog();
-            TxtEmissionPoint.Text = keyBoard.checkNumber;
+                inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
+            })
+            {
+                emissionPointKeypad.ShowDialog();
+
+                if (emissionPointKeypad.emissionPoint != string.Empty)
+                {
+                    TxtEmissionPoint.Text = emissionPointKeypad.emissionPoint;
+                }
+            }
         }
 
         private void BtnSeqKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyBoard = new FrmKeyPad
+            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER
-            };
-            keyBoard.ShowDialog();
-            TxtSequence.Text = keyBoard.checkNumber;
+                inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
+            })
+            {
+                sequenceKeyPad.ShowDialog();
+
+                if (sequenceKeyPad.invoiceNumber != string.Empty)
+                {
+                    TxtSequence.Text = sequenceKeyPad.invoiceNumber;
+                }
+            }
         }
 
         private void BtnObservationKeyBoard_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME
-            };
-            keyBoard.ShowDialog();
-            TxtObservation.Text = keyBoard.checkOwnerName;
+                inputFromOption = ClsEnums.InputFromOption.OBSERVATION
+            })
+            {
+                observationKeyboard.ShowDialog();
+                TxtObservation.Text = observationKeyboard.checkOwnerName;
+            }
         }
     }
 }

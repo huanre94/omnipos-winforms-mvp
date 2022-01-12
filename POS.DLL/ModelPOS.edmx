@@ -5180,11 +5180,13 @@
           <Property Type="DateTime" Name="InvoiceDate" Nullable="false" Precision="23" />
           <Property Type="Int64" Name="CustomerId" Nullable="false" />
           <Property Type="String" Name="Identification" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="301" />
           <Property Type="Decimal" Name="Total" Nullable="false" Precision="18" Scale="4" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="1" />
           <Property Type="Int64" Name="ClosingCashierId" Nullable="false" />
           <Property Type="Int32" Name="TransferStatusId" Nullable="false" />
+          <Property Type="String" Name="Firtsname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Lastname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="StatusDesc" Nullable="true" MaxLength="10" />
         </ComplexType>
         <EntityType Name="Customer">
           <Key>
@@ -8074,11 +8076,13 @@
                 <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Identification" ColumnName="Identification" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ClosingCashierId" ColumnName="ClosingCashierId" />
                 <ScalarProperty Name="TransferStatusId" ColumnName="TransferStatusId" />
+                <ScalarProperty Name="Firtsname" ColumnName="Firtsname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="StatusDesc" ColumnName="StatusDesc" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

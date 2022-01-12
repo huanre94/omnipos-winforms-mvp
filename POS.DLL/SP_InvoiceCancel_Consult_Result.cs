@@ -21,10 +21,12 @@ namespace POS.DLL
         public System.DateTime InvoiceDate { get; set; }
         public long CustomerId { get; set; }
         public string Identification { get; set; }
-        public string CustomerName { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
         public long ClosingCashierId { get; set; }
         public int TransferStatusId { get; set; }
+        public string Firtsname { get; set; }
+        public string Lastname { get; set; }
+        public string StatusDesc { get; set; }
     }
 }

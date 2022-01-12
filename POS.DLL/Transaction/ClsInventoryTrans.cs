@@ -40,51 +40,20 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId)
-        {
-            bool response = false;
-            int consult = 0;
-
-            try
-            {
-                consult = new POSEntities()
-                    .PhysicalStockCountingTable
-                    .Count(a => a.EmissionPointId == emissionPoint.EmissionPointId
+        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId) => new POSEntities()
+                .PhysicalStockCountingTable
+                .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
                     && a.Status == "O"
-                    && a.CreatedBy == UserId);
+                    && a.CreatedBy == UserId)
+                .Any();
 
-                if (consult > 0)
-                {
-                    response = true;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            return response;
-        }
-
-        public int GetPendingCounting(EmissionPoint emissionPoint, Int64 UserId)
-        {
-            int id;
-
-            try
-            {
-                id = (from ta in new POSEntities().PhysicalStockCountingTable
-                      where ta.EmissionPointId == emissionPoint.EmissionPointId
-                      && ta.Status == "O"
-                      && ta.CreatedBy == UserId
-                      select ta.PhysicalStockCountingId).FirstOrDefault(); ;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return id;
-        }
+        public int GetPendingCounting(EmissionPoint emissionPoint, long UserId) => new POSEntities()
+                 .PhysicalStockCountingTable
+                 .Where(ta => ta.EmissionPointId == emissionPoint.EmissionPointId
+                       && ta.Status == "O"
+                       && ta.CreatedBy == UserId)
+                 .Select(ta => ta.PhysicalStockCountingId)
+                 .FirstOrDefault();
 
         public List<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id)
         {

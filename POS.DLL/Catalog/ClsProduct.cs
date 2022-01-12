@@ -6,28 +6,6 @@ namespace POS.DLL.Catalog
 {
     public class ClsProduct
     {
-        public List<Product> GetProducts(string _productName)
-        {
-            List<Product> products;
-
-            try
-            {
-                products =
-                        (
-                            from pr in new POSEntities().Product
-                            join bar in new POSEntities().ProductBarcode on pr.ProductId equals bar.ProductId
-                            where pr.Status == "A"
-                            && pr.Name.Contains(_productName)
-                            select pr
-                        ).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return products;
-        }
-
         public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
         {
             List<SP_ProductBarcode_Consult_Result> result;
