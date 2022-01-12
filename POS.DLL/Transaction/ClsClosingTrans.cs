@@ -104,7 +104,8 @@ namespace POS.DLL.Transaction
                     .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId
                     && it.LocationId == emissionPoint.LocationId
                     && it.ClosingCashierIdParent == 0
-                    && it.Type == type)
+                    && it.Type == type
+                    && it.Status == "A")
                     .OrderByDescending(it => it.ClosingCashierId)
                     .Take(1)
                     .Select(it => it.ClosingCashierId)

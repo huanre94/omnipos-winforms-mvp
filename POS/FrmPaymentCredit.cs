@@ -9,7 +9,6 @@ namespace POS
 {
     public partial class FrmPaymentCredit : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public decimal creditLimit;
         public decimal paidAmount;
@@ -19,8 +18,9 @@ namespace POS
         public bool isPresentingCreditCard;
         public long internalCreditCardId;
         public string internalCreditCardCode = string.Empty;
-        ClsEnums.ScaleBrands scaleBrand;
         public int salesOriginId;
+        ClsFunctions functions = new ClsFunctions();
+        ClsEnums.ScaleBrands scaleBrand;
 
         public FrmPaymentCredit()
         {
@@ -90,7 +90,7 @@ namespace POS
                 TxtCreditCardCode.Visible = false;
                 customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
                 decimal _creditLimit = customer.CreditLimit;
-                LblCreditLimit.Text = _creditLimit.ToString("#.00");
+                LblCreditLimit.Text = $"{_creditLimit:#.00}";
                 LblHolderName.Text = customer.Firtsname + " " + customer.Lastname;
                 creditLimit = _creditLimit;
                 response = true;
@@ -244,8 +244,10 @@ namespace POS
                     {
                         if (creditLimit >= paidAmount)
                         {
-                            FrmPayment frmPayment = new FrmPayment();
-                            frmPayment.emissionPoint = emissionPoint;
+                            FrmPayment frmPayment = new FrmPayment
+                            {
+                                emissionPoint = emissionPoint
+                            };
                             TxtCreditCardCode.Text = "";
                             formActionResult = true;
                             Close();

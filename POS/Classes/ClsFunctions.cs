@@ -1,4 +1,6 @@
-﻿using POS.Classes;
+﻿using AxOposScale_CCO;
+using AxOposScanner_CCO;
+using POS.Classes;
 using POS.DLL;
 using POS.DLL.Transaction;
 using System;
@@ -12,8 +14,8 @@ namespace POS
 {
     public class ClsFunctions
     {
-        public AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner { get; set; }
-        public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
+        public AxOPOSScanner AxOPOSScanner { get; set; }
+        public AxOPOSScale AxOPOSScale { get; set; }
 
         public List<GlobalParameter> globalParameters;
         public EmissionPoint emissionPoint;
@@ -62,8 +64,8 @@ namespace POS
 
             if (auth.formActionResult)
             {
-                this.motiveId = auth.motiveId;
                 this.reasonType = auth.reasonType;
+                this.motiveId = auth.motiveId;
                 this.supervisorAuthorization = auth.supervisorAuthorization;
             }
 
@@ -189,7 +191,7 @@ namespace POS
             }
         }
 
-        public bool ValidateCatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+        public bool ValidateCatchWeightProduct(AxOPOSScale _axOposScale,
                                                 decimal _qty,
                                                 string _productName,
                                                 ClsEnums.ScaleBrands _scaleBrand,

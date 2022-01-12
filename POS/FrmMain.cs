@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -46,7 +47,6 @@ namespace POS
         }
 
         #region Global Load Definitions
-
         private void FrmMain_Load(object sender, EventArgs e)
         {
             if (GetEmissionPointInformation())
@@ -206,7 +206,7 @@ namespace POS
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            TxtBarcode.Text = "";
+            TxtBarcode.Text = string.Empty;
             TxtBarcode.Focus();
         }
 
@@ -234,7 +234,7 @@ namespace POS
             };
             keyBoard.ShowDialog();
 
-            if (keyBoard.customerIdentification != "")
+            if (keyBoard.customerIdentification != string.Empty)
             {
                 ClsCustomer clsCustomer = new ClsCustomer();
                 string identification = keyBoard.customerIdentification;
@@ -761,6 +761,29 @@ namespace POS
 
             TxtBarcode.Focus();
         }
+
+        private void BtnAdvance_Click(object sender, EventArgs e)
+        {
+            FrmAdvance advance = new FrmAdvance
+            {
+                _currentCustomer = currentCustomer,
+                emissionPoint = emissionPoint,
+                loginInformation = loginInformation
+            };
+            advance.ShowDialog();
+        }
+
+        private void BtnReturns_Click(object sender, EventArgs e)
+        {
+            FrmReturns returns = new FrmReturns();
+            returns.ShowDialog();
+        }
+
+        private void BtnProductChecker_Click(object sender, EventArgs e)
+        {
+            FrmProductChecker checker = new FrmProductChecker();
+            checker.ShowDialog();
+        }
         #endregion
 
         #region Form Control Events
@@ -813,8 +836,7 @@ namespace POS
 
         #region Main Functions
 
-        private void GetProductInformation(
-                                            short _locationId
+        private void GetProductInformation(short _locationId
                                             , string _barcode
                                             , decimal _qty
                                             , long _customerId
@@ -1169,10 +1191,9 @@ namespace POS
             }
         }
 
-        private void AddRecordToGrid(
-                                        SP_Product_Consult_Result _productResult
+        private void AddRecordToGrid(SP_Product_Consult_Result _productResult
                                         , bool _updateRecord
-                                        , string _barcode // IG002
+                                        , string _barcode
                                     )
         {
             BtnCustomer.Enabled = false;
@@ -1292,27 +1313,5 @@ namespace POS
 
         #endregion
 
-        private void BtnAdvance_Click(object sender, EventArgs e)
-        {
-            FrmAdvance advance = new FrmAdvance
-            {
-                _currentCustomer = currentCustomer,
-                emissionPoint = emissionPoint,
-                loginInformation = loginInformation
-            };
-            advance.ShowDialog();
-        }
-
-        private void BtnReturns_Click(object sender, EventArgs e)
-        {
-            FrmReturns returns = new FrmReturns();
-            returns.ShowDialog();
-        }
-
-        private void BtnProductChecker_Click(object sender, EventArgs e)
-        {
-            FrmProductChecker checker = new FrmProductChecker();
-            checker.ShowDialog();
-        }
     }
 }

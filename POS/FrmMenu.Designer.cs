@@ -218,7 +218,6 @@
             this.BtnInvoiceCancel.Size = new System.Drawing.Size(325, 200);
             this.BtnInvoiceCancel.TabIndex = 134;
             this.BtnInvoiceCancel.Text = "Anulacion\r\nFactura";
-            this.BtnInvoiceCancel.Visible = false;
             this.BtnInvoiceCancel.Click += new System.EventHandler(this.BtnInvoiceCancel_Click);
             // 
             // BtnPhysicalInventory

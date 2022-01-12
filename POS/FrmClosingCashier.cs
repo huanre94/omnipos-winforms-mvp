@@ -14,15 +14,15 @@ namespace POS
 {
     public partial class FrmClosingCashier : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
-        List<SP_ClosingCashierDenominations_Consult_Result> denominations;
-        List<SP_ClosingCashierPartial_Consult_Result> partials;
-        List<SP_ClosingCashierPayment_Consult_Result> payments;
-        GridView selectedGrv;
-        decimal totalHideCash = 0;
+        private List<SP_ClosingCashierDenominations_Consult_Result> denominations;
+        private List<SP_ClosingCashierPartial_Consult_Result> partials;
+        private List<SP_ClosingCashierPayment_Consult_Result> payments;
+        private GridView selectedGrv;
+        private decimal totalHideCash = 0;
 
         public FrmClosingCashier()
         {

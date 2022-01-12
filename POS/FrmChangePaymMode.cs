@@ -1,6 +1,8 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,12 +13,12 @@ namespace POS
     public partial class FrmChangePaymMode : DevExpress.XtraEditors.XtraForm
     {
         public SP_Login_Consult_Result loginInformation;
-        EmissionPoint emissionPoint;
-        ClsFunctions functions = new ClsFunctions();
-        InvoicePayment invoicePayment;
-        SP_InvoicePayment_Consult_Result row;
-        Customer customer;
-        bool allow;
+        private EmissionPoint emissionPoint;
+        private ClsFunctions functions = new ClsFunctions();
+        private InvoicePayment invoicePayment;
+        private SP_InvoicePayment_Consult_Result row;
+        private Customer customer;
+        private bool allowChangePaymode;
 
         public FrmChangePaymMode()
         {
@@ -37,7 +39,7 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            DLL.Catalog.ClsGeneral clsGeneral = new DLL.Catalog.ClsGeneral();
+            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -50,8 +52,7 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
+                    functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión."
                                             , ClsEnums.MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
@@ -78,8 +79,8 @@ namespace POS
 
         private void LoadPaymModes()
         {
-            DLL.Catalog.ClsPaymMode clsPaymMode = new DLL.Catalog.ClsPaymMode();
-            List<DLL.PaymMode> paymModes;
+            ClsPaymMode clsPaymMode = new ClsPaymMode();
+            List<PaymMode> paymModes;
 
             try
             {
@@ -98,9 +99,8 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                           "Ocurrio un problema al catálogo de formas de pago."
-                                           , ClsEnums.MessageType.ERROR
+                functions.ShowMessage("Ocurrio un problema al catálogo de formas de pago.",
+                    ClsEnums.MessageType.ERROR
                                            , true
                                            , ex.Message
                                        );
@@ -109,16 +109,20 @@ namespace POS
 
         private void BtnKeypadEmission_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
+            };
             keyPad.ShowDialog();
             TxtEmissionPoint.Text = keyPad.emissionPoint;
         }
 
         private void BtnKeypadInvoice_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
+            };
             keyPad.ShowDialog();
             TxtInvoiceNumber.Text = keyPad.invoiceNumber;
         }
@@ -138,8 +142,8 @@ namespace POS
                                             , string _invoiceNumber
                                             )
         {
-            DLL.Transaction.ClsInvoiceTrans invoiceTrans = new DLL.Transaction.ClsInvoiceTrans();
-            DLL.Catalog.ClsCustomer clsCustomer = new DLL.Catalog.ClsCustomer();
+            ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
+            ClsCustomer clsCustomer = new ClsCustomer();
             List<SP_InvoicePayment_Consult_Result> payments;
 
             try
@@ -154,8 +158,10 @@ namespace POS
                 {
                     if (payments.Count > 0)
                     {
-                        BindingList<SP_InvoicePayment_Consult_Result> bindingList = new BindingList<SP_InvoicePayment_Consult_Result>(payments);
-                        bindingList.AllowNew = true;
+                        BindingList<SP_InvoicePayment_Consult_Result> bindingList = new BindingList<SP_InvoicePayment_Consult_Result>(payments)
+                        {
+                            AllowNew = true
+                        };
                         customer = clsCustomer.GetCustomerById(payments.First().CustomerId);
 
                         GrcPayments.DataSource = bindingList;
@@ -169,8 +175,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de pagos de factura."
+                functions.ShowMessage("Ocurrio un problema al cargar lista de pagos de factura."
                                         , ClsEnums.MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
@@ -192,66 +197,84 @@ namespace POS
             }
             else
             {
-                allow = false;
+                allowChangePaymode = false;
                 row = (SP_InvoicePayment_Consult_Result)GrvPayments.GetRow(_rowIndex);
 
-                if ((int)CmbPaymMode.EditValue == (int)ClsEnums.PaymModeEnum.DEBITO_BANCARIO || (int)CmbPaymMode.EditValue == (int)ClsEnums.PaymModeEnum.TARJETA_CREDITO)
+                switch ((int)CmbPaymMode.EditValue)
                 {
-                    FrmPaymentCard paymentCard = new FrmPaymentCard();
-                    paymentCard.creditCardAmount = row.Amount;
-                    paymentCard.customer = customer;
-                    paymentCard.ShowDialog();
+                    case (int)ClsEnums.PaymModeEnum.DEBITO_BANCARIO:
+                    case (int)ClsEnums.PaymModeEnum.TARJETA_CREDITO:
+                        FrmPaymentCard paymentCard = new FrmPaymentCard
+                        {
+                            creditCardAmount = row.Amount,
+                            customer = customer
+                        };
+                        paymentCard.ShowDialog();
 
-                    if (paymentCard.processResponse)
-                    {
-                        allow = paymentCard.processResponse;
-                        invoicePayment = new InvoicePayment();
-                        invoicePayment.PaymModeId = (int)CmbPaymMode.EditValue;
-                        invoicePayment.BankId = paymentCard.bankId;
-                        invoicePayment.CreditCardId = paymentCard.creditCardId;
-                        invoicePayment.Authorization = paymentCard.authorization;
-                    }
-                }
-                else if ((int)CmbPaymMode.EditValue == (int)ClsEnums.PaymModeEnum.CHEQUE_DIA || (int)CmbPaymMode.EditValue == (int)ClsEnums.PaymModeEnum.CHEQUE_POST)
-                {
-                    FrmPaymentCheck paymentCheck = new FrmPaymentCheck();
-                    paymentCheck.checkAmount = row.Amount;
-                    paymentCheck.customer = customer;
-                    paymentCheck.ShowDialog();
+                        if (paymentCard.processResponse)
+                        {
+                            allowChangePaymode = paymentCard.processResponse;
+                            invoicePayment = new InvoicePayment
+                            {
+                                PaymModeId = (int)CmbPaymMode.EditValue,
+                                BankId = paymentCard.bankId,
+                                CreditCardId = paymentCard.creditCardId,
+                                Authorization = paymentCard.authorization
+                            };
+                        }
+                        break;
 
-                    if (paymentCheck.processResponse)
-                    {
-                        allow = paymentCheck.processResponse;
-                        invoicePayment = new InvoicePayment();
-                        invoicePayment.PaymModeId = (int)CmbPaymMode.EditValue;
-                        invoicePayment.CheckOwner = paymentCheck.checkOwnerName;
-                        invoicePayment.BankId = paymentCheck.checkBankId;
-                        invoicePayment.CkeckType = "";
-                        invoicePayment.CkeckDate = paymentCheck.checkDate;
-                        invoicePayment.AccountNumber = paymentCheck.checkAccountNumber;
-                        invoicePayment.CkeckNumber = paymentCheck.checkNumber;
-                        invoicePayment.Authorization = paymentCheck.checkAuthorization;
-                    }
-                }
-                else if ((int)CmbPaymMode.EditValue == (int)ClsEnums.PaymModeEnum.BONO)
-                {
-                    FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard();
-                    paymentGiftcard.paidAmount = row.Amount;
-                    paymentGiftcard.ShowDialog();
+                    case (int)ClsEnums.PaymModeEnum.CHEQUE_DIA:
+                    case (int)ClsEnums.PaymModeEnum.CHEQUE_POST:
+                        FrmPaymentCheck paymentCheck = new FrmPaymentCheck
+                        {
+                            checkAmount = row.Amount,
+                            customer = customer
+                        };
+                        paymentCheck.ShowDialog();
 
-                    if (paymentGiftcard.formActionResult)
-                    {
-                        allow = paymentGiftcard.formActionResult;
-                        invoicePayment = new InvoicePayment();
-                        invoicePayment.PaymModeId = (int)CmbPaymMode.EditValue;
-                        invoicePayment.GiftCardNumber = paymentGiftcard.giftcardNumber;
-                    }
-                }
-                else
-                {
-                    allow = true;
-                    invoicePayment = new InvoicePayment();
-                    invoicePayment.PaymModeId = (int)CmbPaymMode.EditValue;
+                        if (paymentCheck.processResponse)
+                        {
+                            allowChangePaymode = paymentCheck.processResponse;
+                            invoicePayment = new InvoicePayment
+                            {
+                                PaymModeId = (int)CmbPaymMode.EditValue,
+                                CheckOwner = paymentCheck.checkOwnerName,
+                                BankId = paymentCheck.checkBankId,
+                                CkeckType = "",
+                                CkeckDate = paymentCheck.checkDate,
+                                AccountNumber = paymentCheck.checkAccountNumber,
+                                CkeckNumber = paymentCheck.checkNumber,
+                                Authorization = paymentCheck.checkAuthorization
+                            };
+                        }
+                        break;
+
+                    case (int)ClsEnums.PaymModeEnum.BONO:
+                        FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard
+                        {
+                            paidAmount = row.Amount
+                        };
+                        paymentGiftcard.ShowDialog();
+
+                        if (paymentGiftcard.formActionResult)
+                        {
+                            allowChangePaymode = paymentGiftcard.formActionResult;
+                            invoicePayment = new InvoicePayment
+                            {
+                                PaymModeId = (int)CmbPaymMode.EditValue,
+                                GiftCardNumber = paymentGiftcard.giftcardNumber
+                            };
+                        }
+                        break;
+
+                    default:
+                        allowChangePaymode = true;
+                        invoicePayment = new InvoicePayment
+                        {
+                            PaymModeId = (int)CmbPaymMode.EditValue
+                        };
+                        break;
                 }
             }
         }
@@ -263,12 +286,11 @@ namespace POS
 
         private void ChangePaymMode()
         {
-            DLL.Transaction.ClsInvoiceTrans invoiceTrans = new DLL.Transaction.ClsInvoiceTrans();
+            ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
 
-            if (allow)
+            if (allowChangePaymode)
             {
                 functions.emissionPoint = emissionPoint;
-
                 if (emissionPoint != null ? functions.RequestSupervisorAuth() : true)
                 {
                     try
@@ -293,8 +315,7 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage(
-                                                "Ocurrió un problema al actualizar forma de pago."
+                        functions.ShowMessage("Ocurrió un problema al actualizar forma de pago."
                                                 , ClsEnums.MessageType.ERROR
                                                 , true
                                                 , ex.InnerException.Message

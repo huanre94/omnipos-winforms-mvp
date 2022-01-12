@@ -44,11 +44,13 @@ namespace POS
                     return;
                 }
 
-                SP_RemissionGuide_Consult_Result rv = (SP_RemissionGuide_Consult_Result)GrvRemissionGuide.GetRow(GrvRemissionGuide.FocusedRowHandle);
-                FrmRemissionGuideOrderToInvoice frm = new FrmRemissionGuideOrderToInvoice();
-                frm.remission = rv;
-                frm.emissionPoint = emissionPoint;
-                frm.loginInformation = loginInformation;
+                SP_RemissionGuide_Consult_Result remissionGuideConsult = (SP_RemissionGuide_Consult_Result)GrvRemissionGuide.GetRow(GrvRemissionGuide.FocusedRowHandle);
+                FrmRemissionGuideOrderToInvoice frm = new FrmRemissionGuideOrderToInvoice
+                {
+                    remission = remissionGuideConsult,
+                    emissionPoint = emissionPoint,
+                    loginInformation = loginInformation
+                };
                 frm.ShowDialog();
 
                 if (frm.isUpdated)
@@ -113,7 +115,7 @@ namespace POS
             bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
+            if (addressIP != string.Empty)
             {
                 try
                 {

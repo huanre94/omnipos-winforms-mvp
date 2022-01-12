@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraEditors.Controls;
+﻿using AxOposScanner_CCO;
+using DevExpress.XtraEditors.Controls;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Transaction;
@@ -13,7 +14,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public EmissionPoint emissionPoint;
-        public AxOposScanner_CCO.AxOPOSScanner scanner;
+        public AxOPOSScanner scanner;
         public int motiveId;
         public string supervisorAuthorization;
         public bool requireMotive;
@@ -76,7 +77,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Bancos."
+                                        "Ocurrio un problema al cargar lista de motivos de anulacion."
                                         , ClsEnums.MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
@@ -95,12 +96,11 @@ namespace POS
                     {
                         if (CmbMotive.SelectedItem != null)
                         {
-                            ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
                             SP_Supervisor_Validate_Result result;
 
                             try
                             {
-                                result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+                                result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
 
                                 if (result != null)
                                 {
@@ -109,7 +109,7 @@ namespace POS
 
                                         if (CmbMotive.SelectedItem != null)
                                         {
-                                            motiveId = int.Parse(CmbMotive.EditValue.ToString());
+                                            motiveId = int.Parse($"{CmbMotive.EditValue}");
                                         }
 
                                         formActionResult = true;
@@ -127,8 +127,8 @@ namespace POS
                                     }
                                     else
                                     {
-                                        functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                        this.DialogResult = DialogResult.None;
+                                        functions.ShowMessage("Ocurrio un problema al procesar transaccion.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
+                                        DialogResult = DialogResult.None;
                                     }
                                 }
                                 else
@@ -188,7 +188,7 @@ namespace POS
                                 else
                                 {
                                     functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                    this.DialogResult = DialogResult.None;
+                                    DialogResult = DialogResult.None;
                                 }
                             }
                             else

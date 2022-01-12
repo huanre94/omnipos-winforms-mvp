@@ -30,7 +30,7 @@ namespace POS.DLL.Transaction
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
 
             return result;
@@ -50,7 +50,7 @@ namespace POS.DLL.Transaction
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
 
             return invoiceResult;
@@ -67,7 +67,7 @@ namespace POS.DLL.Transaction
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
 
             return invoiceTicketResult;
@@ -115,7 +115,7 @@ namespace POS.DLL.Transaction
             return consult;
         }
 
-        public Int64 ConsultLastInvoice(EmissionPoint emissionPoint)
+        public long ConsultLastInvoice(EmissionPoint emissionPoint)
         {
             POSEntities pos = new POSEntities();
             long consult;
@@ -231,7 +231,7 @@ namespace POS.DLL.Transaction
             return response;
         }
 
-        public InvoiceTable ConsultInvoice(Int64 invoiceId)
+        public InvoiceTable ConsultInvoice(long invoiceId)
         {
             POSEntities pos = new POSEntities();
             InvoiceTable invoiceTable;
@@ -252,14 +252,14 @@ namespace POS.DLL.Transaction
         {
             POSEntities pos = new POSEntities();
             SP_InvoiceCancel_Consult_Result response;
-            EmissionPoint point;
+            EmissionPoint _emissionPoint;
 
             try
             {
-                point = (from y in pos.EmissionPoint
-                         where y.Emission == emission
-                         && y.LocationId == emissionPoint.LocationId
-                         select y).First();
+                _emissionPoint = (from y in pos.EmissionPoint
+                                  where y.Emission == emission
+                                  && y.LocationId == emissionPoint.LocationId
+                                  select y).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -268,7 +268,7 @@ namespace POS.DLL.Transaction
 
             try
             {
-                response = pos.SP_InvoiceCancel_Consult(emissionPoint.LocationId, point.EmissionPointId, invoiceNumber).FirstOrDefault();
+                response = pos.SP_InvoiceCancel_Consult(emissionPoint.LocationId, _emissionPoint.EmissionPointId, invoiceNumber).FirstOrDefault();
             }
             catch (Exception ex)
             {

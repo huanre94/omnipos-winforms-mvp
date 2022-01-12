@@ -9,7 +9,7 @@ namespace POS
 {
     public partial class FrmInvoiceCancel : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
         EmissionPoint emissionPoint;
@@ -31,21 +31,18 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
-
             bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
+            if (addressIP != string.Empty)
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
+                    functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión."
                                             , ClsEnums.MessageType.ERROR
                                             , true
                                             , ex.Message
@@ -75,7 +72,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (decimal.Parse(LblInvoiceId.Text) <= 0)
+            if (long.Parse(LblInvoiceId.Text) <= 0)
             {
                 functions.ShowMessage("Debe seleccionar una factura valida", ClsEnums.MessageType.WARNING);
             }
@@ -107,8 +104,7 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage(
-                                            "Ocurrio un problema al consultar documento."
+                        functions.ShowMessage("Ocurrio un problema al consultar documento."
                                             , ClsEnums.MessageType.ERROR
                                             , true
                                             , ex.Message);
@@ -128,8 +124,7 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage(
-                                            "Ocurrio un problema al cargar venta anulada."
+                        functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
                                             , ClsEnums.MessageType.ERROR
                                             , true
                                             , ex.Message);
@@ -137,6 +132,7 @@ namespace POS
 
                     if (invoiceCancel)
                     {
+                        functions.ShowMessage("Factura anulada correctamente.", ClsEnums.MessageType.INFO);
                         ClearInvoice();
                     }
                     else
@@ -155,7 +151,7 @@ namespace POS
             LblInvoiceStatus.Text = "PENDIENTE";
             LblCustomerIdentification.Text = "9999999999";
             LblCustomerName.Text = "CONSUMIDOR FINAL";
-            LblInvoiceAmount.Text = $"${0}";
+            LblInvoiceAmount.Text = $"$ {0:0.##}";
             TxtObservation.Text = string.Empty;
         }
 
@@ -182,7 +178,7 @@ namespace POS
                         LblInvoiceStatus.Text = response.Status;
                         LblCustomerIdentification.Text = response.Identification;
                         LblCustomerName.Text = response.CustomerName;
-                        LblInvoiceAmount.Text = $"$ {response.Total}";
+                        LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
                     }
                     else
                     {
@@ -192,8 +188,7 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                                "Ocurrio un problema al cargar venta anulada."
+                    functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
                                                 , ClsEnums.MessageType.ERROR
                                                 , true
                                                 , ex.InnerException.Message);
@@ -203,24 +198,30 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyBoard = new FrmKeyPad();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
+            FrmKeyPad keyBoard = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER
+            };
             keyBoard.ShowDialog();
             TxtEmissionPoint.Text = keyBoard.checkNumber;
         }
 
         private void BtnSeqKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyBoard = new FrmKeyPad();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
+            FrmKeyPad keyBoard = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER
+            };
             keyBoard.ShowDialog();
             TxtSequence.Text = keyBoard.checkNumber;
         }
 
         private void BtnObservationKeyBoard_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
+            FrmKeyBoard keyBoard = new FrmKeyBoard
+            {
+                inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME
+            };
             keyBoard.ShowDialog();
             TxtObservation.Text = keyBoard.checkOwnerName;
         }

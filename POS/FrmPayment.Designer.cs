@@ -240,7 +240,7 @@
             // 
             this.LblTitleTotal.AutoSize = true;
             this.LblTitleTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTitleTotal.Location = new System.Drawing.Point(17, 66);
+            this.LblTitleTotal.Location = new System.Drawing.Point(13, 66);
             this.LblTitleTotal.Name = "LblTitleTotal";
             this.LblTitleTotal.Size = new System.Drawing.Size(124, 34);
             this.LblTitleTotal.TabIndex = 147;
@@ -250,9 +250,9 @@
             // 
             this.LblTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblTotal.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F);
-            this.LblTotal.Location = new System.Drawing.Point(141, 65);
+            this.LblTotal.Location = new System.Drawing.Point(136, 66);
             this.LblTotal.Name = "LblTotal";
-            this.LblTotal.Size = new System.Drawing.Size(136, 34);
+            this.LblTotal.Size = new System.Drawing.Size(128, 34);
             this.LblTotal.TabIndex = 148;
             this.LblTotal.Text = "00.00";
             this.LblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -425,7 +425,7 @@
             // 
             this.LblTitlePaid.AutoSize = true;
             this.LblTitlePaid.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePaid.Location = new System.Drawing.Point(627, 451);
+            this.LblTitlePaid.Location = new System.Drawing.Point(625, 451);
             this.LblTitlePaid.Name = "LblTitlePaid";
             this.LblTitlePaid.Size = new System.Drawing.Size(102, 22);
             this.LblTitlePaid.TabIndex = 155;
@@ -445,7 +445,7 @@
             // 
             this.LblTitlePending.AutoSize = true;
             this.LblTitlePending.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitlePending.Location = new System.Drawing.Point(605, 482);
+            this.LblTitlePending.Location = new System.Drawing.Point(603, 482);
             this.LblTitlePending.Name = "LblTitlePending";
             this.LblTitlePending.Size = new System.Drawing.Size(124, 22);
             this.LblTitlePending.TabIndex = 157;
@@ -520,7 +520,7 @@
             // 
             this.LblTitleChange.AutoSize = true;
             this.LblTitleChange.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblTitleChange.Location = new System.Drawing.Point(626, 514);
+            this.LblTitleChange.Location = new System.Drawing.Point(625, 511);
             this.LblTitleChange.Name = "LblTitleChange";
             this.LblTitleChange.Size = new System.Drawing.Size(102, 22);
             this.LblTitleChange.TabIndex = 165;

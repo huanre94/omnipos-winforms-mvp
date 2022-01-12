@@ -240,7 +240,7 @@ namespace POS
                 ClearGiftCard();
             }
         }
-      
+
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             if (TxtGiftCardNumber.Text.Equals(""))

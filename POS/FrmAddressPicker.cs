@@ -14,15 +14,15 @@ namespace POS
 {
     public partial class FrmAddressPicker : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public Customer currentCustomer;
-        List<CustomerAddress> addressList;
         public CustomerAddress response;
-        bool newAddress = false;
         public bool formResult;
         public long addressId;
+        readonly ClsFunctions functions = new ClsFunctions();
+        bool newAddress = false;
+        List<CustomerAddress> addressList;
 
 
         public FrmAddressPicker()

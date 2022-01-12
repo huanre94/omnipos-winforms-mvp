@@ -4,6 +4,7 @@ using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
@@ -46,13 +47,21 @@ namespace POS
         {
             if (ValidateCustomerFields())
             {
-                bool allowLogin;
-                allowLogin = GetLoginInformation(
-                                                TxtUsername.Text
-                                                , TxtPassword.Text
-                                                , Environment.MachineName
-                                                , GetLocalIPAddress()
-                                                );
+                bool allowLogin = false;
+                var ipAddressList = GetLocalIPAddress();
+
+                foreach (var item in ipAddressList)
+                {
+                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, item);
+                    if (allowLogin)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
 
                 if (allowLogin && GetGlobalParameters())
                 {
@@ -155,23 +164,22 @@ namespace POS
             return response;
         }
 
-        private string GetLocalIPAddress()
+        private List<string> GetLocalIPAddress()
         {
-            string addressIP = "";
-            bool networkOK = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            List<string> addressIP = new List<string>();
+            bool networkOK = NetworkInterface.GetIsNetworkAvailable();
 
             if (networkOK)
             {
                 try
                 {
-
                     var host = Dns.GetHostEntry(Dns.GetHostName());
 
                     foreach (var ip in host.AddressList)
                     {
                         if (ip.AddressFamily == AddressFamily.InterNetwork)
                         {
-                            addressIP = ip.ToString();
+                            addressIP.Add($"{ip}");
                         }
                     }
 
@@ -196,16 +204,20 @@ namespace POS
 
         private void BtnKeypadUsername_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.LOGIN_USERNAME;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.LOGIN_USERNAME
+            };
             keyPad.ShowDialog();
             TxtUsername.Text = keyPad.loginUsername;
         }
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
+            };
             keyPad.ShowDialog();
             TxtPassword.Text = keyPad.loginPassword;
         }

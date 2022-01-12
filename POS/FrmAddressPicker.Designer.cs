@@ -307,7 +307,7 @@
             // FrmAddressPicker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(739, 436);
+            this.ClientSize = new System.Drawing.Size(747, 444);
             this.ControlBox = false;
             this.Controls.Add(this.BtnModify);
             this.Controls.Add(this.label1);

@@ -1,4 +1,5 @@
-﻿using POS.Classes;
+﻿using AxOposScale_CCO;
+using POS.Classes;
 using POS.DLL;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace POS
 {
     public partial class FrmCatchWeight : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
-        public AxOposScale_CCO.AxOPOSScale axOposScale;
+        readonly ClsFunctions functions = new ClsFunctions();
+        public AxOPOSScale axOposScale;
         public bool formActionResult;
         public decimal weight;
         public string productName = string.Empty;
+        public List<GlobalParameter> globalParameters;
         private ClsCatchWeight catchWeight;
-        public List<DLL.GlobalParameter> globalParameters;
-        string strWaitTime = string.Empty;
+        private string strWaitTime = string.Empty;
 
         public ClsEnums.ScaleBrands ScaleBrand { get; set; }
         public string PortName { get; set; }
@@ -48,7 +49,7 @@ namespace POS
                     LblTitle.Text = string.Empty;
                     BtnCatchWeight.Visible = false;
 
-                    if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != "")
+                    if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != string.Empty)
                     {
                         catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
                         catchWeight.OpenScale();
@@ -165,7 +166,7 @@ namespace POS
                 if (catchWeight.Weight > 0)
                 {
                     weight = catchWeight.Weight;
-                    LblCatchedWeight.Text = weight.ToString();
+                    LblCatchedWeight.Text = $"{weight}";
                     LblTitle.Text = "Peso Capturado Correctamente";
                     LblTitle.ForeColor = Color.Green;
                     formActionResult = true;

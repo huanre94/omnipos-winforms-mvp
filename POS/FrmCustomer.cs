@@ -11,7 +11,7 @@ namespace POS
 {
     public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public string customerIdentification;
         public bool isNewCustomer;
         public EmissionPoint emissionPoint;
@@ -171,8 +171,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar tipos de identificación."
+                functions.ShowMessage("Ocurrio un problema al cargar tipos de identificación."
                                         , ClsEnums.MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
@@ -248,7 +247,6 @@ namespace POS
                             {
                                 functions.ShowMessage("El cliente se actualizó exitosamente.");
                             }
-
                         }
                         else
                         {
@@ -258,8 +256,7 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al crear / actualizar cliente."
+                    functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente."
                                             , ClsEnums.MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
@@ -294,7 +291,7 @@ namespace POS
                     else
                     {
                         functions.ShowMessage(validateResult.Text, ClsEnums.MessageType.WARNING);
-                        TxtIdentification.Text = "";
+                        TxtIdentification.Text = string.Empty;
                     }
                 }
             }
@@ -323,16 +320,16 @@ namespace POS
         {
             bool response = false;
 
-            if (CmbIdenType.Text != "" && TxtIdentification.Text != ""
-                && TxtFirstName.Text != "" && TxtLastName.Text != ""
-                && TxtAddress.Text != "" && TxtPhone.Text != "")
+            if (CmbIdenType.Text != string.Empty && TxtIdentification.Text != string.Empty
+                 && TxtFirstName.Text != string.Empty && TxtLastName.Text != string.Empty
+                 && TxtAddress.Text != string.Empty && TxtPhone.Text != string.Empty)
             {
                 response = true;
             }
             else
             {
                 functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
 
             return response;
