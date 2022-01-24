@@ -16,7 +16,6 @@ namespace POS
     {
         public AxOPOSScanner AxOPOSScanner { get; set; }
         public AxOPOSScale AxOPOSScale { get; set; }
-
         public List<GlobalParameter> globalParameters;
         public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
@@ -64,9 +63,9 @@ namespace POS
 
             if (auth.formActionResult)
             {
-                this.reasonType = auth.reasonType;
-                this.motiveId = auth.motiveId;
-                this.supervisorAuthorization = auth.supervisorAuthorization;
+                reasonType = auth.reasonType;
+                motiveId = auth.motiveId;
+                supervisorAuthorization = auth.supervisorAuthorization;
             }
 
             return auth.formActionResult;
@@ -243,7 +242,7 @@ namespace POS
         /// <param name="_scaleBrand"></param>
         /// <param name="_portName"></param>
         /// <returns></returns>
-        public decimal CatchWeightProduct(AxOposScale_CCO.AxOPOSScale _axOposScale,
+        public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
                                     string _productName,
                                     ClsEnums.ScaleBrands _scaleBrand,
                                     string _portName = "")

@@ -19,13 +19,13 @@ namespace POS.Classes
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
         public ClsEnums.ScaleBrands ScaleBrand
         {
-            get { return this.scaleBrand; }
+            get { return scaleBrand; }
             set
             {
-                this.scaleBrand = value;
+                scaleBrand = value;
                 if (value != ClsEnums.ScaleBrands.DATALOGIC)
                 {
-                    if (this.serialPort.IsOpen)
+                    if (serialPort.IsOpen)
                     {
                         CloseScale();
                     }
@@ -34,36 +34,15 @@ namespace POS.Classes
                 }
             }
         }
-        public bool IsOpen
-        {
-            get
-            {
-                if (serialPort != null)
-                    return this.serialPort.IsOpen;
-                else
-                    return false;
-            }
-        }
+        public bool IsOpen => serialPort != null ? serialPort.IsOpen : false;
 
-        public SerialPort Serial
-        { get { return serialPort; } }
+        public SerialPort Serial { get { return serialPort; } }
 
-        public decimal Weight
-        {
-            get { return this.weight; }
-        }
+        public decimal Weight { get { return weight; } }
 
-        public System.Windows.Forms.Control ControlToShowText
-        {
-            get;
-            set;
-        }
+        public System.Windows.Forms.Control ControlToShowText { get; set; }
 
-        public string PortName
-        {
-            get { return this.portName; }
-            set { this.portName = value; }
-        }
+        public string PortName { get { return portName; } set { portName = value; } }
 
         public ClsCatchWeight(
                                 ClsEnums.ScaleBrands _scaleBrand
@@ -73,11 +52,11 @@ namespace POS.Classes
                                 , bool _useCatchWeight = false
                             )
         {
-            this.scaleBrand = _scaleBrand;
-            this.portName = _portName;
-            this.useScanner = _useScanner;
-            this.requestWeight = _requestWeight;
-            this.useCatchWeight = _useCatchWeight;
+            scaleBrand = _scaleBrand;
+            portName = _portName;
+            useScanner = _useScanner;
+            requestWeight = _requestWeight;
+            useCatchWeight = _useCatchWeight;
         }
 
         public delegate void UpdateControlText(string _text);
@@ -156,36 +135,49 @@ namespace POS.Classes
         {
             try
             {
-                if (this.scaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                if (scaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
                 {
                     // SerialPortFixer.Execute(this.portName);
                     //serial = new SerialPort(this.portName, 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-                    serialPort = new SerialPort(this.portName, 38400, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-                    serialPort.PortName = this.portName;
-                    serialPort.RtsEnable = true;
-                    serialPort.Open();
-
-                    if (serialPort.IsOpen)
+                    using (serialPort = new SerialPort(portName, 38400, Parity.None, 8, StopBits.One)
                     {
-                        if (this.scaleBrand == ClsEnums.ScaleBrands.CAS)
-                        {
-                            serialPort.NewLine = "\n";
-                            serialPort.WriteLine("P");
-                        }
-                        else if (this.scaleBrand == ClsEnums.ScaleBrands.METTLER_TOLEDO)
-                        {
-                            serialPort.NewLine = "\r";
-                        }
-                        else if (this.scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                        {
-                            serialPort.NewLine = "\r";
-                        }
+                        PortName = portName,
+                        RtsEnable = true
+                    })
+                    {
+                        serialPort.Open();
 
-                        if (requestWeight)
+                        if (serialPort.IsOpen)
                         {
-                            serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
+                            switch (scaleBrand)
+                            {
+                                case ClsEnums.ScaleBrands.CAS:
+                                    {
+                                        serialPort.NewLine = "\n";
+                                        serialPort.WriteLine("P");
+                                        break;
+                                    }
+
+
+                                case ClsEnums.ScaleBrands.METTLER_TOLEDO:
+                                    {
+                                        serialPort.NewLine = "\r";
+                                        break;
+                                    }
+                                case ClsEnums.ScaleBrands.DATALOGIC:
+                                    {
+                                        serialPort.NewLine = "\r";
+                                        break;
+                                    }
+                            }
+
+                            if (requestWeight)
+                            {
+                                serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
+                            }
                         }
-                    }
+                    };
+
                 }
             }
             catch (Exception ex)
@@ -254,8 +246,9 @@ namespace POS.Classes
         public void CloseScale()
         {
             if (serialPort.IsOpen)
-                this.serialPort.Close();
-
+            {
+                serialPort.Close();
+            }
             //if (ControlToShowText != null)
             //    ControlToShowText.BeginInvoke(new UpdateControlText(this.UpdateText), new object[] { "" });
         }

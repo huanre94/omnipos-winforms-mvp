@@ -12,7 +12,7 @@ namespace POS
 {
     public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
         List<GlobalParameter> globalParameters = new List<GlobalParameter>();
 

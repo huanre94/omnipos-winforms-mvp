@@ -12,9 +12,7 @@ namespace POS.DLL.Catalog
 
             try
             {
-                globalParameters = (from par in new POSEntities().GlobalParameter
-                                    select par
-                                    ).ToList();
+                globalParameters = new POSEntities().GlobalParameter.ToList();
             }
             catch (Exception ex)
             {
@@ -30,11 +28,7 @@ namespace POS.DLL.Catalog
 
             try
             {
-                parameter = (from par in new POSEntities().GlobalParameter
-                             where par.Name == _name
-                             && par.Status == "A"
-                             select par
-                            ).FirstOrDefault();
+                parameter = new POSEntities().GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -88,13 +82,13 @@ namespace POS.DLL.Catalog
 
             try
             {
-                sequenceTable = (from seq in new POSEntities().SequenceTable
-                                 where seq.EmissionPointId == _emissionPointId
+                sequenceTable = new POSEntities()
+                    .SequenceTable
+                    .Where(seq => seq.EmissionPointId == _emissionPointId
                                  && seq.LocationId == _locationId
                                  && seq.SequenceTypeId == _sequenceType
-                                 && seq.Status == "A"
-                                 select seq
-                                ).FirstOrDefault();
+                                 && seq.Status == "A")
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {

@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -1087,7 +1086,6 @@ namespace POS
                     {
                         ClearInvoice();
 
-                        //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
                         if (functions.PrintDocument((long)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");

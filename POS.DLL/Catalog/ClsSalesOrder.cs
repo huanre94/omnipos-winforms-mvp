@@ -9,7 +9,7 @@ namespace POS.DLL.Catalog
         public SP_Login_Consult_Result loginInformation;
 
         public List<SalesOrderStatus> GetSalesOrderStatus()
-        {            
+        {
             List<SalesOrderStatus> salesOrderStatus;
 
             try

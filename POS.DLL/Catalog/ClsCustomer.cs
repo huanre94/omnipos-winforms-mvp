@@ -99,7 +99,7 @@ namespace POS.DLL.Catalog
         }
 
         public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
-        {            
+        {
             List<CustomerAddress> result;
             try
             {
