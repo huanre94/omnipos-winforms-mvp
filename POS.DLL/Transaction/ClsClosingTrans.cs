@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -117,6 +118,16 @@ namespace POS.DLL.Transaction
             }
 
             return consult;
+        }
+
+        public bool PendingClosings(long emissionPointId)
+        {
+            return new POSEntities()
+                .InvoiceTable
+                .Where(inv => inv.ClosingCashierId == 0
+                && DbFunctions.TruncateTime(inv.InvoiceDate) == DbFunctions.TruncateTime(DateTime.Today)
+                && inv.EmissionPointId == emissionPointId)
+                .Any();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
-        public static EmissionPoint emissionPoint;
+        //public static EmissionPoint emissionPoint;
 
         public FrmMenu()
         {
@@ -21,8 +23,12 @@ namespace POS
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
-            LblUsername.Text = loginInformation.UserName;
-            LblVersion.Text = functions.GetPublishVersion() ?? "";
+            if (GetEmissionPointInformation())
+            {
+                LblUsername.Text = loginInformation.UserName;
+                LblVersion.Text = functions.GetPublishVersion() ?? "";
+            }
+
         }
 
         private void BtnLogOut_Click(object sender, EventArgs e)
@@ -172,6 +178,51 @@ namespace POS
             {
                 functions.ShowMessage("La toma de inventario no se encuentra habilitada.", ClsEnums.MessageType.WARNING);
             }
+        }
+
+        private bool GetEmissionPointInformation()
+        {
+            EmissionPoint emissionPoint = null;
+            ClsGeneral clsGeneral = new ClsGeneral();
+
+            bool response = false;
+            string addressIP = loginInformation.AddressIP;
+
+            if (addressIP != "")
+            {
+                try
+                {
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al cargar información de punto de emisión."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
+                }
+            }
+            else
+            {
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+            }
+
+            if (emissionPoint != null)
+            {
+                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId);
+                if (pendingClosing)
+                {
+                    functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
+                }
+            }
+            else
+            {
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+            }
+
+            return response;
         }
     }
 }
