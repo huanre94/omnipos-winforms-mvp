@@ -120,13 +120,14 @@ namespace POS.DLL.Transaction
             return consult;
         }
 
-        public bool PendingClosings(long emissionPointId)
+        public bool PendingClosings(long emissionPointId, int userId)
         {
             return new POSEntities()
                 .InvoiceTable
                 .Where(inv => inv.ClosingCashierId == 0
                 && DbFunctions.TruncateTime(inv.InvoiceDate) == DbFunctions.TruncateTime(DateTime.Today)
-                && inv.EmissionPointId == emissionPointId)
+                && inv.EmissionPointId == emissionPointId
+                && inv.CreatedBy != userId)
                 .Any();
         }
     }
