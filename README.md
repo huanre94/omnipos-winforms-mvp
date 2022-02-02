@@ -1,3 +1,6 @@
+# Requirements
+DevExpress 20.1.3
+
 # Build Routes
 ### DEV
 > 192.168.17.120\shared\OmniPOS\
