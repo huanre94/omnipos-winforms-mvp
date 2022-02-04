@@ -3,6 +3,7 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -50,9 +51,9 @@ namespace POS
                 bool allowLogin = false;
                 var ipAddressList = GetLocalIPAddress();
 
-                foreach (var item in ipAddressList)
+                foreach (var ipAddress in ipAddressList)
                 {
-                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, item);
+                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress);
                     if (allowLogin)
                     {
                         break;
@@ -96,7 +97,7 @@ namespace POS
                                                     _identification
                                                     , _password
                                                     , _workstation
-                                                    , _addressIP
+                                                    , "192.168.12.26"//_addressIP
                                                     );
 
                 if (result != null)
@@ -141,7 +142,7 @@ namespace POS
 
                 if (globalParameters != null)
                 {
-                    if (globalParameters.Count > 0)
+                    if (globalParameters.Any())
                     {
                         response = true;
                     }

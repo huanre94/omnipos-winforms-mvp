@@ -211,7 +211,7 @@ namespace POS
 
             if (emissionPoint != null)
             {
-                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, loginInformation.UserId);
+                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
                 if (pendingClosing)
                 {
                     functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
