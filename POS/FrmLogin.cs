@@ -26,7 +26,7 @@ namespace POS
         {
             bool response = false;
 
-            if (TxtUsername.Text != "" && TxtPassword.Text != "")
+            if (TxtUsername.Text != string.Empty && TxtPassword.Text != string.Empty)
             {
                 response = true;
             }
@@ -97,7 +97,7 @@ namespace POS
                                                     _identification
                                                     , _password
                                                     , _workstation
-                                                    , "192.168.12.26"//_addressIP
+                                                    , _addressIP
                                                     );
 
                 if (result != null)
@@ -109,12 +109,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage(
-                                                "No se ha podido iniciar sesión."
-                                                , ClsEnums.MessageType.WARNING
-                                                , true
-                                                , result.TextError
-                                                );
+                        functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
                     }
                 }
             }

@@ -47,36 +47,40 @@
             // 
             this.LblIdentification.AutoSize = true;
             this.LblIdentification.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblIdentification.Location = new System.Drawing.Point(609, 379);
+            this.LblIdentification.Location = new System.Drawing.Point(744, 474);
+            this.LblIdentification.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblIdentification.Name = "LblIdentification";
-            this.LblIdentification.Size = new System.Drawing.Size(116, 18);
+            this.LblIdentification.Size = new System.Drawing.Size(142, 23);
             this.LblIdentification.TabIndex = 18;
             this.LblIdentification.Text = "Identificación";
             // 
             // TxtUsername
             // 
-            this.TxtUsername.Location = new System.Drawing.Point(731, 370);
+            this.TxtUsername.Location = new System.Drawing.Point(893, 462);
+            this.TxtUsername.Margin = new System.Windows.Forms.Padding(4);
             this.TxtUsername.Name = "TxtUsername";
-            this.TxtUsername.Size = new System.Drawing.Size(211, 38);
+            this.TxtUsername.Size = new System.Drawing.Size(258, 30);
             this.TxtUsername.TabIndex = 1;
             // 
             // LblPassword
             // 
             this.LblPassword.AutoSize = true;
             this.LblPassword.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblPassword.Location = new System.Drawing.Point(609, 436);
+            this.LblPassword.Location = new System.Drawing.Point(744, 545);
+            this.LblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblPassword.Name = "LblPassword";
-            this.LblPassword.Size = new System.Drawing.Size(106, 18);
+            this.LblPassword.Size = new System.Drawing.Size(129, 23);
             this.LblPassword.TabIndex = 20;
             this.LblPassword.Text = "Contraseña ";
             // 
             // TxtPassword
             // 
-            this.TxtPassword.Location = new System.Drawing.Point(731, 427);
+            this.TxtPassword.Location = new System.Drawing.Point(893, 534);
+            this.TxtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.TxtPassword.Name = "TxtPassword";
             this.TxtPassword.Properties.PasswordChar = '•';
             this.TxtPassword.Properties.UseSystemPasswordChar = true;
-            this.TxtPassword.Size = new System.Drawing.Size(211, 38);
+            this.TxtPassword.Size = new System.Drawing.Size(258, 30);
             this.TxtPassword.TabIndex = 2;
             this.TxtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPassword_KeyDown);
             // 
@@ -91,10 +95,10 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(804, 506);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(983, 632);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 3;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
@@ -109,10 +113,10 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(634, 506);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancel.Location = new System.Drawing.Point(775, 632);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
+            this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Salir";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
@@ -128,11 +132,11 @@
             this.BtnKeypadUsername.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadUsername.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadUsername.ImageOptions.SvgImage")));
             this.BtnKeypadUsername.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadUsername.Location = new System.Drawing.Point(951, 366);
-            this.BtnKeypadUsername.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadUsername.Location = new System.Drawing.Point(1162, 458);
+            this.BtnKeypadUsername.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadUsername.Name = "BtnKeypadUsername";
             this.BtnKeypadUsername.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadUsername.Size = new System.Drawing.Size(80, 50);
+            this.BtnKeypadUsername.Size = new System.Drawing.Size(98, 62);
             this.BtnKeypadUsername.TabIndex = 168;
             this.BtnKeypadUsername.Click += new System.EventHandler(this.BtnKeypadUsername_Click);
             // 
@@ -147,20 +151,21 @@
             this.BtnKeypadPassword.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadPassword.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPassword.ImageOptions.SvgImage")));
             this.BtnKeypadPassword.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadPassword.Location = new System.Drawing.Point(951, 423);
-            this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadPassword.Location = new System.Drawing.Point(1162, 529);
+            this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadPassword.Name = "BtnKeypadPassword";
             this.BtnKeypadPassword.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadPassword.Size = new System.Drawing.Size(80, 50);
+            this.BtnKeypadPassword.Size = new System.Drawing.Size(98, 62);
             this.BtnKeypadPassword.TabIndex = 169;
             this.BtnKeypadPassword.Click += new System.EventHandler(this.BtnKeypadPassword_Click);
             // 
             // ImgLogo
             // 
             this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola_New;
-            this.ImgLogo.Location = new System.Drawing.Point(702, 177);
+            this.ImgLogo.Location = new System.Drawing.Point(858, 221);
+            this.ImgLogo.Margin = new System.Windows.Forms.Padding(4);
             this.ImgLogo.Name = "ImgLogo";
-            this.ImgLogo.Size = new System.Drawing.Size(194, 169);
+            this.ImgLogo.Size = new System.Drawing.Size(237, 211);
             this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImgLogo.TabIndex = 23;
             this.ImgLogo.TabStop = false;
@@ -169,9 +174,9 @@
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.Appearance.Options.UseBackColor = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1364, 718);
+            this.ClientSize = new System.Drawing.Size(1667, 898);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadPassword);
             this.Controls.Add(this.BtnKeypadUsername);
@@ -183,6 +188,7 @@
             this.Controls.Add(this.LblIdentification);
             this.Controls.Add(this.TxtPassword);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ingreso de Usuario";

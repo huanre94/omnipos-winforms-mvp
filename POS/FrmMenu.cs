@@ -154,7 +154,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                    "Ocurrio un problema al configurar temporizador."
+                                    "Ocurrio un problema al configurar validar inventario."
                                     , ClsEnums.MessageType.ERROR
                                     , true
                                     , ex.Message

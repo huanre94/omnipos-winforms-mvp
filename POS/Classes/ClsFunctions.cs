@@ -194,7 +194,8 @@ namespace POS
                                                 decimal _qty,
                                                 string _productName,
                                                 ClsEnums.ScaleBrands _scaleBrand,
-                                                string _portName = "")
+                                                string _portName = "",
+                                                bool isTestMode = false)
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
             {
@@ -208,7 +209,7 @@ namespace POS
             decimal catchWeight = 0;
             string parameter = string.Empty;
 
-            catchWeight = frmCatchWeight.weight;
+            catchWeight = isTestMode ? _qty : frmCatchWeight.weight;
 
             //Begin(IG001)
             if (catchWeight == 0)

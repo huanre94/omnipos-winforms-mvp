@@ -56,36 +56,39 @@ namespace POS
             this.BtnKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypad.ImageOptions.SvgImage")));
             this.BtnKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypad.Location = new System.Drawing.Point(461, 22);
-            this.BtnKeypad.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypad.Location = new System.Drawing.Point(563, 28);
+            this.BtnKeypad.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypad.Name = "BtnKeypad";
             this.BtnKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypad.Size = new System.Drawing.Size(78, 50);
+            this.BtnKeypad.Size = new System.Drawing.Size(95, 62);
             this.BtnKeypad.TabIndex = 13;
             // 
             // TxtBarcode
             // 
-            this.TxtBarcode.Location = new System.Drawing.Point(188, 27);
+            this.TxtBarcode.Location = new System.Drawing.Point(230, 34);
+            this.TxtBarcode.Margin = new System.Windows.Forms.Padding(4);
             this.TxtBarcode.Name = "TxtBarcode";
-            this.TxtBarcode.Size = new System.Drawing.Size(264, 38);
+            this.TxtBarcode.Size = new System.Drawing.Size(323, 30);
             this.TxtBarcode.TabIndex = 12;
             // 
             // LblGiftCard
             // 
             this.LblGiftCard.AutoSize = true;
             this.LblGiftCard.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblGiftCard.Location = new System.Drawing.Point(68, 38);
+            this.LblGiftCard.Location = new System.Drawing.Point(83, 48);
+            this.LblGiftCard.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblGiftCard.Name = "LblGiftCard";
-            this.LblGiftCard.Size = new System.Drawing.Size(114, 18);
+            this.LblGiftCard.Size = new System.Drawing.Size(141, 23);
             this.LblGiftCard.TabIndex = 14;
             this.LblGiftCard.Text = "Codigo Barra";
             // 
             // LblSelectedAmount
             // 
             this.LblSelectedAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblSelectedAmount.Location = new System.Drawing.Point(220, 144);
+            this.LblSelectedAmount.Location = new System.Drawing.Point(269, 180);
+            this.LblSelectedAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblSelectedAmount.Name = "LblSelectedAmount";
-            this.LblSelectedAmount.Size = new System.Drawing.Size(365, 18);
+            this.LblSelectedAmount.Size = new System.Drawing.Size(446, 22);
             this.LblSelectedAmount.TabIndex = 146;
             this.LblSelectedAmount.Text = "Text";
             // 
@@ -93,9 +96,10 @@ namespace POS
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label2.Location = new System.Drawing.Point(25, 144);
+            this.label2.Location = new System.Drawing.Point(31, 180);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 18);
+            this.label2.Size = new System.Drawing.Size(95, 23);
             this.label2.TabIndex = 145;
             this.label2.Text = "Nombre:";
             // 
@@ -103,18 +107,20 @@ namespace POS
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label1.Location = new System.Drawing.Point(25, 97);
+            this.label1.Location = new System.Drawing.Point(31, 121);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 18);
+            this.label1.Size = new System.Drawing.Size(147, 23);
             this.label1.TabIndex = 145;
             this.label1.Text = "Codigo Barra:";
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(220, 97);
+            this.label3.Location = new System.Drawing.Point(269, 121);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(365, 18);
+            this.label3.Size = new System.Drawing.Size(446, 22);
             this.label3.TabIndex = 146;
             this.label3.Text = "Text";
             // 
@@ -122,18 +128,20 @@ namespace POS
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label4.Location = new System.Drawing.Point(25, 247);
+            this.label4.Location = new System.Drawing.Point(31, 309);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(169, 18);
+            this.label4.Size = new System.Drawing.Size(206, 23);
             this.label4.TabIndex = 145;
             this.label4.Text = "Precio Promocional:";
             // 
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(220, 247);
+            this.label5.Location = new System.Drawing.Point(269, 309);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(365, 18);
+            this.label5.Size = new System.Drawing.Size(446, 22);
             this.label5.TabIndex = 146;
             this.label5.Text = "Text";
             // 
@@ -141,18 +149,20 @@ namespace POS
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label6.Location = new System.Drawing.Point(25, 194);
+            this.label6.Location = new System.Drawing.Point(31, 242);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 18);
+            this.label6.Size = new System.Drawing.Size(79, 23);
             this.label6.TabIndex = 145;
             this.label6.Text = "Precio:";
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(220, 194);
+            this.label7.Location = new System.Drawing.Point(269, 242);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(365, 18);
+            this.label7.Size = new System.Drawing.Size(446, 22);
             this.label7.TabIndex = 146;
             this.label7.Text = "Text";
             // 
@@ -166,10 +176,10 @@ namespace POS
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnExit.Location = new System.Drawing.Point(214, 304);
-            this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnExit.Location = new System.Drawing.Point(262, 380);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(6);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(160, 50);
+            this.BtnExit.Size = new System.Drawing.Size(196, 62);
             this.BtnExit.TabIndex = 148;
             this.BtnExit.Text = "Salir";
             // 
@@ -177,17 +187,18 @@ namespace POS
             // 
             this.axOPOSScanner.Enabled = true;
             this.axOPOSScanner.Location = new System.Drawing.Point(476, 247);
+            this.axOPOSScanner.Margin = new System.Windows.Forms.Padding(4);
             this.axOPOSScanner.Name = "axOPOSScanner";
             this.axOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axOPOSScanner.OcxState")));
-            this.axOPOSScanner.Size = new System.Drawing.Size(112, 105);
+            this.axOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.axOPOSScanner.TabIndex = 149;
             this.axOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.axOPOSScanner_DataEvent);
             // 
             // FrmProductChecker
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 368);
+            this.ClientSize = new System.Drawing.Size(733, 460);
             this.ControlBox = false;
             this.Controls.Add(this.axOPOSScanner);
             this.Controls.Add(this.BtnExit);
@@ -203,6 +214,7 @@ namespace POS
             this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.LblGiftCard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmProductChecker";
             this.Text = "Producto";
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();

@@ -14,18 +14,29 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-// IG001 Israel Gonzalez 2020-12-12: Adding "OR" for case when barcode is not weight control
-// IG002 Israel Gonzalez 2020-12-20: Update field BarcodeBefore in xml with the last generated barcode
-// IG003 Israel Gonzalez 2021-01-12: Avoid product with price zero
-// IG004 Israel Gonzalez 2021-01-13: Remove Payment node from xml when error is true 
-// HR001 Hugo Restrepo 2021-01-13: Substract discount from base amount for retention
-// IG005 Israel Gonzalez 2021-01-30: Fix sum of weight with taxes
-// HR002 Hugo Restrepo 2021-03-02: Recalculate discount with payment mode
+/***
+ *  Changelog:
+ *  IG001 Israel Gonzalez    2020/12/12: 
+ *      Adding "OR" for case when barcode is not weight 
+ *  IG002 Israel Gonzalez    2020/12/20: 
+ *      Update field BarcodeBefore in xml with the last generated 
+ *  IG003 Israel Gonzalez    2021/01/12: 
+ *      Avoid product with price zero
+ *  IG004 Israel Gonzalez    2021/01/13: 
+ *      Remove Payment node from xml when error is true
+ *  HR001 Hugo Restrepo      2021/01/13: 
+ *      Substract discount from base amount for retention
+ *  IG005 Israel Gonzalez    2021/01/30: 
+ *      Fix sum of weight with taxes
+ *  HR002 Hugo Restrepo      2021/03/02: 
+ *      Recalculate discount with payment mode
+ ***/
+
 namespace POS
 {
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         EmissionPoint emissionPoint;
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
@@ -53,7 +64,7 @@ namespace POS
                 ClearInvoice();
                 CheckGridView();
 
-                if (emissionPoint.ScaleBrand != "")
+                if (emissionPoint.ScaleBrand != string.Empty)
                 {
                     scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
 
@@ -97,7 +108,7 @@ namespace POS
             bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
+            if (addressIP != string.Empty)
             {
                 try
                 {
@@ -273,6 +284,7 @@ namespace POS
                             LblCustomerId.Text = currentCustomer.Identification;
                             LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
                             LblCustomerAddress.Text = currentCustomer.Address;
+                            LblCustomerEmail.Text = currentCustomer.Email;
                             TxtBarcode.Focus();
                         }
                     }
@@ -614,13 +626,14 @@ namespace POS
                     if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
                     {
                         BtnSuspendSale.Text = "Suspender";
-                        BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.SuspendSale;
+                        BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.SuspendSale;
 
                         SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint);
                         XElement element = XElement.Parse(sales.XmlLog);
 
-                        var listProducts = (from li in element.Descendants("InvoiceLine")
-                                            select li).ToList();
+                        var listProducts = element.Descendants("InvoiceLine").ToList();
+                        //(from li in element.Descendants("InvoiceLine")
+                        //                    select li).ToList();
 
                         foreach (XElement item in listProducts)
                         {
@@ -664,7 +677,7 @@ namespace POS
                             if (currentCustomer.CustomerId > 0)
                             {
                                 LblCustomerId.Text = currentCustomer.Identification;
-                                LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
                                 LblCustomerAddress.Text = currentCustomer.Address;
                                 TxtBarcode.Focus();
                             }
@@ -986,12 +999,20 @@ namespace POS
 
                                 if (!_skipCatchWeight)
                                 {
+                                    bool isTestMode =
+                                        new POSEntities()
+                                        .GlobalParameter
+                                        .Where(gp => gp.Name == "MODETEST")
+                                        .Select(gp => gp.Value)
+                                        .FirstOrDefault() == "1";
+
                                     canInsert = functions.ValidateCatchWeightProduct(
                                                                                         AxOPOSScale
                                                                                         , (decimal)result.QuantityBefore
                                                                                         , result.ProductName
                                                                                         , scaleBrand
                                                                                         , portName
+                                                                                        , isTestMode
                                                                                     );
                                 }
                             }
@@ -1139,6 +1160,7 @@ namespace POS
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
+            LblCustomerEmail.Text = currentCustomer.Email;
             internalCreditCardId = 0;
             internalCreditCardCode = "";
             salesOriginId = 1;

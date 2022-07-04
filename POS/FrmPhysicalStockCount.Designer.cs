@@ -255,7 +255,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(28, 99);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 16);
+            this.label5.Size = new System.Drawing.Size(131, 20);
             this.label5.TabIndex = 190;
             this.label5.Text = "Código Interno";
             // 
@@ -265,7 +265,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(216, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(216, 34);
             this.TxtBarcode.TabIndex = 189;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -275,7 +275,7 @@
             this.TxtInternalCode.Name = "TxtInternalCode";
             this.TxtInternalCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtInternalCode.Properties.Appearance.Options.UseFont = true;
-            this.TxtInternalCode.Size = new System.Drawing.Size(177, 44);
+            this.TxtInternalCode.Size = new System.Drawing.Size(177, 34);
             this.TxtInternalCode.TabIndex = 189;
             this.TxtInternalCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtInternalCode_KeyDown);
             // 
@@ -284,7 +284,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(521, 99);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 16);
+            this.label1.Size = new System.Drawing.Size(119, 20);
             this.label1.TabIndex = 190;
             this.label1.Text = "Código Barra";
             // 
@@ -311,7 +311,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 16);
+            this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 190;
             this.label2.Text = "Cajero";
             // 
@@ -320,7 +320,7 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(171, 38);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(0, 16);
+            this.LblCashierUser.Size = new System.Drawing.Size(0, 20);
             this.LblCashierUser.TabIndex = 190;
             // 
             // BtnRemove
@@ -347,7 +347,7 @@
             this.AxOPOSScanner.Location = new System.Drawing.Point(735, 366);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 193;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
@@ -357,7 +357,7 @@
             this.CmbWarehouse.Name = "CmbWarehouse";
             this.CmbWarehouse.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbWarehouse.Size = new System.Drawing.Size(445, 38);
+            this.CmbWarehouse.Size = new System.Drawing.Size(445, 30);
             this.CmbWarehouse.TabIndex = 194;
             // 
             // label3
@@ -365,7 +365,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(28, 164);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 16);
+            this.label3.Size = new System.Drawing.Size(73, 20);
             this.label3.TabIndex = 190;
             this.label3.Text = "Bodega";
             // 
