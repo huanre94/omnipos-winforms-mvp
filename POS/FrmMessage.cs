@@ -26,10 +26,7 @@ namespace POS
         {
             DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();
 
-            if (showMessageDetail)
-            {
-                LnkViewDetail.Visible = true;
-            }
+            LnkViewDetail.Visible = showMessageDetail;
 
             switch (messagetype)
             {

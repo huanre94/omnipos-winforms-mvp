@@ -104,47 +104,42 @@ namespace POS
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != string.Empty)
-            {
-                try
-                {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == string.Empty)
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
-                LblEstablishment.Text = emissionPoint.Establishment;
-                LblEmissionPoint.Text = emissionPoint.Emission;
-                functions.PrinterName = emissionPoint.PrinterName;
-                LblCashier.Text = loginInformation.UserName;
-
-                GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
+                emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
             }
-            else
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar información de punto de emisión."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            LblEstablishment.Text = emissionPoint.Establishment;
+            LblEmissionPoint.Text = emissionPoint.Emission;
+            functions.PrinterName = emissionPoint.PrinterName;
+            LblCashier.Text = loginInformation.UserName;
+
+            GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
+
+            return true;
         }
 
         private void CheckGridView()
@@ -330,16 +325,16 @@ namespace POS
             {
                 functions.ShowMessage("No puede salir mientras existe una venta en proceso. Por favor anule la venta.", ClsEnums.MessageType.ERROR);
                 TxtBarcode.Focus();
+                return;
             }
-            else
+
+            FrmMenu frmMenu = new FrmMenu
             {
-                FrmMenu frmMenu = new FrmMenu
-                {
-                    loginInformation = loginInformation
-                };
-                frmMenu.Show();
-                Close();
-            }
+                loginInformation = loginInformation
+            };
+            frmMenu.Show();
+            Close();
+
         }
 
         private void BtnQty_Click(object sender, EventArgs e)
@@ -348,50 +343,53 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
+                return;
             }
-            else
+
+            FrmKeyPad keyPad = new FrmKeyPad
             {
-                FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
-                keyPad.ShowDialog();
+                inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY
+            };
+            keyPad.ShowDialog();
 
-                if (keyPad.productQuantity != "")
-                {
-                    int newAmount = int.Parse(keyPad.productQuantity);
-                    //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
-                    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                    if (newAmount > row.Quantity)
-                    {
-                        var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
-                                        where long.Parse(xm.Element("ProductId").Value) == row.ProductId
-                                        select xm;
-
-                        string barcode = "";
-                        foreach (var item in searchXml.Elements())
-                        {
-                            if (item.Name == "Barcode")
-                                barcode = item.Value;
-                        }
-
-                        long newValue = (long)(newAmount - row.Quantity);
-
-                        GetProductInformation(
-                                               emissionPoint.LocationId
-                                               , barcode
-                                               , newValue
-                                               , currentCustomer.CustomerId
-                                               , internalCreditCardId
-                                               , ""
-                                               , false
-                                               );
-                    }
-                    else
-                    {
-                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.WARNING);
-                    }
-                }
+            if (keyPad.productQuantity == "")
+            {
+                functions.ShowMessage("La cantidad a agregar no puede esta vacia.", ClsEnums.MessageType.WARNING);
+                return;
             }
+
+            int newAmount = int.Parse(keyPad.productQuantity);
+            //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
+            SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+            if (newAmount <= row.Quantity)
+            {
+                functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.WARNING);
+                return;
+            }
+
+            var searchXml = from xm in invoiceXml.Descendants("InvoiceLine")
+                            where long.Parse(xm.Element("ProductId").Value) == row.ProductId
+                            select xm;
+
+            string barcode = "";
+            foreach (var item in searchXml.Elements())
+            {
+                if (item.Name == "Barcode")
+                    barcode = item.Value;
+            }
+
+            long newValue = (long)(newAmount - row.Quantity);
+
+            GetProductInformation(
+                                   emissionPoint.LocationId
+                                   , barcode
+                                   , newValue
+                                   , currentCustomer.CustomerId
+                                   , internalCreditCardId
+                                   , ""
+                                   , false
+                                   );
 
             TxtBarcode.Focus();
         }
@@ -500,15 +498,8 @@ namespace POS
                 salesOriginId = frmSalesOrigin.result.SalesOriginId;
                 salesManId = frmSalesOrigin.result.SalesmanId;
 
-                if (salesOriginId == 1)
-                {
-                    ImgSalesOrigin.Visible = false;
-                }
-                else
-                {
-                    ImgSalesOrigin.Visible = true;
-                    ImgSalesOrigin.SvgImage = (DevExpress.Utils.Svg.SvgImage)Properties.Resources.ResourceManager.GetObject(frmSalesOrigin.result.Name);
-                }
+                ImgSalesOrigin.Visible = (salesOriginId == 1);
+                ImgSalesOrigin.SvgImage = (DevExpress.Utils.Svg.SvgImage)Properties.Resources.ResourceManager.GetObject(frmSalesOrigin.result.Name);
             }
         }
         #endregion
@@ -572,8 +563,10 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch();
-            productSearch.emissionPoint = emissionPoint;
+            FrmProductSearch productSearch = new FrmProductSearch
+            {
+                emissionPoint = emissionPoint
+            };
             productSearch.ShowDialog();
 
             if (productSearch.barcode != "")
@@ -632,8 +625,6 @@ namespace POS
                         XElement element = XElement.Parse(sales.XmlLog);
 
                         var listProducts = element.Descendants("InvoiceLine").ToList();
-                        //(from li in element.Descendants("InvoiceLine")
-                        //                    select li).ToList();
 
                         foreach (XElement item in listProducts)
                         {
@@ -718,14 +709,12 @@ namespace POS
                             Workstation = loginInformation.Workstation
                         };
 
-                        if (invoiceTrans.InsertCancelledSales(salesLog))
-                        {
-                            ClearInvoice();
-                        }
-                        else
+                        if (!invoiceTrans.InsertCancelledSales(salesLog))
                         {
                             functions.ShowMessage("Hubo un error al poner la venta en espera, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                            return;
                         }
+                        ClearInvoice();
                     }
                 }
             }
@@ -776,13 +765,13 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            FrmAdvance advance = new FrmAdvance
-            {
-                _currentCustomer = currentCustomer,
-                emissionPoint = emissionPoint,
-                loginInformation = loginInformation
-            };
-            advance.ShowDialog();
+            //FrmAdvance advance = new FrmAdvance
+            //{
+            //    _currentCustomer = currentCustomer,
+            //    emissionPoint = emissionPoint,
+            //    loginInformation = loginInformation
+            //};
+            //advance.ShowDialog();
         }
 
         private void BtnReturns_Click(object sender, EventArgs e)
@@ -1078,7 +1067,8 @@ namespace POS
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = loginInformation.Workstation,
                     SalesOriginId = salesOriginId,
-                    SalesmanId = salesManId
+                    SalesmanId = salesManId,
+                    IsBbqZone = ChbBbqZone.Checked
                 };
 
                 Type type = invoiceTable.GetType();
@@ -1174,6 +1164,8 @@ namespace POS
             LblDiscAmount.Text = "0.00";
             ImgSalesOrigin.Visible = false;
             TxtBarcode.Focus();
+
+            ChbBbqZone.Checked = false;
         }
 
         #endregion
@@ -1188,17 +1180,16 @@ namespace POS
             {
                 sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE);
 
-                if (sequenceTable != null)
-                {
-                    sequenceNumber = sequenceTable.Sequence;
-                    string stringSequence = sequenceNumber.ToString();
-                    LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
-                }
-                else
+                if (sequenceTable == null)
                 {
                     functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
                     Close();
+                    return;
                 }
+
+                sequenceNumber = (long)(sequenceTable?.Sequence);
+                string stringSequence = sequenceNumber.ToString();
+                LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
             }
             catch (Exception ex)
             {
@@ -1211,10 +1202,7 @@ namespace POS
             }
         }
 
-        private void AddRecordToGrid(SP_Product_Consult_Result _productResult
-                                        , bool _updateRecord
-                                        , string _barcode
-                                    )
+        private void AddRecordToGrid(SP_Product_Consult_Result _productResult, bool _updateRecord, string _barcode)
         {
             BtnCustomer.Enabled = false;
 
@@ -1304,8 +1292,7 @@ namespace POS
             decimal invoiceAmount = 0.00M;
             decimal discAmount = 0.00M;
 
-            var line = from r in invoiceXml.Descendants("InvoiceLine")
-                       select r;
+            var line = invoiceXml.Descendants("InvoiceLine").Select(il => il);
 
             foreach (var item in line)
             {

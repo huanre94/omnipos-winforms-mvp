@@ -86,7 +86,7 @@ namespace POS
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(245, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(245, 34);
             this.TxtBarcode.TabIndex = 139;
             // 
             // Btn9
@@ -138,7 +138,7 @@ namespace POS
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.LblBarcode.Location = new System.Drawing.Point(1096, 175);
             this.LblBarcode.Name = "LblBarcode";
-            this.LblBarcode.Size = new System.Drawing.Size(93, 22);
+            this.LblBarcode.Size = new System.Drawing.Size(117, 28);
             this.LblBarcode.TabIndex = 140;
             this.LblBarcode.Text = "Cantidad";
             // 
@@ -274,7 +274,7 @@ namespace POS
             this.LblCashier.AutoSize = true;
             this.LblCashier.Location = new System.Drawing.Point(104, 136);
             this.LblCashier.Name = "LblCashier";
-            this.LblCashier.Size = new System.Drawing.Size(66, 16);
+            this.LblCashier.Size = new System.Drawing.Size(80, 20);
             this.LblCashier.TabIndex = 175;
             this.LblCashier.Text = "CAJERO";
             // 
@@ -284,7 +284,7 @@ namespace POS
             this.LblTitleCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCashier.Location = new System.Drawing.Point(21, 136);
             this.LblTitleCashier.Name = "LblTitleCashier";
-            this.LblTitleCashier.Size = new System.Drawing.Size(63, 16);
+            this.LblTitleCashier.Size = new System.Drawing.Size(76, 20);
             this.LblTitleCashier.TabIndex = 174;
             this.LblTitleCashier.Text = "Cajero:";
             // 
@@ -293,7 +293,7 @@ namespace POS
             this.LblCustomerAddress.AutoSize = true;
             this.LblCustomerAddress.Location = new System.Drawing.Point(104, 109);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(111, 20);
             this.LblCustomerAddress.TabIndex = 173;
             this.LblCustomerAddress.Text = "GUAYAQUIL";
             // 
@@ -302,7 +302,7 @@ namespace POS
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(104, 82);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
+            this.LblCustomerName.Size = new System.Drawing.Size(183, 20);
             this.LblCustomerName.TabIndex = 172;
             this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
@@ -311,7 +311,7 @@ namespace POS
             this.LblCustomerId.AutoSize = true;
             this.LblCustomerId.Location = new System.Drawing.Point(104, 56);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
+            this.LblCustomerId.Size = new System.Drawing.Size(139, 20);
             this.LblCustomerId.TabIndex = 171;
             this.LblCustomerId.Text = "9999999999999";
             // 
@@ -321,7 +321,7 @@ namespace POS
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblEstablishment.Location = new System.Drawing.Point(21, 19);
             this.LblEstablishment.Name = "LblEstablishment";
-            this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
+            this.LblEstablishment.Size = new System.Drawing.Size(72, 34);
             this.LblEstablishment.TabIndex = 170;
             this.LblEstablishment.Text = "999";
             // 
@@ -331,7 +331,7 @@ namespace POS
             this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine1.Location = new System.Drawing.Point(75, 19);
             this.LblLine1.Name = "LblLine1";
-            this.LblLine1.Size = new System.Drawing.Size(19, 26);
+            this.LblLine1.Size = new System.Drawing.Size(24, 32);
             this.LblLine1.TabIndex = 169;
             this.LblLine1.Text = "-";
             // 
@@ -341,7 +341,7 @@ namespace POS
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine2.Location = new System.Drawing.Point(142, 19);
             this.LblLine2.Name = "LblLine2";
-            this.LblLine2.Size = new System.Drawing.Size(19, 26);
+            this.LblLine2.Size = new System.Drawing.Size(24, 32);
             this.LblLine2.TabIndex = 168;
             this.LblLine2.Text = "-";
             // 
@@ -351,7 +351,7 @@ namespace POS
             this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerAddress.Location = new System.Drawing.Point(21, 109);
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
-            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
+            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(104, 20);
             this.LblTitleCustomerAddress.TabIndex = 167;
             this.LblTitleCustomerAddress.Text = "Dirección:";
             // 
@@ -370,7 +370,7 @@ namespace POS
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerName.Location = new System.Drawing.Point(21, 82);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(87, 20);
             this.LblTitleCustomerName.TabIndex = 165;
             this.LblTitleCustomerName.Text = "Nombre:";
             // 
@@ -380,7 +380,7 @@ namespace POS
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomer.Location = new System.Drawing.Point(21, 55);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
-            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
+            this.LblTitleCustomer.Size = new System.Drawing.Size(81, 20);
             this.LblTitleCustomer.TabIndex = 164;
             this.LblTitleCustomer.Text = "Cliente:";
             // 
@@ -390,7 +390,7 @@ namespace POS
             this.LblInvoiceNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblInvoiceNumber.Location = new System.Drawing.Point(157, 19);
             this.LblInvoiceNumber.Name = "LblInvoiceNumber";
-            this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
+            this.LblInvoiceNumber.Size = new System.Drawing.Size(186, 34);
             this.LblInvoiceNumber.TabIndex = 163;
             this.LblInvoiceNumber.Text = "999999999";
             // 
@@ -415,7 +415,7 @@ namespace POS
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(23, 671);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(98, 16);
+            this.label10.Size = new System.Drawing.Size(118, 20);
             this.label10.TabIndex = 177;
             this.label10.Text = "Observacion:";
             // 
@@ -425,7 +425,7 @@ namespace POS
             this.TxtObservation.Name = "TxtObservation";
             this.TxtObservation.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtObservation.Properties.Appearance.Options.UseFont = true;
-            this.TxtObservation.Size = new System.Drawing.Size(584, 44);
+            this.TxtObservation.Size = new System.Drawing.Size(584, 34);
             this.TxtObservation.TabIndex = 176;
             // 
             // simpleButton1

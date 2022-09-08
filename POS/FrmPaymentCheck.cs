@@ -2,8 +2,10 @@
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
@@ -43,24 +45,17 @@ namespace POS
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (customer != null)
+            if (customer?.CustomerId == 1)
             {
-                if (customer.CustomerId != 1)
-                {
-                    TxtIdentification.Text = customer.Identification;
-                    TxtOwnerName.Text = customer.Firtsname + " " + customer.Lastname;
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    this.DialogResult = DialogResult.Cancel;
-                }
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                DialogResult = DialogResult.Cancel;
+                return false;
             }
 
-            return response;
+            TxtIdentification.Text = customer.Identification;
+            TxtOwnerName.Text = $"{customer.Firtsname} {customer.Lastname}";
+
+            return true;
         }
 
         #region Keypad Call Buttons
@@ -115,22 +110,20 @@ namespace POS
         private void LoadBanks()
         {
             ClsPaymMode paymMode = new ClsPaymMode();
-            List<DLL.Bank> banks;
+            IEnumerable<Bank> banks;
 
             try
             {
                 banks = paymMode.GetBanks();
 
-                if (banks != null)
+                if (banks?.Count() > 0)
                 {
-                    if (banks.Count > 0)
+                    foreach (var bank in banks)
                     {
-                        foreach (var bank in banks)
-                        {
-                            CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
-                        }
+                        CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -150,7 +143,7 @@ namespace POS
                 int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
                 if (dateDiff == 0)
                 {
-                    DLL.Transaction.ClsAuthorizationTrans authorization = new DLL.Transaction.ClsAuthorizationTrans();
+                    ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
                     SP_GaranCheck_Authorize_Result authorizeResult;
 
                     try
@@ -218,24 +211,12 @@ namespace POS
                 int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
                 if (dateDiff == 0)
                 {
-                    if (TxtAuthorization.Text != "")
-                    {
-                        processResponse = true;
-                        checkOwnerName = TxtOwnerName.Text;
-                        checkBankId = int.Parse(CmbCheckBank.EditValue.ToString());
-                        checkDate = TxtCheckDate.DateTime;
-                        checkAccountNumber = TxtAccountNumber.Text;
-                        checkNumber = int.Parse(TxtCheckNumber.Text);
-                        checkAuthorization = TxtAuthorization.Text;
-                    }
-                    else
+                    if (TxtAuthorization.Text == "")
                     {
                         functions.ShowMessage("No ha solicitado autorizacion para el cheque.", ClsEnums.MessageType.WARNING);
-                        this.DialogResult = DialogResult.None;
+                        DialogResult = DialogResult.None;
                     }
-                }
-                else
-                {
+
                     processResponse = true;
                     checkOwnerName = TxtOwnerName.Text;
                     checkBankId = int.Parse(CmbCheckBank.EditValue.ToString());
@@ -243,48 +224,33 @@ namespace POS
                     checkAccountNumber = TxtAccountNumber.Text;
                     checkNumber = int.Parse(TxtCheckNumber.Text);
                     checkAuthorization = TxtAuthorization.Text;
-
                 }
-
             }
         }
 
         private bool ValidateCheckFields()
         {
-            bool response = false;
-
-            if (TxtOwnerName.Text != "" && TxtIdentification.Text != ""
+            if (!(TxtOwnerName.Text != "" && TxtIdentification.Text != ""
                 && TxtPhone.Text != "" && CmbCheckBank.EditValue != null
                 && TxtCheckDate.EditValue != null && TxtAccountNumber.Text != ""
-                && TxtCheckNumber.Text != "" && TxtCheckAmount.Text != "")
-            {
-                response = true;
-            }
-            else
+                && TxtCheckNumber.Text != "" && TxtCheckAmount.Text != ""))
             {
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
+                return false;
             }
 
-            return response;
+            return true;
         }
 
         private void TxtCheckDate_EditValueChanged(object sender, EventArgs e)
         {
             try
             {
-                int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
-                if (dateDiff == 0)
-                {
-                    TxtAuthorization.Enabled = true;
-                    BtnAuthorization.Enabled = true;
-                }
-                else
-                {
-                    TxtAuthorization.Enabled = false;
-                    BtnAuthorization.Enabled = false;
-
-                }
+                int dateDiffNumber = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
+                var isSameDay = dateDiffNumber == 0;
+                TxtAuthorization.Enabled = isSameDay;
+                BtnAuthorization.Enabled = isSameDay;
             }
             catch
             {

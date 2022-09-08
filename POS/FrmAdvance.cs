@@ -14,11 +14,11 @@ namespace POS
 {
     public partial class FrmAdvance : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public Customer _currentCustomer;
         public List<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
         public EmissionPoint emissionPoint;
-        ClsFunctions functions = new ClsFunctions();
         List<SP_Advance_Consult_Result> advances;
         decimal TypedAmount = 0.00M;
         decimal TotalAdvances = 0.00M;
@@ -112,23 +112,15 @@ namespace POS
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (_currentCustomer != null)
+            if (_currentCustomer?.CustomerId == 1)
             {
-                if (_currentCustomer.CustomerId != 1)
-                {
-                    LblCustomerName.Text = _currentCustomer.Firtsname + " " + _currentCustomer.Lastname;
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("No se puede realizar anticipos a CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    DialogResult = DialogResult.Cancel;
-                }
+                functions.ShowMessage("No se puede realizar anticipos a CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                DialogResult = DialogResult.Cancel;
+                return false;
             }
 
-            return response;
+            LblCustomerName.Text = $"{_currentCustomer.Firtsname} {_currentCustomer.Lastname}";
+            return true;
         }
 
         private void BtnAdvancePayment_Click(object sender, EventArgs e)

@@ -3,18 +3,19 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
 {
     public partial class FrmPaymentAdvance : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public Customer _currentCustomer;
         public decimal advanceAmount;
         public bool processResponse;
         public int _paymMode;
         public decimal pendingAmount;
-        ClsFunctions functions = new ClsFunctions();
         public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
 
@@ -53,10 +54,11 @@ namespace POS
             try
             {
                 advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode));
-                if (advances.Count == 0)
+                if (!advances.Any())
                 {
                     functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
+                    return;
                 }
 
                 GrcAdvanceHistory.DataSource = advances;
@@ -100,22 +102,13 @@ namespace POS
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (_currentCustomer != null)
+            if (_currentCustomer?.CustomerId == 1)
             {
-                if (_currentCustomer.CustomerId != 1)
-                {
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    DialogResult = DialogResult.Cancel;
-                }
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                DialogResult = DialogResult.Cancel;
+                return false;
             }
-
-            return response;
+            return true;
         }
     }
 }

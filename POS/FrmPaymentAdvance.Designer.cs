@@ -188,7 +188,7 @@ namespace POS
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.label2.Location = new System.Drawing.Point(24, 499);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(189, 18);
+            this.label2.Size = new System.Drawing.Size(230, 23);
             this.label2.TabIndex = 143;
             this.label2.Text = "Monto Seleccionado $:";
             // 
@@ -198,7 +198,7 @@ namespace POS
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.label1.Location = new System.Drawing.Point(24, 467);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 18);
+            this.label1.Size = new System.Drawing.Size(235, 23);
             this.label1.TabIndex = 143;
             this.label1.Text = "Monto Digitado            $:";
             // 

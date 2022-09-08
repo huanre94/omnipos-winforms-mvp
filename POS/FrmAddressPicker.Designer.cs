@@ -79,7 +79,7 @@
             this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblMotive.Location = new System.Drawing.Point(23, 14);
             this.LblMotive.Name = "LblMotive";
-            this.LblMotive.Size = new System.Drawing.Size(89, 36);
+            this.LblMotive.Size = new System.Drawing.Size(109, 46);
             this.LblMotive.TabIndex = 144;
             this.LblMotive.Text = "Direccion \r\nEntrega";
             // 
@@ -89,7 +89,7 @@
             this.CmbAddressPicker.Name = "CmbAddressPicker";
             this.CmbAddressPicker.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbAddressPicker.Size = new System.Drawing.Size(425, 38);
+            this.CmbAddressPicker.Size = new System.Drawing.Size(425, 30);
             this.CmbAddressPicker.TabIndex = 145;
             this.CmbAddressPicker.SelectedIndexChanged += new System.EventHandler(this.CmbAddressPicker_SelectedIndexChanged);
             // 
@@ -114,7 +114,7 @@
             // 
             this.TxtAddressRef.Location = new System.Drawing.Point(138, 229);
             this.TxtAddressRef.Name = "TxtAddressRef";
-            this.TxtAddressRef.Size = new System.Drawing.Size(425, 38);
+            this.TxtAddressRef.Size = new System.Drawing.Size(425, 30);
             this.TxtAddressRef.TabIndex = 149;
             // 
             // BtnKeyboardAddress
@@ -138,7 +138,7 @@
             // 
             this.TxtAddress.Location = new System.Drawing.Point(138, 172);
             this.TxtAddress.Name = "TxtAddress";
-            this.TxtAddress.Size = new System.Drawing.Size(425, 38);
+            this.TxtAddress.Size = new System.Drawing.Size(425, 30);
             this.TxtAddress.TabIndex = 146;
             // 
             // LblCustomerName
@@ -146,7 +146,7 @@
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(135, 129);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
+            this.LblCustomerName.Size = new System.Drawing.Size(183, 20);
             this.LblCustomerName.TabIndex = 198;
             this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
@@ -155,7 +155,7 @@
             this.LblCustomerId.AutoSize = true;
             this.LblCustomerId.Location = new System.Drawing.Point(135, 83);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
+            this.LblCustomerId.Size = new System.Drawing.Size(139, 20);
             this.LblCustomerId.TabIndex = 197;
             this.LblCustomerId.Text = "9999999999999";
             // 
@@ -165,7 +165,7 @@
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerName.Location = new System.Drawing.Point(23, 129);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(87, 20);
             this.LblTitleCustomerName.TabIndex = 196;
             this.LblTitleCustomerName.Text = "Nombre:";
             // 
@@ -175,7 +175,7 @@
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomer.Location = new System.Drawing.Point(23, 83);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
-            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
+            this.LblTitleCustomer.Size = new System.Drawing.Size(81, 20);
             this.LblTitleCustomer.TabIndex = 195;
             this.LblTitleCustomer.Text = "Cliente:";
             // 
@@ -185,7 +185,7 @@
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(23, 183);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 16);
+            this.label2.Size = new System.Drawing.Size(104, 20);
             this.label2.TabIndex = 232;
             this.label2.Text = "Dirección:";
             // 
@@ -195,7 +195,7 @@
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(23, 240);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 16);
+            this.label3.Size = new System.Drawing.Size(115, 20);
             this.label3.TabIndex = 234;
             this.label3.Text = "Referencia:";
             // 
@@ -203,7 +203,7 @@
             // 
             this.TxtTelephoneAddress.Location = new System.Drawing.Point(137, 286);
             this.TxtTelephoneAddress.Name = "TxtTelephoneAddress";
-            this.TxtTelephoneAddress.Size = new System.Drawing.Size(425, 38);
+            this.TxtTelephoneAddress.Size = new System.Drawing.Size(425, 30);
             this.TxtTelephoneAddress.TabIndex = 149;
             // 
             // BtnKeypadTelephone
@@ -229,7 +229,7 @@
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(22, 297);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 16);
+            this.label1.Size = new System.Drawing.Size(95, 20);
             this.label1.TabIndex = 234;
             this.label1.Text = "Telefono:";
             // 
@@ -307,7 +307,7 @@
             // FrmAddressPicker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(747, 444);
+            this.ClientSize = new System.Drawing.Size(751, 448);
             this.ControlBox = false;
             this.Controls.Add(this.BtnModify);
             this.Controls.Add(this.label1);

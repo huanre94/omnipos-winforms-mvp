@@ -4,12 +4,13 @@ using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace POS
 {
     public partial class FrmProductSearch : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public string barcode = "";
         public bool useCatchWeight;
         public long productId;
@@ -24,48 +25,12 @@ namespace POS
 
         private void BtnKeyPad_Click(object sender, System.EventArgs e)
         {
-            FrmKeyBoard keyPad = new FrmKeyBoard();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME;
+            FrmKeyBoard keyPad = new FrmKeyBoard
+            {
+                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME
+            };
             keyPad.ShowDialog();
             TxtSearchName.Text = keyPad.customerFirstName;
-        }
-
-        private void SearchProduct(string _searchProduct, int _locationId)
-        {
-            ClsProduct paymMode = new ClsProduct();
-            List<SP_ProductBarcode_Consult_Result> products;
-
-            try
-            {
-                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId);
-
-                if (products != null)
-                {
-                    if (products.Count > 0)
-                    {
-                        BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products);
-                        bindingList.AllowNew = true;
-
-                        GrcSalesDetail.DataSource = bindingList;
-                    }
-                    else
-                    {
-                        TxtSearchName.Text = "";
-                        TxtSearchName.Focus();
-                        GrcSalesDetail.DataSource = null;
-                        functions.ShowMessage("Producto no encontrado", ClsEnums.MessageType.WARNING);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Productos."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
-            }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -79,29 +44,25 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado item por agregar.", ClsEnums.MessageType.ERROR);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                DialogResult = System.Windows.Forms.DialogResult.None;
             }
-            else
-            {
-                SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-                barcode = selectedProduct.Barcode;
-                productId = selectedProduct.ProductId;
-                useCatchWeight = selectedProduct.UseCatchWeight;
-                productName = selectedProduct.Name;
-                returnProduct = true;
-            }
+
+            SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+            barcode = selectedProduct.Barcode;
+            productId = selectedProduct.ProductId;
+            useCatchWeight = selectedProduct.UseCatchWeight;
+            productName = selectedProduct.Name;
+            returnProduct = true;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (TxtSearchName.Text != "")
-            {
-                SearchProduct(TxtSearchName.Text, emissionPoint.LocationId);
-            }
-            else
+            if (TxtSearchName.Text == string.Empty)
             {
                 functions.ShowMessage("El filtro de busqueda no puede estar vacio.", ClsEnums.MessageType.ERROR);
+                return;
             }
+            SearchProduct(TxtSearchName.Text, emissionPoint.LocationId);
         }
 
         private void FrmProductSearch_Load(object sender, EventArgs e)
@@ -114,10 +75,47 @@ namespace POS
             GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcSalesDetail.DataSource = null;
 
-            BindingList<Product> bindingList = new BindingList<Product>();
-            bindingList.AllowNew = true;
+            BindingList<Product> bindingList = new BindingList<Product>
+            {
+                AllowNew = true
+            };
 
             GrcSalesDetail.DataSource = bindingList;
+        }
+
+        private void SearchProduct(string _searchProduct, int _locationId)
+        {
+            List<SP_ProductBarcode_Consult_Result> products;
+
+            try
+            {
+                products = new ClsProduct().GetProductsWithBarcode(_searchProduct, _locationId);
+
+                if (!products.Any())
+                {
+                    TxtSearchName.Text = "";
+                    TxtSearchName.Focus();
+                    GrcSalesDetail.DataSource = null;
+                    functions.ShowMessage("Producto no encontrado", ClsEnums.MessageType.WARNING);
+                    return;
+                }
+
+                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products)
+                {
+                    AllowNew = true
+                };
+
+                GrcSalesDetail.DataSource = bindingList;
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar lista de Productos."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
         }
     }
 }

@@ -34,7 +34,7 @@
     <SuiteName>Retail</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -116,12 +116,6 @@
     </Compile>
     <Compile Include="FrmAddressPicker.Designer.cs">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmAdvance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmAdvance.Designer.cs">
-      <DependentUpon>FrmAdvance.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPaymentAdvance.cs">
       <SubType>Form</SubType>
@@ -328,12 +322,10 @@
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\ClsFunctions.cs" />
+    <Compile Include="ICustomerInformationValidator.cs" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FrmAddressPicker.resx">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmAdvance.resx">
-      <DependentUpon>FrmAdvance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentAdvance.resx">
       <DependentUpon>FrmPaymentAdvance.cs</DependentUpon>

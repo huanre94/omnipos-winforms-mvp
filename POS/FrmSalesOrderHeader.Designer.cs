@@ -51,6 +51,8 @@
             this.EdtDeliveryDate = new DevExpress.XtraEditors.DateEdit();
             this.TxtObservation = new System.Windows.Forms.RichTextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.LblCustomerEmail = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CmbSalesOrderOrigin.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EdtDeliveryDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EdtDeliveryDate.Properties)).BeginInit();
@@ -67,7 +69,7 @@
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnExit.Location = new System.Drawing.Point(173, 556);
+            this.BtnExit.Location = new System.Drawing.Point(179, 619);
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
@@ -76,7 +78,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(61, 244);
+            this.richTextBox1.Location = new System.Drawing.Point(67, 307);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(288, 294);
             this.richTextBox1.TabIndex = 246;
@@ -108,9 +110,9 @@
             // 
             // LblCustomerAddress
             // 
-            this.LblCustomerAddress.Location = new System.Drawing.Point(139, 166);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(180, 166);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(210, 59);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(175, 66);
             this.LblCustomerAddress.TabIndex = 240;
             this.LblCustomerAddress.Text = "GUAYAQUIL";
             // 
@@ -123,18 +125,18 @@
             // 
             // LblCustomerName
             // 
-            this.LblCustomerName.Location = new System.Drawing.Point(139, 126);
+            this.LblCustomerName.Location = new System.Drawing.Point(175, 126);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(210, 40);
+            this.LblCustomerName.Size = new System.Drawing.Size(180, 40);
             this.LblCustomerName.TabIndex = 238;
             this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
             // LblCustomerId
             // 
             this.LblCustomerId.AutoSize = true;
-            this.LblCustomerId.Location = new System.Drawing.Point(139, 83);
+            this.LblCustomerId.Location = new System.Drawing.Point(175, 84);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
+            this.LblCustomerId.Size = new System.Drawing.Size(139, 20);
             this.LblCustomerId.TabIndex = 236;
             this.LblCustomerId.Text = "9999999999999";
             // 
@@ -144,7 +146,7 @@
             this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(386, 126);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 16);
+            this.label3.Size = new System.Drawing.Size(115, 20);
             this.label3.TabIndex = 233;
             this.label3.Text = "Referencia:";
             // 
@@ -154,7 +156,7 @@
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(386, 84);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 16);
+            this.label2.Size = new System.Drawing.Size(104, 20);
             this.label2.TabIndex = 231;
             this.label2.Text = "Dirección:";
             // 
@@ -162,9 +164,9 @@
             // 
             this.LblTitleCustomerAddress.AutoSize = true;
             this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomerAddress.Location = new System.Drawing.Point(56, 166);
+            this.LblTitleCustomerAddress.Location = new System.Drawing.Point(64, 166);
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
-            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
+            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(104, 20);
             this.LblTitleCustomerAddress.TabIndex = 234;
             this.LblTitleCustomerAddress.Text = "Dirección:";
             // 
@@ -172,9 +174,9 @@
             // 
             this.LblTitleCustomerName.AutoSize = true;
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomerName.Location = new System.Drawing.Point(56, 126);
+            this.LblTitleCustomerName.Location = new System.Drawing.Point(64, 126);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(87, 20);
             this.LblTitleCustomerName.TabIndex = 232;
             this.LblTitleCustomerName.Text = "Nombre:";
             // 
@@ -182,9 +184,9 @@
             // 
             this.LblTitleCustomer.AutoSize = true;
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LblTitleCustomer.Location = new System.Drawing.Point(56, 83);
+            this.LblTitleCustomer.Location = new System.Drawing.Point(64, 84);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
-            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
+            this.LblTitleCustomer.Size = new System.Drawing.Size(81, 20);
             this.LblTitleCustomer.TabIndex = 230;
             this.LblTitleCustomer.Text = "Cliente:";
             // 
@@ -198,7 +200,7 @@
             this.BtnSaveOrder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveOrder.ImageOptions.Image")));
             this.BtnSaveOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSaveOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
-            this.BtnSaveOrder.Location = new System.Drawing.Point(431, 556);
+            this.BtnSaveOrder.Location = new System.Drawing.Point(437, 619);
             this.BtnSaveOrder.Name = "BtnSaveOrder";
             this.BtnSaveOrder.Size = new System.Drawing.Size(250, 45);
             this.BtnSaveOrder.TabIndex = 245;
@@ -226,9 +228,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(58, 225);
+            this.label1.Location = new System.Drawing.Point(64, 288);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 16);
+            this.label1.Size = new System.Drawing.Size(95, 20);
             this.label1.TabIndex = 233;
             this.label1.Text = "Comanda";
             // 
@@ -236,35 +238,35 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(386, 225);
+            this.label4.Location = new System.Drawing.Point(392, 288);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 16);
+            this.label4.Size = new System.Drawing.Size(157, 20);
             this.label4.TabIndex = 233;
             this.label4.Text = "Origen de Venta";
             // 
             // CmbSalesOrderOrigin
             // 
-            this.CmbSalesOrderOrigin.Location = new System.Drawing.Point(389, 244);
+            this.CmbSalesOrderOrigin.Location = new System.Drawing.Point(395, 307);
             this.CmbSalesOrderOrigin.Name = "CmbSalesOrderOrigin";
             this.CmbSalesOrderOrigin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(250, 38);
+            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(250, 30);
             this.CmbSalesOrderOrigin.TabIndex = 249;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(386, 311);
+            this.label5.Location = new System.Drawing.Point(392, 374);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 16);
+            this.label5.Size = new System.Drawing.Size(141, 20);
             this.label5.TabIndex = 233;
             this.label5.Text = "Fecha Entrega";
             // 
             // EdtDeliveryDate
             // 
             this.EdtDeliveryDate.EditValue = null;
-            this.EdtDeliveryDate.Location = new System.Drawing.Point(389, 342);
+            this.EdtDeliveryDate.Location = new System.Drawing.Point(395, 405);
             this.EdtDeliveryDate.Name = "EdtDeliveryDate";
             this.EdtDeliveryDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -276,12 +278,12 @@
             this.EdtDeliveryDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.EdtDeliveryDate.Properties.FirstDayOfWeek = System.DayOfWeek.Monday;
             this.EdtDeliveryDate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 38);
+            this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 30);
             this.EdtDeliveryDate.TabIndex = 249;
             // 
             // TxtObservation
             // 
-            this.TxtObservation.Location = new System.Drawing.Point(389, 422);
+            this.TxtObservation.Location = new System.Drawing.Point(395, 485);
             this.TxtObservation.Name = "TxtObservation";
             this.TxtObservation.Size = new System.Drawing.Size(250, 116);
             this.TxtObservation.TabIndex = 253;
@@ -291,17 +293,36 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(386, 403);
+            this.label6.Location = new System.Drawing.Point(392, 466);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 16);
+            this.label6.Size = new System.Drawing.Size(124, 20);
             this.label6.TabIndex = 252;
             this.label6.Text = "Observacion";
+            // 
+            // LblCustomerEmail
+            // 
+            this.LblCustomerEmail.Location = new System.Drawing.Point(175, 244);
+            this.LblCustomerEmail.Name = "LblCustomerEmail";
+            this.LblCustomerEmail.Size = new System.Drawing.Size(180, 40);
+            this.LblCustomerEmail.TabIndex = 255;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label8.Location = new System.Drawing.Point(63, 244);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 20);
+            this.label8.TabIndex = 254;
+            this.label8.Text = "Mail:";
             // 
             // FrmSalesOrderHeader
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(724, 635);
+            this.ClientSize = new System.Drawing.Size(728, 710);
             this.ControlBox = false;
+            this.Controls.Add(this.LblCustomerEmail);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.TxtObservation);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CmbSalesOrderOrigin);
@@ -361,5 +382,7 @@
         private DevExpress.XtraEditors.DateEdit EdtDeliveryDate;
         private System.Windows.Forms.RichTextBox TxtObservation;
         private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.Label LblCustomerEmail;
+        private System.Windows.Forms.Label label8;
     }
 }

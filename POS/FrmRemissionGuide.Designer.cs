@@ -375,7 +375,7 @@
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(23, 380);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 16);
+            this.label1.Size = new System.Drawing.Size(83, 20);
             this.label1.TabIndex = 251;
             this.label1.Text = "Pedidos";
             // 
@@ -385,7 +385,7 @@
             this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(23, 34);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 16);
+            this.label4.Size = new System.Drawing.Size(61, 20);
             this.label4.TabIndex = 252;
             this.label4.Text = "Guias";
             // 
@@ -429,7 +429,7 @@
             this.ChkMyGuides.Location = new System.Drawing.Point(344, 20);
             this.ChkMyGuides.Name = "ChkMyGuides";
             this.ChkMyGuides.Properties.Caption = "Mis Guias";
-            this.ChkMyGuides.Size = new System.Drawing.Size(164, 44);
+            this.ChkMyGuides.Size = new System.Drawing.Size(164, 28);
             this.ChkMyGuides.TabIndex = 256;
             // 
             // CmbTransportDriver
@@ -438,7 +438,7 @@
             this.CmbTransportDriver.Name = "CmbTransportDriver";
             this.CmbTransportDriver.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbTransportDriver.Size = new System.Drawing.Size(291, 38);
+            this.CmbTransportDriver.Size = new System.Drawing.Size(291, 30);
             this.CmbTransportDriver.TabIndex = 258;
             // 
             // label2
@@ -447,7 +447,7 @@
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(587, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 16);
+            this.label2.Size = new System.Drawing.Size(105, 20);
             this.label2.TabIndex = 257;
             this.label2.Text = "Conductor";
             // 

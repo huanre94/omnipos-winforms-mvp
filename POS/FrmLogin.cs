@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
+    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm, ICustomerInformationValidator
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
@@ -20,23 +20,6 @@ namespace POS
         public FrmLogin()
         {
             InitializeComponent();
-        }
-
-        private bool ValidateCustomerFields()
-        {
-            bool response = false;
-
-            if (TxtUsername.Text != string.Empty && TxtPassword.Text != string.Empty)
-            {
-                response = true;
-            }
-            else
-            {
-                functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
-                DialogResult = DialogResult.None;
-            }
-
-            return response;
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -129,23 +112,20 @@ namespace POS
         private bool GetGlobalParameters()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
-            bool response = false;
 
             try
             {
                 globalParameters = clsGeneral.GetGlobalParameters();
 
-                if (globalParameters != null)
+
+                if (!globalParameters.Any())
                 {
-                    if (globalParameters.Any())
-                    {
-                        response = true;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se pudieron cargar parámetros globales.", ClsEnums.MessageType.WARNING);
-                    }
+                    functions.ShowMessage("No se pudieron cargar parámetros globales.", ClsEnums.MessageType.WARNING);
+                    return false;
                 }
+
+                return true;
+
             }
             catch (Exception ex)
             {
@@ -153,11 +133,10 @@ namespace POS
                                         "Ocurrio un problema al cargar parámetros globales."
                                         , ClsEnums.MessageType.ERROR
                                         , true
-                                        , ex.InnerException.Message
+                                        , ex.Message
                                     );
+                return false;
             }
-
-            return response;
         }
 
         private List<string> GetLocalIPAddress()
@@ -165,34 +144,33 @@ namespace POS
             List<string> addressIP = new List<string>();
             bool networkOK = NetworkInterface.GetIsNetworkAvailable();
 
-            if (networkOK)
-            {
-                try
-                {
-                    var host = Dns.GetHostEntry(Dns.GetHostName());
-
-                    foreach (var ip in host.AddressList)
-                    {
-                        if (ip.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            addressIP.Add($"{ip}");
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "No se encontraron adaptadores de red IPv4 en el sistema."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
-                }
-            }
-            else
+            if (!networkOK)
             {
                 functions.ShowMessage("El equipo no se encuentra conectado a la red.", ClsEnums.MessageType.ERROR);
+                return new List<string>();
+            }
+
+            try
+            {
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        addressIP.Add($"{ip}");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "No se encontraron adaptadores de red IPv4 en el sistema."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
             }
 
             return addressIP;
@@ -222,6 +200,18 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
                 ProcessLogin();
+        }
+
+        public bool ValidateCustomerFields()
+        {
+            if (TxtUsername.Text == string.Empty || TxtPassword.Text == string.Empty)
+            {
+                functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
+                DialogResult = DialogResult.None;
+                return false;
+            }
+
+            return true;
         }
     }
 }

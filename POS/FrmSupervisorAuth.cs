@@ -5,6 +5,7 @@ using POS.DLL;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // IG001 Israel Gonzalez 2021-01-14: Disable scanner only when using Datalogic
 namespace POS
@@ -57,20 +58,17 @@ namespace POS
         private void LoadReasons(int reasonType)
         {
             ClsAuthorizationTrans paymMode = new ClsAuthorizationTrans();
-            List<DLL.CancelReason> cancelReasons;
+            List<CancelReason> cancelReasons;
 
             try
             {
                 cancelReasons = paymMode.ConsultReasons(reasonType);
 
-                if (cancelReasons != null)
+                if (cancelReasons.Any())
                 {
-                    if (cancelReasons.Count > 0)
+                    foreach (var reason in cancelReasons)
                     {
-                        foreach (var reason in cancelReasons)
-                        {
-                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
-                        }
+                        CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
                     }
                 }
             }
@@ -88,141 +86,139 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (TxtAuthorization.Text != "")
+            if (TxtAuthorization.Text == string.Empty)
             {
-                if (TxtSupervisorPassword.Text != "")
+                functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+
+            if (TxtSupervisorPassword.Text == string.Empty)
+            {
+                functions.ShowMessage("Debe proporcionar clave del supervisor.", ClsEnums.MessageType.WARNING);
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (CmbMotive.Visible)
+            {
+                if (CmbMotive.SelectedItem != null)
                 {
-                    if (CmbMotive.Visible)
+                    SP_Supervisor_Validate_Result result;
+
+                    try
                     {
-                        if (CmbMotive.SelectedItem != null)
+                        result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+
+                        if (result != null)
                         {
-                            SP_Supervisor_Validate_Result result;
-
-                            try
+                            if ((bool)result?.Error)
                             {
-                                result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
 
-                                if (result != null)
+                                if (CmbMotive.SelectedItem != null)
                                 {
-                                    if ((bool)result.Error)
-                                    {
-
-                                        if (CmbMotive.SelectedItem != null)
-                                        {
-                                            motiveId = int.Parse($"{CmbMotive.EditValue}");
-                                        }
-
-                                        formActionResult = true;
-                                        supervisorAuthorization = TxtAuthorization.Text;
-                                        TxtAuthorization.Text = "";
-
-                                        // Begin(IG001)
-                                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                                        {
-                                            functions.DisableScanner();
-                                            functions.AxOPOSScanner = scanner;
-                                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                                        }
-                                        // End(IG001)
-                                    }
-                                    else
-                                    {
-                                        functions.ShowMessage("Ocurrio un problema al procesar transaccion.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                        DialogResult = DialogResult.None;
-                                    }
+                                    motiveId = int.Parse($"{CmbMotive.EditValue}");
                                 }
-                                else
+
+                                formActionResult = true;
+                                supervisorAuthorization = TxtAuthorization.Text;
+                                TxtAuthorization.Text = "";
+
+                                // Begin(IG001)
+                                if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
                                 {
-                                    functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                                    functions.DisableScanner();
+                                    functions.AxOPOSScanner = scanner;
+                                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
                                 }
+                                // End(IG001)
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                functions.ShowMessage(
-                                                        "Ocurrio un problema al verificar codigo de autorizacion."
-                                                        , ClsEnums.MessageType.ERROR
-                                                        , true
-                                                        , ex.InnerException.Message
-                                                        );
+                                functions.ShowMessage("Ocurrio un problema al procesar transaccion.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
+                                DialogResult = DialogResult.None;
                             }
                         }
                         else
                         {
-                            functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
-                            DialogResult = DialogResult.None;
+                            functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
-                        SP_Supervisor_Validate_Result result;
-
-                        try
-                        {
-                            result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
-
-                            if (result != null)
-                            {
-                                if ((bool)result.Error)
-                                {
-                                    if (CmbMotive.SelectedItem != null)
-                                    {
-                                        int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
-                                        motiveId = cancelReason;
-                                    }
-                                    formActionResult = true;
-                                    supervisorAuthorization = TxtAuthorization.Text;
-                                    TxtAuthorization.Text = "";
-
-                                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                                    {
-                                        functions.DisableScanner();
-
-                                        if (scanner != null)
-                                        {
-                                            functions.AxOPOSScanner = scanner;
-                                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                    DialogResult = DialogResult.None;
-                                }
-                            }
-                            else
-                            {
-                                functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
-                                TxtAuthorization.Text = "";
-                                TxtAuthorization.Focus();
-                                TxtSupervisorPassword.Text = string.Empty;
-                                DialogResult = DialogResult.None;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            functions.ShowMessage(
-                                                    "Ocurrio un problema al verificar codigo de autorizacion."
-                                                    , ClsEnums.MessageType.ERROR
-                                                    , true
-                                                    , ex.InnerException.Message
-                                                    );
-                        }
+                        functions.ShowMessage(
+                                                "Ocurrio un problema al verificar codigo de autorizacion."
+                                                , ClsEnums.MessageType.ERROR
+                                                , true
+                                                , ex.InnerException.Message
+                                                );
                     }
                 }
                 else
                 {
-                    functions.ShowMessage("Debe proporcionar clave del supervisor.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
                     DialogResult = DialogResult.None;
                 }
             }
             else
             {
-                functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
-                DialogResult = DialogResult.None;
-            }
+                ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
+                SP_Supervisor_Validate_Result result;
 
+                try
+                {
+                    result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+
+                    if (result != null)
+                    {
+                        if ((bool)result.Error)
+                        {
+                            if (CmbMotive.SelectedItem != null)
+                            {
+                                int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
+                                motiveId = cancelReason;
+                            }
+                            formActionResult = true;
+                            supervisorAuthorization = TxtAuthorization.Text;
+                            TxtAuthorization.Text = "";
+
+                            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                            {
+                                functions.DisableScanner();
+
+                                if (scanner != null)
+                                {
+                                    functions.AxOPOSScanner = scanner;
+                                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            functions.ShowMessage("Ocurrio un problema al realizar anulacion.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
+                            DialogResult = DialogResult.None;
+                        }
+                    }
+                    else
+                    {
+                        functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                        TxtAuthorization.Text = "";
+                        TxtAuthorization.Focus();
+                        TxtSupervisorPassword.Text = string.Empty;
+                        DialogResult = DialogResult.None;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al verificar codigo de autorizacion."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
+                                            );
+                }
+            }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
