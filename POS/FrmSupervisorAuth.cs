@@ -18,13 +18,17 @@ namespace POS
         public int motiveId;
         public string supervisorAuthorization;
         public bool requireMotive;
-        public int reasonType = 1;
+        public int reasonType = 1;        
+        
         ClsEnums.ScaleBrands scaleBrand;
 
-        public FrmSupervisorAuth()
+        public FrmSupervisorAuth(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmSupervisorAuth_Load(object sender, EventArgs e)
         {
@@ -61,7 +65,7 @@ namespace POS
 
             try
             {
-                cancelReasons = paymMode.ConsultReasons(reasonType);
+                cancelReasons = paymMode.ConsultReasons(reasonType, CadenaC);
 
                 if (cancelReasons != null)
                 {
@@ -88,6 +92,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
             if (TxtAuthorization.Text != "")
             {
                 if (TxtSupervisorPassword.Text != "")
@@ -100,7 +105,7 @@ namespace POS
 
                             try
                             {
-                                result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+                                result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text, CadenaC);
 
                                 if (result != null)
                                 {
@@ -149,6 +154,7 @@ namespace POS
                         else
                         {
                             functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
+                            CmbMotive.Focus();
                             DialogResult = DialogResult.None;
                         }
                     }
@@ -159,7 +165,7 @@ namespace POS
 
                         try
                         {
-                            result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+                            result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text, CadenaC);
 
                             if (result != null)
                             {
@@ -222,7 +228,7 @@ namespace POS
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
             }
-
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -247,12 +253,63 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad passwordKeypad = new FrmKeyPad
+            FrmKeyPad passwordKeypad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
             };
             passwordKeypad.ShowDialog();
             TxtSupervisorPassword.Text = passwordKeypad.loginPassword;
+            CmbMotive.Focus();   //06/07/2022
+        }
+
+        private void TxtAuthorization_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (TxtAuthorization.Text != "")
+            {
+                if (((int)e.KeyCode) == 13)
+                {
+                    TxtSupervisorPassword.Focus();
+                }
+            }            
+        }
+
+        private void TxtSupervisorPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    if (TxtSupervisorPassword.Text != "")
+                    {
+                        if (CmbMotive.Visible == true)
+                        {
+                            CmbMotive.Focus();
+                        }
+                        else
+                        {
+                            BtnAccept.Focus();
+                        }
+                        //CmbMotive.Focus();
+                    }
+                    break;
+                case Keys.F1:
+                    BtnKeypadPassword_Click(null, null);
+                    break;
+                default:
+                    break;
+            }            
+        }
+
+        private void CmbMotive_KeyDown(object sender, KeyEventArgs e)
+        {            
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:                    
+                    BtnAccept.Focus();
+                    break;
+                default:
+                    break;
+            }        
         }
     }
 }

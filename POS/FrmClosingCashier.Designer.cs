@@ -75,6 +75,7 @@
             this.LblDifference = new System.Windows.Forms.Label();
             this.BtnDot = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancelClosing = new DevExpress.XtraEditors.SimpleButton();
+            this.lblTipoCierre = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
@@ -353,9 +354,10 @@
             this.GrcDenomination.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
             this.GrcDenomination.Size = new System.Drawing.Size(498, 616);
-            this.GrcDenomination.TabIndex = 151;
+            this.GrcDenomination.TabIndex = 0;
             this.GrcDenomination.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvDenomination});
+            this.GrcDenomination.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcDenomination_KeyDown);
             // 
             // GrvDenomination
             // 
@@ -465,9 +467,11 @@
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -478,15 +482,18 @@
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 155;
-            this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Text = "F2 Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -571,7 +578,8 @@
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
             this.TxtBarcode.Size = new System.Drawing.Size(159, 44);
-            this.TxtBarcode.TabIndex = 158;
+            this.TxtBarcode.TabIndex = 1;
+            this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // LblBarcode
             // 
@@ -588,8 +596,10 @@
             // 
             this.BtnLastClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnLastClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnLastClosing.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnLastClosing.Appearance.Options.UseBackColor = true;
             this.BtnLastClosing.Appearance.Options.UseFont = true;
+            this.BtnLastClosing.Appearance.Options.UseForeColor = true;
             this.BtnLastClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLastClosing.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLastClosing.ImageOptions.SvgImage")));
             this.BtnLastClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -598,7 +608,7 @@
             this.BtnLastClosing.Name = "BtnLastClosing";
             this.BtnLastClosing.Size = new System.Drawing.Size(225, 50);
             this.BtnLastClosing.TabIndex = 156;
-            this.BtnLastClosing.Text = "Ult Cierre";
+            this.BtnLastClosing.Text = "F7 Ult Cierre";
             this.BtnLastClosing.Click += new System.EventHandler(this.BtnLastClosing_Click);
             // 
             // label1
@@ -697,9 +707,11 @@
             // BtnCancelClosing
             // 
             this.BtnCancelClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnCancelClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancelClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancelClosing.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancelClosing.Appearance.Options.UseBackColor = true;
             this.BtnCancelClosing.Appearance.Options.UseFont = true;
+            this.BtnCancelClosing.Appearance.Options.UseForeColor = true;
             this.BtnCancelClosing.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnCancelClosing.ImageOptions.Image")));
             this.BtnCancelClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -708,16 +720,30 @@
             this.BtnCancelClosing.Name = "BtnCancelClosing";
             this.BtnCancelClosing.Size = new System.Drawing.Size(191, 50);
             this.BtnCancelClosing.TabIndex = 162;
-            this.BtnCancelClosing.Text = "Anula Cierre";
+            this.BtnCancelClosing.Text = "F5 Anula Cierre";
             this.BtnCancelClosing.Visible = false;
             this.BtnCancelClosing.Click += new System.EventHandler(this.BtnCancelClosing_Click);
+            // 
+            // lblTipoCierre
+            // 
+            this.lblTipoCierre.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblTipoCierre.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoCierre.ForeColor = System.Drawing.Color.White;
+            this.lblTipoCierre.Location = new System.Drawing.Point(1112, 9);
+            this.lblTipoCierre.Name = "lblTipoCierre";
+            this.lblTipoCierre.Size = new System.Drawing.Size(223, 40);
+            this.lblTipoCierre.TabIndex = 163;
+            this.lblTipoCierre.Text = "                                   ";
+            this.lblTipoCierre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmClosingCashier
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.lblTipoCierre);
             this.Controls.Add(this.BtnCancelClosing);
             this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.label3);
@@ -813,5 +839,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn DenominationTypeName;
         private DevExpress.XtraGrid.Columns.GridColumn Amount2;
         private DevExpress.XtraEditors.SimpleButton BtnCancelClosing;
+        private System.Windows.Forms.Label lblTipoCierre;
     }
 }

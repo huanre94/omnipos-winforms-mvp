@@ -20,14 +20,17 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         System.Timers.Timer timer;
 
-        public FrmSalesOrderPicker()
+        public FrmSalesOrderPicker(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
+            FrmMenu frmMenu = new FrmMenu(CadenaC);
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -41,7 +44,7 @@ namespace POS
 
             try
             {
-                custIdentTypes = customer.GetSalesOrderStatus();
+                custIdentTypes = customer.GetSalesOrderStatus(CadenaC);
 
                 if (custIdentTypes != null)
                 {
@@ -75,7 +78,7 @@ namespace POS
 
             try
             {
-                custIdentTypes = customer.GetSalesOrderOrigin();
+                custIdentTypes = customer.GetSalesOrderOrigin(true, CadenaC);
 
                 if (custIdentTypes != null)
                 {
@@ -109,10 +112,10 @@ namespace POS
             long orderTimerInvertal = 0;
             try
             {
-                orderTimerEnabled = (from par in new POSEntities().GlobalParameter.ToList()
+                orderTimerEnabled = (from par in new POSEntities(CadenaC).GlobalParameter.ToList()
                                      where par.Name == "OrderTimerEnabled"
                                      select par.Value).FirstOrDefault() == "1";
-                orderTimerInvertal = long.Parse((from par in new POSEntities().GlobalParameter.ToList()
+                orderTimerInvertal = long.Parse((from par in new POSEntities(CadenaC).GlobalParameter.ToList()
                                                  where par.Name == "OrderUpdateTimer"
                                                  select par.Value).FirstOrDefault());
             }
@@ -147,7 +150,7 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu();
+                FrmMenu frmMenu = new FrmMenu(CadenaC);
                 frmMenu.loginInformation = loginInformation;
                 frmMenu.globalParameters = globalParameters;
                 frmMenu.Visible = true;
@@ -169,12 +172,13 @@ namespace POS
             List<SP_SalesOrderStatus_Consult_Result> sales;
             try
             {
-                sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
+                sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked, CadenaC);
 
                 if (sales.Count == 0)
                 {
                     functions.ShowMessage("No existen ordenes generadas.", ClsEnums.MessageType.WARNING);
                     GrcSalesOrder.DataSource = null;
+                    GrcSalesOrder.Focus();
                     return;
                 }
 
@@ -207,7 +211,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
 
                     if (emissionPoint != null)
                     {
@@ -252,6 +256,8 @@ namespace POS
 
         private void BtnModify_Click(object sender, EventArgs e)
         {
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //07/07/2022
+
             int rowIndex = GrvSalesOrder.FocusedRowHandle;
             if (rowIndex < 0)
             {
@@ -273,7 +279,7 @@ namespace POS
 
                 if (item.OrderECommerce > 0)
                 {
-                    FrmSalesOrderEcommerce frmSalesOrder = new FrmSalesOrderEcommerce();
+                    FrmSalesOrderEcommerce frmSalesOrder = new FrmSalesOrderEcommerce(CadenaC);
                     frmSalesOrder.loginInformation = loginInformation;
                     frmSalesOrder.emissionPoint = emissionPoint;
                     frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
@@ -287,7 +293,7 @@ namespace POS
                 }
                 else
                 {
-                    FrmSalesOrder frmSalesOrder = new FrmSalesOrder();
+                    FrmSalesOrder frmSalesOrder = new FrmSalesOrder(CadenaC);
                     frmSalesOrder.loginInformation = loginInformation;
                     frmSalesOrder.emissionPoint = emissionPoint;
                     frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
@@ -300,11 +306,12 @@ namespace POS
                     }
                 }
             }
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
         }
 
         private void BtnRemissionGuide_Click(object sender, EventArgs e)
         {
-            FrmRemissionGuide frmRemission = new FrmRemissionGuide
+            FrmRemissionGuide frmRemission = new FrmRemissionGuide(CadenaC)
             {
                 emissionPoint = emissionPoint,
                 loginInformation = loginInformation
@@ -316,7 +323,7 @@ namespace POS
 
         private void BtnNewOrder_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderHeader frmSalesOrderHeader = new FrmSalesOrderHeader
+            FrmSalesOrderHeader frmSalesOrderHeader = new FrmSalesOrderHeader(CadenaC)
             {
                 emissionPoint = emissionPoint,
                 loginInformation = loginInformation
@@ -332,6 +339,7 @@ namespace POS
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
             LoadSaleOrdesByFilters();
+            GrcSalesOrder.Focus();//07/07/2022
         }
 
         private void BtnPrintSaleOrder_Click(object sender, EventArgs e)
@@ -363,7 +371,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.SALESORDER);
+                        functions.PrintDocument(lastId, ClsEnums.DocumentType.SALESORDER, false, CadenaC);
                     }
                 }
                 catch (Exception ex)
@@ -400,7 +408,7 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
             keyPad.ShowDialog();
 
@@ -415,6 +423,101 @@ namespace POS
             GrvSalesOrder.FocusedRowHandle = rowIndex;
             GrvSalesOrder.UpdateCurrentRow();
             GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
+        }
+
+        private void FrmSalesOrderPicker_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    BtnRefresh.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbOrderStatus_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnRefresh_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnRefresh_Click(null,null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbSalesOrderOrigin_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnRefresh_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnRefresh_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ETOrderDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    BtnRefresh_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GrcSalesOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnSearch_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnNewOrder_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnPrintSaleOrder_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnRefresh_Click(null, null);
+                    break;
+                case Keys.F6:
+                    BtnModify_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnRemissionGuide_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GrcSalesOrder_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.E))  //Combinacion de teclas Ctrl + E
+            {
+                CmbOrderStatus.Focus();
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.C))  //Combinacion de teclas Ctrl + C
+            {
+                CmbSalesOrderOrigin.Focus();
+            }                        
+
         }
     }
 }

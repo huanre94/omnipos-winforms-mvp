@@ -68,6 +68,7 @@
             this.CmbCardType.Size = new System.Drawing.Size(286, 38);
             this.CmbCardType.TabIndex = 1;
             this.CmbCardType.SelectedIndexChanged += new System.EventHandler(this.CmbCardType_SelectedIndexChanged);
+            this.CmbCardType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbCardType_KeyDown);
             // 
             // LblCardType
             // 
@@ -129,17 +130,19 @@
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(283, 387);
+            this.BtnCancel.Location = new System.Drawing.Point(282, 387);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
+            this.BtnCancel.Size = new System.Drawing.Size(161, 50);
             this.BtnCancel.TabIndex = 7;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
@@ -147,9 +150,11 @@
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -160,7 +165,7 @@
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 6;
-            this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Text = "F2 Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // TxtAuthorization
@@ -169,6 +174,7 @@
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(202, 38);
             this.TxtAuthorization.TabIndex = 4;
+            this.TxtAuthorization.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAuthorization_KeyDown);
             // 
             // CmbCardBank
             // 
@@ -181,6 +187,7 @@
             this.CmbCardBank.Size = new System.Drawing.Size(286, 38);
             this.CmbCardBank.TabIndex = 8;
             this.CmbCardBank.SelectedIndexChanged += new System.EventHandler(this.CmbCardBank_SelectedIndexChanged);
+            this.CmbCardBank.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbCardBank_KeyDown);
             // 
             // CmbCardBrand
             // 
@@ -192,6 +199,7 @@
             this.CmbCardBrand.Size = new System.Drawing.Size(286, 38);
             this.CmbCardBrand.TabIndex = 9;
             this.CmbCardBrand.SelectedIndexChanged += new System.EventHandler(this.CmbCardBrand_SelectedIndexChanged);
+            this.CmbCardBrand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbCardBrand_KeyDown);
             // 
             // LblTitleCustomerName
             // 
@@ -253,6 +261,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(627, 451);
             this.ControlBox = false;
             this.Controls.Add(this.LblAmountDiscounted);

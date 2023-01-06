@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -22,10 +23,14 @@ namespace POS
         List<SP_ClosingCashierPartial_Consult_Result> partials;
         XElement closingXml = new XElement("ClosingCashier");
         decimal cashAmount = 0;
-        public FrmPartialClosing()
+
+        public FrmPartialClosing(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         #region Functions
         private void CalculatePayment()
@@ -39,8 +44,8 @@ namespace POS
             try
             {
                 ClsClosingTrans closing = new ClsClosingTrans();
-                denominations = closing.GetDenominations();
-                partials = closing.GetPartialClosings(emissionPoint, loginInformation);
+                denominations = closing.GetDenominations(CadenaC);
+                partials = closing.GetPartialClosings(emissionPoint, loginInformation, CadenaC);
                 if (partials != null)
                 {
                     if (partials.Count > 0)
@@ -123,7 +128,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
 
                     if (emissionPoint != null)
                     {
@@ -158,7 +163,7 @@ namespace POS
 
             try
             {
-                cancelReasons = new ClsAuthorizationTrans().ConsultReasons(2);
+                cancelReasons = new ClsAuthorizationTrans().ConsultReasons(2,CadenaC);
 
                 if (cancelReasons != null)
                 {
@@ -187,7 +192,7 @@ namespace POS
         #region Keypad Buttons
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
+            FrmMenu frmMenu = new FrmMenu(CadenaC);
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -211,7 +216,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth())
+                if (functions.RequestSupervisorAuth(false,0,CadenaC))
                 {
                     XElement closingCashierTableXml = new XElement("ClosingCashierTable");
                     ClosingCashierTable cashierTable = new ClosingCashierTable()
@@ -306,7 +311,7 @@ namespace POS
 
                     try
                     {
-                        List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans().InsertPartialClosing(closingXml);
+                        List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans().InsertPartialClosing(closingXml, CadenaC);
 
                         if (clsClosing != null)
                         {
@@ -316,7 +321,7 @@ namespace POS
                                 if (!(bool)closing.Error)
                                 {
                                     //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                                    if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                                    if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER,false, CadenaC))
                                     {
                                         functions.ShowMessage("Cierre parcial finalizado exitosamente.");
                                     }
@@ -325,7 +330,7 @@ namespace POS
                                         functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
                                     }
 
-                                    FrmMenu frmMenu = new FrmMenu();
+                                    FrmMenu frmMenu = new FrmMenu(CadenaC);
                                     frmMenu.loginInformation = loginInformation;
                                     frmMenu.globalParameters = globalParameters;
                                     frmMenu.Visible = true;
@@ -430,7 +435,7 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu
+                FrmMenu frmMenu = new FrmMenu(CadenaC)
                 {
                     loginInformation = loginInformation,
                     globalParameters = globalParameters
@@ -445,9 +450,9 @@ namespace POS
         {
             try
             {
-                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
+                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P", CadenaC);
 
-                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false,CadenaC))
                 {
                     functions.ShowMessage("Cierre parcial impreso.");
                 }
@@ -465,6 +470,70 @@ namespace POS
                                          , true
                                          , ex.InnerException.Message
                                      );
+            }
+        }
+
+        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            //11/07/2022            
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnEnter_Click(null, null);
+                    GrcDenomination.Focus();
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;                
+                case Keys.F7:
+                    BtnLastClosing_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcDenomination.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GrcDenomination_KeyDown(object sender, KeyEventArgs e)
+        {
+            //11/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnLastClosing_Click(null, null);
+                    break;
+                case Keys.F12:
+                    TxtBarcode.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbMotive_KeyDown(object sender, KeyEventArgs e)
+        {
+            //11/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtBarcode.Focus();
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnLastClosing_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcDenomination.Focus();
+                    break;
+                default:
+                    break;
             }
         }
     }

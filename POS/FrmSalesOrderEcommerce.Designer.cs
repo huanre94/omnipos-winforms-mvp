@@ -158,11 +158,12 @@ namespace POS
             // 
             // BtnCancelOrder
             // 
-            this.BtnCancelOrder.AllowFocus = false;
             this.BtnCancelOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancelOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnCancelOrder.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancelOrder.Appearance.Options.UseBackColor = true;
             this.BtnCancelOrder.Appearance.Options.UseFont = true;
+            this.BtnCancelOrder.Appearance.Options.UseForeColor = true;
             this.BtnCancelOrder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnCancelOrder.ImageOptions.Image")));
             this.BtnCancelOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
@@ -170,7 +171,7 @@ namespace POS
             this.BtnCancelOrder.Name = "BtnCancelOrder";
             this.BtnCancelOrder.Size = new System.Drawing.Size(220, 80);
             this.BtnCancelOrder.TabIndex = 182;
-            this.BtnCancelOrder.Text = "Cancelar\r\nOrden";
+            this.BtnCancelOrder.Text = "F5 Cancelar\r\nOrden";
             this.BtnCancelOrder.Click += new System.EventHandler(this.BtnCancelSale_Click);
             // 
             // Btn9
@@ -404,11 +405,12 @@ namespace POS
             // 
             // BtnExit
             // 
-            this.BtnExit.AllowFocus = false;
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnExit.Appearance.Options.UseBackColor = true;
             this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.Appearance.Options.UseForeColor = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
@@ -418,7 +420,7 @@ namespace POS
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
             this.BtnExit.TabIndex = 206;
-            this.BtnExit.Text = "Salir";
+            this.BtnExit.Text = "F9 Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // AxOPOSScale
@@ -485,11 +487,12 @@ namespace POS
             // 
             // BtnRemove
             // 
-            this.BtnRemove.AllowFocus = false;
             this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnRemove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRemove.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnRemove.Appearance.Options.UseBackColor = true;
             this.BtnRemove.Appearance.Options.UseFont = true;
+            this.BtnRemove.Appearance.Options.UseForeColor = true;
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImage = global::POS.Properties.Resources.remove;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
@@ -498,16 +501,17 @@ namespace POS
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
             this.BtnRemove.TabIndex = 199;
-            this.BtnRemove.Text = "Anul";
+            this.BtnRemove.Text = "F11 \r\nAnul";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // BtnQty
             // 
-            this.BtnQty.AllowFocus = false;
             this.BtnQty.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnQty.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnQty.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnQty.Appearance.Options.UseBackColor = true;
             this.BtnQty.Appearance.Options.UseFont = true;
+            this.BtnQty.Appearance.Options.UseForeColor = true;
             this.BtnQty.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnQty.ImageOptions.SvgImage = global::POS.Properties.Resources.calculator2;
             this.BtnQty.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
@@ -516,7 +520,7 @@ namespace POS
             this.BtnQty.Name = "BtnQty";
             this.BtnQty.Size = new System.Drawing.Size(80, 92);
             this.BtnQty.TabIndex = 198;
-            this.BtnQty.Text = "Cant";
+            this.BtnQty.Text = "F10 \r\nCant";
             // 
             // LblCustomerName
             // 
@@ -729,11 +733,12 @@ namespace POS
             // 
             // BtnFinishOrder
             // 
-            this.BtnFinishOrder.AllowFocus = false;
             this.BtnFinishOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnFinishOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnFinishOrder.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnFinishOrder.Appearance.Options.UseBackColor = true;
             this.BtnFinishOrder.Appearance.Options.UseFont = true;
+            this.BtnFinishOrder.Appearance.Options.UseForeColor = true;
             this.BtnFinishOrder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnFinishOrder.ImageOptions.Image")));
             this.BtnFinishOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnFinishOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
@@ -741,16 +746,17 @@ namespace POS
             this.BtnFinishOrder.Name = "BtnFinishOrder";
             this.BtnFinishOrder.Size = new System.Drawing.Size(220, 80);
             this.BtnFinishOrder.TabIndex = 182;
-            this.BtnFinishOrder.Text = "Finalizar \r\nOrden";
+            this.BtnFinishOrder.Text = "F3 Finalizar \r\nOrden";
             this.BtnFinishOrder.Click += new System.EventHandler(this.BtnFinishOrder_Click);
             // 
             // BtnSaveChanges
             // 
-            this.BtnSaveChanges.AllowFocus = false;
             this.BtnSaveChanges.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSaveChanges.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnSaveChanges.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnSaveChanges.Appearance.Options.UseBackColor = true;
             this.BtnSaveChanges.Appearance.Options.UseFont = true;
+            this.BtnSaveChanges.Appearance.Options.UseForeColor = true;
             this.BtnSaveChanges.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveChanges.ImageOptions.Image")));
             this.BtnSaveChanges.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSaveChanges.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
@@ -758,13 +764,14 @@ namespace POS
             this.BtnSaveChanges.Name = "BtnSaveChanges";
             this.BtnSaveChanges.Size = new System.Drawing.Size(220, 80);
             this.BtnSaveChanges.TabIndex = 182;
-            this.BtnSaveChanges.Text = "Guardar \r\nOrden";
+            this.BtnSaveChanges.Text = "F2 Guardar \r\nOrden";
             this.BtnSaveChanges.Visible = false;
             this.BtnSaveChanges.Click += new System.EventHandler(this.BtnSaveChanges_Click);
             // 
             // FrmSalesOrderEcommerce
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnExit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnFinishOrder);

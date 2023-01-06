@@ -38,8 +38,10 @@
             // 
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnExit.Appearance.Options.UseBackColor = true;
             this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.Appearance.Options.UseForeColor = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -48,8 +50,9 @@
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(160, 50);
-            this.BtnExit.TabIndex = 155;
+            this.BtnExit.TabIndex = 2;
             this.BtnExit.Text = "Salir";
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // ILBSalesOrigin
             // 
@@ -57,14 +60,17 @@
             this.ILBSalesOrigin.Location = new System.Drawing.Point(12, 12);
             this.ILBSalesOrigin.Name = "ILBSalesOrigin";
             this.ILBSalesOrigin.Size = new System.Drawing.Size(522, 388);
-            this.ILBSalesOrigin.TabIndex = 156;
+            this.ILBSalesOrigin.TabIndex = 0;
+            this.ILBSalesOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ILBSalesOrigin_KeyDown);
             // 
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -74,7 +80,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 157;
+            this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -82,6 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnExit;
             this.ClientSize = new System.Drawing.Size(548, 476);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);

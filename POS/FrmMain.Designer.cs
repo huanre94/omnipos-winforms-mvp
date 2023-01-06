@@ -98,53 +98,56 @@
             // 
             // BtnCancelSale
             // 
-            this.BtnCancelSale.AllowFocus = false;
             this.BtnCancelSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnCancelSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnCancelSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancelSale.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancelSale.Appearance.Options.UseBackColor = true;
             this.BtnCancelSale.Appearance.Options.UseFont = true;
+            this.BtnCancelSale.Appearance.Options.UseForeColor = true;
             this.BtnCancelSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelSale.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancelSale.ImageOptions.SvgImage")));
             this.BtnCancelSale.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
             this.BtnCancelSale.Location = new System.Drawing.Point(1132, 435);
             this.BtnCancelSale.Name = "BtnCancelSale";
             this.BtnCancelSale.Size = new System.Drawing.Size(220, 80);
-            this.BtnCancelSale.TabIndex = 137;
-            this.BtnCancelSale.Text = "Anular Venta";
+            this.BtnCancelSale.TabIndex = 5;
+            this.BtnCancelSale.Text = "F5 Anular Venta";
             this.BtnCancelSale.Click += new System.EventHandler(this.BtnCancelSale_Click);
             // 
             // BtnSuspendSale
             // 
-            this.BtnSuspendSale.AllowFocus = false;
             this.BtnSuspendSale.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnSuspendSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnSuspendSale.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnSuspendSale.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnSuspendSale.Appearance.Options.UseBackColor = true;
             this.BtnSuspendSale.Appearance.Options.UseFont = true;
+            this.BtnSuspendSale.Appearance.Options.UseForeColor = true;
             this.BtnSuspendSale.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSuspendSale.ImageOptions.SvgImage = global::POS.Properties.Resources.SuspendSale;
             this.BtnSuspendSale.ImageOptions.SvgImageSize = new System.Drawing.Size(55, 55);
             this.BtnSuspendSale.Location = new System.Drawing.Point(1132, 349);
             this.BtnSuspendSale.Name = "BtnSuspendSale";
             this.BtnSuspendSale.Size = new System.Drawing.Size(220, 80);
-            this.BtnSuspendSale.TabIndex = 136;
-            this.BtnSuspendSale.Text = "Suspender";
+            this.BtnSuspendSale.TabIndex = 4;
+            this.BtnSuspendSale.Text = "F4 Suspender";
             this.BtnSuspendSale.Click += new System.EventHandler(this.BtnSuspendSale_Click);
             // 
             // BtnProductSearch
             // 
-            this.BtnProductSearch.AllowFocus = false;
             this.BtnProductSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnProductSearch.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnProductSearch.Appearance.Options.UseBackColor = true;
             this.BtnProductSearch.Appearance.Options.UseFont = true;
+            this.BtnProductSearch.Appearance.Options.UseForeColor = true;
             this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch2;
             this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnProductSearch.Location = new System.Drawing.Point(1132, 263);
             this.BtnProductSearch.Name = "BtnProductSearch";
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
-            this.BtnProductSearch.TabIndex = 134;
-            this.BtnProductSearch.Text = "Productos";
+            this.BtnProductSearch.TabIndex = 3;
+            this.BtnProductSearch.Text = "F3 Productos";
             this.BtnProductSearch.Click += new System.EventHandler(this.BtnProductSearch_Click);
             // 
             // Btn9
@@ -164,19 +167,20 @@
             // 
             // BtnPayment
             // 
-            this.BtnPayment.AllowFocus = false;
             this.BtnPayment.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPayment.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnPayment.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPayment.Appearance.Options.UseBackColor = true;
             this.BtnPayment.Appearance.Options.UseFont = true;
+            this.BtnPayment.Appearance.Options.UseForeColor = true;
             this.BtnPayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPayment.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
             this.BtnPayment.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
             this.BtnPayment.Location = new System.Drawing.Point(1132, 177);
             this.BtnPayment.Name = "BtnPayment";
             this.BtnPayment.Size = new System.Drawing.Size(220, 80);
-            this.BtnPayment.TabIndex = 133;
-            this.BtnPayment.Text = "Pagos";
+            this.BtnPayment.TabIndex = 2;
+            this.BtnPayment.Text = "F2   Pagos";
             this.BtnPayment.Click += new System.EventHandler(this.BtnPayment_Click);
             // 
             // Btn8
@@ -216,7 +220,7 @@
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.LblBarcode.Location = new System.Drawing.Point(850, 151);
             this.LblBarcode.Name = "LblBarcode";
-            this.LblBarcode.Size = new System.Drawing.Size(216, 28);
+            this.LblBarcode.Size = new System.Drawing.Size(170, 22);
             this.LblBarcode.TabIndex = 119;
             this.LblBarcode.Text = "Código de Barras";
             // 
@@ -365,6 +369,7 @@
             this.GrcSalesDetail.TabIndex = 138;
             this.GrcSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesDetail});
+            this.GrcSalesDetail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcSalesDetail_KeyDown);
             // 
             // GrvSalesDetail
             // 
@@ -487,9 +492,12 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(245, 34);
+            this.TxtBarcode.Size = new System.Drawing.Size(245, 44);
             this.TxtBarcode.TabIndex = 1;
+            this.TxtBarcode.EditValueChanged += new System.EventHandler(this.TxtBarcode_EditValueChanged);
+            this.TxtBarcode.Click += new System.EventHandler(this.TxtBarcode_Click);
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
+            this.TxtBarcode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBarcode_KeyPress);
             // 
             // ImgLogo
             // 
@@ -508,7 +516,7 @@
             this.LblInvoiceNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblInvoiceNumber.Location = new System.Drawing.Point(336, 12);
             this.LblInvoiceNumber.Name = "LblInvoiceNumber";
-            this.LblInvoiceNumber.Size = new System.Drawing.Size(186, 34);
+            this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
             this.LblInvoiceNumber.TabIndex = 140;
             this.LblInvoiceNumber.Text = "999999999";
             // 
@@ -518,7 +526,7 @@
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomer.Location = new System.Drawing.Point(200, 48);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
-            this.LblTitleCustomer.Size = new System.Drawing.Size(81, 20);
+            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
             this.LblTitleCustomer.TabIndex = 141;
             this.LblTitleCustomer.Text = "Cliente:";
             // 
@@ -528,7 +536,7 @@
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerName.Location = new System.Drawing.Point(200, 75);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(87, 20);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
             this.LblTitleCustomerName.TabIndex = 142;
             this.LblTitleCustomerName.Text = "Nombre:";
             // 
@@ -547,7 +555,7 @@
             this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerAddress.Location = new System.Drawing.Point(200, 102);
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
-            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(104, 20);
+            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
             this.LblTitleCustomerAddress.TabIndex = 144;
             this.LblTitleCustomerAddress.Text = "Dirección:";
             // 
@@ -557,7 +565,7 @@
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine2.Location = new System.Drawing.Point(321, 12);
             this.LblLine2.Name = "LblLine2";
-            this.LblLine2.Size = new System.Drawing.Size(24, 32);
+            this.LblLine2.Size = new System.Drawing.Size(19, 26);
             this.LblLine2.TabIndex = 145;
             this.LblLine2.Text = "-";
             // 
@@ -567,7 +575,7 @@
             this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine1.Location = new System.Drawing.Point(254, 12);
             this.LblLine1.Name = "LblLine1";
-            this.LblLine1.Size = new System.Drawing.Size(24, 32);
+            this.LblLine1.Size = new System.Drawing.Size(19, 26);
             this.LblLine1.TabIndex = 146;
             this.LblLine1.Text = "-";
             // 
@@ -577,7 +585,7 @@
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblEstablishment.Location = new System.Drawing.Point(200, 12);
             this.LblEstablishment.Name = "LblEstablishment";
-            this.LblEstablishment.Size = new System.Drawing.Size(72, 34);
+            this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
             this.LblEstablishment.TabIndex = 147;
             this.LblEstablishment.Text = "999";
             // 
@@ -586,7 +594,7 @@
             this.LblCustomerId.AutoSize = true;
             this.LblCustomerId.Location = new System.Drawing.Point(292, 48);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(139, 20);
+            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
             this.LblCustomerId.TabIndex = 148;
             this.LblCustomerId.Text = "9999999999999";
             // 
@@ -595,7 +603,7 @@
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(292, 75);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(183, 20);
+            this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
             this.LblCustomerName.TabIndex = 149;
             this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
@@ -604,34 +612,36 @@
             this.LblCustomerAddress.AutoSize = true;
             this.LblCustomerAddress.Location = new System.Drawing.Point(292, 102);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(111, 20);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
             this.LblCustomerAddress.TabIndex = 150;
             this.LblCustomerAddress.Text = "GUAYAQUIL";
             // 
             // BtnCustomer
             // 
-            this.BtnCustomer.AllowFocus = false;
             this.BtnCustomer.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCustomer.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCustomer.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCustomer.Appearance.Options.UseBackColor = true;
             this.BtnCustomer.Appearance.Options.UseFont = true;
+            this.BtnCustomer.Appearance.Options.UseForeColor = true;
             this.BtnCustomer.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCustomer.ImageOptions.SvgImage = global::POS.Properties.Resources.user4;
             this.BtnCustomer.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCustomer.Location = new System.Drawing.Point(268, 709);
             this.BtnCustomer.Name = "BtnCustomer";
             this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
-            this.BtnCustomer.TabIndex = 151;
-            this.BtnCustomer.Text = "Cliente";
+            this.BtnCustomer.TabIndex = 9;
+            this.BtnCustomer.Text = "F6   Cliente";
             this.BtnCustomer.Click += new System.EventHandler(this.BtnCustomer_Click);
             // 
             // BtnQty
             // 
-            this.BtnQty.AllowFocus = false;
             this.BtnQty.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnQty.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnQty.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnQty.Appearance.Options.UseBackColor = true;
             this.BtnQty.Appearance.Options.UseFont = true;
+            this.BtnQty.Appearance.Options.UseForeColor = true;
             this.BtnQty.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnQty.ImageOptions.SvgImage = global::POS.Properties.Resources.calculator2;
             this.BtnQty.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
@@ -640,16 +650,17 @@
             this.BtnQty.Name = "BtnQty";
             this.BtnQty.Size = new System.Drawing.Size(80, 115);
             this.BtnQty.TabIndex = 152;
-            this.BtnQty.Text = "Cant";
+            this.BtnQty.Text = "F10   \r\nCant";
             this.BtnQty.Click += new System.EventHandler(this.BtnQty_Click);
             // 
             // BtnRemove
             // 
-            this.BtnRemove.AllowFocus = false;
             this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnRemove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRemove.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnRemove.Appearance.Options.UseBackColor = true;
             this.BtnRemove.Appearance.Options.UseFont = true;
+            this.BtnRemove.Appearance.Options.UseForeColor = true;
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImage = global::POS.Properties.Resources.remove;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
@@ -658,7 +669,7 @@
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 115);
             this.BtnRemove.TabIndex = 153;
-            this.BtnRemove.Text = "Anul";
+            this.BtnRemove.Text = "F11   \r\nAnul";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // LblTotal
@@ -726,28 +737,30 @@
             // 
             // BtnPrintLastInvoice
             // 
-            this.BtnPrintLastInvoice.AllowFocus = false;
             this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintLastInvoice.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastInvoice.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPrintLastInvoice.Appearance.Options.UseBackColor = true;
             this.BtnPrintLastInvoice.Appearance.Options.UseFont = true;
+            this.BtnPrintLastInvoice.Appearance.Options.UseForeColor = true;
             this.BtnPrintLastInvoice.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintLastInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastInvoice.ImageOptions.SvgImage")));
             this.BtnPrintLastInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintLastInvoice.Location = new System.Drawing.Point(524, 709);
             this.BtnPrintLastInvoice.Name = "BtnPrintLastInvoice";
             this.BtnPrintLastInvoice.Size = new System.Drawing.Size(250, 45);
-            this.BtnPrintLastInvoice.TabIndex = 151;
-            this.BtnPrintLastInvoice.Text = "Ultima Factura";
+            this.BtnPrintLastInvoice.TabIndex = 10;
+            this.BtnPrintLastInvoice.Text = "F7   Ultima Factura";
             this.BtnPrintLastInvoice.Click += new System.EventHandler(this.BtnPrintLastInvoice_Click);
             // 
             // BtnExit
             // 
-            this.BtnExit.AllowFocus = false;
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnExit.Appearance.Options.UseBackColor = true;
             this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.Appearance.Options.UseForeColor = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
@@ -756,8 +769,8 @@
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
-            this.BtnExit.TabIndex = 160;
-            this.BtnExit.Text = "Salir";
+            this.BtnExit.TabIndex = 12;
+            this.BtnExit.Text = "F9   Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // LblCashier
@@ -765,7 +778,7 @@
             this.LblCashier.AutoSize = true;
             this.LblCashier.Location = new System.Drawing.Point(292, 594);
             this.LblCashier.Name = "LblCashier";
-            this.LblCashier.Size = new System.Drawing.Size(80, 20);
+            this.LblCashier.Size = new System.Drawing.Size(66, 16);
             this.LblCashier.TabIndex = 162;
             this.LblCashier.Text = "CAJERO";
             // 
@@ -775,25 +788,26 @@
             this.LblTitleCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCashier.Location = new System.Drawing.Point(200, 594);
             this.LblTitleCashier.Name = "LblTitleCashier";
-            this.LblTitleCashier.Size = new System.Drawing.Size(76, 20);
+            this.LblTitleCashier.Size = new System.Drawing.Size(63, 16);
             this.LblTitleCashier.TabIndex = 161;
             this.LblTitleCashier.Text = "Cajero:";
             // 
             // BtnSalesOrigin
             // 
-            this.BtnSalesOrigin.AllowFocus = false;
             this.BtnSalesOrigin.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSalesOrigin.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnSalesOrigin.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnSalesOrigin.Appearance.Options.UseBackColor = true;
             this.BtnSalesOrigin.Appearance.Options.UseFont = true;
+            this.BtnSalesOrigin.Appearance.Options.UseForeColor = true;
             this.BtnSalesOrigin.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSalesOrigin.ImageOptions.SvgImage = global::POS.Properties.Resources.salesOrigin1;
             this.BtnSalesOrigin.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
             this.BtnSalesOrigin.Location = new System.Drawing.Point(780, 709);
             this.BtnSalesOrigin.Name = "BtnSalesOrigin";
             this.BtnSalesOrigin.Size = new System.Drawing.Size(250, 45);
-            this.BtnSalesOrigin.TabIndex = 163;
-            this.BtnSalesOrigin.Text = "Origen Venta";
+            this.BtnSalesOrigin.TabIndex = 11;
+            this.BtnSalesOrigin.Text = "F8   Origen Venta";
             this.BtnSalesOrigin.Click += new System.EventHandler(this.BtnSalesOrigin_Click);
             // 
             // ImgSalesOrigin
@@ -808,55 +822,58 @@
             // 
             // BtnAdvance
             // 
-            this.BtnAdvance.AllowFocus = false;
             this.BtnAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAdvance.Appearance.Options.UseBackColor = true;
             this.BtnAdvance.Appearance.Options.UseFont = true;
+            this.BtnAdvance.Appearance.Options.UseForeColor = true;
             this.BtnAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnAdvance.ImageOptions.Image")));
             this.BtnAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
             this.BtnAdvance.Location = new System.Drawing.Point(1132, 521);
             this.BtnAdvance.Name = "BtnAdvance";
             this.BtnAdvance.Size = new System.Drawing.Size(220, 80);
-            this.BtnAdvance.TabIndex = 137;
+            this.BtnAdvance.TabIndex = 6;
             this.BtnAdvance.Text = "Anticipos";
             this.BtnAdvance.Visible = false;
             this.BtnAdvance.Click += new System.EventHandler(this.BtnAdvance_Click);
             // 
             // BtnReturns
             // 
-            this.BtnReturns.AllowFocus = false;
             this.BtnReturns.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnReturns.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnReturns.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnReturns.Appearance.Options.UseBackColor = true;
             this.BtnReturns.Appearance.Options.UseFont = true;
+            this.BtnReturns.Appearance.Options.UseForeColor = true;
             this.BtnReturns.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnReturns.ImageOptions.Image")));
             this.BtnReturns.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnReturns.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
             this.BtnReturns.Location = new System.Drawing.Point(1132, 607);
             this.BtnReturns.Name = "BtnReturns";
             this.BtnReturns.Size = new System.Drawing.Size(220, 80);
-            this.BtnReturns.TabIndex = 165;
+            this.BtnReturns.TabIndex = 7;
             this.BtnReturns.Text = "Nota Crédito";
             this.BtnReturns.Visible = false;
             this.BtnReturns.Click += new System.EventHandler(this.BtnReturns_Click);
             // 
             // BtnProductChecker
             // 
-            this.BtnProductChecker.AllowFocus = false;
             this.BtnProductChecker.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnProductChecker.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnProductChecker.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnProductChecker.Appearance.Options.UseBackColor = true;
             this.BtnProductChecker.Appearance.Options.UseFont = true;
+            this.BtnProductChecker.Appearance.Options.UseForeColor = true;
             this.BtnProductChecker.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnProductChecker.ImageOptions.Image")));
             this.BtnProductChecker.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnProductChecker.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
             this.BtnProductChecker.Location = new System.Drawing.Point(12, 709);
             this.BtnProductChecker.Name = "BtnProductChecker";
             this.BtnProductChecker.Size = new System.Drawing.Size(250, 45);
-            this.BtnProductChecker.TabIndex = 163;
-            this.BtnProductChecker.Text = "Producto";
+            this.BtnProductChecker.TabIndex = 8;
+            this.BtnProductChecker.Text = "F3   Producto";
             this.BtnProductChecker.Visible = false;
             this.BtnProductChecker.Click += new System.EventHandler(this.BtnProductChecker_Click);
             // 
@@ -866,7 +883,7 @@
             this.LblTitleCustomerEmail.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerEmail.Location = new System.Drawing.Point(200, 132);
             this.LblTitleCustomerEmail.Name = "LblTitleCustomerEmail";
-            this.LblTitleCustomerEmail.Size = new System.Drawing.Size(66, 20);
+            this.LblTitleCustomerEmail.Size = new System.Drawing.Size(55, 16);
             this.LblTitleCustomerEmail.TabIndex = 144;
             this.LblTitleCustomerEmail.Text = "Email:";
             // 
@@ -875,7 +892,7 @@
             this.LblCustomerEmail.AutoSize = true;
             this.LblCustomerEmail.Location = new System.Drawing.Point(292, 132);
             this.LblCustomerEmail.Name = "LblCustomerEmail";
-            this.LblCustomerEmail.Size = new System.Drawing.Size(181, 20);
+            this.LblCustomerEmail.Size = new System.Drawing.Size(147, 16);
             this.LblCustomerEmail.TabIndex = 150;
             this.LblCustomerEmail.Text = "@laespanola.com.ec";
             // 
@@ -946,6 +963,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();

@@ -202,8 +202,10 @@ namespace POS
             // 
             this.BtnPrintHistoricAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintHistoricAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintHistoricAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPrintHistoricAdvance.Appearance.Options.UseBackColor = true;
             this.BtnPrintHistoricAdvance.Appearance.Options.UseFont = true;
+            this.BtnPrintHistoricAdvance.Appearance.Options.UseForeColor = true;
             this.BtnPrintHistoricAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintHistoricAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintHistoricAdvance.ImageOptions.SvgImage")));
             this.BtnPrintHistoricAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -219,8 +221,11 @@ namespace POS
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -236,8 +241,10 @@ namespace POS
             // 
             this.BtnPrintLastAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintLastAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPrintLastAdvance.Appearance.Options.UseBackColor = true;
             this.BtnPrintLastAdvance.Appearance.Options.UseFont = true;
+            this.BtnPrintLastAdvance.Appearance.Options.UseForeColor = true;
             this.BtnPrintLastAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintLastAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastAdvance.ImageOptions.SvgImage")));
             this.BtnPrintLastAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -264,8 +271,10 @@ namespace POS
             // 
             this.BtnRefreshAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnRefreshAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRefreshAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnRefreshAdvance.Appearance.Options.UseBackColor = true;
             this.BtnRefreshAdvance.Appearance.Options.UseFont = true;
+            this.BtnRefreshAdvance.Appearance.Options.UseForeColor = true;
             this.BtnRefreshAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnRefreshAdvance.ImageOptions.Image")));
             this.BtnRefreshAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnRefreshAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -279,11 +288,12 @@ namespace POS
             // 
             // BtnAdvancePayment
             // 
-            this.BtnAdvancePayment.AllowFocus = false;
             this.BtnAdvancePayment.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAdvancePayment.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnAdvancePayment.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAdvancePayment.Appearance.Options.UseBackColor = true;
             this.BtnAdvancePayment.Appearance.Options.UseFont = true;
+            this.BtnAdvancePayment.Appearance.Options.UseForeColor = true;
             this.BtnAdvancePayment.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAdvancePayment.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnAdvancePayment.ImageOptions.SvgImage")));
             this.BtnAdvancePayment.ImageOptions.SvgImageSize = new System.Drawing.Size(40, 40);
@@ -319,8 +329,10 @@ namespace POS
             // 
             this.BtnNewAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnNewAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnNewAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnNewAdvance.Appearance.Options.UseBackColor = true;
             this.BtnNewAdvance.Appearance.Options.UseFont = true;
+            this.BtnNewAdvance.Appearance.Options.UseForeColor = true;
             this.BtnNewAdvance.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnNewAdvance.ImageOptions.Image")));
             this.BtnNewAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnNewAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -336,8 +348,10 @@ namespace POS
             // 
             this.BtnCancelAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancelAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancelAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancelAdvance.Appearance.Options.UseBackColor = true;
             this.BtnCancelAdvance.Appearance.Options.UseFont = true;
+            this.BtnCancelAdvance.Appearance.Options.UseForeColor = true;
             this.BtnCancelAdvance.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelAdvance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancelAdvance.ImageOptions.SvgImage")));
             this.BtnCancelAdvance.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -371,8 +385,10 @@ namespace POS
             // 
             this.BtnKeypadAdvance.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnKeypadAdvance.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnKeypadAdvance.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnKeypadAdvance.Appearance.Options.UseBackColor = true;
             this.BtnKeypadAdvance.Appearance.Options.UseFont = true;
+            this.BtnKeypadAdvance.Appearance.Options.UseForeColor = true;
             this.BtnKeypadAdvance.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnKeypadAdvance.AppearanceHovered.Options.UseBackColor = true;
             this.BtnKeypadAdvance.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
@@ -412,6 +428,7 @@ namespace POS
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.radioGroup1);
             this.Controls.Add(this.BtnKeypadAdvance);

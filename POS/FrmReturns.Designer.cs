@@ -427,6 +427,7 @@ namespace POS
             this.TxtObservation.Properties.Appearance.Options.UseFont = true;
             this.TxtObservation.Size = new System.Drawing.Size(584, 44);
             this.TxtObservation.TabIndex = 176;
+            this.TxtObservation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtObservation_KeyDown);
             // 
             // simpleButton1
             // 
@@ -446,11 +447,12 @@ namespace POS
             // 
             // BtnPrintLastReturn
             // 
-            this.BtnPrintLastReturn.AllowFocus = false;
             this.BtnPrintLastReturn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintLastReturn.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintLastReturn.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPrintLastReturn.Appearance.Options.UseBackColor = true;
             this.BtnPrintLastReturn.Appearance.Options.UseFont = true;
+            this.BtnPrintLastReturn.Appearance.Options.UseForeColor = true;
             this.BtnPrintLastReturn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintLastReturn.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintLastReturn.ImageOptions.SvgImage")));
             this.BtnPrintLastReturn.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -462,11 +464,12 @@ namespace POS
             // 
             // BtnApprove
             // 
-            this.BtnApprove.AllowFocus = false;
             this.BtnApprove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnApprove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnApprove.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnApprove.Appearance.Options.UseBackColor = true;
             this.BtnApprove.Appearance.Options.UseFont = true;
+            this.BtnApprove.Appearance.Options.UseForeColor = true;
             this.BtnApprove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnApprove.ImageOptions.SvgImage = global::POS.Properties.Resources.payment;
             this.BtnApprove.ImageOptions.SvgImageSize = new System.Drawing.Size(65, 65);
@@ -478,11 +481,12 @@ namespace POS
             // 
             // BtnExit
             // 
-            this.BtnExit.AllowFocus = false;
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnExit.Appearance.Options.UseBackColor = true;
             this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.Appearance.Options.UseForeColor = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnExit.ImageOptions.SvgImage")));
@@ -616,6 +620,7 @@ namespace POS
             // FrmReturns
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnExit;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.GrcSalesOrder);
             this.Controls.Add(this.BtnExit);

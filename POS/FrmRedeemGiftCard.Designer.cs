@@ -107,6 +107,7 @@
             this.TxtGiftCardNumber.Properties.Appearance.Options.UseFont = true;
             this.TxtGiftCardNumber.Size = new System.Drawing.Size(216, 44);
             this.TxtGiftCardNumber.TabIndex = 153;
+            this.TxtGiftCardNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtGiftCardNumber_KeyDown);
             // 
             // label2
             // 
@@ -223,7 +224,7 @@
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -231,12 +232,12 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(1192, 704);
+            this.BtnAccept.Location = new System.Drawing.Point(1184, 704);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(168, 50);
             this.BtnAccept.TabIndex = 157;
-            this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.Text = "F12 Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
@@ -250,7 +251,7 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(1022, 704);
+            this.BtnCancel.Location = new System.Drawing.Point(1014, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -292,7 +293,7 @@
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
             this.BtnRemove.TabIndex = 188;
-            this.BtnRemove.Text = "Elim";
+            this.BtnRemove.Text = "F11 \r\nElim";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // GrcProduct
@@ -304,6 +305,7 @@
             this.GrcProduct.TabIndex = 187;
             this.GrcProduct.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvProduct});
+            this.GrcProduct.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcProduct_KeyDown);
             // 
             // GrvProduct
             // 
@@ -458,6 +460,7 @@
             this.TxtRedeemName.Properties.Appearance.Options.UseFont = true;
             this.TxtRedeemName.Size = new System.Drawing.Size(570, 44);
             this.TxtRedeemName.TabIndex = 176;
+            this.TxtRedeemName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRedeemName_KeyDown);
             // 
             // TxtRedeemIdentification
             // 
@@ -467,6 +470,7 @@
             this.TxtRedeemIdentification.Properties.Appearance.Options.UseFont = true;
             this.TxtRedeemIdentification.Size = new System.Drawing.Size(216, 44);
             this.TxtRedeemIdentification.TabIndex = 177;
+            this.TxtRedeemIdentification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRedeemIdentification_KeyDown);
             // 
             // TxtBarcode
             // 
@@ -491,6 +495,7 @@
             // FrmRedeemGiftCard
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.AxOPOSScanner);

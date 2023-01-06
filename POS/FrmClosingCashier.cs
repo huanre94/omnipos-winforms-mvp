@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -24,13 +25,29 @@ namespace POS
         private GridView selectedGrv;
         private decimal totalHideCash = 0;
 
-        public FrmClosingCashier()
+        public FrmClosingCashier(string CadenaC = "", string TipoCierre= "")
         {
+            //Se incrementa un parámetro para saber si es cierre Total T o si es Arquedo de Caja A'
             InitializeComponent();
+            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+            this.TipoCierre = TipoCierre;
         }
+
+        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+        string TipoCierre; 
 
         private void FrmClosingCashier_Load(object sender, EventArgs e)
         {
+            //Indica el tipo de cierre para mostrar texto informativo y parametro para SP
+            if (TipoCierre == "F")
+            {
+                this.lblTipoCierre.Text = "Cierre Total";
+            }
+            else
+            {
+                this.lblTipoCierre.Text = "Arqueo de Caja";
+            }
+
             if (GetEmissionPointInformation())
             {
                 LoadGridInformation();
@@ -41,13 +58,15 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu();
+                FrmMenu frmMenu = new FrmMenu(CadenaC);
                 frmMenu.loginInformation = loginInformation;
                 frmMenu.globalParameters = globalParameters;
                 frmMenu.Visible = true;
                 Close();
-            }
+            }            
         }
+        
+
 
         #region Functions
         private decimal CalculatePartials()
@@ -104,10 +123,10 @@ namespace POS
             try
             {
                 ClsClosingTrans closing = new ClsClosingTrans();
-                denominations = closing.GetDenominations();
-                partials = closing.GetPartialClosings(emissionPoint, loginInformation);
+                denominations = closing.GetDenominations(CadenaC);
+                partials = closing.GetPartialClosings(emissionPoint, loginInformation, CadenaC);
                 partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
-                payments = closing.GetClosingPayments(emissionPoint, loginInformation);
+                payments = closing.GetClosingPayments(emissionPoint, loginInformation, CadenaC);
 
 
                 List<SP_ClosingCashierPayment_Consult_Result> newList = new List<SP_ClosingCashierPayment_Consult_Result>();
@@ -170,7 +189,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
 
                     if (emissionPoint != null)
                     {
@@ -203,7 +222,7 @@ namespace POS
         #region Keypad Buttons
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
+            FrmMenu frmMenu = new FrmMenu(CadenaC);
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -212,7 +231,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue");
+            GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue", CadenaC);
 
             if (payments.Count == 0)
             {
@@ -224,7 +243,7 @@ namespace POS
                 if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
                 {
                     functions.emissionPoint = emissionPoint;
-                    if (functions.RequestSupervisorAuth())
+                    if (functions.RequestSupervisorAuth(false, 0, CadenaC))
                     {
                         XElement closingCashierTableXml = new XElement("ClosingCashierTable");
                         ClosingCashierTable cashierTable = new ClosingCashierTable()
@@ -329,7 +348,7 @@ namespace POS
 
                         try
                         {
-                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml);
+                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml, CadenaC, TipoCierre);
 
                             if (clsClosing != null)
                             {
@@ -338,7 +357,7 @@ namespace POS
                                     SP_ClosingCashier_Insert_Result closing = clsClosing[0];
                                     if (!(bool)closing.Error)
                                     {
-                                        if (functions.PrintDocument((long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                                        if (functions.PrintDocument( (long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false, CadenaC))
                                         {
                                             functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                                         }
@@ -347,7 +366,7 @@ namespace POS
                                             functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", ClsEnums.MessageType.WARNING);
                                         }
 
-                                        FrmMenu frmMenu = new FrmMenu();
+                                        FrmMenu frmMenu = new FrmMenu(CadenaC);
                                         frmMenu.loginInformation = loginInformation;
                                         frmMenu.globalParameters = globalParameters;
                                         frmMenu.Visible = true;
@@ -461,6 +480,8 @@ namespace POS
         {
             if (TxtBarcode.Text != "")
             {
+                //selectedGrv = GrvDenomination;//11/07/2022
+
                 if (selectedGrv != null)
                 {
                     int rowSelected = selectedGrv.FocusedRowHandle;
@@ -487,8 +508,10 @@ namespace POS
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
-            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F");
-            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
+            //long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F", CadenaC);   // 04/01/2023
+            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, TipoCierre, CadenaC);
+            
+            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false, CadenaC))
             {
                 functions.ShowMessage("Cierre total impreso.");
             }
@@ -497,6 +520,54 @@ namespace POS
         private void BtnCancelClosing_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void GrcDenomination_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            //11/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    BtnAccept_Click(null,null);
+                    break;
+                case Keys.F5:
+                    BtnCancelClosing_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnLastClosing_Click(null, null);
+                    break;
+                case Keys.F12:
+                    TxtBarcode.Focus();                    
+                break;
+            default:
+              break;
+            }
+        }
+
+        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            //11/07/2022            
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnEnter_Click(null, null);
+                    GrcDenomination.Focus();
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnCancelClosing_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnLastClosing_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcDenomination.Focus();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

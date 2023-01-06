@@ -90,8 +90,9 @@
             this.CmbAddressPicker.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbAddressPicker.Size = new System.Drawing.Size(425, 38);
-            this.CmbAddressPicker.TabIndex = 145;
+            this.CmbAddressPicker.TabIndex = 0;
             this.CmbAddressPicker.SelectedIndexChanged += new System.EventHandler(this.CmbAddressPicker_SelectedIndexChanged);
+            this.CmbAddressPicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbAddressPicker_KeyDown);
             // 
             // BtnKeyboardAddressRef
             // 
@@ -115,7 +116,8 @@
             this.TxtAddressRef.Location = new System.Drawing.Point(138, 229);
             this.TxtAddressRef.Name = "TxtAddressRef";
             this.TxtAddressRef.Size = new System.Drawing.Size(425, 38);
-            this.TxtAddressRef.TabIndex = 149;
+            this.TxtAddressRef.TabIndex = 2;
+            this.TxtAddressRef.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddressRef_KeyDown);
             // 
             // BtnKeyboardAddress
             // 
@@ -139,7 +141,8 @@
             this.TxtAddress.Location = new System.Drawing.Point(138, 172);
             this.TxtAddress.Name = "TxtAddress";
             this.TxtAddress.Size = new System.Drawing.Size(425, 38);
-            this.TxtAddress.TabIndex = 146;
+            this.TxtAddress.TabIndex = 1;
+            this.TxtAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddress_KeyDown);
             // 
             // LblCustomerName
             // 
@@ -204,7 +207,8 @@
             this.TxtTelephoneAddress.Location = new System.Drawing.Point(137, 286);
             this.TxtTelephoneAddress.Name = "TxtTelephoneAddress";
             this.TxtTelephoneAddress.Size = new System.Drawing.Size(425, 38);
-            this.TxtTelephoneAddress.TabIndex = 149;
+            this.TxtTelephoneAddress.TabIndex = 3;
+            this.TxtTelephoneAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTelephoneAddress_KeyDown);
             // 
             // BtnKeypadTelephone
             // 
@@ -236,19 +240,19 @@
             // BtnModify
             // 
             this.BtnModify.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnModify.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnModify.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnModify.Appearance.Options.UseBackColor = true;
             this.BtnModify.Appearance.Options.UseFont = true;
             this.BtnModify.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnModify.ImageOptions.Image")));
             this.BtnModify.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnModify.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnModify.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnModify.Location = new System.Drawing.Point(201, 345);
+            this.BtnModify.Location = new System.Drawing.Point(196, 345);
             this.BtnModify.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModify.Name = "BtnModify";
-            this.BtnModify.Size = new System.Drawing.Size(160, 50);
+            this.BtnModify.Size = new System.Drawing.Size(165, 50);
             this.BtnModify.TabIndex = 235;
-            this.BtnModify.Text = "Modificar";
+            this.BtnModify.Text = "F2 Modificar";
             this.BtnModify.Click += new System.EventHandler(this.BtnModify_Click);
             // 
             // BtnNewAddress
@@ -265,8 +269,8 @@
             this.BtnNewAddress.Margin = new System.Windows.Forms.Padding(5);
             this.BtnNewAddress.Name = "BtnNewAddress";
             this.BtnNewAddress.Size = new System.Drawing.Size(160, 50);
-            this.BtnNewAddress.TabIndex = 142;
-            this.BtnNewAddress.Text = "Nueva\r\nDireccion";
+            this.BtnNewAddress.TabIndex = 3;
+            this.BtnNewAddress.Text = "F3 Nueva\r\nDireccion";
             this.BtnNewAddress.Click += new System.EventHandler(this.BtnNewAddress_Click);
             // 
             // BtnRefresh
@@ -283,7 +287,7 @@
             this.BtnRefresh.Margin = new System.Windows.Forms.Padding(5);
             this.BtnRefresh.Name = "BtnRefresh";
             this.BtnRefresh.Size = new System.Drawing.Size(82, 50);
-            this.BtnRefresh.TabIndex = 142;
+            this.BtnRefresh.TabIndex = 4;
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
             // BtnAddressPicker
@@ -296,18 +300,19 @@
             this.BtnAddressPicker.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAddressPicker.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAddressPicker.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAddressPicker.Location = new System.Drawing.Point(541, 345);
+            this.BtnAddressPicker.Location = new System.Drawing.Point(541, 346);
             this.BtnAddressPicker.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAddressPicker.Name = "BtnAddressPicker";
-            this.BtnAddressPicker.Size = new System.Drawing.Size(160, 50);
+            this.BtnAddressPicker.Size = new System.Drawing.Size(168, 50);
             this.BtnAddressPicker.TabIndex = 142;
-            this.BtnAddressPicker.Text = "Elegir";
+            this.BtnAddressPicker.Text = "F6 Elegir";
             this.BtnAddressPicker.Click += new System.EventHandler(this.BtnAddressPicker_Click);
             // 
             // FrmAddressPicker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(747, 444);
+            this.CancelButton = this.BtnCancel;
+            this.ClientSize = new System.Drawing.Size(759, 456);
             this.ControlBox = false;
             this.Controls.Add(this.BtnModify);
             this.Controls.Add(this.label1);

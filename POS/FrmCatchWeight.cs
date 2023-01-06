@@ -24,13 +24,16 @@ namespace POS
         public ClsEnums.ScaleBrands ScaleBrand { get; set; }
         public string PortName { get; set; }
 
-        public FrmCatchWeight(ClsEnums.ScaleBrands _scaleBrand, string _portName)
+        public FrmCatchWeight(ClsEnums.ScaleBrands _scaleBrand, string _portName, string CadenaC = "")
         {
             InitializeComponent();
 
             ScaleBrand = _scaleBrand;
             PortName = _portName;
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
@@ -42,7 +45,7 @@ namespace POS
                 }
                 else
                 {
-                    strWaitTime = (from par in new POSEntities().GlobalParameter.ToList()
+                    strWaitTime = (from par in new POSEntities(CadenaC).GlobalParameter.ToList()
                                    where par.Name == "MaxScaleWaitTime"
                                    select par.Value).FirstOrDefault();
 
@@ -84,6 +87,7 @@ namespace POS
         private void BtnCatchWeight_Click(object sender, EventArgs e)
         {
             CatchWeightProduct(ScaleBrand, PortName);
+            BtnAccept.Focus();
         }
 
         private void CatchWeightProduct(ClsEnums.ScaleBrands _scaleBrand, string _portName)

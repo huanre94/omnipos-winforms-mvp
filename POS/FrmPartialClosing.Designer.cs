@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartialClosing));
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Monto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PaymModeId = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -123,7 +123,7 @@
             this.GrcPartialClosing.MainView = this.GrvPartialClosing;
             this.GrcPartialClosing.Name = "GrcPartialClosing";
             this.GrcPartialClosing.Size = new System.Drawing.Size(357, 595);
-            this.GrcPartialClosing.TabIndex = 179;
+            this.GrcPartialClosing.TabIndex = 3;
             this.GrcPartialClosing.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPartialClosing});
             // 
@@ -186,9 +186,11 @@
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -198,16 +200,19 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 176;
-            this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.TabIndex = 4;
+            this.BtnAccept.Text = "F2 Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -215,7 +220,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 178;
+            this.BtnCancel.TabIndex = 6;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
@@ -248,7 +253,8 @@
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
             this.TxtBarcode.Size = new System.Drawing.Size(159, 44);
-            this.TxtBarcode.TabIndex = 180;
+            this.TxtBarcode.TabIndex = 1;
+            this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // LblTotalCashier
             // 
@@ -287,8 +293,10 @@
             // 
             this.BtnLastClosing.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnLastClosing.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnLastClosing.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnLastClosing.Appearance.Options.UseBackColor = true;
             this.BtnLastClosing.Appearance.Options.UseFont = true;
+            this.BtnLastClosing.Appearance.Options.UseForeColor = true;
             this.BtnLastClosing.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnLastClosing.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnLastClosing.ImageOptions.SvgImage")));
             this.BtnLastClosing.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -296,8 +304,8 @@
             this.BtnLastClosing.Margin = new System.Windows.Forms.Padding(5);
             this.BtnLastClosing.Name = "BtnLastClosing";
             this.BtnLastClosing.Size = new System.Drawing.Size(271, 50);
-            this.BtnLastClosing.TabIndex = 177;
-            this.BtnLastClosing.Text = "Imp Ult Cierre";
+            this.BtnLastClosing.TabIndex = 5;
+            this.BtnLastClosing.Text = "F7 Imp Ult Cierre";
             this.BtnLastClosing.Click += new System.EventHandler(this.BtnLastClosing_Click);
             // 
             // gridColumn1
@@ -327,15 +335,15 @@
             this.Amount2,
             this.Monto,
             this.PaymModeId});
-            gridFormatRule1.ApplyToRow = true;
-            gridFormatRule1.Column = this.Amount2;
-            gridFormatRule1.Name = "Format0";
-            formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            formatConditionRuleValue1.Appearance.Options.UseFont = true;
-            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
-            formatConditionRuleValue1.Expression = "[TypedAmount] <> 0";
-            gridFormatRule1.Rule = formatConditionRuleValue1;
-            this.GrvDenomination.FormatRules.Add(gridFormatRule1);
+            gridFormatRule2.ApplyToRow = true;
+            gridFormatRule2.Column = this.Amount2;
+            gridFormatRule2.Name = "Format0";
+            formatConditionRuleValue2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            formatConditionRuleValue2.Appearance.Options.UseFont = true;
+            formatConditionRuleValue2.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
+            formatConditionRuleValue2.Expression = "[TypedAmount] <> 0";
+            gridFormatRule2.Rule = formatConditionRuleValue2;
+            this.GrvDenomination.FormatRules.Add(gridFormatRule2);
             this.GrvDenomination.GridControl = this.GrcDenomination;
             this.GrvDenomination.Name = "GrvDenomination";
             this.GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -368,9 +376,10 @@
             this.GrcDenomination.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
             this.GrcDenomination.Size = new System.Drawing.Size(541, 595);
-            this.GrcDenomination.TabIndex = 175;
+            this.GrcDenomination.TabIndex = 2;
             this.GrcDenomination.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvDenomination});
+            this.GrcDenomination.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcDenomination_KeyDown);
             // 
             // Btn3
             // 
@@ -548,7 +557,8 @@
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbMotive.Size = new System.Drawing.Size(334, 38);
-            this.CmbMotive.TabIndex = 189;
+            this.CmbMotive.TabIndex = 0;
+            this.CmbMotive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbMotive_KeyDown);
             // 
             // label3
             // 
@@ -565,6 +575,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.label3);

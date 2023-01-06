@@ -53,6 +53,7 @@
             this.TxtSearchName.Properties.Appearance.Options.UseFont = true;
             this.TxtSearchName.Size = new System.Drawing.Size(451, 44);
             this.TxtSearchName.TabIndex = 139;
+            this.TxtSearchName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearchName_KeyDown);
             // 
             // GrcSalesDetail
             // 
@@ -63,6 +64,7 @@
             this.GrcSalesDetail.TabIndex = 141;
             this.GrcSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesDetail});
+            this.GrcSalesDetail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GrcSalesDetail_KeyPress);
             // 
             // GrvSalesDetail
             // 

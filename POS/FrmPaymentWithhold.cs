@@ -25,10 +25,13 @@ namespace POS
         public decimal totalDiscounted = 0;
         public List<InvoicePayment> retentionList;
 
-        public FrmPaymentWithhold()
+        public FrmPaymentWithhold(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmPaymentWithhold2_Load(object sender, EventArgs e)
         {
@@ -184,7 +187,7 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNAutorization.Text = keyPad.creditCardAuthorization;
@@ -192,7 +195,7 @@ namespace POS
 
         private void BtnKeypadRet_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNRetention.Text = keyPad.creditCardAuthorization;
@@ -203,7 +206,7 @@ namespace POS
             List<RetentionTable> retentions = null;
             try
             {
-                retentions = new ClsPaymMode().GetRetentionTables(typeRetention);
+                retentions = new ClsPaymMode().GetRetentionTables(typeRetention, CadenaC);
             }
             catch (Exception ex)
             {

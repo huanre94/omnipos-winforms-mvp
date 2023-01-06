@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -20,11 +21,13 @@ namespace POS
         private Customer customer;
         private bool allowChangePaymode;
 
-        public FrmChangePaymMode()
+        public FrmChangePaymMode(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmChangePaymMode_Load(object sender, EventArgs e)
         {
             if (!GetEmissionPointInformation())
@@ -32,9 +35,8 @@ namespace POS
                 LblEmission.Visible = true;
                 TxtEmissionPoint.Visible = true;
                 BtnKeypadEmission.Visible = true;
-            }
-
-            LoadPaymModes();
+            }            
+            LoadPaymModes();            
         }
 
         private bool GetEmissionPointInformation()
@@ -48,7 +50,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -84,7 +86,7 @@ namespace POS
 
             try
             {
-                paymModes = clsPaymMode.GetPaymModes();
+                paymModes = clsPaymMode.GetPaymModes(CadenaC);
 
                 if (paymModes != null)
                 {
@@ -109,7 +111,7 @@ namespace POS
 
         private void BtnKeypadEmission_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
             };
@@ -119,7 +121,7 @@ namespace POS
 
         private void BtnKeypadInvoice_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
             };
@@ -152,6 +154,7 @@ namespace POS
                                                             _locationId
                                                             , _emissionPoint
                                                             , _invoiceNumber
+                                                            , CadenaC
                                                             );
 
                 if (payments != null)
@@ -162,7 +165,7 @@ namespace POS
                         {
                             AllowNew = true
                         };
-                        customer = clsCustomer.GetCustomerById(payments.First().CustomerId);
+                        customer = clsCustomer.GetCustomerById(payments.First().CustomerId,CadenaC);
 
                         GrcPayments.DataSource = bindingList;
                     }
@@ -184,9 +187,10 @@ namespace POS
         }
 
         private void CmbPaymMode_SelectedValueChanged(object sender, EventArgs e)
-        {
-            int rowIndex = GrvPayments.FocusedRowHandle;
-            SelectPaymentOption(rowIndex);
+        {            
+            //08/07/2022  Se comento para que realice este proceso al dar Enter en la linea seleccionada.
+            //int rowIndex = GrvPayments.FocusedRowHandle;
+            //SelectPaymentOption(rowIndex);
         }
 
         private void SelectPaymentOption(int _rowIndex)
@@ -204,7 +208,7 @@ namespace POS
                 {
                     case (int)ClsEnums.PaymModeEnum.DEBITO_BANCARIO:
                     case (int)ClsEnums.PaymModeEnum.TARJETA_CREDITO:
-                        FrmPaymentCard paymentCard = new FrmPaymentCard
+                        FrmPaymentCard paymentCard = new FrmPaymentCard(CadenaC)
                         {
                             creditCardAmount = row.Amount,
                             customer = customer
@@ -226,7 +230,7 @@ namespace POS
 
                     case (int)ClsEnums.PaymModeEnum.CHEQUE_DIA:
                     case (int)ClsEnums.PaymModeEnum.CHEQUE_POST:
-                        FrmPaymentCheck paymentCheck = new FrmPaymentCheck
+                        FrmPaymentCheck paymentCheck = new FrmPaymentCheck(CadenaC)
                         {
                             checkAmount = row.Amount,
                             customer = customer
@@ -251,7 +255,7 @@ namespace POS
                         break;
 
                     case (int)ClsEnums.PaymModeEnum.BONO:
-                        FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard
+                        FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard(CadenaC)
                         {
                             paidAmount = row.Amount
                         };
@@ -280,8 +284,8 @@ namespace POS
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
-        {
-            ChangePaymMode();
+        {            
+             ChangePaymMode();                   
         }
 
         private void ChangePaymMode()
@@ -291,7 +295,7 @@ namespace POS
             if (allowChangePaymode)
             {
                 functions.emissionPoint = emissionPoint;
-                if (emissionPoint != null ? functions.RequestSupervisorAuth() : true)
+                if (emissionPoint != null ? functions.RequestSupervisorAuth(false,0,CadenaC) : true)
                 {
                     try
                     {
@@ -301,7 +305,8 @@ namespace POS
                                                                             , row.Sequence
                                                                             , invoicePayment
                                                                             , (int)loginInformation.UserId
-                                                                            , loginInformation.Workstation
+                                                                            , loginInformation.Workstation      
+                                                                            , CadenaC
                                                                             );
 
                         if (response)
@@ -326,6 +331,50 @@ namespace POS
             else
             {
                 functions.ShowMessage("No se puede realizar actualización por falta de información.", ClsEnums.MessageType.WARNING);
+            }
+        }
+
+        private void TxtEmissionPoint_KeyDown(object sender, KeyEventArgs e)
+        {
+            //07/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtInvoiceNumber.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeypadEmission_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtInvoiceNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            //07/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnSearch_Click(null,null);                    
+                    CmbPaymMode.Focus();//07/07/2022
+                    break;
+                case Keys.F1:
+                    BtnKeypadInvoice_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbPaymMode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //08/08/2022
+                int rowIndex = GrvPayments.FocusedRowHandle;
+                SelectPaymentOption(rowIndex);
+                BtnAccept.Focus();
             }
         }
     }

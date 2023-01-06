@@ -50,9 +50,9 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
+        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0, string CadenaC = "")
         {
-            FrmSupervisorAuth auth = new FrmSupervisorAuth
+            FrmSupervisorAuth auth = new FrmSupervisorAuth(CadenaC)
             {
                 scanner = AxOPOSScanner,
                 emissionPoint = emissionPoint,
@@ -195,9 +195,10 @@ namespace POS
                                                 string _productName,
                                                 ClsEnums.ScaleBrands _scaleBrand,
                                                 string _portName = "",
-                                                bool isTestMode = false)
+                                                bool isTestMode = false,
+                                                string _CadenaC = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _CadenaC)
             {
                 axOposScale = _axOposScale,
                 productName = _productName,
@@ -219,7 +220,7 @@ namespace POS
             }
             //End(IG001)
 
-            parameter = (from par in new POSEntities().GlobalParameter.ToList()
+            parameter = (from par in new POSEntities(_CadenaC).GlobalParameter.ToList()
                          where par.Name == "LostWeightQty"
                          select par.Value).FirstOrDefault();
 
@@ -246,9 +247,9 @@ namespace POS
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
                                     string _productName,
                                     ClsEnums.ScaleBrands _scaleBrand,
-                                    string _portName = "")
+                                    string _portName = "", string _CadenaC = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _CadenaC)
             {
                 axOposScale = _axOposScale,
                 productName = _productName,
@@ -302,7 +303,7 @@ namespace POS
             }
         }
 
-        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false)
+        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false, string _CadenaC = "")
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
@@ -320,7 +321,7 @@ namespace POS
                 switch (_documentType)
                 {
                     case ClsEnums.DocumentType.INVOICE:
-                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier);
+                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier, _CadenaC);
 
                         if (invoiceTicket != null)
                         {
@@ -334,7 +335,7 @@ namespace POS
                         }
                         break;
                     case ClsEnums.DocumentType.CLOSINGCASHIER:
-                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId);
+                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId, _CadenaC);
 
                         if (closingCashierTicket != null)
                         {
@@ -348,7 +349,7 @@ namespace POS
                         }
                         break;
                     case ClsEnums.DocumentType.SALESORDER:
-                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId);
+                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false, _CadenaC);
 
                         if (salesOrderTicket != null)
                         {
@@ -362,7 +363,7 @@ namespace POS
                         }
                         break;
                     case ClsEnums.DocumentType.REMISSIONGUIDE:
-                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
+                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId, _CadenaC);
 
                         if (remissionGuideTicket != null)
                         {

@@ -24,10 +24,13 @@ namespace POS
         public string salesOrderId = "";
         public string advanceAmount = "";
 
-        public FrmKeyPad()
+        public FrmKeyPad(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmKeyPad_Load(object sender, EventArgs e)
         {
@@ -186,6 +189,24 @@ namespace POS
             }
         }
 
+        private void TxtValue_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {                   
 
+
+            if (((int)e.KeyCode) == 13)
+            {
+                BtnEnter_Click(null, null);
+            }
+
+            if (((int)e.KeyCode) == 27)
+            {
+                this.Close();
+            }
+        }
+
+        private void TxtValue_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

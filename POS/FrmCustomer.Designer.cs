@@ -69,7 +69,8 @@
             this.TxtFirstName.Location = new System.Drawing.Point(113, 69);
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.Size = new System.Drawing.Size(546, 38);
-            this.TxtFirstName.TabIndex = 3;
+            this.TxtFirstName.TabIndex = 2;
+            this.TxtFirstName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtFirstName_KeyDown);
             // 
             // LblName
             // 
@@ -96,7 +97,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 9;
+            this.BtnAccept.TabIndex = 8;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -166,7 +167,8 @@
             this.TxtIdentification.Location = new System.Drawing.Point(459, 12);
             this.TxtIdentification.Name = "TxtIdentification";
             this.TxtIdentification.Size = new System.Drawing.Size(200, 38);
-            this.TxtIdentification.TabIndex = 2;
+            this.TxtIdentification.TabIndex = 1;
+            this.TxtIdentification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtIdentification_KeyDown);
             // 
             // LblIdentification
             // 
@@ -200,7 +202,8 @@
             this.TxtLastName.Location = new System.Drawing.Point(113, 126);
             this.TxtLastName.Name = "TxtLastName";
             this.TxtLastName.Size = new System.Drawing.Size(546, 38);
-            this.TxtLastName.TabIndex = 17;
+            this.TxtLastName.TabIndex = 3;
+            this.TxtLastName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtLastName_KeyDown);
             // 
             // LblLastname
             // 
@@ -234,7 +237,8 @@
             this.TxtAddress.Location = new System.Drawing.Point(113, 183);
             this.TxtAddress.Name = "TxtAddress";
             this.TxtAddress.Size = new System.Drawing.Size(546, 38);
-            this.TxtAddress.TabIndex = 20;
+            this.TxtAddress.TabIndex = 4;
+            this.TxtAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddress_KeyDown);
             // 
             // LblAddress
             // 
@@ -268,7 +272,8 @@
             this.TxtEmail.Location = new System.Drawing.Point(113, 240);
             this.TxtEmail.Name = "TxtEmail";
             this.TxtEmail.Size = new System.Drawing.Size(546, 38);
-            this.TxtEmail.TabIndex = 23;
+            this.TxtEmail.TabIndex = 5;
+            this.TxtEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtEmail_KeyDown);
             // 
             // LblEmail
             // 
@@ -299,7 +304,8 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbIdenType.Properties.DropDownRows = 10;
             this.CmbIdenType.Size = new System.Drawing.Size(200, 38);
-            this.CmbIdenType.TabIndex = 28;
+            this.CmbIdenType.TabIndex = 0;
+            this.CmbIdenType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbIdenType_KeyDown);
             // 
             // CmbGender
             // 
@@ -310,7 +316,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbGender.Properties.DropDownRows = 10;
             this.CmbGender.Size = new System.Drawing.Size(200, 38);
-            this.CmbGender.TabIndex = 29;
+            this.CmbGender.TabIndex = 7;
             // 
             // LblPhone
             // 
@@ -327,7 +333,8 @@
             this.TxtPhone.Location = new System.Drawing.Point(113, 297);
             this.TxtPhone.Name = "TxtPhone";
             this.TxtPhone.Size = new System.Drawing.Size(200, 38);
-            this.TxtPhone.TabIndex = 30;
+            this.TxtPhone.TabIndex = 6;
+            this.TxtPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPhone_KeyDown);
             // 
             // LblPersonType
             // 
@@ -361,6 +368,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(773, 496);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadPhone);

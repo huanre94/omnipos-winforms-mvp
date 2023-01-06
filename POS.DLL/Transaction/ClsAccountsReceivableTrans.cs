@@ -6,12 +6,12 @@ namespace POS.DLL.Transaction
 {
     public class ClsAccountsReceivableTrans
     {
-        public SP_Advance_Insert_Result AddAdvance(XElement _advanceXml)
+        public SP_Advance_Insert_Result AddAdvance(XElement _advanceXml, string _CadenaC = "")
         {
             SP_Advance_Insert_Result result;
             try
             {
-                result = new POSEntities().SP_Advance_Insert($"{_advanceXml}").FirstOrDefault();
+                result = new POSEntities(_CadenaC).SP_Advance_Insert($"{_advanceXml}").FirstOrDefault();
             }
             catch (Exception ex)
             {

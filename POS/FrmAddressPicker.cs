@@ -25,11 +25,13 @@ namespace POS
         List<CustomerAddress> addressList;
 
 
-        public FrmAddressPicker()
+        public FrmAddressPicker(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmAddressPicker_Load(object sender, EventArgs e)
         {
             ClearFields();
@@ -63,13 +65,13 @@ namespace POS
             try
             {
                 CmbAddressPicker.Properties.Items.Clear();
-                addressList = new ClsCustomer().GetCustomerAddressesById(_currentCustomer);
+                addressList = new ClsCustomer().GetCustomerAddressesById(_currentCustomer, CadenaC);
                 if (addressList.Count == 0)
                 {
                     EnableAddressInput(true);
                     functions.ShowMessage("Cliente no cuenta con direcciones de entrega registradas, por favor registre una.", ClsEnums.MessageType.WARNING);
                     newAddress = true;
-                    BtnAddressPicker.Text = "Guardar";
+                    BtnAddressPicker.Text = "F6 Guardar";
                 }
                 else
                 {
@@ -105,27 +107,29 @@ namespace POS
             newAddress = true;
             ClearFields();
             EnableAddressInput(true);
-            BtnAddressPicker.Text = "Guardar";
+            BtnAddressPicker.Text = "F6 Guardar";
         }
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
             TxtAddress.Text = frmKeyBoard.customerAddress;
+            TxtAddress.Focus();
         }
 
         private void BtnKeyboardAddressRef_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
             TxtAddressRef.Text = frmKeyBoard.customerAddress;
+            TxtAddressRef.Focus();
         }
 
         private void CmbAddressPicker_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,18 +154,19 @@ namespace POS
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
             LoadAddressesByCustomer(currentCustomer);
-            BtnAddressPicker.Text = "Elegir";
+            BtnAddressPicker.Text = "F6 Elegir";
             newAddress = false;
         }
 
         private void BtnKeypadTelephone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad frmKeyBoard = new FrmKeyPad
+            FrmKeyPad frmKeyBoard = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
             };
             frmKeyBoard.ShowDialog();
             TxtTelephoneAddress.Text = frmKeyBoard.customerPhone;
+            TxtTelephoneAddress.Focus();
         }
 
         private void BtnAddressPicker_Click(object sender, EventArgs e)
@@ -195,14 +200,15 @@ namespace POS
                     response.ModifiedBy = loginInformation.UserId;
                     response.ModifiedDatetime = DateTime.Now;
 
-                    bool result = new ClsCustomer().UpdateCustomerDeliveryAddress(response);
+                    bool result = new ClsCustomer().UpdateCustomerDeliveryAddress(response,CadenaC);
                     if (result)
                     {
                         functions.ShowMessage("Direccion de entrega actualizada exitosamente.", ClsEnums.MessageType.INFO);
                         newAddress = false;
                         ClearFields();
                         LoadAddressesByCustomer(currentCustomer);
-                        BtnAddressPicker.Text = "Elegir";
+                        BtnAddressPicker.Text = "F6 Elegir";
+                        CmbAddressPicker.Focus();//08/07/2022
                     }
                     else
                     {
@@ -247,7 +253,7 @@ namespace POS
 
                     try
                     {
-                        SP_CustomerAddress_Insert_Result result = new ClsCustomer().CreateCustomerDeliveryAddress(customer.ToString());
+                        SP_CustomerAddress_Insert_Result result = new ClsCustomer().CreateCustomerDeliveryAddress(customer.ToString(), CadenaC);
                         if ((bool)result.Error)
                         {
                             functions.ShowMessage("No se pudo crear direccion de entrega.", ClsEnums.MessageType.WARNING, true, result.TextError);
@@ -258,7 +264,8 @@ namespace POS
                             newAddress = false;
                             ClearFields();
                             LoadAddressesByCustomer(currentCustomer);
-                            BtnAddressPicker.Text = "Elegir";
+                            BtnAddressPicker.Text = "F6 Elegir";
+                            CmbAddressPicker.Focus();//07/07/2022
                         }
 
                     }
@@ -283,7 +290,7 @@ namespace POS
                 {
                     formResult = true;
                     //addressId = long.Parse(CmbAddressPicker.EditValue.ToString());
-                    DialogResult = DialogResult.OK;
+                    DialogResult = DialogResult.OK;                    
                 }
             }
         }
@@ -298,7 +305,75 @@ namespace POS
             {
                 EnableAddressInput(true);
                 newAddress = true;
-                BtnAddressPicker.Text = "Guardar";
+                BtnAddressPicker.Text = "F6 Guardar";
+            }
+        }
+
+        private void TxtAddress_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnKeyboardAddress_Click(null, null);
+                    break;
+                case Keys.Enter:
+                    TxtAddressRef.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtAddressRef_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnKeyboardAddressRef_Click(null, null);
+                    break;
+                case Keys.Enter:
+                    TxtTelephoneAddress.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtTelephoneAddress_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnKeypadTelephone_Click(null, null);
+                    break;
+                case Keys.F6:
+                    BtnAddressPicker_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbAddressPicker_KeyDown(object sender, KeyEventArgs e)
+        {            
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnRefresh_Click(null,null);
+                    break;                
+                case Keys.F2:
+                    BtnModify_Click(null, null);
+                    TxtAddress.Focus();
+                    break;
+                case Keys.F3:
+                    BtnNewAddress_Click(null,null);
+                    TxtAddress.Focus();
+                    break;
+                case Keys.F6:
+                    BtnAddressPicker_Click(null, null);
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -16,17 +16,20 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         public SP_SalesOrigin_Consult_Result result;
 
-        public FrmSalesOrigin()
+        public FrmSalesOrigin(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmSalesOrigin_Load(object sender, EventArgs e)
         {
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins();
+                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins(CadenaC);
 
                 BindingList<SP_SalesOrigin_Consult_Result> bindingOrigins = new BindingList<SP_SalesOrigin_Consult_Result>();
                 foreach (SP_SalesOrigin_Consult_Result item in salesOrigins)
@@ -69,6 +72,19 @@ namespace POS
                                         , ClsEnums.MessageType.WARNING
                                     );
             }
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ILBSalesOrigin_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (((int)e.KeyCode) == 13 )
+            {
+                BtnAccept.Focus();
+            }                
         }
     }
 }

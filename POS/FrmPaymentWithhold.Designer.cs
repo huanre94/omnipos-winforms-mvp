@@ -115,8 +115,10 @@
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -134,8 +136,10 @@
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -317,6 +321,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(743, 400);
             this.ControlBox = false;
             this.Controls.Add(this.label6);

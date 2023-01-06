@@ -17,14 +17,18 @@ namespace POS
         public bool returnProduct = false;
         public string productName = "";
 
-        public FrmProductSearch()
+        public FrmProductSearch(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+
 
         private void BtnKeyPad_Click(object sender, System.EventArgs e)
         {
-            FrmKeyBoard keyPad = new FrmKeyBoard();
+            FrmKeyBoard keyPad = new FrmKeyBoard(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME;
             keyPad.ShowDialog();
             TxtSearchName.Text = keyPad.customerFirstName;
@@ -37,7 +41,7 @@ namespace POS
 
             try
             {
-                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId);
+                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId, CadenaC);
 
                 if (products != null)
                 {
@@ -97,10 +101,12 @@ namespace POS
             if (TxtSearchName.Text != "")
             {
                 SearchProduct(TxtSearchName.Text, emissionPoint.LocationId);
+                GrcSalesDetail.Focus();
             }
             else
             {
                 functions.ShowMessage("El filtro de busqueda no puede estar vacio.", ClsEnums.MessageType.ERROR);
+                TxtSearchName.Focus();
             }
         }
 
@@ -118,6 +124,39 @@ namespace POS
             bindingList.AllowNew = true;
 
             GrcSalesDetail.DataSource = bindingList;
+        }
+
+        private void TxtSearchName_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (((int)e.KeyCode))
+            {
+
+                case 13:
+                    BtnSearch_Click(null,null);
+                    break;
+                case 27:
+                    this.Close();
+                    break;
+                default:
+                    break;
+            }            
+        }
+
+        private void GrcSalesDetail_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            switch (((byte)e.KeyChar))
+            {
+                case 13:
+                    BtnAccept_Click(null,null);
+                    this.Close();                    
+                    break;
+                case 27:
+                    TxtSearchName.Focus();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

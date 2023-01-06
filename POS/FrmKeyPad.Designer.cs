@@ -241,6 +241,8 @@
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
             this.TxtValue.Size = new System.Drawing.Size(244, 44);
             this.TxtValue.TabIndex = 1;
+            this.TxtValue.EditValueChanged += new System.EventHandler(this.TxtValue_EditValueChanged);
+            this.TxtValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtValue_KeyDown);
             // 
             // BtnDot
             // 

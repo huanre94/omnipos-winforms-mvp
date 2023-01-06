@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -22,11 +23,13 @@ namespace POS
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
 
-        public FrmRemissionGuideOrderToInvoice()
+        public FrmRemissionGuideOrderToInvoice(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmRemissionGuideOrderToInvoice_Load(object sender, EventArgs e)
         {
             try
@@ -84,7 +87,7 @@ namespace POS
         {
             try
             {
-                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId);
+                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId, CadenaC);
                 BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list);
                 GrcSalesOrder.DataSource = bind;
             }
@@ -113,12 +116,12 @@ namespace POS
             if (functions.ShowMessage("Se procedera a anular la guia ¿Desea continuar?", ClsEnums.MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.REMISSIONGUIDE_CANCEL);
+                bool isApproved = functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.REMISSIONGUIDE_CANCEL, CadenaC);
                 if (isApproved)
                 {
                     ClsSalesOrderTrans clsSalesOrder = new ClsSalesOrderTrans();
                     clsSalesOrder.loginInformation = loginInformation;
-                    SP_RemissionGuide_Cancel_Result result = clsSalesOrder.CancelRemissionGuide(remission.SalesRemissionId);
+                    SP_RemissionGuide_Cancel_Result result = clsSalesOrder.CancelRemissionGuide(remission.SalesRemissionId, CadenaC);
                     if (!(bool)result.Error)
                     {
                         functions.ShowMessage("Guia de remision anulada exitosamente", ClsEnums.MessageType.INFO);
@@ -154,7 +157,7 @@ namespace POS
                         decimal baseAmount = 0;
                         decimal taxAmount = 0;
 
-                        var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId);
+                        var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId, CadenaC);
                         if (list.Count != 0)
                         {
                             foreach (var item in list)
@@ -164,9 +167,9 @@ namespace POS
                             }
                         }
 
-                        Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId);
+                        Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId, CadenaC);
 
-                        FrmPayment payment = new FrmPayment
+                        FrmPayment payment = new FrmPayment(CadenaC)
                         {
                             invoiceAmount = (decimal)result.Amount,
                             customer = customer,
@@ -190,7 +193,7 @@ namespace POS
                             {
                                 try
                                 {
-                                    SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                    SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId, CadenaC);
                                     if ((bool)update.Error)
                                     {
                                         result.HavePaymentMethod = update.Error;
@@ -215,7 +218,7 @@ namespace POS
                             bool isWebPayment = false;
                             try
                             {
-                                var webPayment = (from sp in new POSEntities().SalesOrderPayment
+                                var webPayment = (from sp in new POSEntities(CadenaC).SalesOrderPayment
                                                   where sp.SalesOrderId == result.SalesOrderId
                                                   && sp.PaymModeId == (int)ClsEnums.PaymModeEnum.PAGOS_WEB
                                                   select sp).ToList().Count();
@@ -234,14 +237,14 @@ namespace POS
                             }
 
                             functions.emissionPoint = emissionPoint;
-                            bool isApproved = functions.RequestSupervisorAuth();
+                            bool isApproved = functions.RequestSupervisorAuth(false,0, CadenaC);
                             if (isApproved)
                             {
                                 {
                                     decimal baseAmount = 0;
                                     decimal taxAmount = 0;
 
-                                    var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId);
+                                    var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId, CadenaC);
                                     if (list.Count != 0)
                                     {
                                         foreach (var item in list)
@@ -251,9 +254,9 @@ namespace POS
                                         }
                                     }
 
-                                    Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId);
+                                    Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId, CadenaC);
 
-                                    FrmPayment payment = new FrmPayment
+                                    FrmPayment payment = new FrmPayment(CadenaC)
                                     {
                                         invoiceAmount = (decimal)result.Amount,
                                         customer = customer,
@@ -277,7 +280,7 @@ namespace POS
                                         {
                                             try
                                             {
-                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId, CadenaC);
                                                 if ((bool)update.Error)
                                                 {
                                                     result.HavePaymentMethod = update.Error;
@@ -327,11 +330,11 @@ namespace POS
                         ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
                         sales.loginInformation = loginInformation;
 
-                        SP_RemissionGuideInvoice_Insert_Result response = sales.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
+                        SP_RemissionGuideInvoice_Insert_Result response = sales.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId, CadenaC);
 
                         if (!(bool)response.Error)
                         {
-                            functions.PrintDocument(remission.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE);
+                            functions.PrintDocument(remission.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE,false,CadenaC);
                             functions.ShowMessage("Facturas generadas exitosamente", ClsEnums.MessageType.INFO);
                             isUpdated = true;
                             Close();
@@ -367,10 +370,10 @@ namespace POS
                 if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", ClsEnums.MessageType.CONFIRM))
                 {
                     functions.emissionPoint = emissionPoint;
-                    if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.SALESORDER_CANCEL))
+                    if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.SALESORDER_CANCEL, CadenaC))
                     {
                         sales.loginInformation = loginInformation;
-                        if (sales.CancelSalesOrder(result.SalesOrderId, true))
+                        if (sales.CancelSalesOrder(result.SalesOrderId, true, CadenaC))
                         {
                             functions.ShowMessage("Orden Cancelada Exitosamente", ClsEnums.MessageType.INFO);
                             result.IsCancelled = true;
@@ -400,7 +403,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -435,6 +438,27 @@ namespace POS
             if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
+            }
+        }
+
+        private void GrcSalesOrder_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    BtnCancelRemissionGuide_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnSaveRemissionGuide_Click(null, null);
+                    break;
+                case Keys.F6:
+                    BtnOrderPaymentMethod_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnCancelOrder_Click(null, null);
+                    break;                
+                default:
+                    break;
             }
         }
     }

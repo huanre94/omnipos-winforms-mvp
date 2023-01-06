@@ -75,10 +75,11 @@
             this.GrcRemissionGuide.MainView = this.GrvRemissionGuide;
             this.GrcRemissionGuide.Name = "GrcRemissionGuide";
             this.GrcRemissionGuide.Size = new System.Drawing.Size(1310, 294);
-            this.GrcRemissionGuide.TabIndex = 140;
+            this.GrcRemissionGuide.TabIndex = 0;
             this.GrcRemissionGuide.UseEmbeddedNavigator = true;
             this.GrcRemissionGuide.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvRemissionGuide});
+            this.GrcRemissionGuide.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcRemissionGuide_KeyDown);
             // 
             // GrvRemissionGuide
             // 
@@ -321,30 +322,35 @@
             // 
             this.BtnModify.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnModify.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnModify.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnModify.Appearance.Options.UseBackColor = true;
             this.BtnModify.Appearance.Options.UseFont = true;
+            this.BtnModify.Appearance.Options.UseForeColor = true;
             this.BtnModify.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnModify.ImageOptions.Image")));
             this.BtnModify.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnModify.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnModify.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnModify.Location = new System.Drawing.Point(1126, 704);
+            this.BtnModify.Location = new System.Drawing.Point(1116, 704);
             this.BtnModify.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModify.Name = "BtnModify";
-            this.BtnModify.Size = new System.Drawing.Size(210, 50);
+            this.BtnModify.Size = new System.Drawing.Size(220, 50);
             this.BtnModify.TabIndex = 142;
-            this.BtnModify.Text = "Visualizar Guia";
+            this.BtnModify.Text = "F6 Visualizar Guia";
             this.BtnModify.Click += new System.EventHandler(this.BtnModify_Click);
             // 
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(956, 704);
+            this.BtnCancel.Location = new System.Drawing.Point(946, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -356,8 +362,10 @@
             // 
             this.BtnNewOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnNewOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnNewOrder.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnNewOrder.Appearance.Options.UseBackColor = true;
             this.BtnNewOrder.Appearance.Options.UseFont = true;
+            this.BtnNewOrder.Appearance.Options.UseForeColor = true;
             this.BtnNewOrder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnNewOrder.ImageOptions.Image")));
             this.BtnNewOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnNewOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -366,7 +374,7 @@
             this.BtnNewOrder.Name = "BtnNewOrder";
             this.BtnNewOrder.Size = new System.Drawing.Size(160, 50);
             this.BtnNewOrder.TabIndex = 144;
-            this.BtnNewOrder.Text = "Nueva \r\nGuia";
+            this.BtnNewOrder.Text = "F2 Nueva \r\nGuia";
             this.BtnNewOrder.Click += new System.EventHandler(this.BtnNewOrder_Click);
             // 
             // label1
@@ -399,12 +407,12 @@
             this.BtnRefresh.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnRefresh.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnRefresh.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnRefresh.Location = new System.Drawing.Point(1176, 14);
+            this.BtnRefresh.Location = new System.Drawing.Point(1153, 14);
             this.BtnRefresh.Margin = new System.Windows.Forms.Padding(5);
             this.BtnRefresh.Name = "BtnRefresh";
-            this.BtnRefresh.Size = new System.Drawing.Size(160, 50);
+            this.BtnRefresh.Size = new System.Drawing.Size(183, 50);
             this.BtnRefresh.TabIndex = 254;
-            this.BtnRefresh.Text = "Actualizar";
+            this.BtnRefresh.Text = "F5 Actualizar";
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
             // BtnPrintRemissionGuide
@@ -412,25 +420,28 @@
             this.BtnPrintRemissionGuide.AllowFocus = false;
             this.BtnPrintRemissionGuide.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnPrintRemissionGuide.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnPrintRemissionGuide.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnPrintRemissionGuide.Appearance.Options.UseBackColor = true;
             this.BtnPrintRemissionGuide.Appearance.Options.UseFont = true;
+            this.BtnPrintRemissionGuide.Appearance.Options.UseForeColor = true;
             this.BtnPrintRemissionGuide.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnPrintRemissionGuide.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnPrintRemissionGuide.ImageOptions.SvgImage")));
             this.BtnPrintRemissionGuide.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnPrintRemissionGuide.Location = new System.Drawing.Point(536, 704);
+            this.BtnPrintRemissionGuide.Location = new System.Drawing.Point(518, 704);
             this.BtnPrintRemissionGuide.Name = "BtnPrintRemissionGuide";
-            this.BtnPrintRemissionGuide.Size = new System.Drawing.Size(160, 50);
+            this.BtnPrintRemissionGuide.Size = new System.Drawing.Size(178, 50);
             this.BtnPrintRemissionGuide.TabIndex = 255;
-            this.BtnPrintRemissionGuide.Text = "Imp. Guia";
+            this.BtnPrintRemissionGuide.Text = "F3 Imp. Guia";
             this.BtnPrintRemissionGuide.Click += new System.EventHandler(this.BtnPrintRemissionGuide_Click);
             // 
             // ChkMyGuides
             // 
             this.ChkMyGuides.Location = new System.Drawing.Point(344, 20);
             this.ChkMyGuides.Name = "ChkMyGuides";
-            this.ChkMyGuides.Properties.Caption = "Mis Guias";
+            this.ChkMyGuides.Properties.Caption = "&Mis Guias";
             this.ChkMyGuides.Size = new System.Drawing.Size(164, 44);
             this.ChkMyGuides.TabIndex = 256;
+            this.ChkMyGuides.CheckedChanged += new System.EventHandler(this.ChkMyGuides_CheckedChanged);
             // 
             // CmbTransportDriver
             // 
@@ -440,6 +451,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbTransportDriver.Size = new System.Drawing.Size(291, 38);
             this.CmbTransportDriver.TabIndex = 258;
+            this.CmbTransportDriver.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbTransportDriver_KeyDown);
             // 
             // label2
             // 
@@ -449,11 +461,12 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 16);
             this.label2.TabIndex = 257;
-            this.label2.Text = "Conductor";
+            this.label2.Text = "&Conductor";
             // 
             // FrmRemissionGuide
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.CmbTransportDriver);

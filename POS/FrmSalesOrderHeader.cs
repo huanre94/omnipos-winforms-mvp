@@ -24,14 +24,17 @@ namespace POS
         public bool formActionResult = false;
         List<SalesOrigin> salesOrigins;
 
-        public FrmSalesOrderHeader()
+        public FrmSalesOrderHeader(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
             keyBoard.inputFromOption = Classes.ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION;
             keyBoard.ShowDialog();
 
@@ -42,7 +45,7 @@ namespace POS
 
                 try
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification);
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification, CadenaC);
 
                     if (currentCustomer != null)
                     {
@@ -80,7 +83,7 @@ namespace POS
 
                         if (response)
                         {
-                            currentCustomer = CreateCustomer(identification);
+                            currentCustomer = CreateCustomer(identification, CadenaC);
 
                             if (currentCustomer != null)
                             {
@@ -107,9 +110,9 @@ namespace POS
             }
         }
 
-        private Customer CreateCustomer(string _identification)
+        private Customer CreateCustomer(string _identification, string _CadenaC = "")
         {
-            FrmCustomer frmCustomer = new FrmCustomer
+            FrmCustomer frmCustomer = new FrmCustomer(_CadenaC)
             {
                 emissionPoint = emissionPoint,
                 isNewCustomer = true,
@@ -127,6 +130,7 @@ namespace POS
             {
                 ClearSalesOrderHeader();
                 LoadSalesOrigin();
+                EdtDeliveryDate.DateTime = DateTime.Now;
             }
         }
 
@@ -141,7 +145,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
 
                     if (emissionPoint != null)
                     {
@@ -176,7 +180,7 @@ namespace POS
             ClsSalesOrder customer = new ClsSalesOrder();
             try
             {
-                salesOrigins = customer.GetSalesOrderOrigin(false);
+                salesOrigins = customer.GetSalesOrderOrigin(false, CadenaC);
 
                 if (salesOrigins != null)
                 {
@@ -206,7 +210,7 @@ namespace POS
             BtnCustomer.Enabled = true;
             BtnDeliveryAddress.Enabled = true;
 
-            currentCustomer = new ClsCustomer().GetCustomerById(1);
+            currentCustomer = new ClsCustomer().GetCustomerById(1, CadenaC);
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
             LblCustomerAddress.Text = currentCustomer.Address;
@@ -226,7 +230,7 @@ namespace POS
             }
             else
             {
-                FrmAddressPicker frmCustomer = new FrmAddressPicker
+                FrmAddressPicker frmCustomer = new FrmAddressPicker(CadenaC)
                 {
                     emissionPoint = emissionPoint,
                     currentCustomer = currentCustomer,
@@ -337,7 +341,7 @@ namespace POS
 
                 try
                 {
-                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString());
+                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString(), 0,CadenaC);
                     if ((bool)result.Error)
                     {
                         functions.ShowMessage("No se pudo crear orden de venta.", ClsEnums.MessageType.WARNING, true, result.TextError);
@@ -345,7 +349,7 @@ namespace POS
                     else
                     {
                         functions.emissionPoint = emissionPoint;
-                        if (functions.PrintDocument((long)result.SalesOrderId, ClsEnums.DocumentType.SALESORDER))
+                        if (functions.PrintDocument((long)result.SalesOrderId, ClsEnums.DocumentType.SALESORDER, false, CadenaC))
                         {
                             functions.ShowMessage("Orden de Venta generada exitosamente.", ClsEnums.MessageType.INFO);
                         }
@@ -366,6 +370,72 @@ namespace POS
                                                           , ex.InnerException.Message
                                                       );
                 }
+            }
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {                
+                case Keys.F2:
+                    BtnSaveOrder_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnDeliveryAddress_Click(null, null);
+                    break;
+                case Keys.F6:
+                    BtnCustomer_Click(null, null);
+                    break;
+                default:
+                    break;
+            }           
+        }
+
+        private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if  (((int)e.KeyCode) == 27)
+            {
+                BtnExit_Click(null, null);
+            }
+        }
+
+        private void CmbSalesOrderOrigin_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    EdtDeliveryDate.Focus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtObservation_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    BtnSaveOrder_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnDeliveryAddress_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtObservation_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (((int)e.KeyCode) == 27)
+            {
+                BtnExit_Click(null, null);
             }
         }
     }

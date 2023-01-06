@@ -26,11 +26,13 @@ namespace POS
         ClsEnums.ScaleBrands scaleBrand;
         private int sequence = 0;
 
-        public FrmPhysicalStockCount()
+        public FrmPhysicalStockCount(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmPhysicalStockCount_Load(object sender, EventArgs e)
         {
             ClearPhysicalStockCount();
@@ -49,19 +51,19 @@ namespace POS
 
                 try
                 {
-                    if (new ClsInventoryTrans().HasPendingCounting(emissionPoint, (int)loginInformation.UserId))
+                    if (new ClsInventoryTrans().HasPendingCounting(emissionPoint, (int)loginInformation.UserId, CadenaC))
                     {
-                        sequence = new ClsInventoryTrans().GetPendingCounting(emissionPoint, (int)loginInformation.UserId);
+                        sequence = new ClsInventoryTrans().GetPendingCounting(emissionPoint, (int)loginInformation.UserId, CadenaC);
                         LoadStockGrid();
                         LoadWarehouseList(emissionPoint.LocationId);
 
-                        BtnNew.Text = "Finalizar";
+                        BtnNew.Text = "F5 Finalizar";
                         BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
                         //BtnNew.Enabled = false;
                     }
                     else
                     {
-                        BtnNew.Text = "Nuevo";
+                        BtnNew.Text = "F5 Nuevo";
                         //BtnNew.ImageOptions.SvgImage = POS.Properties.Resources.resume;
                         CheckGridView();
                         LoadWarehouseList(emissionPoint.LocationId);
@@ -92,7 +94,7 @@ namespace POS
             List<SP_PhysicalStockProduct_Consult_Result> newList = new List<SP_PhysicalStockProduct_Consult_Result>();
             try
             {
-                list = new ClsInventoryTrans().GetPendingCountingLine(sequence);
+                list = new ClsInventoryTrans().GetPendingCountingLine(sequence, CadenaC);
 
                 foreach (SP_PhysicalStockLine_Consult_Result item in list)
                 {
@@ -130,7 +132,7 @@ namespace POS
 
             try
             {
-                inventLocations = new ClsGeneral().GetMainWarehouseByLocationId(_locationId);
+                inventLocations = new ClsGeneral().GetMainWarehouseByLocationId(_locationId, CadenaC);
 
                 if (inventLocations != null)
                 {
@@ -171,7 +173,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -251,25 +253,26 @@ namespace POS
 
         private void BtnInternalCodeKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
             keyPad.ShowDialog();
             TxtInternalCode.Text = keyPad.productInventory;
             TxtInternalCode.Focus();
-            SendKeys.Send("{ENTER}");
+            SendKeys.Send("{ENTER}");  
         }
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
             keyPad.ShowDialog();
             TxtBarcode.Text = keyPad.productInventory;
             TxtBarcode.Focus();
-            SendKeys.Send("{ENTER}");
+            SendKeys.Send("{ENTER}");   
         }
 
         private void TxtInternalCode_KeyDown(object sender, KeyEventArgs e)
+        
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -277,7 +280,7 @@ namespace POS
                 {
                     try
                     {
-                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text);
+                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text, CadenaC);
                         if ((bool)result.Error)
                         {
                             functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
@@ -305,6 +308,31 @@ namespace POS
                     }
                 }
             }
+
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnInternalCodeKeypad_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnProductSearch_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnNew_Click(null, null);
+                    break;
+                case Keys.F9:
+                    BtnCancel_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcPhysicalStock.Focus();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
@@ -315,7 +343,7 @@ namespace POS
                 {
                     try
                     {
-                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, TxtBarcode.Text, "");
+                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, TxtBarcode.Text, "", CadenaC);
                         if ((bool)result.Error)
                         {
                             functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
@@ -343,6 +371,31 @@ namespace POS
                     }
                 }
             }
+
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnBarcodeKeyPad_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnProductSearch_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnNew_Click(null, null);
+                    break;
+                case Keys.F9:
+                    BtnCancel_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcPhysicalStock.Focus();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void AddResultToGrid(SP_PhysicalStockProduct_Consult_Result result)
@@ -364,7 +417,7 @@ namespace POS
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["UM"], result.UM);
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], 0);
 
-                FrmKeyPad keyPad = new FrmKeyPad();
+                FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
 
                 if (result.InventUnitId == 1)
@@ -455,7 +508,7 @@ namespace POS
                             count++;
                         }
 
-                        SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans().InsertPhysicalStockCounting(sequence, physicalCountingList.ToString());
+                        SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans().InsertPhysicalStockCounting(sequence, physicalCountingList.ToString(), CadenaC);
 
                         if (!(bool)response.Error)
                         {
@@ -512,7 +565,7 @@ namespace POS
 
 
 
-                FrmKeyPad keyPad = new FrmKeyPad();
+                FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
 
                 if (item.InventUnitId == 1)
@@ -530,7 +583,7 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch();
+            FrmProductSearch productSearch = new FrmProductSearch(CadenaC);
             productSearch.emissionPoint = emissionPoint;
             productSearch.ShowDialog();
 
@@ -538,7 +591,7 @@ namespace POS
             {
                 try
                 {
-                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
+                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, productSearch.barcode, "", CadenaC);
                     if ((bool)result.Error)
                     {
                         functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
@@ -574,11 +627,11 @@ namespace POS
                 {
                     try
                     {
-                        bool response = new ClsInventoryTrans().UpdateStockTableStatus(sequence);
+                        bool response = new ClsInventoryTrans().UpdateStockTableStatus(sequence, CadenaC);
                         if (response)
                         {
                             functions.ShowMessage("Inventario finalizado con exito.", ClsEnums.MessageType.INFO, false);
-                            BtnNew.Text = "Nuevo";
+                            BtnNew.Text = "F5 Nuevo";
                             //BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
                             ClearPhysicalStockCount();
                         }
@@ -627,13 +680,13 @@ namespace POS
 
                 try
                 {
-                    SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans().InsertNewSequence(physicalCountingList.ToString());
+                    SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans().InsertNewSequence(physicalCountingList.ToString(), CadenaC);
 
                     if (!(bool)response.Error)
                     {
                         sequence = (int)response.Sequence;
                         functions.ShowMessage("Secuencia generada exitosamente.", ClsEnums.MessageType.INFO);
-                        BtnNew.Text = "Finalizar";
+                        BtnNew.Text = "F5 Finalizar";
                         BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
                     }
                     else
@@ -658,6 +711,34 @@ namespace POS
         private void FrmPhysicalStockCount_FormClosing(object sender, FormClosingEventArgs e)
         {
             functions.DisableScanner();
+        }
+
+        private void GrcPhysicalStock_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.F3:
+                    BtnProductSearch_Click(null, null);
+                    break;
+                case Keys.F5:
+                    BtnNew_Click(null, null);
+                    break;
+                case Keys.F9:
+                    BtnCancel_Click(null, null);
+                    break;
+                case Keys.F10:
+                    BtnModify_Click(null, null);
+                    break;
+                case Keys.F11:
+                    BtnRemove_Click(null, null);
+                    break;                
+                default:
+                    break;
+            }
         }
     }
 }

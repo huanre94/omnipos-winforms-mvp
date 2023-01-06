@@ -9,18 +9,19 @@ namespace POS.DLL.Catalog
                                                             string _user
                                                             , string _password
                                                             , string _workstation
-                                                            , string _addressIP
+                                                            , string _addressIP    
+                                                            , string _CandenaC
                                                             )
         {
             SP_Login_Consult_Result result;
 
             try
             {
-                result = new POSEntities().SP_Login_Consult(
+                result = new POSEntities(_CandenaC).SP_Login_Consult(
                                             _user
                                             , _password
                                             , _workstation
-                                            , _addressIP
+                                            , _addressIP                                            
                                             ).FirstOrDefault();
             }
             catch (Exception ex)

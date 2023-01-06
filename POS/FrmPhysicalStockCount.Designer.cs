@@ -67,9 +67,12 @@
             // 
             this.BtnAccept.AllowFocus = false;
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
+            this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnAccept.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnAccept.ImageOptions.Image")));
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -80,7 +83,7 @@
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 0;
             this.BtnAccept.TabStop = false;
-            this.BtnAccept.Text = "Guardar";
+            this.BtnAccept.Text = "F2 Guardar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
@@ -88,8 +91,10 @@
             this.BtnCancel.AllowFocus = false;
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -101,7 +106,7 @@
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 160;
             this.BtnCancel.TabStop = false;
-            this.BtnCancel.Text = "Salir";
+            this.BtnCancel.Text = "F9 Salir";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // GrcPhysicalStock
@@ -124,6 +129,7 @@
             this.GrcPhysicalStock.UseEmbeddedNavigator = true;
             this.GrcPhysicalStock.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPhysicalStock});
+            this.GrcPhysicalStock.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcPhysicalStock_KeyDown);
             // 
             // GrvPhysicalStock
             // 
@@ -239,6 +245,7 @@
             this.BtnBarcodeKeyPad.Appearance.Options.UseFont = true;
             this.BtnBarcodeKeyPad.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.BtnBarcodeKeyPad.AppearanceHovered.Options.UseBackColor = true;
+            this.BtnBarcodeKeyPad.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnBarcodeKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnBarcodeKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnBarcodeKeyPad.ImageOptions.SvgImage")));
             this.BtnBarcodeKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
@@ -255,7 +262,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(28, 99);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(131, 20);
+            this.label5.Size = new System.Drawing.Size(107, 16);
             this.label5.TabIndex = 190;
             this.label5.Text = "Código Interno";
             // 
@@ -265,7 +272,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(216, 34);
+            this.TxtBarcode.Size = new System.Drawing.Size(216, 44);
             this.TxtBarcode.TabIndex = 189;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -275,8 +282,8 @@
             this.TxtInternalCode.Name = "TxtInternalCode";
             this.TxtInternalCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtInternalCode.Properties.Appearance.Options.UseFont = true;
-            this.TxtInternalCode.Size = new System.Drawing.Size(177, 34);
-            this.TxtInternalCode.TabIndex = 189;
+            this.TxtInternalCode.Size = new System.Drawing.Size(177, 44);
+            this.TxtInternalCode.TabIndex = 0;
             this.TxtInternalCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtInternalCode_KeyDown);
             // 
             // label1
@@ -284,7 +291,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(521, 99);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 20);
+            this.label1.Size = new System.Drawing.Size(98, 16);
             this.label1.TabIndex = 190;
             this.label1.Text = "Código Barra";
             // 
@@ -311,7 +318,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 20);
+            this.label2.Size = new System.Drawing.Size(52, 16);
             this.label2.TabIndex = 190;
             this.label2.Text = "Cajero";
             // 
@@ -320,7 +327,7 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(171, 38);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(0, 20);
+            this.LblCashierUser.Size = new System.Drawing.Size(0, 16);
             this.LblCashierUser.TabIndex = 190;
             // 
             // BtnRemove
@@ -328,8 +335,10 @@
             this.BtnRemove.AllowFocus = false;
             this.BtnRemove.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnRemove.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRemove.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnRemove.Appearance.Options.UseBackColor = true;
             this.BtnRemove.Appearance.Options.UseFont = true;
+            this.BtnRemove.Appearance.Options.UseForeColor = true;
             this.BtnRemove.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnRemove.ImageOptions.Image")));
             this.BtnRemove.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnRemove.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
@@ -338,7 +347,7 @@
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
             this.BtnRemove.TabIndex = 0;
-            this.BtnRemove.Text = "Elim";
+            this.BtnRemove.Text = "F11 \r\nElim";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // AxOPOSScanner
@@ -357,7 +366,7 @@
             this.CmbWarehouse.Name = "CmbWarehouse";
             this.CmbWarehouse.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbWarehouse.Size = new System.Drawing.Size(445, 30);
+            this.CmbWarehouse.Size = new System.Drawing.Size(445, 38);
             this.CmbWarehouse.TabIndex = 194;
             // 
             // label3
@@ -365,16 +374,18 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(28, 164);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 20);
+            this.label3.Size = new System.Drawing.Size(60, 16);
             this.label3.TabIndex = 190;
             this.label3.Text = "Bodega";
             // 
             // BtnProductSearch
             // 
             this.BtnProductSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnProductSearch.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnProductSearch.Appearance.Options.UseBackColor = true;
             this.BtnProductSearch.Appearance.Options.UseFont = true;
+            this.BtnProductSearch.Appearance.Options.UseForeColor = true;
             this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnProductSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.productSearch2;
             this.BtnProductSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
@@ -382,16 +393,18 @@
             this.BtnProductSearch.Name = "BtnProductSearch";
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
             this.BtnProductSearch.TabIndex = 195;
-            this.BtnProductSearch.Text = "Productos";
+            this.BtnProductSearch.Text = "F3 Productos";
             this.BtnProductSearch.Click += new System.EventHandler(this.BtnProductSearch_Click);
             // 
             // BtnNew
             // 
             this.BtnNew.AllowFocus = false;
             this.BtnNew.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnNew.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnNew.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnNew.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnNew.Appearance.Options.UseBackColor = true;
             this.BtnNew.Appearance.Options.UseFont = true;
+            this.BtnNew.Appearance.Options.UseForeColor = true;
             this.BtnNew.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnNew.ImageOptions.Image")));
             this.BtnNew.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnNew.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -402,7 +415,7 @@
             this.BtnNew.Size = new System.Drawing.Size(160, 50);
             this.BtnNew.TabIndex = 0;
             this.BtnNew.TabStop = false;
-            this.BtnNew.Text = "Nuevo";
+            this.BtnNew.Text = "F5 Nuevo";
             this.BtnNew.Click += new System.EventHandler(this.BtnNew_Click);
             // 
             // BtnModifyAmount
@@ -410,8 +423,10 @@
             this.BtnModifyAmount.AllowFocus = false;
             this.BtnModifyAmount.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnModifyAmount.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnModifyAmount.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnModifyAmount.Appearance.Options.UseBackColor = true;
             this.BtnModifyAmount.Appearance.Options.UseFont = true;
+            this.BtnModifyAmount.Appearance.Options.UseForeColor = true;
             this.BtnModifyAmount.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnModifyAmount.ImageOptions.Image")));
             this.BtnModifyAmount.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
             this.BtnModifyAmount.ImageOptions.SvgImageSize = new System.Drawing.Size(35, 35);
@@ -420,12 +435,13 @@
             this.BtnModifyAmount.Name = "BtnModifyAmount";
             this.BtnModifyAmount.Size = new System.Drawing.Size(80, 92);
             this.BtnModifyAmount.TabIndex = 0;
-            this.BtnModifyAmount.Text = "Edit";
+            this.BtnModifyAmount.Text = "F10 \r\nEdit";
             this.BtnModifyAmount.Click += new System.EventHandler(this.BtnModify_Click);
             // 
             // FrmPhysicalStockCount
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnProductSearch);

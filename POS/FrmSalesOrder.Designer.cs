@@ -137,7 +137,7 @@
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
             this.BtnExit.TabIndex = 206;
-            this.BtnExit.Text = "Salir";
+            this.BtnExit.Text = "F9 Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // AxOPOSScale
@@ -218,7 +218,7 @@
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(80, 92);
             this.BtnRemove.TabIndex = 199;
-            this.BtnRemove.Text = "Anul";
+            this.BtnRemove.Text = "F11 \r\nAnul";
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // BtnQty
@@ -236,7 +236,7 @@
             this.BtnQty.Name = "BtnQty";
             this.BtnQty.Size = new System.Drawing.Size(80, 92);
             this.BtnQty.TabIndex = 198;
-            this.BtnQty.Text = "Cant";
+            this.BtnQty.Text = "F10 \r\nCant";
             this.BtnQty.Click += new System.EventHandler(this.BtnQty_Click);
             // 
             // LblCustomerAddress
@@ -334,6 +334,7 @@
             this.GrcSalesDetail.TabIndex = 183;
             this.GrcSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesDetail});
+            this.GrcSalesDetail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcSalesDetail_KeyDown);
             // 
             // GrvSalesDetail
             // 
@@ -463,14 +464,14 @@
             this.BtnCancelOrder.Name = "BtnCancelOrder";
             this.BtnCancelOrder.Size = new System.Drawing.Size(220, 82);
             this.BtnCancelOrder.TabIndex = 182;
-            this.BtnCancelOrder.Text = "Cancelar\r\nOrden";
+            this.BtnCancelOrder.Text = "F5 Cancelar\r\nOrden";
             this.BtnCancelOrder.Click += new System.EventHandler(this.BtnCancelSale_Click);
             // 
             // BtnProductSearch
             // 
             this.BtnProductSearch.AllowFocus = false;
             this.BtnProductSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnProductSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnProductSearch.Appearance.Options.UseBackColor = true;
             this.BtnProductSearch.Appearance.Options.UseFont = true;
             this.BtnProductSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
@@ -480,7 +481,7 @@
             this.BtnProductSearch.Name = "BtnProductSearch";
             this.BtnProductSearch.Size = new System.Drawing.Size(220, 80);
             this.BtnProductSearch.TabIndex = 180;
-            this.BtnProductSearch.Text = "Productos";
+            this.BtnProductSearch.Text = "F3 Productos";
             this.BtnProductSearch.Click += new System.EventHandler(this.BtnProductSearch_Click);
             // 
             // Btn9
@@ -725,7 +726,7 @@
             this.BtnSaveChanges.Name = "BtnSaveChanges";
             this.BtnSaveChanges.Size = new System.Drawing.Size(220, 82);
             this.BtnSaveChanges.TabIndex = 182;
-            this.BtnSaveChanges.Text = "Guardar \r\nOrden";
+            this.BtnSaveChanges.Text = "F2 Guardar \r\nOrden";
             this.BtnSaveChanges.Click += new System.EventHandler(this.BtnSaveChanges_Click);
             // 
             // BtnShowCommand
@@ -742,7 +743,7 @@
             this.BtnShowCommand.Name = "BtnShowCommand";
             this.BtnShowCommand.Size = new System.Drawing.Size(220, 80);
             this.BtnShowCommand.TabIndex = 182;
-            this.BtnShowCommand.Text = "Visualizar\r\nComanda";
+            this.BtnShowCommand.Text = "F6 Visualizar\r\nComanda";
             this.BtnShowCommand.Click += new System.EventHandler(this.BtnShowCommand_Click);
             // 
             // label4
@@ -796,7 +797,7 @@
             this.BtnFinishOrder.Name = "BtnFinishOrder";
             this.BtnFinishOrder.Size = new System.Drawing.Size(220, 82);
             this.BtnFinishOrder.TabIndex = 182;
-            this.BtnFinishOrder.Text = "Finalizar \r\nOrden";
+            this.BtnFinishOrder.Text = "F7 Finalizar \r\nOrden";
             this.BtnFinishOrder.Click += new System.EventHandler(this.BtnFinishOrder_Click);
             // 
             // FrmSalesOrder

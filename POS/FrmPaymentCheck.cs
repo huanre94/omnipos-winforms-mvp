@@ -21,10 +21,13 @@ namespace POS
         public string checkAuthorization = "";
         public Customer customer = null;
 
-        public FrmPaymentCheck()
+        public FrmPaymentCheck(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmPaymentCheck_Load(object sender, EventArgs e)
         {
@@ -66,46 +69,51 @@ namespace POS
         #region Keypad Call Buttons
         private void BtnKeyboardOwner_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
+            TxtOwnerName.Focus();
         }
         private void BtnKeypadIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION;
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.checkOwnerIdentification;
+            TxtIdentification.Focus();
         }
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_PHONE;
             keyPad.ShowDialog();
             TxtPhone.Text = keyPad.checkPhone;
+            TxtPhone.Focus();   //06/07/2022
         }
 
         private void BtnKeypadAccount_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER;
             keyPad.ShowDialog();
             TxtAccountNumber.Text = keyPad.checkAccountNumber;
+            TxtAccountNumber.Focus();   //06/07/2022
         }
 
         private void BtnKeypadCheck_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
             keyPad.ShowDialog();
             TxtCheckNumber.Text = keyPad.checkNumber;
+            TxtCheckNumber.Focus();   //06/07/2022
         }
 
         private void BtnKeypadAuth_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.checkAuthorization;
@@ -119,7 +127,7 @@ namespace POS
 
             try
             {
-                banks = paymMode.GetBanks();
+                banks = paymMode.GetBanks(CadenaC);
 
                 if (banks != null)
                 {
@@ -164,6 +172,7 @@ namespace POS
                                                                             , TxtOwnerName.Text
                                                                             , TxtPhone.Text
                                                                             , ""
+                                                                            , CadenaC
                                                                             );
 
                         if (authorizeResult != null)
@@ -175,6 +184,8 @@ namespace POS
                             {
                                 TxtAuthorization.Text = result;
                                 functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
+                                BtnAccept.Focus();  //06/07/2022
+
                             }
                             else
                             {
@@ -291,6 +302,106 @@ namespace POS
                 TxtCheckDate.DateTime = DateTime.Now;
             }
 
+        }
+
+        private void TxtPhone_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    CmbCheckBank.Focus();//SendKeys.Send("{TAB}");
+                    break;
+                case Keys.F1:
+                    BtnKeypadPhone_Click(null, null);
+                    break;                
+                default:
+                    break;
+            }
+
+            //06/07/2022
+            //if (e.KeyCode.Equals(Keys.Enter)) SendKeys.Send("{TAB}");
+        }
+
+        private void CmbCheckBank_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter)) TxtCheckDate.Focus();
+        }
+
+        private void TxtCheckDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter)) SendKeys.Send("{TAB}");
+        }
+
+        private void TxtAccountNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.KeyCode.Equals(Keys.Enter)) SendKeys.Send("{TAB}");
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    SendKeys.Send("{TAB}");
+                    break;
+                case Keys.F1:
+                    BtnKeypadAccount_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtCheckNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.KeyCode.Equals(Keys.Enter)) SendKeys.Send("{TAB}");
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    SendKeys.Send("{TAB}");
+                    break;
+                case Keys.F1:
+                    BtnKeypadCheck_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtAuthorization_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter)) SendKeys.Send("{TAB}");
+        }
+
+        private void TxtOwnerName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    SendKeys.Send("{TAB}");
+                    break;
+                case Keys.F1:
+                    BtnKeyboardOwner_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtIdentification_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    SendKeys.Send("{TAB}");
+                    break;
+                case Keys.F1:
+                    BtnKeypadIdentification_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

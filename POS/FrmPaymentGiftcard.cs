@@ -12,11 +12,13 @@ namespace POS
         public string giftcardNumber;
         public decimal paidAmount;
 
-        public FrmPaymentGiftcard()
+        public FrmPaymentGiftcard(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             if (TxtGiftCard.Text != "")
@@ -26,7 +28,7 @@ namespace POS
 
                 try
                 {
-                    result = customer.GetGiftCard(TxtGiftCard.Text);
+                    result = customer.GetGiftCard(TxtGiftCard.Text, CadenaC);
 
                     if (result != null)
                     {
@@ -41,6 +43,7 @@ namespace POS
                             giftcardAmount = (decimal)result.Amount;
                             giftcardNumber = result.GiftCardNumber;
                             LblAmount.Text = giftcardAmount.ToString();
+                            BtnAccept.Focus();  //07/07/2022
                         }
                     }
                     else
@@ -119,10 +122,30 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
+            TxtGiftCard.Focus();
+        }
+
+        private void TxtGiftCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnSearch_Click(null, null);
+                    break;
+                case Keys.F1:
+                    BtnKeypad_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;                
+                default:
+                    break;
+            }
         }
     }
 }

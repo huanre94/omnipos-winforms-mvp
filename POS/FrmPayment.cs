@@ -36,11 +36,13 @@ namespace POS
         public int salesOriginId = 1;
         public bool paymentMethod = true;
 
-        public FrmPayment()
+        public FrmPayment(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             CheckGridView();
@@ -55,6 +57,7 @@ namespace POS
             BtnWithhold.Enabled = paymentMethod;
             BtnAdvance.Enabled = paymentMethod;
             BtnReturn.Enabled = paymentMethod;
+            BtnCash.Text = "&Efectivo";
 
         }
 
@@ -85,7 +88,7 @@ namespace POS
             {
                 e.Handled = true;
                 return;
-            }
+            }            
         }
         #endregion
 
@@ -310,7 +313,7 @@ namespace POS
         private void CreditCard()
         {
             string AuxXml = invoiceXml.ToString(); //HR002
-            FrmPaymentCard paymentCard = new FrmPaymentCard
+            FrmPaymentCard paymentCard = new FrmPaymentCard(CadenaC)
             {
                 creditCardAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer,
@@ -361,7 +364,7 @@ namespace POS
         private void Check()
         {
             ClsEnums.PaymModeEnum paymModeEnum;
-            FrmPaymentCheck paymentCheck = new FrmPaymentCheck
+            FrmPaymentCheck paymentCheck = new FrmPaymentCheck(CadenaC)
             {
                 checkAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer
@@ -398,7 +401,7 @@ namespace POS
 
         private void InternalCredit()
         {
-            FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
+            FrmPaymentCredit paymentCredit = new FrmPaymentCredit(CadenaC);
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.customer = customer;
             paymentCredit.emissionPoint = emissionPoint;
@@ -463,7 +466,7 @@ namespace POS
 
         private void GiftCard()
         {
-            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard();
+            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard(CadenaC);
             giftcard.paidAmount = decimal.Parse(TxtAmount.Text);
             giftcard.ShowDialog();
 
@@ -504,7 +507,7 @@ namespace POS
             }
             else
             {
-                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold
+                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold(CadenaC)
                 {
                     customer = customer,
                     loginInformation = loginInformation,
@@ -622,7 +625,7 @@ namespace POS
 
         private void AccountReceivable(int _paymMode)
         {
-            FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
+            FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance(CadenaC)
             {
                 advanceAmount = decimal.Parse(TxtAmount.Text),
                 _currentCustomer = customer,
@@ -634,7 +637,7 @@ namespace POS
             {
                 functions.emissionPoint = emissionPoint;
                 functions.AxOPOSScanner = scanner;
-                bool responseAuthorization = functions.RequestSupervisorAuth();
+                bool responseAuthorization = functions.RequestSupervisorAuth(false,0, CadenaC);
                 if (responseAuthorization)
                 {
                     decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
@@ -643,7 +646,7 @@ namespace POS
                     {
                         if ((bool)item.IsSelected)
                         {
-                            InvoicePayment invoicePayment = new InvoicePayment
+                            InvoicePayment invoicePayment = new InvoicePayment()
                             {
                                 PaymModeId = _paymMode,
                                 Amount = (decimal)item.AdvanceAmount,
@@ -657,6 +660,55 @@ namespace POS
                 }
             }
         }
-        #endregion      
+        #endregion
+
+        private void TxtAmount_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.E))
+            {
+                BtnCash_Click(null, null); //BtnCash.Focus();
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.T))
+            {
+                BtnCreditCard_Click(null,null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.C))
+            {
+                BtnCheck_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.D))
+            {
+                BtnInternalCredit_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.B))
+            {
+                BtnGiftcard_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.R))
+            {
+                BtnWithhold_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.A))
+            {
+                BtnAdvance_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.N))
+            {
+                BtnReturn_Click(null, null);
+            }
+
+            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.F9))
+            {
+                BtnCancel_Click(null, null);
+            }
+
+        }
     }
 }

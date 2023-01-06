@@ -18,10 +18,13 @@ namespace POS
         public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
 
-        public FrmPaymentAdvance()
+        public FrmPaymentAdvance(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void CheckGridView()
         {
@@ -52,7 +55,7 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode));
+                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode, CadenaC));
                 if (advances.Count == 0)
                 {
                     functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);

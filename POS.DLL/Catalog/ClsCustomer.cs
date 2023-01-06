@@ -6,13 +6,13 @@ namespace POS.DLL.Catalog
 {
     public class ClsCustomer
     {
-        public List<IdentType> GetIdentTypes()
+        public List<IdentType> GetIdentTypes(string CadenaC = "")
         {
             List<IdentType> custIdentTypes;
 
             try
             {
-                custIdentTypes = (from ide in new POSEntities().IdentType
+                custIdentTypes = (from ide in new POSEntities(CadenaC).IdentType
                                   where ide.Status == "A"
                                   && ide.IdentTypeId != 5
                                   select ide
@@ -26,13 +26,13 @@ namespace POS.DLL.Catalog
             return custIdentTypes;
         }
 
-        public Customer GetCustomerByIdentification(string _indentification)
+        public Customer GetCustomerByIdentification(string _indentification, string CadenaC = "")
         {
             Customer customer;
 
             try
             {
-                customer = (from cust in new POSEntities().Customer
+                customer = (from cust in new POSEntities(CadenaC).Customer
                             where cust.Status == "A"
                             && cust.Identification == _indentification
                             select cust
@@ -46,13 +46,13 @@ namespace POS.DLL.Catalog
             return customer;
         }
 
-        public Customer GetCustomerById(long _customerId)
+        public Customer GetCustomerById(long _customerId, string CadenaC = "")
         {
             Customer customer;
 
             try
             {
-                customer = (from cust in new POSEntities().Customer
+                customer = (from cust in new POSEntities(CadenaC).Customer
                             where cust.Status == "A"
                             && cust.CustomerId == _customerId
                             select cust
@@ -66,13 +66,13 @@ namespace POS.DLL.Catalog
             return customer;
         }
 
-        public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml)
+        public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml, string CadenaC = "")
         {
             SP_Customer_Insert_Result result;
 
             try
             {
-                result = new POSEntities().SP_Customer_Insert(_customerXml).FirstOrDefault();
+                result = new POSEntities(CadenaC).SP_Customer_Insert(_customerXml).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -82,13 +82,13 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType)
+        public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType, string _CadenaC = "")
         {
             FN_Identification_Validate_Result result;
 
             try
             {
-                result = new POSEntities().FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
+                result = new POSEntities(_CadenaC).FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -98,13 +98,14 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
+        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer, string _CadenaC = "")
         {
+            var db = new POSEntities(_CadenaC);//07/07/2022  Se incremento linea de la variable
             List<CustomerAddress> result;
             try
             {
-                result = (from ca in new POSEntities().CustomerAddress
-                          join cu in new POSEntities().Customer on ca.CustomerId equals cu.CustomerId
+                result = (from ca in db.CustomerAddress
+                          join cu in db.Customer on ca.CustomerId equals cu.CustomerId
                           where ca.CustomerId == _customer.CustomerId
                           && ca.Status == "A"
                           select ca).ToList();
@@ -116,12 +117,12 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
+        public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml, string CadenaC = "")
         {
             SP_CustomerAddress_Insert_Result result;
             try
             {
-                result = new POSEntities().SP_CustomerAddress_Insert(xml).FirstOrDefault();
+                result = new POSEntities(CadenaC).SP_CustomerAddress_Insert(xml).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -130,9 +131,9 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress)
+        public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             CustomerAddress address;
             try
             {

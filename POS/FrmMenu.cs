@@ -16,10 +16,13 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         //public static EmissionPoint emissionPoint;
 
-        public FrmMenu()
+        public FrmMenu(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
@@ -55,12 +58,15 @@ namespace POS
 
         private void BtnPOS_Click(object sender, EventArgs e)
         {
-            FrmMain frmMain = new FrmMain
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+            FrmMain frmMain = new FrmMain(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
             };
             frmMain.Show();
+
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
 
             if (Application.OpenForms.OfType<FrmMain>().Count() == 1)
                 Hide();
@@ -68,7 +74,7 @@ namespace POS
 
         private void BtnCloseCashier_Click(object sender, EventArgs e)
         {
-            FrmClosingCashier frmClosing = new FrmClosingCashier
+            FrmClosingCashier frmClosing = new FrmClosingCashier(CadenaC, "F")
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -81,7 +87,7 @@ namespace POS
 
         private void BtnPartialClosing_Click(object sender, EventArgs e)
         {
-            FrmPartialClosing frmPartial = new FrmPartialClosing
+            FrmPartialClosing frmPartial = new FrmPartialClosing(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -94,7 +100,7 @@ namespace POS
 
         private void BtnSalesOrder_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker
+            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -107,7 +113,7 @@ namespace POS
 
         private void BtnGiftCardRedeem_Click(object sender, EventArgs e)
         {
-            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard
+            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -120,7 +126,7 @@ namespace POS
 
         private void BtnInvoiceCancel_Click(object sender, EventArgs e)
         {
-            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel
+            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -133,7 +139,7 @@ namespace POS
 
         private void BtnChangePaymMode_Click(object sender, EventArgs e)
         {
-            FrmChangePaymMode frmChange = new FrmChangePaymMode
+            FrmChangePaymMode frmChange = new FrmChangePaymMode(CadenaC)
             {
                 loginInformation = loginInformation
             };
@@ -142,11 +148,12 @@ namespace POS
 
         private void BtnPhysicalInventory_Click(object sender, EventArgs e)
         {
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
             bool allowInventory = false;
 
             try
             {
-                allowInventory = (from par in new POSEntities().GlobalParameter.ToList()
+                allowInventory = (from par in new POSEntities(CadenaC).GlobalParameter.ToList()
                                   where par.Name == "AllowPhysicalInventory"
                                   select par.Value).FirstOrDefault() == "1";
 
@@ -164,7 +171,7 @@ namespace POS
             if (allowInventory)
             {
 
-                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount
+                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount(CadenaC)
                 {
                     loginInformation = loginInformation,
                     globalParameters = globalParameters
@@ -178,6 +185,9 @@ namespace POS
             {
                 functions.ShowMessage("La toma de inventario no se encuentra habilitada.", ClsEnums.MessageType.WARNING);
             }
+
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
+
         }
 
         private bool GetEmissionPointInformation()
@@ -192,7 +202,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -211,7 +221,7 @@ namespace POS
 
             if (emissionPoint != null)
             {
-                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
+                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId, CadenaC);
                 if (pendingClosing)
                 {
                     functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
@@ -223,6 +233,19 @@ namespace POS
             }
 
             return response;
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            FrmClosingCashier frmClosing = new FrmClosingCashier(CadenaC, "A")
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters
+            };
+            frmClosing.Show();
+
+            if (Application.OpenForms.OfType<FrmClosingCashier>().Count() == 1)
+                Hide();
         }
     }
 }

@@ -6,9 +6,9 @@ namespace POS.DLL.Transaction
 {
     public class ClsCustomerTrans
     {
-        public SP_InternalCreditCard_Consult_Result GetInternalCreditCard(string _creditCardCode)
+        public SP_InternalCreditCard_Consult_Result GetInternalCreditCard(string _creditCardCode, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             SP_InternalCreditCard_Consult_Result result;
 
             try
@@ -23,12 +23,12 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_GiftCard_Consult_Result GetGiftCard(string _giftCard)
+        public SP_GiftCard_Consult_Result GetGiftCard(string _giftCard, string CadenaC = "")
         {
             SP_GiftCard_Consult_Result result;
             try
             {
-                result = new POSEntities().SP_GiftCard_Consult(_giftCard).FirstOrDefault();
+                result = new POSEntities(CadenaC).SP_GiftCard_Consult(_giftCard).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -38,12 +38,12 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_GiftCard_Consult_Result> GetGiftCardProducts(string _giftCard)
+        public List<SP_GiftCard_Consult_Result> GetGiftCardProducts(string _giftCard, string CadenaC = "")
         {
             List<SP_GiftCard_Consult_Result> result;
             try
             {
-                result = new POSEntities().SP_GiftCard_Consult(_giftCard).ToList();
+                result = new POSEntities(CadenaC).SP_GiftCard_Consult(_giftCard).ToList();
             }
             catch (Exception ex)
             {
@@ -53,12 +53,12 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_GiftCardRedeem_Insert_Result GiftCardRedeemInsert(string GiftCardNumber, string RedeemName, string RedeemIdentification, int RedeemLocation, string ProductGrid)
+        public SP_GiftCardRedeem_Insert_Result GiftCardRedeemInsert(string GiftCardNumber, string RedeemName, string RedeemIdentification, int RedeemLocation, string ProductGrid, string CadenaC = "")
         {
             SP_GiftCardRedeem_Insert_Result result;
             try
             {
-                result = new POSEntities().SP_GiftCardRedeem_Insert(GiftCardNumber, RedeemName, RedeemIdentification, RedeemLocation, ProductGrid).First();
+                result = new POSEntities(CadenaC).SP_GiftCardRedeem_Insert(GiftCardNumber, RedeemName, RedeemIdentification, RedeemLocation, ProductGrid).First();
             }
             catch (Exception ex)
             {

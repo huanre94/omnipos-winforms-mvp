@@ -214,6 +214,7 @@ namespace POS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(889, 533);
             this.ControlBox = false;
             this.Controls.Add(this.LblSelectedAmount);

@@ -24,10 +24,13 @@ namespace POS
         decimal TotalAdvances = 0.00M;
         XElement advanceXml = new XElement("Advance");
 
-        public FrmAdvance()
+        public FrmAdvance(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmAdvance_Load(object sender, EventArgs e)
         {
@@ -42,7 +45,7 @@ namespace POS
         {
             try
             {
-                advances = new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS);
+                advances = new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, (int)ClsEnums.PaymModeEnum.ANTICIPOS, CadenaC);
 
                 foreach (var item in advances)
                 {
@@ -96,7 +99,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.PrintDocument(lastId, ClsEnums.DocumentType.ADVANCE);
+                    functions.PrintDocument(lastId, ClsEnums.DocumentType.ADVANCE, false,CadenaC);
                 }
             }
             catch (Exception ex)
@@ -137,7 +140,7 @@ namespace POS
             {
                 if (LblTotal.Text != "" && TypedAmount != 0)
                 {
-                    FrmPayment payment = new FrmPayment
+                    FrmPayment payment = new FrmPayment(CadenaC)
                     {
                         invoiceAmount = decimal.Parse(LblTotal.Text),
                         customer = _currentCustomer,
@@ -171,7 +174,7 @@ namespace POS
 
         private void BtnKeypadAdvance_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.ADVANCE_AMOUNT
             };
@@ -219,7 +222,7 @@ namespace POS
 
                 advanceXml.Add(invoiceTableXml);
 
-                result = new ClsAccountsReceivableTrans().AddAdvance(advanceXml);
+                result = new ClsAccountsReceivableTrans().AddAdvance(advanceXml, CadenaC);
 
                 if (result != null)
                 {
@@ -228,7 +231,7 @@ namespace POS
                         ClearAdvance();
 
                         //if (PrintInvoice((Int64)invoiceResult.InvoiceId))
-                        if (functions.PrintDocument((long)result.AccountsReceivableId, ClsEnums.DocumentType.ADVANCE, true))
+                        if (functions.PrintDocument((long)result.AccountsReceivableId, ClsEnums.DocumentType.ADVANCE, true, CadenaC))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");
                         }

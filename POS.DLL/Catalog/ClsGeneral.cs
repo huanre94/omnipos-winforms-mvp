@@ -6,13 +6,14 @@ namespace POS.DLL.Catalog
 {
     public class ClsGeneral
     {
-        public List<GlobalParameter> GetGlobalParameters()
+        
+        public List<GlobalParameter> GetGlobalParameters(string CadenaC = "")
         {
             List<GlobalParameter> globalParameters;
 
             try
             {
-                globalParameters = new POSEntities().GlobalParameter.ToList();
+                globalParameters = new POSEntities(CadenaC).GlobalParameter.ToList();
             }
             catch (Exception ex)
             {
@@ -22,13 +23,13 @@ namespace POS.DLL.Catalog
             return globalParameters;
         }
 
-        public GlobalParameter GetParameterByName(string _name)
+        public GlobalParameter GetParameterByName(string _name, string CadenaC = "")
         {
             GlobalParameter parameter;
 
             try
             {
-                parameter = new POSEntities().GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
+                parameter = new POSEntities(CadenaC).GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -38,13 +39,13 @@ namespace POS.DLL.Catalog
             return parameter;
         }
 
-        public EmissionPoint GetEmissionPointByIP(string _addressIP)
+        public EmissionPoint GetEmissionPointByIP(string _addressIP, string CadenaC = "")
         {
             EmissionPoint emissionPoint;
 
             try
             {
-                emissionPoint = (from em in new POSEntities().EmissionPoint
+                emissionPoint = (from em in new POSEntities(CadenaC).EmissionPoint
                                  where em.AddressIP == _addressIP
                                  && em.Status == "A"
                                  select em
@@ -58,12 +59,12 @@ namespace POS.DLL.Catalog
             return emissionPoint;
         }
 
-        public List<InventLocation> GetMainWarehouseByLocationId(int _locationId)
+        public List<InventLocation> GetMainWarehouseByLocationId(int _locationId, string _CadenaC = "")
         {
             List<InventLocation> inventLocation;
             try
             {
-                inventLocation = (from inl in new POSEntities().InventLocation
+                inventLocation = (from inl in new POSEntities(_CadenaC).InventLocation
                                   where inl.LocationId == _locationId
                                   && inl.Status == "A"
                                   && inl.IsMain == true
@@ -76,13 +77,13 @@ namespace POS.DLL.Catalog
             return inventLocation;
         }
 
-        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _locationId, int _sequenceType)
+        public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _locationId, int _sequenceType, string _CadenaC = "")
         {
             SequenceTable sequenceTable;
 
             try
             {
-                sequenceTable = new POSEntities()
+                sequenceTable = new POSEntities(_CadenaC)
                     .SequenceTable
                     .Where(seq => seq.EmissionPointId == _emissionPointId
                                  && seq.LocationId == _locationId

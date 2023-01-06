@@ -72,8 +72,10 @@
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -83,7 +85,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 49);
-            this.BtnAccept.TabIndex = 153;
+            this.BtnAccept.TabIndex = 8;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -91,8 +93,10 @@
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -101,22 +105,25 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 49);
-            this.BtnCancel.TabIndex = 152;
+            this.BtnCancel.TabIndex = 9;
             this.BtnCancel.Text = "Cancelar";
             // 
             // TxtOwnerName
             // 
+            this.TxtOwnerName.EditValue = "";
             this.TxtOwnerName.Location = new System.Drawing.Point(175, 12);
             this.TxtOwnerName.Name = "TxtOwnerName";
             this.TxtOwnerName.Size = new System.Drawing.Size(376, 38);
-            this.TxtOwnerName.TabIndex = 20;
+            this.TxtOwnerName.TabIndex = 0;
+            this.TxtOwnerName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtOwnerName_KeyDown);
             // 
             // TxtAccountNumber
             // 
             this.TxtAccountNumber.Location = new System.Drawing.Point(175, 298);
             this.TxtAccountNumber.Name = "TxtAccountNumber";
             this.TxtAccountNumber.Size = new System.Drawing.Size(219, 38);
-            this.TxtAccountNumber.TabIndex = 4;
+            this.TxtAccountNumber.TabIndex = 3;
+            this.TxtAccountNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAccountNumber_KeyDown);
             // 
             // TxtAuthorization
             // 
@@ -125,6 +132,7 @@
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Size = new System.Drawing.Size(219, 38);
             this.TxtAuthorization.TabIndex = 6;
+            this.TxtAuthorization.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAuthorization_KeyDown);
             // 
             // TxtCheckDate
             // 
@@ -142,8 +150,9 @@
             this.TxtCheckDate.Properties.Mask.EditMask = "";
             this.TxtCheckDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
             this.TxtCheckDate.Size = new System.Drawing.Size(300, 38);
-            this.TxtCheckDate.TabIndex = 3;
+            this.TxtCheckDate.TabIndex = 2;
             this.TxtCheckDate.EditValueChanged += new System.EventHandler(this.TxtCheckDate_EditValueChanged);
+            this.TxtCheckDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCheckDate_KeyDown);
             // 
             // LblOwnerName
             // 
@@ -190,7 +199,8 @@
             this.TxtCheckNumber.Location = new System.Drawing.Point(175, 355);
             this.TxtCheckNumber.Name = "TxtCheckNumber";
             this.TxtCheckNumber.Size = new System.Drawing.Size(219, 38);
-            this.TxtCheckNumber.TabIndex = 5;
+            this.TxtCheckNumber.TabIndex = 4;
+            this.TxtCheckNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCheckNumber_KeyDown);
             // 
             // LblCheckNumber
             // 
@@ -276,7 +286,8 @@
             this.CmbCheckBank.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbCheckBank.Size = new System.Drawing.Size(300, 38);
-            this.CmbCheckBank.TabIndex = 2;
+            this.CmbCheckBank.TabIndex = 1;
+            this.CmbCheckBank.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbCheckBank_KeyDown);
             // 
             // BtnKeypadIdentification
             // 
@@ -312,7 +323,8 @@
             this.TxtIdentification.Location = new System.Drawing.Point(175, 69);
             this.TxtIdentification.Name = "TxtIdentification";
             this.TxtIdentification.Size = new System.Drawing.Size(219, 38);
-            this.TxtIdentification.TabIndex = 21;
+            this.TxtIdentification.TabIndex = 1;
+            this.TxtIdentification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtIdentification_KeyDown);
             // 
             // BtnKeypadPhone
             // 
@@ -330,7 +342,7 @@
             this.BtnKeypadPhone.Name = "BtnKeypadPhone";
             this.BtnKeypadPhone.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeypadPhone.Size = new System.Drawing.Size(80, 50);
-            this.BtnKeypadPhone.TabIndex = 177;
+            this.BtnKeypadPhone.TabIndex = 2;
             this.BtnKeypadPhone.Click += new System.EventHandler(this.BtnKeypadPhone_Click);
             // 
             // LblPhone
@@ -348,7 +360,8 @@
             this.TxtPhone.Location = new System.Drawing.Point(175, 127);
             this.TxtPhone.Name = "TxtPhone";
             this.TxtPhone.Size = new System.Drawing.Size(219, 38);
-            this.TxtPhone.TabIndex = 1;
+            this.TxtPhone.TabIndex = 0;
+            this.TxtPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPhone_KeyDown);
             // 
             // BtnAuthorization
             // 
@@ -365,7 +378,7 @@
             this.BtnAuthorization.Name = "BtnAuthorization";
             this.BtnAuthorization.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnAuthorization.Size = new System.Drawing.Size(63, 55);
-            this.BtnAuthorization.TabIndex = 179;
+            this.BtnAuthorization.TabIndex = 7;
             this.BtnAuthorization.Click += new System.EventHandler(this.BtnAuthorization_Click);
             // 
             // LblCheckAmount
@@ -384,7 +397,7 @@
             this.TxtCheckAmount.Location = new System.Drawing.Point(175, 412);
             this.TxtCheckAmount.Name = "TxtCheckAmount";
             this.TxtCheckAmount.Size = new System.Drawing.Size(219, 38);
-            this.TxtCheckAmount.TabIndex = 0;
+            this.TxtCheckAmount.TabIndex = 5;
             // 
             // BtnKeypadAuth
             // 
@@ -410,6 +423,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(668, 628);
             this.ControlBox = false;
             this.Controls.Add(this.LblCheckAmount);

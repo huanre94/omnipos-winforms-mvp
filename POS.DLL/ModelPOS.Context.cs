@@ -17,8 +17,13 @@ namespace POS.DLL
     
     public partial class POSEntities : DbContext
     {
-        public POSEntities()
-            : base("name=POSEntities")
+        //public POSEntities()
+        //    : base("name=POSEntities")  //12/07/2022  para pruebas, se deja este respaldo de linea
+
+
+        public POSEntities(string CadenaConexion = "")
+            : base(CadenaConexion)
+
         {
         }
     
@@ -325,13 +330,18 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashierPartial_Insert_Result>("SP_ClosingCashierPartial_Insert", paramXMLParameter, typeParameter);
         }
     
-        public virtual ObjectResult<SP_ClosingCashier_Insert_Result> SP_ClosingCashier_Insert(string paramXML)
+        public virtual ObjectResult<SP_ClosingCashier_Insert_Result> SP_ClosingCashier_Insert(string paramXML, string TipoCierre)
         {
             var paramXMLParameter = paramXML != null ?
                 new ObjectParameter("ParamXML", paramXML) :
-                new ObjectParameter("ParamXML", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashier_Insert_Result>("SP_ClosingCashier_Insert", paramXMLParameter);
+                new ObjectParameter("ParamXML", typeof(string));            
+
+            var paramTipoCierre = TipoCierre != null ?
+                new ObjectParameter("Type", TipoCierre) :
+                new ObjectParameter("Type", typeof(string));
+
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ClosingCashier_Insert_Result>("SP_ClosingCashier_Insert", paramXMLParameter, paramTipoCierre);
         }
     
         public virtual ObjectResult<SP_ClosingCashierPartial_Consult_Result> SP_ClosingCashierPartial_Consult(Nullable<short> locationId, Nullable<int> userId, Nullable<int> emissionPointId, string closingCashierDate)

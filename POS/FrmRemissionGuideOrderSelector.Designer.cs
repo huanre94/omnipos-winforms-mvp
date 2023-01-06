@@ -80,6 +80,7 @@
             this.GrcSalesOrder.UseEmbeddedNavigator = true;
             this.GrcSalesOrder.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesOrder});
+            this.GrcSalesOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcSalesOrder_KeyDown);
             // 
             // GrvSalesOrder
             // 
@@ -214,9 +215,11 @@
             // BtnModify
             // 
             this.BtnModify.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnModify.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnModify.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnModify.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnModify.Appearance.Options.UseBackColor = true;
             this.BtnModify.Appearance.Options.UseFont = true;
+            this.BtnModify.Appearance.Options.UseForeColor = true;
             this.BtnModify.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnModify.ImageOptions.Image")));
             this.BtnModify.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnModify.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -226,15 +229,18 @@
             this.BtnModify.Name = "BtnModify";
             this.BtnModify.Size = new System.Drawing.Size(160, 50);
             this.BtnModify.TabIndex = 252;
-            this.BtnModify.Text = "Guardar";
+            this.BtnModify.Text = "F2 Guardar";
             this.BtnModify.Click += new System.EventHandler(this.BtnModify_Click);
             // 
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
@@ -358,8 +364,10 @@
             // 
             this.BtnSearch.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.BtnSearch.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnSearch.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnSearch.Appearance.Options.UseBackColor = true;
             this.BtnSearch.Appearance.Options.UseFont = true;
+            this.BtnSearch.Appearance.Options.UseForeColor = true;
             this.BtnSearch.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
             this.BtnSearch.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnSearch.ImageOptions.SvgImage")));
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -375,6 +383,7 @@
             // FrmRemissionGuideOrderSelector
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnSearch);

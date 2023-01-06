@@ -6,9 +6,9 @@ namespace POS.DLL.Transaction
 {
     public class ClsInventoryTrans
     {
-        public SP_PhysicalStockLine_Insert_Result InsertPhysicalStockCounting(int sequence, string _xml)
+        public SP_PhysicalStockLine_Insert_Result InsertPhysicalStockCounting(int sequence, string _xml, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SP_PhysicalStockLine_Insert_Result result;
 
             try
@@ -23,9 +23,9 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_PhysicalStockTable_Insert_Result InsertNewSequence(string _xml)
+        public SP_PhysicalStockTable_Insert_Result InsertNewSequence(string _xml, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             SP_PhysicalStockTable_Insert_Result result;
 
             try
@@ -40,14 +40,14 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId) => new POSEntities()
+        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId, string CadenaC = "") => new POSEntities(CadenaC)
                 .PhysicalStockCountingTable
                 .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
                     && a.Status == "O"
                     && a.CreatedBy == UserId)
                 .Any();
 
-        public int GetPendingCounting(EmissionPoint emissionPoint, long UserId) => new POSEntities()
+        public int GetPendingCounting(EmissionPoint emissionPoint, long UserId, string CadenaC = "") => new POSEntities(CadenaC)
                  .PhysicalStockCountingTable
                  .Where(ta => ta.EmissionPointId == emissionPoint.EmissionPointId
                        && ta.Status == "O"
@@ -55,9 +55,9 @@ namespace POS.DLL.Transaction
                  .Select(ta => ta.PhysicalStockCountingId)
                  .FirstOrDefault();
 
-        public List<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id)
+        public List<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             List<SP_PhysicalStockLine_Consult_Result> list;
             try
             {
@@ -70,9 +70,9 @@ namespace POS.DLL.Transaction
             return list;
         }
 
-        public bool UpdateStockTableStatus(int sequence)
+        public bool UpdateStockTableStatus(int sequence, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             bool response = false;
             PhysicalStockCountingTable table;
             try

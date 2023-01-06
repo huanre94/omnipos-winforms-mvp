@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -20,11 +21,13 @@ namespace POS
         public bool isUpdated = false;
         Int64 sequenceNumber;
 
-        public FrmRemissionGuideOrderSelector()
+        public FrmRemissionGuideOrderSelector(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmRemissionGuideOrderSelector_Load(object sender, EventArgs e)
         {
             if (GetEmissionPointInformation())
@@ -48,7 +51,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +94,7 @@ namespace POS
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE, CadenaC);
 
                 if (sequenceTable != null)
                 {
@@ -129,7 +132,7 @@ namespace POS
         {
             try
             {
-                List<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder().GetPendingSalesOrders();
+                List<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder().GetPendingSalesOrders(CadenaC);
                 BindingList<SP_RemissionPendingSalesOrder_Consult_Result> bindingList = new BindingList<SP_RemissionPendingSalesOrder_Consult_Result>(list);
                 if (bindingList.Count == 0)
                 {
@@ -156,7 +159,7 @@ namespace POS
         {
             try
             {
-                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
+                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers(CadenaC);
                 if (transportDrivers != null)
                 {
                     if (transportDrivers.Count > 0)
@@ -184,7 +187,7 @@ namespace POS
         {
             try
             {
-                List<Transport> transports = new ClsSalesOrder().GetTransports();
+                List<Transport> transports = new ClsSalesOrder().GetTransports(CadenaC);
                 if (transports != null)
                 {
                     if (transports.Count > 0)
@@ -211,7 +214,7 @@ namespace POS
         {
             try
             {
-                List<TransportReason> transportReasons = new ClsSalesOrder().GetTransportReasons();
+                List<TransportReason> transportReasons = new ClsSalesOrder().GetTransportReasons(CadenaC);
                 if (transportReasons != null)
                 {
                     if (transportReasons.Count > 0)
@@ -323,12 +326,12 @@ namespace POS
                     }
                 }
 
-                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString());
+                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString(), CadenaC);
                 if (!(bool)result.Error)
                 {
                     isUpdated = true;
 
-                    if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE))
+                    if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE, false, CadenaC))
                     {
                         functions.ShowMessage("Guia de remision creada exitosamente.", ClsEnums.MessageType.INFO);
                         //DELETE PAYMODES
@@ -359,7 +362,7 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
             keyPad.ShowDialog();
 
@@ -374,6 +377,24 @@ namespace POS
             GrvSalesOrder.FocusedRowHandle = rowIndex;
             GrvSalesOrder.UpdateCurrentRow();
             GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
+        }
+
+        private void GrcSalesOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnSearch_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnModify_Click(null, null);
+                    break;
+                case Keys.Escape:
+                    BtnCancel_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -58,11 +58,12 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.AllowFocus = false;
             this.BtnExit.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnExit.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnExit.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnExit.Appearance.Options.UseBackColor = true;
             this.BtnExit.Appearance.Options.UseFont = true;
+            this.BtnExit.Appearance.Options.UseForeColor = true;
             this.BtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -71,16 +72,19 @@
             this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(250, 45);
-            this.BtnExit.TabIndex = 247;
+            this.BtnExit.TabIndex = 4;
             this.BtnExit.Text = "Cancelar";
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(61, 244);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(288, 294);
-            this.richTextBox1.TabIndex = 246;
+            this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
+            this.richTextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
             // 
             // BtnCustomer
             // 
@@ -96,7 +100,7 @@
             this.BtnCustomer.Name = "BtnCustomer";
             this.BtnCustomer.Size = new System.Drawing.Size(250, 45);
             this.BtnCustomer.TabIndex = 244;
-            this.BtnCustomer.Text = "Cliente";
+            this.BtnCustomer.Text = "F6 Cliente";
             this.BtnCustomer.Click += new System.EventHandler(this.BtnCustomer_Click);
             // 
             // LblDeliveryAddressRef
@@ -190,19 +194,20 @@
             // 
             // BtnSaveOrder
             // 
-            this.BtnSaveOrder.AllowFocus = false;
             this.BtnSaveOrder.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnSaveOrder.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.BtnSaveOrder.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnSaveOrder.Appearance.Options.UseBackColor = true;
             this.BtnSaveOrder.Appearance.Options.UseFont = true;
+            this.BtnSaveOrder.Appearance.Options.UseForeColor = true;
             this.BtnSaveOrder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveOrder.ImageOptions.Image")));
             this.BtnSaveOrder.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSaveOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(50, 50);
             this.BtnSaveOrder.Location = new System.Drawing.Point(431, 556);
             this.BtnSaveOrder.Name = "BtnSaveOrder";
             this.BtnSaveOrder.Size = new System.Drawing.Size(250, 45);
-            this.BtnSaveOrder.TabIndex = 245;
-            this.BtnSaveOrder.Text = "Guardar Orden";
+            this.BtnSaveOrder.TabIndex = 5;
+            this.BtnSaveOrder.Text = "F2 Guardar Orden";
             this.BtnSaveOrder.Click += new System.EventHandler(this.BtnSaveOrder_Click);
             // 
             // BtnDeliveryAddress
@@ -219,7 +224,7 @@
             this.BtnDeliveryAddress.Name = "BtnDeliveryAddress";
             this.BtnDeliveryAddress.Size = new System.Drawing.Size(250, 45);
             this.BtnDeliveryAddress.TabIndex = 241;
-            this.BtnDeliveryAddress.Text = "Direccion Entrega";
+            this.BtnDeliveryAddress.Text = "F3 Direccion Entrega";
             this.BtnDeliveryAddress.Click += new System.EventHandler(this.BtnDeliveryAddress_Click);
             // 
             // label1
@@ -249,7 +254,8 @@
             this.CmbSalesOrderOrigin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(250, 38);
-            this.CmbSalesOrderOrigin.TabIndex = 249;
+            this.CmbSalesOrderOrigin.TabIndex = 1;
+            this.CmbSalesOrderOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbSalesOrderOrigin_KeyDown);
             // 
             // label5
             // 
@@ -277,15 +283,17 @@
             this.EdtDeliveryDate.Properties.FirstDayOfWeek = System.DayOfWeek.Monday;
             this.EdtDeliveryDate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 38);
-            this.EdtDeliveryDate.TabIndex = 249;
+            this.EdtDeliveryDate.TabIndex = 2;
             // 
             // TxtObservation
             // 
             this.TxtObservation.Location = new System.Drawing.Point(389, 422);
             this.TxtObservation.Name = "TxtObservation";
             this.TxtObservation.Size = new System.Drawing.Size(250, 116);
-            this.TxtObservation.TabIndex = 253;
+            this.TxtObservation.TabIndex = 3;
             this.TxtObservation.Text = "";
+            this.TxtObservation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtObservation_KeyDown);
+            this.TxtObservation.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TxtObservation_KeyUp);
             // 
             // label6
             // 
@@ -300,7 +308,8 @@
             // FrmSalesOrderHeader
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(724, 635);
+            this.CancelButton = this.BtnExit;
+            this.ClientSize = new System.Drawing.Size(736, 647);
             this.ControlBox = false;
             this.Controls.Add(this.TxtObservation);
             this.Controls.Add(this.label6);

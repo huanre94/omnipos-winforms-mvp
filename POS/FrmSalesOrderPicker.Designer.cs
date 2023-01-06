@@ -76,6 +76,8 @@
             this.GrcSalesOrder.UseEmbeddedNavigator = true;
             this.GrcSalesOrder.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesOrder});
+            this.GrcSalesOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcSalesOrder_KeyDown);
+            this.GrcSalesOrder.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GrcSalesOrder_KeyUp);
             // 
             // GrvSalesOrder
             // 
@@ -234,12 +236,12 @@
             this.BtnModify.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnModify.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnModify.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnModify.Location = new System.Drawing.Point(1178, 704);
+            this.BtnModify.Location = new System.Drawing.Point(1165, 704);
             this.BtnModify.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModify.Name = "BtnModify";
-            this.BtnModify.Size = new System.Drawing.Size(160, 50);
+            this.BtnModify.Size = new System.Drawing.Size(173, 50);
             this.BtnModify.TabIndex = 140;
-            this.BtnModify.Text = "Modificar";
+            this.BtnModify.Text = "F6 Modificar";
             this.BtnModify.Click += new System.EventHandler(this.BtnModify_Click);
             // 
             // BtnCancel
@@ -252,7 +254,7 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(1008, 704);
+            this.BtnCancel.Location = new System.Drawing.Point(995, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -275,7 +277,7 @@
             this.BtnNewOrder.Name = "BtnNewOrder";
             this.BtnNewOrder.Size = new System.Drawing.Size(160, 50);
             this.BtnNewOrder.TabIndex = 141;
-            this.BtnNewOrder.Text = "Nuevo \r\nPedido";
+            this.BtnNewOrder.Text = "F2 Nuevo \r\nPedido";
             this.BtnNewOrder.Click += new System.EventHandler(this.BtnNewOrder_Click);
             // 
             // BtnRemissionGuide
@@ -291,15 +293,15 @@
             this.BtnRemissionGuide.Location = new System.Drawing.Point(26, 704);
             this.BtnRemissionGuide.Margin = new System.Windows.Forms.Padding(5);
             this.BtnRemissionGuide.Name = "BtnRemissionGuide";
-            this.BtnRemissionGuide.Size = new System.Drawing.Size(160, 50);
+            this.BtnRemissionGuide.Size = new System.Drawing.Size(176, 50);
             this.BtnRemissionGuide.TabIndex = 141;
-            this.BtnRemissionGuide.Text = "Ver guias";
+            this.BtnRemissionGuide.Text = "F7 Ver guias";
             this.BtnRemissionGuide.Click += new System.EventHandler(this.BtnRemissionGuide_Click);
             // 
             // BtnRefresh
             // 
             this.BtnRefresh.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnRefresh.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnRefresh.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnRefresh.Appearance.Options.UseBackColor = true;
             this.BtnRefresh.Appearance.Options.UseFont = true;
             this.BtnRefresh.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -307,12 +309,12 @@
             this.BtnRefresh.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnRefresh.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnRefresh.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnRefresh.Location = new System.Drawing.Point(1178, 20);
+            this.BtnRefresh.Location = new System.Drawing.Point(1165, 20);
             this.BtnRefresh.Margin = new System.Windows.Forms.Padding(5);
             this.BtnRefresh.Name = "BtnRefresh";
-            this.BtnRefresh.Size = new System.Drawing.Size(160, 50);
+            this.BtnRefresh.Size = new System.Drawing.Size(173, 50);
             this.BtnRefresh.TabIndex = 140;
-            this.BtnRefresh.Text = "Actualizar";
+            this.BtnRefresh.Text = "F5 Actualizar";
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
             // LblMotive
@@ -323,7 +325,7 @@
             this.LblMotive.Name = "LblMotive";
             this.LblMotive.Size = new System.Drawing.Size(64, 18);
             this.LblMotive.TabIndex = 142;
-            this.LblMotive.Text = "Estado";
+            this.LblMotive.Text = "&Estado";
             // 
             // CmbOrderStatus
             // 
@@ -333,6 +335,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbOrderStatus.Size = new System.Drawing.Size(238, 38);
             this.CmbOrderStatus.TabIndex = 143;
+            this.CmbOrderStatus.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbOrderStatus_KeyDown);
             // 
             // label1
             // 
@@ -352,6 +355,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(245, 38);
             this.CmbSalesOrderOrigin.TabIndex = 143;
+            this.CmbSalesOrderOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbSalesOrderOrigin_KeyDown);
             // 
             // label2
             // 
@@ -361,7 +365,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 18);
             this.label2.TabIndex = 142;
-            this.label2.Text = "Canal";
+            this.label2.Text = "&Canal";
             // 
             // ETOrderDate
             // 
@@ -378,6 +382,7 @@
             this.ETOrderDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
             this.ETOrderDate.Size = new System.Drawing.Size(186, 38);
             this.ETOrderDate.TabIndex = 143;
+            this.ETOrderDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ETOrderDate_KeyDown);
             // 
             // chkDate
             // 
@@ -387,7 +392,7 @@
             this.chkDate.Name = "chkDate";
             this.chkDate.Size = new System.Drawing.Size(103, 36);
             this.chkDate.TabIndex = 144;
-            this.chkDate.Text = "Fecha";
+            this.chkDate.Text = "&Fecha";
             this.chkDate.CheckedChanged += new System.EventHandler(this.chkDate_CheckedChanged);
             // 
             // BtnPrintSaleOrder
@@ -402,9 +407,9 @@
             this.BtnPrintSaleOrder.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnPrintSaleOrder.Location = new System.Drawing.Point(646, 704);
             this.BtnPrintSaleOrder.Name = "BtnPrintSaleOrder";
-            this.BtnPrintSaleOrder.Size = new System.Drawing.Size(160, 52);
+            this.BtnPrintSaleOrder.Size = new System.Drawing.Size(183, 52);
             this.BtnPrintSaleOrder.TabIndex = 152;
-            this.BtnPrintSaleOrder.Text = "Ult. Orden";
+            this.BtnPrintSaleOrder.Text = "F3 Ult. Orden";
             this.BtnPrintSaleOrder.Click += new System.EventHandler(this.BtnPrintSaleOrder_Click);
             // 
             // BtnSearch
@@ -428,6 +433,7 @@
             // FrmSalesOrderPicker
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.BtnSearch);
@@ -452,6 +458,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSalesOrderPicker_FormClosing);
             this.Load += new System.EventHandler(this.FrmSalesOrderPicker_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmSalesOrderPicker_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbOrderStatus.Properties)).EndInit();

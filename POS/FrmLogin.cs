@@ -3,24 +3,31 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.EntityClient;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
+
 namespace POS
-{
+{    
+
     public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
         List<GlobalParameter> globalParameters = new List<GlobalParameter>();
 
-        public FrmLogin()
+        public FrmLogin(string CadenaC)
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private bool ValidateCustomerFields()
         {
@@ -46,6 +53,8 @@ namespace POS
 
         private void ProcessLogin()
         {
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
             if (ValidateCustomerFields())
             {
                 bool allowLogin = false;
@@ -53,7 +62,7 @@ namespace POS
 
                 foreach (var ipAddress in ipAddressList)
                 {
-                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress);
+                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress, CadenaC);
                     if (allowLogin)
                     {
                         break;
@@ -69,16 +78,19 @@ namespace POS
                     TxtUsername.Text = string.Empty;
                     TxtPassword.Text = string.Empty;
 
-                    FrmMenu frmMenu = new FrmMenu
+                    FrmMenu frmMenu = new FrmMenu(CadenaC)   //13/07/2022 Se envia parametro de conexion
                     {
                         loginInformation = loginInfomation,
                         globalParameters = globalParameters
                     };
                     functions.globalParameters = globalParameters;
                     Hide();
+                    
                     frmMenu.Show();
+                    
                 }
             }
+            System.Windows.Forms.Cursor.Current = Cursors.Default;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -86,7 +98,7 @@ namespace POS
             Close();
         }
 
-        private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP)
+        private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP, string _CadenaC)
         {
             SP_Login_Consult_Result result;
             bool response = false;
@@ -97,7 +109,8 @@ namespace POS
                                                     _identification
                                                     , _password
                                                     , _workstation
-                                                    , _addressIP
+                                                    , _addressIP  
+                                                    , _CadenaC
                                                     );
 
                 if (result != null)
@@ -133,7 +146,7 @@ namespace POS
 
             try
             {
-                globalParameters = clsGeneral.GetGlobalParameters();
+                globalParameters = clsGeneral.GetGlobalParameters(CadenaC);
 
                 if (globalParameters != null)
                 {
@@ -200,7 +213,7 @@ namespace POS
 
         private void BtnKeypadUsername_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_USERNAME
             };
@@ -210,7 +223,7 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
             };
@@ -220,8 +233,60 @@ namespace POS
 
         private void TxtPassword_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-                ProcessLogin();
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    if (TxtPassword.Text != "")
+                    {
+                        ProcessLogin();
+                    }
+                    break;
+                case Keys.F1:
+                    BtnKeypadPassword_Click(null, null);
+                    break;
+                case Keys.F9:
+                    BtnCancel_Click(null, null);
+                    break;
+                default:
+                    break;
+            }          
         }
+
+        private void TxtUsername_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    if (TxtUsername.Text != "")
+                    {
+                       TxtPassword.Focus();                     
+                    }
+                    break;
+                case Keys.F1:
+                    BtnKeypadUsername_Click(null, null);
+                    break;
+                case Keys.F9:
+                    BtnCancel_Click(null, null);
+                    break;             
+                default:
+                    break;
+            }            
+        }
+
+        //private void simpleButton1_Click(object sender, EventArgs e)
+        //{
+        //    EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder();
+        //    constructorConexion.Provider = "System.Data.SqlClient";            
+        //    constructorConexion.ProviderConnectionString = "data source=192.168.17.120;initial catalog=POSDB;persist security info=True;user id=sa;password=TICd3v3l0p3r;MultipleActiveResultSets=True;App=EntityFramework";
+        //    constructorConexion.Metadata = "res://*/ModelPOS.csdl|res://*/ModelPOS.ssdl|res://*/ModelPOS.msl";
+
+        //    //POSEntities conexion = new  POSEntities(constructorConexion.ToString());
+        //    POSEntities conexion = new POSEntities(this.CadenaC);
+            
+        //    gridControl1.DataSource = conexion.CustomerType.ToList();           
+                        
+        //}
     }
 }

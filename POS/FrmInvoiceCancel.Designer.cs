@@ -128,7 +128,8 @@
             this.TxtSequence.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtSequence.Properties.Appearance.Options.UseFont = true;
             this.TxtSequence.Size = new System.Drawing.Size(216, 44);
-            this.TxtSequence.TabIndex = 157;
+            this.TxtSequence.TabIndex = 0;
+            this.TxtSequence.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSequence_KeyDown);
             // 
             // LblEstablishment
             // 
@@ -163,9 +164,11 @@
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
@@ -174,16 +177,18 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 168;
-            this.BtnAccept.Text = "Aceptar";
+            this.BtnAccept.TabIndex = 2;
+            this.BtnAccept.Text = "F2 Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -193,7 +198,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 169;
+            this.BtnCancel.TabIndex = 3;
             this.BtnCancel.Text = "Cancelar";
             // 
             // BtnEmissionPointKeyPad
@@ -302,7 +307,8 @@
             this.TxtObservation.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtObservation.Properties.Appearance.Options.UseFont = true;
             this.TxtObservation.Size = new System.Drawing.Size(584, 44);
-            this.TxtObservation.TabIndex = 157;
+            this.TxtObservation.TabIndex = 1;
+            this.TxtObservation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtObservation_KeyDown);
             // 
             // label10
             // 
@@ -351,6 +357,7 @@
             // FrmInvoiceCancel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(870, 538);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);

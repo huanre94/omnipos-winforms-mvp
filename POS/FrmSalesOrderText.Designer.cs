@@ -40,14 +40,17 @@
             this.TxtOrderText.Size = new System.Drawing.Size(400, 245);
             this.TxtOrderText.TabIndex = 0;
             this.TxtOrderText.Text = "";
+            this.TxtOrderText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtOrderText_KeyDown);
             // 
             // BtnAccept
             // 
             this.BtnAccept.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -57,7 +60,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(169, 55);
-            this.BtnAccept.TabIndex = 155;
+            this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             // 
             // FrmSalesOrderText

@@ -103,6 +103,7 @@
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
             this.TxtValue.Size = new System.Drawing.Size(1020, 44);
             this.TxtValue.TabIndex = 1;
+            this.TxtValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtValue_KeyDown);
             // 
             // LblValue
             // 
@@ -448,6 +449,7 @@
             this.BtnExit.Size = new System.Drawing.Size(120, 60);
             this.BtnExit.TabIndex = 3;
             this.BtnExit.Text = "Salir";
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // BtnComma
             // 

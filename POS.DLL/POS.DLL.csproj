@@ -429,6 +429,7 @@
     <Compile Include="Vendor.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="WindowsRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ModelPOS.edmx">

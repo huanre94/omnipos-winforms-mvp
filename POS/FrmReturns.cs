@@ -16,11 +16,13 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         long sequenceNumber;
 
-        public FrmReturns()
+        public FrmReturns(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
@@ -32,7 +34,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -74,7 +76,7 @@ namespace POS
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE, CadenaC);
 
                 if (sequenceTable != null)
                 {
@@ -125,6 +127,19 @@ namespace POS
             }
 
             return response;
+        }
+
+        private void TxtObservation_KeyDown(object sender, KeyEventArgs e)
+        {
+            //11/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnObservationKeyBoard.Focus();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

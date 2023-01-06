@@ -4,6 +4,7 @@ using POS.DLL.Catalog;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -14,11 +15,13 @@ namespace POS
         public SP_Login_Consult_Result loginInformation;
         EmissionPoint emissionPoint;
 
-        public FrmInvoiceCancel()
+        public FrmInvoiceCancel(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
+        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmInvoiceCancel_Load(object sender, EventArgs e)
         {
             ClearInvoice();
@@ -38,7 +41,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +82,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL, CadenaC))
                 {
                     SalesLog salesLog = new SalesLog
                     {
@@ -100,7 +103,7 @@ namespace POS
                     InvoiceTable invoiceTable = null;
                     try
                     {
-                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text), CadenaC);
                     }
                     catch (Exception ex)
                     {
@@ -117,7 +120,7 @@ namespace POS
                     bool invoiceCancel = false;
                     try
                     {
-                        invoiceCancel = new ClsInvoiceTrans().CancelInvoice(salesLog, invoiceTable);
+                        invoiceCancel = new ClsInvoiceTrans().CancelInvoice(salesLog, invoiceTable, CadenaC);
                     }
                     catch (Exception ex)
                     {
@@ -167,7 +170,7 @@ namespace POS
 
                 try
                 {
-                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
+                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text), CadenaC);
 
                     if (response != null)
                     {
@@ -209,7 +212,7 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            using (var emissionPointKeypad = new FrmKeyPad()
+            using (var emissionPointKeypad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
             })
@@ -225,7 +228,7 @@ namespace POS
 
         private void BtnSeqKeyPad_Click(object sender, EventArgs e)
         {
-            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad()
+            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
             })
@@ -241,13 +244,54 @@ namespace POS
 
         private void BtnObservationKeyBoard_Click(object sender, EventArgs e)
         {
-            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard()
+            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.OBSERVATION
             })
             {
                 observationKeyboard.ShowDialog();
-                TxtObservation.Text = observationKeyboard.checkOwnerName;
+                TxtObservation.Text = observationKeyboard.observation;  // observationKeyboard.checkOwnerName;  08/07/2022 Se inactivo porque trae un campo vacio
+            }
+        }
+
+        private void TxtSequence_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    BtnSearch_Click(null, null);
+                    break;
+                case Keys.F1:
+                    BtnSeqKeyPad_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;                
+                case Keys.Escape:
+                    this.Close();
+                    break;                
+                default:
+                    break;
+            }
+        }
+
+        private void TxtObservation_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    BtnObservationKeyBoard_Click(null, null);
+                    break;
+                case Keys.F2:
+                    BtnAccept_Click(null, null);
+                    break;
+                case Keys.Escape:
+                    this.Close();
+                    break;
+                default:
+                    break;
             }
         }
     }

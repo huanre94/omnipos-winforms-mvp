@@ -51,10 +51,13 @@ namespace POS
         private int salesOriginId;
         private int salesManId;
 
-        public FrmMain()
+        public FrmMain(string CadenaC)
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         #region Global Load Definitions
         private void FrmMain_Load(object sender, EventArgs e)
@@ -89,9 +92,9 @@ namespace POS
                     }
                 }
 
-                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
+                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint, CadenaC))
                 {
-                    BtnSuspendSale.Text = "Reanudar";
+                    BtnSuspendSale.Text = "F4 Reanudar";
                     BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
                 }
             }
@@ -112,7 +115,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -238,7 +241,7 @@ namespace POS
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION
             };
@@ -251,7 +254,7 @@ namespace POS
 
                 try
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification);
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification, CadenaC);
 
                     if (currentCustomer != null)
                     {
@@ -263,7 +266,7 @@ namespace POS
 
                                 if (response)
                                 {
-                                    FrmPaymentCredit paymentCredit = new FrmPaymentCredit
+                                    FrmPaymentCredit paymentCredit = new FrmPaymentCredit(CadenaC)
                                     {
                                         customer = currentCustomer,
                                         emissionPoint = emissionPoint,
@@ -333,25 +336,27 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu
+                FrmMenu frmMenu = new FrmMenu(CadenaC)
                 {
                     loginInformation = loginInformation
                 };
                 frmMenu.Show();
                 Close();
             }
-        }
+        }        
 
         private void BtnQty_Click(object sender, EventArgs e)
         {
-            int rowIndex = GrvSalesDetail.FocusedRowHandle;
+            
+            int rowIndex = GrvSalesDetail.FocusedRowHandle;         
+
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
             }
             else
             {
-                FrmKeyPad keyPad = new FrmKeyPad();
+                FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
                 keyPad.ShowDialog();
 
@@ -407,7 +412,8 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth();
+                bool isApproved = functions.RequestSupervisorAuth(false, 0, CadenaC);                
+
                 if (isApproved)
                 {
                     SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
@@ -446,7 +452,7 @@ namespace POS
                         Status = "A",
                         Workstation = loginInformation.Workstation
                     };
-                    invoiceTrans.InsertCancelledSales(salesLog);
+                    invoiceTrans.InsertCancelledSales(salesLog, CadenaC);
 
                     newInvoiceXML.Remove();
 
@@ -461,12 +467,12 @@ namespace POS
         private void BtnPrintLastInvoice_Click(object sender, EventArgs e)
         {
             functions.emissionPoint = emissionPoint;
-            bool isApproved = functions.RequestSupervisorAuth();
+            bool isApproved = functions.RequestSupervisorAuth(false,0,CadenaC);
             if (isApproved)
             {
                 try
                 {
-                    long lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint);
+                    long lastId = new ClsInvoiceTrans().ConsultLastInvoice(emissionPoint, CadenaC);
 
                     if (lastId == 0)
                     {
@@ -474,7 +480,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.INVOICE);
+                        functions.PrintDocument( lastId, ClsEnums.DocumentType.INVOICE,false, CadenaC);
                     }
                 }
                 catch (Exception ex)
@@ -492,7 +498,7 @@ namespace POS
 
         private void BtnSalesOrigin_Click(object sender, EventArgs e)
         {
-            FrmSalesOrigin frmSalesOrigin = new FrmSalesOrigin();
+            FrmSalesOrigin frmSalesOrigin = new FrmSalesOrigin(CadenaC);
             frmSalesOrigin.ShowDialog();
 
             if (frmSalesOrigin.result != null)
@@ -537,7 +543,7 @@ namespace POS
                     taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
                 }
 
-                FrmPayment payment = new FrmPayment
+                FrmPayment payment = new FrmPayment(CadenaC)
                 {
                     invoiceAmount = decimal.Parse(LblTotal.Text),
                     customer = currentCustomer,
@@ -572,7 +578,7 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch();
+            FrmProductSearch productSearch = new FrmProductSearch(CadenaC);
             productSearch.emissionPoint = emissionPoint;
             productSearch.ShowDialog();
 
@@ -587,6 +593,7 @@ namespace POS
                                                             , productSearch.productName
                                                             , scaleBrand
                                                             , portName
+                                                            ,CadenaC
                                                             );
                 }
                 else
@@ -618,17 +625,17 @@ namespace POS
         private void BtnSuspendSale_Click(object sender, EventArgs e)
         {
             functions.emissionPoint = emissionPoint;
-            bool isApproved = functions.RequestSupervisorAuth();
+            bool isApproved = functions.RequestSupervisorAuth(false,0, CadenaC);
             if (isApproved)
             {
-                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
+                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint, CadenaC))
                 {
                     if (((BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource).Count == 0)
                     {
-                        BtnSuspendSale.Text = "Suspender";
+                        BtnSuspendSale.Text = "F4 Suspender";
                         BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.SuspendSale;
 
-                        SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint);
+                        SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans().ConsultSuspendedSale(emissionPoint, CadenaC);
                         XElement element = XElement.Parse(sales.XmlLog);
 
                         var listProducts = element.Descendants("InvoiceLine").ToList();
@@ -698,7 +705,7 @@ namespace POS
                     }
                     else
                     {
-                        BtnSuspendSale.Text = "Reanudar";
+                        BtnSuspendSale.Text = "F4 Reanudar";
                         BtnSuspendSale.ImageOptions.SvgImage = POS.Properties.Resources.resume;
 
                         ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
@@ -718,7 +725,7 @@ namespace POS
                             Workstation = loginInformation.Workstation
                         };
 
-                        if (invoiceTrans.InsertCancelledSales(salesLog))
+                        if (invoiceTrans.InsertCancelledSales(salesLog, CadenaC))
                         {
                             ClearInvoice();
                         }
@@ -741,7 +748,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.INVOICE_CANCEL))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.INVOICE_CANCEL, CadenaC))
                 {
                     ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
                     SalesLog salesLog = new SalesLog
@@ -760,7 +767,7 @@ namespace POS
                         Workstation = loginInformation.Workstation
                     };
 
-                    if (invoiceTrans.InsertCancelledSales(salesLog))
+                    if (invoiceTrans.InsertCancelledSales(salesLog, CadenaC))
                     {
                         ClearInvoice();
                     }
@@ -776,7 +783,7 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            FrmAdvance advance = new FrmAdvance
+            FrmAdvance advance = new FrmAdvance(CadenaC)
             {
                 _currentCustomer = currentCustomer,
                 emissionPoint = emissionPoint,
@@ -787,13 +794,13 @@ namespace POS
 
         private void BtnReturns_Click(object sender, EventArgs e)
         {
-            FrmReturns returns = new FrmReturns();
+            FrmReturns returns = new FrmReturns(CadenaC);
             returns.ShowDialog();
         }
 
         private void BtnProductChecker_Click(object sender, EventArgs e)
         {
-            FrmProductChecker checker = new FrmProductChecker();
+            FrmProductChecker checker = new FrmProductChecker(CadenaC);
             checker.ShowDialog();
         }
         #endregion
@@ -801,6 +808,43 @@ namespace POS
         #region Form Control Events
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
         {
+            //05/07/2020
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                     BtnPayment_Click(null,null);
+                    break;
+                case Keys.F3:
+                    BtnProductSearch_Click(null,null);
+                    break;
+                case Keys.F4:
+                    BtnSuspendSale_Click(null,null);
+                    break;
+                case Keys.F5:
+                    BtnCancelSale_Click(null,null);
+                    break;
+                case Keys.F6:
+                    BtnCustomer_Click(null, null);
+                    break;
+                case Keys.F7:
+                    BtnPrintLastInvoice_Click(null,null);
+                    break;
+                case Keys.F8:
+                    BtnSalesOrigin_Click(null,null);
+                    break;
+                case Keys.F9:
+                    BtnExit_Click(null, null);
+                    break;
+                case Keys.F12:
+                    GrcSalesDetail.Focus();                    
+                    break;
+                default:
+                    break;
+            }
+
+
+
+
             if (e.KeyCode == Keys.Enter)
             {
                 if (TxtBarcode.Text.Contains("X"))
@@ -948,6 +992,7 @@ namespace POS
                                                             , _internalCreditCardId
                                                             , _paymMode
                                                             , barcodeBefore
+                                                            , CadenaC
                                                             );
 
                     if (result != null)
@@ -1000,7 +1045,7 @@ namespace POS
                                 if (!_skipCatchWeight)
                                 {
                                     bool isTestMode =
-                                        new POSEntities()
+                                        new POSEntities(CadenaC)
                                         .GlobalParameter
                                         .Where(gp => gp.Name == "MODETEST")
                                         .Select(gp => gp.Value)
@@ -1013,6 +1058,7 @@ namespace POS
                                                                                         , scaleBrand
                                                                                         , portName
                                                                                         , isTestMode
+                                                                                        , CadenaC
                                                                                     );
                                 }
                             }
@@ -1099,7 +1145,7 @@ namespace POS
 
                 invoiceXml.Add(invoiceTableXml);
 
-                invoiceResult = invoice.CreateInvoice(invoiceXml);
+                invoiceResult = invoice.CreateInvoice(invoiceXml, CadenaC);
 
                 if (invoiceResult != null)
                 {
@@ -1107,7 +1153,7 @@ namespace POS
                     {
                         ClearInvoice();
 
-                        if (functions.PrintDocument((long)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true))
+                        if (functions.PrintDocument((long)invoiceResult.InvoiceId, ClsEnums.DocumentType.INVOICE, true, CadenaC))
                         {
                             functions.ShowMessage("Venta finalizada exitosamente.");
                         }
@@ -1156,7 +1202,7 @@ namespace POS
         {
             BtnCustomer.Enabled = true;
 
-            currentCustomer = new ClsCustomer().GetCustomerById(1);
+            currentCustomer = new ClsCustomer().GetCustomerById(1, CadenaC);
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
@@ -1186,7 +1232,7 @@ namespace POS
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE, CadenaC);
 
                 if (sequenceTable != null)
                 {
@@ -1319,7 +1365,7 @@ namespace POS
 
         private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer
+            FrmCustomer frmCustomer = new FrmCustomer(CadenaC)
             {
                 emissionPoint = emissionPoint,
                 isNewCustomer = true,
@@ -1333,5 +1379,45 @@ namespace POS
 
         #endregion
 
+        private void TxtBarcode_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtBarcode_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtBarcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+        }
+
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+           if (e.KeyCode == Keys.F2)
+            {
+                BtnCustomer_Click(null,null);
+            }
+        }
+
+        private void GrcSalesDetail_KeyDown(object sender, KeyEventArgs e)
+        {            
+            switch (e.KeyCode)
+                {
+                case Keys.F10:
+                    BtnQty_Click(null,null);
+                    break;
+                case Keys.F11:
+                    BtnRemove_Click(null, null);
+                    break;
+                case Keys.Escape:
+                    TxtBarcode.Focus();
+                    break;
+                default:
+                    break;
+            }            
+        }
     }
 }

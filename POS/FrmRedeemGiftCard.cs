@@ -29,23 +29,27 @@ namespace POS
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
 
-        public FrmRedeemGiftCard()
+        public FrmRedeemGiftCard(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCardNumber.Text = keyPad.giftcardNumber;
+            TxtGiftCardNumber.Focus();//08/07/2022
         }
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtBarcode.Text = keyPad.giftcardNumber;
@@ -55,10 +59,11 @@ namespace POS
 
         private void BtnIdentificationKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtRedeemIdentification.Text = keyBoard.checkOwnerName;
+            TxtRedeemIdentification.Focus();//08/07/2022
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -67,7 +72,7 @@ namespace POS
             {
                 try
                 {
-                    result = new ClsCustomerTrans().GetGiftCardProducts(TxtGiftCardNumber.Text);
+                    result = new ClsCustomerTrans().GetGiftCardProducts(TxtGiftCardNumber.Text, CadenaC);
                     if (result.Count == 0)
                     {
                         functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
@@ -197,7 +202,7 @@ namespace POS
 
         private void BtnRedeemCustomerName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME
             };
@@ -295,7 +300,7 @@ namespace POS
                             TxtRedeemName.Text,
                             TxtRedeemIdentification.Text,
                             emissionPoint.LocationId,
-                           $"{giftCardLine}");
+                           $"{giftCardLine}", CadenaC);
 
                         if (!(bool)response.Error)
                         {
@@ -322,7 +327,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu
+            FrmMenu frmMenu = new FrmMenu(CadenaC)
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters,
@@ -333,6 +338,19 @@ namespace POS
 
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
         {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    GrcProduct.Focus();
+                    break;
+                case Keys.F1:
+                    BtnBarcodeKeyPad_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+
             if (e.KeyCode == Keys.Enter)
             {
                 GetProductInformation(
@@ -457,7 +475,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
                 }
                 catch (Exception ex)
                 {
@@ -629,5 +647,66 @@ namespace POS
             }
         }
         #endregion
+
+        private void TxtGiftCardNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:                    
+                     BtnAccept_Click(null,null);                    
+                     break;
+                case Keys.F1:
+                    BtnKeyPad_Click(null, null);
+                    break;                
+                default:
+                    break;
+            }
+        }
+
+        private void TxtRedeemIdentification_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtRedeemName.Focus();
+                    break;
+                case Keys.F1:
+                    BtnIdentificationKeyPad_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtRedeemName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtBarcode.Focus();
+                    break;
+                case Keys.F1:
+                    BtnRedeemCustomerName_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GrcProduct_KeyDown(object sender, KeyEventArgs e)
+        {
+            //08/07/2022
+            switch (e.KeyCode)
+            {                
+                case Keys.F11:
+                    BtnRemove_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

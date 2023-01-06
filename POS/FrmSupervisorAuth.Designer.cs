@@ -63,14 +63,17 @@
             this.TxtAuthorization.Properties.PasswordChar = '•';
             this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
             this.TxtAuthorization.Size = new System.Drawing.Size(220, 38);
-            this.TxtAuthorization.TabIndex = 1;
+            this.TxtAuthorization.TabIndex = 0;
+            this.TxtAuthorization.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAuthorization_KeyDown);
             // 
             // BtnAccept
             // 
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnAccept.Appearance.Options.UseBackColor = true;
             this.BtnAccept.Appearance.Options.UseFont = true;
+            this.BtnAccept.Appearance.Options.UseForeColor = true;
             this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
@@ -80,7 +83,7 @@
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 9;
+            this.BtnAccept.TabIndex = 4;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
@@ -88,8 +91,10 @@
             // 
             this.BtnCancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnCancel.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnCancel.Appearance.ForeColor = System.Drawing.Color.Yellow;
             this.BtnCancel.Appearance.Options.UseBackColor = true;
             this.BtnCancel.Appearance.Options.UseFont = true;
+            this.BtnCancel.Appearance.Options.UseForeColor = true;
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
@@ -99,7 +104,7 @@
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
-            this.BtnCancel.TabIndex = 8;
+            this.BtnCancel.TabIndex = 5;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
@@ -120,7 +125,8 @@
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbMotive.Size = new System.Drawing.Size(306, 38);
-            this.CmbMotive.TabIndex = 12;
+            this.CmbMotive.TabIndex = 3;
+            this.CmbMotive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbMotive_KeyDown);
             // 
             // label1
             // 
@@ -140,7 +146,8 @@
             this.TxtSupervisorPassword.Properties.PasswordChar = '•';
             this.TxtSupervisorPassword.Properties.UseSystemPasswordChar = true;
             this.TxtSupervisorPassword.Size = new System.Drawing.Size(220, 38);
-            this.TxtSupervisorPassword.TabIndex = 14;
+            this.TxtSupervisorPassword.TabIndex = 1;
+            this.TxtSupervisorPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSupervisorPassword_KeyDown);
             // 
             // BtnKeypadPassword
             // 
@@ -158,7 +165,7 @@
             this.BtnKeypadPassword.Name = "BtnKeypadPassword";
             this.BtnKeypadPassword.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeypadPassword.Size = new System.Drawing.Size(80, 50);
-            this.BtnKeypadPassword.TabIndex = 170;
+            this.BtnKeypadPassword.TabIndex = 2;
             this.BtnKeypadPassword.Click += new System.EventHandler(this.BtnKeypadPassword_Click);
             // 
             // AxOPOSScanner
@@ -175,6 +182,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(473, 298);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadPassword);

@@ -8,9 +8,9 @@ namespace POS.DLL.Transaction
     {
         public SP_Login_Consult_Result loginInformation;
 
-        public SP_RemissionGuideInvoice_Insert_Result FinishRemissionGuide(long _remissionGuideId, int _emissionPointId, int _locationId)
+        public SP_RemissionGuideInvoice_Insert_Result FinishRemissionGuide(long _remissionGuideId, int _emissionPointId, int _locationId, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SP_RemissionGuideInvoice_Insert_Result result;
             try
             {
@@ -23,9 +23,9 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_SalesOrderOmnipos_Insert_Result CreateOrUpdateSalesOrder(string _xml, long _salesOrderId = 0)
+        public SP_SalesOrderOmnipos_Insert_Result CreateOrUpdateSalesOrder(string _xml, long _salesOrderId = 0, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SP_SalesOrderOmnipos_Insert_Result result;
             try
             {
@@ -48,9 +48,9 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public bool CancelSalesOrder(long _id, bool cancelFromGuide = false)
+        public bool CancelSalesOrder(long _id, bool cancelFromGuide = false, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SalesOrder order;
             try
             {
@@ -89,9 +89,9 @@ namespace POS.DLL.Transaction
             return db.SaveChanges() > 0;
         }
 
-        public bool FinishSalesOrder(long _id)
+        public bool FinishSalesOrder(long _id, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SalesOrder order;
             try
             {
@@ -110,9 +110,9 @@ namespace POS.DLL.Transaction
             return db.SaveChanges() > 0;
         }
 
-        public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _xml)
+        public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _xml, string CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(CadenaC);
             SP_SalesOrderRemission_Insert_Result result;
             try
             {
@@ -126,9 +126,9 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_RemissionGuide_Cancel_Result CancelRemissionGuide(long _remissionId)
+        public SP_RemissionGuide_Cancel_Result CancelRemissionGuide(long _remissionId, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             SP_RemissionGuide_Cancel_Result result;
             try
             {
@@ -141,9 +141,9 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<SP_SalesOrderTicket_Consult_Result> GetSalesOrderTicket(long _salesOrderId, short _emissionPointId, bool _openCashier = false)
+        public List<SP_SalesOrderTicket_Consult_Result> GetSalesOrderTicket(long _salesOrderId, short _emissionPointId, bool _openCashier = false, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             List<SP_SalesOrderTicket_Consult_Result> salesOrderTicketResult;
 
             try
@@ -157,9 +157,9 @@ namespace POS.DLL.Transaction
             return salesOrderTicketResult;
         }
 
-        public List<string> GetRemissionGuideTicket(long _remissionGuideId)
+        public List<string> GetRemissionGuideTicket(long _remissionGuideId, string _CadenaC = "")
         {
-            var db = new POSEntities();
+            var db = new POSEntities(_CadenaC);
             List<string> salesOrderTicketResult;
 
             try

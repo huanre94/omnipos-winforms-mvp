@@ -70,12 +70,12 @@ namespace POS
             this.BtnSaveRemissionGuide.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnSaveRemissionGuide.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnSaveRemissionGuide.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnSaveRemissionGuide.Location = new System.Drawing.Point(1026, 704);
+            this.BtnSaveRemissionGuide.Location = new System.Drawing.Point(1017, 704);
             this.BtnSaveRemissionGuide.Margin = new System.Windows.Forms.Padding(5);
             this.BtnSaveRemissionGuide.Name = "BtnSaveRemissionGuide";
-            this.BtnSaveRemissionGuide.Size = new System.Drawing.Size(326, 50);
+            this.BtnSaveRemissionGuide.Size = new System.Drawing.Size(335, 50);
             this.BtnSaveRemissionGuide.TabIndex = 142;
-            this.BtnSaveRemissionGuide.Text = "Convertir Pedidos En Factura";
+            this.BtnSaveRemissionGuide.Text = "F3 Convertir Pedidos En Factura";
             this.BtnSaveRemissionGuide.Click += new System.EventHandler(this.BtnSaveRemissionGuide_Click);
             // 
             // BtnCancel
@@ -88,7 +88,7 @@ namespace POS
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnCancel.ImageOptions.SvgImage")));
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(856, 704);
+            this.BtnCancel.Location = new System.Drawing.Point(847, 704);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
@@ -168,14 +168,14 @@ namespace POS
             this.BtnModifyOrder.Name = "BtnModifyOrder";
             this.BtnModifyOrder.Size = new System.Drawing.Size(91, 92);
             this.BtnModifyOrder.TabIndex = 201;
-            this.BtnModifyOrder.Text = "Edit";
+            this.BtnModifyOrder.Text = "F8 \r\nEdit";
             this.BtnModifyOrder.Visible = false;
             // 
             // BtnOrderPaymentMethod
             // 
             this.BtnOrderPaymentMethod.AllowFocus = false;
             this.BtnOrderPaymentMethod.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnOrderPaymentMethod.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnOrderPaymentMethod.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnOrderPaymentMethod.Appearance.Options.UseBackColor = true;
             this.BtnOrderPaymentMethod.Appearance.Options.UseFont = true;
             this.BtnOrderPaymentMethod.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.BottomCenter;
@@ -186,7 +186,7 @@ namespace POS
             this.BtnOrderPaymentMethod.Name = "BtnOrderPaymentMethod";
             this.BtnOrderPaymentMethod.Size = new System.Drawing.Size(91, 92);
             this.BtnOrderPaymentMethod.TabIndex = 202;
-            this.BtnOrderPaymentMethod.Text = "Pago";
+            this.BtnOrderPaymentMethod.Text = "F6 \r\nPago";
             this.BtnOrderPaymentMethod.Click += new System.EventHandler(this.BtnOrderPaymentMethod_Click);
             // 
             // BtnCancelOrder
@@ -204,7 +204,7 @@ namespace POS
             this.BtnCancelOrder.Name = "BtnCancelOrder";
             this.BtnCancelOrder.Size = new System.Drawing.Size(92, 92);
             this.BtnCancelOrder.TabIndex = 202;
-            this.BtnCancelOrder.Text = "Anular";
+            this.BtnCancelOrder.Text = "F7 \r\nAnular";
             this.BtnCancelOrder.Click += new System.EventHandler(this.BtnCancelOrder_Click);
             // 
             // GrcSalesOrder
@@ -221,10 +221,11 @@ namespace POS
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit2});
             this.GrcSalesOrder.Size = new System.Drawing.Size(1207, 554);
-            this.GrcSalesOrder.TabIndex = 203;
+            this.GrcSalesOrder.TabIndex = 0;
             this.GrcSalesOrder.UseEmbeddedNavigator = true;
             this.GrcSalesOrder.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesOrder});
+            this.GrcSalesOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GrcSalesOrder_KeyDown);
             // 
             // GrvSalesOrder
             // 
@@ -344,12 +345,12 @@ namespace POS
             this.BtnCancelRemissionGuide.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancelRemissionGuide.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancelRemissionGuide.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancelRemissionGuide.Location = new System.Drawing.Point(556, 704);
+            this.BtnCancelRemissionGuide.Location = new System.Drawing.Point(543, 704);
             this.BtnCancelRemissionGuide.Margin = new System.Windows.Forms.Padding(5);
             this.BtnCancelRemissionGuide.Name = "BtnCancelRemissionGuide";
-            this.BtnCancelRemissionGuide.Size = new System.Drawing.Size(203, 50);
+            this.BtnCancelRemissionGuide.Size = new System.Drawing.Size(216, 50);
             this.BtnCancelRemissionGuide.TabIndex = 142;
-            this.BtnCancelRemissionGuide.Text = "Cancelar Guia";
+            this.BtnCancelRemissionGuide.Text = "F2 Cancelar Guia";
             this.BtnCancelRemissionGuide.Click += new System.EventHandler(this.BtnCancelRemissionGuide_Click);
             // 
             // AxOPOSScanner
@@ -364,6 +365,7 @@ namespace POS
             // FrmRemissionGuideOrderToInvoice
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.ControlBox = false;
             this.Controls.Add(this.AxOPOSScanner);

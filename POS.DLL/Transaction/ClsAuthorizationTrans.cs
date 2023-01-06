@@ -6,12 +6,12 @@ namespace POS.DLL.Transaction
 {
     public class ClsAuthorizationTrans
     {
-        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password)
+        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password, string CadenaC = "")
         {
             SP_Supervisor_Validate_Result result;
             try
             {
-                result = new POSEntities().SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
+                result = new POSEntities(CadenaC).SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -30,13 +30,14 @@ namespace POS.DLL.Transaction
                                                                     , string _ownerName
                                                                     , string _phone
                                                                     , string _reference
+                                                                    , string _CadenaC = ""
                                                                 )
         {
             SP_GaranCheck_Authorize_Result result;
 
             try
             {
-                result = new POSEntities().SP_GaranCheck_Authorize(
+                result = new POSEntities(_CadenaC).SP_GaranCheck_Authorize(
                                                     _bankId
                                                     , _accountNumber
                                                     , _checkNumber
@@ -55,12 +56,12 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<CancelReason> ConsultReasons(int _reasonType)
+        public List<CancelReason> ConsultReasons(int _reasonType, string CadenaC = "")
         {
             List<CancelReason> result;
             try
             {
-                result = (from re in new POSEntities().CancelReason
+                result = (from re in new POSEntities(CadenaC).CancelReason
                           where re.Status.Equals("A")
                           && re.ReasonType == _reasonType
                           select re).ToList();

@@ -18,10 +18,13 @@ namespace POS
         public Customer currentCustomer = new Customer();
         public SP_Login_Consult_Result loginInformation;
 
-        public FrmCustomer()
+        public FrmCustomer(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmCustomer_Load(object sender, EventArgs e)
         {
@@ -52,7 +55,7 @@ namespace POS
 
                 try
                 {
-                    customer = clsCustomer.GetCustomerByIdentification(_identification);
+                    customer = clsCustomer.GetCustomerByIdentification(_identification, CadenaC);
 
                     if (customer != null)
                     {
@@ -90,62 +93,68 @@ namespace POS
 
         private void BtnKeyboardIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION
             };
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.customerIdentification;
+            TxtIdentification.Focus();
         }
 
         private void BtnKeyboardName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME
             };
             keyBoard.ShowDialog();
             TxtFirstName.Text = keyBoard.customerFirstName;
+            TxtFirstName.Focus();
         }
 
         private void BtnKeyboardLastname_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_LASTNAME
             };
             keyBoard.ShowDialog();
             TxtLastName.Text = keyBoard.customerLastName;
+            TxtLastName.Focus();
         }
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
             keyBoard.ShowDialog();
             TxtAddress.Text = keyBoard.customerAddress;
+            TxtAddress.Focus();
         }
 
         private void BtnKeyboardEmail_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
+            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_EMAIL
             };
             keyBoard.ShowDialog();
             TxtEmail.Text = keyBoard.customerEmail;
+            TxtEmail.Focus();
         }
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
+            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
             };
             keyPad.ShowDialog();
             TxtPhone.Text = keyPad.customerPhone;
+            TxtPhone.Focus();
         }
         #endregion
 
@@ -156,7 +165,7 @@ namespace POS
 
             try
             {
-                custIdentTypes = customer.GetIdentTypes();
+                custIdentTypes = customer.GetIdentTypes(CadenaC);
 
                 if (custIdentTypes != null)
                 {
@@ -192,7 +201,7 @@ namespace POS
 
             if (isNewCustomer)
             {
-                createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString());
+                createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString(), CadenaC);
             }
 
             if (createOrUpdate)
@@ -232,7 +241,7 @@ namespace POS
                     }
 
                     customerXml.Add(new XElement("CityId", cityId));
-                    result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString());
+                    result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString(), CadenaC);
 
                     if (result != null)
                     {
@@ -240,7 +249,7 @@ namespace POS
                         {
                             if (isNewCustomer)
                             {
-                                currentCustomer = clsCustomer.GetCustomerByIdentification(result.Identification);
+                                currentCustomer = clsCustomer.GetCustomerByIdentification(result.Identification, CadenaC);
                                 functions.ShowMessage("El cliente se registró exitosamente.");
                             }
                             else
@@ -269,7 +278,7 @@ namespace POS
             }
         }
 
-        private bool ValidateCustomerIdentification(string _identification, string _identType)
+        private bool ValidateCustomerIdentification(string _identification, string _identType, string _CadenaC = "")
         {
             bool response = false;
 
@@ -278,7 +287,7 @@ namespace POS
                 ClsCustomer clsCustomer = new ClsCustomer();
                 FN_Identification_Validate_Result validateResult;
 
-                validateResult = clsCustomer.ValidateCustomerIdentification(_identification, _identType);
+                validateResult = clsCustomer.ValidateCustomerIdentification(_identification, _identType, _CadenaC);
 
                 if (validateResult != null)
                 {
@@ -335,6 +344,113 @@ namespace POS
             return response;
         }
 
+        private void TxtPhone_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    CmbGender.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeypadPhone_Click(null,null);
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        private void TxtIdentification_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtFirstName.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeyboardIdentification_Click(null,null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtFirstName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtLastName.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeyboardName_Click(null,null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtLastName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtAddress.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeyboardLastname_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtAddress_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtEmail.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeyboardAddress_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TxtEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtPhone.Focus();
+                    break;
+                case Keys.F1:
+                    BtnKeyboardEmail_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CmbIdenType_KeyDown(object sender, KeyEventArgs e)
+        {
+            //06/07/2022
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    TxtIdentification.Focus();
+                    break;                
+                default:
+                    break;
+            }
+        }
     }
 }

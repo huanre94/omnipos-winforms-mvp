@@ -22,14 +22,17 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         ClsEnums.ScaleBrands scaleBrand;
 
-        public FrmPaymentCredit()
+        public FrmPaymentCredit(string CadenaC = "")
         {
             InitializeComponent();
+            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
+
+        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId))
+            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId, CadenaC))
             {
                 formActionResult = true;
                 Close();
@@ -88,7 +91,7 @@ namespace POS
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
-                customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
+                customer = new ClsCustomer().GetCustomerById(customer.CustomerId, CadenaC);
                 decimal _creditLimit = customer.CreditLimit;
                 LblCreditLimit.Text = $"{_creditLimit:#.00}";
                 LblHolderName.Text = $"{customer.Firtsname} {customer.Lastname}";
@@ -185,7 +188,7 @@ namespace POS
 
             try
             {
-                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode);
+                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode, CadenaC);
 
                 if (result != null)
                 {
@@ -243,7 +246,7 @@ namespace POS
                     {
                         if (creditLimit >= paidAmount)
                         {
-                            FrmPayment frmPayment = new FrmPayment
+                            FrmPayment frmPayment = new FrmPayment(CadenaC)
                             {
                                 emissionPoint = emissionPoint
                             };
