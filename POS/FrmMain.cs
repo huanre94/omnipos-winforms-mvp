@@ -1009,11 +1009,7 @@ namespace POS
 
                         if (canInsert)
                         {
-                            AddRecordToGrid(
-                                            result
-                                            , updateRecord
-                                            , _barcode // IG002
-                                            );
+                            AddRecordToGrid(result, updateRecord, _barcode); // IG002
                             CalculateInvoice();
                         }
                         else
@@ -1067,8 +1063,8 @@ namespace POS
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = loginInformation.Workstation,
                     SalesOriginId = salesOriginId,
-                    SalesmanId = salesManId,
-                    IsBbqZone = ChbBbqZone.Checked
+                    SalesmanId = salesManId
+                    //,IsBbqZone = ChbBbqZone.Checked
                 };
 
                 Type type = invoiceTable.GetType();
@@ -1165,7 +1161,7 @@ namespace POS
             ImgSalesOrigin.Visible = false;
             TxtBarcode.Focus();
 
-            ChbBbqZone.Checked = false;
+            //ChbBbqZone.Checked = false;
         }
 
         #endregion
@@ -1183,7 +1179,7 @@ namespace POS
                 if (sequenceTable == null)
                 {
                     functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
-                    Close();
+                    //Close();
                     return;
                 }
 

@@ -900,6 +900,7 @@
             this.groupBox1.TabIndex = 168;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Opciones";
+            this.groupBox1.Visible = false;
             // 
             // FrmMain
             // 
