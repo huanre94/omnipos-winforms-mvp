@@ -206,9 +206,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.", ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message);
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
 
                 return false;
             }

@@ -1,4 +1,5 @@
-﻿using AxOposScale_CCO;
+﻿
+using AxOposScale_CCO;
 using POS.Classes;
 using POS.DLL;
 using System;
@@ -42,35 +43,38 @@ namespace POS
                 }
                 else
                 {
-                    strWaitTime = (from par in new POSEntities().GlobalParameter.ToList()
-                                   where par.Name == "MaxScaleWaitTime"
-                                   select par.Value).FirstOrDefault();
+                    strWaitTime =
+                        new POSEntities()
+                        .GlobalParameter
+                        .Where(par => par.Name == "MaxScaleWaitTime")
+                        .Select(par => par.Value)
+                        .FirstOrDefault();
 
                     LblTitle.Text = string.Empty;
                     BtnCatchWeight.Visible = false;
 
-                    if (ScaleBrand != ClsEnums.ScaleBrands.NONE && PortName != string.Empty)
-                    {
-                        catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
-                        catchWeight.OpenScale();
-
-                        if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
-                        {
-                            CatchWeightProduct(ScaleBrand, PortName);
-                        }
-                        else
-                        {
-                            if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
-                                catchWeight.CloseScale();
-
-                            DialogResult = DialogResult.Cancel;
-                        }
-                    }
-                    else
+                    if (ScaleBrand == ClsEnums.ScaleBrands.NONE || PortName == string.Empty)
                     {
                         functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", ClsEnums.MessageType.WARNING);
                         DialogResult = DialogResult.Cancel;
+                        return;
                     }
+
+                    catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
+                    catchWeight.OpenScale();
+
+                    if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
+                    {
+                        CatchWeightProduct(ScaleBrand, PortName);
+                    }
+                    else
+                    {
+                        if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                            catchWeight.CloseScale();
+
+                        DialogResult = DialogResult.Cancel;
+                    }
+
                 }
 
                 LblProductName.Text = productName;
@@ -92,70 +96,71 @@ namespace POS
 
             try
             {
-                if (_scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                switch (_scaleBrand)
                 {
-                    axOposScale.ReadWeight(out int request, 5000);
-                    weight = request / 1000M;
+                    case ClsEnums.ScaleBrands.DATALOGIC:
+                        axOposScale.ReadWeight(out int request, 5000);
+                        weight = request / 1000M;
 
-                    if (weight <= 0)
-                    {
-                        LblTitle.Text = "Peso no Capturado";
-                        LblTitle.ForeColor = Color.Red;
-                        functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.WARNING);
-                    }
-                    else
-                    {
-                        LblCatchedWeight.Text = weight.ToString();
-                        LblTitle.Text = "Peso Capturado Correctamente";
-                        LblTitle.ForeColor = Color.Green;
-                    }
-                }
-                else
-                {
-                    double waitTime = double.Parse(strWaitTime);
-                    //catchWeight = new ClsCatchWeight(_scaleBrand, _portName, false, true, false);
-                    //catchWeight.OpenScale();
-                    catchWeight.Serial.WriteLine(string.Format("W", Convert.ToString("\x0D"), Convert.ToString("\x0A")));
-
-                    DateTime endTime = DateTime.Now.AddSeconds(waitTime);
-                    while (DateTime.Now < endTime && catchWeight.Weight == 0)
-                    {
-                        weight = catchWeight.Weight;
-                    }
-
-                    if (catchWeight.Weight <= 0)
-                    {
-                        LblTitle.Text = "Peso no Capturado";
-                        LblTitle.ForeColor = Color.Red;
-
-                        if (functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.CONFIRM))
+                        if (weight <= 0)
                         {
-                            if (catchWeight.Weight > 0)
+                            LblTitle.Text = "Peso no Capturado";
+                            LblTitle.ForeColor = Color.Red;
+                            functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.WARNING);
+                        }
+                        else
+                        {
+                            LblCatchedWeight.Text = weight.ToString();
+                            LblTitle.Text = "Peso Capturado Correctamente";
+                            LblTitle.ForeColor = Color.Green;
+                        }
+                        break;
+
+                    default:
+                        double waitTime = double.Parse(strWaitTime);
+                        //catchWeight = new ClsCatchWeight(_scaleBrand, _portName, false, true, false);
+                        //catchWeight.OpenScale();
+                        catchWeight.Serial.WriteLine(string.Format("W", Convert.ToString("\x0D"), Convert.ToString("\x0A")));
+
+                        DateTime endTime = DateTime.Now.AddSeconds(waitTime);
+                        while (DateTime.Now < endTime && catchWeight.Weight == 0)
+                        {
+                            weight = catchWeight.Weight;
+                        }
+
+                        if (catchWeight.Weight <= 0)
+                        {
+                            LblTitle.Text = "Peso no Capturado";
+                            LblTitle.ForeColor = Color.Red;
+
+                            if (functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.CONFIRM))
                             {
-                                LblCatchedWeight.Text = catchWeight.Weight.ToString();
-                                LblTitle.Text = "Peso Capturado Correctamente";
-                                LblTitle.ForeColor = Color.Green;
+                                if (catchWeight.Weight > 0)
+                                {
+                                    LblCatchedWeight.Text = catchWeight.Weight.ToString();
+                                    LblTitle.Text = "Peso Capturado Correctamente";
+                                    LblTitle.ForeColor = Color.Green;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        LblCatchedWeight.Text = catchWeight.Weight.ToString();
-                        LblTitle.Text = "Peso Capturado Correctamente";
-                        LblTitle.ForeColor = Color.Green;
-                    }
+                        else
+                        {
+                            LblCatchedWeight.Text = catchWeight.Weight.ToString();
+                            LblTitle.Text = "Peso Capturado Correctamente";
+                            LblTitle.ForeColor = Color.Green;
+                        }
 
-                    catchWeight.CloseScale();
+                        catchWeight.CloseScale();
+
+                        break;
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al capturar peso."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al capturar peso.",
+                                        ClsEnums.MessageType.ERROR,
+                                        true,
+                                        ex.Message);
             }
         }
 

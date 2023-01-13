@@ -572,12 +572,10 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage(
-                                                "Ocurrio un error al momento de finalizar el inventario."
-                                                , ClsEnums.MessageType.ERROR
-                                                , true
-                                                , ex.Message
-                                                );
+                        functions.ShowMessage("Ocurrio un error al momento de finalizar el inventario.",
+                            ClsEnums.MessageType.ERROR,
+                            true,
+                            ex.Message);
                     }
                 }
             }

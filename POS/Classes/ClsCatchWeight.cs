@@ -2,12 +2,13 @@
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace POS.Classes
 {
     public class ClsCatchWeight
     {
-        private ClsFunctions functions = new ClsFunctions();
+        private readonly ClsFunctions functions = new ClsFunctions();
         private SerialPort serialPort;
         private string portName;
         private decimal weight;
@@ -34,13 +35,13 @@ namespace POS.Classes
                 }
             }
         }
-        public bool IsOpen => serialPort != null ? serialPort.IsOpen : false;
+        public bool IsOpen => serialPort != null && serialPort.IsOpen;
 
         public SerialPort Serial { get { return serialPort; } }
 
         public decimal Weight { get { return weight; } }
 
-        public System.Windows.Forms.Control ControlToShowText { get; set; }
+        public Control ControlToShowText { get; set; }
 
         public string PortName { get { return portName; } set { portName = value; } }
 
@@ -61,17 +62,7 @@ namespace POS.Classes
 
         public delegate void UpdateControlText(string _text);
 
-        private void UpdateText(string _text)
-        {
-            ControlToShowText.Text = _text;
-            //if (useScanner)
-            //{
-            //    if (this.ScannerDataReceived != null)
-            //    {
-            //        this.ScannerDataReceived(this, new EventArgs());
-            //    }
-            //}
-        }
+        private void UpdateText(string _text) => ControlToShowText.Text = _text;
 
         public void EnableScale(string _scaleName)
         {
@@ -97,12 +88,10 @@ namespace POS.Classes
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al habilitar balanza."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al habilitar balanza.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
         }
 
@@ -117,12 +106,10 @@ namespace POS.Classes
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                         "Ocurrio un problema al deshabilitar balanza."
-                                         , ClsEnums.MessageType.ERROR
-                                         , true
-                                         , ex.Message
-                                     );
+                    functions.ShowMessage("Ocurrio un problema al deshabilitar balanza.",
+                        ClsEnums.MessageType.ERROR,
+                        true,
+                        ex.Message);
                 }
                 finally
                 {
@@ -158,7 +145,6 @@ namespace POS.Classes
                                         break;
                                     }
 
-
                                 case ClsEnums.ScaleBrands.METTLER_TOLEDO:
                                     {
                                         serialPort.NewLine = "\r";
@@ -177,17 +163,14 @@ namespace POS.Classes
                             }
                         }
                     };
-
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                         "Ocurrio un problema al abrir puerto serial de la balanza."
-                                         , ClsEnums.MessageType.ERROR
-                                         , true
-                                         , ex.Message
-                                     );
+                functions.ShowMessage("Ocurrio un problema al abrir puerto serial de la balanza.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
         }
 
@@ -211,37 +194,16 @@ namespace POS.Classes
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                         "Ocurrio un problema en la lectura desde el puerto serial de la balanza."
-                                         , ClsEnums.MessageType.ERROR
-                                         , true
-                                         , ex.Message
-                                     );
+                functions.ShowMessage("Ocurrio un problema en la lectura desde el puerto serial de la balanza.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
         }
 
-        public bool IsWeight(string _data)
-        {
-            //Regex inicio = new Regex("^11\\w");
-            Regex inicio = new Regex("\r\nS0pp7\r");
-            if (inicio.Match(_data).Success)
-                return true;
-            return false;
-        }
+        public bool IsWeight(string _data) => new Regex("\r\nS0pp7\r").Match(_data).Success;
 
-        public string ReadWeight(string _data)
-        {
-            _data = _data.Substring(1, 6);
-            //Regex inicio = new Regex("^11");
-            //Regex inicio = new Regex("\n");
-            //Regex fin = new Regex("+(\\w*\\W*|\\W*\\w*)$");
-            //Regex fin = new Regex("KG\r\nS0pp7\r\u0003");
-
-            //decimal result = decimal.Parse(fin.Replace(inicio.Replace(_data, ""), ""));
-            //decimal result = decimal.Parse(inicio.Replace(_data, ""));
-            decimal result = decimal.Parse(_data);
-            return result.ToString();
-        }
+        public string ReadWeight(string _data) => decimal.Parse(_data.Substring(1, 6)).ToString();
 
         public void CloseScale()
         {
@@ -249,9 +211,6 @@ namespace POS.Classes
             {
                 serialPort.Close();
             }
-            //if (ControlToShowText != null)
-            //    ControlToShowText.BeginInvoke(new UpdateControlText(this.UpdateText), new object[] { "" });
         }
-
     }
 }

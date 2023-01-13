@@ -72,7 +72,6 @@ namespace POS
         private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP)
         {
             SP_Login_Consult_Result result;
-            bool response = false;
 
             try
             {
@@ -83,30 +82,24 @@ namespace POS
                                                     , _addressIP
                                                     );
 
-                if (result != null)
+                if ((bool)result?.Error)
                 {
-                    if (!(bool)result.Error)
-                    {
-                        response = true;
-                        loginInfomation = result;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
-                    }
+                    functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
+                    return false;
                 }
+
+                loginInfomation = result;
+                return true;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrió un problema al iniciar sesión."
+                functions.ShowMessage("Ocurrió un problema al iniciar sesión."
                                         , ClsEnums.MessageType.WARNING
                                         , true
                                         , ex.Message
                                         );
+                return false;
             }
-
-            return response;
         }
 
         private bool GetGlobalParameters()
@@ -129,12 +122,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar parámetros globales."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar parámetros globales.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
                 return false;
             }
         }

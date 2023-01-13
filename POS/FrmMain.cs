@@ -59,25 +59,34 @@ namespace POS
         #region Global Load Definitions
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            if (GetEmissionPointInformation())
+            if (!GetEmissionPointInformation())
             {
-                ClearInvoice();
-                CheckGridView();
+                DialogResult = DialogResult.Cancel;
+                return;
+            }
 
-                if (emissionPoint.ScaleBrand != string.Empty)
+            ClearInvoice();
+            CheckGridView();
+            InitializeScaleAndScanner();
+            CheckForSuspendedSale();
+        }
+
+        private void InitializeScaleAndScanner()
+        {
+            if (emissionPoint.ScaleBrand != string.Empty)
+            {
+                scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                switch (scaleBrand)
                 {
-                    scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
-
-                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                    {
+                    case ClsEnums.ScaleBrands.DATALOGIC:
                         catchWeight = new ClsCatchWeight(scaleBrand);
                         catchWeight.AxOPOSScale = AxOPOSScale;
                         catchWeight.EnableScale(emissionPoint.ScaleName);
                         functions.AxOPOSScanner = AxOPOSScanner;
                         functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         string[] portNames = SerialPort.GetPortNames();
                         portName = string.Empty;
 
@@ -86,18 +95,17 @@ namespace POS
                             portName = item;
                             break;
                         }
-                    }
-                }
-
-                if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
-                {
-                    BtnSuspendSale.Text = "Reanudar";
-                    BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
+                        break;
                 }
             }
-            else
+        }
+
+        void CheckForSuspendedSale()
+        {
+            if (new ClsInvoiceTrans().HasSuspendedSale(emissionPoint))
             {
-                DialogResult = DialogResult.Cancel;
+                BtnSuspendSale.Text = "Reanudar";
+                BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
             }
         }
 
@@ -334,7 +342,6 @@ namespace POS
             };
             frmMenu.Show();
             Close();
-
         }
 
         private void BtnQty_Click(object sender, EventArgs e)
@@ -512,53 +519,60 @@ namespace POS
             {
                 functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
                 TxtBarcode.Focus();
+                return;
             }
-            else
+
+            decimal baseAmount = 0; //base 0
+            decimal baseTaxAmount = 0; //base 12%
+            decimal taxAmount = 0; //valor 12%
+            decimal irbpAmount = 0; //irbp
+            decimal discountAmount = 0; //discount
+
+            var line = from r in invoiceXml.Descendants("InvoiceLine")
+                       select r;
+
+            foreach (var item in line)
             {
-                decimal baseAmount = 0;
-                decimal taxAmount = 0;
-
-                var line = from r in invoiceXml.Descendants("InvoiceLine")
-                           select r;
-
-                foreach (var item in line)
-                {
-                    //baseAmount += decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value); // HR001 Commented
-                    baseAmount += (decimal.Parse(item.Element("BaseAmount").Value) + decimal.Parse(item.Element("BaseTaxAmount").Value)) - decimal.Parse(item.Element("LineDiscount").Value); // HR001
-                    taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
-                }
-
-                FrmPayment payment = new FrmPayment
-                {
-                    invoiceAmount = decimal.Parse(LblTotal.Text),
-                    customer = currentCustomer,
-                    emissionPoint = emissionPoint,
-                    taxAmount = taxAmount,
-                    baseAmount = baseAmount,
-                    loginInformation = loginInformation,
-                    scanner = AxOPOSScanner,
-                    internalCreditCardCode = internalCreditCardCode,
-                    invoiceXml = invoiceXml,
-                    salesOriginId = salesOriginId
-                };
-                payment.ShowDialog();
-
-                if (payment.canCloseInvoice)
-                {
-                    if (payment.isInvoicePaymentDiscount)
-                    {
-                        invoiceXml = payment.invoiceXml;
-                    }
-
-                    if (payment.paymentXml.HasElements)
-                    {
-                        invoiceXml.Add(payment.paymentXml);
-                        ClosingInvoice();
-                    }
-                }
-
-                TxtBarcode.Focus();
+                baseTaxAmount += decimal.Parse(item.Element("BaseTaxAmount").Value);
+                taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
+                baseAmount += decimal.Parse(item.Element("BaseAmount").Value);
+                irbpAmount += decimal.Parse(item.Element("IrbpAmount").Value);
+                discountAmount += decimal.Parse(item.Element("LineDiscount").Value);
             }
+
+            FrmPayment payment = new FrmPayment
+            {
+                invoiceAmount = decimal.Parse(LblTotal.Text),
+                customer = currentCustomer,
+                emissionPoint = emissionPoint,
+                taxAmount = taxAmount,
+                baseAmount = baseAmount,
+                baseTaxAmount = baseTaxAmount,
+                irbpAmount = irbpAmount,
+                discountAmount = discountAmount,
+                loginInformation = loginInformation,
+                scanner = AxOPOSScanner,
+                internalCreditCardCode = internalCreditCardCode,
+                invoiceXml = invoiceXml,
+                salesOriginId = salesOriginId
+            };
+            payment.ShowDialog();
+
+            if (payment.canCloseInvoice)
+            {
+                if (payment.isInvoicePaymentDiscount)
+                {
+                    invoiceXml = payment.invoiceXml;
+                }
+
+                if (payment.paymentXml.HasElements)
+                {
+                    invoiceXml.Add(payment.paymentXml);
+                    ClosingInvoice();
+                }
+            }
+
+            TxtBarcode.Focus();
         }
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
@@ -782,7 +796,10 @@ namespace POS
 
         private void BtnProductChecker_Click(object sender, EventArgs e)
         {
-            FrmProductChecker checker = new FrmProductChecker();
+            FrmProductChecker checker = new FrmProductChecker
+            {
+                functions = functions
+            };
             checker.ShowDialog();
         }
         #endregion
@@ -1179,7 +1196,6 @@ namespace POS
                 if (sequenceTable == null)
                 {
                     functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
-                    //Close();
                     return;
                 }
 
@@ -1189,12 +1205,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al obtener secuencia."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al obtener secuencia.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -1286,18 +1300,26 @@ namespace POS
         private void CalculateInvoice()
         {
             decimal invoiceAmount = 0.00M;
-            decimal discAmount = 0.00M;
+            decimal discountAmount = 0.00M;
+            decimal baseAmount = 0.00M;
+            decimal baseTaxAmount = 0.00M;
+            decimal taxAmount = 0.00M;
+
 
             var line = invoiceXml.Descendants("InvoiceLine").Select(il => il);
 
             foreach (var item in line)
             {
-                discAmount += decimal.Parse(item.Element("LineDiscount").Value);
+                discountAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
+                baseAmount += decimal.Parse(item.Element("BaseAmount").Value);
+                baseTaxAmount += decimal.Parse(item.Element("BaseTaxAmount").Value);
+                taxAmount += decimal.Parse(item.Element("TaxAmount").Value);
             }
 
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
-            LblDiscAmount.Text = Math.Round(discAmount, 2).ToString();
+            LblDiscAmount.Text = Math.Round(discountAmount, 2).ToString();
+
         }
 
         private Customer CreateCustomer(string _identification)

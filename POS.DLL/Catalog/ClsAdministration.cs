@@ -5,12 +5,10 @@ namespace POS.DLL.Catalog
 {
     public class ClsAdministration
     {
-        public SP_Login_Consult_Result GetLoginInformation(
-                                                            string _user
-                                                            , string _password
-                                                            , string _workstation
-                                                            , string _addressIP
-                                                            )
+        public SP_Login_Consult_Result GetLoginInformation(string _user,
+            string _password,
+            string _workstation,
+            string _addressIP)
         {
             SP_Login_Consult_Result result;
 

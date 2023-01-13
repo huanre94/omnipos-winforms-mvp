@@ -219,9 +219,7 @@ namespace POS
             }
             //End(IG001)
 
-            parameter = (from par in new POSEntities().GlobalParameter.ToList()
-                         where par.Name == "LostWeightQty"
-                         select par.Value).FirstOrDefault();
+            parameter = new POSEntities().GlobalParameter.Where(gp => gp.Name == "LostWeightQty").Select(gp => gp.Value).FirstOrDefault();
 
             lostWeight = _qty - catchWeight;
             lostWeight = Math.Abs(lostWeight);

@@ -162,10 +162,10 @@
             // ImgLogo
             // 
             this.ImgLogo.Image = global::POS.Properties.Resources.Logo_LaEspanola_New;
-            this.ImgLogo.Location = new System.Drawing.Point(858, 221);
+            this.ImgLogo.Location = new System.Drawing.Point(864, 212);
             this.ImgLogo.Margin = new System.Windows.Forms.Padding(4);
             this.ImgLogo.Name = "ImgLogo";
-            this.ImgLogo.Size = new System.Drawing.Size(237, 211);
+            this.ImgLogo.Size = new System.Drawing.Size(226, 204);
             this.ImgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ImgLogo.TabIndex = 23;
             this.ImgLogo.TabStop = false;
