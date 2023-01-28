@@ -75,7 +75,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
             this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
-            this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             this.BtnPrintLastInvoice = new DevExpress.XtraEditors.SimpleButton();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             this.LblCashier = new System.Windows.Forms.Label();
@@ -89,18 +88,15 @@
             this.LblCustomerEmail = new System.Windows.Forms.Label();
             this.ChbBbqZone = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.axOPOSScale1 = new AxOposScale_CCO.AxOPOSScale();
-            this.axOPOSScale2 = new AxOposScale_CCO.AxOPOSScale();
+            this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axOPOSScale1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axOPOSScale2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancelSale
@@ -715,19 +711,12 @@
             // AxOPOSScanner
             // 
             this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(595, 17);
+            this.AxOPOSScanner.Location = new System.Drawing.Point(452, 41);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 169;
-            // 
-            // AxOPOSScale
-            // 
-            this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(0, 0);
-            this.AxOPOSScale.Name = "AxOPOSScale";
-            this.AxOPOSScale.Size = new System.Drawing.Size(75, 23);
-            this.AxOPOSScale.TabIndex = 0;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
             // BtnPrintLastInvoice
             // 
@@ -905,22 +894,14 @@
             this.groupBox1.Text = "Opciones";
             this.groupBox1.Visible = false;
             // 
-            // axOPOSScale1
+            // AxOPOSScale
             // 
-            this.axOPOSScale1.Enabled = true;
-            this.axOPOSScale1.Location = new System.Drawing.Point(0, 0);
-            this.axOPOSScale1.Name = "axOPOSScale1";
-            this.axOPOSScale1.Size = new System.Drawing.Size(75, 23);
-            this.axOPOSScale1.TabIndex = 0;
-            // 
-            // axOPOSScale2
-            // 
-            this.axOPOSScale2.Enabled = true;
-            this.axOPOSScale2.Location = new System.Drawing.Point(610, 41);
-            this.axOPOSScale2.Name = "axOPOSScale2";
-            this.axOPOSScale2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axOPOSScale2.OcxState")));
-            this.axOPOSScale2.Size = new System.Drawing.Size(240, 240);
-            this.axOPOSScale2.TabIndex = 170;
+            this.AxOPOSScale.Enabled = true;
+            this.AxOPOSScale.Location = new System.Drawing.Point(619, 41);
+            this.AxOPOSScale.Name = "AxOPOSScale";
+            this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
+            this.AxOPOSScale.Size = new System.Drawing.Size(240, 240);
+            this.AxOPOSScale.TabIndex = 170;
             // 
             // FrmMain
             // 
@@ -929,7 +910,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
-            this.Controls.Add(this.axOPOSScale2);
+            this.Controls.Add(this.AxOPOSScale);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnReturns);
             this.Controls.Add(this.ImgSalesOrigin);
@@ -995,12 +976,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axOPOSScale1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axOPOSScale2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1054,7 +1033,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
         private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
-        private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
         private DevExpress.XtraEditors.SimpleButton BtnPrintLastInvoice;
         private System.Windows.Forms.Label LblCashier;
@@ -1068,7 +1046,6 @@
         private System.Windows.Forms.Label LblCustomerEmail;
         private System.Windows.Forms.CheckBox ChbBbqZone;
         private System.Windows.Forms.GroupBox groupBox1;
-        private AxOposScale_CCO.AxOPOSScale axOPOSScale1;
-        private AxOposScale_CCO.AxOPOSScale axOPOSScale2;
+        private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
     }
 }

@@ -13,7 +13,7 @@ namespace POS
 {
     public partial class FrmCatchWeight : DevExpress.XtraEditors.XtraForm
     {
-        readonly ClsFunctions functions = new ClsFunctions();
+         ClsFunctions functions = new ClsFunctions();
         public AxOPOSScale axOposScale;
         public bool formActionResult;
         public decimal weight;
@@ -65,7 +65,7 @@ namespace POS
 
                     if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
                     {
-                        CatchWeightProduct(ScaleBrand, PortName);
+                     CatchWeightProduct(ScaleBrand, PortName);
                     }
                     else
                     {
