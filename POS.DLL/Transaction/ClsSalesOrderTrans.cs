@@ -31,9 +31,8 @@ namespace POS.DLL.Transaction
             {
                 if (_salesOrderId != 0)
                 {
-                    SalesOrder sales = (from so in db.SalesOrder
-                                        where so.SalesOrderId == _salesOrderId
-                                        select so).First();
+                    SalesOrder sales = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+
                     sales.ModifiedBy = loginInformation.UserId;
                     sales.ModifiedDatetime = DateTime.Now;
                     db.SaveChanges();
@@ -56,12 +55,17 @@ namespace POS.DLL.Transaction
             {
                 if (!cancelFromGuide)
                 {
-                    var result = (from so in db.SalesOrder
-                                  join sr in db.SalesRemissionLine on so.SalesOrderId equals sr.SalesOrderId
-                                  where so.SalesOrderId == _id
-                                  && so.Status == "S"
-                                  && sr.Status == "A"
-                                  select so).FirstOrDefault();
+                    var result =
+                        db.SalesOrder
+                        .Join(db.SalesRemissionLine,
+                        so => so.SalesOrderId,
+                        sr => sr.SalesOrderId,
+                        (so, sr) => new { SalesOrder = so, SalesRemissionLine = sr })
+                        .Where(sosr => sosr.SalesOrder.Status == "S"
+                        && sosr.SalesRemissionLine.Status == "A"
+                        && sosr.SalesOrder.SalesOrderId == _salesOrderId)
+                        .Select(sosr => sosr.SalesOrder)
+                        .FirstOrDefault();
 
                     if (result != null)
                     {
@@ -73,10 +77,7 @@ namespace POS.DLL.Transaction
 
                 }
 
-                order = (from so in db.SalesOrder
-                         where so.SalesOrderId == _id
-                         select so).First();
-
+                order = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
                 order.Status = "I";
                 order.ModifiedBy = loginInformation.UserId;
                 order.ModifiedDatetime = DateTime.Now;
@@ -95,9 +96,7 @@ namespace POS.DLL.Transaction
             SalesOrder order;
             try
             {
-                order = (from so in db.SalesOrder
-                         where so.SalesOrderId == _id
-                         select so).First();
+                order = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
                 order.Status = "E";
                 order.ModifiedBy = loginInformation.UserId;
                 order.ModifiedDatetime = DateTime.Now;
@@ -110,17 +109,16 @@ namespace POS.DLL.Transaction
             return db.SaveChanges() > 0;
         }
 
-        public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _xml, string CadenaC = "")
+        public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _remissionGuideXml, string CadenaC = "")
         {
             var db = new POSEntities(CadenaC);
             SP_SalesOrderRemission_Insert_Result result;
             try
             {
-                result = db.SP_SalesOrderRemission_Insert(_xml).First();
+                result = db.SP_SalesOrderRemission_Insert(_remissionGuideXml).First();
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
             return result;

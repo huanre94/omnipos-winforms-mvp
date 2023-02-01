@@ -22,7 +22,7 @@ namespace POS
         public long salesOrderId;
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder;
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
         XElement salesOrderXml = new XElement("SalesOrder");
         public List<GlobalParameter> globalParameters;
@@ -637,9 +637,6 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
             if (addressIP != "")
@@ -661,20 +658,32 @@ namespace POS
             else
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
-                functions.PrinterName = emissionPoint.PrinterName;
-                LblCashier.Text = loginInformation.UserName;
+                emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
             }
-            else
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
+            }
+
+
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            functions.PrinterName = emissionPoint.PrinterName;
+            LblCashier.Text = loginInformation.UserName;
+
+            return true;
         }
 
         private void FrmSalesOrderEcommerce_Load(object sender, EventArgs e)

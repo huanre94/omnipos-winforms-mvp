@@ -60,13 +60,13 @@ namespace POS
             {
                 if (customer.CustomerId != 1)
                 {
-                    LblCustomerName.Text = customer.Firtsname + " " + customer.Lastname;
+                    LblCustomerName.Text = $"{customer.Firtsname} {customer.Lastname}";
                     response = true;
                 }
                 else
                 {
                     functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    this.DialogResult = DialogResult.Cancel;
+                    DialogResult = DialogResult.Cancel;
                 }
             }
 
@@ -85,7 +85,7 @@ namespace POS
         private void LoadBanks()
         {
             ClsPaymMode paymMode = new ClsPaymMode();
-            List<DLL.Bank> banks;
+            IEnumerable<Bank> banks;
 
             try
             {
@@ -93,7 +93,7 @@ namespace POS
 
                 if (banks != null)
                 {
-                    if (banks.Count > 0)
+                    if (banks.Count() > 0)
                     {
                         foreach (var bank in banks)
                         {
@@ -127,14 +127,18 @@ namespace POS
 
         private void LoadCreditCards(int _bankId)
         {
-            DLL.Catalog.ClsPaymMode paymMode = new ClsPaymMode();
-            List<CreditCard> creditCards;
+            ClsPaymMode paymMode = new ClsPaymMode();
+            IEnumerable<CreditCard> creditCards;
 
             if (CmbCardType.SelectedItem != null)
             {
                 try
                 {
-                    if (CmbCardType.SelectedItem.ToString() == "DEBITO")
+                    paymModeEnum = CmbCardType.SelectedItem.ToString() == "DEBITO" ? ClsEnums.PaymModeEnum.DEBITO_BANCARIO : ClsEnums.PaymModeEnum.TARJETA_CREDITO;
+
+                    creditCards = paymMode.GetCreditCardsByBank(_bankId, false);
+
+                    foreach (var creditCard in creditCards)
                     {
                         paymModeEnum = ClsEnums.PaymModeEnum.DEBITO_BANCARIO;
 
@@ -145,6 +149,7 @@ namespace POS
                             CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
                         }
                     }
+                }
                     else
                     {
                         paymModeEnum = ClsEnums.PaymModeEnum.TARJETA_CREDITO;

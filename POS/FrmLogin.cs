@@ -11,11 +11,9 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
-
 namespace POS
-{    
-
-    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
+{
+    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm, ICustomerInformationValidator
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
@@ -24,10 +22,10 @@ namespace POS
         public FrmLogin(string CadenaC)
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+            this.CadenaC = CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;   //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+        string CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private bool ValidateCustomerFields()
         {
@@ -39,7 +37,10 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage(
+                    "Debe llenar los campos necesarios del formulario",
+                    ClsEnums.MessageType.WARNING
+                );
                 DialogResult = DialogResult.None;
             }
 
@@ -62,7 +63,13 @@ namespace POS
 
                 foreach (var ipAddress in ipAddressList)
                 {
-                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress, CadenaC);
+                    allowLogin = GetLoginInformation(
+                        TxtUsername.Text,
+                        TxtPassword.Text,
+                        Environment.MachineName,
+                        ipAddress,
+                        CadenaC
+                    );
                     if (allowLogin)
                     {
                         break;
@@ -78,16 +85,15 @@ namespace POS
                     TxtUsername.Text = string.Empty;
                     TxtPassword.Text = string.Empty;
 
-                    FrmMenu frmMenu = new FrmMenu(CadenaC)   //13/07/2022 Se envia parametro de conexion
+                    FrmMenu frmMenu = new FrmMenu(CadenaC) //13/07/2022 Se envia parametro de conexion
                     {
                         loginInformation = loginInfomation,
                         globalParameters = globalParameters
                     };
                     functions.globalParameters = globalParameters;
                     Hide();
-                    
+
                     frmMenu.Show();
-                    
                 }
             }
             System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -98,79 +104,81 @@ namespace POS
             Close();
         }
 
-        private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP, string _CadenaC)
+        private bool GetLoginInformation(
+            string _identification,
+            string _password,
+            string _workstation,
+            string _addressIP,
+            string _CadenaC
+        )
         {
             SP_Login_Consult_Result result;
-            bool response = false;
 
             try
             {
                 result = new ClsAdministration().GetLoginInformation(
-                                                    _identification
-                                                    , _password
-                                                    , _workstation
-                                                    , _addressIP  
-                                                    , _CadenaC
-                                                    );
+                    _identification,
+                    _password,
+                    _workstation,
+                    _addressIP,
+                    _CadenaC
+                );
 
-                if (result != null)
+                if ((bool)result?.Error)
                 {
-                    if (!(bool)result.Error)
-                    {
-                        response = true;
-                        loginInfomation = result;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
-                    }
+                    functions.ShowMessage(
+                        "No se ha podido iniciar sesión.",
+                        ClsEnums.MessageType.WARNING,
+                        true,
+                        result.TextError
+                    );
+                    return false;
                 }
+
+                loginInfomation = result;
+                return true;
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                        "Ocurrió un problema al iniciar sesión."
-                                        , ClsEnums.MessageType.WARNING
-                                        , true
-                                        , ex.Message
-                                        );
+                    "Ocurrió un problema al iniciar sesión.",
+                    ClsEnums.MessageType.WARNING,
+                    true,
+                    ex.Message
+                );
+                return false;
             }
-
-            return response;
         }
 
         private bool GetGlobalParameters()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
-            bool response = false;
 
             try
             {
                 globalParameters = clsGeneral.GetGlobalParameters(CadenaC);
 
-                if (globalParameters != null)
+                if (!globalParameters.Any())
                 {
-                    if (globalParameters.Any())
-                    {
-                        response = true;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se pudieron cargar parámetros globales.", ClsEnums.MessageType.WARNING);
-                    }
+                    functions.ShowMessage(
+                        "No se pudieron cargar parámetros globales.",
+                        ClsEnums.MessageType.WARNING
+                    );
+                    return false;
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
-                                        "Ocurrio un problema al cargar parámetros globales."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                    "Ocurrio un problema al cargar parámetros globales.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message
+                );
+                return false;
             }
-
-            return response;
         }
 
         private List<string> GetLocalIPAddress()
@@ -178,34 +186,35 @@ namespace POS
             List<string> addressIP = new List<string>();
             bool networkOK = NetworkInterface.GetIsNetworkAvailable();
 
-            if (networkOK)
+            if (!networkOK)
             {
-                try
-                {
-                    var host = Dns.GetHostEntry(Dns.GetHostName());
+                functions.ShowMessage(
+                    "El equipo no se encuentra conectado a la red.",
+                    ClsEnums.MessageType.ERROR
+                );
+                return new List<string>();
+            }
 
-                    foreach (var ip in host.AddressList)
+            try
+            {
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        if (ip.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            addressIP.Add($"{ip}");
-                        }
+                        addressIP.Add($"{ip}");
                     }
-
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "No se encontraron adaptadores de red IPv4 en el sistema."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
                 }
             }
-            else
+            catch (Exception ex)
             {
-                functions.ShowMessage("El equipo no se encuentra conectado a la red.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage(
+                    "No se encontraron adaptadores de red IPv4 en el sistema.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message
+                );
             }
 
             return addressIP;
@@ -250,7 +259,7 @@ namespace POS
                     break;
                 default:
                     break;
-            }          
+            }
         }
 
         private void TxtUsername_KeyDown(object sender, KeyEventArgs e)
@@ -261,7 +270,7 @@ namespace POS
                 case Keys.Enter:
                     if (TxtUsername.Text != "")
                     {
-                       TxtPassword.Focus();                     
+                        TxtPassword.Focus();
                     }
                     break;
                 case Keys.F1:
@@ -269,24 +278,25 @@ namespace POS
                     break;
                 case Keys.F9:
                     BtnCancel_Click(null, null);
-                    break;             
+                    break;
                 default:
                     break;
-            }            
+            }
         }
 
-        //private void simpleButton1_Click(object sender, EventArgs e)
-        //{
-        //    EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder();
-        //    constructorConexion.Provider = "System.Data.SqlClient";            
-        //    constructorConexion.ProviderConnectionString = "data source=192.168.17.120;initial catalog=POSDB;persist security info=True;user id=sa;password=TICd3v3l0p3r;MultipleActiveResultSets=True;App=EntityFramework";
-        //    constructorConexion.Metadata = "res://*/ModelPOS.csdl|res://*/ModelPOS.ssdl|res://*/ModelPOS.msl";
+        public bool ValidateCustomerFields()
+        {
+            if (TxtUsername.Text == string.Empty || TxtPassword.Text == string.Empty)
+            {
+                functions.ShowMessage(
+                    "Debe llenar los campos necesarios del formulario",
+                    ClsEnums.MessageType.WARNING
+                );
+                DialogResult = DialogResult.None;
+                return false;
+            }
 
-        //    //POSEntities conexion = new  POSEntities(constructorConexion.ToString());
-        //    POSEntities conexion = new POSEntities(this.CadenaC);
-            
-        //    gridControl1.DataSource = conexion.CustomerType.ToList();           
-                        
-        //}
+            return true;
+        }
     }
 }

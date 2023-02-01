@@ -4,12 +4,13 @@ using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace POS
 {
     public partial class FrmProductSearch : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public string barcode = "";
         public bool useCatchWeight;
         public long productId;
@@ -83,17 +84,15 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado item por agregar.", ClsEnums.MessageType.ERROR);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                DialogResult = System.Windows.Forms.DialogResult.None;
             }
-            else
-            {
-                SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-                barcode = selectedProduct.Barcode;
-                productId = selectedProduct.ProductId;
-                useCatchWeight = selectedProduct.UseCatchWeight;
-                productName = selectedProduct.Name;
-                returnProduct = true;
-            }
+
+            SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+            barcode = selectedProduct.Barcode;
+            productId = selectedProduct.ProductId;
+            useCatchWeight = selectedProduct.UseCatchWeight;
+            productName = selectedProduct.Name;
+            returnProduct = true;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -108,6 +107,7 @@ namespace POS
                 functions.ShowMessage("El filtro de busqueda no puede estar vacio.", ClsEnums.MessageType.ERROR);
                 TxtSearchName.Focus();
             }
+            SearchProduct(TxtSearchName.Text, emissionPoint.LocationId);
         }
 
         private void FrmProductSearch_Load(object sender, EventArgs e)
@@ -120,8 +120,10 @@ namespace POS
             GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcSalesDetail.DataSource = null;
 
-            BindingList<Product> bindingList = new BindingList<Product>();
-            bindingList.AllowNew = true;
+            BindingList<Product> bindingList = new BindingList<Product>
+            {
+                AllowNew = true
+            };
 
             GrcSalesDetail.DataSource = bindingList;
         }

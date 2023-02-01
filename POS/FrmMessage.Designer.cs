@@ -52,10 +52,10 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(319, 216);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(390, 270);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
@@ -64,19 +64,21 @@
             // 
             this.LblMessage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LblMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
-            this.LblMessage.Location = new System.Drawing.Point(106, 33);
-            this.LblMessage.MaximumSize = new System.Drawing.Size(400, 200);
+            this.LblMessage.Location = new System.Drawing.Point(130, 41);
+            this.LblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblMessage.MaximumSize = new System.Drawing.Size(489, 250);
             this.LblMessage.Name = "LblMessage";
-            this.LblMessage.Size = new System.Drawing.Size(368, 120);
+            this.LblMessage.Size = new System.Drawing.Size(450, 150);
             this.LblMessage.TabIndex = 2;
             this.LblMessage.Text = "Mensaje a mostrar";
             this.LblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ImgSvgMessage
             // 
-            this.ImgSvgMessage.Location = new System.Drawing.Point(27, 59);
+            this.ImgSvgMessage.Location = new System.Drawing.Point(33, 74);
+            this.ImgSvgMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
-            this.ImgSvgMessage.Size = new System.Drawing.Size(75, 65);
+            this.ImgSvgMessage.Size = new System.Drawing.Size(92, 81);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
             this.ImgSvgMessage.TabIndex = 4;
             // 
@@ -93,19 +95,20 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(149, 216);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancel.Location = new System.Drawing.Point(182, 270);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
+            this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 2;
             this.BtnCancel.Text = "Cancelar";
             this.BtnCancel.Visible = false;
             // 
             // LnkViewDetail
             // 
-            this.LnkViewDetail.Location = new System.Drawing.Point(30, 233);
+            this.LnkViewDetail.Location = new System.Drawing.Point(37, 291);
+            this.LnkViewDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.LnkViewDetail.Name = "LnkViewDetail";
-            this.LnkViewDetail.Size = new System.Drawing.Size(74, 16);
+            this.LnkViewDetail.Size = new System.Drawing.Size(90, 20);
             this.LnkViewDetail.TabIndex = 5;
             this.LnkViewDetail.Text = "Ver detalle";
             this.LnkViewDetail.Visible = false;
@@ -113,7 +116,7 @@
             // 
             // FrmMessage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(493, 280);
@@ -124,6 +127,7 @@
             this.Controls.Add(this.ImgSvgMessage);
             this.Controls.Add(this.LblMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mensaje";

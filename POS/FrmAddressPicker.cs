@@ -14,13 +14,13 @@ namespace POS
 {
     public partial class FrmAddressPicker : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public Customer currentCustomer;
         public CustomerAddress response;
         public bool formResult;
         public long addressId;
-        readonly ClsFunctions functions = new ClsFunctions();
         bool newAddress = false;
         List<CustomerAddress> addressList;
 
@@ -38,7 +38,7 @@ namespace POS
             LoadAddressesByCustomer(currentCustomer);
 
             LblCustomerId.Text = currentCustomer.Identification;
-            LblCustomerName.Text = string.Format("{0} {1}", currentCustomer.Firtsname, currentCustomer.Lastname);
+            LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
         }
 
         private void ClearFields()
@@ -62,26 +62,27 @@ namespace POS
 
         private void LoadAddressesByCustomer(Customer _currentCustomer)
         {
+            CmbAddressPicker.Properties.Items.Clear();
             try
             {
-                CmbAddressPicker.Properties.Items.Clear();
-                addressList = new ClsCustomer().GetCustomerAddressesById(_currentCustomer, CadenaC);
-                if (addressList.Count == 0)
+                addressList = new ClsCustomer().GetCustomerAddressesById(_currentCustomer);
+
+                if (addressList?.Count == 0)
                 {
-                    EnableAddressInput(true);
                     functions.ShowMessage("Cliente no cuenta con direcciones de entrega registradas, por favor registre una.", ClsEnums.MessageType.WARNING);
                     newAddress = true;
                     BtnAddressPicker.Text = "F6 Guardar";
+                    EnableAddressInput(true);
                 }
                 else
                 {
-                    EnableAddressInput(false);
 
                     foreach (CustomerAddress address in addressList)
                     {
                         CmbAddressPicker.Properties.Items.Add(new ImageComboBoxItem { Value = address.CustomerAddressId, Description = address.Address });
                         CmbAddressPicker.EditValue = null;
                     }
+                    EnableAddressInput(false);
                 }
             }
             catch (Exception ex)
@@ -300,6 +301,7 @@ namespace POS
             if (CmbAddressPicker.SelectedIndex < 0)
             {
                 functions.ShowMessage("Debe seleccionar una direccion.", ClsEnums.MessageType.WARNING);
+                return;
             }
             else
             {

@@ -240,10 +240,11 @@ namespace POS
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (TxtValue.Text != "")
+            if (TxtValue.Text == "")
             {
-                TxtValue.Text = TxtValue.Text.Remove(TxtValue.Text.Length - 1);
+                return;
             }
+            TxtValue.Text = TxtValue.Text.Remove(TxtValue.Text.Length - 1);
         }
         #endregion
 
@@ -281,7 +282,7 @@ namespace POS
                         break;
                 }
 
-                this.Close();
+                Close();
             }
         }
 

@@ -73,8 +73,9 @@ namespace POS
                             //}
 
                             LblCustomerId.Text = currentCustomer.Identification;
-                            LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                            LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
                             LblCustomerAddress.Text = currentCustomer.Address;
+                            LblCustomerEmail.Text = currentCustomer.Email;
                         }
                     }
                     else
@@ -88,8 +89,9 @@ namespace POS
                             if (currentCustomer != null)
                             {
                                 LblCustomerId.Text = currentCustomer.Identification;
-                                LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+                                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
                                 LblCustomerAddress.Text = currentCustomer.Address;
+                                LblCustomerEmail.Text = currentCustomer.Email;
                             }
                             else
                             {
@@ -212,8 +214,9 @@ namespace POS
 
             currentCustomer = new ClsCustomer().GetCustomerById(1, CadenaC);
             LblCustomerId.Text = currentCustomer.Identification;
-            LblCustomerName.Text = currentCustomer.Firtsname + " " + currentCustomer.Lastname;
+            LblCustomerName.Text = $"{ currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
+            LblCustomerEmail.Text = currentCustomer.Email;
 
             LblDeliveryAddress.Text = string.Empty;
             LblDeliveryAddressRef.Text = string.Empty;

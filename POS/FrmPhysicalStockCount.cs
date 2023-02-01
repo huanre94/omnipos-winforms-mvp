@@ -134,22 +134,16 @@ namespace POS
             {
                 inventLocations = new ClsGeneral().GetMainWarehouseByLocationId(_locationId, CadenaC);
 
-                if (inventLocations != null)
+                if (inventLocations.Any())
                 {
-                    if (inventLocations.Count > 0)
+                    foreach (var locations in inventLocations)
                     {
-                        foreach (var locations in inventLocations)
-                        {
-                            CmbWarehouse.Properties.Items.Add(new ImageComboBoxItem { Value = locations.InventLocationId, Description = locations.Name });
-                        }
+                        CmbWarehouse.Properties.Items.Add(new ImageComboBoxItem { Value = locations.InventLocationId, Description = locations.Name });
                     }
-                }
-                if (inventLocations.Count > 0)
-                {
+
                     CmbWarehouse.SelectedIndex = 0;
                     CmbWarehouse.Enabled = false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -284,15 +278,10 @@ namespace POS
                         if ((bool)result.Error)
                         {
                             functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
+                            return;
+                        }
 
-                            TxtBarcode.Text = "";
-                            TxtInternalCode.Text = "";
-                            TxtBarcode.Focus();
-                        }
-                        else
-                        {
-                            AddResultToGrid(result);
-                        }
+                        AddResultToGrid(result);
                     }
                     catch (Exception ex)
                     {
@@ -302,6 +291,10 @@ namespace POS
                                                                    , ex.Message
                                                                );
 
+
+                    }
+                    finally
+                    {
                         TxtBarcode.Text = "";
                         TxtInternalCode.Text = "";
                         TxtBarcode.Focus();
@@ -570,9 +563,8 @@ namespace POS
 
                 if (item.InventUnitId == 1)
                 {
-                    keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
-                }
-
+                    inputFromOption = item?.InventUnitId == 1 ? ClsEnums.InputFromOption.PRODUCT_QUANTITY : ClsEnums.InputFromOption.PRODUCT_INVENTORY;
+                };
                 keyPad.ShowDialog();
                 GrvPhysicalStock.UpdateCurrentRow();
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
@@ -638,12 +630,10 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage(
-                                                "Ocurrio un error al momento de finalizar el inventario."
-                                                , ClsEnums.MessageType.ERROR
-                                                , true
-                                                , ex.Message
-                                                );
+                        functions.ShowMessage("Ocurrio un error al momento de finalizar el inventario.",
+                            ClsEnums.MessageType.ERROR,
+                            true,
+                            ex.Message);
                     }
                 }
             }

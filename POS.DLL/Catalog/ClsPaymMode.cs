@@ -6,9 +6,9 @@ namespace POS.DLL.Catalog
 {
     public class ClsPaymMode
     {
-        public List<Bank> GetBanks(String CadenaC = "")
+        public IEnumerable<Bank> GetBanks(String CadenaC = "")
         {
-            List<Bank> banks;
+            IEnumerable<Bank> banks;
 
             try
             {
@@ -46,21 +46,23 @@ namespace POS.DLL.Catalog
             return retentionTable;
         }
 
-        public List<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true, string CadenaC = "")
+        public IEnumerable<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true, string CadenaC = "")
         {
-            List<CreditCard> creditCards;
-            var DB = new POSEntities(CadenaC);
+            IEnumerable<CreditCard> creditCards;
+            var db = new POSEntities(CadenaC);
             try
             {
-
-                creditCards = (from cre in DB.CreditCard
-                               join ban in DB.BankCreditCard
-                               on cre.CreditCardId equals ban.CreditCardId
-                               where cre.Status == "A"
-                               && ban.BankId == _bankId
-                               && cre.IsCredit == _isCredit
-                               select cre
-                                ).ToList();
+                creditCards =
+                db.CreditCard
+                .Join(db.BankCreditCard,
+                    cre => cre.CreditCardId,
+                    ban => ban.CreditCardId,
+                    (cre, ban) => new { CreditCard = cre, BankCreditCard = ban })
+                .Where(creban => creban.CreditCard.Status == "A"
+                               && creban.BankCreditCard.BankId == _bankId
+                               && creban.CreditCard.IsCredit == _isCredit)
+                .Select(creban => creban.CreditCard)
+                .ToList();
             }
             catch (Exception ex)
             {
@@ -76,11 +78,11 @@ namespace POS.DLL.Catalog
 
             try
             {
-
-                paymModes = (from pa in new POSEntities(CadenaC).PaymMode
-                             where pa.Status == "A"
-                             select pa
-                            ).ToList();
+                paymModes =
+                    new POSEntities(CadenaC)
+                    .PaymMode
+                    .Where(pa => pa.Status == "A")
+                    .ToList();
             }
             catch (Exception ex)
             {

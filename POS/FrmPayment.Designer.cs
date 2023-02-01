@@ -63,6 +63,17 @@
             this.LblTitleChange = new System.Windows.Forms.Label();
             this.BtnAdvance = new DevExpress.XtraEditors.SimpleButton();
             this.BtnReturn = new DevExpress.XtraEditors.SimpleButton();
+            this.LblBaseTax = new System.Windows.Forms.Label();
+            this.LblBaseTaxAmount = new System.Windows.Forms.Label();
+            this.LblBase = new System.Windows.Forms.Label();
+            this.LblBaseAmount = new System.Windows.Forms.Label();
+            this.LblTax = new System.Windows.Forms.Label();
+            this.LblTaxAmount = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.LblIRBPAmount = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LblDiscountAmount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPayment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtAmount.Properties)).BeginInit();
@@ -564,6 +575,127 @@
             this.BtnReturn.Text = "&Nota \r\nCredito";
             this.BtnReturn.Click += new System.EventHandler(this.BtnReturn_Click);
             // 
+            // LblBaseTax
+            // 
+            this.LblBaseTax.AutoSize = true;
+            this.LblBaseTax.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBaseTax.Location = new System.Drawing.Point(22, 99);
+            this.LblBaseTax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblBaseTax.Name = "LblBaseTax";
+            this.LblBaseTax.Size = new System.Drawing.Size(137, 22);
+            this.LblBaseTax.TabIndex = 155;
+            this.LblBaseTax.Text = "Base IVA %: $";
+            // 
+            // LblBaseTaxAmount
+            // 
+            this.LblBaseTaxAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBaseTaxAmount.Location = new System.Drawing.Point(222, 56);
+            this.LblBaseTaxAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblBaseTaxAmount.Name = "LblBaseTaxAmount";
+            this.LblBaseTaxAmount.Size = new System.Drawing.Size(103, 28);
+            this.LblBaseTaxAmount.TabIndex = 156;
+            this.LblBaseTaxAmount.Text = "0.00";
+            this.LblBaseTaxAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // LblBase
+            // 
+            this.LblBase.AutoSize = true;
+            this.LblBase.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBase.Location = new System.Drawing.Point(22, 57);
+            this.LblBase.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblBase.Name = "LblBase";
+            this.LblBase.Size = new System.Drawing.Size(148, 22);
+            this.LblBase.TabIndex = 157;
+            this.LblBase.Text = "Base IVA 0%: $";
+            // 
+            // LblBaseAmount
+            // 
+            this.LblBaseAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBaseAmount.Location = new System.Drawing.Point(222, 98);
+            this.LblBaseAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblBaseAmount.Name = "LblBaseAmount";
+            this.LblBaseAmount.Size = new System.Drawing.Size(103, 28);
+            this.LblBaseAmount.TabIndex = 158;
+            this.LblBaseAmount.Text = "0.00";
+            this.LblBaseAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // LblTax
+            // 
+            this.LblTax.AutoSize = true;
+            this.LblTax.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblTax.Location = new System.Drawing.Point(22, 143);
+            this.LblTax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblTax.Name = "LblTax";
+            this.LblTax.Size = new System.Drawing.Size(86, 22);
+            this.LblTax.TabIndex = 157;
+            this.LblTax.Text = "IVA %: $";
+            // 
+            // LblTaxAmount
+            // 
+            this.LblTaxAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblTaxAmount.Location = new System.Drawing.Point(222, 143);
+            this.LblTaxAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblTaxAmount.Name = "LblTaxAmount";
+            this.LblTaxAmount.Size = new System.Drawing.Size(103, 28);
+            this.LblTaxAmount.TabIndex = 158;
+            this.LblTaxAmount.Text = "0.00";
+            this.LblTaxAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.label1.Location = new System.Drawing.Point(21, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(224, 28);
+            this.label1.TabIndex = 155;
+            this.label1.Text = "Desglose Valores:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(22, 186);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(109, 22);
+            this.label2.TabIndex = 157;
+            this.label2.Text = "(+) IRBP: $";
+            // 
+            // LblIRBPAmount
+            // 
+            this.LblIRBPAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblIRBPAmount.Location = new System.Drawing.Point(222, 186);
+            this.LblIRBPAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblIRBPAmount.Name = "LblIRBPAmount";
+            this.LblIRBPAmount.Size = new System.Drawing.Size(103, 28);
+            this.LblIRBPAmount.TabIndex = 158;
+            this.LblIRBPAmount.Text = "0.00";
+            this.LblIRBPAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(22, 225);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(154, 22);
+            this.label4.TabIndex = 157;
+            this.label4.Text = "(-) Descuento $:";
+            // 
+            // LblDiscountAmount
+            // 
+            this.LblDiscountAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblDiscountAmount.Location = new System.Drawing.Point(222, 225);
+            this.LblDiscountAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblDiscountAmount.Name = "LblDiscountAmount";
+            this.LblDiscountAmount.Size = new System.Drawing.Size(103, 28);
+            this.LblDiscountAmount.TabIndex = 158;
+            this.LblDiscountAmount.Text = "0.00";
+            this.LblDiscountAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // FrmPayment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -578,9 +710,20 @@
             this.Controls.Add(this.BtnWithhold);
             this.Controls.Add(this.BtnGiftcard);
             this.Controls.Add(this.TxtAmount);
+            this.Controls.Add(this.LblDiscountAmount);
+            this.Controls.Add(this.LblIRBPAmount);
+            this.Controls.Add(this.LblTaxAmount);
+            this.Controls.Add(this.LblBaseAmount);
             this.Controls.Add(this.LblPending);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.LblTax);
+            this.Controls.Add(this.LblBase);
             this.Controls.Add(this.LblTitlePending);
+            this.Controls.Add(this.LblBaseTaxAmount);
             this.Controls.Add(this.LblPaid);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LblBaseTax);
             this.Controls.Add(this.LblTitlePaid);
             this.Controls.Add(this.BtnInternalCredit);
             this.Controls.Add(this.BtnCheck);
@@ -652,5 +795,16 @@
         private System.Windows.Forms.Label LblTitleChange;
         private DevExpress.XtraEditors.SimpleButton BtnAdvance;
         private DevExpress.XtraEditors.SimpleButton BtnReturn;
+        private System.Windows.Forms.Label LblBaseTax;
+        private System.Windows.Forms.Label LblBaseTaxAmount;
+        private System.Windows.Forms.Label LblBase;
+        private System.Windows.Forms.Label LblBaseAmount;
+        private System.Windows.Forms.Label LblTax;
+        private System.Windows.Forms.Label LblTaxAmount;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblIRBPAmount;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label LblDiscountAmount;
     }
 }

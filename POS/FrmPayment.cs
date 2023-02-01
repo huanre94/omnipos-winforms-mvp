@@ -17,7 +17,7 @@ namespace POS
     {
         #region Global Load Definitions
 
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public XElement paymentXml = new XElement("Payment");
         public Customer customer = null;
         public SP_Login_Consult_Result loginInformation;
@@ -27,8 +27,13 @@ namespace POS
         decimal pendingAmount = 0;
         decimal changeAmount = 0;
         public bool canCloseInvoice = false;
+
         public decimal baseAmount = 0;
+        public decimal baseTaxAmount = 0;
         public decimal taxAmount = 0;
+        public decimal irbpAmount = 0;
+        public decimal discountAmount = 0;
+
         public AxOposScanner_CCO.AxOPOSScanner scanner;
         public string internalCreditCardCode = "";
         public XElement invoiceXml; //HR002
@@ -68,6 +73,18 @@ namespace POS
             pendingAmount = invoiceAmount;
             LblPending.Text = pendingAmount.ToString();
 
+            string taxPercent = new POSEntities().TaxTable.Where(t => t.Status.Equals("A")).Select(t => t.TaxValue).FirstOrDefault().ToString();
+
+            LblBase.Text = $"Base IVA 0%";
+            LblBaseTax.Text = $"(+) Base IVA {taxPercent}%";
+            LblTax.Text = $"(+) IVA {taxPercent}%";
+
+            LblBaseAmount.Text = $"{baseAmount:f2}";
+            LblBaseTaxAmount.Text = $"{baseTaxAmount:f2}";
+            LblTaxAmount.Text = $"{taxAmount:f2}";
+            LblDiscountAmount.Text = $"{discountAmount:f2}";
+            LblIRBPAmount.Text = $"{irbpAmount:f2}";
+
             bool customerRetention = customer.UseRetention ?? false;
             if (customerRetention)
             {
@@ -84,7 +101,7 @@ namespace POS
         private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
         {
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar !=   46))
             {
                 e.Handled = true;
                 return;
@@ -149,7 +166,6 @@ namespace POS
             {
                 TxtAmount.Text += ".";
             }
-
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -163,14 +179,13 @@ namespace POS
 
         private void BtnCash_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                Cash();
-            }
-            else
+            if (TxtAmount.Text == "")
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                return;
             }
+
+            Cash();
         }
 
         private void BtnCreditCard_Click(object sender, EventArgs e)
@@ -512,7 +527,7 @@ namespace POS
                     customer = customer,
                     loginInformation = loginInformation,
                     taxAmount = taxAmount,
-                    baseAmount = baseAmount
+                    baseAmount = baseAmount + baseTaxAmount - discountAmount
                 };
                 paymentWithhold.ShowDialog();
 
@@ -543,19 +558,6 @@ namespace POS
             };
 
             GrcPayment.DataSource = bindingList;
-        }
-
-        private class PaymentEntry
-        {
-            public PaymentEntry() { }
-
-            public PaymentEntry(string _description, decimal _amount)
-            {
-                Description = _description; Amount = _amount;
-            }
-
-            public string Description { get; set; }
-            public decimal Amount { get; set; }
         }
 
         private void AddRecordToGrid(InvoicePayment _invoicePayment)

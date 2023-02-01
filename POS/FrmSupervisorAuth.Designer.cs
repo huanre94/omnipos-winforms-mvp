@@ -49,16 +49,18 @@
             // 
             this.LblAuthorization.AutoSize = true;
             this.LblAuthorization.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblAuthorization.Location = new System.Drawing.Point(51, 57);
+            this.LblAuthorization.Location = new System.Drawing.Point(62, 71);
+            this.LblAuthorization.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblAuthorization.Name = "LblAuthorization";
-            this.LblAuthorization.Size = new System.Drawing.Size(64, 18);
+            this.LblAuthorization.Size = new System.Drawing.Size(80, 23);
             this.LblAuthorization.TabIndex = 7;
             this.LblAuthorization.Text = "Codigo";
             // 
             // TxtAuthorization
             // 
             this.TxtAuthorization.EditValue = "";
-            this.TxtAuthorization.Location = new System.Drawing.Point(132, 48);
+            this.TxtAuthorization.Location = new System.Drawing.Point(161, 60);
+            this.TxtAuthorization.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Properties.PasswordChar = '•';
             this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
@@ -79,8 +81,8 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(299, 233);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(365, 291);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 4;
@@ -100,8 +102,8 @@
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(129, 233);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancel.Location = new System.Drawing.Point(158, 291);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 5;
@@ -112,15 +114,17 @@
             // 
             this.LblMotive.AutoSize = true;
             this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblMotive.Location = new System.Drawing.Point(51, 174);
+            this.LblMotive.Location = new System.Drawing.Point(62, 218);
+            this.LblMotive.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblMotive.Name = "LblMotive";
-            this.LblMotive.Size = new System.Drawing.Size(60, 18);
+            this.LblMotive.Size = new System.Drawing.Size(74, 23);
             this.LblMotive.TabIndex = 7;
             this.LblMotive.Text = "Motivo";
             // 
             // CmbMotive
             // 
-            this.CmbMotive.Location = new System.Drawing.Point(132, 165);
+            this.CmbMotive.Location = new System.Drawing.Point(161, 206);
+            this.CmbMotive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CmbMotive.Name = "CmbMotive";
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -132,16 +136,18 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.label1.Location = new System.Drawing.Point(51, 116);
+            this.label1.Location = new System.Drawing.Point(62, 145);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 18);
+            this.label1.Size = new System.Drawing.Size(65, 23);
             this.label1.TabIndex = 15;
             this.label1.Text = "Clave";
             // 
             // TxtSupervisorPassword
             // 
             this.TxtSupervisorPassword.EditValue = "";
-            this.TxtSupervisorPassword.Location = new System.Drawing.Point(132, 107);
+            this.TxtSupervisorPassword.Location = new System.Drawing.Point(161, 134);
+            this.TxtSupervisorPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtSupervisorPassword.Name = "TxtSupervisorPassword";
             this.TxtSupervisorPassword.Properties.PasswordChar = '•';
             this.TxtSupervisorPassword.Properties.UseSystemPasswordChar = true;
@@ -160,8 +166,8 @@
             this.BtnKeypadPassword.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadPassword.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPassword.ImageOptions.SvgImage")));
             this.BtnKeypadPassword.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadPassword.Location = new System.Drawing.Point(358, 100);
-            this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadPassword.Location = new System.Drawing.Point(438, 125);
+            this.BtnKeypadPassword.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadPassword.Name = "BtnKeypadPassword";
             this.BtnKeypadPassword.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeypadPassword.Size = new System.Drawing.Size(80, 50);
@@ -172,15 +178,16 @@
             // 
             this.AxOPOSScanner.Enabled = true;
             this.AxOPOSScanner.Location = new System.Drawing.Point(358, 45);
+            this.AxOPOSScanner.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 13;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
             // FrmSupervisorAuth
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(473, 298);
@@ -196,6 +203,7 @@
             this.Controls.Add(this.TxtAuthorization);
             this.Controls.Add(this.CmbMotive);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Autorizacion de Supervisor";

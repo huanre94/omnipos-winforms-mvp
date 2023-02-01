@@ -3,37 +3,36 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
 {
     public partial class FrmPaymentAdvance : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public Customer _currentCustomer;
         public decimal advanceAmount;
         public bool processResponse;
         public int _paymMode;
         public decimal pendingAmount;
-        ClsFunctions functions = new ClsFunctions();
         public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
 
         public FrmPaymentAdvance(string CadenaC = "")
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+            this.CadenaC = CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+        string CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void CheckGridView()
         {
             GrvAdvanceHistory.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcAdvanceHistory.DataSource = null;
-            BindingList<SP_Advance_Consult_Result> advances = new BindingList<SP_Advance_Consult_Result>
-            {
-                AllowNew = false
-            };
+            BindingList<SP_Advance_Consult_Result> advances =
+                new BindingList<SP_Advance_Consult_Result> { AllowNew = false };
             GrcAdvanceHistory.DataSource = advances;
         }
 
@@ -46,7 +45,10 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("El monto seleccionado debe ser igual o menor al monto digitado.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage(
+                    "El monto seleccionado debe ser igual o menor al monto digitado.",
+                    ClsEnums.MessageType.WARNING
+                );
                 DialogResult = DialogResult.None;
             }
         }
@@ -55,18 +57,33 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode, CadenaC));
-                if (advances.Count == 0)
+                advances = new BindingList<SP_Advance_Consult_Result>(
+                    new ClsAccountsReceivable().GetPendingAccountReceivable(
+                        _currentCustomer.CustomerId,
+                        _paymMode,
+                        CadenaC
+                    )
+                );
+                if (!advances.Any())
                 {
-                    functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage(
+                        "El cliente no cuenta con valores registrados.",
+                        ClsEnums.MessageType.WARNING
+                    );
                     DialogResult = DialogResult.Cancel;
+                    return;
                 }
 
                 GrcAdvanceHistory.DataSource = advances;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se ha podido cargar registros.", ClsEnums.MessageType.WARNING, true, ex.Message);
+                functions.ShowMessage(
+                    "No se ha podido cargar registros.",
+                    ClsEnums.MessageType.WARNING,
+                    true,
+                    ex.Message
+                );
             }
         }
 
@@ -74,7 +91,10 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
-                Text = _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
+                Text =
+                    _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS
+                        ? "Anticipo"
+                        : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
                 LblAmount.Text = $"{advanceAmount}";
@@ -82,15 +102,16 @@ namespace POS
             }
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
+        private void BtnCancel_Click(object sender, EventArgs e) { }
 
-        }
-
-        private void GrvAdvanceHistory_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        private void GrvAdvanceHistory_CellValueChanged(
+            object sender,
+            DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e
+        )
         {
             selectedAmount = 0;
-            BindingList<SP_Advance_Consult_Result> array = (BindingList<SP_Advance_Consult_Result>)GrvAdvanceHistory.DataSource;
+            BindingList<SP_Advance_Consult_Result> array =
+                (BindingList<SP_Advance_Consult_Result>)GrvAdvanceHistory.DataSource;
             foreach (SP_Advance_Consult_Result item in array)
             {
                 if ((bool)item.IsSelected)
@@ -103,22 +124,16 @@ namespace POS
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (_currentCustomer != null)
+            if (_currentCustomer?.CustomerId == 1)
             {
-                if (_currentCustomer.CustomerId != 1)
-                {
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    DialogResult = DialogResult.Cancel;
-                }
+                functions.ShowMessage(
+                    "La factura no puede ser CONSUMIDOR FINAL.",
+                    ClsEnums.MessageType.ERROR
+                );
+                DialogResult = DialogResult.Cancel;
+                return false;
             }
-
-            return response;
+            return true;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace POS
 {
-    public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm
+    public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm, ICustomerInformationValidator
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public string customerIdentification;
@@ -28,15 +28,12 @@ namespace POS
 
         private void FrmCustomer_Load(object sender, EventArgs e)
         {
-            if (emissionPoint != null)
-            {
-                LoadCustomerInformation(customerIdentification);
-            }
-            else
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", ClsEnums.MessageType.ERROR);
                 Close();
             }
+            LoadCustomerInformation(customerIdentification);
         }
 
         private void LoadCustomerInformation(string _identification)
@@ -59,7 +56,7 @@ namespace POS
 
                     if (customer != null)
                     {
-                        if (customer.CustomerId > 0)
+                        if (customer?.CustomerId > 0)
                         {
                             CmbIdenType.EditValue = customer.IdentTypeId;
                             LblPersonType.Text = customer.PersonType;
@@ -160,12 +157,11 @@ namespace POS
 
         private void LoadIdentTypes()
         {
-            ClsCustomer customer = new ClsCustomer();
             List<IdentType> custIdentTypes;
 
             try
             {
-                custIdentTypes = customer.GetIdentTypes(CadenaC);
+                custIdentTypes = new ClsCustomer().GetIdentTypes(CadenaC);
 
                 if (custIdentTypes != null)
                 {
@@ -325,23 +321,18 @@ namespace POS
             }
         }
 
-        private bool ValidateCustomerFields()
+        public bool ValidateCustomerFields()
         {
-            bool response = false;
-
-            if (CmbIdenType.Text != string.Empty && TxtIdentification.Text != string.Empty
-                 && TxtFirstName.Text != string.Empty && TxtLastName.Text != string.Empty
-                 && TxtAddress.Text != string.Empty && TxtPhone.Text != string.Empty)
-            {
-                response = true;
-            }
-            else
+            if (CmbIdenType.Text == string.Empty || TxtIdentification.Text == string.Empty
+                     || TxtFirstName.Text == string.Empty || TxtLastName.Text == string.Empty
+                     || TxtAddress.Text == string.Empty || TxtPhone.Text == string.Empty)
             {
                 functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
+                return false;
             }
 
-            return response;
+            return true;
         }
 
         private void TxtPhone_KeyDown(object sender, KeyEventArgs e)

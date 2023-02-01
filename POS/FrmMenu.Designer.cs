@@ -69,7 +69,7 @@
             this.LblTitle.Font = new System.Drawing.Font("Arial Rounded MT Bold", 22F, System.Drawing.FontStyle.Bold);
             this.LblTitle.Location = new System.Drawing.Point(516, 52);
             this.LblTitle.Name = "LblTitle";
-            this.LblTitle.Size = new System.Drawing.Size(302, 34);
+            this.LblTitle.Size = new System.Drawing.Size(365, 43);
             this.LblTitle.TabIndex = 148;
             this.LblTitle.Text = "Menú de Opciones";
             // 
@@ -135,7 +135,7 @@
             this.LblTitleUsername.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10F);
             this.LblTitleUsername.Location = new System.Drawing.Point(12, 719);
             this.LblTitleUsername.Name = "LblTitleUsername";
-            this.LblTitleUsername.Size = new System.Drawing.Size(65, 16);
+            this.LblTitleUsername.Size = new System.Drawing.Size(78, 20);
             this.LblTitleUsername.TabIndex = 166;
             this.LblTitleUsername.Text = "Usuario:";
             // 

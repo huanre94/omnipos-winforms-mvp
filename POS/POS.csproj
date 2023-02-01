@@ -18,7 +18,7 @@
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>\\192.168.17.115\shared\Omnipos\</PublishUrl>
+    <PublishUrl>\\192.168.18.9\shared\Omnipos\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -34,7 +34,7 @@
     <SuiteName>Retail</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -74,6 +74,26 @@
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Remote|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>\\192.168.18.24\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxInterop.OposScale_CCO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -120,17 +140,12 @@
   <ItemGroup>
     <Compile Include="Classes\ClsCatchWeight.cs" />
     <Compile Include="Classes\ClsEnums.cs" />
+    <Compile Include="Classes\PaymentEntry.cs" />
     <Compile Include="FrmAddressPicker.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmAddressPicker.Designer.cs">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmAdvance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmAdvance.Designer.cs">
-      <DependentUpon>FrmAdvance.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPaymentAdvance.cs">
       <SubType>Form</SubType>
@@ -337,12 +352,10 @@
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\ClsFunctions.cs" />
+    <Compile Include="Interfaces\ICustomerInformationValidator.cs" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FrmAddressPicker.resx">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmAdvance.resx">
-      <DependentUpon>FrmAdvance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentAdvance.resx">
       <DependentUpon>FrmPaymentAdvance.cs</DependentUpon>
@@ -590,6 +603,42 @@
     <PackageReference Include="Vip.Printer">
       <Version>1.0.22</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxOposScale_CCO">
+      <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxOposScanner_CCO">
+      <Guid>{CCB90180-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="OposScale_CCO">
+      <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="OposScanner_CCO">
+      <Guid>{CCB90180-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

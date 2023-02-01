@@ -11,10 +11,9 @@ namespace POS
 {
     public partial class FrmMenu : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
-        //public static EmissionPoint emissionPoint;
 
         public FrmMenu(string CadenaC = "")
         {
@@ -48,11 +47,10 @@ namespace POS
                 if (f.Name == "FrmLogin")
                 {
                     f.Show();
+                    return;
                 }
-                else
-                {
-                    f.Close();
-                }
+
+                f.Close();
             }
         }
 
@@ -80,9 +78,6 @@ namespace POS
                 globalParameters = globalParameters
             };
             frmClosing.Show();
-
-            if (Application.OpenForms.OfType<FrmClosingCashier>().Count() == 1)
-                Hide();
         }
 
         private void BtnPartialClosing_Click(object sender, EventArgs e)
@@ -153,10 +148,11 @@ namespace POS
 
             try
             {
-                allowInventory = (from par in new POSEntities(CadenaC).GlobalParameter.ToList()
-                                  where par.Name == "AllowPhysicalInventory"
-                                  select par.Value).FirstOrDefault() == "1";
-
+                allowInventory = new POSEntities(CadenaC)
+                    .GlobalParameter
+                    .Where(par => par.Name == "AllowPhysicalInventory")
+                    .Select(par => par.Value)
+                    .FirstOrDefault() == "1";
             }
             catch (Exception ex)
             {
@@ -192,10 +188,6 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            EmissionPoint emissionPoint = null;
-            ClsGeneral clsGeneral = new ClsGeneral();
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
             if (addressIP != "")
@@ -217,22 +209,29 @@ namespace POS
             else
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
                 var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId, CadenaC);
                 if (pendingClosing)
                 {
                     functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
                 }
+
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
+
+                return false;
             }
 
-            return response;
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
