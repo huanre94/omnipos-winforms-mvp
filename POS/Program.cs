@@ -1,11 +1,14 @@
 ﻿using Microsoft.Win32;  //14/07/2022
 using System;
+using System.Configuration;
+using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace POS
 {
-
     static class Program
     {
         public static string customConnectionString;
@@ -34,6 +37,8 @@ namespace POS
             customConnectionString = constructorConexion.ToString();
             //12/07/2022
 
+            //cadena = ConfigurationManager.ConnectionStrings["POSEntities"].ConnectionString;
+            //Debug.WriteLine(cadena);
 
 
             //SplashScreen

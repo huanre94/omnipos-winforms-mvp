@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-namespace POS.DLL.Context
+namespace POS.DLL
 {
     public partial class POSEntities : DbContext
     {
