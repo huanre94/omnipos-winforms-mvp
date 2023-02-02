@@ -50,9 +50,9 @@ namespace POS
             return frmMessage.messageResponse;
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0, string CadenaC = "")
+        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
         {
-            FrmSupervisorAuth auth = new FrmSupervisorAuth(CadenaC)
+            FrmSupervisorAuth auth = new FrmSupervisorAuth()
             {
                 scanner = AxOPOSScanner,
                 emissionPoint = emissionPoint,
@@ -195,10 +195,9 @@ namespace POS
                                                 string _productName,
                                                 ClsEnums.ScaleBrands _scaleBrand,
                                                 string _portName = "",
-                                                bool isTestMode = false,
-                                                string _CadenaC = "")
+                                                bool isTestMode = false)
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _CadenaC)
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
             {
                 axOposScale = _axOposScale,
                 productName = _productName,
@@ -220,7 +219,7 @@ namespace POS
             }
             //End(IG001)
 
-            parameter = (from par in new POSEntities(_CadenaC).GlobalParameter.ToList()
+            parameter = (from par in new POSEntities().GlobalParameter.ToList()
                          where par.Name == "LostWeightQty"
                          select par.Value).FirstOrDefault();
 
@@ -247,9 +246,9 @@ namespace POS
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
                                     string _productName,
                                     ClsEnums.ScaleBrands _scaleBrand,
-                                    string _portName = "", string _CadenaC = "")
+                                    string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _CadenaC)
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
             {
                 axOposScale = _axOposScale,
                 productName = _productName,
@@ -303,16 +302,16 @@ namespace POS
             }
         }
 
-        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false, string _CadenaC = "")
+        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false)
         {
             ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
             ClsSalesOrderTrans clsSalesOrderTrans = new ClsSalesOrderTrans();
 
-            List<SP_InvoiceTicket_Consult_Result> invoiceTicket;
-            List<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
-            List<SP_SalesOrderTicket_Consult_Result> salesOrderTicket;
-            List<string> remissionGuideTicket;
+            IEnumerable<SP_InvoiceTicket_Consult_Result> invoiceTicket;
+            IEnumerable<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
+            IEnumerable<SP_SalesOrderTicket_Consult_Result> salesOrderTicket;
+            IEnumerable<string> remissionGuideTicket;
             bool response = false;
             string bodyText = "";
 
@@ -321,60 +320,52 @@ namespace POS
                 switch (_documentType)
                 {
                     case ClsEnums.DocumentType.INVOICE:
-                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier, _CadenaC);
+                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier);
 
-                        if (invoiceTicket != null)
+                        if (invoiceTicket?.Count() > 0)
                         {
-                            if (invoiceTicket.Count > 0)
+                            foreach (var line in invoiceTicket)
                             {
-                                foreach (var line in invoiceTicket)
-                                {
-                                    bodyText += line.BodyText + Environment.NewLine;
-                                }
+                                bodyText += line.BodyText + Environment.NewLine;
                             }
+
                         }
                         break;
                     case ClsEnums.DocumentType.CLOSINGCASHIER:
-                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId, _CadenaC);
+                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId);
 
-                        if (closingCashierTicket != null)
+                        if (closingCashierTicket?.Count() > 0)
                         {
-                            if (closingCashierTicket.Count > 0)
+                            foreach (var line in closingCashierTicket)
                             {
-                                foreach (var line in closingCashierTicket)
-                                {
-                                    bodyText += line.BodyText + Environment.NewLine;
-                                }
+                                bodyText += line.BodyText + Environment.NewLine;
                             }
                         }
+
                         break;
                     case ClsEnums.DocumentType.SALESORDER:
-                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false, _CadenaC);
+                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false);
 
-                        if (salesOrderTicket != null)
+                        if (salesOrderTicket?.Count() > 0)
                         {
-                            if (salesOrderTicket.Count > 0)
+                            foreach (var line in salesOrderTicket)
                             {
-                                foreach (var line in salesOrderTicket)
-                                {
-                                    bodyText += line.BodyText + Environment.NewLine;
-                                }
+                                bodyText += line.BodyText + Environment.NewLine;
                             }
                         }
+
                         break;
                     case ClsEnums.DocumentType.REMISSIONGUIDE:
-                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId, _CadenaC);
+                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
 
-                        if (remissionGuideTicket != null)
+                        if (remissionGuideTicket?.Count() > 0)
                         {
-                            if (remissionGuideTicket.Count > 0)
+                            foreach (var line in remissionGuideTicket)
                             {
-                                foreach (var line in remissionGuideTicket)
-                                {
-                                    bodyText += line + Environment.NewLine;
-                                }
+                                bodyText += line + Environment.NewLine;
                             }
                         }
+
                         break;
                     default:
                         return response;

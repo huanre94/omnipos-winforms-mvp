@@ -41,13 +41,11 @@ namespace POS
         public int salesOriginId = 1;
         public bool paymentMethod = true;
 
-        public FrmPayment(string CadenaC = "")
+        public FrmPayment()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
+       }
 
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmPayment_Load(object sender, EventArgs e)
         {
             CheckGridView();
@@ -101,11 +99,11 @@ namespace POS
         private void TxtAmount_KeyPress(object sender, KeyPressEventArgs e)
         {
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar !=   46))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
             {
                 e.Handled = true;
                 return;
-            }            
+            }
         }
         #endregion
 
@@ -328,7 +326,7 @@ namespace POS
         private void CreditCard()
         {
             string AuxXml = invoiceXml.ToString(); //HR002
-            FrmPaymentCard paymentCard = new FrmPaymentCard(CadenaC)
+            FrmPaymentCard paymentCard = new FrmPaymentCard()
             {
                 creditCardAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer,
@@ -379,7 +377,7 @@ namespace POS
         private void Check()
         {
             ClsEnums.PaymModeEnum paymModeEnum;
-            FrmPaymentCheck paymentCheck = new FrmPaymentCheck(CadenaC)
+            FrmPaymentCheck paymentCheck = new FrmPaymentCheck()
             {
                 checkAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer
@@ -416,7 +414,7 @@ namespace POS
 
         private void InternalCredit()
         {
-            FrmPaymentCredit paymentCredit = new FrmPaymentCredit(CadenaC);
+            FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
             paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
             paymentCredit.customer = customer;
             paymentCredit.emissionPoint = emissionPoint;
@@ -481,7 +479,7 @@ namespace POS
 
         private void GiftCard()
         {
-            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard(CadenaC);
+            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard();
             giftcard.paidAmount = decimal.Parse(TxtAmount.Text);
             giftcard.ShowDialog();
 
@@ -522,7 +520,7 @@ namespace POS
             }
             else
             {
-                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold(CadenaC)
+                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold()
                 {
                     customer = customer,
                     loginInformation = loginInformation,
@@ -627,7 +625,7 @@ namespace POS
 
         private void AccountReceivable(int _paymMode)
         {
-            FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance(CadenaC)
+            FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
                 advanceAmount = decimal.Parse(TxtAmount.Text),
                 _currentCustomer = customer,
@@ -639,7 +637,7 @@ namespace POS
             {
                 functions.emissionPoint = emissionPoint;
                 functions.AxOPOSScanner = scanner;
-                bool responseAuthorization = functions.RequestSupervisorAuth(false,0, CadenaC);
+                bool responseAuthorization = functions.RequestSupervisorAuth(false, 0);
                 if (responseAuthorization)
                 {
                     decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
@@ -673,7 +671,7 @@ namespace POS
 
             if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.T))
             {
-                BtnCreditCard_Click(null,null);
+                BtnCreditCard_Click(null, null);
             }
 
             if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.C))

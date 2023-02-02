@@ -6,13 +6,11 @@ namespace POS
     {
         public ClsFunctions functions;
 
-        public FrmProductChecker(string CadenaC = "")
+        public FrmProductChecker()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+         }
+      
         private void axOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;

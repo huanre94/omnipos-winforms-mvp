@@ -74,7 +74,6 @@
             this.LblTitleTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LblDiscAmount = new System.Windows.Forms.Label();
-            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.BtnPrintLastInvoice = new DevExpress.XtraEditors.SimpleButton();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             this.LblCashier = new System.Windows.Forms.Label();
@@ -88,14 +87,15 @@
             this.LblCustomerEmail = new System.Windows.Forms.Label();
             this.ChbBbqZone = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.AxOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             this.AxOPOSScale = new AxOposScale_CCO.AxOPOSScale();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).BeginInit();
             this.SuspendLayout();
             // 
@@ -223,7 +223,7 @@
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.LblBarcode.Location = new System.Drawing.Point(850, 151);
             this.LblBarcode.Name = "LblBarcode";
-            this.LblBarcode.Size = new System.Drawing.Size(170, 22);
+            this.LblBarcode.Size = new System.Drawing.Size(216, 28);
             this.LblBarcode.TabIndex = 119;
             this.LblBarcode.Text = "Código de Barras";
             // 
@@ -495,7 +495,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(245, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(245, 34);
             this.TxtBarcode.TabIndex = 1;
             this.TxtBarcode.EditValueChanged += new System.EventHandler(this.TxtBarcode_EditValueChanged);
             this.TxtBarcode.Click += new System.EventHandler(this.TxtBarcode_Click);
@@ -519,7 +519,7 @@
             this.LblInvoiceNumber.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblInvoiceNumber.Location = new System.Drawing.Point(336, 12);
             this.LblInvoiceNumber.Name = "LblInvoiceNumber";
-            this.LblInvoiceNumber.Size = new System.Drawing.Size(147, 28);
+            this.LblInvoiceNumber.Size = new System.Drawing.Size(186, 34);
             this.LblInvoiceNumber.TabIndex = 140;
             this.LblInvoiceNumber.Text = "999999999";
             // 
@@ -529,7 +529,7 @@
             this.LblTitleCustomer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomer.Location = new System.Drawing.Point(200, 48);
             this.LblTitleCustomer.Name = "LblTitleCustomer";
-            this.LblTitleCustomer.Size = new System.Drawing.Size(67, 16);
+            this.LblTitleCustomer.Size = new System.Drawing.Size(81, 20);
             this.LblTitleCustomer.TabIndex = 141;
             this.LblTitleCustomer.Text = "Cliente:";
             // 
@@ -539,7 +539,7 @@
             this.LblTitleCustomerName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerName.Location = new System.Drawing.Point(200, 75);
             this.LblTitleCustomerName.Name = "LblTitleCustomerName";
-            this.LblTitleCustomerName.Size = new System.Drawing.Size(73, 16);
+            this.LblTitleCustomerName.Size = new System.Drawing.Size(87, 20);
             this.LblTitleCustomerName.TabIndex = 142;
             this.LblTitleCustomerName.Text = "Nombre:";
             // 
@@ -558,7 +558,7 @@
             this.LblTitleCustomerAddress.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerAddress.Location = new System.Drawing.Point(200, 102);
             this.LblTitleCustomerAddress.Name = "LblTitleCustomerAddress";
-            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(86, 16);
+            this.LblTitleCustomerAddress.Size = new System.Drawing.Size(104, 20);
             this.LblTitleCustomerAddress.TabIndex = 144;
             this.LblTitleCustomerAddress.Text = "Dirección:";
             // 
@@ -568,7 +568,7 @@
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine2.Location = new System.Drawing.Point(321, 12);
             this.LblLine2.Name = "LblLine2";
-            this.LblLine2.Size = new System.Drawing.Size(19, 26);
+            this.LblLine2.Size = new System.Drawing.Size(24, 32);
             this.LblLine2.TabIndex = 145;
             this.LblLine2.Text = "-";
             // 
@@ -578,7 +578,7 @@
             this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine1.Location = new System.Drawing.Point(254, 12);
             this.LblLine1.Name = "LblLine1";
-            this.LblLine1.Size = new System.Drawing.Size(19, 26);
+            this.LblLine1.Size = new System.Drawing.Size(24, 32);
             this.LblLine1.TabIndex = 146;
             this.LblLine1.Text = "-";
             // 
@@ -588,7 +588,7 @@
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblEstablishment.Location = new System.Drawing.Point(200, 12);
             this.LblEstablishment.Name = "LblEstablishment";
-            this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
+            this.LblEstablishment.Size = new System.Drawing.Size(72, 34);
             this.LblEstablishment.TabIndex = 147;
             this.LblEstablishment.Text = "999";
             // 
@@ -597,7 +597,7 @@
             this.LblCustomerId.AutoSize = true;
             this.LblCustomerId.Location = new System.Drawing.Point(292, 48);
             this.LblCustomerId.Name = "LblCustomerId";
-            this.LblCustomerId.Size = new System.Drawing.Size(112, 16);
+            this.LblCustomerId.Size = new System.Drawing.Size(139, 20);
             this.LblCustomerId.TabIndex = 148;
             this.LblCustomerId.Text = "9999999999999";
             // 
@@ -606,7 +606,7 @@
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(292, 75);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(152, 16);
+            this.LblCustomerName.Size = new System.Drawing.Size(183, 20);
             this.LblCustomerName.TabIndex = 149;
             this.LblCustomerName.Text = "CONSUMIDOR FINAL";
             // 
@@ -615,7 +615,7 @@
             this.LblCustomerAddress.AutoSize = true;
             this.LblCustomerAddress.Location = new System.Drawing.Point(292, 102);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(93, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(111, 20);
             this.LblCustomerAddress.TabIndex = 150;
             this.LblCustomerAddress.Text = "GUAYAQUIL";
             // 
@@ -719,16 +719,6 @@
             this.LblDiscAmount.Text = "0.00";
             this.LblDiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // AxOPOSScanner
-            // 
-            this.AxOPOSScanner.Enabled = true;
-            this.AxOPOSScanner.Location = new System.Drawing.Point(452, 41);
-            this.AxOPOSScanner.Name = "AxOPOSScanner";
-            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
-            this.AxOPOSScanner.TabIndex = 169;
-            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
-            // 
             // BtnPrintLastInvoice
             // 
             this.BtnPrintLastInvoice.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
@@ -772,7 +762,7 @@
             this.LblCashier.AutoSize = true;
             this.LblCashier.Location = new System.Drawing.Point(292, 594);
             this.LblCashier.Name = "LblCashier";
-            this.LblCashier.Size = new System.Drawing.Size(66, 16);
+            this.LblCashier.Size = new System.Drawing.Size(80, 20);
             this.LblCashier.TabIndex = 162;
             this.LblCashier.Text = "CAJERO";
             // 
@@ -782,7 +772,7 @@
             this.LblTitleCashier.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCashier.Location = new System.Drawing.Point(200, 594);
             this.LblTitleCashier.Name = "LblTitleCashier";
-            this.LblTitleCashier.Size = new System.Drawing.Size(63, 16);
+            this.LblTitleCashier.Size = new System.Drawing.Size(76, 20);
             this.LblTitleCashier.TabIndex = 161;
             this.LblTitleCashier.Text = "Cajero:";
             // 
@@ -877,7 +867,7 @@
             this.LblTitleCustomerEmail.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblTitleCustomerEmail.Location = new System.Drawing.Point(200, 132);
             this.LblTitleCustomerEmail.Name = "LblTitleCustomerEmail";
-            this.LblTitleCustomerEmail.Size = new System.Drawing.Size(55, 16);
+            this.LblTitleCustomerEmail.Size = new System.Drawing.Size(66, 20);
             this.LblTitleCustomerEmail.TabIndex = 144;
             this.LblTitleCustomerEmail.Text = "Email:";
             // 
@@ -886,7 +876,7 @@
             this.LblCustomerEmail.AutoSize = true;
             this.LblCustomerEmail.Location = new System.Drawing.Point(292, 132);
             this.LblCustomerEmail.Name = "LblCustomerEmail";
-            this.LblCustomerEmail.Size = new System.Drawing.Size(147, 16);
+            this.LblCustomerEmail.Size = new System.Drawing.Size(181, 20);
             this.LblCustomerEmail.TabIndex = 150;
             this.LblCustomerEmail.Text = "@laespanola.com.ec";
             // 
@@ -911,10 +901,20 @@
             this.groupBox1.Text = "Opciones";
             this.groupBox1.Visible = false;
             // 
+            // AxOPOSScanner
+            // 
+            this.AxOPOSScanner.Enabled = true;
+            this.AxOPOSScanner.Location = new System.Drawing.Point(463, 17);
+            this.AxOPOSScanner.Name = "AxOPOSScanner";
+            this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
+            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
+            this.AxOPOSScanner.TabIndex = 169;
+            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
+            // 
             // AxOPOSScale
             // 
             this.AxOPOSScale.Enabled = true;
-            this.AxOPOSScale.Location = new System.Drawing.Point(619, 41);
+            this.AxOPOSScale.Location = new System.Drawing.Point(629, 17);
             this.AxOPOSScale.Name = "AxOPOSScale";
             this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
             this.AxOPOSScale.Size = new System.Drawing.Size(240, 240);
@@ -928,6 +928,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.AxOPOSScale);
+            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnReturns);
             this.Controls.Add(this.ImgSalesOrigin);
@@ -936,7 +937,6 @@
             this.Controls.Add(this.LblCashier);
             this.Controls.Add(this.LblTitleCashier);
             this.Controls.Add(this.BtnExit);
-            this.Controls.Add(this.AxOPOSScanner);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LblDiscAmount);
             this.Controls.Add(this.LblTitleTotal);
@@ -993,10 +993,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ImgSalesOrigin)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AxOPOSScale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1050,7 +1050,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Discount;
         private DevExpress.XtraGrid.Columns.GridColumn LineAmount;
         private DevExpress.XtraGrid.Columns.GridColumn ProductId;
-        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
         private DevExpress.XtraEditors.SimpleButton BtnPrintLastInvoice;
         private System.Windows.Forms.Label LblCashier;
@@ -1064,6 +1063,7 @@
         private System.Windows.Forms.Label LblCustomerEmail;
         private System.Windows.Forms.CheckBox ChbBbqZone;
         private System.Windows.Forms.GroupBox groupBox1;
+        private AxOposScanner_CCO.AxOPOSScanner AxOPOSScanner;
         private AxOposScale_CCO.AxOPOSScale AxOPOSScale;
     }
 }

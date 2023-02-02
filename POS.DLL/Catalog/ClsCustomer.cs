@@ -6,73 +6,59 @@ namespace POS.DLL.Catalog
 {
     public class ClsCustomer
     {
-        public List<IdentType> GetIdentTypes(string CadenaC = "")
+        public IEnumerable<IdentType> GetIdentTypes()
         {
-            List<IdentType> custIdentTypes;
-
             try
             {
-                custIdentTypes = (from ide in new POSEntities(CadenaC).IdentType
-                                  where ide.Status == "A"
-                                  && ide.IdentTypeId != 5
-                                  select ide
-                                ).ToList();
+                return new POSEntities()
+                     .IdentType
+                     .Where(ide => ide.Status.Equals("A") && ide.IdentTypeId != 5)
+                     .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Customer GetCustomerByIdentification(string _indentification)
+        {
+            try
+            {
+                return new POSEntities()
+                    .Customer
+                    .Where(cust => cust.Status == "A" && cust.Identification == _indentification)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
-            return custIdentTypes;
         }
 
-        public Customer GetCustomerByIdentification(string _indentification, string CadenaC = "")
+        public Customer GetCustomerById(long _customerId)
         {
-            Customer customer;
-
             try
             {
-                customer = (from cust in new POSEntities(CadenaC).Customer
-                            where cust.Status == "A"
-                            && cust.Identification == _indentification
-                            select cust
-                            ).FirstOrDefault();
+                return new POSEntities()
+                    .Customer
+                    .Where(cust => cust.Status.Equals("A") && cust.CustomerId == _customerId)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return customer;
         }
 
-        public Customer GetCustomerById(long _customerId, string CadenaC = "")
-        {
-            Customer customer;
-
-            try
-            {
-                customer = (from cust in new POSEntities(CadenaC).Customer
-                            where cust.Status == "A"
-                            && cust.CustomerId == _customerId
-                            select cust
-                            ).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            return customer;
-        }
-
-        public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml, string CadenaC = "")
+        public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml)
         {
             SP_Customer_Insert_Result result;
 
             try
             {
-                result = new POSEntities(CadenaC).SP_Customer_Insert(_customerXml).FirstOrDefault();
+                result = new POSEntities().SP_Customer_Insert(_customerXml).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -82,13 +68,13 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType, string _CadenaC = "")
+        public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType)
         {
             FN_Identification_Validate_Result result;
 
             try
             {
-                result = new POSEntities(_CadenaC).FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
+                result = new POSEntities().FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -98,9 +84,9 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer, string _CadenaC = "")
+        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
         {
-            var db = new POSEntities(_CadenaC);//07/07/2022  Se incremento linea de la variable
+            var db = new POSEntities();//07/07/2022  Se incremento linea de la variable
             List<CustomerAddress> result;
             try
             {
@@ -117,12 +103,12 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml, string CadenaC = "")
+        public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
         {
             SP_CustomerAddress_Insert_Result result;
             try
             {
-                result = new POSEntities(CadenaC).SP_CustomerAddress_Insert(xml).FirstOrDefault();
+                result = new POSEntities().SP_CustomerAddress_Insert(xml).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -131,9 +117,9 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress, string CadenaC = "")
+        public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress)
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             CustomerAddress address;
             try
             {
@@ -141,6 +127,7 @@ namespace POS.DLL.Catalog
                            where cu.CustomerAddressId == customerAddress.CustomerAddressId
                            && cu.CustomerId == customerAddress.CustomerId
                            select cu).First();
+
                 address.Address = customerAddress.Address;
                 address.AddressReference = customerAddress.AddressReference;
                 address.Telephone = customerAddress.Telephone;

@@ -13,7 +13,7 @@ namespace POS
 {
     public partial class FrmCatchWeight : DevExpress.XtraEditors.XtraForm
     {
-         ClsFunctions functions = new ClsFunctions();
+        ClsFunctions functions = new ClsFunctions();
         public AxOPOSScale axOposScale;
         public bool formActionResult;
         public decimal weight;
@@ -24,17 +24,13 @@ namespace POS
 
         public ClsEnums.ScaleBrands ScaleBrand { get; set; }
         public string PortName { get; set; }
-
-        public FrmCatchWeight(ClsEnums.ScaleBrands _scaleBrand, string _portName, string CadenaC = "")
+       
+        public FrmCatchWeight(ClsEnums.ScaleBrands _scaleBrand, string _portName)
         {
             InitializeComponent();
-
             ScaleBrand = _scaleBrand;
             PortName = _portName;
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+          }
 
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
@@ -47,7 +43,7 @@ namespace POS
                 else
                 {
                     strWaitTime =
-                        new POSEntities(CadenaC)
+                        new POSEntities()
                         .GlobalParameter
                         .Where(par => par.Name == "MaxScaleWaitTime")
                         .Select(par => par.Value)
@@ -68,7 +64,7 @@ namespace POS
 
                     if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
                     {
-                     CatchWeightProduct(ScaleBrand, PortName);
+                        CatchWeightProduct(ScaleBrand, PortName);
                     }
                     else
                     {

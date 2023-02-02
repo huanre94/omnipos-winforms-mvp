@@ -38,9 +38,6 @@
             // 
             // BtnAccept
             // 
-            this.BtnAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
@@ -53,7 +50,7 @@
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnAccept.Location = new System.Drawing.Point(390, 270);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 1;
@@ -62,7 +59,6 @@
             // 
             // LblMessage
             // 
-            this.LblMessage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LblMessage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.LblMessage.Location = new System.Drawing.Point(130, 41);
             this.LblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -76,7 +72,7 @@
             // ImgSvgMessage
             // 
             this.ImgSvgMessage.Location = new System.Drawing.Point(33, 74);
-            this.ImgSvgMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImgSvgMessage.Margin = new System.Windows.Forms.Padding(4);
             this.ImgSvgMessage.Name = "ImgSvgMessage";
             this.ImgSvgMessage.Size = new System.Drawing.Size(92, 81);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
@@ -96,7 +92,7 @@
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(182, 270);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 2;
@@ -106,7 +102,7 @@
             // LnkViewDetail
             // 
             this.LnkViewDetail.Location = new System.Drawing.Point(37, 291);
-            this.LnkViewDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LnkViewDetail.Margin = new System.Windows.Forms.Padding(4);
             this.LnkViewDetail.Name = "LnkViewDetail";
             this.LnkViewDetail.Size = new System.Drawing.Size(90, 20);
             this.LnkViewDetail.TabIndex = 5;
@@ -119,7 +115,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(493, 280);
+            this.ClientSize = new System.Drawing.Size(607, 355);
             this.ControlBox = false;
             this.Controls.Add(this.LnkViewDetail);
             this.Controls.Add(this.BtnAccept);
@@ -127,7 +123,7 @@
             this.Controls.Add(this.ImgSvgMessage);
             this.Controls.Add(this.LblMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mensaje";

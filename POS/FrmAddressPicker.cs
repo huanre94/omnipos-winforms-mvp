@@ -25,13 +25,11 @@ namespace POS
         List<CustomerAddress> addressList;
 
 
-        public FrmAddressPicker(string CadenaC = "")
+        public FrmAddressPicker()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmAddressPicker_Load(object sender, EventArgs e)
         {
             ClearFields();
@@ -113,7 +111,7 @@ namespace POS
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
@@ -124,7 +122,7 @@ namespace POS
 
         private void BtnKeyboardAddressRef_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
@@ -137,19 +135,19 @@ namespace POS
         {
             if (CmbAddressPicker.EditValue != null)
             {
-                response = (from re in addressList
-                            where re.CustomerAddressId == int.Parse(CmbAddressPicker.EditValue.ToString())
-                            select re).FirstOrDefault();
+                response = addressList
+                    .Where(re => re.CustomerAddressId == int.Parse(CmbAddressPicker.EditValue.ToString()))
+                    .FirstOrDefault();
+
                 TxtAddress.Text = response.Address;
                 TxtAddressRef.Text = response.AddressReference;
                 TxtTelephoneAddress.Text = response.Telephone;
+                return;
             }
-            else
-            {
-                TxtAddress.Text = string.Empty;
-                TxtAddressRef.Text = string.Empty;
-                TxtTelephoneAddress.Text = string.Empty;
-            }
+
+            TxtAddress.Text = string.Empty;
+            TxtAddressRef.Text = string.Empty;
+            TxtTelephoneAddress.Text = string.Empty;
         }
 
         private void BtnRefresh_Click(object sender, EventArgs e)
@@ -161,7 +159,7 @@ namespace POS
 
         private void BtnKeypadTelephone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad frmKeyBoard = new FrmKeyPad(CadenaC)
+            FrmKeyPad frmKeyBoard = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
             };
@@ -201,7 +199,7 @@ namespace POS
                     response.ModifiedBy = loginInformation.UserId;
                     response.ModifiedDatetime = DateTime.Now;
 
-                    bool result = new ClsCustomer().UpdateCustomerDeliveryAddress(response,CadenaC);
+                    bool result = new ClsCustomer().UpdateCustomerDeliveryAddress(response);
                     if (result)
                     {
                         functions.ShowMessage("Direccion de entrega actualizada exitosamente.", ClsEnums.MessageType.INFO);
@@ -254,7 +252,7 @@ namespace POS
 
                     try
                     {
-                        SP_CustomerAddress_Insert_Result result = new ClsCustomer().CreateCustomerDeliveryAddress(customer.ToString(), CadenaC);
+                        SP_CustomerAddress_Insert_Result result = new ClsCustomer().CreateCustomerDeliveryAddress(customer.ToString());
                         if ((bool)result.Error)
                         {
                             functions.ShowMessage("No se pudo crear direccion de entrega.", ClsEnums.MessageType.WARNING, true, result.TextError);
@@ -290,8 +288,7 @@ namespace POS
                 else
                 {
                     formResult = true;
-                    //addressId = long.Parse(CmbAddressPicker.EditValue.ToString());
-                    DialogResult = DialogResult.OK;                    
+                    DialogResult = DialogResult.OK;
                 }
             }
         }
@@ -357,18 +354,18 @@ namespace POS
         }
 
         private void CmbAddressPicker_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    BtnRefresh_Click(null,null);
-                    break;                
+                    BtnRefresh_Click(null, null);
+                    break;
                 case Keys.F2:
                     BtnModify_Click(null, null);
                     TxtAddress.Focus();
                     break;
                 case Keys.F3:
-                    BtnNewAddress_Click(null,null);
+                    BtnNewAddress_Click(null, null);
                     TxtAddress.Focus();
                     break;
                 case Keys.F6:

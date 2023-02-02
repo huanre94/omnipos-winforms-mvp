@@ -6,16 +6,18 @@ namespace POS.DLL.Catalog
 {
     public class ClsPaymMode
     {
-        public IEnumerable<Bank> GetBanks(String CadenaC = "")
+        public IEnumerable<Bank> GetBanks()
         {
             IEnumerable<Bank> banks;
 
             try
             {
-                banks = (from ba in new POSEntities(CadenaC).Bank
-                         where ba.Status == "A"
-                         select ba
-                        ).OrderBy(ba => ba.Name).ToList();
+                banks =
+                    new POSEntities()
+                    .Bank
+                    .Where(ba => ba.Status.Equals("A"))
+                    .OrderBy(ba => ba.Name)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -25,18 +27,17 @@ namespace POS.DLL.Catalog
             return banks;
         }
 
-        public List<RetentionTable> GetRetentionTables(int _retentionType, string CadenaC = "")
+        public IEnumerable<RetentionTable> GetRetentionTables(int _retentionType)
         {
-            var db = new POSEntities(CadenaC);
-            List<RetentionTable> retentionTable;
+            IEnumerable<RetentionTable> retentionTable;
 
             try
             {
-                retentionTable = (from ret in new POSEntities(CadenaC).RetentionTable
-                                  where ret.Status == "A"
-                                  && ret.Type == $"{_retentionType}"
-                                  select ret
-                                ).ToList();
+                retentionTable =
+                    new POSEntities()
+                    .RetentionTable
+                    .Where(ret => ret.Status.Equals("A") && ret.Type == $"{_retentionType}")
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -46,10 +47,11 @@ namespace POS.DLL.Catalog
             return retentionTable;
         }
 
-        public IEnumerable<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true, string CadenaC = "")
+        public IEnumerable<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true)
         {
             IEnumerable<CreditCard> creditCards;
-            var db = new POSEntities(CadenaC);
+
+            var db = new POSEntities();
             try
             {
                 creditCards =
@@ -72,14 +74,14 @@ namespace POS.DLL.Catalog
             return creditCards;
         }
 
-        public List<PaymMode> GetPaymModes(string CadenaC = "")
+        public List<PaymMode> GetPaymModes()
         {
             List<PaymMode> paymModes;
 
             try
             {
                 paymModes =
-                    new POSEntities(CadenaC)
+                    new POSEntities()
                     .PaymMode
                     .Where(pa => pa.Status == "A")
                     .ToList();
@@ -92,13 +94,13 @@ namespace POS.DLL.Catalog
             return paymModes;
         }
 
-        public long GetPromotionsCount(long _customerId, int _bankId, int _cardBrandId, string CadenaC = "")
+        public long GetPromotionsCount(long _customerId, int _bankId, int _cardBrandId)
         {
             long promotionPaymMode;
 
             try
             {
-                promotionPaymMode = (long)new POSEntities(CadenaC).SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
+                promotionPaymMode = (long)new POSEntities().SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
             }
             catch (Exception ex)
             {

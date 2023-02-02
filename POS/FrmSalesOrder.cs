@@ -32,13 +32,11 @@ namespace POS
         public bool isUpdated = false;
         Customer customer;
 
-        public FrmSalesOrder(string CadenaC = "")
+        public FrmSalesOrder()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void EnableKeypad(bool status)
         {
             BtnQty.Enabled = status;
@@ -90,7 +88,7 @@ namespace POS
                         }
                     }
 
-                    salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId, CadenaC);
+                    salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId);
                     if (salesOrder == null)
                     {
                         DialogResult = DialogResult.Cancel;
@@ -122,7 +120,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -156,14 +154,14 @@ namespace POS
         private void LoadSalesOrderDetails()
         {
             LblSalesOrderNumber.Text = salesOrder.SalesOrderId.ToString();
-            customer = new ClsCustomer().GetCustomerById(salesOrder.CustomerId, CadenaC);
+            customer = new ClsCustomer().GetCustomerById(salesOrder.CustomerId);
             LblCustomerId.Text = customer.Identification;
-            LblCustomerName.Text = customer.Firtsname + ' ' + customer.Lastname;
+            LblCustomerName.Text = $"{customer.Firtsname } {customer.Lastname}";
             LblCustomerAddress.Text = customer.Address;
             LblCustomerTelephoneNumber.Text = customer.Phone;
             LblObservation.Text = salesOrder.Observation;
 
-            List<CustomerAddress> customerAddress = new ClsCustomer().GetCustomerAddressesById(customer, CadenaC);
+            List<CustomerAddress> customerAddress = new ClsCustomer().GetCustomerAddressesById(customer);
             CustomerAddress selectedAddress = null;
             selectedAddress = (from ca in customerAddress
                                where ca.CustomerAddressId == salesOrder.CustomerAddressId
@@ -173,16 +171,15 @@ namespace POS
                 functions.ShowMessage("Ocurrio un error al cargar direccion del pedido", ClsEnums.MessageType.ERROR);
                 return;
             }
-            else
-            {
-                LblDeliveryAddress.Text = selectedAddress.Address;
-                LblDeliveryAddressRef.Text = selectedAddress.AddressReference;
-            }
+
+            LblDeliveryAddress.Text = selectedAddress.Address;
+            LblDeliveryAddressRef.Text = selectedAddress.AddressReference;
+
             bool canAddNewItems = !(salesOrder.OrderECommerce > 0);
             CheckGridView(canAddNewItems);
             EnableKeypad(canAddNewItems);
 
-            var list = new ClsSalesOrder().GetSalesOrderProductsById(salesOrder.SalesOrderId, CadenaC);
+            var list = new ClsSalesOrder().GetSalesOrderProductsById(salesOrder.SalesOrderId);
             if (list.Count != 0)
             {
                 foreach (var item in list)
@@ -352,16 +349,13 @@ namespace POS
                         }
                     }
 
-                    result = clsInvoiceTrans.ProductConsult(
-                                                            _locationId
+                    result = clsInvoiceTrans.ProductConsult(_locationId
                                                             , _barcode
                                                             , _qty
                                                             , _customerId
                                                             , _internalCreditCardId
                                                             , _paymMode
-                                                            , barcodeBefore
-                                                            , CadenaC
-                                                            );
+                                                            , barcodeBefore);
 
                     if (result != null)
                     {
@@ -384,7 +378,6 @@ namespace POS
                                                                                     , result.ProductName
                                                                                     , scaleBrand
                                                                                     , portName
-                                                                                    , CadenaC
                                                                                     );
 
                                     if (weight > 0)
@@ -397,7 +390,7 @@ namespace POS
                                                                                 , _internalCreditCardId
                                                                                 , _paymMode
                                                                                 , barcodeBefore
-                                                                                , CadenaC
+
                                                                                 );
                                     }
                                     else
@@ -419,7 +412,7 @@ namespace POS
                                                                                         , scaleBrand
                                                                                         , portName
                                                                                         , false
-                                                                                        , CadenaC
+
                                                                                     );
                                 }
                             }
@@ -466,7 +459,7 @@ namespace POS
 
         private void BtnShowCommand_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderText orderText = new FrmSalesOrderText(CadenaC);
+            FrmSalesOrderText orderText = new FrmSalesOrderText();
             orderText.salesOrder = salesOrder;
             orderText.ShowDialog();
 
@@ -679,7 +672,7 @@ namespace POS
                     salesOrderXml.Add(salesOrderPayment);
 
                     sales.loginInformation = loginInformation;
-                    SP_SalesOrderOmnipos_Insert_Result result = sales.CreateOrUpdateSalesOrder(salesOrderXml.ToString(), salesOrderId, CadenaC);
+                    SP_SalesOrderOmnipos_Insert_Result result = sales.CreateOrUpdateSalesOrder(salesOrderXml.ToString(), salesOrderId);
                     if ((bool)!result.Error)
                     {
                         isUpdated = true;
@@ -709,7 +702,7 @@ namespace POS
             }
             else
             {
-                salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId, CadenaC);
+                salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId);
                 if (salesOrder.Status != "A" && salesOrder.Status != "S")
                 {
                     functions.ShowMessage("Solo puede finalizar la orden posterior al picking.", ClsEnums.MessageType.WARNING);
@@ -720,10 +713,10 @@ namespace POS
                     if (functions.ShowMessage("¿Esta seguro de finalizar la orden? Posterior a esto la orden solo podra ser agregada a una guia de remision", ClsEnums.MessageType.CONFIRM))
                     {
                         sales.loginInformation = loginInformation;
-                        if (sales.FinishSalesOrder(salesOrder.SalesOrderId,CadenaC))
+                        if (sales.FinishSalesOrder(salesOrder.SalesOrderId))
                         {
                             isUpdated = true;
-                            functions.PrintDocument(salesOrderId, ClsEnums.DocumentType.SALESORDER, false, CadenaC);
+                            functions.PrintDocument(salesOrderId, ClsEnums.DocumentType.SALESORDER, false);
                             functions.ShowMessage("Orden cambiada a Packing Exitosamente", ClsEnums.MessageType.INFO);
                             Close();
                         }
@@ -743,7 +736,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth(false, 0 , CadenaC);
+                bool isApproved = functions.RequestSupervisorAuth(false, 0);
                 if (isApproved)
                 {
                     SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
@@ -796,7 +789,7 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch(CadenaC);
+            FrmProductSearch productSearch = new FrmProductSearch();
             productSearch.emissionPoint = emissionPoint;
             productSearch.ShowDialog();
 
@@ -812,7 +805,7 @@ namespace POS
                                                             , productSearch.productName
                                                             , scaleBrand
                                                             , portName
-                                                            , CadenaC
+
                                                             );
                 }
                 else
@@ -850,7 +843,7 @@ namespace POS
             }
             else
             {
-                FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+                FrmKeyPad keyPad = new FrmKeyPad();
                 keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
                 keyPad.ShowDialog();
 
@@ -906,7 +899,7 @@ namespace POS
                     break;
                 case Keys.F3:
                     BtnProductSearch_Click(null, null);
-                    break;                
+                    break;
                 case Keys.F5:
                     BtnCancelSale_Click(null, null);
                     break;
@@ -915,12 +908,12 @@ namespace POS
                     break;
                 case Keys.F7:
                     BtnFinishOrder_Click(null, null);
-                    break;                
+                    break;
                 case Keys.F9:
                     BtnExit_Click(null, null);
                     break;
                 case Keys.F10:
-                    BtnQty_Click(null,null);
+                    BtnQty_Click(null, null);
                     break;
                 case Keys.F11:
                     BtnRemove_Click(null, null);
@@ -974,7 +967,7 @@ namespace POS
                     BtnRemove_Click(null, null);
                     break;
                 default:
-                break;
+                    break;
             }
         }
     }

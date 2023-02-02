@@ -8,7 +8,7 @@ namespace POS.DLL.Catalog
     {
         public SP_Login_Consult_Result loginInformation;
 
-        public List<SalesOrderStatus> GetSalesOrderStatus(string CadenaC = "")
+        public List<SalesOrderStatus> GetSalesOrderStatus()
         {
             List<SalesOrderStatus> salesOrderStatus;
 
@@ -16,7 +16,7 @@ namespace POS.DLL.Catalog
             {
 
                 salesOrderStatus = (
-                                    from so in new POSEntities(CadenaC).SalesOrderStatus
+                                    from so in new POSEntities().SalesOrderStatus
                                     where so.Status == "A"
                                     select so
                                 ).ToList();
@@ -29,9 +29,9 @@ namespace POS.DLL.Catalog
             return salesOrderStatus;
         }
 
-        public List<SalesOrigin> GetSalesOrderOrigin(bool canal = true, string CadenaC = "")
+        public List<SalesOrigin> GetSalesOrderOrigin(bool canal = true)
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<SalesOrigin> salesOrderOrigin;
 
             try
@@ -59,9 +59,9 @@ namespace POS.DLL.Catalog
             return salesOrderOrigin;
         }
 
-        public List<SP_SalesOrderStatus_Consult_Result> GetSalesOrderByStatus(string _date, string _status, int _channel, bool validateDate, string _CadenaC = "")
+        public List<SP_SalesOrderStatus_Consult_Result> GetSalesOrderByStatus(string _date, string _status, int _channel, bool validateDate)
         {
-            var db = new POSEntities(_CadenaC);
+            var db = new POSEntities();
             List<SP_SalesOrderStatus_Consult_Result> salesOrders;
             try
             {
@@ -75,9 +75,9 @@ namespace POS.DLL.Catalog
             return salesOrders;
         }
 
-        public SalesOrder GetSalesOrderById(long _id, string CadenaC = "")
+        public SalesOrder GetSalesOrderById(long _id)
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             SalesOrder salesOrder;
             try
             {
@@ -93,9 +93,9 @@ namespace POS.DLL.Catalog
             return salesOrder;
         }
 
-        public List<Transport> GetTransports(string CadenaC = "")
+        public List<Transport> GetTransports()
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<Transport> transports;
             try
             {
@@ -111,9 +111,9 @@ namespace POS.DLL.Catalog
             return transports;
         }
 
-        public List<TransportDriver> GetTransportDrivers(string CadenaC = "")
+        public List<TransportDriver> GetTransportDrivers()
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<TransportDriver> transportDrivers;
             try
             {
@@ -129,9 +129,9 @@ namespace POS.DLL.Catalog
             return transportDrivers;
         }
 
-        public List<TransportReason> GetTransportReasons(string CadenaC = "")
+        public List<TransportReason> GetTransportReasons()
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<TransportReason> transportReasons;
             try
             {
@@ -147,13 +147,13 @@ namespace POS.DLL.Catalog
             return transportReasons;
         }
 
-        public List<SP_SalesOrderProduct_Consult_Result> GetSalesOrderProductsById(long _id, string _CadenaC = "")
+        public List<SP_SalesOrderProduct_Consult_Result> GetSalesOrderProductsById(long salesOrderId)
         {
-            var db = new POSEntities(_CadenaC);
+            var db = new POSEntities();
             List<SP_SalesOrderProduct_Consult_Result> salesOrderProducts;
             try
             {
-                salesOrderProducts = db.SP_SalesOrderProduct_Consult(_id).ToList();
+                salesOrderProducts = db.SP_SalesOrderProduct_Consult(salesOrderId).ToList();
             }
             catch (Exception ex)
             {
@@ -163,9 +163,9 @@ namespace POS.DLL.Catalog
             return salesOrderProducts;
         }
 
-        public List<SP_RemissionPendingSalesOrder_Consult_Result> GetPendingSalesOrders(string CadenaC = "")
+        public List<SP_RemissionPendingSalesOrder_Consult_Result> GetPendingSalesOrders()
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<SP_RemissionPendingSalesOrder_Consult_Result> list;
             try
             {
@@ -178,9 +178,9 @@ namespace POS.DLL.Catalog
             return list;
         }
 
-        public List<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides(long userId = 0, long driverId = 0, string CadenaC = "")
+        public List<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides(long userId = 0, long driverId = 0)
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<SP_RemissionGuide_Consult_Result> list;
             try
             {
@@ -193,9 +193,9 @@ namespace POS.DLL.Catalog
             return list;
         }
 
-        public List<SP_RemissionGuideSalesOrder_Consult_Result> GetSalesOrderByRemissionGuideNumber(long _guideId, string CadenaC = "")
+        public List<SP_RemissionGuideSalesOrder_Consult_Result> GetSalesOrderByRemissionGuideNumber(long _guideId)
         {
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             List<SP_RemissionGuideSalesOrder_Consult_Result> list;
             try
             {
@@ -208,9 +208,9 @@ namespace POS.DLL.Catalog
             return list;
         }
 
-        public List<SalesOrderText> ConsultCommand(long _salesOrderId, string _CadenaC = "")
+        public List<SalesOrderText> ConsultCommand(long _salesOrderId)
         {
-            var db = new POSEntities(_CadenaC);
+            var db = new POSEntities();
             List<SalesOrderText> text;
             try
             {
@@ -225,9 +225,9 @@ namespace POS.DLL.Catalog
             return text;
         }
 
-        public SP_SalesOrderPayment_Insert_Result UpdateSalesOrderPayment(string _xml, long _salesOrderId, string _CadenaC = "")
+        public SP_SalesOrderPayment_Insert_Result UpdateSalesOrderPayment(string _xml, long _salesOrderId)
         {
-            var db = new POSEntities(_CadenaC);
+            var db = new POSEntities();
             SP_SalesOrderPayment_Insert_Result result;
             try
             {
@@ -240,10 +240,10 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public List<SP_SalesOrigin_Consult_Result> GetSalesOrigins(string CadenaC = "")
+        public List<SP_SalesOrigin_Consult_Result> GetSalesOrigins()
         {
             List<SP_SalesOrigin_Consult_Result> salesOrigins;
-            var db = new POSEntities(CadenaC);
+            var db = new POSEntities();
             try
             {
                 salesOrigins = db.SP_SalesOrigin_Consult().ToList();

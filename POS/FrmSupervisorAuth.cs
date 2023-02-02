@@ -19,17 +19,14 @@ namespace POS
         public int motiveId;
         public string supervisorAuthorization;
         public bool requireMotive;
-        public int reasonType = 1;        
-        
+        public int reasonType = 1;
+
         ClsEnums.ScaleBrands scaleBrand;
 
-        public FrmSupervisorAuth(string CadenaC = "")
+        public FrmSupervisorAuth()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmSupervisorAuth_Load(object sender, EventArgs e)
         {
@@ -62,11 +59,11 @@ namespace POS
         private void LoadReasons(int reasonType)
         {
             ClsAuthorizationTrans paymMode = new ClsAuthorizationTrans();
-            List<CancelReason> cancelReasons;
+            IEnumerable<CancelReason> cancelReasons;
 
             try
             {
-                cancelReasons = paymMode.ConsultReasons(reasonType, CadenaC);
+                cancelReasons = paymMode.ConsultReasons(reasonType);
 
                 if (cancelReasons.Any())
                 {
@@ -78,30 +75,27 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de motivos de anulacion."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar lista de motivos de anulacion.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
 
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-            if (TxtAuthorization.Text != "")
+            Cursor.Current = Cursors.WaitCursor;
+            if (TxtAuthorization.Text == string.Empty)
             {
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return;
             }
 
-
             if (TxtSupervisorPassword.Text == string.Empty)
             {
-                functions.ShowMessage("Debe proporcionar clave del supervisor.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe proporcionar el pin del supervisor.", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return;
             }
@@ -116,114 +110,58 @@ namespace POS
                     {
                         result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
 
-                        if (result != null)
+                        if (result == null)
                         {
-                            if ((bool)result?.Error)
+                            functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                            TxtAuthorization.Text = "";
+                            TxtAuthorization.Focus();
+                            TxtSupervisorPassword.Text = string.Empty;
+                            DialogResult = DialogResult.None;
+                            return;
+                        }
+
+                        if ((bool)result.Error)
+                        {
+                            if (CmbMotive.SelectedItem != null)
                             {
-                                result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text, CadenaC);
+                                int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
+                                motiveId = cancelReason;
+                            }
+                            formActionResult = true;
+                            supervisorAuthorization = TxtAuthorization.Text;
+                            TxtAuthorization.Text = "";
 
-                                if (CmbMotive.SelectedItem != null)
+                            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                            {
+                                functions.DisableScanner();
+
+                                if (scanner != null)
                                 {
-                                    motiveId = int.Parse($"{CmbMotive.EditValue}");
-                                }
-
-                                formActionResult = true;
-                                supervisorAuthorization = TxtAuthorization.Text;
-                                TxtAuthorization.Text = "";
-
-                                // Begin(IG001)
-                                if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                                {
-                                    functions.DisableScanner();
                                     functions.AxOPOSScanner = scanner;
                                     functions.EnableScanner(emissionPoint.ScanBarcodeName);
                                 }
-                                // End(IG001)
-                            }
-                            else
-                            {
-                                functions.ShowMessage("Ocurrio un problema al procesar transaccion.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                DialogResult = DialogResult.None;
                             }
                         }
                         else
                         {
-                            functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
-                            CmbMotive.Focus();
+                            functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
                             DialogResult = DialogResult.None;
                         }
+
                     }
                     catch (Exception ex)
                     {
-                        ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
-                        SP_Supervisor_Validate_Result result;
-
-                        try
-                        {
-                            result = authorization.GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text, CadenaC);
-
-                            if (result != null)
-                            {
-                                if ((bool)result.Error)
-                                {
-                                    if (CmbMotive.SelectedItem != null)
-                                    {
-                                        int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
-                                        motiveId = cancelReason;
-                                    }
-                                    formActionResult = true;
-                                    supervisorAuthorization = TxtAuthorization.Text;
-                                    TxtAuthorization.Text = "";
-
-                                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
-                                    {
-                                        functions.DisableScanner();
-
-                                        if (scanner != null)
-                                        {
-                                            functions.AxOPOSScanner = scanner;
-                                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
-                                    DialogResult = DialogResult.None;
-                                }
-                            }
-                            else
-                            {
-                                functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
-                                TxtAuthorization.Text = "";
-                                TxtAuthorization.Focus();
-                                TxtSupervisorPassword.Text = string.Empty;
-                                DialogResult = DialogResult.None;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            functions.ShowMessage(
-                                                    "Ocurrio un problema al verificar codigo de autorizacion."
-                                                    , ClsEnums.MessageType.ERROR
-                                                    , true
-                                                    , ex.InnerException.Message
-                                                    );
-                        }
+                        functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", ClsEnums.MessageType.ERROR, true, ex.InnerException.Message);
                     }
-                }
-                else
-                {
-                    functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
-                    DialogResult = DialogResult.None;
                 }
             }
             else
             {
-                functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
             }
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -248,7 +186,7 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad passwordKeypad = new FrmKeyPad(CadenaC)
+            FrmKeyPad passwordKeypad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
             };
@@ -265,7 +203,7 @@ namespace POS
                 {
                     TxtSupervisorPassword.Focus();
                 }
-            }            
+            }
         }
 
         private void TxtSupervisorPassword_KeyDown(object sender, KeyEventArgs e)
@@ -292,19 +230,19 @@ namespace POS
                     break;
                 default:
                     break;
-            }            
+            }
         }
 
         private void CmbMotive_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             switch (e.KeyCode)
             {
-                case Keys.Enter:                    
+                case Keys.Enter:
                     BtnAccept.Focus();
                     break;
                 default:
                     break;
-            }        
+            }
         }
     }
 }

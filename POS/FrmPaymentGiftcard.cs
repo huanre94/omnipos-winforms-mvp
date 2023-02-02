@@ -12,13 +12,11 @@ namespace POS
         public string giftcardNumber;
         public decimal paidAmount;
 
-        public FrmPaymentGiftcard(string CadenaC = "")
+        public FrmPaymentGiftcard()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
+         }
 
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             if (TxtGiftCard.Text != "")
@@ -28,7 +26,7 @@ namespace POS
 
                 try
                 {
-                    result = customer.GetGiftCard(TxtGiftCard.Text, CadenaC);
+                    result = customer.GetGiftCard(TxtGiftCard.Text);
 
                     if (result != null)
                     {
@@ -122,7 +120,7 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
@@ -142,7 +140,7 @@ namespace POS
                     break;
                 case Keys.F2:
                     BtnAccept_Click(null, null);
-                    break;                
+                    break;
                 default:
                     break;
             }

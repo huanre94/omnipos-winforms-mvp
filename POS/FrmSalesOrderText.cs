@@ -10,18 +10,16 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public DLL.SalesOrder salesOrder;
 
-        public FrmSalesOrderText(string CadenaC = "")
+        public FrmSalesOrderText()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        private void FrmSalesOrderText_Load(object sender, EventArgs e)
+         private void FrmSalesOrderText_Load(object sender, EventArgs e)
         {
             try
             {
-                List<DLL.SalesOrderText> command = new DLL.Catalog.ClsSalesOrder().ConsultCommand(salesOrder.SalesOrderId, CadenaC);
+                List<DLL.SalesOrderText> command = new DLL.Catalog.ClsSalesOrder().ConsultCommand(salesOrder.SalesOrderId);
                 string list = "";
 
                 foreach (var item in command)
@@ -44,7 +42,7 @@ namespace POS
             {
                 case Keys.Escape:
                     Close();
-                    break;                
+                    break;
                 default:
                     break;
             }

@@ -60,11 +60,11 @@
             // 
             this.TxtAuthorization.EditValue = "";
             this.TxtAuthorization.Location = new System.Drawing.Point(161, 60);
-            this.TxtAuthorization.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtAuthorization.Margin = new System.Windows.Forms.Padding(4);
             this.TxtAuthorization.Name = "TxtAuthorization";
             this.TxtAuthorization.Properties.PasswordChar = '•';
             this.TxtAuthorization.Properties.UseSystemPasswordChar = true;
-            this.TxtAuthorization.Size = new System.Drawing.Size(220, 38);
+            this.TxtAuthorization.Size = new System.Drawing.Size(220, 30);
             this.TxtAuthorization.TabIndex = 0;
             this.TxtAuthorization.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAuthorization_KeyDown);
             // 
@@ -82,7 +82,7 @@
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnAccept.Location = new System.Drawing.Point(365, 291);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
             this.BtnAccept.TabIndex = 4;
@@ -103,7 +103,7 @@
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(158, 291);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 5;
@@ -124,11 +124,11 @@
             // CmbMotive
             // 
             this.CmbMotive.Location = new System.Drawing.Point(161, 206);
-            this.CmbMotive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CmbMotive.Margin = new System.Windows.Forms.Padding(4);
             this.CmbMotive.Name = "CmbMotive";
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbMotive.Size = new System.Drawing.Size(306, 38);
+            this.CmbMotive.Size = new System.Drawing.Size(306, 30);
             this.CmbMotive.TabIndex = 3;
             this.CmbMotive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbMotive_KeyDown);
             // 
@@ -147,11 +147,11 @@
             // 
             this.TxtSupervisorPassword.EditValue = "";
             this.TxtSupervisorPassword.Location = new System.Drawing.Point(161, 134);
-            this.TxtSupervisorPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtSupervisorPassword.Margin = new System.Windows.Forms.Padding(4);
             this.TxtSupervisorPassword.Name = "TxtSupervisorPassword";
             this.TxtSupervisorPassword.Properties.PasswordChar = '•';
             this.TxtSupervisorPassword.Properties.UseSystemPasswordChar = true;
-            this.TxtSupervisorPassword.Size = new System.Drawing.Size(220, 38);
+            this.TxtSupervisorPassword.Size = new System.Drawing.Size(220, 30);
             this.TxtSupervisorPassword.TabIndex = 1;
             this.TxtSupervisorPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSupervisorPassword_KeyDown);
             // 
@@ -178,7 +178,7 @@
             // 
             this.AxOPOSScanner.Enabled = true;
             this.AxOPOSScanner.Location = new System.Drawing.Point(358, 45);
-            this.AxOPOSScanner.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AxOPOSScanner.Margin = new System.Windows.Forms.Padding(4);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
@@ -190,7 +190,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(473, 298);
+            this.ClientSize = new System.Drawing.Size(552, 368);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadPassword);
             this.Controls.Add(this.label1);
@@ -203,7 +203,7 @@
             this.Controls.Add(this.TxtAuthorization);
             this.Controls.Add(this.CmbMotive);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Autorizacion de Supervisor";

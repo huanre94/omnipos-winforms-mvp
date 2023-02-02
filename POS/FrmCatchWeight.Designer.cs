@@ -75,7 +75,7 @@
             this.BtnCatchWeight.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCatchWeight.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
             this.BtnCatchWeight.Location = new System.Drawing.Point(533, 151);
-            this.BtnCatchWeight.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnCatchWeight.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCatchWeight.Name = "BtnCatchWeight";
             this.BtnCatchWeight.Size = new System.Drawing.Size(126, 118);
             this.BtnCatchWeight.TabIndex = 0;
@@ -97,7 +97,7 @@
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnAccept.Location = new System.Drawing.Point(263, 339);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(169, 55);
             this.BtnAccept.TabIndex = 1;
@@ -138,7 +138,7 @@
             this.Controls.Add(this.LblTitle);
             this.Controls.Add(this.LblKg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmCatchWeight";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmCatchWeight_Load);

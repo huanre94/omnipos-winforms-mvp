@@ -29,17 +29,14 @@ namespace POS
         public decimal amountPaymmodeDiscount = 0;
         //End(HR002)
 
-        public FrmPaymentCard(string CadenaC = "")
+        public FrmPaymentCard()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+         }
 
         private void FrmPaymentCard_Load(object sender, EventArgs e)
         {
-            
+
             if (ValidateCustomerInformation())
             {
                 GetPaymentInformation();
@@ -75,7 +72,7 @@ namespace POS
 
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.creditCardAuthorization;
@@ -89,7 +86,7 @@ namespace POS
 
             try
             {
-                banks = paymMode.GetBanks(CadenaC);
+                banks = paymMode.GetBanks();
 
                 if (banks != null)
                 {
@@ -127,7 +124,6 @@ namespace POS
 
         private void LoadCreditCards(int _bankId)
         {
-            ClsPaymMode paymMode = new ClsPaymMode();
             IEnumerable<CreditCard> creditCards;
 
             if (CmbCardType.SelectedItem != null)
@@ -136,40 +132,19 @@ namespace POS
                 {
                     paymModeEnum = CmbCardType.SelectedItem.ToString() == "DEBITO" ? ClsEnums.PaymModeEnum.DEBITO_BANCARIO : ClsEnums.PaymModeEnum.TARJETA_CREDITO;
 
-                    creditCards = paymMode.GetCreditCardsByBank(_bankId, false);
+                    creditCards = new ClsPaymMode().GetCreditCardsByBank(_bankId, true);   //13/07/2022 No enviaba parametro booleano, por defoult envia true
 
                     foreach (var creditCard in creditCards)
                     {
-                        paymModeEnum = ClsEnums.PaymModeEnum.DEBITO_BANCARIO;
-
-                        creditCards = paymMode.GetCreditCardsByBank(_bankId, false, CadenaC);
-
-                        foreach (var creditCard in creditCards)
-                        {
-                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
-                        }
-                    }
-                }
-                    else
-                    {
-                        paymModeEnum = ClsEnums.PaymModeEnum.TARJETA_CREDITO;
-
-                        creditCards = paymMode.GetCreditCardsByBank(_bankId, true, CadenaC);   //13/07/2022 No enviaba parametro booleano, por defoult envia true
-
-                        foreach (var creditCard in creditCards)
-                        {
-                            CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
-                        }
+                        CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
                     }
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar lista de Marcas de Tarjeta."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
+                    functions.ShowMessage("Ocurrio un problema al cargar lista de Marcas de Tarjeta.",
+                        ClsEnums.MessageType.ERROR,
+                        true,
+                        ex.InnerException.Message);
                 }
             }
         }
@@ -239,7 +214,7 @@ namespace POS
             {
                 try
                 {
-                    long availableProm = new ClsPaymMode().GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand, CadenaC);
+                    long availableProm = new ClsPaymMode().GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
                     if (availableProm > 0)
                     {
                         string paymmode = string.Format("{0}|{1}|{2}", (int)paymModeEnum, selectedCardBank, selectedCardBrand);
@@ -277,8 +252,8 @@ namespace POS
                                                  customer.CustomerId,
                                                  0,
                                                  paymmode
-                                                 ,""
-                                                 ,CadenaC
+                                                 , ""
+
                                                  );
 
 
@@ -330,9 +305,9 @@ namespace POS
             }
         }
 
-       
+
         private void CmbCardType_KeyDown(object sender, KeyEventArgs e)
-        {     
+        {
             switch (e.KeyCode)
             {
                 case Keys.Enter:
@@ -348,7 +323,7 @@ namespace POS
         }
 
         private void CmbCardBank_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             switch (e.KeyCode)
             {
                 case Keys.Enter:
@@ -376,7 +351,7 @@ namespace POS
                     break;
                 default:
                     break;
-            }            
+            }
         }
 
         private void TxtAuthorization_KeyDown(object sender, KeyEventArgs e)

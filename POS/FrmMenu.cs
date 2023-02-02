@@ -14,14 +14,12 @@ namespace POS
         readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
+        public static EmissionPoint emissionPoint;
 
-        public FrmMenu(string CadenaC = "")
+        public FrmMenu()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
@@ -57,7 +55,7 @@ namespace POS
         private void BtnPOS_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
-            FrmMain frmMain = new FrmMain(CadenaC)
+            FrmMain frmMain = new FrmMain()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -72,7 +70,7 @@ namespace POS
 
         private void BtnCloseCashier_Click(object sender, EventArgs e)
         {
-            FrmClosingCashier frmClosing = new FrmClosingCashier(CadenaC, "F")
+            FrmClosingCashier frmClosing = new FrmClosingCashier("F")
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -82,7 +80,7 @@ namespace POS
 
         private void BtnPartialClosing_Click(object sender, EventArgs e)
         {
-            FrmPartialClosing frmPartial = new FrmPartialClosing(CadenaC)
+            FrmPartialClosing frmPartial = new FrmPartialClosing()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -95,7 +93,7 @@ namespace POS
 
         private void BtnSalesOrder_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker(CadenaC)
+            FrmSalesOrderPicker frmPartial = new FrmSalesOrderPicker()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -108,7 +106,7 @@ namespace POS
 
         private void BtnGiftCardRedeem_Click(object sender, EventArgs e)
         {
-            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard(CadenaC)
+            FrmRedeemGiftCard frmPartial = new FrmRedeemGiftCard()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -121,7 +119,7 @@ namespace POS
 
         private void BtnInvoiceCancel_Click(object sender, EventArgs e)
         {
-            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel(CadenaC)
+            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters
@@ -134,7 +132,7 @@ namespace POS
 
         private void BtnChangePaymMode_Click(object sender, EventArgs e)
         {
-            FrmChangePaymMode frmChange = new FrmChangePaymMode(CadenaC)
+            FrmChangePaymMode frmChange = new FrmChangePaymMode()
             {
                 loginInformation = loginInformation
             };
@@ -148,7 +146,7 @@ namespace POS
 
             try
             {
-                allowInventory = new POSEntities(CadenaC)
+                allowInventory = new POSEntities()
                     .GlobalParameter
                     .Where(par => par.Name == "AllowPhysicalInventory")
                     .Select(par => par.Value)
@@ -167,7 +165,7 @@ namespace POS
             if (allowInventory)
             {
 
-                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount(CadenaC)
+                FrmPhysicalStockCount frmPhysicalStock = new FrmPhysicalStockCount()
                 {
                     loginInformation = loginInformation,
                     globalParameters = globalParameters
@@ -190,23 +188,7 @@ namespace POS
         {
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
                 return false;
@@ -214,7 +196,21 @@ namespace POS
 
             try
             {
-                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId, CadenaC);
+                emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar información de punto de emisión."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
+            }
+
+            try
+            {
+                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
                 if (pendingClosing)
                 {
                     functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
@@ -236,7 +232,7 @@ namespace POS
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            FrmClosingCashier frmClosing = new FrmClosingCashier(CadenaC, "A")
+            FrmClosingCashier frmClosing = new FrmClosingCashier("A")
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters

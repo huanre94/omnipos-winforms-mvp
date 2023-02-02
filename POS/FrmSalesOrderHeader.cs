@@ -24,17 +24,14 @@ namespace POS
         public bool formActionResult = false;
         List<SalesOrigin> salesOrigins;
 
-        public FrmSalesOrderHeader(string CadenaC = "")
+        public FrmSalesOrderHeader()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
+            FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = Classes.ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION;
             keyBoard.ShowDialog();
 
@@ -45,7 +42,7 @@ namespace POS
 
                 try
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification, CadenaC);
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification);
 
                     if (currentCustomer != null)
                     {
@@ -84,7 +81,7 @@ namespace POS
 
                         if (response)
                         {
-                            currentCustomer = CreateCustomer(identification, CadenaC);
+                            currentCustomer = CreateCustomer(identification);
 
                             if (currentCustomer != null)
                             {
@@ -112,9 +109,9 @@ namespace POS
             }
         }
 
-        private Customer CreateCustomer(string _identification, string _CadenaC = "")
+        private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer(_CadenaC)
+            FrmCustomer frmCustomer = new FrmCustomer()
             {
                 emissionPoint = emissionPoint,
                 isNewCustomer = true,
@@ -147,7 +144,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -182,7 +179,7 @@ namespace POS
             ClsSalesOrder customer = new ClsSalesOrder();
             try
             {
-                salesOrigins = customer.GetSalesOrderOrigin(false, CadenaC);
+                salesOrigins = customer.GetSalesOrderOrigin(false);
 
                 if (salesOrigins != null)
                 {
@@ -212,7 +209,7 @@ namespace POS
             BtnCustomer.Enabled = true;
             BtnDeliveryAddress.Enabled = true;
 
-            currentCustomer = new ClsCustomer().GetCustomerById(1, CadenaC);
+            currentCustomer = new ClsCustomer().GetCustomerById(1);
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = $"{ currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
@@ -233,7 +230,7 @@ namespace POS
             }
             else
             {
-                FrmAddressPicker frmCustomer = new FrmAddressPicker(CadenaC)
+                FrmAddressPicker frmCustomer = new FrmAddressPicker()
                 {
                     emissionPoint = emissionPoint,
                     currentCustomer = currentCustomer,
@@ -344,7 +341,7 @@ namespace POS
 
                 try
                 {
-                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString(), 0,CadenaC);
+                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString());
                     if ((bool)result.Error)
                     {
                         functions.ShowMessage("No se pudo crear orden de venta.", ClsEnums.MessageType.WARNING, true, result.TextError);
@@ -352,7 +349,7 @@ namespace POS
                     else
                     {
                         functions.emissionPoint = emissionPoint;
-                        if (functions.PrintDocument((long)result.SalesOrderId, ClsEnums.DocumentType.SALESORDER, false, CadenaC))
+                        if (functions.PrintDocument((long)result.SalesOrderId, ClsEnums.DocumentType.SALESORDER, false))
                         {
                             functions.ShowMessage("Orden de Venta generada exitosamente.", ClsEnums.MessageType.INFO);
                         }
@@ -384,7 +381,7 @@ namespace POS
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
-            {                
+            {
                 case Keys.F2:
                     BtnSaveOrder_Click(null, null);
                     break;
@@ -396,12 +393,12 @@ namespace POS
                     break;
                 default:
                     break;
-            }           
+            }
         }
 
         private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
         {
-            if  (((int)e.KeyCode) == 27)
+            if (((int)e.KeyCode) == 27)
             {
                 BtnExit_Click(null, null);
             }

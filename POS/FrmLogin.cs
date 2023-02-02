@@ -3,8 +3,6 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.EntityClient;
-using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -19,32 +17,9 @@ namespace POS
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
         List<GlobalParameter> globalParameters = new List<GlobalParameter>();
 
-        public FrmLogin(string CadenaC)
+        public FrmLogin()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-
-        private bool ValidateCustomerFields()
-        {
-            bool response = false;
-
-            if (TxtUsername.Text != string.Empty && TxtPassword.Text != string.Empty)
-            {
-                response = true;
-            }
-            else
-            {
-                functions.ShowMessage(
-                    "Debe llenar los campos necesarios del formulario",
-                    ClsEnums.MessageType.WARNING
-                );
-                DialogResult = DialogResult.None;
-            }
-
-            return response;
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -63,13 +38,7 @@ namespace POS
 
                 foreach (var ipAddress in ipAddressList)
                 {
-                    allowLogin = GetLoginInformation(
-                        TxtUsername.Text,
-                        TxtPassword.Text,
-                        Environment.MachineName,
-                        ipAddress,
-                        CadenaC
-                    );
+                    allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress);
                     if (allowLogin)
                     {
                         break;
@@ -85,7 +54,7 @@ namespace POS
                     TxtUsername.Text = string.Empty;
                     TxtPassword.Text = string.Empty;
 
-                    FrmMenu frmMenu = new FrmMenu(CadenaC) //13/07/2022 Se envia parametro de conexion
+                    FrmMenu frmMenu = new FrmMenu() //13/07/2022 Se envia parametro de conexion
                     {
                         loginInformation = loginInfomation,
                         globalParameters = globalParameters
@@ -104,34 +73,17 @@ namespace POS
             Close();
         }
 
-        private bool GetLoginInformation(
-            string _identification,
-            string _password,
-            string _workstation,
-            string _addressIP,
-            string _CadenaC
-        )
+        private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP)
         {
             SP_Login_Consult_Result result;
 
             try
             {
-                result = new ClsAdministration().GetLoginInformation(
-                    _identification,
-                    _password,
-                    _workstation,
-                    _addressIP,
-                    _CadenaC
-                );
+                result = new ClsAdministration(Program.customConnectionString).GetLoginInformation(_identification, _password, _workstation, _addressIP);
 
                 if ((bool)result?.Error)
                 {
-                    functions.ShowMessage(
-                        "No se ha podido iniciar sesión.",
-                        ClsEnums.MessageType.WARNING,
-                        true,
-                        result.TextError
-                    );
+                    functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
                     return false;
                 }
 
@@ -156,7 +108,7 @@ namespace POS
 
             try
             {
-                globalParameters = clsGeneral.GetGlobalParameters(CadenaC);
+                globalParameters = clsGeneral.GetGlobalParameters();
 
                 if (!globalParameters.Any())
                 {
@@ -222,7 +174,7 @@ namespace POS
 
         private void BtnKeypadUsername_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
+            FrmKeyPad keyPad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_USERNAME
             };
@@ -232,7 +184,7 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
+            FrmKeyPad keyPad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
             };

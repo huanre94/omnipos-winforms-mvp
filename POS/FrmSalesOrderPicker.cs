@@ -20,17 +20,14 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         System.Timers.Timer timer;
 
-        public FrmSalesOrderPicker(string CadenaC = "")
+        public FrmSalesOrderPicker()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu(CadenaC);
+            FrmMenu frmMenu = new FrmMenu();
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -44,7 +41,7 @@ namespace POS
 
             try
             {
-                custIdentTypes = customer.GetSalesOrderStatus(CadenaC);
+                custIdentTypes = customer.GetSalesOrderStatus();
 
                 if (custIdentTypes != null)
                 {
@@ -78,7 +75,7 @@ namespace POS
 
             try
             {
-                custIdentTypes = customer.GetSalesOrderOrigin(true, CadenaC);
+                custIdentTypes = customer.GetSalesOrderOrigin(true);
 
                 if (custIdentTypes != null)
                 {
@@ -112,10 +109,10 @@ namespace POS
             long orderTimerInvertal = 0;
             try
             {
-                orderTimerEnabled = (from par in new POSEntities(CadenaC).GlobalParameter.ToList()
+                orderTimerEnabled = (from par in new POSEntities().GlobalParameter.ToList()
                                      where par.Name == "OrderTimerEnabled"
                                      select par.Value).FirstOrDefault() == "1";
-                orderTimerInvertal = long.Parse((from par in new POSEntities(CadenaC).GlobalParameter.ToList()
+                orderTimerInvertal = long.Parse((from par in new POSEntities().GlobalParameter.ToList()
                                                  where par.Name == "OrderUpdateTimer"
                                                  select par.Value).FirstOrDefault());
             }
@@ -150,7 +147,7 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu(CadenaC);
+                FrmMenu frmMenu = new FrmMenu();
                 frmMenu.loginInformation = loginInformation;
                 frmMenu.globalParameters = globalParameters;
                 frmMenu.Visible = true;
@@ -172,7 +169,7 @@ namespace POS
             List<SP_SalesOrderStatus_Consult_Result> sales;
             try
             {
-                sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked, CadenaC);
+                sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
 
                 if (sales.Count == 0)
                 {
@@ -211,7 +208,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -279,7 +276,7 @@ namespace POS
 
                 if (item.OrderECommerce > 0)
                 {
-                    FrmSalesOrderEcommerce frmSalesOrder = new FrmSalesOrderEcommerce(CadenaC);
+                    FrmSalesOrderEcommerce frmSalesOrder = new FrmSalesOrderEcommerce();
                     frmSalesOrder.loginInformation = loginInformation;
                     frmSalesOrder.emissionPoint = emissionPoint;
                     frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
@@ -293,7 +290,7 @@ namespace POS
                 }
                 else
                 {
-                    FrmSalesOrder frmSalesOrder = new FrmSalesOrder(CadenaC);
+                    FrmSalesOrder frmSalesOrder = new FrmSalesOrder();
                     frmSalesOrder.loginInformation = loginInformation;
                     frmSalesOrder.emissionPoint = emissionPoint;
                     frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
@@ -311,7 +308,7 @@ namespace POS
 
         private void BtnRemissionGuide_Click(object sender, EventArgs e)
         {
-            FrmRemissionGuide frmRemission = new FrmRemissionGuide(CadenaC)
+            FrmRemissionGuide frmRemission = new FrmRemissionGuide()
             {
                 emissionPoint = emissionPoint,
                 loginInformation = loginInformation
@@ -323,7 +320,7 @@ namespace POS
 
         private void BtnNewOrder_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderHeader frmSalesOrderHeader = new FrmSalesOrderHeader(CadenaC)
+            FrmSalesOrderHeader frmSalesOrderHeader = new FrmSalesOrderHeader()
             {
                 emissionPoint = emissionPoint,
                 loginInformation = loginInformation
@@ -371,7 +368,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.SALESORDER, false, CadenaC);
+                        functions.PrintDocument(lastId, ClsEnums.DocumentType.SALESORDER, false);
                     }
                 }
                 catch (Exception ex)
@@ -408,7 +405,7 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
             keyPad.ShowDialog();
 
@@ -445,7 +442,7 @@ namespace POS
                     BtnRefresh_Click(null, null);
                     break;
                 case Keys.F5:
-                    BtnRefresh_Click(null,null);
+                    BtnRefresh_Click(null, null);
                     break;
                 default:
                     break;
@@ -516,7 +513,7 @@ namespace POS
             if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.C))  //Combinacion de teclas Ctrl + C
             {
                 CmbSalesOrderOrigin.Focus();
-            }                        
+            }
 
         }
     }

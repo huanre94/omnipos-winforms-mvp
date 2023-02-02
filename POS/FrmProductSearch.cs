@@ -4,7 +4,6 @@ using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace POS
 {
@@ -18,18 +17,14 @@ namespace POS
         public bool returnProduct = false;
         public string productName = "";
 
-        public FrmProductSearch(string CadenaC = "")
+        public FrmProductSearch()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-
+          }
 
         private void BtnKeyPad_Click(object sender, System.EventArgs e)
         {
-            FrmKeyBoard keyPad = new FrmKeyBoard(CadenaC);
+            FrmKeyBoard keyPad = new FrmKeyBoard();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME;
             keyPad.ShowDialog();
             TxtSearchName.Text = keyPad.customerFirstName;
@@ -42,7 +37,7 @@ namespace POS
 
             try
             {
-                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId, CadenaC);
+                products = paymMode.GetProductsWithBarcode(_searchProduct, _locationId);
 
                 if (products != null)
                 {
@@ -135,14 +130,14 @@ namespace POS
             {
 
                 case 13:
-                    BtnSearch_Click(null,null);
+                    BtnSearch_Click(null, null);
                     break;
                 case 27:
                     this.Close();
                     break;
                 default:
                     break;
-            }            
+            }
         }
 
         private void GrcSalesDetail_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -150,8 +145,8 @@ namespace POS
             switch (((byte)e.KeyChar))
             {
                 case 13:
-                    BtnAccept_Click(null,null);
-                    this.Close();                    
+                    BtnAccept_Click(null, null);
+                    this.Close();
                     break;
                 case 27:
                     TxtSearchName.Focus();

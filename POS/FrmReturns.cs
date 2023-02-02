@@ -16,13 +16,11 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         long sequenceNumber;
 
-        public FrmReturns(string CadenaC = "")
+        public FrmReturns()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private bool GetEmissionPointInformation()
         {
             ClsGeneral clsGeneral = new ClsGeneral();
@@ -34,7 +32,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +74,7 @@ namespace POS
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE, CadenaC);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE);
 
                 if (sequenceTable != null)
                 {

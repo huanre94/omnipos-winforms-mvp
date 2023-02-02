@@ -16,20 +16,17 @@ namespace POS
         public List<GlobalParameter> globalParameters;
         public SP_SalesOrigin_Consult_Result result;
 
-        public FrmSalesOrigin(string CadenaC = "")
+        public FrmSalesOrigin()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmSalesOrigin_Load(object sender, EventArgs e)
         {
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins(CadenaC);
+                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins();
 
                 BindingList<SP_SalesOrigin_Consult_Result> bindingOrigins = new BindingList<SP_SalesOrigin_Consult_Result>();
                 foreach (SP_SalesOrigin_Consult_Result item in salesOrigins)
@@ -42,19 +39,15 @@ namespace POS
                 }
                 ILBSalesOrigin.ImageList = collection;
                 ILBSalesOrigin.DataSource = bindingOrigins;
-                //ILBSalesOrigin.ImageMember = "SalesOriginId";
-                //ILBSalesOrigin.ImageIndexMember = "Name";                
                 ILBSalesOrigin.ValueMember = "SalesOriginId";
                 ILBSalesOrigin.DisplayMember = "Name";
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar origenes de venta."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar origenes de venta.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
         }
 
@@ -81,10 +74,10 @@ namespace POS
 
         private void ILBSalesOrigin_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (((int)e.KeyCode) == 13 )
+            if (((int)e.KeyCode) == 13)
             {
                 BtnAccept.Focus();
-            }                
+            }
         }
     }
 }

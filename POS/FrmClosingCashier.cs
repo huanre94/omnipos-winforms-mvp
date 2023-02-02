@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -24,28 +24,26 @@ namespace POS
         private List<SP_ClosingCashierPayment_Consult_Result> payments;
         private GridView selectedGrv;
         private decimal totalHideCash = 0;
+        string TipoCierre;
 
-        public FrmClosingCashier(string CadenaC = "", string TipoCierre= "")
+        public FrmClosingCashier(string TipoCierre = "")
         {
             //Se incrementa un parámetro para saber si es cierre Total T o si es Arquedo de Caja A'
             InitializeComponent();
-            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
             this.TipoCierre = TipoCierre;
         }
 
-        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        string TipoCierre; 
 
         private void FrmClosingCashier_Load(object sender, EventArgs e)
         {
             //Indica el tipo de cierre para mostrar texto informativo y parametro para SP
             if (TipoCierre == "F")
             {
-                this.lblTipoCierre.Text = "Cierre Total";
+                lblTipoCierre.Text = "Cierre Total";
             }
             else
             {
-                this.lblTipoCierre.Text = "Arqueo de Caja";
+                lblTipoCierre.Text = "Arqueo de Caja";
             }
 
             if (GetEmissionPointInformation())
@@ -58,14 +56,16 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu(CadenaC);
-                frmMenu.loginInformation = loginInformation;
-                frmMenu.globalParameters = globalParameters;
-                frmMenu.Visible = true;
+                FrmMenu frmMenu = new FrmMenu()
+                {
+                    loginInformation = loginInformation,
+                    globalParameters = globalParameters,
+                    Visible = true
+                };
                 Close();
-            }            
+            }
         }
-        
+
 
 
         #region Functions
@@ -123,10 +123,10 @@ namespace POS
             try
             {
                 ClsClosingTrans closing = new ClsClosingTrans();
-                denominations = closing.GetDenominations(CadenaC);
-                partials = closing.GetPartialClosings(emissionPoint, loginInformation, CadenaC);
+                denominations = closing.GetDenominations();
+                partials = closing.GetPartialClosings(emissionPoint, loginInformation);
                 partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
-                payments = closing.GetClosingPayments(emissionPoint, loginInformation, CadenaC);
+                payments = closing.GetClosingPayments(emissionPoint, loginInformation);
 
 
                 List<SP_ClosingCashierPayment_Consult_Result> newList = new List<SP_ClosingCashierPayment_Consult_Result>();
@@ -189,7 +189,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -222,7 +222,7 @@ namespace POS
         #region Keypad Buttons
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu(CadenaC);
+            FrmMenu frmMenu = new FrmMenu();
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -231,7 +231,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue", CadenaC);
+            GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue");
 
             if (payments.Count == 0)
             {
@@ -243,7 +243,7 @@ namespace POS
                 if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
                 {
                     functions.emissionPoint = emissionPoint;
-                    if (functions.RequestSupervisorAuth(false, 0, CadenaC))
+                    if (functions.RequestSupervisorAuth(false, 0))
                     {
                         XElement closingCashierTableXml = new XElement("ClosingCashierTable");
                         ClosingCashierTable cashierTable = new ClosingCashierTable()
@@ -348,7 +348,7 @@ namespace POS
 
                         try
                         {
-                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml, CadenaC, TipoCierre);
+                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml, TipoCierre);
 
                             if (clsClosing != null)
                             {
@@ -357,7 +357,7 @@ namespace POS
                                     SP_ClosingCashier_Insert_Result closing = clsClosing[0];
                                     if (!(bool)closing.Error)
                                     {
-                                        if (functions.PrintDocument( (long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false, CadenaC))
+                                        if (functions.PrintDocument((long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
                                         {
                                             functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                                         }
@@ -366,7 +366,7 @@ namespace POS
                                             functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", ClsEnums.MessageType.WARNING);
                                         }
 
-                                        FrmMenu frmMenu = new FrmMenu(CadenaC);
+                                        FrmMenu frmMenu = new FrmMenu();
                                         frmMenu.loginInformation = loginInformation;
                                         frmMenu.globalParameters = globalParameters;
                                         frmMenu.Visible = true;
@@ -508,10 +508,10 @@ namespace POS
 
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
-            //long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F", CadenaC);   // 04/01/2023
-            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, TipoCierre, CadenaC);
-            
-            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false, CadenaC))
+            //long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F" );   // 04/01/2023
+            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, TipoCierre);
+
+            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
             {
                 functions.ShowMessage("Cierre total impreso.");
             }
@@ -528,7 +528,7 @@ namespace POS
             switch (e.KeyCode)
             {
                 case Keys.F2:
-                    BtnAccept_Click(null,null);
+                    BtnAccept_Click(null, null);
                     break;
                 case Keys.F5:
                     BtnCancelClosing_Click(null, null);
@@ -537,10 +537,10 @@ namespace POS
                     BtnLastClosing_Click(null, null);
                     break;
                 case Keys.F12:
-                    TxtBarcode.Focus();                    
-                break;
-            default:
-              break;
+                    TxtBarcode.Focus();
+                    break;
+                default:
+                    break;
             }
         }
 

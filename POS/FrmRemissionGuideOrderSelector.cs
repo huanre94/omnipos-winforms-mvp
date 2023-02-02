@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
-using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -21,14 +21,12 @@ namespace POS
         public bool isUpdated = false;
         Int64 sequenceNumber;
 
-        public FrmRemissionGuideOrderSelector(string CadenaC = "")
+        public FrmRemissionGuideOrderSelector()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
+         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        private void FrmRemissionGuideOrderSelector_Load(object sender, EventArgs e)
+         private void FrmRemissionGuideOrderSelector_Load(object sender, EventArgs e)
         {
             if (GetEmissionPointInformation())
             {
@@ -51,7 +49,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +92,7 @@ namespace POS
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE, CadenaC);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE);
 
                 if (sequenceTable != null)
                 {
@@ -132,7 +130,7 @@ namespace POS
         {
             try
             {
-                List<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder().GetPendingSalesOrders(CadenaC);
+                List<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder().GetPendingSalesOrders();
                 BindingList<SP_RemissionPendingSalesOrder_Consult_Result> bindingList = new BindingList<SP_RemissionPendingSalesOrder_Consult_Result>(list);
                 if (bindingList.Count == 0)
                 {
@@ -159,7 +157,7 @@ namespace POS
         {
             try
             {
-                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers(CadenaC);
+                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
                 if (transportDrivers != null)
                 {
                     if (transportDrivers.Count > 0)
@@ -187,7 +185,7 @@ namespace POS
         {
             try
             {
-                List<Transport> transports = new ClsSalesOrder().GetTransports(CadenaC);
+                List<Transport> transports = new ClsSalesOrder().GetTransports();
                 if (transports != null)
                 {
                     if (transports.Count > 0)
@@ -214,7 +212,7 @@ namespace POS
         {
             try
             {
-                List<TransportReason> transportReasons = new ClsSalesOrder().GetTransportReasons(CadenaC);
+                List<TransportReason> transportReasons = new ClsSalesOrder().GetTransportReasons();
                 if (transportReasons != null)
                 {
                     if (transportReasons.Count > 0)
@@ -326,12 +324,12 @@ namespace POS
                     }
                 }
 
-                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString(), CadenaC);
+                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString());
                 if (!(bool)result.Error)
                 {
                     isUpdated = true;
 
-                    if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE, false, CadenaC))
+                    if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE, false))
                     {
                         functions.ShowMessage("Guia de remision creada exitosamente.", ClsEnums.MessageType.INFO);
                         //DELETE PAYMODES
@@ -362,7 +360,7 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
             keyPad.ShowDialog();
 

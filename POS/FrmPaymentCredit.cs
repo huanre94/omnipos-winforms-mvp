@@ -22,17 +22,14 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         ClsEnums.ScaleBrands scaleBrand;
 
-        public FrmPaymentCredit(string CadenaC = "")
+        public FrmPaymentCredit()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
+         }
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId, CadenaC))
+            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId))
             {
                 formActionResult = true;
                 Close();
@@ -91,7 +88,7 @@ namespace POS
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
-                customer = new ClsCustomer().GetCustomerById(customer.CustomerId, CadenaC);
+                customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
                 decimal _creditLimit = customer.CreditLimit;
                 LblCreditLimit.Text = $"{_creditLimit:#.00}";
                 LblHolderName.Text = $"{customer.Firtsname} {customer.Lastname}";
@@ -188,7 +185,7 @@ namespace POS
 
             try
             {
-                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode, CadenaC);
+                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode);
 
                 if (result != null)
                 {
@@ -246,7 +243,7 @@ namespace POS
                     {
                         if (creditLimit >= paidAmount)
                         {
-                            FrmPayment frmPayment = new FrmPayment(CadenaC)
+                            FrmPayment frmPayment = new FrmPayment()
                             {
                                 emissionPoint = emissionPoint
                             };

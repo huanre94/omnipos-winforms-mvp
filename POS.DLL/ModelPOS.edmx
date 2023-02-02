@@ -702,6 +702,7 @@
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="ModifiedDatetime" Type="datetime" />
           <Property Name="Workstation" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsBbqZone" Type="bit" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -2604,12 +2605,14 @@
         <Function Name="SP_Advance_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="customerId" Type="bigint" Mode="In" />
           <Parameter Name="paymmodeType" Type="int" Mode="In" />
+          <Parameter Name="AddressIP" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Advance_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
         </Function>
         <Function Name="SP_ClosingCashier_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ParamXML" Type="xml" Mode="In" />
+          <Parameter Name="Type" Type="char" Mode="In" />
         </Function>
         <Function Name="SP_ClosingCashierDenominations_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_ClosingCashierPartial_Consult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3796,6 +3799,7 @@
           </FunctionImport>
           <FunctionImport Name="SP_ClosingCashier_Insert" ReturnType="Collection(POSModel.SP_ClosingCashier_Insert_Result)">
           <Parameter Name="ParamXML" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_ClosingCashierPartial_Consult" ReturnType="Collection(POSModel.SP_ClosingCashierPartial_Consult_Result)">
             <Parameter Name="LocationId" Mode="In" Type="Int16" />
@@ -4279,6 +4283,7 @@
           <FunctionImport Name="SP_Advance_Consult" ReturnType="Collection(POSModel.SP_Advance_Consult_Result)">
             <Parameter Name="customerId" Mode="In" Type="Int64" />
             <Parameter Name="paymmodeType" Mode="In" Type="Int32" />
+            <Parameter Name="AddressIP" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="TaxTable">
@@ -5120,6 +5125,7 @@
           <NavigationProperty Name="InvoiceLine" Relationship="POSModel.FK__InvoiceLine_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoiceLine" />
           <NavigationProperty Name="InvoicePayment" Relationship="POSModel.FK__InvoicePayment_InvoiceTable" FromRole="InvoiceTable" ToRole="InvoicePayment" />
           <NavigationProperty Name="SalesOrigin" Relationship="POSModel.FK__InvoiceTable_SalesOrigin" FromRole="InvoiceTable" ToRole="SalesOrigin" />
+          <Property Name="IsBbqZone" Type="Boolean" />
         </EntityType>
         <EntityType Name="TransferStatus">
           <Key>
@@ -8011,6 +8017,7 @@
           <EntitySetMapping Name="InvoiceTable">
             <EntityTypeMapping TypeName="POSModel.InvoiceTable">
               <MappingFragment StoreEntitySet="InvoiceTable">
+                <ScalarProperty Name="IsBbqZone" ColumnName="IsBbqZone" />
                 <ScalarProperty Name="Workstation" ColumnName="Workstation" />
                 <ScalarProperty Name="ModifiedDatetime" ColumnName="ModifiedDatetime" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

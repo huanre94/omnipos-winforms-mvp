@@ -15,13 +15,11 @@ namespace POS
         public SP_Login_Consult_Result loginInformation;
         EmissionPoint emissionPoint;
 
-        public FrmInvoiceCancel(string CadenaC = "")
+        public FrmInvoiceCancel()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void FrmInvoiceCancel_Load(object sender, EventArgs e)
         {
             ClearInvoice();
@@ -34,43 +32,39 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != string.Empty)
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP, CadenaC);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == string.Empty)
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
-                LblEstablishment.Text = emissionPoint.Establishment;
-                TxtEmissionPoint.Text = emissionPoint.Emission;
-                TxtEmissionPoint.Enabled = false;
+                emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
             }
-            else
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.Message);
+            }
+
+
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
                 TxtEmissionPoint.Enabled = true;
+                return false;
             }
 
-            return response;
+            LblEstablishment.Text = emissionPoint.Establishment;
+            TxtEmissionPoint.Text = emissionPoint.Emission;
+            TxtEmissionPoint.Enabled = false;
+            return true;
+
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -82,7 +76,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL, CadenaC))
+                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL))
                 {
                     SalesLog salesLog = new SalesLog
                     {
@@ -103,7 +97,7 @@ namespace POS
                     InvoiceTable invoiceTable = null;
                     try
                     {
-                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text), CadenaC);
+                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
                     }
                     catch (Exception ex)
                     {
@@ -120,7 +114,7 @@ namespace POS
                     bool invoiceCancel = false;
                     try
                     {
-                        invoiceCancel = new ClsInvoiceTrans().CancelInvoice(salesLog, invoiceTable, CadenaC);
+                        invoiceCancel = new ClsInvoiceTrans().CancelInvoice(salesLog, invoiceTable);
                     }
                     catch (Exception ex)
                     {
@@ -170,7 +164,7 @@ namespace POS
 
                 try
                 {
-                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text), CadenaC);
+                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
 
                     if (response != null)
                     {
@@ -212,7 +206,7 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            using (var emissionPointKeypad = new FrmKeyPad(CadenaC)
+            using (var emissionPointKeypad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
             })
@@ -228,7 +222,7 @@ namespace POS
 
         private void BtnSeqKeyPad_Click(object sender, EventArgs e)
         {
-            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad(CadenaC)
+            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
             })
@@ -244,7 +238,7 @@ namespace POS
 
         private void BtnObservationKeyBoard_Click(object sender, EventArgs e)
         {
-            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard(CadenaC)
+            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.OBSERVATION
             })
@@ -267,10 +261,10 @@ namespace POS
                     break;
                 case Keys.F2:
                     BtnAccept_Click(null, null);
-                    break;                
+                    break;
                 case Keys.Escape:
                     this.Close();
-                    break;                
+                    break;
                 default:
                     break;
             }

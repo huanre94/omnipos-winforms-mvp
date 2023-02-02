@@ -5,31 +5,25 @@ namespace POS.DLL.Catalog
 {
     public class ClsAdministration
     {
-        public SP_Login_Consult_Result GetLoginInformation(
-                                                            string _user
-                                                            , string _password
-                                                            , string _workstation
-                                                            , string _addressIP    
-                                                            , string _CandenaC
-                                                            )
-        {
-            SP_Login_Consult_Result result;
+        private string ConnectionString;
 
+        public ClsAdministration(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
+
+        public SP_Login_Consult_Result GetLoginInformation(string _user, string _password, string _workstation, string _addressIP)
+        {
             try
             {
-                result = new POSEntities(_CandenaC).SP_Login_Consult(
-                                            _user
-                                            , _password
-                                            , _workstation
-                                            , _addressIP                                            
-                                            ).FirstOrDefault();
+                return new POSEntities(ConnectionString)
+                       .SP_Login_Consult(_user, _password, _workstation, _addressIP)
+                       .FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return result;
         }
     }
 }

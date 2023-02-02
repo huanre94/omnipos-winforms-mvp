@@ -23,15 +23,12 @@ namespace POS
         public string checkAuthorization = "";
         public Customer customer = null;
 
-        public FrmPaymentCheck(string CadenaC = "")
+        public FrmPaymentCheck()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-        }
+         }
 
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-
-        private void FrmPaymentCheck_Load(object sender, EventArgs e)
+          private void FrmPaymentCheck_Load(object sender, EventArgs e)
         {
             if (ValidateCustomerInformation())
             {
@@ -64,7 +61,7 @@ namespace POS
         #region Keypad Call Buttons
         private void BtnKeyboardOwner_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
+            FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
@@ -72,7 +69,7 @@ namespace POS
         }
         private void BtnKeypadIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
+            FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION;
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.checkOwnerIdentification;
@@ -81,7 +78,7 @@ namespace POS
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_PHONE;
             keyPad.ShowDialog();
             TxtPhone.Text = keyPad.checkPhone;
@@ -90,7 +87,7 @@ namespace POS
 
         private void BtnKeypadAccount_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER;
             keyPad.ShowDialog();
             TxtAccountNumber.Text = keyPad.checkAccountNumber;
@@ -99,7 +96,7 @@ namespace POS
 
         private void BtnKeypadCheck_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
             keyPad.ShowDialog();
             TxtCheckNumber.Text = keyPad.checkNumber;
@@ -108,7 +105,7 @@ namespace POS
 
         private void BtnKeypadAuth_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.checkAuthorization;
@@ -122,7 +119,7 @@ namespace POS
 
             try
             {
-                banks = paymMode.GetBanks(CadenaC);
+                banks = paymMode.GetBanks();
 
                 if (banks?.Count() > 0)
                 {
@@ -165,7 +162,7 @@ namespace POS
                                                                             , TxtOwnerName.Text
                                                                             , TxtPhone.Text
                                                                             , ""
-                                                                            , CadenaC
+
                                                                             );
 
                         if (authorizeResult != null)
@@ -280,7 +277,7 @@ namespace POS
                     break;
                 case Keys.F1:
                     BtnKeypadPhone_Click(null, null);
-                    break;                
+                    break;
                 default:
                     break;
             }

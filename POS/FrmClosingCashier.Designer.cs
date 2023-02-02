@@ -577,7 +577,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(159, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(159, 34);
             this.TxtBarcode.TabIndex = 1;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -588,7 +588,7 @@
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.LblBarcode.Location = new System.Drawing.Point(26, 308);
             this.LblBarcode.Name = "LblBarcode";
-            this.LblBarcode.Size = new System.Drawing.Size(58, 22);
+            this.LblBarcode.Size = new System.Drawing.Size(75, 28);
             this.LblBarcode.TabIndex = 159;
             this.LblBarcode.Text = "Valor";
             // 
@@ -618,7 +618,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label1.Location = new System.Drawing.Point(22, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 22);
+            this.label1.Size = new System.Drawing.Size(216, 28);
             this.label1.TabIndex = 160;
             this.label1.Text = "Cierres Parciales";
             // 
@@ -629,7 +629,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label2.Location = new System.Drawing.Point(407, 21);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 22);
+            this.label2.Size = new System.Drawing.Size(204, 28);
             this.label2.TabIndex = 160;
             this.label2.Text = "Denominaciones";
             // 
@@ -640,7 +640,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label3.Location = new System.Drawing.Point(907, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(158, 22);
+            this.label3.Size = new System.Drawing.Size(199, 28);
             this.label3.TabIndex = 160;
             this.label3.Text = "Formas de Pago";
             // 
@@ -651,7 +651,7 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label4.Location = new System.Drawing.Point(1158, 637);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(87, 22);
+            this.label4.Size = new System.Drawing.Size(108, 28);
             this.label4.TabIndex = 159;
             this.label4.Text = "Total  $  ";
             // 
@@ -662,7 +662,7 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label5.Location = new System.Drawing.Point(1108, 612);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 22);
+            this.label5.Size = new System.Drawing.Size(159, 28);
             this.label5.TabIndex = 159;
             this.label5.Text = "Diferencia  $";
             this.label5.Visible = false;

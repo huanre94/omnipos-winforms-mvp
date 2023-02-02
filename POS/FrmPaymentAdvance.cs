@@ -19,13 +19,10 @@ namespace POS
         public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
 
-        public FrmPaymentAdvance(string CadenaC = "")
+        public FrmPaymentAdvance()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC; //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void CheckGridView()
         {
@@ -58,18 +55,11 @@ namespace POS
             try
             {
                 advances = new BindingList<SP_Advance_Consult_Result>(
-                    new ClsAccountsReceivable().GetPendingAccountReceivable(
-                        _currentCustomer.CustomerId,
-                        _paymMode,
-                        CadenaC
-                    )
+                    new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode)
                 );
                 if (!advances.Any())
                 {
-                    functions.ShowMessage(
-                        "El cliente no cuenta con valores registrados.",
-                        ClsEnums.MessageType.WARNING
-                    );
+                    functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
                     return;
                 }
@@ -91,10 +81,7 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
-                Text =
-                    _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS
-                        ? "Anticipo"
-                        : "Nota de Credito";
+                Text = _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
                 LblAmount.Text = $"{advanceAmount}";
@@ -104,10 +91,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e) { }
 
-        private void GrvAdvanceHistory_CellValueChanged(
-            object sender,
-            DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e
-        )
+        private void GrvAdvanceHistory_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             selectedAmount = 0;
             BindingList<SP_Advance_Consult_Result> array =

@@ -29,18 +29,15 @@ namespace POS
         ClsEnums.ScaleBrands scaleBrand;
         private string portName = "";
 
-        public FrmRedeemGiftCard(string CadenaC = "")
+        public FrmRedeemGiftCard()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtGiftCardNumber.Text = keyPad.giftcardNumber;
@@ -49,7 +46,7 @@ namespace POS
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
             keyPad.ShowDialog();
             TxtBarcode.Text = keyPad.giftcardNumber;
@@ -59,7 +56,7 @@ namespace POS
 
         private void BtnIdentificationKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC);
+            FrmKeyBoard keyBoard = new FrmKeyBoard();
             keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtRedeemIdentification.Text = keyBoard.checkOwnerName;
@@ -72,7 +69,7 @@ namespace POS
             {
                 try
                 {
-                    result = new ClsCustomerTrans().GetGiftCardProducts(TxtGiftCardNumber.Text, CadenaC);
+                    result = new ClsCustomerTrans().GetGiftCardProducts(TxtGiftCardNumber.Text);
                     if (result.Count == 0)
                     {
                         functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
@@ -202,7 +199,7 @@ namespace POS
 
         private void BtnRedeemCustomerName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME
             };
@@ -300,7 +297,7 @@ namespace POS
                             TxtRedeemName.Text,
                             TxtRedeemIdentification.Text,
                             emissionPoint.LocationId,
-                           $"{giftCardLine}", CadenaC);
+                           $"{giftCardLine}");
 
                         if (!(bool)response.Error)
                         {
@@ -327,7 +324,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu(CadenaC)
+            FrmMenu frmMenu = new FrmMenu()
             {
                 loginInformation = loginInformation,
                 globalParameters = globalParameters,
@@ -475,7 +472,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -653,12 +650,12 @@ namespace POS
             //08/07/2022
             switch (e.KeyCode)
             {
-                case Keys.Enter:                    
-                     BtnAccept_Click(null,null);                    
-                     break;
+                case Keys.Enter:
+                    BtnAccept_Click(null, null);
+                    break;
                 case Keys.F1:
                     BtnKeyPad_Click(null, null);
-                    break;                
+                    break;
                 default:
                     break;
             }
@@ -700,7 +697,7 @@ namespace POS
         {
             //08/07/2022
             switch (e.KeyCode)
-            {                
+            {
                 case Keys.F11:
                     BtnRemove_Click(null, null);
                     break;

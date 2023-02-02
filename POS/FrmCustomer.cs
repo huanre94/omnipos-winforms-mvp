@@ -4,6 +4,7 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -18,13 +19,10 @@ namespace POS
         public Customer currentCustomer = new Customer();
         public SP_Login_Consult_Result loginInformation;
 
-        public FrmCustomer(string CadenaC = "")
+        public FrmCustomer()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmCustomer_Load(object sender, EventArgs e)
         {
@@ -47,41 +45,37 @@ namespace POS
             }
             else
             {
-                ClsCustomer clsCustomer = new ClsCustomer();
                 Customer customer;
 
                 try
                 {
-                    customer = clsCustomer.GetCustomerByIdentification(_identification, CadenaC);
+                    customer = new ClsCustomer().GetCustomerByIdentification(_identification);
 
-                    if (customer != null)
-                    {
-                        if (customer?.CustomerId > 0)
-                        {
-                            CmbIdenType.EditValue = customer.IdentTypeId;
-                            LblPersonType.Text = customer.PersonType;
-                            TxtIdentification.Text = customer.Identification;
-                            TxtFirstName.Text = customer.Firtsname;
-                            TxtFirstName.Text = customer.Lastname;
-                            TxtAddress.Text = customer.Address;
-                            TxtEmail.Text = customer.Email;
-                            TxtPhone.Text = customer.Phone;
-                            CmbGender.EditValue = customer.Gender;
-                        }
-                    }
-                    else
+                    if (customer == null)
                     {
                         functions.ShowMessage("El cliente consultado no esta registrado.", ClsEnums.MessageType.WARNING);
+                        return;
+                    }
+
+                    if (customer?.CustomerId > 0)
+                    {
+                        CmbIdenType.EditValue = customer.IdentTypeId;
+                        LblPersonType.Text = customer.PersonType;
+                        TxtIdentification.Text = customer.Identification;
+                        TxtFirstName.Text = customer.Firtsname;
+                        TxtFirstName.Text = customer.Lastname;
+                        TxtAddress.Text = customer.Address;
+                        TxtEmail.Text = customer.Email;
+                        TxtPhone.Text = customer.Phone;
+                        CmbGender.EditValue = customer.Gender;
                     }
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información del cliente."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                    functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
+                        ClsEnums.MessageType.ERROR,
+                        true,
+                        ex.InnerException.Message);
                 }
             }
         }
@@ -90,7 +84,7 @@ namespace POS
 
         private void BtnKeyboardIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION
             };
@@ -101,7 +95,7 @@ namespace POS
 
         private void BtnKeyboardName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME
             };
@@ -112,7 +106,7 @@ namespace POS
 
         private void BtnKeyboardLastname_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_LASTNAME
             };
@@ -123,7 +117,7 @@ namespace POS
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
             };
@@ -134,7 +128,7 @@ namespace POS
 
         private void BtnKeyboardEmail_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard(CadenaC)
+            FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_EMAIL
             };
@@ -145,7 +139,7 @@ namespace POS
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC)
+            FrmKeyPad keyPad = new FrmKeyPad()
             {
                 inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
             };
@@ -157,30 +151,27 @@ namespace POS
 
         private void LoadIdentTypes()
         {
-            List<IdentType> custIdentTypes;
+            IEnumerable<IdentType> custIdentTypes;
 
             try
             {
-                custIdentTypes = new ClsCustomer().GetIdentTypes(CadenaC);
+                custIdentTypes = new ClsCustomer().GetIdentTypes();
 
-                if (custIdentTypes != null)
+                if (custIdentTypes?.Count() > 0)
                 {
-                    if (custIdentTypes.Count > 0)
+                    foreach (var identType in custIdentTypes)
                     {
-                        foreach (var identType in custIdentTypes)
-                        {
-                            CmbIdenType.Properties.Items.Add(new ImageComboBoxItem { Value = identType.Prefix, ImageIndex = identType.IdentTypeId, Description = identType.Name });
-                        }
+                        CmbIdenType.Properties.Items.Add(new ImageComboBoxItem { Value = identType.Prefix, ImageIndex = identType.IdentTypeId, Description = identType.Name });
                     }
                 }
+
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al cargar tipos de identificación."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar tipos de identificación.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -197,84 +188,79 @@ namespace POS
 
             if (isNewCustomer)
             {
-                createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString(), CadenaC);
+                createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString());
             }
 
-            if (createOrUpdate)
-            {
-                try
-                {
-                    ClsCustomer clsCustomer = new ClsCustomer();
-                    SP_Customer_Insert_Result result;
-                    int cityId;
-
-                    XElement customerXml = new XElement("Customer");
-                    customerXml.Add(new XElement("CustomerId", currentCustomer.CustomerId));
-                    customerXml.Add(new XElement("LocationId", emissionPoint.LocationId));
-                    customerXml.Add(new XElement("IdentTypeId", CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex));
-                    customerXml.Add(new XElement("PersonType", LblPersonType.Text));
-                    customerXml.Add(new XElement("Identification", _identification));
-                    customerXml.Add(new XElement("Firtsname", TxtFirstName.Text));
-                    customerXml.Add(new XElement("Lastname", TxtLastName.Text));
-                    customerXml.Add(new XElement("Address", TxtAddress.Text));
-                    customerXml.Add(new XElement("Email", TxtEmail.Text));
-                    customerXml.Add(new XElement("Phone", TxtPhone.Text));
-                    customerXml.Add(new XElement("Gender", CmbGender.EditValue.ToString()));
-                    customerXml.Add(new XElement("CreatedBy", loginInformation.UserId));
-                    customerXml.Add(new XElement("Workstation", loginInformation.Workstation));
-
-                    switch (emissionPoint.LocationId) //While city does not select on customer register
-                    {
-                        case 1:
-                            cityId = 3;
-                            break;
-                        case 2:
-                            cityId = 2;
-                            break;
-                        default:
-                            cityId = 1;
-                            break;
-                    }
-
-                    customerXml.Add(new XElement("CityId", cityId));
-                    result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString(), CadenaC);
-
-                    if (result != null)
-                    {
-                        if (result.CustomerId > 0)
-                        {
-                            if (isNewCustomer)
-                            {
-                                currentCustomer = clsCustomer.GetCustomerByIdentification(result.Identification, CadenaC);
-                                functions.ShowMessage("El cliente se registró exitosamente.");
-                            }
-                            else
-                            {
-                                functions.ShowMessage("El cliente se actualizó exitosamente.");
-                            }
-                        }
-                        else
-                        {
-                            functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING, true, result.Text);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
-                }
-            }
-            else
+            if (!createOrUpdate)
             {
                 functions.ShowMessage("El cliente no puede ser registrado.", ClsEnums.MessageType.WARNING);
+                return;
             }
+
+            try
+            {
+                ClsCustomer clsCustomer = new ClsCustomer();
+                SP_Customer_Insert_Result result;
+                int cityId;
+
+                XElement customerXml = new XElement("Customer");
+                customerXml.Add(new XElement("CustomerId", currentCustomer.CustomerId));
+                customerXml.Add(new XElement("LocationId", emissionPoint.LocationId));
+                customerXml.Add(new XElement("IdentTypeId", CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex));
+                customerXml.Add(new XElement("PersonType", LblPersonType.Text));
+                customerXml.Add(new XElement("Identification", _identification));
+                customerXml.Add(new XElement("Firtsname", TxtFirstName.Text));
+                customerXml.Add(new XElement("Lastname", TxtLastName.Text));
+                customerXml.Add(new XElement("Address", TxtAddress.Text));
+                customerXml.Add(new XElement("Email", TxtEmail.Text));
+                customerXml.Add(new XElement("Phone", TxtPhone.Text));
+                customerXml.Add(new XElement("Gender", CmbGender.EditValue.ToString()));
+                customerXml.Add(new XElement("CreatedBy", loginInformation.UserId));
+                customerXml.Add(new XElement("Workstation", loginInformation.Workstation));
+
+                switch (emissionPoint.LocationId) //While city does not select on customer register
+                {
+                    case 1:
+                        cityId = 3;
+                        break;
+                    case 2:
+                        cityId = 2;
+                        break;
+                    default:
+                        cityId = 1;
+                        break;
+                }
+
+                customerXml.Add(new XElement("CityId", cityId));
+                result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString());
+
+                if ((result?.CustomerId) <= 0)
+                {
+                    functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING, true, result.Text);
+                    return;
+                }
+
+                if (isNewCustomer)
+                {
+                    currentCustomer = clsCustomer.GetCustomerByIdentification(result.Identification);
+                    functions.ShowMessage("El cliente se registró exitosamente.");
+                    return;
+                }
+
+                functions.ShowMessage("El cliente se actualizó exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente."
+                                        , ClsEnums.MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                    );
+            }
+
         }
 
-        private bool ValidateCustomerIdentification(string _identification, string _identType, string _CadenaC = "")
+        private bool ValidateCustomerIdentification(string _identification, string _identType)
         {
             bool response = false;
 
@@ -283,21 +269,18 @@ namespace POS
                 ClsCustomer clsCustomer = new ClsCustomer();
                 FN_Identification_Validate_Result validateResult;
 
-                validateResult = clsCustomer.ValidateCustomerIdentification(_identification, _identType, _CadenaC);
+                validateResult = clsCustomer.ValidateCustomerIdentification(_identification, _identType);
 
-                if (validateResult != null)
+                if (validateResult?.Validated > 0)
                 {
-                    if (validateResult.Validated > 0)
-                    {
-                        LblPersonType.Text = validateResult.PersonType;
-                        CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex = (int)validateResult.IdentTypeId;
-                        response = true;
-                    }
-                    else
-                    {
-                        functions.ShowMessage(validateResult.Text, ClsEnums.MessageType.WARNING);
-                        TxtIdentification.Text = string.Empty;
-                    }
+                    LblPersonType.Text = validateResult.PersonType;
+                    CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex = (int)validateResult.IdentTypeId;
+                    response = true;
+                }
+                else
+                {
+                    functions.ShowMessage(validateResult.Text, ClsEnums.MessageType.WARNING);
+                    TxtIdentification.Text = string.Empty;
                 }
             }
             catch (Exception ex)
@@ -344,7 +327,7 @@ namespace POS
                     CmbGender.Focus();
                     break;
                 case Keys.F1:
-                    BtnKeypadPhone_Click(null,null);
+                    BtnKeypadPhone_Click(null, null);
                     break;
                 default:
                     break;
@@ -360,7 +343,7 @@ namespace POS
                     TxtFirstName.Focus();
                     break;
                 case Keys.F1:
-                    BtnKeyboardIdentification_Click(null,null);
+                    BtnKeyboardIdentification_Click(null, null);
                     break;
                 default:
                     break;
@@ -376,7 +359,7 @@ namespace POS
                     TxtLastName.Focus();
                     break;
                 case Keys.F1:
-                    BtnKeyboardName_Click(null,null);
+                    BtnKeyboardName_Click(null, null);
                     break;
                 default:
                     break;
@@ -438,7 +421,7 @@ namespace POS
             {
                 case Keys.Enter:
                     TxtIdentification.Focus();
-                    break;                
+                    break;
                 default:
                     break;
             }

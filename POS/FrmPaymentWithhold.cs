@@ -25,13 +25,10 @@ namespace POS
         public decimal totalDiscounted = 0;
         public List<InvoicePayment> retentionList;
 
-        public FrmPaymentWithhold(string CadenaC = "")
+        public FrmPaymentWithhold()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         private void FrmPaymentWithhold2_Load(object sender, EventArgs e)
         {
@@ -46,75 +43,63 @@ namespace POS
             bool customerTaxPayer = customer.IsSpecialTaxpayer ?? false;
             bool companyTaxPayer = loginInformation.IsTaxpayerSpecial ?? false;
             customer.UseRetention = true;
-            if (customer.UseRetention ?? false)
+            if (!(customer.UseRetention ?? false))
             {
-                List<RetentionTable> retentions = LoadRetentions((int)ClsEnums.Taxtype.RENTA);
-                RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
-                decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
-                LblBaseAmount.Text = Math.Round(baseAmount, 2).ToString();
-                LblBasePercent.Text = retentionPercent.Percent.ToString();
-                LblAmount.Text = Math.Round(totalBaseCalculated, 2).ToString();
-                LblTaxBaseAmount.Text = Math.Round(taxAmount, 2).ToString();
+                functions.ShowMessage("Cliente no aplica retencion", ClsEnums.MessageType.ERROR);
+                Close();
+                return;
+            }
 
-                InvoicePayment invoicePayment = new InvoicePayment
-                {
-                    PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
-                    RetentionCode = retentionPercent.RetentionCode,
-                    Amount = totalBaseCalculated
-                };
+            IEnumerable<RetentionTable> retentions = LoadRetentions((int)ClsEnums.Taxtype.RENTA);
+            RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
+            decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
+            LblBaseAmount.Text = Math.Round(baseAmount, 2).ToString();
+            LblBasePercent.Text = retentionPercent.Percent.ToString();
+            LblAmount.Text = Math.Round(totalBaseCalculated, 2).ToString();
+            LblTaxBaseAmount.Text = Math.Round(taxAmount, 2).ToString();
 
-                retentionList = new List<InvoicePayment>
+            InvoicePayment invoicePayment = new InvoicePayment
+            {
+                PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
+                RetentionCode = retentionPercent.RetentionCode,
+                Amount = totalBaseCalculated
+            };
+
+            retentionList = new List<InvoicePayment>
                 {
                     invoicePayment
                 };
 
-                if (taxAmount > 0)
+            if (taxAmount > 0)
+            {
+                retentions = LoadRetentions((int)ClsEnums.Taxtype.IVA);
+
+                if (retentions?.Count() > 0)
                 {
-                    retentions = LoadRetentions((int)ClsEnums.Taxtype.IVA);
-                    if (retentions != null)
+                    foreach (var retention in retentions)
                     {
-                        if (retentions.Count > 0)
-                        {
-                            foreach (var retention in retentions)
-                            {
-                                CmbTaxPercent.Properties.Items.Add(new ImageComboBoxItem { Value = retention.RetentionCode, Description = retention.Percent.ToString() });
-                            }
-                        }
+                        CmbTaxPercent.Properties.Items.Add(new ImageComboBoxItem { Value = retention.RetentionCode, Description = retention.Percent.ToString() });
                     }
                 }
-                else
-                {
-                    LblTaxBaseAmount.Enabled = false;
-                    CmbTaxPercent.Enabled = false;
-                    LblTaxAmount.Enabled = false;
-                }
-
             }
             else
             {
-                functions.ShowMessage("Cliente no aplica retencion", ClsEnums.MessageType.ERROR);
-                this.Close();
+                LblTaxBaseAmount.Enabled = false;
+                CmbTaxPercent.Enabled = false;
+                LblTaxAmount.Enabled = false;
             }
         }
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (customer != null)
+            if (customer?.CustomerId > 1)
             {
-                if (customer.CustomerId > 1)
-                {
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    this.DialogResult = DialogResult.Cancel;
-                }
+                return true;
             }
 
-            return response;
+            functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+            DialogResult = DialogResult.Cancel;
+            return false;
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -149,35 +134,34 @@ namespace POS
                 validate = false;
             }
 
-            if (validate)
-            {
-                if (taxAmount > 0)
-                {
-                    InvoicePayment invoicePayment = new InvoicePayment
-                    {
-                        PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
-                        RetentionCode = int.Parse(CmbTaxPercent.EditValue.ToString()),
-                        Amount = decimal.Parse(LblTaxAmount.Text)
-                    };
-                    retentionList.Add(invoicePayment);
-                }
-
-                decimal totalValue = 0;
-                foreach (InvoicePayment item in retentionList)
-                {
-                    item.Authorization = TxtNAutorization.Text;
-                    item.RetentionNumber = TxtNRetention.Text;
-                    totalValue += item.Amount;
-                }
-
-                processResponse = true;
-                totalDiscounted = totalValue;
-            }
-            else
+            if (!validate)
             {
                 functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
                 DialogResult = DialogResult.None;
+                return;
             }
+
+            if (taxAmount > 0)
+            {
+                InvoicePayment invoicePayment = new InvoicePayment
+                {
+                    PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
+                    RetentionCode = int.Parse(CmbTaxPercent.EditValue.ToString()),
+                    Amount = decimal.Parse(LblTaxAmount.Text)
+                };
+                retentionList.Add(invoicePayment);
+            }
+
+            decimal totalValue = 0;
+            foreach (InvoicePayment item in retentionList)
+            {
+                item.Authorization = TxtNAutorization.Text;
+                item.RetentionNumber = TxtNRetention.Text;
+                totalValue += item.Amount;
+            }
+
+            processResponse = true;
+            totalDiscounted = totalValue;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -187,7 +171,7 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNAutorization.Text = keyPad.creditCardAuthorization;
@@ -195,27 +179,25 @@ namespace POS
 
         private void BtnKeypadRet_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad(CadenaC);
+            FrmKeyPad keyPad = new FrmKeyPad();
             keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNRetention.Text = keyPad.creditCardAuthorization;
         }
 
-        private List<RetentionTable> LoadRetentions(int typeRetention)
+        private IEnumerable<RetentionTable> LoadRetentions(int typeRetention)
         {
-            List<RetentionTable> retentions = null;
+            IEnumerable<RetentionTable> retentions = null;
             try
             {
-                retentions = new ClsPaymMode().GetRetentionTables(typeRetention, CadenaC);
+                retentions = new ClsPaymMode().GetRetentionTables(typeRetention);
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Bancos."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar lista de Bancos.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
             return retentions;
         }

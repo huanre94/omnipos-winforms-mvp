@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace POS
 {
@@ -24,13 +24,10 @@ namespace POS
         XElement closingXml = new XElement("ClosingCashier");
         decimal cashAmount = 0;
 
-        public FrmPartialClosing(string CadenaC = "")
+        public FrmPartialClosing()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
-
-        string CadenaC;    //14/07/2022  Se agregó para que Cadena de conexion sea parametrizable
 
         #region Functions
         private void CalculatePayment()
@@ -44,8 +41,8 @@ namespace POS
             try
             {
                 ClsClosingTrans closing = new ClsClosingTrans();
-                denominations = closing.GetDenominations(CadenaC);
-                partials = closing.GetPartialClosings(emissionPoint, loginInformation, CadenaC);
+                denominations = closing.GetDenominations();
+                partials = closing.GetPartialClosings(emissionPoint, loginInformation);
                 if (partials != null)
                 {
                     if (partials.Count > 0)
@@ -128,7 +125,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -159,40 +156,34 @@ namespace POS
 
         private void LoadPartialClosingReason()
         {
-            List<CancelReason> cancelReasons;
+            IEnumerable<CancelReason> cancelReasons;
 
             try
             {
-                cancelReasons = new ClsAuthorizationTrans().ConsultReasons(2,CadenaC);
+                cancelReasons = new ClsAuthorizationTrans().ConsultReasons((int)ClsEnums.CancelReasonType.PARTIAL_CLOSING);
 
-                if (cancelReasons != null)
+                if (cancelReasons?.Count() > 0)
                 {
-                    if (cancelReasons.Count > 0)
+                    foreach (var reason in cancelReasons)
                     {
-                        foreach (var reason in cancelReasons)
-                        {
-                            CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
-                        }
+                        CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
                     }
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar motivos de cierre."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar motivos de cierre.",
+                    ClsEnums.MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
-
         }
         #endregion
 
         #region Keypad Buttons
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu(CadenaC);
+            FrmMenu frmMenu = new FrmMenu();
             frmMenu.loginInformation = loginInformation;
             frmMenu.globalParameters = globalParameters;
             frmMenu.Visible = true;
@@ -204,150 +195,153 @@ namespace POS
             if (decimal.Parse(LblTotalCashier.Text) <= 0)
             {
                 functions.ShowMessage("El valor a retirar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                return;
             }
-            else if (decimal.Parse(LblTotalCashier.Text) > cashAmount)
+
+            if (decimal.Parse(LblTotalCashier.Text) > cashAmount)
             {
                 functions.ShowMessage("No puede retirar un valor mayor a la venta", ClsEnums.MessageType.WARNING);
+                return;
             }
-            else if (CmbMotive.SelectedItem == null)
+
+            if (CmbMotive.SelectedItem == null)
             {
                 functions.ShowMessage("Debe seleccionar un motivo de cierre parcial", ClsEnums.MessageType.WARNING);
+                return;
             }
-            else
+
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth())
             {
-                functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(false,0,CadenaC))
+                XElement closingCashierTableXml = new XElement("ClosingCashierTable");
+                ClosingCashierTable cashierTable = new ClosingCashierTable()
                 {
-                    XElement closingCashierTableXml = new XElement("ClosingCashierTable");
-                    ClosingCashierTable cashierTable = new ClosingCashierTable()
+                    LocationId = emissionPoint.LocationId,
+                    EmissionPointId = emissionPoint.EmissionPointId,
+                    UserId = (int)loginInformation.UserId,
+                    OpeningAmount = 0,
+                    Authorization = functions.supervisorAuthorization,
+                    Status = "A",
+                    CreatedBy = (int)loginInformation.UserId,
+                    Workstation = emissionPoint.Workstation,
+                    ReasonId = int.Parse(CmbMotive.EditValue.ToString())
+                };
+
+                Type type = cashierTable.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    var name = prop.Name;
+                    var value = prop.GetValue(cashierTable);
+
+                    if (value == null)
                     {
-                        LocationId = emissionPoint.LocationId,
-                        EmissionPointId = emissionPoint.EmissionPointId,
-                        UserId = (int)loginInformation.UserId,
-                        OpeningAmount = 0,
-                        Authorization = functions.supervisorAuthorization,
-                        Status = "A",
-                        CreatedBy = (int)loginInformation.UserId,
-                        Workstation = emissionPoint.Workstation,
-                        ReasonId = int.Parse(CmbMotive.EditValue.ToString())
-                    };
-
-                    Type type = cashierTable.GetType();
-                    PropertyInfo[] properties = type.GetProperties();
-
-                    foreach (var prop in properties)
-                    {
-                        var name = prop.Name;
-                        var value = prop.GetValue(cashierTable);
-
-                        if (value == null)
-                        {
-                            value = "";
-                        }
-
-                        closingCashierTableXml.Add(new XElement(name, value));
+                        value = "";
                     }
 
-                    closingXml.Add(closingCashierTableXml);
+                    closingCashierTableXml.Add(new XElement(name, value));
+                }
 
-                    for (int i = 0; i < GrvDenomination.DataRowCount; i++)
+                closingXml.Add(closingCashierTableXml);
+
+                for (int i = 0; i < GrvDenomination.DataRowCount; i++)
+                {
+                    SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
+
+                    if ((int)row.TypedAmount == 0)
                     {
-                        SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
-
-                        if ((int)row.TypedAmount == 0)
-                        {
-                            continue;
-                        }
-
-                        XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
-                        ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
-                        {
-                            Sequence = 0,
-                            CurrencyDenominationId = row.CurrencyDenominationId,
-                            Quantity = (int)row.TypedAmount
-                        };
-                        type = cashierMoney.GetType();
-                        properties = type.GetProperties();
-
-                        foreach (var prop in properties)
-                        {
-                            var name = prop.Name;
-                            var value = prop.GetValue(cashierMoney);
-
-                            if (value == null)
-                            {
-                                value = "";
-                            }
-
-                            closingCashierMoneyXml.Add(new XElement(name, value));
-                        }
-                        closingXml.Add(closingCashierMoneyXml);
+                        continue;
                     }
 
-                    XElement closingCashierLineXml = new XElement("ClosingCashierLine");
-                    ClosingCashierLine cashierLine = new ClosingCashierLine()
+                    XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
+                    ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
                     {
-
-                        PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
-                        CashierAmount = decimal.Parse(LblTotalCashier.Text),
-                        SystemAmount = 0
+                        Sequence = 0,
+                        CurrencyDenominationId = row.CurrencyDenominationId,
+                        Quantity = (int)row.TypedAmount
                     };
-                    type = cashierLine.GetType();
+                    type = cashierMoney.GetType();
                     properties = type.GetProperties();
 
                     foreach (var prop in properties)
                     {
                         var name = prop.Name;
-                        var value = prop.GetValue(cashierLine);
+                        var value = prop.GetValue(cashierMoney);
 
                         if (value == null)
                         {
                             value = "";
                         }
 
-                        closingCashierLineXml.Add(new XElement(name, value));
+                        closingCashierMoneyXml.Add(new XElement(name, value));
                     }
-                    closingXml.Add(closingCashierLineXml);
+                    closingXml.Add(closingCashierMoneyXml);
+                }
 
-                    try
+                XElement closingCashierLineXml = new XElement("ClosingCashierLine");
+                ClosingCashierLine cashierLine = new ClosingCashierLine()
+                {
+
+                    PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
+                    CashierAmount = decimal.Parse(LblTotalCashier.Text),
+                    SystemAmount = 0
+                };
+                type = cashierLine.GetType();
+                properties = type.GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    var name = prop.Name;
+                    var value = prop.GetValue(cashierLine);
+
+                    if (value == null)
                     {
-                        List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans().InsertPartialClosing(closingXml, CadenaC);
+                        value = "";
+                    }
 
-                        if (clsClosing != null)
+                    closingCashierLineXml.Add(new XElement(name, value));
+                }
+                closingXml.Add(closingCashierLineXml);
+
+                try
+                {
+                    List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans().InsertPartialClosing(closingXml);
+
+                    if (clsClosing != null)
+                    {
+                        if (clsClosing.Count > 0)
                         {
-                            if (clsClosing.Count > 0)
+                            SP_ClosingCashierPartial_Insert_Result closing = clsClosing[0];
+                            if (!(bool)closing.Error)
                             {
-                                SP_ClosingCashierPartial_Insert_Result closing = clsClosing[0];
-                                if (!(bool)closing.Error)
+                                //if (PrintInvoice((Int64)closing.ClosingCashierId))
+                                if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
                                 {
-                                    //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                                    if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER,false, CadenaC))
-                                    {
-                                        functions.ShowMessage("Cierre parcial finalizado exitosamente.");
-                                    }
-                                    else
-                                    {
-                                        functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
-                                    }
-
-                                    FrmMenu frmMenu = new FrmMenu(CadenaC);
-                                    frmMenu.loginInformation = loginInformation;
-                                    frmMenu.globalParameters = globalParameters;
-                                    frmMenu.Visible = true;
-                                    Close();
+                                    functions.ShowMessage("Cierre parcial finalizado exitosamente.");
                                 }
+                                else
+                                {
+                                    functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
+                                }
+
+                                FrmMenu frmMenu = new FrmMenu();
+                                frmMenu.loginInformation = loginInformation;
+                                frmMenu.globalParameters = globalParameters;
+                                frmMenu.Visible = true;
+                                Close();
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                                "Ocurrio un problema al registrar cierre parcial de caja."
-                                                , ClsEnums.MessageType.ERROR
-                                                , true
-                                                , ex.Message
-                                            );
-                    }
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage(
+                                            "Ocurrio un problema al registrar cierre parcial de caja."
+                                            , ClsEnums.MessageType.ERROR
+                                            , true
+                                            , ex.Message
+                                        );
                 }
             }
         }
@@ -435,7 +429,7 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu(CadenaC)
+                FrmMenu frmMenu = new FrmMenu()
                 {
                     loginInformation = loginInformation,
                     globalParameters = globalParameters
@@ -450,9 +444,9 @@ namespace POS
         {
             try
             {
-                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P", CadenaC);
+                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
 
-                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false,CadenaC))
+                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
                 {
                     functions.ShowMessage("Cierre parcial impreso.");
                 }
@@ -463,13 +457,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-
-                functions.ShowMessage(
-                                         "Ocurrio un problema al realizar el cierre parcial."
-                                         , ClsEnums.MessageType.ERROR
-                                         , true
-                                         , ex.InnerException.Message
-                                     );
+                functions.ShowMessage("Ocurrio un problema al realizar el cierre parcial.", 
+                    ClsEnums.MessageType.ERROR, 
+                    true, 
+                    ex.InnerException.Message);
             }
         }
 
@@ -484,7 +475,7 @@ namespace POS
                     break;
                 case Keys.F2:
                     BtnAccept_Click(null, null);
-                    break;                
+                    break;
                 case Keys.F7:
                     BtnLastClosing_Click(null, null);
                     break;

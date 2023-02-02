@@ -15,16 +15,14 @@ namespace POS
         public EmissionPoint emissionPoint;
         ClsFunctions functions = new ClsFunctions();
 
-        public FrmRemissionGuide(string CadenaC = "")
+        public FrmRemissionGuide()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //15/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         private void BtnNewOrder_Click(object sender, EventArgs e)
         {
-            FrmRemissionGuideOrderSelector frm = new FrmRemissionGuideOrderSelector(CadenaC);
+            FrmRemissionGuideOrderSelector frm = new FrmRemissionGuideOrderSelector();
             frm.emissionPoint = emissionPoint;
             frm.loginInformation = loginInformation;
             frm.ShowDialog();
@@ -48,13 +46,13 @@ namespace POS
                 }
 
                 SP_RemissionGuide_Consult_Result remissionGuideConsult = (SP_RemissionGuide_Consult_Result)GrvRemissionGuide.GetRow(GrvRemissionGuide.FocusedRowHandle);
-                FrmRemissionGuideOrderToInvoice frm = new FrmRemissionGuideOrderToInvoice(CadenaC)
+                FrmRemissionGuideOrderToInvoice frm = new FrmRemissionGuideOrderToInvoice()
                 {
                     remission = remissionGuideConsult,
                     emissionPoint = emissionPoint,
                     loginInformation = loginInformation
                 };
-                frm.ShowDialog();                
+                frm.ShowDialog();
 
 
                 if (frm.isUpdated)
@@ -87,7 +85,7 @@ namespace POS
         {
             try
             {
-                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers(CadenaC);
+                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
                 if (transportDrivers != null)
                 {
                     if (transportDrivers.Count > 0)
@@ -123,7 +121,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP, CadenaC);
+                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
@@ -170,7 +168,7 @@ namespace POS
                 }
 
 
-                result = new ClsSalesOrder().GetActiveRemissionGuides(userId, driverId, CadenaC);
+                result = new ClsSalesOrder().GetActiveRemissionGuides(userId, driverId);
                 if (result.Count == 0)
                 {
                     GrcSalesOrder.DataSource = null;
@@ -220,7 +218,7 @@ namespace POS
 
             try
             {
-                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId, CadenaC);
+                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId);
                 BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list);
                 GrcSalesOrder.DataSource = bind;
             }
@@ -253,7 +251,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.REMISSIONGUIDE, false, CadenaC);
+                        functions.PrintDocument(lastId, ClsEnums.DocumentType.REMISSIONGUIDE, false);
                     }
                 }
                 catch (Exception ex)
@@ -295,7 +293,7 @@ namespace POS
                 //    BtnRemissionGuide_Click(null, null);
                 //    break;
                 default:
-                break;
+                    break;
             }
 
 
@@ -308,7 +306,7 @@ namespace POS
             if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.M))
             {
                 ChkMyGuides.Focus();
-            }            
+            }
 
             if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.F9))
             {
@@ -318,22 +316,22 @@ namespace POS
         }
 
         private void CmbTransportDriver_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             switch (e.KeyCode)
             {
                 case Keys.Enter:
                     BtnRefresh_Click(null, null);
                     GrcRemissionGuide.Focus();
-                    break;               
+                    break;
                 default:
                     break;
             }
         }
 
         private void ChkMyGuides_CheckedChanged(object sender, EventArgs e)
-        {            
+        {
             BtnRefresh_Click(null, null);
-            GrcRemissionGuide.Focus();             
+            GrcRemissionGuide.Focus();
         }
     }
 }

@@ -89,7 +89,7 @@
             this.CmbAddressPicker.Name = "CmbAddressPicker";
             this.CmbAddressPicker.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbAddressPicker.Size = new System.Drawing.Size(425, 38);
+            this.CmbAddressPicker.Size = new System.Drawing.Size(425, 30);
             this.CmbAddressPicker.TabIndex = 0;
             this.CmbAddressPicker.SelectedIndexChanged += new System.EventHandler(this.CmbAddressPicker_SelectedIndexChanged);
             this.CmbAddressPicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbAddressPicker_KeyDown);
@@ -115,7 +115,7 @@
             // 
             this.TxtAddressRef.Location = new System.Drawing.Point(138, 229);
             this.TxtAddressRef.Name = "TxtAddressRef";
-            this.TxtAddressRef.Size = new System.Drawing.Size(425, 38);
+            this.TxtAddressRef.Size = new System.Drawing.Size(425, 30);
             this.TxtAddressRef.TabIndex = 2;
             this.TxtAddressRef.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddressRef_KeyDown);
             // 
@@ -140,7 +140,7 @@
             // 
             this.TxtAddress.Location = new System.Drawing.Point(138, 172);
             this.TxtAddress.Name = "TxtAddress";
-            this.TxtAddress.Size = new System.Drawing.Size(425, 38);
+            this.TxtAddress.Size = new System.Drawing.Size(425, 30);
             this.TxtAddress.TabIndex = 1;
             this.TxtAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddress_KeyDown);
             // 
@@ -206,7 +206,7 @@
             // 
             this.TxtTelephoneAddress.Location = new System.Drawing.Point(137, 286);
             this.TxtTelephoneAddress.Name = "TxtTelephoneAddress";
-            this.TxtTelephoneAddress.Size = new System.Drawing.Size(425, 38);
+            this.TxtTelephoneAddress.Size = new System.Drawing.Size(425, 30);
             this.TxtTelephoneAddress.TabIndex = 3;
             this.TxtTelephoneAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTelephoneAddress_KeyDown);
             // 
@@ -312,7 +312,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(759, 456);
+            this.ClientSize = new System.Drawing.Size(767, 464);
             this.ControlBox = false;
             this.Controls.Add(this.BtnModify);
             this.Controls.Add(this.label1);

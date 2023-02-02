@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;  //14/07/2022
+using System;
 using System.Data.Entity.Core.EntityClient;
 using System.Windows.Forms;
-using Microsoft.Win32;  //14/07/2022
 
 namespace POS
 {
-    
+
     static class Program
     {
+        public static string customConnectionString;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>        
@@ -17,26 +19,21 @@ namespace POS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
-
             string Server = @"HKEY_CURRENT_USER\SOFTWARE\OmniPOS";
             object ValorIP = Registry.GetValue(Server, "IP", null);
             object SBase = Registry.GetValue(Server, "Base", null);
             object SPass = Registry.GetValue(Server, "Pass", null);
 
-
-
-
-
-
-
             //12/07/2022  Se agregó para que Cadena de conexion sea parametrizable
-            EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder();
-            constructorConexion.Provider = "System.Data.SqlClient";
-            constructorConexion.ProviderConnectionString = "data source=" + ValorIP + ";initial catalog=" + SBase+ ";persist security info=True;user id=sa;password=" + SPass + ";MultipleActiveResultSets=True;App=EntityFramework";
-            constructorConexion.Metadata = "res://*/ModelPOS.csdl|res://*/ModelPOS.ssdl|res://*/ModelPOS.msl";
-             string CadenaC = constructorConexion.ToString();
+            EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder
+            {
+                Provider = "System.Data.SqlClient",
+                ProviderConnectionString = "data source=" + ValorIP + ";initial catalog=" + SBase + ";persist security info=True;user id=sa;password=" + SPass + ";MultipleActiveResultSets=True;App=EntityFramework",
+                Metadata = "res://*/ModelPOS.csdl|res://*/ModelPOS.ssdl|res://*/ModelPOS.msl"
+            };
+            customConnectionString = constructorConexion.ToString();
             //12/07/2022
+
 
 
             //SplashScreen
@@ -67,7 +64,7 @@ namespace POS
             //System.Threading.Thread.Sleep(5000);
             //SplashScreenManager.CloseForm();
 
-            Application.Run(new FrmLogin(CadenaC));
+            Application.Run(new FrmLogin());
         }
     }
 }

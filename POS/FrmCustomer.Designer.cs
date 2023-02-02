@@ -69,7 +69,7 @@
             this.TxtFirstName.Location = new System.Drawing.Point(138, 86);
             this.TxtFirstName.Margin = new System.Windows.Forms.Padding(4);
             this.TxtFirstName.Name = "TxtFirstName";
-            this.TxtFirstName.Size = new System.Drawing.Size(546, 38);
+            this.TxtFirstName.Size = new System.Drawing.Size(546, 30);
             this.TxtFirstName.TabIndex = 2;
             this.TxtFirstName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtFirstName_KeyDown);
             // 
@@ -95,7 +95,7 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(732, 540);
+            this.BtnAccept.Location = new System.Drawing.Point(754, 498);
             this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(160, 50);
@@ -113,10 +113,10 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(524, 540);
+            this.BtnCancel.Location = new System.Drawing.Point(582, 498);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(196, 62);
+            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
             this.BtnCancel.TabIndex = 10;
             this.BtnCancel.Text = "Cancelar";
             // 
@@ -170,7 +170,7 @@
             this.TxtIdentification.Location = new System.Drawing.Point(561, 15);
             this.TxtIdentification.Margin = new System.Windows.Forms.Padding(4);
             this.TxtIdentification.Name = "TxtIdentification";
-            this.TxtIdentification.Size = new System.Drawing.Size(200, 38);
+            this.TxtIdentification.Size = new System.Drawing.Size(200, 30);
             this.TxtIdentification.TabIndex = 1;
             this.TxtIdentification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtIdentification_KeyDown);
             // 
@@ -207,7 +207,7 @@
             this.TxtLastName.Location = new System.Drawing.Point(138, 158);
             this.TxtLastName.Margin = new System.Windows.Forms.Padding(4);
             this.TxtLastName.Name = "TxtLastName";
-            this.TxtLastName.Size = new System.Drawing.Size(546, 38);
+            this.TxtLastName.Size = new System.Drawing.Size(546, 30);
             this.TxtLastName.TabIndex = 3;
             this.TxtLastName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtLastName_KeyDown);
             // 
@@ -244,7 +244,7 @@
             this.TxtAddress.Location = new System.Drawing.Point(138, 229);
             this.TxtAddress.Margin = new System.Windows.Forms.Padding(4);
             this.TxtAddress.Name = "TxtAddress";
-            this.TxtAddress.Size = new System.Drawing.Size(546, 38);
+            this.TxtAddress.Size = new System.Drawing.Size(546, 30);
             this.TxtAddress.TabIndex = 4;
             this.TxtAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtAddress_KeyDown);
             // 
@@ -281,7 +281,7 @@
             this.TxtEmail.Location = new System.Drawing.Point(138, 300);
             this.TxtEmail.Margin = new System.Windows.Forms.Padding(4);
             this.TxtEmail.Name = "TxtEmail";
-            this.TxtEmail.Size = new System.Drawing.Size(546, 38);
+            this.TxtEmail.Size = new System.Drawing.Size(546, 30);
             this.TxtEmail.TabIndex = 5;
             this.TxtEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtEmail_KeyDown);
             // 
@@ -316,7 +316,7 @@
             this.CmbIdenType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbIdenType.Properties.DropDownRows = 10;
-            this.CmbIdenType.Size = new System.Drawing.Size(200, 38);
+            this.CmbIdenType.Size = new System.Drawing.Size(200, 30);
             this.CmbIdenType.TabIndex = 0;
             this.CmbIdenType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbIdenType_KeyDown);
             // 
@@ -329,7 +329,7 @@
             this.CmbGender.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.CmbGender.Properties.DropDownRows = 10;
-            this.CmbGender.Size = new System.Drawing.Size(200, 38);
+            this.CmbGender.Size = new System.Drawing.Size(200, 30);
             this.CmbGender.TabIndex = 7;
             // 
             // LblPhone
@@ -348,7 +348,7 @@
             this.TxtPhone.Location = new System.Drawing.Point(138, 371);
             this.TxtPhone.Margin = new System.Windows.Forms.Padding(4);
             this.TxtPhone.Name = "TxtPhone";
-            this.TxtPhone.Size = new System.Drawing.Size(200, 38);
+            this.TxtPhone.Size = new System.Drawing.Size(200, 30);
             this.TxtPhone.TabIndex = 6;
             this.TxtPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPhone_KeyDown);
             // 
@@ -386,7 +386,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(773, 496);
+            this.ClientSize = new System.Drawing.Size(932, 565);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadPhone);
             this.Controls.Add(this.LblPersonType);

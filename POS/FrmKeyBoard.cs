@@ -15,13 +15,11 @@ namespace POS
         public string customerEmail = "";
         public string observation = "";
 
-        public FrmKeyBoard(string CadenaC = "")
+        public FrmKeyBoard()
         {
             InitializeComponent();
-            this.CadenaC = CadenaC;     //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         }
 
-        string CadenaC;    //13/07/2022  Se agregó para que Cadena de conexion sea parametrizable
         #region Keyboard Buttons
         private void BtnQ_Click(object sender, EventArgs e)
         {
@@ -293,7 +291,7 @@ namespace POS
 
         //05/07/2022
         private void TxtValue_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {          
+        {
 
             if (((int)e.KeyCode) == 27)
             {
@@ -303,7 +301,7 @@ namespace POS
 
             if (((int)e.KeyCode) == 13)
             {
-                this.BtnEnter_Click(null,null);
+                this.BtnEnter_Click(null, null);
             }
 
         }

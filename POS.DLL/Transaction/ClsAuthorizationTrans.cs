@@ -6,12 +6,12 @@ namespace POS.DLL.Transaction
 {
     public class ClsAuthorizationTrans
     {
-        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password, string CadenaC = "")
+        public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password)
         {
             SP_Supervisor_Validate_Result result;
             try
             {
-                result = new POSEntities(CadenaC).SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
+                result = new POSEntities().SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -21,8 +21,7 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public SP_GaranCheck_Authorize_Result GetGaranCheckAuth(
-                                                                    int _bankId
+        public SP_GaranCheck_Authorize_Result GetGaranCheckAuth(int _bankId
                                                                     , string _accountNumber
                                                                     , int _checkNumber
                                                                     , decimal _checkAmount
@@ -30,14 +29,13 @@ namespace POS.DLL.Transaction
                                                                     , string _ownerName
                                                                     , string _phone
                                                                     , string _reference
-                                                                    , string _CadenaC = ""
                                                                 )
         {
             SP_GaranCheck_Authorize_Result result;
 
             try
             {
-                result = new POSEntities(_CadenaC).SP_GaranCheck_Authorize(
+                result = new POSEntities().SP_GaranCheck_Authorize(
                                                     _bankId
                                                     , _accountNumber
                                                     , _checkNumber
@@ -56,22 +54,19 @@ namespace POS.DLL.Transaction
             return result;
         }
 
-        public List<CancelReason> ConsultReasons(int _reasonType, string CadenaC = "")
+        public IEnumerable<CancelReason> ConsultReasons(int _reasonType)
         {
-            List<CancelReason> result;
             try
             {
-                result = (from re in new POSEntities(CadenaC).CancelReason
-                          where re.Status.Equals("A")
-                          && re.ReasonType == _reasonType
-                          select re).ToList();
+                return new POSEntities()
+                    .CancelReason
+                    .Where(re => re.Status.Equals("A") && re.ReasonType == _reasonType)
+                    .ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return result;
         }
     }
 }
