@@ -1,12 +1,13 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -15,18 +16,18 @@ namespace POS
 {
     public partial class FrmRemissionGuideOrderSelector : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public EmissionPoint emissionPoint;
         public bool isUpdated = false;
-        Int64 sequenceNumber;
+        long sequenceNumber;
 
         public FrmRemissionGuideOrderSelector()
         {
             InitializeComponent();
-         }
+        }
 
-         private void FrmRemissionGuideOrderSelector_Load(object sender, EventArgs e)
+        private void FrmRemissionGuideOrderSelector_Load(object sender, EventArgs e)
         {
             if (GetEmissionPointInformation())
             {
@@ -40,59 +41,54 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
+            if (addressIP == "")
+            {
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return false;
+            }
+            else
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
                 }
             }
-            else
+
+            if (emissionPoint == null)
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
-            {
-                response = true;
-                LblEstablishment.Text = emissionPoint.Establishment;
-                LblEmissionPoint.Text = emissionPoint.Emission;
-                functions.PrinterName = emissionPoint.PrinterName;
-                LblCashier.Text = loginInformation.UserName;
+            LblEstablishment.Text = emissionPoint.Establishment;
+            LblEmissionPoint.Text = emissionPoint.Emission;
+            functions.PrinterName = emissionPoint.PrinterName;
+            LblCashier.Text = loginInformation.UserName;
 
-                GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
-            }
-            else
-            {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
-            }
-
-            return response;
+            GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
+            return true;
         }
 
 
         private void GetNewSequenceNumber(int _emissionPointId, int _locationId)
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
+            ClsGeneral clsGeneral = new ClsGeneral(Program.customConnectionString);
             SequenceTable sequenceTable;
 
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.REMISSIONGUIDE);
+                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)DLL.Enums.SequenceType.REMISSIONGUIDE);
 
                 if (sequenceTable != null)
                 {
@@ -102,7 +98,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", MessageType.WARNING);
                     Close();
                 }
             }
@@ -110,7 +106,7 @@ namespace POS
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al obtener secuencia."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -130,26 +126,23 @@ namespace POS
         {
             try
             {
-                List<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder().GetPendingSalesOrders();
-                BindingList<SP_RemissionPendingSalesOrder_Consult_Result> bindingList = new BindingList<SP_RemissionPendingSalesOrder_Consult_Result>(list);
+                IEnumerable<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetPendingSalesOrders();
+                BindingList<SP_RemissionPendingSalesOrder_Consult_Result> bindingList = new BindingList<SP_RemissionPendingSalesOrder_Consult_Result>(list.ToList());
                 if (bindingList.Count == 0)
                 {
-                    functions.ShowMessage("No existen ordenes de venta lista para insertar a una guia de remision", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existen ordenes de venta lista para insertar a una guia de remision", MessageType.WARNING);
                     Close();
+                    return;
                 }
-                else
-                {
-                    GrcSalesOrder.DataSource = bindingList;
-                }
+
+                GrcSalesOrder.DataSource = bindingList;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al consultar ordenes pendientes."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al consultar ordenes pendientes.",
+                     MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
         }
 
@@ -157,27 +150,23 @@ namespace POS
         {
             try
             {
-                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
-                if (transportDrivers != null)
+                IEnumerable<TransportDriver> transportDrivers = new ClsSalesOrder(Program.customConnectionString).GetTransportDrivers();
+
+                if (transportDrivers?.Count() > 0)
                 {
-                    if (transportDrivers.Count > 0)
+                    foreach (TransportDriver transportDriver in transportDrivers)
                     {
-                        foreach (TransportDriver transportDriver in transportDrivers)
-                        {
-                            CmbTransportDriver.Properties.Items.Add(new ImageComboBoxItem { Value = transportDriver.TransportDriverId, Description = transportDriver.Firtsname + " " + transportDriver.Lastname });
-                        }
-                        CmbTransportDriver.SelectedIndex = 0;
+                        CmbTransportDriver.Properties.Items.Add(new ImageComboBoxItem { Value = transportDriver.TransportDriverId, Description = transportDriver.Firtsname + " " + transportDriver.Lastname });
                     }
+                    CmbTransportDriver.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                                          "Ocurrio un problema al consultar conductores."
-                                                          , ClsEnums.MessageType.ERROR
-                                                          , true
-                                                          , ex.InnerException.Message
-                                                      );
+                functions.ShowMessage("Ocurrio un problema al consultar conductores.",
+                    MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -185,24 +174,23 @@ namespace POS
         {
             try
             {
-                List<Transport> transports = new ClsSalesOrder().GetTransports();
-                if (transports != null)
+                IEnumerable<Transport> transports = new ClsSalesOrder(Program.customConnectionString).GetTransports();
+
+                if (transports?.Count() > 0)
                 {
-                    if (transports.Count > 0)
+                    foreach (Transport transport in transports)
                     {
-                        foreach (Transport transport in transports)
-                        {
-                            CmbTransport.Properties.Items.Add(new ImageComboBoxItem { Value = transport.TransportId, Description = transport.LicencePlate });
-                        }
-                        CmbTransport.SelectedIndex = 0;
+                        CmbTransport.Properties.Items.Add(new ImageComboBoxItem { Value = transport.TransportId, Description = transport.LicencePlate });
                     }
+                    CmbTransport.SelectedIndex = 0;
                 }
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                                           "Ocurrio un problema al consultar conductores."
-                                                          , ClsEnums.MessageType.ERROR
+                                                          , MessageType.ERROR
                                                           , true
                                                           , ex.InnerException.Message
                                                       );
@@ -212,27 +200,23 @@ namespace POS
         {
             try
             {
-                List<TransportReason> transportReasons = new ClsSalesOrder().GetTransportReasons();
-                if (transportReasons != null)
+                IEnumerable<TransportReason> transportReasons = new ClsSalesOrder(Program.customConnectionString).GetTransportReasons();
+
+                if (transportReasons?.Count() > 0)
                 {
-                    if (transportReasons.Count > 0)
+                    foreach (TransportReason transportReason in transportReasons)
                     {
-                        foreach (TransportReason transportReason in transportReasons)
-                        {
-                            CmbTransportReason.Properties.Items.Add(new ImageComboBoxItem { Value = transportReason.TransportReasonId, Description = transportReason.Name });
-                        }
-                        CmbTransportReason.SelectedIndex = 0;
+                        CmbTransportReason.Properties.Items.Add(new ImageComboBoxItem { Value = transportReason.TransportReasonId, Description = transportReason.Name });
                     }
+                    CmbTransportReason.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                                          "Ocurrio un problema al consultar conductores."
-                                                          , ClsEnums.MessageType.ERROR
-                                                          , true
-                                                          , ex.InnerException.Message
-                                                      );
+                functions.ShowMessage("Ocurrio un problema al consultar conductores.",
+                    MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -250,7 +234,7 @@ namespace POS
             }
             if (checkedItems == 0)
             {
-                functions.ShowMessage("Para crear una guia, se requiere que esten marcados 1 o mas pedidos.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Para crear una guia, se requiere que esten marcados 1 o mas pedidos.", MessageType.WARNING);
                 return;
             }
 
@@ -281,10 +265,10 @@ namespace POS
                 Type type = remissionTable.GetType();
                 PropertyInfo[] properties = type.GetProperties();
 
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(remissionTable);
+                    string name = prop.Name;
+                    object value = prop.GetValue(remissionTable);
 
                     if (value == null)
                     {
@@ -308,10 +292,10 @@ namespace POS
                         type = line.GetType();
                         properties = type.GetProperties();
 
-                        foreach (var prop in properties)
+                        foreach (PropertyInfo prop in properties)
                         {
-                            var name = prop.Name;
-                            var value = prop.GetValue(line);
+                            string name = prop.Name;
+                            object value = prop.GetValue(line);
 
                             if (value == null)
                             {
@@ -324,32 +308,32 @@ namespace POS
                     }
                 }
 
-                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans().CreateNewRemissionGuide(salesRemission.ToString());
+                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans(Program.customConnectionString).CreateNewRemissionGuide(salesRemission.ToString());
                 if (!(bool)result.Error)
                 {
                     isUpdated = true;
 
-                    if (functions.PrintDocument((long)result.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE, false))
+                    if (functions.PrintDocument((long)result.SalesRemissionId, DocumentType.REMISSIONGUIDE, false))
                     {
-                        functions.ShowMessage("Guia de remision creada exitosamente.", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Guia de remision creada exitosamente.", MessageType.INFO);
                         //DELETE PAYMODES
                         Close();
                     }
                     else
                     {
-                        functions.ShowMessage("La guia se creo correctamente pero no se pudo imprimir.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("La guia se creo correctamente pero no se pudo imprimir.", MessageType.WARNING);
                         Close();
                     }
                 }
                 else
                 {
-                    functions.ShowMessage("Existio un error al guardar guia de retencion", ClsEnums.MessageType.ERROR, true, result.TextError);
+                    functions.ShowMessage("Existio un error al guardar guia de retencion", MessageType.ERROR, true, result.TextError);
                     Close();
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Existio un error al guardar guia de retencion", ClsEnums.MessageType.ERROR, true, ex.Message);
+                functions.ShowMessage("Existio un error al guardar guia de retencion", MessageType.ERROR, true, ex.Message);
             }
         }
 
@@ -360,8 +344,10 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.SALESORDER_ID
+            };
             keyPad.ShowDialog();
 
             int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);

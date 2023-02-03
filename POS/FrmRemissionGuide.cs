@@ -1,10 +1,11 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
@@ -41,7 +42,7 @@ namespace POS
 
                 if (list.Count == 0)
                 {
-                    functions.ShowMessage("No existen guias de remisiones activas", Classes.ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existen guias de remisiones activas", MessageType.WARNING);
                     return;
                 }
 
@@ -62,7 +63,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al cargar guias de remision", Classes.ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("Ocurrio un problema al cargar guias de remision", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -85,34 +86,29 @@ namespace POS
         {
             try
             {
-                List<TransportDriver> transportDrivers = new ClsSalesOrder().GetTransportDrivers();
-                if (transportDrivers != null)
+                IEnumerable<TransportDriver> transportDrivers = new ClsSalesOrder(Program.customConnectionString).GetTransportDrivers();
+
+                if (transportDrivers?.Count() > 0)
                 {
-                    if (transportDrivers.Count > 0)
+                    foreach (TransportDriver transportDriver in transportDrivers)
                     {
-                        foreach (TransportDriver transportDriver in transportDrivers)
-                        {
-                            CmbTransportDriver.Properties.Items.Add(new ImageComboBoxItem { Value = transportDriver.TransportDriverId, Description = transportDriver.Firtsname + " " + transportDriver.Lastname });
-                        }
-                        CmbTransportDriver.Properties.Items.Insert(0, new ImageComboBoxItem { Value = 0, Description = "Todos" });
-                        CmbTransportDriver.SelectedIndex = 0;
+                        CmbTransportDriver.Properties.Items.Add(new ImageComboBoxItem { Value = transportDriver.TransportDriverId, Description = transportDriver.Firtsname + " " + transportDriver.Lastname });
                     }
+                    CmbTransportDriver.Properties.Items.Insert(0, new ImageComboBoxItem { Value = 0, Description = "Todos" });
+                    CmbTransportDriver.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                                          "Ocurrio un problema al consultar conductores."
-                                                          , ClsEnums.MessageType.ERROR
-                                                          , true
-                                                          , ex.InnerException.Message
-                                                      );
+                functions.ShowMessage("Ocurrio un problema al consultar conductores.",
+                     MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -121,13 +117,13 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -135,7 +131,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             if (emissionPoint != null)
@@ -145,7 +141,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -153,7 +149,6 @@ namespace POS
 
         private void LoadPendingRemissionGuides()
         {
-            List<SP_RemissionGuide_Consult_Result> result;
             try
             {
                 long userId = 0;
@@ -168,18 +163,18 @@ namespace POS
                 }
 
 
-                result = new ClsSalesOrder().GetActiveRemissionGuides(userId, driverId);
-                if (result.Count == 0)
+                IEnumerable<SP_RemissionGuide_Consult_Result> result = new ClsSalesOrder(Program.customConnectionString).GetActiveRemissionGuides(userId, driverId);
+                if (result.Count() == 0)
                 {
                     GrcSalesOrder.DataSource = null;
                 }
 
-                BindingList<SP_RemissionGuide_Consult_Result> bindingList = new BindingList<SP_RemissionGuide_Consult_Result>(result);
+                BindingList<SP_RemissionGuide_Consult_Result> bindingList = new BindingList<SP_RemissionGuide_Consult_Result>(result.ToList());
                 GrcRemissionGuide.DataSource = bindingList;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se pudo cargar las guias de remisiones activas", Classes.ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("No se pudo cargar las guias de remisiones activas", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -218,13 +213,13 @@ namespace POS
 
             try
             {
-                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId);
-                BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list);
+                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId);
+                BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list.ToList());
                 GrcSalesOrder.DataSource = bind;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se pudo cargar las ordenes de venta de esta guia", Classes.ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("No se pudo cargar las ordenes de venta de esta guia", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -233,7 +228,7 @@ namespace POS
             BindingList<SP_RemissionGuide_Consult_Result> list = (BindingList<SP_RemissionGuide_Consult_Result>)GrcRemissionGuide.DataSource;
             if (list.Count == 0)
             {
-                functions.ShowMessage("No existe guias de remision a imprimir.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe guias de remision a imprimir.", MessageType.WARNING);
                 return;
             }
 
@@ -247,18 +242,18 @@ namespace POS
                     long lastId = result.SalesRemissionId;
                     if (lastId == 0)
                     {
-                        functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No hay documento previo existente.", MessageType.WARNING);
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.REMISSIONGUIDE, false);
+                        functions.PrintDocument(lastId, DocumentType.REMISSIONGUIDE, false);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al imprimir la última factura."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );

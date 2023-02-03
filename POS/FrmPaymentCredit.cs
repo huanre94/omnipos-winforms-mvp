@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Windows.Forms;
@@ -19,17 +19,17 @@ namespace POS
         public long internalCreditCardId;
         public string internalCreditCardCode = string.Empty;
         public int salesOriginId;
-        ClsFunctions functions = new ClsFunctions();
-        ClsEnums.ScaleBrands scaleBrand;
+        readonly ClsFunctions functions = new ClsFunctions();
+        ScaleBrands scaleBrand;
 
         public FrmPaymentCredit()
         {
             InitializeComponent();
-         }
+        }
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            if (new ClsInvoiceTrans().ConsultSalesOriginCredit(salesOriginId))
+            if (new ClsInvoiceTrans(Program.customConnectionString).ConsultSalesOriginCredit(salesOriginId))
             {
                 formActionResult = true;
                 Close();
@@ -45,9 +45,9 @@ namespace POS
                             LblAuthorization.Visible = true;
                             TxtCreditCardCode.Visible = true;
 
-                            scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+                            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                            if (scaleBrand == ScaleBrands.DATALOGIC)
                             {
                                 functions.AxOPOSScanner = scanner;
                                 functions.DisableScanner();
@@ -65,7 +65,7 @@ namespace POS
                             {
                                 if (customer.IsEmployee && !(bool)customer.IsCredit)
                                 {
-                                    functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
+                                    functions.ShowMessage("No se ha ingresado la tarjeta de afiliado.", MessageType.WARNING);
                                     Close();
                                 }
                             }
@@ -73,7 +73,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("El cliente no puede realizar compra a Crédito.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El cliente no puede realizar compra a Crédito.", MessageType.WARNING);
                         DialogResult = DialogResult.Cancel;
                     }
                 }
@@ -88,7 +88,7 @@ namespace POS
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
-                customer = new ClsCustomer().GetCustomerById(customer.CustomerId);
+                customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(customer.CustomerId);
                 decimal _creditLimit = customer.CreditLimit;
                 LblCreditLimit.Text = $"{_creditLimit:#.00}";
                 LblHolderName.Text = $"{customer.Firtsname} {customer.Lastname}";
@@ -105,22 +105,14 @@ namespace POS
 
         private bool ValidateCustomerInformation()
         {
-            bool response = false;
-
-            if (customer != null)
+            if (customer?.CustomerId == 1)
             {
-                if (customer.CustomerId != 1)
-                {
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
-                    DialogResult = DialogResult.Cancel;
-                }
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
+                DialogResult = DialogResult.Cancel;
+                return false;
             }
 
-            return response;
+            return true;
         }
 
         private bool ValidateInternalCreditFields()
@@ -135,7 +127,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", MessageType.WARNING);
                 }
             }
             else
@@ -154,7 +146,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (isPresentingCreditCard && scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            if (isPresentingCreditCard && scaleBrand == ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
                 functions.AxOPOSScanner = scanner;
@@ -175,45 +167,41 @@ namespace POS
 
         private void GetInternalCreditCard(string _internalCreditCardCode)
         {
-            SP_InternalCreditCard_Consult_Result result;
-
             if (_internalCreditCardCode == "")
             {
-                functions.ShowMessage("Debe proporcionar el código de la tarjeta de afiliado.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe proporcionar el código de la tarjeta de afiliado.", MessageType.WARNING);
                 return;
             }
 
             try
             {
-                result = new ClsCustomerTrans().GetInternalCreditCard(_internalCreditCardCode);
+                SP_InternalCreditCard_Consult_Result internalCreditCardCustomer = new ClsCustomerTrans(Program.customConnectionString).GetInternalCreditCard(_internalCreditCardCode);
 
-                if (result != null)
+                if (internalCreditCardCustomer == null)
                 {
-                    if (result.CustomerId == customer.CustomerId)
-                    {
-                        LblHolderName.Text = result.Name;
-                        creditLimit = result.Consumed;
-                        LblCreditLimit.Text = $"{creditLimit:0.##}";
-                        internalCreditCardId = result.InternalCreditCardId;
-                        internalCreditCardCode = result.Barcode;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("El cliente tiene que ser el titular de la tarjeta.", ClsEnums.MessageType.ERROR);
-                        TxtCreditCardCode.Text = "";
-                    }
-                }
-                else
-                {
-                    functions.ShowMessage("No existe titular asociado a la tarjeta ingresada.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existe titular asociado a la tarjeta ingresada.", MessageType.WARNING);
                     TxtCreditCardCode.Text = "";
+                    return;
                 }
+
+                if (internalCreditCardCustomer.CustomerId != customer.CustomerId)
+                {
+                    functions.ShowMessage("El cliente tiene que ser el titular de la tarjeta.", MessageType.ERROR);
+                    TxtCreditCardCode.Text = "";
+                    return;
+                }
+
+                LblHolderName.Text = internalCreditCardCustomer.Name;
+                creditLimit = internalCreditCardCustomer.Consumed;
+                LblCreditLimit.Text = $"{creditLimit:0.##}";
+                internalCreditCardId = internalCreditCardCustomer.InternalCreditCardId;
+                internalCreditCardCode = internalCreditCardCustomer.Barcode;
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al consultar tarjeta de consumo."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                         );
@@ -228,7 +216,7 @@ namespace POS
                 {
                     formActionResult = true;
 
-                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                    if (scaleBrand == ScaleBrands.DATALOGIC)
                     {
                         functions.DisableScanner();
                         functions.AxOPOSScanner = scanner;
@@ -253,12 +241,12 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("El saldo de la tarjeta es insuficiente para realizar la compra.", MessageType.WARNING);
                         }
                     }
                     else
                     {
-                        functions.ShowMessage("La tarjeta no posee cupo.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("La tarjeta no posee cupo.", MessageType.WARNING);
                     }
                 }
             }

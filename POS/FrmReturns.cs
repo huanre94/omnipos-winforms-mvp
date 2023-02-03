@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -23,7 +23,6 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -32,13 +31,13 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -46,7 +45,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             if (emissionPoint != null)
@@ -61,7 +60,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -69,30 +68,27 @@ namespace POS
 
         private void GetNewSequenceNumber(int _emissionPointId, int _locationId)
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
-            SequenceTable sequenceTable;
-
             try
             {
-                sequenceTable = clsGeneral.GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)ClsEnums.SequenceType.INVOICE);
+                SequenceTable sequenceTable = new ClsGeneral(Program.customConnectionString).GetSequenceByEmissionPointId(_emissionPointId, _locationId, (int)DLL.Enums.SequenceType.INVOICE);
 
-                if (sequenceTable != null)
+                if (sequenceTable == null)
                 {
-                    sequenceNumber = sequenceTable.Sequence;
-                    string stringSequence = sequenceNumber.ToString();
-                    LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
-                }
-                else
-                {
-                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existe secuencia asignada a este punto de emisión.", MessageType.WARNING);
                     Close();
+                    return;
                 }
+
+                sequenceNumber = sequenceTable.Sequence;
+                string stringSequence = sequenceNumber.ToString();
+                LblInvoiceNumber.Text = stringSequence.PadLeft(9, '0');
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al obtener secuencia."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -119,7 +115,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
                     DialogResult = DialogResult.Cancel;
                 }
             }

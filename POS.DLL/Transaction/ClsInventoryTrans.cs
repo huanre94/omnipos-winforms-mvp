@@ -8,7 +8,7 @@ namespace POS.DLL.Transaction
     {
         public SP_PhysicalStockLine_Insert_Result InsertPhysicalStockCounting(int sequence, string _xml)
         {
-            var db = new POSEntities();
+            POSEntities db = new POSEntities();
             SP_PhysicalStockLine_Insert_Result result;
 
             try
@@ -25,7 +25,7 @@ namespace POS.DLL.Transaction
 
         public SP_PhysicalStockTable_Insert_Result InsertNewSequence(string _xml)
         {
-            var db = new POSEntities();
+            POSEntities db = new POSEntities();
             SP_PhysicalStockTable_Insert_Result result;
 
             try
@@ -57,7 +57,7 @@ namespace POS.DLL.Transaction
 
         public List<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id)
         {
-            var db = new POSEntities();
+            POSEntities db = new POSEntities();
             List<SP_PhysicalStockLine_Consult_Result> list;
             try
             {
@@ -75,7 +75,7 @@ namespace POS.DLL.Transaction
             bool response = false;
             try
             {
-                using (var db = new POSEntities())
+                using (POSEntities db = new POSEntities())
                 {
 
                     PhysicalStockCountingTable table =

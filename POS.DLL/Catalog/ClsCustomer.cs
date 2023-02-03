@@ -6,11 +6,18 @@ namespace POS.DLL.Catalog
 {
     public class ClsCustomer
     {
+        private readonly string connectionString;
+
+        public ClsCustomer(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
         public IEnumerable<IdentType> GetIdentTypes()
         {
             try
             {
-                return new POSEntities()
+                return new POSEntities(connectionString)
                      .IdentType
                      .Where(ide => ide.Status.Equals("A") && ide.IdentTypeId != 5)
                      .ToList();
@@ -25,7 +32,7 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities()
+                return new POSEntities(connectionString)
                     .Customer
                     .Where(cust => cust.Status == "A" && cust.Identification == _indentification)
                     .FirstOrDefault();
@@ -34,14 +41,13 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
         public Customer GetCustomerById(long _customerId)
         {
             try
             {
-                return new POSEntities()
+                return new POSEntities(connectionString)
                     .Customer
                     .Where(cust => cust.Status.Equals("A") && cust.CustomerId == _customerId)
                     .FirstOrDefault();
@@ -54,18 +60,14 @@ namespace POS.DLL.Catalog
 
         public SP_Customer_Insert_Result CreateOrUpdateCustomer(string _customerXml)
         {
-            SP_Customer_Insert_Result result;
-
             try
             {
-                result = new POSEntities().SP_Customer_Insert(_customerXml).FirstOrDefault();
+                return new POSEntities(connectionString).SP_Customer_Insert(_customerXml).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return result;
         }
 
         public FN_Identification_Validate_Result ValidateCustomerIdentification(string _identification, string _idenType)
@@ -74,7 +76,7 @@ namespace POS.DLL.Catalog
 
             try
             {
-                result = new POSEntities().FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
+                result = new POSEntities(connectionString).FN_Identification_Validate(_identification, _idenType).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -84,49 +86,50 @@ namespace POS.DLL.Catalog
             return result;
         }
 
-        public List<CustomerAddress> GetCustomerAddressesById(Customer _customer)
+        public IEnumerable<CustomerAddress> GetCustomerAddressesById(Customer _customer)
         {
-            var db = new POSEntities();//07/07/2022  Se incremento linea de la variable
-            List<CustomerAddress> result;
+            POSEntities db = new POSEntities(connectionString);//07/07/2022  Se incremento linea de la variable
             try
             {
-                result = (from ca in db.CustomerAddress
-                          join cu in db.Customer on ca.CustomerId equals cu.CustomerId
-                          where ca.CustomerId == _customer.CustomerId
-                          && ca.Status == "A"
-                          select ca).ToList();
+                return new POSEntities(connectionString)
+                    .CustomerAddress
+                    .Join(db.Customer,
+                    cu => cu.CustomerId,
+                    ca => ca.CustomerId,
+                    (cu, ca) => new { CustomerAddress = cu, Customer = ca })
+                    .Where(cuca => cuca.Customer.CustomerId == _customer.CustomerId
+                          && cuca.CustomerAddress.Status == "A")
+                    .Select(cuca => cuca.CustomerAddress)
+                    .ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return result;
         }
 
         public SP_CustomerAddress_Insert_Result CreateCustomerDeliveryAddress(string xml)
         {
-            SP_CustomerAddress_Insert_Result result;
             try
             {
-                result = new POSEntities().SP_CustomerAddress_Insert(xml).FirstOrDefault();
+                return new POSEntities(connectionString).SP_CustomerAddress_Insert(xml).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return result;
         }
 
         public bool UpdateCustomerDeliveryAddress(CustomerAddress customerAddress)
         {
-            var db = new POSEntities();
-            CustomerAddress address;
+            POSEntities db = new POSEntities(connectionString);
             try
             {
-                address = (from cu in db.CustomerAddress
-                           where cu.CustomerAddressId == customerAddress.CustomerAddressId
-                           && cu.CustomerId == customerAddress.CustomerId
-                           select cu).First();
+                CustomerAddress address =
+                    db
+                    .CustomerAddress
+                    .Where(cu => cu.CustomerAddressId == customerAddress.CustomerAddressId && cu.CustomerId == customerAddress.CustomerId)
+                    .FirstOrDefault();
 
                 address.Address = customerAddress.Address;
                 address.AddressReference = customerAddress.AddressReference;

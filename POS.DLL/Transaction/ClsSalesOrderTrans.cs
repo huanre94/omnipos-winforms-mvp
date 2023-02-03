@@ -6,15 +6,21 @@ namespace POS.DLL.Transaction
 {
     public class ClsSalesOrderTrans
     {
+        private readonly string connectionString;
+
+        public ClsSalesOrderTrans(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
         public SP_Login_Consult_Result loginInformation;
 
         public SP_RemissionGuideInvoice_Insert_Result FinishRemissionGuide(long _remissionGuideId, int _emissionPointId, int _locationId)
         {
-            POSEntities db = new POSEntities();
             SP_RemissionGuideInvoice_Insert_Result result;
             try
             {
-                result = db.SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, loginInformation.UserId, loginInformation.Workstation).FirstOrDefault();
+                result = new POSEntities(connectionString).SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, loginInformation.UserId, loginInformation.Workstation).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -25,7 +31,7 @@ namespace POS.DLL.Transaction
 
         public SP_SalesOrderOmnipos_Insert_Result CreateOrUpdateSalesOrder(string _xml, long _salesOrderId = 0)
         {
-            POSEntities db = new POSEntities();
+            POSEntities db = new POSEntities(connectionString);
             SP_SalesOrderOmnipos_Insert_Result result;
             try
             {
@@ -49,7 +55,7 @@ namespace POS.DLL.Transaction
 
         public bool CancelSalesOrder(long _salesOrderId, bool cancelFromGuide = false)
         {
-            POSEntities db = new POSEntities();
+            POSEntities db = new POSEntities(connectionString);
             SalesOrder order;
             try
             {
@@ -92,7 +98,7 @@ namespace POS.DLL.Transaction
 
         public bool FinishSalesOrder(long _salesOrderId)
         {
-            POSEntities db = new POSEntities();
+            POSEntities db = new POSEntities(connectionString);
             SalesOrder order;
             try
             {
@@ -113,7 +119,7 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                return new POSEntities().SP_SalesOrderRemission_Insert(_remissionGuideXml).First();
+                return new POSEntities(connectionString).SP_SalesOrderRemission_Insert(_remissionGuideXml).First();
             }
             catch (Exception ex)
             {
@@ -125,7 +131,7 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                return new POSEntities().SP_RemissionGuide_Cancel(_remissionId, loginInformation.UserId).First();
+                return new POSEntities(connectionString).SP_RemissionGuide_Cancel(_remissionId, loginInformation.UserId).First();
             }
             catch (Exception ex)
             {
@@ -137,7 +143,7 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                return new POSEntities().SP_SalesOrderTicket_Consult(_salesOrderId, _openCashier, _emissionPointId).ToList();
+                return new POSEntities(connectionString).SP_SalesOrderTicket_Consult(_salesOrderId, _openCashier, _emissionPointId).ToList();
             }
             catch (Exception ex)
             {
@@ -149,7 +155,7 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                return new POSEntities().SP_RemissionGuideTicket_Consult(_remissionGuideId).ToList();
+                return new POSEntities(connectionString).SP_RemissionGuideTicket_Consult(_remissionGuideId).ToList();
             }
             catch (Exception ex)
             {

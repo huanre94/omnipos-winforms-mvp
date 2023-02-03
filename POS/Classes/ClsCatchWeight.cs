@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.DLL.Enums;
+using System;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -12,19 +13,19 @@ namespace POS.Classes
         private SerialPort serialPort;
         private string portName;
         private decimal weight;
-        private ClsEnums.ScaleBrands scaleBrand;
+        private ScaleBrands scaleBrand;
         private bool useScanner = false;
         private bool requestWeight = false;
         private bool useCatchWeight = false;
 
         public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
-        public ClsEnums.ScaleBrands ScaleBrand
+        public ScaleBrands ScaleBrand
         {
-            get { return scaleBrand; }
+            get => scaleBrand;
             set
             {
                 scaleBrand = value;
-                if (value != ClsEnums.ScaleBrands.DATALOGIC)
+                if (value != ScaleBrands.DATALOGIC)
                 {
                     if (serialPort.IsOpen)
                     {
@@ -36,22 +37,16 @@ namespace POS.Classes
             }
         }
         public bool IsOpen => serialPort != null && serialPort.IsOpen;
-
         public SerialPort Serial { get { return serialPort; } }
-
         public decimal Weight { get { return weight; } }
-
         public Control ControlToShowText { get; set; }
-
         public string PortName { get { return portName; } set { portName = value; } }
 
-        public ClsCatchWeight(
-                                ClsEnums.ScaleBrands _scaleBrand
-                                , string _portName = ""
-                                , bool _useScanner = false
-                                , bool _requestWeight = false
-                                , bool _useCatchWeight = false
-                            )
+        public ClsCatchWeight(ScaleBrands _scaleBrand,
+            string _portName = "",
+            bool _useScanner = false,
+            bool _requestWeight = false,
+            bool _useCatchWeight = false)
         {
             scaleBrand = _scaleBrand;
             portName = _portName;
@@ -71,25 +66,24 @@ namespace POS.Classes
                 AxOPOSScale.BeginInit();
                 int isOpen = AxOPOSScale.Open(_scaleName);
 
-                if (isOpen == 0)
+                if (isOpen != 0)
                 {
-                    AxOPOSScale.ClaimDevice(1000);
-
-                    if (AxOPOSScale.Claimed)
-                    {
-                        AxOPOSScale.DeviceEnabled = true;
-                        AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                    }
+                    functions.ShowMessage("El puerto de la balanza esta cerrado.", MessageType.WARNING);
+                    return;
                 }
-                else
+
+                AxOPOSScale.ClaimDevice(1000);
+
+                if (AxOPOSScale.Claimed)
                 {
-                    functions.ShowMessage("El puerto de la balanza esta cerrado.", ClsEnums.MessageType.WARNING);
+                    AxOPOSScale.DeviceEnabled = true;
+                    AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al habilitar balanza.",
-                    ClsEnums.MessageType.ERROR,
+                    MessageType.ERROR,
                     true,
                     ex.Message);
             }
@@ -107,7 +101,7 @@ namespace POS.Classes
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al deshabilitar balanza.",
-                        ClsEnums.MessageType.ERROR,
+                        MessageType.ERROR,
                         true,
                         ex.Message);
                 }
@@ -122,7 +116,7 @@ namespace POS.Classes
         {
             try
             {
-                if (scaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                if (scaleBrand != ScaleBrands.DATALOGIC)
                 {
                     // SerialPortFixer.Execute(this.portName);
                     //serial = new SerialPort(this.portName, 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
@@ -138,19 +132,19 @@ namespace POS.Classes
                         {
                             switch (scaleBrand)
                             {
-                                case ClsEnums.ScaleBrands.CAS:
+                                case ScaleBrands.CAS:
                                     {
                                         serialPort.NewLine = "\n";
                                         serialPort.WriteLine("P");
                                         break;
                                     }
 
-                                case ClsEnums.ScaleBrands.METTLER_TOLEDO:
+                                case ScaleBrands.METTLER_TOLEDO:
                                     {
                                         serialPort.NewLine = "\r";
                                         break;
                                     }
-                                case ClsEnums.ScaleBrands.DATALOGIC:
+                                case ScaleBrands.DATALOGIC:
                                     {
                                         serialPort.NewLine = "\r";
                                         break;
@@ -168,7 +162,7 @@ namespace POS.Classes
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al abrir puerto serial de la balanza.",
-                    ClsEnums.MessageType.ERROR,
+                    MessageType.ERROR,
                     true,
                     ex.Message);
             }
@@ -195,7 +189,7 @@ namespace POS.Classes
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema en la lectura desde el puerto serial de la balanza.",
-                    ClsEnums.MessageType.ERROR,
+                    MessageType.ERROR,
                     true,
                     ex.Message);
             }

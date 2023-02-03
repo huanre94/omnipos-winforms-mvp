@@ -1,4 +1,6 @@
-﻿using POS.Classes;
+﻿using POS.DLL;
+using POS.DLL.Enums;
+using POS.DLL.Transaction;
 using System;
 using System.Windows.Forms;
 
@@ -15,50 +17,50 @@ namespace POS
         public FrmPaymentGiftcard()
         {
             InitializeComponent();
-         }
+        }
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (TxtGiftCard.Text != "")
+            if (TxtGiftCard.Text == "")
             {
-                DLL.SP_GiftCard_Consult_Result result;
-                DLL.Transaction.ClsCustomerTrans customer = new DLL.Transaction.ClsCustomerTrans();
+                functions.ShowMessage("El numero de bono no puede estar vacio.", MessageType.WARNING);
+                return;
+            }
 
-                try
-                {
-                    result = customer.GetGiftCard(TxtGiftCard.Text);
+            try
+            {
+                SP_GiftCard_Consult_Result result = new ClsCustomerTrans(Program.customConnectionString).GetGiftCard(TxtGiftCard.Text);
 
-                    if (result != null)
-                    {
-                        if (result.Type == "PR")
-                        {
-                            functions.ShowMessage("El bono ingresado es un bono de producto. Por favor consultar con Supervisor.", ClsEnums.MessageType.WARNING);
-                        }
-                        else
-                        {
-                            LblDocument.Text = result.InvoiceNumber;
-                            LblReference.Text = result.CustomerNameInvoice;
-                            giftcardAmount = (decimal)result.Amount;
-                            giftcardNumber = result.GiftCardNumber;
-                            LblAmount.Text = giftcardAmount.ToString();
-                            BtnAccept.Focus();  //07/07/2022
-                        }
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe bono con el numero ingresado.", ClsEnums.MessageType.WARNING);
-                        TxtGiftCard.Text = "";
-                    }
-                }
-                catch (Exception ex)
+                if (result == null)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al consultar el bono."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                            );
+                    functions.ShowMessage("No existe bono con el numero ingresado.", MessageType.WARNING);
+                    TxtGiftCard.Text = "";
+                    return;
                 }
+
+                if (result.Type == "PR")
+                {
+                    functions.ShowMessage("El bono ingresado es un bono de producto. Por favor consultar con Supervisor.", MessageType.WARNING);
+                    return;
+                }
+
+                LblDocument.Text = result.InvoiceNumber;
+                LblReference.Text = result.CustomerNameInvoice;
+                giftcardAmount = (decimal)result.Amount;
+                giftcardNumber = result.GiftCardNumber;
+                LblAmount.Text = giftcardAmount.ToString();
+                BtnAccept.Focus();  //07/07/2022
+
+
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al consultar el bono."
+                                        , MessageType.ERROR
+                                        , true
+                                        , ex.InnerException.Message
+                                        );
             }
         }
 
@@ -66,27 +68,28 @@ namespace POS
         {
             if (ValidateGiftCardFields())
             {
-                if (giftcardAmount > 0)
+                if (giftcardAmount <= 0)
                 {
-                    if (giftcardAmount == paidAmount)
+                    functions.ShowMessage("El bono no cuenta con cupo.", MessageType.WARNING);
+                    DialogResult = DialogResult.None;
+                    return;
+                }
+
+                if (giftcardAmount != paidAmount)
+                {
+                    if (paidAmount > giftcardAmount)
                     {
-                        TxtGiftCard.Text = "";
-                        formActionResult = true;
-                    }
-                    else if (paidAmount > giftcardAmount)
-                    {
-                        functions.ShowMessage("El saldo del bono es insuficiente para realizar la compra.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El saldo del bono es insuficiente para realizar la compra.", MessageType.WARNING);
                     }
                     else
                     {
-                        functions.ShowMessage("El bono tiene que ser debitado en su totalidad.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El bono tiene que ser debitado en su totalidad.", MessageType.WARNING);
                     }
+                    return;
                 }
-                else
-                {
-                    functions.ShowMessage("El bono no cuenta con cupo.", ClsEnums.MessageType.WARNING);
-                    this.DialogResult = DialogResult.None;
-                }
+
+                TxtGiftCard.Text = "";
+                formActionResult = true;
             }
         }
 
@@ -102,12 +105,13 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("No se obtuvieron datos del bono.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No se obtuvieron datos del bono.", MessageType.WARNING);
                 }
             }
             else
             {
-                functions.ShowMessage("Debe proporcionar el numero del bono.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe proporcionar el numero del bono.", MessageType.WARNING);
+                return false;
             }
 
             if (!response)
@@ -120,8 +124,10 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.GIFTCARD_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.GIFTCARD_NUMBER
+            };
             keyPad.ShowDialog();
             TxtGiftCard.Text = keyPad.giftcardNumber;
             TxtGiftCard.Focus();

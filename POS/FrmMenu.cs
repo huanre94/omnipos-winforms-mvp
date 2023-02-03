@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         public static EmissionPoint emissionPoint;
 
         public FrmMenu()
@@ -141,22 +141,18 @@ namespace POS
 
         private void BtnPhysicalInventory_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
             bool allowInventory = false;
 
             try
             {
-                allowInventory = new POSEntities()
-                    .GlobalParameter
-                    .Where(par => par.Name == "AllowPhysicalInventory")
-                    .Select(par => par.Value)
-                    .FirstOrDefault() == "1";
+                allowInventory = new ClsGeneral(Program.customConnectionString).GetParameterByName("AllowPhysicalInventory").Value == "1";
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                     "Ocurrio un problema al configurar validar inventario."
-                                    , ClsEnums.MessageType.ERROR
+                                    , MessageType.ERROR
                                     , true
                                     , ex.Message
                                   );
@@ -177,7 +173,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("La toma de inventario no se encuentra habilitada.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("La toma de inventario no se encuentra habilitada.", MessageType.WARNING);
             }
 
             System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -190,30 +186,28 @@ namespace POS
 
             if (addressIP == "")
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
                 return false;
             }
 
             try
             {
-                emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información de punto de emisión."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                    MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
 
             try
             {
-                var pendingClosing = new ClsClosingTrans().PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
+                bool pendingClosing = new ClsClosingTrans(Program.customConnectionString).PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
                 if (pendingClosing)
                 {
-                    functions.ShowMessage("Existen cierres pendientes por otro usuario.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Existen cierres pendientes por otro usuario.", MessageType.WARNING);
                 }
 
                 return true;
@@ -221,7 +215,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.Message);
 

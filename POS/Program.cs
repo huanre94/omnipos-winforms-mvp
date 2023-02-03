@@ -1,10 +1,6 @@
 ﻿using Microsoft.Win32;  //14/07/2022
 using System;
-using System.Configuration;
-using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace POS

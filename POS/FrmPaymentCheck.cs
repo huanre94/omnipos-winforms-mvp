@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -26,9 +26,9 @@ namespace POS
         public FrmPaymentCheck()
         {
             InitializeComponent();
-         }
+        }
 
-          private void FrmPaymentCheck_Load(object sender, EventArgs e)
+        private void FrmPaymentCheck_Load(object sender, EventArgs e)
         {
             if (ValidateCustomerInformation())
             {
@@ -47,7 +47,7 @@ namespace POS
         {
             if (customer?.CustomerId == 1)
             {
-                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
                 DialogResult = DialogResult.Cancel;
                 return false;
             }
@@ -62,7 +62,7 @@ namespace POS
         private void BtnKeyboardOwner_Click(object sender, EventArgs e)
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERNAME;
+            keyBoard.inputFromOption = InputFromOption.CHECK_OWNERNAME;
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
             TxtOwnerName.Focus();
@@ -70,7 +70,7 @@ namespace POS
         private void BtnKeypadIdentification_Click(object sender, EventArgs e)
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION;
+            keyBoard.inputFromOption = InputFromOption.CHECK_OWNERIDENTIFICATION;
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.checkOwnerIdentification;
             TxtIdentification.Focus();
@@ -79,7 +79,7 @@ namespace POS
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_PHONE;
+            keyPad.inputFromOption = InputFromOption.CHECK_PHONE;
             keyPad.ShowDialog();
             TxtPhone.Text = keyPad.checkPhone;
             TxtPhone.Focus();   //06/07/2022
@@ -88,7 +88,7 @@ namespace POS
         private void BtnKeypadAccount_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER;
+            keyPad.inputFromOption = InputFromOption.CHECK_ACCOUNTNUMBER;
             keyPad.ShowDialog();
             TxtAccountNumber.Text = keyPad.checkAccountNumber;
             TxtAccountNumber.Focus();   //06/07/2022
@@ -97,7 +97,7 @@ namespace POS
         private void BtnKeypadCheck_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_NUMBER;
+            keyPad.inputFromOption = InputFromOption.CHECK_NUMBER;
             keyPad.ShowDialog();
             TxtCheckNumber.Text = keyPad.checkNumber;
             TxtCheckNumber.Focus();   //06/07/2022
@@ -106,7 +106,7 @@ namespace POS
         private void BtnKeypadAuth_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CHECK_AUTHORIZATION;
+            keyPad.inputFromOption = InputFromOption.CHECK_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.checkAuthorization;
         }
@@ -114,30 +114,24 @@ namespace POS
 
         private void LoadBanks()
         {
-            ClsPaymMode paymMode = new ClsPaymMode();
-            IEnumerable<Bank> banks;
-
             try
             {
-                banks = paymMode.GetBanks();
+                IEnumerable<Bank> banks = new ClsPaymMode(Program.customConnectionString).GetBanks();
 
                 if (banks?.Count() > 0)
                 {
-                    foreach (var bank in banks)
+                    foreach (Bank bank in banks)
                     {
                         CmbCheckBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Bancos."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al cargar lista de Bancos.",
+                    MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -148,12 +142,11 @@ namespace POS
                 int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
                 if (dateDiff == 0)
                 {
-                    ClsAuthorizationTrans authorization = new ClsAuthorizationTrans();
                     SP_GaranCheck_Authorize_Result authorizeResult;
 
                     try
                     {
-                        authorizeResult = authorization.GetGaranCheckAuth(
+                        authorizeResult = new ClsAuthorizationTrans(Program.customConnectionString).GetGaranCheckAuth(
                                                                             int.Parse(CmbCheckBank.EditValue.ToString())
                                                                             , TxtAccountNumber.Text
                                                                             , int.Parse(TxtCheckNumber.Text)
@@ -179,9 +172,8 @@ namespace POS
                             }
                             else
                             {
-                                bool response = functions.ShowMessage(
-                                                                        "No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
-                                                                        , ClsEnums.MessageType.CONFIRM
+                                bool response = functions.ShowMessage("No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
+                                                                        , MessageType.CONFIRM
                                                                         , true
                                                                         , result
                                                                         );
@@ -199,7 +191,7 @@ namespace POS
                     {
                         functions.ShowMessage(
                                                 "Ocurrio un problema al obtener autorizacion."
-                                                , ClsEnums.MessageType.ERROR
+                                                , MessageType.ERROR
                                                 , true
                                                 , ex.InnerException.Message
                                                 );
@@ -221,7 +213,7 @@ namespace POS
                 {
                     if (TxtAuthorization.Text == "")
                     {
-                        functions.ShowMessage("No ha solicitado autorizacion para el cheque.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No ha solicitado autorizacion para el cheque.", MessageType.WARNING);
                         DialogResult = DialogResult.None;
                     }
 
@@ -243,7 +235,7 @@ namespace POS
                 && TxtCheckDate.EditValue != null && TxtAccountNumber.Text != ""
                 && TxtCheckNumber.Text != "" && TxtCheckAmount.Text != ""))
             {
-                functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe llenar todos los campos", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return false;
             }
@@ -256,7 +248,7 @@ namespace POS
             try
             {
                 int dateDiffNumber = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
-                var isSameDay = dateDiffNumber == 0;
+                bool isSameDay = dateDiffNumber == 0;
                 TxtAuthorization.Enabled = isSameDay;
                 BtnAuthorization.Enabled = isSameDay;
             }

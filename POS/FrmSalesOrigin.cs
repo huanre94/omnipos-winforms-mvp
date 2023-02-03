@@ -1,7 +1,7 @@
 ﻿using DevExpress.Utils;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +26,7 @@ namespace POS
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                List<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder().GetSalesOrigins();
+                IEnumerable<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder(Program.customConnectionString).GetSalesOrigins();
 
                 BindingList<SP_SalesOrigin_Consult_Result> bindingOrigins = new BindingList<SP_SalesOrigin_Consult_Result>();
                 foreach (SP_SalesOrigin_Consult_Result item in salesOrigins)
@@ -45,7 +45,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar origenes de venta.",
-                    ClsEnums.MessageType.ERROR,
+                    MessageType.ERROR,
                     true,
                     ex.Message);
             }
@@ -53,18 +53,14 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (ILBSalesOrigin.SelectedItem != null)
+            if (ILBSalesOrigin.SelectedItem == null)
             {
-                SP_SalesOrigin_Consult_Result item = (SP_SalesOrigin_Consult_Result)ILBSalesOrigin.SelectedItem;
-                result = item;
+                functions.ShowMessage("Debe seleccionar un tipo de origen de venta.", MessageType.WARNING);
+                return;
             }
-            else
-            {
-                functions.ShowMessage(
-                                        "Debe seleccionar un tipo de origen de venta."
-                                        , ClsEnums.MessageType.WARNING
-                                    );
-            }
+
+            SP_SalesOrigin_Consult_Result item = (SP_SalesOrigin_Consult_Result)ILBSalesOrigin.SelectedItem;
+            result = item;
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,12 @@ namespace POS
         public long salesOrderId;
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder;
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
+        ClsSalesOrderTrans sales = new ClsSalesOrderTrans(Program.customConnectionString);
         XElement salesOrderXml = new XElement("SalesOrder");
         ClsCatchWeight catchWeight;
-        ClsEnums.ScaleBrands scaleBrand;
+        ScaleBrands scaleBrand;
         private string portName = "";
         public bool isUpdated = false;
         Customer customer;
@@ -65,9 +66,9 @@ namespace POS
                 {
                     if (emissionPoint.ScaleBrand != "")
                     {
-                        scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+                        scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                        if (scaleBrand == ScaleBrands.DATALOGIC)
                         {
                             catchWeight = new ClsCatchWeight(scaleBrand);
                             catchWeight.AxOPOSScale = AxOPOSScale;
@@ -80,7 +81,7 @@ namespace POS
                             string[] portNames = SerialPort.GetPortNames();
                             portName = string.Empty;
 
-                            foreach (var item in portNames)
+                            foreach (string item in portNames)
                             {
                                 portName = item;
                                 break;
@@ -88,7 +89,7 @@ namespace POS
                         }
                     }
 
-                    salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId);
+                    salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
                     if (salesOrder == null)
                     {
                         DialogResult = DialogResult.Cancel;
@@ -105,13 +106,12 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -120,13 +120,13 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -134,7 +134,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             if (emissionPoint != null)
@@ -145,7 +145,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -154,21 +154,23 @@ namespace POS
         private void LoadSalesOrderDetails()
         {
             LblSalesOrderNumber.Text = salesOrder.SalesOrderId.ToString();
-            customer = new ClsCustomer().GetCustomerById(salesOrder.CustomerId);
+            customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(salesOrder.CustomerId);
             LblCustomerId.Text = customer.Identification;
             LblCustomerName.Text = $"{customer.Firtsname } {customer.Lastname}";
             LblCustomerAddress.Text = customer.Address;
             LblCustomerTelephoneNumber.Text = customer.Phone;
             LblObservation.Text = salesOrder.Observation;
 
-            List<CustomerAddress> customerAddress = new ClsCustomer().GetCustomerAddressesById(customer);
+            IEnumerable<CustomerAddress> customerAddress = new ClsCustomer(Program.customConnectionString).GetCustomerAddressesById(customer);
             CustomerAddress selectedAddress = null;
-            selectedAddress = (from ca in customerAddress
-                               where ca.CustomerAddressId == salesOrder.CustomerAddressId
-                               select ca).FirstOrDefault();
+            selectedAddress =
+                customerAddress
+                .Where(ca => ca.CustomerAddressId == salesOrder.CustomerAddressId)
+                .FirstOrDefault();
+
             if (selectedAddress == null)
             {
-                functions.ShowMessage("Ocurrio un error al cargar direccion del pedido", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("Ocurrio un error al cargar direccion del pedido", MessageType.ERROR);
                 return;
             }
 
@@ -179,10 +181,10 @@ namespace POS
             CheckGridView(canAddNewItems);
             EnableKeypad(canAddNewItems);
 
-            var list = new ClsSalesOrder().GetSalesOrderProductsById(salesOrder.SalesOrderId);
-            if (list.Count != 0)
+            IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(salesOrder.SalesOrderId);
+            if (list.Count() != 0)
             {
-                foreach (var item in list)
+                foreach (SP_SalesOrderProduct_Consult_Result item in list)
                 {
                     AddRecordToGrid(item, false, item.Barcode);
                 }
@@ -266,13 +268,12 @@ namespace POS
                                            short _locationId
                                            , string _barcode
                                            , decimal _qty
-                                           , Int64 _customerId
-                                           , Int64 _internalCreditCardId
+                                           , long _customerId
+                                           , long _internalCreditCardId
                                            , string _paymMode
                                            , bool _skipCatchWeight
                                            )
         {
-            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
             SP_Product_Consult_Result result;
             bool updateRecord = false;
             decimal qtyFound = 0;
@@ -297,12 +298,12 @@ namespace POS
                     }
 
 
-                    var searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                    where xm.Element("Barcode").Value == searchBarcode
-                                    || xm.Element("Barcode").Value == _barcode
-                                    select xm;
+                    IEnumerable<XElement> searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
+                                                      where xm.Element("Barcode").Value == searchBarcode
+                                                      || xm.Element("Barcode").Value == _barcode
+                                                      select xm;
 
-                    foreach (var node in searchXml.Elements())
+                    foreach (XElement node in searchXml.Elements())
                     {
                         updateRecord = true;
 
@@ -349,7 +350,7 @@ namespace POS
                         }
                     }
 
-                    result = clsInvoiceTrans.ProductConsult(_locationId
+                    result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId
                                                             , _barcode
                                                             , _qty
                                                             , _customerId
@@ -361,7 +362,7 @@ namespace POS
                     {
                         if (result.Price == 0)
                         {
-                            functions.ShowMessage("No se puede procesar un producto con precio cero.", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("No se puede procesar un producto con precio cero.", MessageType.WARNING);
                             return;
                         }
 
@@ -382,7 +383,7 @@ namespace POS
 
                                     if (weight > 0)
                                     {
-                                        result = clsInvoiceTrans.ProductConsult(
+                                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
                                                                                 _locationId
                                                                                 , _barcode
                                                                                 , weight + qtyFound
@@ -395,7 +396,7 @@ namespace POS
                                     }
                                     else
                                     {
-                                        functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
+                                        functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
                                         canInsert = false;
                                     }
                                 }
@@ -435,7 +436,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", MessageType.WARNING);
                         TxtBarcode.Text = "";
                         TxtBarcode.Focus();
                     }
@@ -444,7 +445,7 @@ namespace POS
                 {
                     functions.ShowMessage(
                                             "Hubo un problema al consultar producto."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                             );
@@ -452,7 +453,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("El código de barras no puede estar vacío.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El código de barras no puede estar vacío.", MessageType.WARNING);
             }
         }
 
@@ -465,7 +466,7 @@ namespace POS
 
             //if (salesOrder.OrderECommerce > 0)
             //{
-            //    functions.ShowMessage("Pedidos de E-Commerce no contiene comanda.", ClsEnums.MessageType.INFO);
+            //    functions.ShowMessage("Pedidos de E-Commerce no contiene comanda.",  MessageType.INFO);
             //}
             //else
             //{
@@ -481,7 +482,7 @@ namespace POS
             //    }
             //    catch (Exception ex)
             //    {
-            //        functions.ShowMessage("No se pudo mostrar comanda.", ClsEnums.MessageType.WARNING, true, ex.Message);
+            //        functions.ShowMessage("No se pudo mostrar comanda.",  MessageType.WARNING, true, ex.Message);
             //    }
             //}
         }
@@ -511,10 +512,10 @@ namespace POS
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
                 GrvSalesDetail.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
 
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(_productResult);
+                    string name = prop.Name;
+                    dynamic value = prop.GetValue(_productResult);
 
                     if (value == null)
                     {
@@ -545,11 +546,11 @@ namespace POS
                 GrvSalesDetail.SetRowCellValue(GrvSalesDetail.FocusedRowHandle, GrvSalesDetail.Columns["LineAmount"], _productResult.LineAmount);
                 GrvSalesDetail.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
 
-                var updateQuery = from r in salesOrderXml.Descendants("SalesOrderLine")
-                                  where r.Element("ProductId").Value == _productResult.ProductId.ToString()
-                                  select r;
+                IEnumerable<XElement> updateQuery = from r in salesOrderXml.Descendants("SalesOrderLine")
+                                                    where r.Element("ProductId").Value == _productResult.ProductId.ToString()
+                                                    select r;
 
-                foreach (var query in updateQuery)
+                foreach (XElement query in updateQuery)
                 {
                     query.Element("Cost").SetValue(_productResult.Cost);
                     query.Element("Price").SetValue(_productResult.Price);
@@ -582,10 +583,10 @@ namespace POS
             decimal invoiceAmount = 0.00M;
             decimal discAmount = 0.00M;
 
-            var line = from r in salesOrderXml.Descendants("SalesOrderLine")
-                       select r;
+            IEnumerable<XElement> line = from r in salesOrderXml.Descendants("SalesOrderLine")
+                                         select r;
 
-            foreach (var item in line)
+            foreach (XElement item in line)
             {
                 discAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
@@ -612,21 +613,21 @@ namespace POS
 
         private void BtnCancelSale_Click(object sender, EventArgs e)
         {
-            if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", ClsEnums.MessageType.CONFIRM))
+            if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.SALESORDER_CANCEL))
+                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
                 {
                     sales.loginInformation = loginInformation;
                     if (sales.CancelSalesOrder(salesOrder.SalesOrderId))
                     {
                         isUpdated = true;
-                        functions.ShowMessage("Orden Cancelada Exitosamente", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Orden Cancelada Exitosamente", MessageType.INFO);
                         Close();
                     }
                     else
                     {
-                        functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);
                     }
                 }
             }
@@ -636,11 +637,11 @@ namespace POS
         {
             if (decimal.Parse(LblTotal.Text) == 0)
             {
-                functions.ShowMessage("No existen elementos a guardar.", ClsEnums.MessageType.INFO);
+                functions.ShowMessage("No existen elementos a guardar.", MessageType.INFO);
                 return;
             }
 
-            if (functions.ShowMessage("Se procedera a guardar los cambios en la orden ¿Desea continuar?", ClsEnums.MessageType.CONFIRM))
+            if (functions.ShowMessage("Se procedera a guardar los cambios en la orden ¿Desea continuar?", MessageType.CONFIRM))
             {
                 try
                 {
@@ -650,17 +651,17 @@ namespace POS
                     SalesOrderPayment payment = new SalesOrderPayment()
                     {
                         Amount = decimal.Parse(LblTotal.Text),
-                        PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
+                        PaymModeId = (int)PaymModeEnum.EFECTIVO,
                         Authorization = string.Empty
                     };
 
                     Type type = payment.GetType();
                     PropertyInfo[] properties = type.GetProperties();
 
-                    foreach (var prop in properties)
+                    foreach (PropertyInfo prop in properties)
                     {
-                        var name = prop.Name;
-                        var value = prop.GetValue(payment);
+                        string name = prop.Name;
+                        object value = prop.GetValue(payment);
 
                         if (value == null)
                         {
@@ -676,17 +677,17 @@ namespace POS
                     if ((bool)!result.Error)
                     {
                         isUpdated = true;
-                        functions.ShowMessage("Detalles de la orden fueron guardados correctamente", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Detalles de la orden fueron guardados correctamente", MessageType.INFO);
                     }
                     else
                     {
-                        functions.ShowMessage("Existio un error al momento de guardar los detalles de la orden", ClsEnums.MessageType.WARNING, true, result.TextError);
+                        functions.ShowMessage("Existio un error al momento de guardar los detalles de la orden", MessageType.WARNING, true, result.TextError);
                     }
                 }
                 catch (Exception ex)
                 {
 
-                    functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                    functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", MessageType.WARNING, true, ex.InnerException.Message);
                 }
 
 
@@ -697,27 +698,27 @@ namespace POS
         {
             if (decimal.Parse(LblTotal.Text) <= 0)
             {
-                functions.ShowMessage("No puede finalizar una venta si no cuenta con items.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No puede finalizar una venta si no cuenta con items.", MessageType.WARNING);
                 TxtBarcode.Focus();
             }
             else
             {
-                salesOrder = new ClsSalesOrder().GetSalesOrderById(salesOrderId);
+                salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
                 if (salesOrder.Status != "A" && salesOrder.Status != "S")
                 {
-                    functions.ShowMessage("Solo puede finalizar la orden posterior al picking.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Solo puede finalizar la orden posterior al picking.", MessageType.WARNING);
                 }
                 else
                 {
                     functions.emissionPoint = emissionPoint;
-                    if (functions.ShowMessage("¿Esta seguro de finalizar la orden? Posterior a esto la orden solo podra ser agregada a una guia de remision", ClsEnums.MessageType.CONFIRM))
+                    if (functions.ShowMessage("¿Esta seguro de finalizar la orden? Posterior a esto la orden solo podra ser agregada a una guia de remision", MessageType.CONFIRM))
                     {
                         sales.loginInformation = loginInformation;
                         if (sales.FinishSalesOrder(salesOrder.SalesOrderId))
                         {
                             isUpdated = true;
-                            functions.PrintDocument(salesOrderId, ClsEnums.DocumentType.SALESORDER, false);
-                            functions.ShowMessage("Orden cambiada a Packing Exitosamente", ClsEnums.MessageType.INFO);
+                            functions.PrintDocument(salesOrderId, DocumentType.SALESORDER, false);
+                            functions.ShowMessage("Orden cambiada a Packing Exitosamente", MessageType.INFO);
                             Close();
                         }
                     }
@@ -731,7 +732,7 @@ namespace POS
 
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No se ha seleccionado producto a anular.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("No se ha seleccionado producto a anular.", MessageType.ERROR);
             }
             else
             {
@@ -751,9 +752,9 @@ namespace POS
                         }
                     }
 
-                    var newInvoiceXML = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                        where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
-                                        select xm;
+                    IEnumerable<XElement> newInvoiceXML = from xm in salesOrderXml.Descendants("SalesOrderLine")
+                                                          where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
+                                                          select xm;
 
                     XElement element = null;
                     if (newInvoiceXML.Count() == 1)
@@ -780,7 +781,7 @@ namespace POS
 
         private void FrmSalesOrder_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            if (scaleBrand == ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
                 catchWeight.DisableScale();
@@ -827,7 +828,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
                 }
             }
 
@@ -839,12 +840,12 @@ namespace POS
             int rowIndex = GrvSalesDetail.FocusedRowHandle;
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No ha seleccionado ningun producto.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No ha seleccionado ningun producto.", MessageType.WARNING);
             }
             else
             {
                 FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
+                keyPad.inputFromOption = InputFromOption.PRODUCT_QUANTITY;
                 keyPad.ShowDialog();
 
                 if (keyPad.productQuantity != "")
@@ -855,12 +856,12 @@ namespace POS
 
                     if (newAmount > row.Quantity)
                     {
-                        var searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                        where long.Parse(xm.Element("ProductId").Value) == row.ProductId
-                                        select xm;
+                        IEnumerable<XElement> searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
+                                                          where long.Parse(xm.Element("ProductId").Value) == row.ProductId
+                                                          select xm;
 
                         string barcode = "";
-                        foreach (var item in searchXml.Elements())
+                        foreach (XElement item in searchXml.Elements())
                         {
                             if (item.Name == "Barcode")
                                 barcode = item.Value;
@@ -880,7 +881,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", MessageType.WARNING);
                     }
                 }
             }

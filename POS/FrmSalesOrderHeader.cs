@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace POS
     public partial class FrmSalesOrderHeader : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrder sales = new ClsSalesOrder();
+        ClsSalesOrder sales = new ClsSalesOrder(Program.customConnectionString);
         Customer currentCustomer = new Customer();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         CustomerAddress customerAddress;
         public bool formActionResult = false;
-        List<SalesOrigin> salesOrigins;
+        IEnumerable<SalesOrigin> salesOrigins;
 
         public FrmSalesOrderHeader()
         {
@@ -31,81 +31,84 @@ namespace POS
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = Classes.ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION;
+            FrmKeyBoard keyBoard = new FrmKeyBoard
+            {
+                inputFromOption = InputFromOption.CUSTOMER_IDENTIFICATION
+            };
             keyBoard.ShowDialog();
 
-            if (keyBoard.customerIdentification != "")
+            if (keyBoard.customerIdentification == "")
             {
-                ClsCustomer clsCustomer = new ClsCustomer();
-                string identification = keyBoard.customerIdentification;
+                return;
+            }
 
-                try
+            string identification = keyBoard.customerIdentification;
+
+            try
+            {
+                currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(identification);
+
+                if (currentCustomer != null)
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(identification);
-
-                    if (currentCustomer != null)
+                    if (currentCustomer?.CustomerId > 0)
                     {
-                        if (currentCustomer.CustomerId > 0)
+                        //if (currentCustomer.IsEmployee)
+                        //{
+                        //    bool response = functions.ShowMessage("El cliente es un empleado, desea utilizar la tarjeta de afiliado?.",  MessageType.CONFIRM);
+
+                        //    if (response)
+                        //    {
+                        //        FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
+                        //        paymentCredit.customer = currentCustomer;
+                        //        paymentCredit.emissionPoint = emissionPoint;
+                        //        paymentCredit.scanner = AxOPOSScanner;
+                        //        paymentCredit.isPresentingCreditCard = true;
+                        //        paymentCredit.ShowDialog();
+
+                        //        if (paymentCredit.formActionResult)
+                        //        {
+                        //            internalCreditCardId = paymentCredit.internalCreditCardId;
+                        //            internalCreditCardCode = paymentCredit.internalCreditCardCode;
+                        //        }
+                        //    }
+                        //}
+
+                        LblCustomerId.Text = currentCustomer.Identification;
+                        LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
+                        LblCustomerAddress.Text = currentCustomer.Address;
+                        LblCustomerEmail.Text = currentCustomer.Email;
+                    }
+                }
+                else
+                {
+                    bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", MessageType.CONFIRM);
+
+                    if (response)
+                    {
+                        currentCustomer = CreateCustomer(identification);
+
+                        if (currentCustomer != null)
                         {
-                            //if (currentCustomer.IsEmployee)
-                            //{
-                            //    bool response = functions.ShowMessage("El cliente es un empleado, desea utilizar la tarjeta de afiliado?.", ClsEnums.MessageType.CONFIRM);
-
-                            //    if (response)
-                            //    {
-                            //        FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
-                            //        paymentCredit.customer = currentCustomer;
-                            //        paymentCredit.emissionPoint = emissionPoint;
-                            //        paymentCredit.scanner = AxOPOSScanner;
-                            //        paymentCredit.isPresentingCreditCard = true;
-                            //        paymentCredit.ShowDialog();
-
-                            //        if (paymentCredit.formActionResult)
-                            //        {
-                            //            internalCreditCardId = paymentCredit.internalCreditCardId;
-                            //            internalCreditCardCode = paymentCredit.internalCreditCardCode;
-                            //        }
-                            //    }
-                            //}
-
                             LblCustomerId.Text = currentCustomer.Identification;
                             LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
                             LblCustomerAddress.Text = currentCustomer.Address;
                             LblCustomerEmail.Text = currentCustomer.Email;
                         }
-                    }
-                    else
-                    {
-                        bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", ClsEnums.MessageType.CONFIRM);
-
-                        if (response)
+                        else
                         {
-                            currentCustomer = CreateCustomer(identification);
-
-                            if (currentCustomer != null)
-                            {
-                                LblCustomerId.Text = currentCustomer.Identification;
-                                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
-                                LblCustomerAddress.Text = currentCustomer.Address;
-                                LblCustomerEmail.Text = currentCustomer.Email;
-                            }
-                            else
-                            {
-                                functions.ShowMessage("No se pudo cargar datos de cliente.", ClsEnums.MessageType.WARNING);
-                            }
+                            functions.ShowMessage("No se pudo cargar datos de cliente.", MessageType.WARNING);
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información del cliente."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage(
+                                        "Ocurrio un problema al cargar información del cliente."
+                                        , MessageType.ERROR
+                                        , true
+                                        , ex.Message
+                                    );
             }
         }
 
@@ -135,7 +138,6 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -144,7 +146,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -153,14 +155,14 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -168,7 +170,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -176,28 +178,24 @@ namespace POS
 
         private void LoadSalesOrigin()
         {
-            ClsSalesOrder customer = new ClsSalesOrder();
             try
             {
-                salesOrigins = customer.GetSalesOrderOrigin(false);
+                salesOrigins = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin(false);
 
-                if (salesOrigins != null)
+                if (salesOrigins?.Count() > 0)
                 {
-                    if (salesOrigins.Count > 0)
+                    foreach (SalesOrigin identType in salesOrigins)
                     {
-                        foreach (SalesOrigin identType in salesOrigins)
-                        {
-                            CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = identType.SalesOriginId, Description = identType.Name });
-                        }
-                        CmbSalesOrderOrigin.SelectedIndex = 0;
+                        CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = identType.SalesOriginId, Description = identType.Name });
                     }
+                    CmbSalesOrderOrigin.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar origenes de orden."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -209,7 +207,7 @@ namespace POS
             BtnCustomer.Enabled = true;
             BtnDeliveryAddress.Enabled = true;
 
-            currentCustomer = new ClsCustomer().GetCustomerById(1);
+            currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
             LblCustomerId.Text = currentCustomer.Identification;
             LblCustomerName.Text = $"{ currentCustomer.Firtsname} {currentCustomer.Lastname}";
             LblCustomerAddress.Text = currentCustomer.Address;
@@ -226,7 +224,7 @@ namespace POS
         {
             if (currentCustomer.CustomerId == 1)
             {
-                functions.ShowMessage("No puede seleccionar direccion para un cliente CONSUMIDOR FINAL.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No puede seleccionar direccion para un cliente CONSUMIDOR FINAL.", MessageType.WARNING);
             }
             else
             {
@@ -251,125 +249,122 @@ namespace POS
         {
             if (currentCustomer.CustomerId == 1)
             {
-                functions.ShowMessage("No puede guardar orden de venta para un cliente CONSUMIDOR FINAL.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No puede guardar orden de venta para un cliente CONSUMIDOR FINAL.", MessageType.WARNING);
+                return;
             }
-            else
+
+            if (richTextBox1.Text == string.Empty)
             {
-                if (richTextBox1.Text == string.Empty)
+                functions.ShowMessage("Comanda no puede esta vacia.", MessageType.WARNING);
+                return;
+            }
+
+            if (customerAddress == null)
+            {
+                functions.ShowMessage("Debe seleccionar un direccion de entrega.", MessageType.WARNING);
+                return;
+            }
+
+            SalesOrigin origin = salesOrigins
+                .Where(li => li.SalesOriginId == int.Parse(CmbSalesOrderOrigin.EditValue.ToString()))
+                .FirstOrDefault();
+
+            XElement header = new XElement("SalesOrder");
+            XElement headerNode = new XElement("SalesOrder");
+            SalesOrder salesOrder = new SalesOrder
+            {
+                CustomerId = currentCustomer.CustomerId,
+                LocationId = emissionPoint.LocationId,
+                DeliveryDate = EdtDeliveryDate.Text == string.Empty ? DateTime.Now : DateTime.Parse(EdtDeliveryDate.Text),
+                Recipient = string.Format("{0} {1}", currentCustomer.Firtsname, currentCustomer.Lastname),
+                DeliveryAddress = customerAddress.Address,
+                CustomerAddressId = customerAddress.CustomerAddressId,
+                SalesmanId = origin.SalesmanId,
+                SalesOriginId = origin.SalesOriginId,
+                Observation = TxtObservation.Text,
+                Status = "O",
+                CreatedBy = (int)loginInformation.UserId,
+                ModifiedBy = (int)loginInformation.UserId,
+                Workstation = loginInformation.Workstation
+            };
+
+            Type type = salesOrder.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo prop in properties)
+            {
+                string name = prop.Name;
+                object value = prop.GetValue(salesOrder);
+
+                if (value == null)
                 {
-                    functions.ShowMessage("Comanda no puede esta vacia.", ClsEnums.MessageType.WARNING);
-                    return;
+                    value = "";
                 }
 
-                if (customerAddress == null)
-                {
-                    functions.ShowMessage("Debe seleccionar un direccion de entrega.", ClsEnums.MessageType.WARNING);
-                    return;
-                }
+                headerNode.Add(new XElement(name, value));
+            }
+            header.Add(headerNode);
 
-                SalesOrigin origin = (from li in salesOrigins
-                                      where li.SalesOriginId == int.Parse(CmbSalesOrderOrigin.EditValue.ToString())
-                                      select li).FirstOrDefault();
+            string[] array = richTextBox1.Text.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-                XElement header = new XElement("SalesOrder");
-                XElement headerNode = new XElement("SalesOrder");
-                SalesOrder salesOrder = new SalesOrder
+            for (int i = 0; i < array.Length; i++)
+            {
+                XElement textNode = new XElement("SalesOrderText");
+                SalesOrderText orderText = new SalesOrderText
                 {
-                    CustomerId = currentCustomer.CustomerId,
-                    LocationId = emissionPoint.LocationId,
-                    DeliveryDate = EdtDeliveryDate.Text == string.Empty ? DateTime.Now : DateTime.Parse(EdtDeliveryDate.Text),
-                    Recipient = string.Format("{0} {1}", currentCustomer.Firtsname, currentCustomer.Lastname),
-                    DeliveryAddress = customerAddress.Address,
-                    CustomerAddressId = customerAddress.CustomerAddressId,
-                    SalesmanId = origin.SalesmanId,
-                    SalesOriginId = origin.SalesOriginId,
-                    Observation = TxtObservation.Text,
-                    Status = "O",
+                    Sequence = i + 1,
+                    SalesOrderText1 = array[i].ToUpper(),
                     CreatedBy = (int)loginInformation.UserId,
                     ModifiedBy = (int)loginInformation.UserId,
                     Workstation = loginInformation.Workstation
                 };
 
-                Type type = salesOrder.GetType();
-                PropertyInfo[] properties = type.GetProperties();
+                type = orderText.GetType();
+                properties = type.GetProperties();
 
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(salesOrder);
+                    string name = prop.Name;
+                    object value = prop.GetValue(orderText);
 
                     if (value == null)
                     {
                         value = "";
                     }
 
-                    headerNode.Add(new XElement(name, value));
+                    textNode.Add(new XElement(name, value));
                 }
-                header.Add(headerNode);
+                header.Add(textNode);
+            }
 
-                string[] array = richTextBox1.Text.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int i = 0; i < array.Length; i++)
+            try
+            {
+                SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans(Program.customConnectionString).CreateOrUpdateSalesOrder(header.ToString());
+                if ((bool)result.Error)
                 {
-                    XElement textNode = new XElement("SalesOrderText");
-                    SalesOrderText orderText = new SalesOrderText
-                    {
-                        Sequence = i + 1,
-                        SalesOrderText1 = array[i].ToUpper(),
-                        CreatedBy = (int)loginInformation.UserId,
-                        ModifiedBy = (int)loginInformation.UserId,
-                        Workstation = loginInformation.Workstation
-                    };
-
-                    type = orderText.GetType();
-                    properties = type.GetProperties();
-
-                    foreach (var prop in properties)
-                    {
-                        var name = prop.Name;
-                        var value = prop.GetValue(orderText);
-
-                        if (value == null)
-                        {
-                            value = "";
-                        }
-
-                        textNode.Add(new XElement(name, value));
-                    }
-                    header.Add(textNode);
+                    functions.ShowMessage("No se pudo crear orden de venta.", MessageType.WARNING, true, result.TextError);
                 }
-
-                try
+                else
                 {
-                    SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans().CreateOrUpdateSalesOrder(header.ToString());
-                    if ((bool)result.Error)
+                    functions.emissionPoint = emissionPoint;
+                    if (functions.PrintDocument((long)result.SalesOrderId, DocumentType.SALESORDER, false))
                     {
-                        functions.ShowMessage("No se pudo crear orden de venta.", ClsEnums.MessageType.WARNING, true, result.TextError);
+                        functions.ShowMessage("Orden de Venta generada exitosamente.", MessageType.INFO);
                     }
                     else
                     {
-                        functions.emissionPoint = emissionPoint;
-                        if (functions.PrintDocument((long)result.SalesOrderId, ClsEnums.DocumentType.SALESORDER, false))
-                        {
-                            functions.ShowMessage("Orden de Venta generada exitosamente.", ClsEnums.MessageType.INFO);
-                        }
-                        else
-                        {
-                            functions.ShowMessage("La orden de venta fue generada exitosamente pero no se pudo imprimir.", ClsEnums.MessageType.WARNING);
-                        }
-                        formActionResult = true;
-                        DialogResult = DialogResult.OK;
+                        functions.ShowMessage("La orden de venta fue generada exitosamente pero no se pudo imprimir.", MessageType.WARNING);
                     }
+                    formActionResult = true;
+                    DialogResult = DialogResult.OK;
                 }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                                          "Ocurrio un problema al generar orden."
-                                                          , ClsEnums.MessageType.ERROR
-                                                          , true
-                                                          , ex.InnerException.Message
-                                                      );
-                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al generar orden.",
+                    MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 

@@ -9,8 +9,8 @@ namespace POS
         public FrmProductChecker()
         {
             InitializeComponent();
-         }
-      
+        }
+
         private void axOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
         {
             TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;

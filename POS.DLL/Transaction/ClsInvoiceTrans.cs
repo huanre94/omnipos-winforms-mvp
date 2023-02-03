@@ -7,6 +7,13 @@ namespace POS.DLL.Transaction
 {
     public class ClsInvoiceTrans
     {
+        private readonly string connectionString;
+
+        public ClsInvoiceTrans(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
         public SP_Product_Consult_Result ProductConsult(short _locationId
                                                         , string _barcode
                                                         , decimal _qty
@@ -16,11 +23,9 @@ namespace POS.DLL.Transaction
                                                         , string _barcodeBefore = ""
                                                          )
         {
-            SP_Product_Consult_Result result;
-
             try
             {
-                result = new POSEntities().SP_Product_Consult(_locationId
+                return new POSEntities(connectionString).SP_Product_Consult(_locationId
                                                 , _barcode
                                                 , _qty
                                                 , _customerId
@@ -33,20 +38,17 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.InnerException.Message);
             }
-
-            return result;
         }
 
         public SP_Invoice_Insert_Result CreateInvoice(XElement _invoiceXml)
         {
-            var db = new POSEntities();
             SP_Invoice_Insert_Result invoiceResult = null;
 
             try
             {
                 if (_invoiceXml.HasElements)
                 {
-                    invoiceResult = db.SP_Invoice_Insert(_invoiceXml.ToString()).FirstOrDefault();
+                    return new POSEntities(connectionString).SP_Invoice_Insert(_invoiceXml.ToString()).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -57,20 +59,16 @@ namespace POS.DLL.Transaction
             return invoiceResult;
         }
 
-        public List<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId, bool _openCashier = false)
+        public IEnumerable<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(Int64 _invoiceId, bool _openCashier = false)
         {
-            List<SP_InvoiceTicket_Consult_Result> invoiceTicketResult;
-
             try
             {
-                invoiceTicketResult = new POSEntities().SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
+                return new POSEntities(connectionString).SP_InvoiceTicket_Consult(_invoiceId, _openCashier).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.Message);
             }
-
-            return invoiceTicketResult;
         }
 
         public bool InsertCancelledSales(SalesLog salesLog)
@@ -88,7 +86,7 @@ namespace POS.DLL.Transaction
         }
 
         public bool HasSuspendedSale(EmissionPoint emissionPoint) =>
-            new POSEntities()
+            new POSEntities(connectionString)
                 .SalesLog
                 .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
                 && a.Status == "A"
@@ -98,29 +96,21 @@ namespace POS.DLL.Transaction
 
         public SP_SalesLog_Consult_Result ConsultSuspendedSale(EmissionPoint emissionPoint)
         {
-            POSEntities pos = new POSEntities();
-            SP_SalesLog_Consult_Result consult;
-
             try
             {
-                consult = pos.SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();
+                return new POSEntities(connectionString).SP_SalesLog_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return consult;
         }
 
         public long ConsultLastInvoice(EmissionPoint emissionPoint)
         {
-            POSEntities pos = new POSEntities();
-            long consult;
-
             try
             {
-                consult = pos
+                return new POSEntities(connectionString)
                     .InvoiceTable
                     .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId
                     && it.LocationId == emissionPoint.LocationId
@@ -134,20 +124,15 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.Message);
             }
-
-            return consult;
         }
 
-        public List<SP_InvoicePayment_Consult_Result> GetInvoicePayments(int _locationId
+        public IEnumerable<SP_InvoicePayment_Consult_Result> GetInvoicePayments(int _locationId
                                                                             , string _emissionPoint
                                                                             , string _invoiceNumber)
         {
-            var db = new POSEntities();
-            List<SP_InvoicePayment_Consult_Result> payments;
-
             try
             {
-                payments = db.SP_InvoicePayment_Consult(
+                return new POSEntities(connectionString).SP_InvoicePayment_Consult(
                                                         _locationId
                                                         , _emissionPoint
                                                         , _invoiceNumber
@@ -157,8 +142,6 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.Message);
             }
-
-            return payments;
         }
 
         public bool UpdateInvoicePayments(
@@ -169,7 +152,7 @@ namespace POS.DLL.Transaction
                                             , int _userId
                                             , string _workStation)
         {
-            var db = new POSEntities();
+            POSEntities db = new POSEntities(connectionString);
             bool response;
 
             InvoicePayment invoicePayment = (from x in db.InvoicePayment
@@ -229,37 +212,31 @@ namespace POS.DLL.Transaction
 
         public InvoiceTable ConsultInvoice(long invoiceId)
         {
-            POSEntities pos = new POSEntities();
-            InvoiceTable invoice;
             try
             {
-                invoice = new POSEntities().InvoiceTable.Where(inv => inv.InvoiceId == invoiceId).FirstOrDefault();
+                return new POSEntities(connectionString).InvoiceTable.Where(inv => inv.InvoiceId == invoiceId).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return invoice;
         }
 
         public SP_InvoiceCancel_Consult_Result ConsultInvoiceStatus(EmissionPoint emissionPoint, int invoiceNumber)
         {
-            SP_InvoiceCancel_Consult_Result response;
-
             try
             {
-                response = new POSEntities().SP_InvoiceCancel_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId, invoiceNumber).FirstOrDefault();
+                return new POSEntities(connectionString).SP_InvoiceCancel_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId, invoiceNumber).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return response;
         }
 
         public bool CancelInvoice(SalesLog salesLog, InvoiceTable _invoiceTable)
         {
-            POSEntities context = new POSEntities();
+            POSEntities context = new POSEntities(connectionString);
             try
             {
                 context.SalesLog.Add(salesLog);
@@ -285,10 +262,9 @@ namespace POS.DLL.Transaction
 
         public bool ConsultSalesOriginCredit(int salesOriginId)
         {
-            bool allowCredit = false;
             try
             {
-                allowCredit = new POSEntities()
+                return new POSEntities(connectionString)
                     .SalesOrigin
                     .Where(so => so.SalesOriginId == salesOriginId)
                     .Select(so => so.AllowCredit).FirstOrDefault();
@@ -297,7 +273,6 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.Message);
             }
-            return allowCredit;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using AxOposScale_CCO;
 using AxOposScanner_CCO;
-using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace POS
     {
         public AxOPOSScanner AxOPOSScanner { get; set; }
         public AxOPOSScale AxOPOSScale { get; set; }
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
         public int motiveId;
@@ -33,7 +34,7 @@ namespace POS
         /// <returns></returns>
         public bool ShowMessage(
                                 string _messageText
-                                , ClsEnums.MessageType _messageType = ClsEnums.MessageType.INFO
+                                , MessageType _messageType = MessageType.INFO
                                 , bool _showMessageDetail = false
                                 , string _messageTextDetail = ""
                                 )
@@ -92,14 +93,14 @@ namespace POS
                 }
                 else
                 {
-                    ShowMessage("El puerto del scanner esta cerrado.", ClsEnums.MessageType.WARNING);
+                    ShowMessage("El puerto del scanner esta cerrado.", MessageType.WARNING);
                 }
             }
             catch (Exception ex)
             {
                 ShowMessage(
                                 "Ocurrio un problema al habilitar scanner."
-                                , ClsEnums.MessageType.ERROR
+                                , MessageType.ERROR
                                 , true
                                 , ex.Message
                             );
@@ -120,7 +121,7 @@ namespace POS
                 {
                     ShowMessage(
                                     "Ocurrio un problema al deshabilitar scanner."
-                                    , ClsEnums.MessageType.ERROR
+                                    , MessageType.ERROR
                                     , true
                                     , ex.Message
                                 );
@@ -151,14 +152,14 @@ namespace POS
                 }
                 else
                 {
-                    ShowMessage("El puerto de la balanza esta cerrado.", ClsEnums.MessageType.WARNING);
+                    ShowMessage("El puerto de la balanza esta cerrado.", MessageType.WARNING);
                 }
             }
             catch (Exception ex)
             {
                 ShowMessage(
                                 "Ocurrio un problema al habilitar balanza."
-                                , ClsEnums.MessageType.ERROR
+                                , MessageType.ERROR
                                 , true
                                 , ex.Message
                             );
@@ -178,7 +179,7 @@ namespace POS
                 {
                     ShowMessage(
                                  "Ocurrio un problema al deshabilitar balanza."
-                                 , ClsEnums.MessageType.ERROR
+                                 , MessageType.ERROR
                                  , true
                                  , ex.Message
                              );
@@ -193,7 +194,7 @@ namespace POS
         public bool ValidateCatchWeightProduct(AxOPOSScale _axOposScale,
                                                 decimal _qty,
                                                 string _productName,
-                                                ClsEnums.ScaleBrands _scaleBrand,
+                                                 ScaleBrands _scaleBrand,
                                                 string _portName = "",
                                                 bool isTestMode = false)
         {
@@ -215,13 +216,11 @@ namespace POS
             if (catchWeight == 0)
             {
                 response = false;
-                ShowMessage("No se ha realizado captura de peso.", ClsEnums.MessageType.WARNING);
+                ShowMessage("No se ha realizado captura de peso.", MessageType.WARNING);
             }
             //End(IG001)
 
-            parameter = (from par in new POSEntities().GlobalParameter.ToList()
-                         where par.Name == "LostWeightQty"
-                         select par.Value).FirstOrDefault();
+            parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty").Value;
 
             lostWeight = _qty - catchWeight;
             lostWeight = Math.Abs(lostWeight);
@@ -229,7 +228,7 @@ namespace POS
             if (lostWeight > decimal.Parse(parameter))
             {
                 response = false;
-                ShowMessage("El peso es incorrecto. Vuelva a pesar el Producto.", ClsEnums.MessageType.WARNING);
+                ShowMessage("El peso es incorrecto. Vuelva a pesar el Producto.", MessageType.WARNING);
             }
 
             return response;
@@ -245,7 +244,7 @@ namespace POS
         /// <returns></returns>
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
                                     string _productName,
-                                    ClsEnums.ScaleBrands _scaleBrand,
+                                     ScaleBrands _scaleBrand,
                                     string _portName = "")
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
@@ -265,7 +264,7 @@ namespace POS
 
             try
             {
-                var printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
+                Printer printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
                 response = true;
@@ -274,7 +273,7 @@ namespace POS
             {
                 ShowMessage(
                                 "Ocurrió un problema al Imprimir el Documento."
-                                , ClsEnums.MessageType.ERROR
+                                , MessageType.ERROR
                                 , true
                                 , ex.Message
                             );
@@ -297,16 +296,16 @@ namespace POS
             }
             else
             {
-                var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                Version ver = Assembly.GetExecutingAssembly().GetName().Version;
                 return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
             }
         }
 
-        public bool PrintDocument(long _documentId, ClsEnums.DocumentType _documentType, bool _openCashier = false)
+        public bool PrintDocument(long _documentId, DocumentType _documentType, bool _openCashier = false)
         {
-            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans();
-            ClsClosingTrans clsClosingTrans = new ClsClosingTrans();
-            ClsSalesOrderTrans clsSalesOrderTrans = new ClsSalesOrderTrans();
+            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans(Program.customConnectionString);
+            ClsClosingTrans clsClosingTrans = new ClsClosingTrans(Program.customConnectionString);
+            ClsSalesOrderTrans clsSalesOrderTrans = new ClsSalesOrderTrans(Program.customConnectionString);
 
             IEnumerable<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             IEnumerable<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
@@ -319,48 +318,48 @@ namespace POS
             {
                 switch (_documentType)
                 {
-                    case ClsEnums.DocumentType.INVOICE:
+                    case DocumentType.INVOICE:
                         invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier);
 
                         if (invoiceTicket?.Count() > 0)
                         {
-                            foreach (var line in invoiceTicket)
+                            foreach (SP_InvoiceTicket_Consult_Result line in invoiceTicket)
                             {
                                 bodyText += line.BodyText + Environment.NewLine;
                             }
 
                         }
                         break;
-                    case ClsEnums.DocumentType.CLOSINGCASHIER:
+                    case DocumentType.CLOSINGCASHIER:
                         closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId);
 
                         if (closingCashierTicket?.Count() > 0)
                         {
-                            foreach (var line in closingCashierTicket)
+                            foreach (SP_ClosingCashierTicket_Consult_Result line in closingCashierTicket)
                             {
                                 bodyText += line.BodyText + Environment.NewLine;
                             }
                         }
 
                         break;
-                    case ClsEnums.DocumentType.SALESORDER:
+                    case DocumentType.SALESORDER:
                         salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false);
 
                         if (salesOrderTicket?.Count() > 0)
                         {
-                            foreach (var line in salesOrderTicket)
+                            foreach (SP_SalesOrderTicket_Consult_Result line in salesOrderTicket)
                             {
                                 bodyText += line.BodyText + Environment.NewLine;
                             }
                         }
 
                         break;
-                    case ClsEnums.DocumentType.REMISSIONGUIDE:
+                    case DocumentType.REMISSIONGUIDE:
                         remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
 
                         if (remissionGuideTicket?.Count() > 0)
                         {
-                            foreach (var line in remissionGuideTicket)
+                            foreach (string line in remissionGuideTicket)
                             {
                                 bodyText += line + Environment.NewLine;
                             }
@@ -377,7 +376,7 @@ namespace POS
             {
                 ShowMessage(
                                 "Ha ocurrido un problema al imprimir " + _documentType.ToString()
-                                , ClsEnums.MessageType.ERROR
+                                , MessageType.ERROR
                                 , true
                                 , ex.Message
                             );

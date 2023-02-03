@@ -1,8 +1,8 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Views.Grid;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -18,19 +18,19 @@ namespace POS
 {
     public partial class FrmPhysicalStockCount : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
-        public List<GlobalParameter> globalParameters;
+        readonly ClsFunctions functions = new ClsFunctions();
+        public IEnumerable<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
         public bool formActionResult;
         EmissionPoint emissionPoint;
-        ClsEnums.ScaleBrands scaleBrand;
+        ScaleBrands scaleBrand;
         private int sequence = 0;
 
         public FrmPhysicalStockCount()
         {
             InitializeComponent();
         }
-    
+
         private void FrmPhysicalStockCount_Load(object sender, EventArgs e)
         {
             ClearPhysicalStockCount();
@@ -38,9 +38,9 @@ namespace POS
             {
                 if (emissionPoint.ScaleBrand != "")
                 {
-                    scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+                    scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                    if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                    if (scaleBrand == ScaleBrands.DATALOGIC)
                     {
                         functions.AxOPOSScanner = AxOPOSScanner;
                         functions.EnableScanner(emissionPoint.ScanBarcodeName);
@@ -71,7 +71,7 @@ namespace POS
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar inventario."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
                                             );
@@ -111,7 +111,7 @@ namespace POS
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar detalle de inventario."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                         );
@@ -130,11 +130,11 @@ namespace POS
 
             try
             {
-                inventLocations = new ClsGeneral().GetMainWarehouseByLocationId(_locationId);
+                inventLocations = new ClsGeneral(Program.customConnectionString).GetMainWarehouseByLocationId(_locationId);
 
                 if (inventLocations.Any())
                 {
-                    foreach (var locations in inventLocations)
+                    foreach (InventLocation locations in inventLocations)
                     {
                         CmbWarehouse.Properties.Items.Add(new ImageComboBoxItem { Value = locations.InventLocationId, Description = locations.Name });
                     }
@@ -147,7 +147,7 @@ namespace POS
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar bodegas."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message);
             }
@@ -156,44 +156,36 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
+            if (addressIP == "")
             {
-                try
-                {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
-            {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
-                functions.PrinterName = emissionPoint.PrinterName;
-                LblCashierUser.Text = loginInformation.UserName;
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
             }
-            else
+            catch (Exception ex)
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                     MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
 
-            return response;
+
+            if (emissionPoint == null)
+            {
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                return false;
+            }
+
+            return true;
+            functions.PrinterName = emissionPoint.PrinterName;
+            LblCashierUser.Text = loginInformation.UserName;
         }
 
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
@@ -221,7 +213,7 @@ namespace POS
 
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No se ha seleccionado producto a eliminar.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("No se ha seleccionado producto a eliminar.", MessageType.ERROR);
             }
             else
             {
@@ -246,7 +238,7 @@ namespace POS
         private void BtnInternalCodeKeypad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
+            keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
             keyPad.ShowDialog();
             TxtInternalCode.Text = keyPad.productInventory;
             TxtInternalCode.Focus();
@@ -256,7 +248,7 @@ namespace POS
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
+            keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
             keyPad.ShowDialog();
             TxtBarcode.Text = keyPad.productInventory;
             TxtBarcode.Focus();
@@ -272,10 +264,10 @@ namespace POS
                 {
                     try
                     {
-                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text);
+                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text);
                         if ((bool)result.Error)
                         {
-                            functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
+                            functions.ShowMessage(result.Message, MessageType.WARNING, false);
                             return;
                         }
 
@@ -284,7 +276,7 @@ namespace POS
                     catch (Exception ex)
                     {
                         functions.ShowMessage("No se encontró item con el codigo interno digitado."
-                                                                   , ClsEnums.MessageType.ERROR
+                                                                   , MessageType.ERROR
                                                                    , true
                                                                    , ex.Message
                                                                );
@@ -334,10 +326,10 @@ namespace POS
                 {
                     try
                     {
-                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, TxtBarcode.Text, "");
+                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, TxtBarcode.Text, "");
                         if ((bool)result.Error)
                         {
-                            functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
+                            functions.ShowMessage(result.Message, MessageType.WARNING, false);
 
                             TxtBarcode.Text = "";
                             TxtInternalCode.Text = "";
@@ -350,11 +342,10 @@ namespace POS
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage("No se encontró item con el codigo de barra digitado."
-                                                                   , ClsEnums.MessageType.ERROR
-                                                                   , true
-                                                                   , ex.Message
-                                                               );
+                        functions.ShowMessage("No se encontró item con el codigo de barra digitado.",
+                            MessageType.ERROR,
+                            true,
+                            ex.Message);
 
                         TxtBarcode.Text = "";
                         TxtInternalCode.Text = "";
@@ -393,7 +384,7 @@ namespace POS
         {
             BindingList<SP_PhysicalStockProduct_Consult_Result> list = (BindingList<SP_PhysicalStockProduct_Consult_Result>)GrvPhysicalStock.DataSource;
 
-            var existe = (from li in list
+            int existe = (from li in list
                           where li.ProductId == result.ProductId
                           select li).Count();
 
@@ -409,11 +400,11 @@ namespace POS
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], 0);
 
                 FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_INVENTORY;
+                keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
 
                 if (result.InventUnitId == 1)
                 {
-                    keyPad.inputFromOption = ClsEnums.InputFromOption.PRODUCT_QUANTITY;
+                    keyPad.inputFromOption = InputFromOption.PRODUCT_QUANTITY;
                 }
 
                 keyPad.ShowDialog();
@@ -428,7 +419,7 @@ namespace POS
 
                 GrvPhysicalStock.FocusedRowHandle = rowIndex;
                 GrvPhysicalStock.UpdateCurrentRow();
-                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
+                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
             }
             else
             {
@@ -453,7 +444,7 @@ namespace POS
         {
             if (sequence == 0)
             {
-                functions.ShowMessage("Debe generar una nueva secuencia.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe generar una nueva secuencia.", MessageType.WARNING);
             }
             else
             {
@@ -461,7 +452,7 @@ namespace POS
 
                 if (list.Count == 0)
                 {
-                    functions.ShowMessage("No existen items por agregar.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existen items por agregar.", MessageType.WARNING);
                 }
                 else
                 {
@@ -485,10 +476,10 @@ namespace POS
 
                             Type type = line.GetType();
                             PropertyInfo[] properties = type.GetProperties();
-                            foreach (var prop in properties)
+                            foreach (PropertyInfo prop in properties)
                             {
-                                var name = prop.Name;
-                                var value = prop.GetValue(line);
+                                string name = prop.Name;
+                                object value = prop.GetValue(line);
                                 if (value == null)
                                 {
                                     value = "";
@@ -503,19 +494,19 @@ namespace POS
 
                         if (!(bool)response.Error)
                         {
-                            functions.ShowMessage("Registros guardados exitosamente.", ClsEnums.MessageType.INFO);
+                            functions.ShowMessage("Registros guardados exitosamente.", MessageType.INFO);
                             //ClearPhysicalStockCount();
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudo generar conteo fisico.", ClsEnums.MessageType.WARNING, true, response.TextError);
+                            functions.ShowMessage("No se pudo generar conteo fisico.", MessageType.WARNING, true, response.TextError);
                         }
                     }
                     catch (Exception ex)
                     {
                         functions.ShowMessage(
                                                  "Ocurrio un problema al generar conteo fisico."
-                                                 , ClsEnums.MessageType.ERROR
+                                                 , MessageType.ERROR
                                                  , true
                                                  , ex.Message
                                                  );
@@ -536,7 +527,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (functions.ShowMessage("¿Desea salir de la pantalla?", ClsEnums.MessageType.CONFIRM))
+            if (functions.ShowMessage("¿Desea salir de la pantalla?", MessageType.CONFIRM))
             {
                 DialogResult = DialogResult.Cancel;
             }
@@ -548,7 +539,7 @@ namespace POS
 
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No se ha seleccionado producto a modificar.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("No se ha seleccionado producto a modificar.", MessageType.ERROR);
             }
             else
             {
@@ -559,12 +550,12 @@ namespace POS
                 FrmKeyPad keyPad = new FrmKeyPad();
                 if (item.InventUnitId == 1)
                 {
-                    keyPad.inputFromOption = item?.InventUnitId == 1 ? ClsEnums.InputFromOption.PRODUCT_QUANTITY : ClsEnums.InputFromOption.PRODUCT_INVENTORY;
+                    keyPad.inputFromOption = item?.InventUnitId == 1 ? InputFromOption.PRODUCT_QUANTITY : InputFromOption.PRODUCT_INVENTORY;
                 };
                 keyPad.ShowDialog();
 
                 GrvPhysicalStock.UpdateCurrentRow();
-                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
+                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
             }
 
             TxtBarcode.Focus();
@@ -580,10 +571,10 @@ namespace POS
             {
                 try
                 {
-                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct().GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
+                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
                     if ((bool)result.Error)
                     {
-                        functions.ShowMessage(result.Message, ClsEnums.MessageType.WARNING, false);
+                        functions.ShowMessage(result.Message, MessageType.WARNING, false);
 
                         TxtBarcode.Text = "";
                         TxtInternalCode.Text = "";
@@ -597,7 +588,7 @@ namespace POS
                 catch (Exception ex)
                 {
                     functions.ShowMessage("No se encontró item con el codigo de barra digitado."
-                                                               , ClsEnums.MessageType.ERROR
+                                                               , MessageType.ERROR
                                                                , true
                                                                , ex.Message);
 
@@ -612,14 +603,14 @@ namespace POS
         {
             if (sequence != 0)
             {
-                if (functions.ShowMessage("¿Esta seguro de finalizar el recuento de inventario?", ClsEnums.MessageType.CONFIRM))
+                if (functions.ShowMessage("¿Esta seguro de finalizar el recuento de inventario?", MessageType.CONFIRM))
                 {
                     try
                     {
                         bool response = new ClsInventoryTrans().UpdateStockTableStatus(sequence);
                         if (response)
                         {
-                            functions.ShowMessage("Inventario finalizado con exito.", ClsEnums.MessageType.INFO, false);
+                            functions.ShowMessage("Inventario finalizado con exito.", MessageType.INFO, false);
                             BtnNew.Text = "F5 Nuevo";
                             //BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
                             ClearPhysicalStockCount();
@@ -628,7 +619,7 @@ namespace POS
                     catch (Exception ex)
                     {
                         functions.ShowMessage("Ocurrio un error al momento de finalizar el inventario.",
-                            ClsEnums.MessageType.ERROR,
+                             MessageType.ERROR,
                             true,
                             ex.Message);
                     }
@@ -652,10 +643,10 @@ namespace POS
 
                 Type type = header.GetType();
                 PropertyInfo[] properties = type.GetProperties();
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(header);
+                    string name = prop.Name;
+                    object value = prop.GetValue(header);
                     if (value == null)
                     {
                         value = "";
@@ -672,20 +663,20 @@ namespace POS
                     if (!(bool)response.Error)
                     {
                         sequence = (int)response.Sequence;
-                        functions.ShowMessage("Secuencia generada exitosamente.", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Secuencia generada exitosamente.", MessageType.INFO);
                         BtnNew.Text = "F5 Finalizar";
                         BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
                     }
                     else
                     {
-                        functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", MessageType.WARNING);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                              "Ocurrio un problema al generar secuencia del conteo."
-                                             , ClsEnums.MessageType.ERROR
+                                             , MessageType.ERROR
                                              , true
                                              , ex.Message
                                              );

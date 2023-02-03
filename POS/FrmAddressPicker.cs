@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +22,7 @@ namespace POS
         public bool formResult;
         public long addressId;
         bool newAddress = false;
-        List<CustomerAddress> addressList;
+        IEnumerable<CustomerAddress> addressList;
 
 
         public FrmAddressPicker()
@@ -63,11 +63,11 @@ namespace POS
             CmbAddressPicker.Properties.Items.Clear();
             try
             {
-                addressList = new ClsCustomer().GetCustomerAddressesById(_currentCustomer);
+                addressList = new ClsCustomer(Program.customConnectionString).GetCustomerAddressesById(_currentCustomer);
 
-                if (addressList?.Count == 0)
+                if (addressList?.Count() == 0)
                 {
-                    functions.ShowMessage("Cliente no cuenta con direcciones de entrega registradas, por favor registre una.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Cliente no cuenta con direcciones de entrega registradas, por favor registre una.", MessageType.WARNING);
                     newAddress = true;
                     BtnAddressPicker.Text = "F6 Guardar";
                     EnableAddressInput(true);
@@ -85,9 +85,8 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                       "Ocurrio un problema al cargar origenes de orden."
-                                       , ClsEnums.MessageType.ERROR
+                functions.ShowMessage("Ocurrio un problema al cargar origenes de orden."
+                                       , MessageType.ERROR
                                        , true
                                        , ex.InnerException.Message
                                    );
@@ -113,7 +112,7 @@ namespace POS
         {
             FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
+                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
             TxtAddress.Text = frmKeyBoard.customerAddress;
@@ -124,7 +123,7 @@ namespace POS
         {
             FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
+                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
             TxtAddressRef.Text = frmKeyBoard.customerAddress;
@@ -161,7 +160,7 @@ namespace POS
         {
             FrmKeyPad frmKeyBoard = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
+                inputFromOption = InputFromOption.CUSTOMER_PHONE
             };
             frmKeyBoard.ShowDialog();
             TxtTelephoneAddress.Text = frmKeyBoard.customerPhone;
@@ -174,19 +173,19 @@ namespace POS
             {
                 if (TxtAddress.Text == string.Empty)
                 {
-                    functions.ShowMessage("La direccion no puede estar vacia.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("La direccion no puede estar vacia.", MessageType.WARNING);
                     return;
                 }
 
                 if (TxtAddressRef.Text == string.Empty)
                 {
-                    functions.ShowMessage("La referencia de la direccion no puede estar vacia.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("La referencia de la direccion no puede estar vacia.", MessageType.WARNING);
                     return;
                 }
 
                 if (TxtTelephoneAddress.Text == string.Empty)
                 {
-                    functions.ShowMessage("El numero de telefono no puede estar vacia.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("El numero de telefono no puede estar vacia.", MessageType.WARNING);
                     return;
                 }
 
@@ -199,10 +198,10 @@ namespace POS
                     response.ModifiedBy = loginInformation.UserId;
                     response.ModifiedDatetime = DateTime.Now;
 
-                    bool result = new ClsCustomer().UpdateCustomerDeliveryAddress(response);
+                    bool result = new ClsCustomer(Program.customConnectionString).UpdateCustomerDeliveryAddress(response);
                     if (result)
                     {
-                        functions.ShowMessage("Direccion de entrega actualizada exitosamente.", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Direccion de entrega actualizada exitosamente.", MessageType.INFO);
                         newAddress = false;
                         ClearFields();
                         LoadAddressesByCustomer(currentCustomer);
@@ -211,7 +210,7 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No se pudo actualizar direccion de entrega.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No se pudo actualizar direccion de entrega.", MessageType.WARNING);
                     }
                 }
                 else
@@ -236,10 +235,10 @@ namespace POS
                     Type type = customerAddress.GetType();
                     PropertyInfo[] properties = type.GetProperties();
 
-                    foreach (var prop in properties)
+                    foreach (PropertyInfo prop in properties)
                     {
-                        var name = prop.Name;
-                        var value = prop.GetValue(customerAddress);
+                        string name = prop.Name;
+                        object value = prop.GetValue(customerAddress);
 
                         if (value == null)
                         {
@@ -252,14 +251,14 @@ namespace POS
 
                     try
                     {
-                        SP_CustomerAddress_Insert_Result result = new ClsCustomer().CreateCustomerDeliveryAddress(customer.ToString());
+                        SP_CustomerAddress_Insert_Result result = new ClsCustomer(Program.customConnectionString).CreateCustomerDeliveryAddress(customer.ToString());
                         if ((bool)result.Error)
                         {
-                            functions.ShowMessage("No se pudo crear direccion de entrega.", ClsEnums.MessageType.WARNING, true, result.TextError);
+                            functions.ShowMessage("No se pudo crear direccion de entrega.", MessageType.WARNING, true, result.TextError);
                         }
                         else
                         {
-                            functions.ShowMessage("Direccion de entrega registrada exitosamente.", ClsEnums.MessageType.INFO);
+                            functions.ShowMessage("Direccion de entrega registrada exitosamente.", MessageType.INFO);
                             newAddress = false;
                             ClearFields();
                             LoadAddressesByCustomer(currentCustomer);
@@ -272,7 +271,7 @@ namespace POS
                     {
                         functions.ShowMessage(
                                           "Ocurrio un problema al cargar origenes de orden."
-                                          , ClsEnums.MessageType.ERROR
+                                          , MessageType.ERROR
                                           , true
                                           , ex.InnerException.Message
                                       );
@@ -283,7 +282,7 @@ namespace POS
             {
                 if (CmbAddressPicker.SelectedIndex < 0)
                 {
-                    functions.ShowMessage("Debe seleccionar una direccion.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Debe seleccionar una direccion.", MessageType.WARNING);
                 }
                 else
                 {
@@ -297,7 +296,7 @@ namespace POS
         {
             if (CmbAddressPicker.SelectedIndex < 0)
             {
-                functions.ShowMessage("Debe seleccionar una direccion.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe seleccionar una direccion.", MessageType.WARNING);
                 return;
             }
             else

@@ -1,4 +1,5 @@
-﻿using POS.Classes;
+﻿using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -15,14 +16,14 @@ namespace POS
             InitializeComponent();
         }
 
-         private void FrmSalesOrderText_Load(object sender, EventArgs e)
+        private void FrmSalesOrderText_Load(object sender, EventArgs e)
         {
             try
             {
-                List<DLL.SalesOrderText> command = new DLL.Catalog.ClsSalesOrder().ConsultCommand(salesOrder.SalesOrderId);
+                IEnumerable<DLL.SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(salesOrder.SalesOrderId);
                 string list = "";
 
-                foreach (var item in command)
+                foreach (DLL.SalesOrderText item in command)
                 {
                     list = list + item.SalesOrderText1 + Environment.NewLine;
                 }
@@ -31,7 +32,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se pudo mostrar comanda.", ClsEnums.MessageType.WARNING, true, ex.Message);
+                functions.ShowMessage("No se pudo mostrar comanda.", MessageType.WARNING, true, ex.Message);
             }
         }
 

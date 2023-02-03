@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraGrid.Views.Grid;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -18,10 +18,10 @@ namespace POS
         readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
-        public List<GlobalParameter> globalParameters;
-        private List<SP_ClosingCashierDenominations_Consult_Result> denominations;
-        private List<SP_ClosingCashierPartial_Consult_Result> partials;
-        private List<SP_ClosingCashierPayment_Consult_Result> payments;
+        public IEnumerable<GlobalParameter> globalParameters;
+        private IEnumerable<SP_ClosingCashierDenominations_Consult_Result> denominations;
+        private IEnumerable<SP_ClosingCashierPartial_Consult_Result> partials;
+        private IEnumerable<SP_ClosingCashierPayment_Consult_Result> payments;
         private GridView selectedGrv;
         private decimal totalHideCash = 0;
         string TipoCierre;
@@ -37,24 +37,9 @@ namespace POS
         private void FrmClosingCashier_Load(object sender, EventArgs e)
         {
             //Indica el tipo de cierre para mostrar texto informativo y parametro para SP
-            if (TipoCierre == "F")
-            {
-                lblTipoCierre.Text = "Cierre Total";
-            }
-            else
-            {
-                lblTipoCierre.Text = "Arqueo de Caja";
-            }
+            lblTipoCierre.Text = TipoCierre == "F" ? "Cierre Total" : "Arqueo de Caja";
 
-            if (GetEmissionPointInformation())
-            {
-                LoadGridInformation();
-                CheckGridView();
-                CalculatePayment();
-
-                functions.PrinterName = emissionPoint.PrinterName;
-            }
-            else
+            if (!GetEmissionPointInformation())
             {
                 FrmMenu frmMenu = new FrmMenu()
                 {
@@ -63,7 +48,14 @@ namespace POS
                     Visible = true
                 };
                 Close();
+                return;
             }
+
+            LoadGridInformation();
+            CheckGridView();
+            CalculatePayment();
+
+            functions.PrinterName = emissionPoint.PrinterName;
         }
 
 
@@ -98,7 +90,7 @@ namespace POS
             decimal totalCash = cash + partials;
             decimal totalSystem = 0;
             decimal totalCashier = 0;
-            int cashPaymentId = (int)ClsEnums.PaymModeEnum.EFECTIVO;
+            int cashPaymentId = (int)PaymModeEnum.EFECTIVO;
 
             for (int i = 0; i < GrvPayment.DataRowCount; i++)
             {
@@ -122,7 +114,7 @@ namespace POS
         {
             try
             {
-                ClsClosingTrans closing = new ClsClosingTrans();
+                ClsClosingTrans closing = new ClsClosingTrans(Program.customConnectionString);
                 denominations = closing.GetDenominations();
                 partials = closing.GetPartialClosings(emissionPoint, loginInformation);
                 partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
@@ -132,7 +124,7 @@ namespace POS
                 List<SP_ClosingCashierPayment_Consult_Result> newList = new List<SP_ClosingCashierPayment_Consult_Result>();
                 foreach (SP_ClosingCashierPayment_Consult_Result item in payments)
                 {
-                    if (item.PaymModeId == (int)ClsEnums.PaymModeEnum.EFECTIVO)
+                    if (item.PaymModeId == (int)PaymModeEnum.EFECTIVO)
                     {
                         totalHideCash = (decimal)item.Amount;
                         item.Amount = 0;
@@ -145,15 +137,15 @@ namespace POS
             {
                 functions.ShowMessage(
                                             "Ocurrio un problema al cargar informacion."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
                                         );
             }
 
-            if (payments.Count == 0)
+            if (payments.Count() == 0)
             {
-                functions.ShowMessage("No hay metodos de pago registrados.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No hay metodos de pago registrados.", MessageType.WARNING);
             }
         }
 
@@ -161,26 +153,25 @@ namespace POS
         {
             GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcDenomination.DataSource = null;
-            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations);
+            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList());
             bindingList.AllowNew = false;
             GrcDenomination.DataSource = bindingList;
 
             GrvPayment.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPayment.DataSource = null;
-            BindingList<SP_ClosingCashierPayment_Consult_Result> bindingList2 = new BindingList<SP_ClosingCashierPayment_Consult_Result>(payments);
-            bindingList.AllowNew = false;
+            BindingList<SP_ClosingCashierPayment_Consult_Result> bindingList2 = new BindingList<SP_ClosingCashierPayment_Consult_Result>(payments.ToList());
+            bindingList2.AllowNew = false;
             GrcPayment.DataSource = bindingList2;
 
             GrvPartialClosing.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPartialClosing.DataSource = null;
-            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials);
-            bindingList.AllowNew = false;
+            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList());
+            bindingList3.AllowNew = false;
             GrcPartialClosing.DataSource = bindingList3;
         }
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -189,7 +180,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -197,14 +188,14 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -212,7 +203,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -231,11 +222,11 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            GlobalParameter parameter = new ClsGeneral().GetParameterByName("MaxDifferenceClosingCashierValue");
+            GlobalParameter parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName("MaxDifferenceClosingCashierValue");
 
-            if (payments.Count == 0)
+            if (payments.Count() == 0)
             {
-                functions.ShowMessage("No hay metodos de pago registrados.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No hay metodos de pago registrados.", MessageType.WARNING);
             }
             else
             {
@@ -261,10 +252,10 @@ namespace POS
                         Type type = cashierTable.GetType();
                         PropertyInfo[] properties = type.GetProperties();
 
-                        foreach (var prop in properties)
+                        foreach (PropertyInfo prop in properties)
                         {
-                            var name = prop.Name;
-                            var value = prop.GetValue(cashierTable);
+                            string name = prop.Name;
+                            object value = prop.GetValue(cashierTable);
 
                             if (value == null)
                             {
@@ -296,10 +287,10 @@ namespace POS
                             type = cashierMoney.GetType();
                             properties = type.GetProperties();
 
-                            foreach (var prop in properties)
+                            foreach (PropertyInfo prop in properties)
                             {
-                                var name = prop.Name;
-                                var value = prop.GetValue(cashierMoney);
+                                string name = prop.Name;
+                                object value = prop.GetValue(cashierMoney);
 
                                 if (value == null)
                                 {
@@ -331,10 +322,10 @@ namespace POS
                             type = cashierLine.GetType();
                             properties = type.GetProperties();
 
-                            foreach (var prop in properties)
+                            foreach (PropertyInfo prop in properties)
                             {
-                                var name = prop.Name;
-                                var value = prop.GetValue(cashierLine);
+                                string name = prop.Name;
+                                object value = prop.GetValue(cashierLine);
 
                                 if (value == null)
                                 {
@@ -348,47 +339,46 @@ namespace POS
 
                         try
                         {
-                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans().InsertFullClosing(closingXml, TipoCierre);
+                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertFullClosing(closingXml, TipoCierre).ToList();
 
-                            if (clsClosing != null)
+
+                            if (clsClosing?.Count() > 0)
                             {
-                                if (clsClosing.Count > 0)
+                                SP_ClosingCashier_Insert_Result closing = clsClosing[0];
+                                if (!(bool)closing.Error)
                                 {
-                                    SP_ClosingCashier_Insert_Result closing = clsClosing[0];
-                                    if (!(bool)closing.Error)
+                                    if (functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER, false))
                                     {
-                                        if (functions.PrintDocument((long)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
-                                        {
-                                            functions.ShowMessage("Cierre de caja finalizado exitosamente.");
-                                        }
-                                        else
-                                        {
-                                            functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", ClsEnums.MessageType.WARNING);
-                                        }
-
-                                        FrmMenu frmMenu = new FrmMenu();
-                                        frmMenu.loginInformation = loginInformation;
-                                        frmMenu.globalParameters = globalParameters;
-                                        frmMenu.Visible = true;
-                                        Close();
+                                        functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                                     }
                                     else
                                     {
-                                        functions.ShowMessage(
-                                                                "No se ha podido realizar cierre de caja."
-                                                                , ClsEnums.MessageType.WARNING
-                                                                , true
-                                                                , closing.TextError
-                                                                );
+                                        functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", MessageType.WARNING);
                                     }
+
+                                    FrmMenu frmMenu = new FrmMenu();
+                                    frmMenu.loginInformation = loginInformation;
+                                    frmMenu.globalParameters = globalParameters;
+                                    frmMenu.Visible = true;
+                                    Close();
+                                }
+                                else
+                                {
+                                    functions.ShowMessage(
+                                                            "No se ha podido realizar cierre de caja."
+                                                            , MessageType.WARNING
+                                                            , true
+                                                            , closing.TextError
+                                                            );
                                 }
                             }
+
                         }
                         catch (Exception ex)
                         {
                             functions.ShowMessage(
                                                     "Ocurrio un problema al registrar cierre de caja."
-                                                    , ClsEnums.MessageType.ERROR
+                                                    , MessageType.ERROR
                                                     , true
                                                     , ex.Message
                                                 );
@@ -397,7 +387,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("El cierre supera el margen maximo permitido", ClsEnums.MessageType.ERROR);
+                    functions.ShowMessage("El cierre supera el margen maximo permitido", MessageType.ERROR);
                 }
             }
         }
@@ -509,9 +499,9 @@ namespace POS
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
             //long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F" );   // 04/01/2023
-            long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, TipoCierre);
+            long lastId = new ClsClosingTrans(Program.customConnectionString).ConsultLastClosing(emissionPoint, TipoCierre);
 
-            if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
+            if (functions.PrintDocument(lastId, DocumentType.CLOSINGCASHIER, false))
             {
                 functions.ShowMessage("Cierre total impreso.");
             }

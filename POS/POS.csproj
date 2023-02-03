@@ -131,7 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\ClsCatchWeight.cs" />
-    <Compile Include="Classes\ClsEnums.cs" />
     <Compile Include="Classes\PaymentEntry.cs" />
     <Compile Include="FrmAddressPicker.cs">
       <SubType>Form</SubType>
@@ -604,15 +603,6 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="OposScale_CCO">
-      <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

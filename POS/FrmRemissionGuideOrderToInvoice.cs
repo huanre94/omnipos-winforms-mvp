@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -20,15 +20,15 @@ namespace POS
         public bool isUpdated = false;
         ClsFunctions functions = new ClsFunctions();
         XElement salesOrderXml = new XElement("SalesOrder");
-        ClsEnums.ScaleBrands scaleBrand;
+        ScaleBrands scaleBrand;
         private string portName = "";
 
         public FrmRemissionGuideOrderToInvoice()
         {
             InitializeComponent();
-         }
+        }
 
-     private void FrmRemissionGuideOrderToInvoice_Load(object sender, EventArgs e)
+        private void FrmRemissionGuideOrderToInvoice_Load(object sender, EventArgs e)
         {
             try
             {
@@ -36,9 +36,9 @@ namespace POS
                 {
                     if (emissionPoint.ScaleBrand != "")
                     {
-                        scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+                        scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                        if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                        if (scaleBrand == ScaleBrands.DATALOGIC)
                         {
                             functions.AxOPOSScanner = AxOPOSScanner;
                             //functions.EnableScanner(emissionPoint.ScanBarcodeName);
@@ -48,7 +48,7 @@ namespace POS
                             string[] portNames = SerialPort.GetPortNames();
                             portName = string.Empty;
 
-                            foreach (var item in portNames)
+                            foreach (string item in portNames)
                             {
                                 portName = item;
                                 break;
@@ -70,7 +70,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un error al cargar Guia de Remision.", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("Ocurrio un error al cargar Guia de Remision.", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -85,13 +85,13 @@ namespace POS
         {
             try
             {
-                List<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder().GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId);
-                BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list);
+                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId);
+                BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list.ToList());
                 GrcSalesOrder.DataSource = bind;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se pudo cargar las ordenes de venta de esta guia", Classes.ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("No se pudo cargar las ordenes de venta de esta guia", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -111,25 +111,25 @@ namespace POS
 
         private void BtnCancelRemissionGuide_Click(object sender, EventArgs e)
         {
-            if (functions.ShowMessage("Se procedera a anular la guia ¿Desea continuar?", ClsEnums.MessageType.CONFIRM))
+            if (functions.ShowMessage("Se procedera a anular la guia ¿Desea continuar?", MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.REMISSIONGUIDE_CANCEL);
+                bool isApproved = functions.RequestSupervisorAuth(true, (int)CancelReasonType.REMISSIONGUIDE_CANCEL);
                 if (isApproved)
                 {
-                    ClsSalesOrderTrans clsSalesOrder = new ClsSalesOrderTrans();
-                    clsSalesOrder.loginInformation = loginInformation;
-                    SP_RemissionGuide_Cancel_Result result = clsSalesOrder.CancelRemissionGuide(remission.SalesRemissionId);
-                    if (!(bool)result.Error)
+                    SP_RemissionGuide_Cancel_Result result = new ClsSalesOrderTrans(Program.customConnectionString)
                     {
-                        functions.ShowMessage("Guia de remision anulada exitosamente", ClsEnums.MessageType.INFO);
-                        isUpdated = true;
-                        Close();
-                    }
-                    else
+                        loginInformation = loginInformation
+                    }.CancelRemissionGuide(remission.SalesRemissionId);
+                    if ((bool)result.Error)
                     {
-                        functions.ShowMessage("No se pudo anular guia de remision", ClsEnums.MessageType.ERROR, true, result.TextError);
+                        functions.ShowMessage("No se pudo anular guia de remision", MessageType.ERROR, true, result.TextError);
+                        return;
                     }
+
+                    functions.ShowMessage("Guia de remision anulada exitosamente", MessageType.INFO);
+                    isUpdated = true;
+                    Close();
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace POS
             SP_RemissionGuideSalesOrder_Consult_Result result = (SP_RemissionGuideSalesOrder_Consult_Result)GrvSalesOrder.GetRow(GrvSalesOrder.FocusedRowHandle);
             if (result.Amount <= 0)
             {
-                functions.ShowMessage("El valor a pagar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El valor a pagar debe ser mayor a 0", MessageType.WARNING);
             }
             else
             {
@@ -155,17 +155,17 @@ namespace POS
                         decimal baseAmount = 0;
                         decimal taxAmount = 0;
 
-                        var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId);
-                        if (list.Count != 0)
+                        IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
+                        if (list.Count() != 0)
                         {
-                            foreach (var item in list)
+                            foreach (SP_SalesOrderProduct_Consult_Result item in list)
                             {
                                 baseAmount = (decimal)(item.BaseAmount + item.BaseTaxAmount - item.LineDiscount);
                                 taxAmount = (decimal)item.TaxAmount;
                             }
                         }
 
-                        Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId);
+                        Customer customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(result.CustomerId);
 
                         FrmPayment payment = new FrmPayment()
                         {
@@ -191,7 +191,7 @@ namespace POS
                             {
                                 try
                                 {
-                                    SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                    SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
                                     if ((bool)update.Error)
                                     {
                                         result.HavePaymentMethod = update.Error;
@@ -199,28 +199,24 @@ namespace POS
                                     }
                                     else
                                     {
-                                        functions.ShowMessage("No se pudo actualizar forma de pago", ClsEnums.MessageType.ERROR, true, update.TextError);
+                                        functions.ShowMessage("No se pudo actualizar forma de pago", MessageType.ERROR, true, update.TextError);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
-                                    functions.ShowMessage("Ocurrio un error al guardar forma de pago", ClsEnums.MessageType.ERROR, true, ex.Message);
+                                    functions.ShowMessage("Ocurrio un error al guardar forma de pago", MessageType.ERROR, true, ex.Message);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if (functions.ShowMessage("Pedido ya cuenta con un metodo de pago. Desea reemplazar el metodo de pago actual?", ClsEnums.MessageType.CONFIRM))
+                        if (functions.ShowMessage("Pedido ya cuenta con un metodo de pago. Desea reemplazar el metodo de pago actual?", MessageType.CONFIRM))
                         {
                             bool isWebPayment = false;
                             try
                             {
-                                var webPayment = (from sp in new POSEntities().SalesOrderPayment
-                                                  where sp.SalesOrderId == result.SalesOrderId
-                                                  && sp.PaymModeId == (int)ClsEnums.PaymModeEnum.PAGOS_WEB
-                                                  select sp).ToList().Count();
-                                isWebPayment = webPayment > 0;
+                                isWebPayment = new ClsSalesOrder(Program.customConnectionString).SalesOrderHaveWebPayments(result.SalesOrderId);
                             }
                             catch (Exception)
                             {
@@ -230,7 +226,7 @@ namespace POS
 
                             if (isWebPayment)
                             {
-                                functions.ShowMessage("No se puede modificar un pedido con pago web", ClsEnums.MessageType.ERROR);
+                                functions.ShowMessage("No se puede modificar un pedido con pago web", MessageType.ERROR);
                                 return;
                             }
 
@@ -242,17 +238,17 @@ namespace POS
                                     decimal baseAmount = 0;
                                     decimal taxAmount = 0;
 
-                                    var list = new ClsSalesOrder().GetSalesOrderProductsById(result.SalesOrderId);
-                                    if (list.Count != 0)
+                                    IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
+                                    if (list.Count() != 0)
                                     {
-                                        foreach (var item in list)
+                                        foreach (SP_SalesOrderProduct_Consult_Result item in list)
                                         {
                                             baseAmount = (decimal)(item.BaseAmount + item.BaseTaxAmount - item.LineDiscount);
                                             taxAmount = (decimal)item.TaxAmount;
                                         }
                                     }
 
-                                    Customer customer = new ClsCustomer().GetCustomerById(result.CustomerId);
+                                    Customer customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(result.CustomerId);
 
                                     FrmPayment payment = new FrmPayment()
                                     {
@@ -278,7 +274,7 @@ namespace POS
                                         {
                                             try
                                             {
-                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder().UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
                                                 if ((bool)update.Error)
                                                 {
                                                     result.HavePaymentMethod = update.Error;
@@ -286,12 +282,12 @@ namespace POS
                                                 }
                                                 else
                                                 {
-                                                    functions.ShowMessage("No se pudo actualizar forma de pago", ClsEnums.MessageType.ERROR, true, update.TextError);
+                                                    functions.ShowMessage("No se pudo actualizar forma de pago", MessageType.ERROR, true, update.TextError);
                                                 }
                                             }
                                             catch (Exception ex)
                                             {
-                                                functions.ShowMessage("Ocurrio un error al guardar forma de pago", ClsEnums.MessageType.ERROR, true, ex.Message);
+                                                functions.ShowMessage("Ocurrio un error al guardar forma de pago", MessageType.ERROR, true, ex.Message);
                                             }
                                         }
                                     }
@@ -302,14 +298,14 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("No puedes asignar un metodo de pago a un pedido cancelado.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No puedes asignar un metodo de pago a un pedido cancelado.", MessageType.WARNING);
                 }
             }
         }
 
         private void BtnSaveRemissionGuide_Click(object sender, EventArgs e)
         {
-            if (functions.ShowMessage("Los pedidos de la guia seran convertidos en factura. ¿Desea continuar?", ClsEnums.MessageType.CONFIRM))
+            if (functions.ShowMessage("Los pedidos de la guia seran convertidos en factura. ¿Desea continuar?", MessageType.CONFIRM))
             {
                 BindingList<SP_RemissionGuideSalesOrder_Consult_Result> result = (BindingList<SP_RemissionGuideSalesOrder_Consult_Result>)GrcSalesOrder.DataSource;
                 int resultCount = result.Count;
@@ -325,31 +321,29 @@ namespace POS
                 {
                     try
                     {
-                        ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
-                        sales.loginInformation = loginInformation;
 
-                        SP_RemissionGuideInvoice_Insert_Result response = sales.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
+                        SP_RemissionGuideInvoice_Insert_Result response = new ClsSalesOrderTrans(Program.customConnectionString) { loginInformation = loginInformation }.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
 
                         if (!(bool)response.Error)
                         {
-                            functions.PrintDocument(remission.SalesRemissionId, ClsEnums.DocumentType.REMISSIONGUIDE, false);
-                            functions.ShowMessage("Facturas generadas exitosamente", ClsEnums.MessageType.INFO);
+                            functions.PrintDocument(remission.SalesRemissionId, DocumentType.REMISSIONGUIDE, false);
+                            functions.ShowMessage("Facturas generadas exitosamente", MessageType.INFO);
                             isUpdated = true;
                             Close();
                         }
                         else
                         {
-                            functions.ShowMessage("No se pudieron generar las facturas", ClsEnums.MessageType.ERROR, true, response.TextError);
+                            functions.ShowMessage("No se pudieron generar las facturas", MessageType.ERROR, true, response.TextError);
                         }
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage("Ocurrio un error al generar las facturas", ClsEnums.MessageType.ERROR, true, ex.Message);
+                        functions.ShowMessage("Ocurrio un error al generar las facturas", MessageType.ERROR, true, ex.Message);
                     }
                 }
                 else
                 {
-                    functions.ShowMessage("Alguno de los pedidos no se encuentra pagado.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("Alguno de los pedidos no se encuentra pagado.", MessageType.WARNING);
                 }
             }
         }
@@ -362,37 +356,35 @@ namespace POS
             }
 
             SP_RemissionGuideSalesOrder_Consult_Result result = (SP_RemissionGuideSalesOrder_Consult_Result)GrvSalesOrder.GetRow(GrvSalesOrder.FocusedRowHandle);
-            if ((bool)!result.HavePaymentMethod)
+            if (!(bool)!result.HavePaymentMethod)
             {
-                ClsSalesOrderTrans sales = new ClsSalesOrderTrans();
-                if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", ClsEnums.MessageType.CONFIRM))
-                {
-                    functions.emissionPoint = emissionPoint;
-                    if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.SALESORDER_CANCEL))
-                    {
-                        sales.loginInformation = loginInformation;
-                        if (sales.CancelSalesOrder(result.SalesOrderId, true))
-                        {
-                            functions.ShowMessage("Orden Cancelada Exitosamente", ClsEnums.MessageType.INFO);
-                            result.IsCancelled = true;
-                            GrcSalesOrder.RefreshDataSource();
-                        }
-                        else
-                        {
-                            functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", ClsEnums.MessageType.WARNING);
-                        }
-                    }
-                }
+                functions.ShowMessage("La orden ya tiene asignado un metodo de pago.", MessageType.WARNING);
+                return;
             }
-            else
+
+            if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", MessageType.CONFIRM))
             {
-                functions.ShowMessage("La orden ya tiene asignado un metodo de pago.", ClsEnums.MessageType.WARNING);
+                functions.emissionPoint = emissionPoint;
+                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
+                {
+                    if (!new ClsSalesOrderTrans(Program.customConnectionString)
+                    {
+                        loginInformation = loginInformation
+                    }.CancelSalesOrder(result.SalesOrderId, true))
+                    {
+                        functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);
+                        return;
+                    }
+
+                    functions.ShowMessage("Orden Cancelada Exitosamente", MessageType.INFO);
+                    result.IsCancelled = true;
+                    GrcSalesOrder.RefreshDataSource();
+                }
             }
         }
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -401,21 +393,19 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
+                    functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                        MessageType.ERROR,
+                        true,
+                        ex.Message);
                 }
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             if (emissionPoint != null)
@@ -425,7 +415,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -433,7 +423,7 @@ namespace POS
 
         private void FrmRemissionGuideOrderToInvoice_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
-            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            if (scaleBrand == ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
             }

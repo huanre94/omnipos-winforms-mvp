@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,7 @@ namespace POS
         ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         System.Timers.Timer timer;
 
         public FrmSalesOrderPicker()
@@ -36,32 +36,26 @@ namespace POS
 
         private void LoadOrderStatus()
         {
-            ClsSalesOrder customer = new ClsSalesOrder();
-            List<SalesOrderStatus> custIdentTypes;
-
             try
             {
-                custIdentTypes = customer.GetSalesOrderStatus();
+                IEnumerable<SalesOrderStatus> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderStatus();
 
-                if (custIdentTypes != null)
+                if (custIdentTypes?.Count() > 0)
                 {
-                    if (custIdentTypes.Count > 0)
+                    foreach (SalesOrderStatus identType in custIdentTypes)
                     {
-                        foreach (var identType in custIdentTypes)
-                        {
-                            CmbOrderStatus.Properties.Items.Add(new ImageComboBoxItem { Value = identType.ShortCode, Description = identType.Name });
-                        }
-                        CmbOrderStatus.Properties.Items.Insert(0, new ImageComboBoxItem { Value = string.Empty, Description = "TODOS" });
-                        CmbOrderStatus.Properties.Items.Insert(1, new ImageComboBoxItem { Value = 'X', Description = "ORDEN ACTIVA" });
-                        CmbOrderStatus.SelectedIndex = 1;
+                        CmbOrderStatus.Properties.Items.Add(new ImageComboBoxItem { Value = identType.ShortCode, Description = identType.Name });
                     }
+                    CmbOrderStatus.Properties.Items.Insert(0, new ImageComboBoxItem { Value = string.Empty, Description = "TODOS" });
+                    CmbOrderStatus.Properties.Items.Insert(1, new ImageComboBoxItem { Value = 'X', Description = "ORDEN ACTIVA" });
+                    CmbOrderStatus.SelectedIndex = 1;
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar estados de ordenes."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -70,34 +64,26 @@ namespace POS
 
         private void LoadSalesOrigin()
         {
-            ClsSalesOrder customer = new ClsSalesOrder();
-            List<SalesOrigin> custIdentTypes;
-
             try
             {
-                custIdentTypes = customer.GetSalesOrderOrigin(true);
+                IEnumerable<SalesOrigin> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin(true);
 
-                if (custIdentTypes != null)
+                if (custIdentTypes?.Count() > 0)
                 {
-                    if (custIdentTypes.Count > 0)
+                    foreach (SalesOrigin identType in custIdentTypes)
                     {
-                        foreach (var identType in custIdentTypes)
-                        {
-                            CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = identType.SalesOriginId, Description = identType.Name });
-                        }
-                        CmbSalesOrderOrigin.Properties.Items.Insert(0, new ImageComboBoxItem { Value = 0, Description = "TODOS" });
-                        CmbSalesOrderOrigin.SelectedIndex = 0;
+                        CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = identType.SalesOriginId, Description = identType.Name });
                     }
+                    CmbSalesOrderOrigin.Properties.Items.Insert(0, new ImageComboBoxItem { Value = 0, Description = "TODOS" });
+                    CmbSalesOrderOrigin.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar origenes de orden."
-                                        , ClsEnums.MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar origenes de orden.",
+                    MessageType.ERROR,
+                    true,
+                    ex.InnerException.Message);
             }
         }
 
@@ -109,28 +95,24 @@ namespace POS
             long orderTimerInvertal = 0;
             try
             {
-                orderTimerEnabled = (from par in new POSEntities().GlobalParameter.ToList()
-                                     where par.Name == "OrderTimerEnabled"
-                                     select par.Value).FirstOrDefault() == "1";
-                orderTimerInvertal = long.Parse((from par in new POSEntities().GlobalParameter.ToList()
-                                                 where par.Name == "OrderUpdateTimer"
-                                                 select par.Value).FirstOrDefault());
+                orderTimerEnabled = new ClsGeneral(Program.customConnectionString).GetParameterByName("OrderTimerEnabled").Value == "1";
+                orderTimerInvertal = long.Parse(new ClsGeneral(Program.customConnectionString).GetParameterByName("OrderUpdateTimer").Value);
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                     "Ocurrio un problema al configurar temporizador."
-                                     , ClsEnums.MessageType.ERROR
-                                     , true
-                                     , ex.Message
-                                   );
+                functions.ShowMessage("Ocurrio un problema al configurar temporizador.",
+                    MessageType.ERROR,
+                    true,
+                    ex.Message);
             }
 
             if (GetEmissionPointInformation())
             {
-                timer = new System.Timers.Timer();
-                timer.Enabled = orderTimerEnabled;
-                timer.Interval = orderTimerInvertal;
+                timer = new System.Timers.Timer
+                {
+                    Enabled = orderTimerEnabled,
+                    Interval = orderTimerInvertal
+                };
                 timer.Elapsed += Timer_Elapsed;
 
                 if (timer.Enabled)
@@ -147,10 +129,12 @@ namespace POS
             }
             else
             {
-                FrmMenu frmMenu = new FrmMenu();
-                frmMenu.loginInformation = loginInformation;
-                frmMenu.globalParameters = globalParameters;
-                frmMenu.Visible = true;
+                FrmMenu frmMenu = new FrmMenu
+                {
+                    loginInformation = loginInformation,
+                    globalParameters = globalParameters,
+                    Visible = true
+                };
                 Close();
             }
         }
@@ -166,20 +150,20 @@ namespace POS
 
         private void LoadSaleOrdesByFilters()
         {
-            List<SP_SalesOrderStatus_Consult_Result> sales;
+            IEnumerable<SP_SalesOrderStatus_Consult_Result> sales;
             try
             {
-                sales = new ClsSalesOrder().GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
+                sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
 
-                if (sales.Count == 0)
+                if (sales.Count() == 0)
                 {
-                    functions.ShowMessage("No existen ordenes generadas.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No existen ordenes generadas.", MessageType.WARNING);
                     GrcSalesOrder.DataSource = null;
                     GrcSalesOrder.Focus();
                     return;
                 }
 
-                BindingList<SP_SalesOrderStatus_Consult_Result> list = new BindingList<SP_SalesOrderStatus_Consult_Result>(sales);
+                BindingList<SP_SalesOrderStatus_Consult_Result> list = new BindingList<SP_SalesOrderStatus_Consult_Result>(sales.ToList());
                 GrcSalesOrder.DataSource = list;
                 GrvSalesOrder.ActiveFilter.Clear();
                 GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
@@ -189,7 +173,7 @@ namespace POS
             {
                 functions.ShowMessage(
                                       "Ocurrio un problema al cargar ordenes."
-                                      , ClsEnums.MessageType.ERROR
+                                      , MessageType.ERROR
                                       , true
                                       , ex.Message
                                     );
@@ -199,7 +183,6 @@ namespace POS
         #region Functions
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -208,7 +191,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -217,14 +200,14 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -232,7 +215,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -258,19 +241,19 @@ namespace POS
             int rowIndex = GrvSalesOrder.FocusedRowHandle;
             if (rowIndex < 0)
             {
-                functions.ShowMessage("No ha seleccionado ninguna orden.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No ha seleccionado ninguna orden.", MessageType.WARNING);
             }
             else
             {
                 SP_SalesOrderStatus_Consult_Result item = (SP_SalesOrderStatus_Consult_Result)GrvSalesOrder.GetRow(rowIndex);
                 if (item.StatusShortCode.Equals("I"))
                 {
-                    functions.ShowMessage("No puede modificar una orden cancelada.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No puede modificar una orden cancelada.", MessageType.WARNING);
                     return;
                 }
                 if (item.StatusShortCode.Equals("F"))
                 {
-                    functions.ShowMessage("No puede modificar una orden facturada.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No puede modificar una orden facturada.", MessageType.WARNING);
                     return;
                 }
 
@@ -350,7 +333,7 @@ namespace POS
                     BindingList<SP_SalesOrderStatus_Consult_Result> list = (BindingList<SP_SalesOrderStatus_Consult_Result>)GrcSalesOrder.DataSource;
                     if (list.Count == 0)
                     {
-                        functions.ShowMessage("No existen documentos por imprimir.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existen documentos por imprimir.", MessageType.WARNING);
                         return;
                     }
 
@@ -364,18 +347,18 @@ namespace POS
 
                     if (lastId == 0)
                     {
-                        functions.ShowMessage("No hay documento previo existente.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No hay documento previo existente.", MessageType.WARNING);
                     }
                     else
                     {
-                        functions.PrintDocument(lastId, ClsEnums.DocumentType.SALESORDER, false);
+                        functions.PrintDocument(lastId, DocumentType.SALESORDER, false);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al imprimir la última factura."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -406,7 +389,7 @@ namespace POS
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.SALESORDER_ID;
+            keyPad.inputFromOption = InputFromOption.SALESORDER_ID;
             keyPad.ShowDialog();
 
             int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);

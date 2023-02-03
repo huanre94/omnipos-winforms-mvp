@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
-        List<GlobalParameter> globalParameters = new List<GlobalParameter>();
+        IEnumerable<GlobalParameter> globalParameters = new List<GlobalParameter>();
 
         public FrmLogin()
         {
@@ -34,9 +34,9 @@ namespace POS
             if (ValidateCustomerFields())
             {
                 bool allowLogin = false;
-                var ipAddressList = GetLocalIPAddress();
+                List<string> ipAddressList = GetLocalIPAddress();
 
-                foreach (var ipAddress in ipAddressList)
+                foreach (string ipAddress in ipAddressList)
                 {
                     allowLogin = GetLoginInformation(TxtUsername.Text, TxtPassword.Text, Environment.MachineName, ipAddress);
                     if (allowLogin)
@@ -83,7 +83,7 @@ namespace POS
 
                 if ((bool)result?.Error)
                 {
-                    functions.ShowMessage("No se ha podido iniciar sesión.", ClsEnums.MessageType.WARNING, true, result.TextError);
+                    functions.ShowMessage("No se ha podido iniciar sesión.", MessageType.WARNING, true, result.TextError);
                     return false;
                 }
 
@@ -94,7 +94,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "Ocurrió un problema al iniciar sesión.",
-                    ClsEnums.MessageType.WARNING,
+                     MessageType.WARNING,
                     true,
                     ex.Message
                 );
@@ -104,17 +104,16 @@ namespace POS
 
         private bool GetGlobalParameters()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             try
             {
-                globalParameters = clsGeneral.GetGlobalParameters();
+                globalParameters = new ClsGeneral(Program.customConnectionString).GetGlobalParameters();
 
                 if (!globalParameters.Any())
                 {
                     functions.ShowMessage(
                         "No se pudieron cargar parámetros globales.",
-                        ClsEnums.MessageType.WARNING
+                         MessageType.WARNING
                     );
                     return false;
                 }
@@ -125,7 +124,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "Ocurrio un problema al cargar parámetros globales.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.Message
                 );
@@ -142,16 +141,16 @@ namespace POS
             {
                 functions.ShowMessage(
                     "El equipo no se encuentra conectado a la red.",
-                    ClsEnums.MessageType.ERROR
+                     MessageType.ERROR
                 );
                 return new List<string>();
             }
 
             try
             {
-                var host = Dns.GetHostEntry(Dns.GetHostName());
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
 
-                foreach (var ip in host.AddressList)
+                foreach (IPAddress ip in host.AddressList)
                 {
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
@@ -163,7 +162,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "No se encontraron adaptadores de red IPv4 en el sistema.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.InnerException.Message
                 );
@@ -176,7 +175,7 @@ namespace POS
         {
             FrmKeyPad keyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.LOGIN_USERNAME
+                inputFromOption = InputFromOption.LOGIN_USERNAME
             };
             keyPad.ShowDialog();
             TxtUsername.Text = keyPad.loginUsername;
@@ -186,7 +185,7 @@ namespace POS
         {
             FrmKeyPad keyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
+                inputFromOption = InputFromOption.LOGIN_PASSWORD
             };
             keyPad.ShowDialog();
             TxtPassword.Text = keyPad.loginPassword;
@@ -242,7 +241,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "Debe llenar los campos necesarios del formulario",
-                    ClsEnums.MessageType.WARNING
+                     MessageType.WARNING
                 );
                 DialogResult = DialogResult.None;
                 return false;

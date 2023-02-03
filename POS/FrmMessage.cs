@@ -1,5 +1,5 @@
 ﻿using DevExpress.XtraEditors;
-using POS.Classes;
+using POS.DLL.Enums;
 using System;
 
 namespace POS
@@ -9,7 +9,7 @@ namespace POS
         public string messageText = "";
         public string messageTextDetail = "";
         public bool showMessageDetail;
-        public ClsEnums.MessageType messagetype;
+        public MessageType messagetype;
         public bool messageResponse;
 
         public FrmMessage()
@@ -30,16 +30,16 @@ namespace POS
 
             switch (messagetype)
             {
-                case ClsEnums.MessageType.INFO:
+                case MessageType.INFO:
                     image = Properties.Resources.info2;
                     break;
-                case ClsEnums.MessageType.WARNING:
+                case MessageType.WARNING:
                     image = Properties.Resources.warning;
                     break;
-                case ClsEnums.MessageType.ERROR:
+                case MessageType.ERROR:
                     image = Properties.Resources.cancel3;
                     break;
-                case ClsEnums.MessageType.CONFIRM:
+                case MessageType.CONFIRM:
                     image = Properties.Resources.warning;
                     BtnCancel.Visible = true;
                     break;

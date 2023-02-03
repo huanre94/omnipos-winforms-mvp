@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,6 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -48,12 +47,12 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
                                         );
@@ -61,7 +60,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             if (emissionPoint != null)
@@ -71,7 +70,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -79,28 +78,24 @@ namespace POS
 
         private void LoadPaymModes()
         {
-            ClsPaymMode clsPaymMode = new ClsPaymMode();
-            List<PaymMode> paymModes;
+            IEnumerable<PaymMode> paymModes;
 
             try
             {
-                paymModes = clsPaymMode.GetPaymModes();
+                paymModes = new ClsPaymMode(Program.customConnectionString).GetPaymModes();
 
-                if (paymModes != null)
+                if (paymModes?.Count() > 0)
                 {
-                    if (paymModes.Count > 0)
+                    foreach (PaymMode paym in paymModes)
                     {
-                        foreach (var paym in paymModes)
-                        {
-                            CmbPaymMode.Properties.Items.Add(new ImageComboBoxItem { Value = paym.PaymModeId, Description = paym.Name });
-                        }
+                        CmbPaymMode.Properties.Items.Add(new ImageComboBoxItem { Value = paym.PaymModeId, Description = paym.Name });
                     }
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al catálogo de formas de pago.",
-                    ClsEnums.MessageType.ERROR
+                     MessageType.ERROR
                                            , true
                                            , ex.Message
                                        );
@@ -111,7 +106,7 @@ namespace POS
         {
             FrmKeyPad keyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
+                inputFromOption = InputFromOption.EMISSIONPOINT_NUMBER
             };
             keyPad.ShowDialog();
             TxtEmissionPoint.Text = keyPad.emissionPoint;
@@ -121,7 +116,7 @@ namespace POS
         {
             FrmKeyPad keyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
+                inputFromOption = InputFromOption.INVOICE_NUMBER
             };
             keyPad.ShowDialog();
             TxtInvoiceNumber.Text = keyPad.invoiceNumber;
@@ -142,42 +137,36 @@ namespace POS
                                             , string _invoiceNumber
                                             )
         {
-            ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
-            ClsCustomer clsCustomer = new ClsCustomer();
-            List<SP_InvoicePayment_Consult_Result> payments;
+            IEnumerable<SP_InvoicePayment_Consult_Result> payments;
 
             try
             {
-                payments = invoiceTrans.GetInvoicePayments(
-                                                            _locationId
-                                                            , _emissionPoint
-                                                            , _invoiceNumber
+                payments = new ClsInvoiceTrans(Program.customConnectionString)
+                    .GetInvoicePayments(_locationId, _emissionPoint, _invoiceNumber);
 
-                                                            );
-
-                if (payments != null)
-                {
-                    if (payments.Count > 0)
-                    {
-                        BindingList<SP_InvoicePayment_Consult_Result> bindingList = new BindingList<SP_InvoicePayment_Consult_Result>(payments)
-                        {
-                            AllowNew = true
-                        };
-                        customer = clsCustomer.GetCustomerById(payments.First().CustomerId);
-
-                        GrcPayments.DataSource = bindingList;
-                    }
-                }
-                else
+                if (payments == null)
                 {
                     GrcPayments.DataSource = null;
-                    functions.ShowMessage("No se encontraron pagos.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("No se encontraron pagos.", MessageType.WARNING);
+                    return;
                 }
+
+                if (payments?.Count() > 0)
+                {
+                    BindingList<SP_InvoicePayment_Consult_Result> bindingList = new BindingList<SP_InvoicePayment_Consult_Result>(payments.ToList())
+                    {
+                        AllowNew = true
+                    };
+                    customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(payments.First().CustomerId);
+
+                    GrcPayments.DataSource = bindingList;
+                }
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar lista de pagos de factura."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -195,7 +184,7 @@ namespace POS
         {
             if (_rowIndex < 0)
             {
-                functions.ShowMessage("No ha seleccionado ningun registro.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No ha seleccionado ningun registro.", MessageType.WARNING);
             }
             else
             {
@@ -204,8 +193,8 @@ namespace POS
 
                 switch ((int)CmbPaymMode.EditValue)
                 {
-                    case (int)ClsEnums.PaymModeEnum.DEBITO_BANCARIO:
-                    case (int)ClsEnums.PaymModeEnum.TARJETA_CREDITO:
+                    case (int)PaymModeEnum.DEBITO_BANCARIO:
+                    case (int)PaymModeEnum.TARJETA_CREDITO:
                         FrmPaymentCard paymentCard = new FrmPaymentCard()
                         {
                             creditCardAmount = row.Amount,
@@ -226,8 +215,8 @@ namespace POS
                         }
                         break;
 
-                    case (int)ClsEnums.PaymModeEnum.CHEQUE_DIA:
-                    case (int)ClsEnums.PaymModeEnum.CHEQUE_POST:
+                    case (int)PaymModeEnum.CHEQUE_DIA:
+                    case (int)PaymModeEnum.CHEQUE_POST:
                         FrmPaymentCheck paymentCheck = new FrmPaymentCheck()
                         {
                             checkAmount = row.Amount,
@@ -252,7 +241,7 @@ namespace POS
                         }
                         break;
 
-                    case (int)ClsEnums.PaymModeEnum.BONO:
+                    case (int)PaymModeEnum.BONO:
                         FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard()
                         {
                             paidAmount = row.Amount
@@ -288,47 +277,44 @@ namespace POS
 
         private void ChangePaymMode()
         {
-            ClsInvoiceTrans invoiceTrans = new ClsInvoiceTrans();
 
-            if (allowChangePaymode)
+            if (!allowChangePaymode)
             {
-                functions.emissionPoint = emissionPoint;
-                if (emissionPoint != null ? functions.RequestSupervisorAuth(false, 0) : true)
-                {
-                    try
-                    {
-                        bool response = invoiceTrans.UpdateInvoicePayments(
-                                                                            row.InvoiceId
-                                                                            , row.PaymModeId
-                                                                            , row.Sequence
-                                                                            , invoicePayment
-                                                                            , (int)loginInformation.UserId
-                                                                            , loginInformation.Workstation
-
-                                                                            );
-
-                        if (response)
-                        {
-                            functions.ShowMessage("Actualización realizada exitosamente.");
-                        }
-                        else
-                        {
-                            functions.ShowMessage("No se pudo realizar actualización", ClsEnums.MessageType.WARNING);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("Ocurrió un problema al actualizar forma de pago."
-                                                , ClsEnums.MessageType.ERROR
-                                                , true
-                                                , ex.InnerException.Message
-                                            );
-                    }
-                }
+                functions.ShowMessage("No se puede realizar actualización por falta de información.", MessageType.WARNING);
+                return;
             }
-            else
+
+            functions.emissionPoint = emissionPoint;
+            if (emissionPoint != null ? functions.RequestSupervisorAuth(false) : true)
             {
-                functions.ShowMessage("No se puede realizar actualización por falta de información.", ClsEnums.MessageType.WARNING);
+                try
+                {
+                    bool response = new ClsInvoiceTrans(Program.customConnectionString).UpdateInvoicePayments(
+                                                                        row.InvoiceId
+                                                                        , row.PaymModeId
+                                                                        , row.Sequence
+                                                                        , invoicePayment
+                                                                        , (int)loginInformation.UserId
+                                                                        , loginInformation.Workstation
+
+                                                                        );
+
+                    if (!response)
+                    {
+                        functions.ShowMessage("No se pudo realizar actualización", MessageType.WARNING);
+                        return;
+                    }
+
+                    functions.ShowMessage("Actualización realizada exitosamente.");
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrió un problema al actualizar forma de pago."
+                                            , MessageType.ERROR
+                                            , true
+                                            , ex.InnerException.Message
+                                        );
+                }
             }
         }
 

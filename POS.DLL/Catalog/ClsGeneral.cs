@@ -6,47 +6,43 @@ namespace POS.DLL.Catalog
 {
     public class ClsGeneral
     {
+        private readonly string connectionString;
 
-        public List<GlobalParameter> GetGlobalParameters()
+        public ClsGeneral(string connectionString)
         {
-            List<GlobalParameter> globalParameters;
+            this.connectionString = connectionString;
+        }
 
+        public IEnumerable<GlobalParameter> GetGlobalParameters()
+        {
             try
             {
-                globalParameters = new POSEntities().GlobalParameter.ToList();
+                return new POSEntities(connectionString).GlobalParameter.ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return globalParameters;
         }
 
         public GlobalParameter GetParameterByName(string _name)
         {
-            GlobalParameter parameter;
-
             try
             {
-                parameter = new POSEntities().GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
+                return new POSEntities(connectionString).GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return parameter;
         }
 
         public EmissionPoint GetEmissionPointByIP(string _addressIP)
         {
-            EmissionPoint emissionPoint;
-
             try
             {
-                emissionPoint =
-                    new POSEntities()
+                return
+                    new POSEntities(connectionString)
                     .EmissionPoint
                     .Where(em => em.AddressIP == _addressIP && em.Status.Equals("A"))
                     .FirstOrDefault();
@@ -55,17 +51,14 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-
-            return emissionPoint;
         }
 
         public IEnumerable<InventLocation> GetMainWarehouseByLocationId(int _locationId)
         {
-            List<InventLocation> inventLocation;
             try
             {
-                inventLocation =
-                    new POSEntities()
+                return
+                    new POSEntities(connectionString)
                     .InventLocation
                     .Where(inl => inl.LocationId == _locationId && inl.Status.Equals("A") && inl.IsMain == true)
                     .ToList();
@@ -74,16 +67,13 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-            return inventLocation;
         }
 
         public SequenceTable GetSequenceByEmissionPointId(int _emissionPointId, int _locationId, int _sequenceType)
         {
-            SequenceTable sequenceTable;
-
             try
             {
-                sequenceTable = new POSEntities()
+                return new POSEntities(connectionString)
                     .SequenceTable
                     .Where(seq => seq.EmissionPointId == _emissionPointId
                                  && seq.LocationId == _locationId
@@ -95,7 +85,24 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-            return sequenceTable;
+        }
+
+
+        public string GetActiveTax()
+        {
+            try
+            {
+                return new POSEntities(connectionString)
+                    .TaxTable
+                    .Where(t => t.Status.Equals("A"))
+                    .Select(t => t.TaxValue)
+                    .FirstOrDefault()
+                    .ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "El monto seleccionado debe ser igual o menor al monto digitado.",
-                    ClsEnums.MessageType.WARNING
+                     MessageType.WARNING
                 );
                 DialogResult = DialogResult.None;
             }
@@ -59,7 +59,7 @@ namespace POS
                 );
                 if (!advances.Any())
                 {
-                    functions.ShowMessage("El cliente no cuenta con valores registrados.", ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage("El cliente no cuenta con valores registrados.", MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
                     return;
                 }
@@ -70,7 +70,7 @@ namespace POS
             {
                 functions.ShowMessage(
                     "No se ha podido cargar registros.",
-                    ClsEnums.MessageType.WARNING,
+                     MessageType.WARNING,
                     true,
                     ex.Message
                 );
@@ -81,7 +81,7 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
-                Text = _paymMode == (int)ClsEnums.PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
+                Text = _paymMode == (int)PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
                 LblAmount.Text = $"{advanceAmount}";
@@ -110,10 +110,7 @@ namespace POS
         {
             if (_currentCustomer?.CustomerId == 1)
             {
-                functions.ShowMessage(
-                    "La factura no puede ser CONSUMIDOR FINAL.",
-                    ClsEnums.MessageType.ERROR
-                );
+                functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
                 DialogResult = DialogResult.Cancel;
                 return false;
             }

@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace POS
     public partial class FrmPaymentCard : DevExpress.XtraEditors.XtraForm
     {
         ClsFunctions functions = new ClsFunctions();
-        public ClsEnums.PaymModeEnum paymModeEnum;
+        public PaymModeEnum paymModeEnum;
         public int bankId;
         public int creditCardId;
         public decimal creditCardAmount = 0.00M;
@@ -32,7 +32,7 @@ namespace POS
         public FrmPaymentCard()
         {
             InitializeComponent();
-         }
+        }
 
         private void FrmPaymentCard_Load(object sender, EventArgs e)
         {
@@ -62,7 +62,7 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+                    functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
                     DialogResult = DialogResult.Cancel;
                 }
             }
@@ -73,7 +73,7 @@ namespace POS
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
+            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtAuthorization.Text = keyPad.creditCardAuthorization;
             TxtAuthorization.Focus();
@@ -81,29 +81,24 @@ namespace POS
 
         private void LoadBanks()
         {
-            ClsPaymMode paymMode = new ClsPaymMode();
-            IEnumerable<Bank> banks;
-
             try
             {
-                banks = paymMode.GetBanks();
+                IEnumerable<Bank> banks = new ClsPaymMode(Program.customConnectionString).GetBanks();
 
-                if (banks != null)
+                if (banks?.Count() > 0)
                 {
-                    if (banks.Count() > 0)
+                    foreach (Bank bank in banks)
                     {
-                        foreach (var bank in banks)
-                        {
-                            CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
-                        }
+                        CmbCardBank.Properties.Items.Add(new ImageComboBoxItem { Value = bank.BankId, Description = bank.Name });
                     }
                 }
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al cargar lista de Bancos."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -130,11 +125,11 @@ namespace POS
             {
                 try
                 {
-                    paymModeEnum = CmbCardType.SelectedItem.ToString() == "DEBITO" ? ClsEnums.PaymModeEnum.DEBITO_BANCARIO : ClsEnums.PaymModeEnum.TARJETA_CREDITO;
+                    paymModeEnum = CmbCardType.SelectedItem.ToString() == "DEBITO" ? PaymModeEnum.DEBITO_BANCARIO : PaymModeEnum.TARJETA_CREDITO;
 
-                    creditCards = new ClsPaymMode().GetCreditCardsByBank(_bankId, true);   //13/07/2022 No enviaba parametro booleano, por defoult envia true
+                    creditCards = new ClsPaymMode(Program.customConnectionString).GetCreditCardsByBank(_bankId, true);   //13/07/2022 No enviaba parametro booleano, por defoult envia true
 
-                    foreach (var creditCard in creditCards)
+                    foreach (CreditCard creditCard in creditCards)
                     {
                         CmbCardBrand.Properties.Items.Add(new ImageComboBoxItem { Value = creditCard.CreditCardId, Description = creditCard.Name });
                     }
@@ -142,7 +137,7 @@ namespace POS
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar lista de Marcas de Tarjeta.",
-                        ClsEnums.MessageType.ERROR,
+                         MessageType.ERROR,
                         true,
                         ex.InnerException.Message);
                 }
@@ -162,7 +157,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe llenar todos los campos", MessageType.WARNING);
                 DialogResult = DialogResult.None;
             }
         }
@@ -187,10 +182,10 @@ namespace POS
             decimal invoiceAmount = 0.00M;
             decimal discAmount = 0.00M;
 
-            var line = from r in invoiceXml.Descendants("InvoiceLine")
-                       select r;
+            IEnumerable<XElement> line = from r in invoiceXml.Descendants("InvoiceLine")
+                                         select r;
 
-            foreach (var item in line)
+            foreach (XElement item in line)
             {
                 discAmount += decimal.Parse(item.Element("LineDiscount").Value);
                 invoiceAmount += decimal.Parse(item.Element("LineAmount").Value);
@@ -214,19 +209,19 @@ namespace POS
             {
                 try
                 {
-                    long availableProm = new ClsPaymMode().GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
+                    long availableProm = new ClsPaymMode(Program.customConnectionString).GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
                     if (availableProm > 0)
                     {
                         string paymmode = string.Format("{0}|{1}|{2}", (int)paymModeEnum, selectedCardBank, selectedCardBrand);
 
-                        var invoiceDetails = (from li in invoiceXml.Descendants("InvoiceLine") select li).ToList();
+                        List<XElement> invoiceDetails = (from li in invoiceXml.Descendants("InvoiceLine") select li).ToList();
 
                         foreach (XElement item in invoiceDetails)
                         {
                             decimal qtyFound = 0;
                             string barcode = "";
 
-                            foreach (var node in item.Elements())
+                            foreach (XElement node in item.Elements())
                             {
                                 switch (node.Name.ToString())
                                 {
@@ -245,23 +240,21 @@ namespace POS
                                 }
                             }
 
-                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans().ProductConsult(
+                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
                                                  emissionPoint.LocationId,
                                                  barcode,
                                                  qtyFound,
                                                  customer.CustomerId,
                                                  0,
-                                                 paymmode
-                                                 , ""
-
-                                                 );
+                                                 paymmode,
+                                                 "");
 
 
-                            var updateQuery = from r in invoiceXml.Descendants("InvoiceLine")
-                                              where r.Element("ProductId").Value == _productResult.ProductId.ToString()
-                                              select r;
+                            IEnumerable<XElement> updateQuery = from r in invoiceXml.Descendants("InvoiceLine")
+                                                                where r.Element("ProductId").Value == _productResult.ProductId.ToString()
+                                                                select r;
 
-                            foreach (var query in updateQuery)
+                            foreach (XElement query in updateQuery)
                             {
                                 query.Element("Cost").SetValue(_productResult.Cost);
                                 query.Element("Price").SetValue(_productResult.Price);
@@ -297,7 +290,7 @@ namespace POS
                 {
                     functions.ShowMessage(
                                            "Ocurrio un problema al cargar promociones de este banco."
-                                           , ClsEnums.MessageType.ERROR
+                                           , MessageType.ERROR
                                            , true
                                            , ex.InnerException.Message
                                        );
@@ -315,7 +308,7 @@ namespace POS
                     break;
                 case Keys.F9:
                     BtnCancel_Click(null, null);
-                    this.Close();
+                    Close();
                     break;
                 default:
                     break;
@@ -331,7 +324,7 @@ namespace POS
                     break;
                 case Keys.F9:
                     BtnCancel_Click(null, null);
-                    this.Close();
+                    Close();
                     break;
                 default:
                     break;
@@ -347,7 +340,7 @@ namespace POS
                     break;
                 case Keys.F9:
                     BtnCancel_Click(null, null);
-                    this.Close();
+                    Close();
                     break;
                 default:
                     break;

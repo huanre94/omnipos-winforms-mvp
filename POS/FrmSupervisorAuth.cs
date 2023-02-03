@@ -1,7 +1,7 @@
 ﻿using AxOposScanner_CCO;
 using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace POS
         public bool requireMotive;
         public int reasonType = 1;
 
-        ClsEnums.ScaleBrands scaleBrand;
+        ScaleBrands scaleBrand;
 
         public FrmSupervisorAuth()
         {
@@ -33,9 +33,9 @@ namespace POS
             LblMotive.Visible = false;
             CmbMotive.Visible = false;
 
-            scaleBrand = (ClsEnums.ScaleBrands)Enum.Parse(typeof(ClsEnums.ScaleBrands), emissionPoint.ScaleBrand, true);
+            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            if (scaleBrand == ScaleBrands.DATALOGIC)
             {
                 if (scanner != null)
                 {
@@ -58,16 +58,13 @@ namespace POS
 
         private void LoadReasons(int reasonType)
         {
-            ClsAuthorizationTrans paymMode = new ClsAuthorizationTrans();
-            IEnumerable<CancelReason> cancelReasons;
-
             try
             {
-                cancelReasons = paymMode.ConsultReasons(reasonType);
+                IEnumerable<CancelReason> cancelReasons = new ClsAuthorizationTrans(Program.customConnectionString).ConsultReasons(reasonType);
 
                 if (cancelReasons.Any())
                 {
-                    foreach (var reason in cancelReasons)
+                    foreach (CancelReason reason in cancelReasons)
                     {
                         CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
                     }
@@ -76,7 +73,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar lista de motivos de anulacion.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.InnerException.Message);
             }
@@ -88,14 +85,14 @@ namespace POS
             Cursor.Current = Cursors.WaitCursor;
             if (TxtAuthorization.Text == string.Empty)
             {
-                functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return;
             }
 
             if (TxtSupervisorPassword.Text == string.Empty)
             {
-                functions.ShowMessage("Debe proporcionar el pin del supervisor.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe proporcionar el pin del supervisor.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return;
             }
@@ -108,11 +105,11 @@ namespace POS
 
                     try
                     {
-                        result = new ClsAuthorizationTrans().GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+                        result = new ClsAuthorizationTrans(Program.customConnectionString).GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
 
                         if (result == null)
                         {
-                            functions.ShowMessage("El codigo ingresado no es correcto.", ClsEnums.MessageType.ERROR);
+                            functions.ShowMessage("El codigo ingresado no es correcto.", MessageType.ERROR);
                             TxtAuthorization.Text = "";
                             TxtAuthorization.Focus();
                             TxtSupervisorPassword.Text = string.Empty;
@@ -131,7 +128,7 @@ namespace POS
                             supervisorAuthorization = TxtAuthorization.Text;
                             TxtAuthorization.Text = "";
 
-                            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                            if (scaleBrand == ScaleBrands.DATALOGIC)
                             {
                                 functions.DisableScanner();
 
@@ -144,20 +141,20 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("Ocurrio un problema al anular producto.", ClsEnums.MessageType.ERROR, true, result.ErrorMessage);
+                            functions.ShowMessage("Ocurrio un problema al anular producto.", MessageType.ERROR, true, result.ErrorMessage);
                             DialogResult = DialogResult.None;
                         }
 
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", ClsEnums.MessageType.ERROR, true, ex.InnerException.Message);
+                        functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", MessageType.ERROR, true, ex.InnerException.Message);
                     }
                 }
             }
             else
             {
-                functions.ShowMessage("Debe seleccionar un motivo para anular.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe seleccionar un motivo para anular.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
             }
 
@@ -166,7 +163,7 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (scaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+            if (scaleBrand == ScaleBrands.DATALOGIC)
             {
                 functions.DisableScanner();
 
@@ -188,7 +185,7 @@ namespace POS
         {
             FrmKeyPad passwordKeypad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.LOGIN_PASSWORD
+                inputFromOption = InputFromOption.LOGIN_PASSWORD
             };
             passwordKeypad.ShowDialog();
             TxtSupervisorPassword.Text = passwordKeypad.loginPassword;

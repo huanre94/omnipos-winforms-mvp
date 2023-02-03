@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -15,12 +15,12 @@ namespace POS
 {
     public partial class FrmPartialClosing : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
-        public List<GlobalParameter> globalParameters;
+        readonly ClsFunctions functions = new ClsFunctions();
+        public IEnumerable<GlobalParameter> globalParameters;
         EmissionPoint emissionPoint = new EmissionPoint();
         public SP_Login_Consult_Result loginInformation;
-        List<SP_ClosingCashierDenominations_Consult_Result> denominations;
-        List<SP_ClosingCashierPartial_Consult_Result> partials;
+        IEnumerable<SP_ClosingCashierDenominations_Consult_Result> denominations;
+        IEnumerable<SP_ClosingCashierPartial_Consult_Result> partials;
         XElement closingXml = new XElement("ClosingCashier");
         decimal cashAmount = 0;
 
@@ -40,49 +40,48 @@ namespace POS
         {
             try
             {
-                ClsClosingTrans closing = new ClsClosingTrans();
+                ClsClosingTrans closing = new ClsClosingTrans(Program.customConnectionString);
                 denominations = closing.GetDenominations();
                 partials = closing.GetPartialClosings(emissionPoint, loginInformation);
-                if (partials != null)
+
+                if (partials?.Count() > 0)
                 {
-                    if (partials.Count > 0)
+                    int count;
+                    try
                     {
-                        int count;
-                        try
-                        {
-                            count = (from pa in partials where pa.ClosingCashierId == 0 select pa.CashAmount).Count();
-                        }
-                        catch
-                        {
-                            count = 0;
-                        }
-
-                        if (count >= 0)
-                        {
-                            cashAmount = (decimal)(from pa in partials select pa.CashAmount).FirstOrDefault();
-                        }
-                        else
-                        {
-                            cashAmount = (decimal)(from pa in partials where pa.ClosingCashierId == 0 select pa.CashAmount).FirstOrDefault();
-                        }
-
-                        partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
-
-                        decimal totalPartial = 0;
-                        foreach (SP_ClosingCashierPartial_Consult_Result item in partials)
-                        {
-                            totalPartial += item.CashierAmount;
-                        }
-
-                        cashAmount -= totalPartial;
+                        count = (from pa in partials where pa.ClosingCashierId == 0 select pa.CashAmount).Count();
                     }
+                    catch
+                    {
+                        count = 0;
+                    }
+
+                    if (count >= 0)
+                    {
+                        cashAmount = (decimal)(from pa in partials select pa.CashAmount).FirstOrDefault();
+                    }
+                    else
+                    {
+                        cashAmount = (decimal)(from pa in partials where pa.ClosingCashierId == 0 select pa.CashAmount).FirstOrDefault();
+                    }
+
+                    partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
+
+                    decimal totalPartial = 0;
+                    foreach (SP_ClosingCashierPartial_Consult_Result item in partials)
+                    {
+                        totalPartial += item.CashierAmount;
+                    }
+
+                    cashAmount -= totalPartial;
                 }
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                             "Ocurrio un problema al cargar informacion."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
                                         );
@@ -103,20 +102,19 @@ namespace POS
         {
             GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcDenomination.DataSource = null;
-            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations);
+            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList());
             bindingList.AllowNew = false;
             GrcDenomination.DataSource = bindingList;
 
             GrvPartialClosing.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPartialClosing.DataSource = null;
-            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials);
+            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList());
             bindingList.AllowNew = false;
             GrcPartialClosing.DataSource = bindingList3;
         }
 
         private bool GetEmissionPointInformation()
         {
-            ClsGeneral clsGeneral = new ClsGeneral();
 
             bool response = false;
             string addressIP = loginInformation.AddressIP;
@@ -125,7 +123,7 @@ namespace POS
             {
                 try
                 {
-                    emissionPoint = clsGeneral.GetEmissionPointByIP(addressIP);
+                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
 
                     if (emissionPoint != null)
                     {
@@ -133,14 +131,14 @@ namespace POS
                     }
                     else
                     {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al cargar información de punto de emisión."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -148,7 +146,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
             }
 
             return response;
@@ -156,15 +154,13 @@ namespace POS
 
         private void LoadPartialClosingReason()
         {
-            IEnumerable<CancelReason> cancelReasons;
-
             try
             {
-                cancelReasons = new ClsAuthorizationTrans().ConsultReasons((int)ClsEnums.CancelReasonType.PARTIAL_CLOSING);
+                IEnumerable<CancelReason> cancelReasons = new ClsAuthorizationTrans(Program.customConnectionString).ConsultReasons((int)CancelReasonType.PARTIAL_CLOSING);
 
                 if (cancelReasons?.Count() > 0)
                 {
-                    foreach (var reason in cancelReasons)
+                    foreach (CancelReason reason in cancelReasons)
                     {
                         CmbMotive.Properties.Items.Add(new ImageComboBoxItem { Value = reason.ReasonId, Description = reason.Name });
                     }
@@ -173,7 +169,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar motivos de cierre.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.InnerException.Message);
             }
@@ -194,19 +190,19 @@ namespace POS
         {
             if (decimal.Parse(LblTotalCashier.Text) <= 0)
             {
-                functions.ShowMessage("El valor a retirar debe ser mayor a 0", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El valor a retirar debe ser mayor a 0", MessageType.WARNING);
                 return;
             }
 
             if (decimal.Parse(LblTotalCashier.Text) > cashAmount)
             {
-                functions.ShowMessage("No puede retirar un valor mayor a la venta", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No puede retirar un valor mayor a la venta", MessageType.WARNING);
                 return;
             }
 
             if (CmbMotive.SelectedItem == null)
             {
-                functions.ShowMessage("Debe seleccionar un motivo de cierre parcial", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe seleccionar un motivo de cierre parcial", MessageType.WARNING);
                 return;
             }
 
@@ -230,10 +226,10 @@ namespace POS
                 Type type = cashierTable.GetType();
                 PropertyInfo[] properties = type.GetProperties();
 
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(cashierTable);
+                    string name = prop.Name;
+                    object value = prop.GetValue(cashierTable);
 
                     if (value == null)
                     {
@@ -264,10 +260,10 @@ namespace POS
                     type = cashierMoney.GetType();
                     properties = type.GetProperties();
 
-                    foreach (var prop in properties)
+                    foreach (PropertyInfo prop in properties)
                     {
-                        var name = prop.Name;
-                        var value = prop.GetValue(cashierMoney);
+                        string name = prop.Name;
+                        object value = prop.GetValue(cashierMoney);
 
                         if (value == null)
                         {
@@ -283,17 +279,17 @@ namespace POS
                 ClosingCashierLine cashierLine = new ClosingCashierLine()
                 {
 
-                    PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
+                    PaymModeId = (int)PaymModeEnum.EFECTIVO,
                     CashierAmount = decimal.Parse(LblTotalCashier.Text),
                     SystemAmount = 0
                 };
                 type = cashierLine.GetType();
                 properties = type.GetProperties();
 
-                foreach (var prop in properties)
+                foreach (PropertyInfo prop in properties)
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(cashierLine);
+                    string name = prop.Name;
+                    object value = prop.GetValue(cashierLine);
 
                     if (value == null)
                     {
@@ -306,39 +302,37 @@ namespace POS
 
                 try
                 {
-                    List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans().InsertPartialClosing(closingXml);
+                    List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertPartialClosing(closingXml).ToList();
 
-                    if (clsClosing != null)
+                    if (clsClosing?.Count() > 0)
                     {
-                        if (clsClosing.Count > 0)
+                        SP_ClosingCashierPartial_Insert_Result closing = clsClosing[0];
+                        if (!(bool)closing.Error)
                         {
-                            SP_ClosingCashierPartial_Insert_Result closing = clsClosing[0];
-                            if (!(bool)closing.Error)
+                            //if (PrintInvoice((Int64)closing.ClosingCashierId))
+                            if (functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER, false))
                             {
-                                //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                                if (functions.PrintDocument((Int64)closing.ClosingCashierId, ClsEnums.DocumentType.CLOSINGCASHIER, false))
-                                {
-                                    functions.ShowMessage("Cierre parcial finalizado exitosamente.");
-                                }
-                                else
-                                {
-                                    functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", ClsEnums.MessageType.WARNING);
-                                }
-
-                                FrmMenu frmMenu = new FrmMenu();
-                                frmMenu.loginInformation = loginInformation;
-                                frmMenu.globalParameters = globalParameters;
-                                frmMenu.Visible = true;
-                                Close();
+                                functions.ShowMessage("Cierre parcial finalizado exitosamente.");
                             }
+                            else
+                            {
+                                functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", MessageType.WARNING);
+                            }
+
+                            FrmMenu frmMenu = new FrmMenu();
+                            frmMenu.loginInformation = loginInformation;
+                            frmMenu.globalParameters = globalParameters;
+                            frmMenu.Visible = true;
+                            Close();
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage(
                                             "Ocurrio un problema al registrar cierre parcial de caja."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message
                                         );
@@ -444,9 +438,9 @@ namespace POS
         {
             try
             {
-                long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "P");
+                long lastId = new ClsClosingTrans(Program.customConnectionString).ConsultLastClosing(emissionPoint, "P");
 
-                if (functions.PrintDocument(lastId, ClsEnums.DocumentType.CLOSINGCASHIER))
+                if (functions.PrintDocument(lastId, DocumentType.CLOSINGCASHIER))
                 {
                     functions.ShowMessage("Cierre parcial impreso.");
                 }
@@ -457,9 +451,9 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al realizar el cierre parcial.", 
-                    ClsEnums.MessageType.ERROR, 
-                    true, 
+                functions.ShowMessage("Ocurrio un problema al realizar el cierre parcial.",
+                     MessageType.ERROR,
+                    true,
                     ex.InnerException.Message);
             }
         }

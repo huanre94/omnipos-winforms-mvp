@@ -1,11 +1,11 @@
-﻿using POS.Classes;
+﻿using POS.DLL.Enums;
 using System;
 
 namespace POS
 {
     public partial class FrmKeyPad : DevExpress.XtraEditors.XtraForm
     {
-        public ClsEnums.InputFromOption inputFromOption;
+        public InputFromOption inputFromOption;
         public string creditCardAuthorization = "";
         public string checkAuthorization = "";
         public string checkAccountNumber = "";
@@ -31,7 +31,7 @@ namespace POS
 
         private void FrmKeyPad_Load(object sender, EventArgs e)
         {
-            if (inputFromOption == ClsEnums.InputFromOption.LOGIN_PASSWORD)
+            if (inputFromOption == InputFromOption.LOGIN_PASSWORD)
             {
                 TxtValue.Properties.UseSystemPasswordChar = true;
                 TxtValue.Properties.PasswordChar = '•';
@@ -41,7 +41,7 @@ namespace POS
                 TxtValue.Properties.UseSystemPasswordChar = false;
                 TxtValue.Properties.PasswordChar = '\0';
 
-                BtnDot.Enabled = inputFromOption == ClsEnums.InputFromOption.PRODUCT_INVENTORY || inputFromOption == ClsEnums.InputFromOption.ADVANCE_AMOUNT;
+                BtnDot.Enabled = inputFromOption == InputFromOption.PRODUCT_INVENTORY || inputFromOption == InputFromOption.ADVANCE_AMOUNT;
             }
         }
 
@@ -81,61 +81,61 @@ namespace POS
         {
             if (TxtValue.Text == string.Empty)
             {
-                new ClsFunctions().ShowMessage("Debe ingresar un numero", ClsEnums.MessageType.WARNING);
+                new ClsFunctions().ShowMessage("Debe ingresar un numero", MessageType.WARNING);
                 return;
             }
 
             switch (inputFromOption)
             {
-                case ClsEnums.InputFromOption.CHECK_ACCOUNTNUMBER:
+                case InputFromOption.CHECK_ACCOUNTNUMBER:
                     checkAccountNumber = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CHECK_AUTHORIZATION:
+                case InputFromOption.CHECK_AUTHORIZATION:
                     checkAuthorization = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CHECK_NUMBER:
+                case InputFromOption.CHECK_NUMBER:
                     checkNumber = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION:
+                case InputFromOption.CHECK_OWNERIDENTIFICATION:
                     checkOwnerIdentification = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CHECK_PHONE:
+                case InputFromOption.CHECK_PHONE:
                     checkPhone = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION:
+                case InputFromOption.CREDITCARD_AUTHORIZATION:
                     creditCardAuthorization = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.GIFTCARD_NUMBER:
+                case InputFromOption.GIFTCARD_NUMBER:
                     giftcardNumber = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.CUSTOMER_PHONE:
+                case InputFromOption.CUSTOMER_PHONE:
                     customerPhone = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.LOGIN_USERNAME:
+                case InputFromOption.LOGIN_USERNAME:
                     loginUsername = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.LOGIN_PASSWORD:
+                case InputFromOption.LOGIN_PASSWORD:
                     loginPassword = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.PRODUCT_QUANTITY:
+                case InputFromOption.PRODUCT_QUANTITY:
                     productQuantity = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER:
+                case InputFromOption.EMISSIONPOINT_NUMBER:
                     emissionPoint = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.INVOICE_NUMBER:
+                case InputFromOption.INVOICE_NUMBER:
                     invoiceNumber = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.PRODUCT_INVENTORY:
+                case InputFromOption.PRODUCT_INVENTORY:
                     productInventory = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.SUPERVISOR_PASSWORD:
+                case InputFromOption.SUPERVISOR_PASSWORD:
                     supervisorPassword = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.SALESORDER_ID:
+                case InputFromOption.SALESORDER_ID:
                     salesOrderId = TxtValue.Text;
                     break;
-                case ClsEnums.InputFromOption.ADVANCE_AMOUNT:
+                case InputFromOption.ADVANCE_AMOUNT:
                     advanceAmount = TxtValue.Text;
                     break;
                 default:

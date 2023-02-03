@@ -1,6 +1,6 @@
-﻿using POS.Classes;
-using POS.DLL;
+﻿using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace POS
     public partial class FrmInvoiceCancel : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         public SP_Login_Consult_Result loginInformation;
         EmissionPoint emissionPoint;
 
@@ -36,18 +36,18 @@ namespace POS
 
             if (addressIP == string.Empty)
             {
-                functions.ShowMessage("No se proporcionó dirección IP del equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
                 return false;
             }
 
             try
             {
-                emissionPoint = new ClsGeneral().GetEmissionPointByIP(addressIP);
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.Message);
             }
@@ -55,7 +55,7 @@ namespace POS
 
             if (emissionPoint == null)
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
                 TxtEmissionPoint.Enabled = true;
                 return false;
             }
@@ -71,12 +71,12 @@ namespace POS
         {
             if (long.Parse(LblInvoiceId.Text) <= 0)
             {
-                functions.ShowMessage("Debe seleccionar una factura valida", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe seleccionar una factura valida", MessageType.WARNING);
             }
             else
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)ClsEnums.CancelReasonType.ITEM_CANCEL))
+                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.ITEM_CANCEL))
                 {
                     SalesLog salesLog = new SalesLog
                     {
@@ -86,7 +86,7 @@ namespace POS
                         InvoiceNumber = int.Parse(TxtSequence.Text),
                         XmlLog = string.Empty,
                         ReasonId = functions.motiveId,
-                        LogTypeId = (int)ClsEnums.LogType.ANULAR_FACTURA,
+                        LogTypeId = (int)DLL.Enums.LogType.ANULAR_FACTURA,
                         Authorization = functions.supervisorAuthorization,
                         CreatedDatetime = DateTime.Now,
                         CreatedBy = (int)loginInformation.UserId,
@@ -97,11 +97,11 @@ namespace POS
                     InvoiceTable invoiceTable = null;
                     try
                     {
-                        invoiceTable = new ClsInvoiceTrans().ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                        invoiceTable = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoice(int.Parse(LblInvoiceId.Text));
                     }
                     catch (Exception ex)
                     {
-                        functions.ShowMessage("Ocurrio un problema al consultar documento.", ClsEnums.MessageType.ERROR, true, ex.Message);
+                        functions.ShowMessage("Ocurrio un problema al consultar documento.", MessageType.ERROR, true, ex.Message);
                     }
 
                     invoiceTable.TransferStatusId = 4;
@@ -114,24 +114,24 @@ namespace POS
                     bool invoiceCancel = false;
                     try
                     {
-                        invoiceCancel = new ClsInvoiceTrans().CancelInvoice(salesLog, invoiceTable);
+                        invoiceCancel = new ClsInvoiceTrans(Program.customConnectionString).CancelInvoice(salesLog, invoiceTable);
                     }
                     catch (Exception ex)
                     {
                         functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.Message);
                     }
 
                     if (invoiceCancel)
                     {
-                        functions.ShowMessage("Factura anulada correctamente.", ClsEnums.MessageType.INFO);
+                        functions.ShowMessage("Factura anulada correctamente.", MessageType.INFO);
                         ClearInvoice();
                     }
                     else
                     {
-                        functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", ClsEnums.MessageType.ERROR);
+                        functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", MessageType.ERROR);
                     }
                 }
             }
@@ -153,25 +153,25 @@ namespace POS
         {
             if (TxtEmissionPoint.Text == string.Empty)
             {
-                functions.ShowMessage("Punto de emision de factura no puede estar vacia", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Punto de emision de factura no puede estar vacia", MessageType.WARNING);
             }
             else if (TxtSequence.Text == string.Empty)
             {
-                functions.ShowMessage("Secuencia de factura no puede estar vacia", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Secuencia de factura no puede estar vacia", MessageType.WARNING);
             }
             else
             {
 
                 try
                 {
-                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans().ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
+                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
 
                     if (response != null)
                     {
 
-                        if (response.TransferStatusId == (int)ClsEnums.TransferStatus.PENDING_MIGRATE)
+                        if (response.TransferStatusId == (int)DLL.Enums.TransferStatus.PENDING_MIGRATE)
                         {
-                            functions.ShowMessage("La factura aun no ha sido migrada a ERP.", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("La factura aun no ha sido migrada a ERP.", MessageType.WARNING);
                             return;
                         }
 
@@ -185,19 +185,19 @@ namespace POS
                         }
                         else
                         {
-                            functions.ShowMessage("La factura ya se encuentra anulada.", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("La factura ya se encuentra anulada.", MessageType.WARNING);
                         }
                     }
                     else
                     {
-                        functions.ShowMessage("No existe factura con la secuencia digitada.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No existe factura con la secuencia digitada.", MessageType.WARNING);
                         ClearInvoice();
                     }
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
-                                                , ClsEnums.MessageType.ERROR
+                                                , MessageType.ERROR
                                                 , true
                                                 , ex.InnerException.Message);
                 }
@@ -206,9 +206,9 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            using (var emissionPointKeypad = new FrmKeyPad()
+            using (FrmKeyPad emissionPointKeypad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.EMISSIONPOINT_NUMBER
+                inputFromOption = InputFromOption.EMISSIONPOINT_NUMBER
             })
             {
                 emissionPointKeypad.ShowDialog();
@@ -224,7 +224,7 @@ namespace POS
         {
             using (FrmKeyPad sequenceKeyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.INVOICE_NUMBER
+                inputFromOption = InputFromOption.INVOICE_NUMBER
             })
             {
                 sequenceKeyPad.ShowDialog();
@@ -240,7 +240,7 @@ namespace POS
         {
             using (FrmKeyBoard observationKeyboard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.OBSERVATION
+                inputFromOption = InputFromOption.OBSERVATION
             })
             {
                 observationKeyboard.ShowDialog();
@@ -263,7 +263,7 @@ namespace POS
                     BtnAccept_Click(null, null);
                     break;
                 case Keys.Escape:
-                    this.Close();
+                    Close();
                     break;
                 default:
                     break;
@@ -282,7 +282,7 @@ namespace POS
                     BtnAccept_Click(null, null);
                     break;
                 case Keys.Escape:
-                    this.Close();
+                    Close();
                     break;
                 default:
                     break;

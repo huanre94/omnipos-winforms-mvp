@@ -2,6 +2,7 @@
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,7 +45,7 @@ namespace POS
         public FrmPayment()
         {
             InitializeComponent();
-       }
+        }
 
         private void FrmPayment_Load(object sender, EventArgs e)
         {
@@ -71,7 +72,9 @@ namespace POS
             pendingAmount = invoiceAmount;
             LblPending.Text = pendingAmount.ToString();
 
-            string taxPercent = new POSEntities().TaxTable.Where(t => t.Status.Equals("A")).Select(t => t.TaxValue).FirstOrDefault().ToString();
+
+            //TODO 
+            string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax();
 
             LblBase.Text = $"Base IVA 0%";
             LblBaseTax.Text = $"(+) Base IVA {taxPercent}%";
@@ -86,7 +89,7 @@ namespace POS
             bool customerRetention = customer.UseRetention ?? false;
             if (customerRetention)
             {
-                if (functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", ClsEnums.MessageType.CONFIRM))
+                if (functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", MessageType.CONFIRM))
                 {
                     Withhold();
                 }
@@ -179,7 +182,7 @@ namespace POS
         {
             if (TxtAmount.Text == "")
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
                 return;
             }
 
@@ -194,7 +197,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -206,7 +209,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -218,7 +221,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -230,7 +233,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -238,7 +241,7 @@ namespace POS
         {
             if (taxAmount == 0 && baseAmount == 0)
             {
-                functions.ShowMessage("La venta no aplica retención, la base imponible es cero", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("La venta no aplica retención, la base imponible es cero", MessageType.WARNING);
             }
             else
             {
@@ -253,7 +256,7 @@ namespace POS
             {
                 bool response;
 
-                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", ClsEnums.MessageType.CONFIRM);
+                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", MessageType.CONFIRM);
 
                 if (response)
                 {
@@ -272,11 +275,11 @@ namespace POS
         {
             if (TxtAmount.Text != "")
             {
-                AccountReceivable((int)ClsEnums.PaymModeEnum.ANTICIPOS);
+                AccountReceivable((int)PaymModeEnum.ANTICIPOS);
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -284,11 +287,11 @@ namespace POS
         {
             if (TxtAmount.Text != "")
             {
-                AccountReceivable((int)ClsEnums.PaymModeEnum.NOTA_CREDITO);
+                AccountReceivable((int)PaymModeEnum.NOTA_CREDITO);
             }
             else
             {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
         }
 
@@ -313,7 +316,7 @@ namespace POS
 
             InvoicePayment invoicePayment = new InvoicePayment
             {
-                PaymModeId = (int)ClsEnums.PaymModeEnum.EFECTIVO,
+                PaymModeId = (int)PaymModeEnum.EFECTIVO,
                 Amount = cashAmount,
                 Change = changeAmount,
                 Received = cashReceivedAmount
@@ -376,7 +379,7 @@ namespace POS
 
         private void Check()
         {
-            ClsEnums.PaymModeEnum paymModeEnum;
+            PaymModeEnum paymModeEnum;
             FrmPaymentCheck paymentCheck = new FrmPaymentCheck()
             {
                 checkAmount = decimal.Parse(TxtAmount.Text),
@@ -388,11 +391,11 @@ namespace POS
             {
                 if (paymentCheck.checkDate > DateTime.Now)
                 {
-                    paymModeEnum = ClsEnums.PaymModeEnum.CHEQUE_POST;
+                    paymModeEnum = PaymModeEnum.CHEQUE_POST;
                 }
                 else
                 {
-                    paymModeEnum = ClsEnums.PaymModeEnum.CHEQUE_DIA;
+                    paymModeEnum = PaymModeEnum.CHEQUE_DIA;
                 }
 
                 InvoicePayment invoicePayment = new InvoicePayment
@@ -425,14 +428,11 @@ namespace POS
 
             if (paymentCredit.formActionResult)
             {
-                ClsGeneral general = new ClsGeneral();
                 bool responseAuthorization = true;
-                GlobalParameter parameter;
-
                 try
                 {
                     string value = customer.IsEmployee ? "InternalCreditRequestAuth" : "RequireSupervisorAuthorizationCustomer";
-                    parameter = general.GetParameterByName(value);
+                    GlobalParameter parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName(value);
 
                     if (parameter != null)
                     {
@@ -448,7 +448,7 @@ namespace POS
                 {
                     functions.ShowMessage(
                                             "Ha ocurrido un problema al consultar parametro."
-                                            , ClsEnums.MessageType.ERROR
+                                            , MessageType.ERROR
                                             , true
                                             , ex.InnerException.Message
                                         );
@@ -459,13 +459,13 @@ namespace POS
                     InvoicePayment invoicePayment = new InvoicePayment();
                     if (!customer.IsEmployee)
                     {
-                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.CREDITO;
+                        invoicePayment.PaymModeId = (int)PaymModeEnum.CREDITO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
                         invoicePayment.Authorization = functions.supervisorAuthorization;
                     }
                     else
                     {
-                        invoicePayment.PaymModeId = (int)ClsEnums.PaymModeEnum.TARJETA_CONSUMO;
+                        invoicePayment.PaymModeId = (int)PaymModeEnum.TARJETA_CONSUMO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
                         invoicePayment.InternalCreditCardId = paymentCredit.internalCreditCardId;
                         invoicePayment.Authorization = functions.supervisorAuthorization;
@@ -487,7 +487,7 @@ namespace POS
             {
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
-                    PaymModeId = (int)ClsEnums.PaymModeEnum.BONO,
+                    PaymModeId = (int)PaymModeEnum.BONO,
                     GiftCardNumber = giftcard.giftcardNumber,
                     Amount = decimal.Parse(TxtAmount.Text)
                 };
@@ -503,7 +503,7 @@ namespace POS
 
             try
             {
-                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment") where int.Parse(pa.Element("PaymModeId").Value) == (int)ClsEnums.PaymModeEnum.RETENCION select pa).Count();
+                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment") where int.Parse(pa.Element("PaymModeId").Value) == (int)PaymModeEnum.RETENCION select pa).Count();
                 if (retentionCount > 0)
                 {
                     hasRetention = true;
@@ -516,7 +516,7 @@ namespace POS
 
             if (hasRetention)
             {
-                functions.ShowMessage("Ya se encuentra registrada una retencion", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Ya se encuentra registrada una retencion", MessageType.WARNING);
             }
             else
             {
@@ -560,7 +560,7 @@ namespace POS
 
         private void AddRecordToGrid(InvoicePayment _invoicePayment)
         {
-            ClsEnums.PaymModeEnum paymModeEnum = (ClsEnums.PaymModeEnum)_invoicePayment.PaymModeId;
+            PaymModeEnum paymModeEnum = (PaymModeEnum)_invoicePayment.PaymModeId;
 
             GrvPayment.AddNewRow();
             GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Description"], paymModeEnum);
@@ -570,12 +570,12 @@ namespace POS
             PropertyInfo[] properties = type.GetProperties();
             XElement paymentDetailXml = new XElement("InvoicePayment");
 
-            foreach (var prop in properties)
+            foreach (PropertyInfo prop in properties)
             {
                 if (prop.Name != "InvoiceTable" && prop.Name != "Location" && prop.Name != "PaymMode")
                 {
-                    var name = prop.Name;
-                    var value = prop.GetValue(_invoicePayment);
+                    string name = prop.Name;
+                    object value = prop.GetValue(_invoicePayment);
 
                     if (value == null)
                     {
@@ -619,7 +619,7 @@ namespace POS
             }
             else
             {
-                functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", MessageType.ERROR);
             }
         }
 

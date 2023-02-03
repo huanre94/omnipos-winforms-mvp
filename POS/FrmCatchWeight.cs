@@ -2,11 +2,11 @@
 using AxOposScale_CCO;
 using POS.Classes;
 using POS.DLL;
+using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
@@ -18,43 +18,38 @@ namespace POS
         public bool formActionResult;
         public decimal weight;
         public string productName = string.Empty;
-        public List<GlobalParameter> globalParameters;
+        public IEnumerable<GlobalParameter> globalParameters;
         private ClsCatchWeight catchWeight;
         private string strWaitTime = string.Empty;
 
-        public ClsEnums.ScaleBrands ScaleBrand { get; set; }
+        public ScaleBrands ScaleBrand { get; set; }
         public string PortName { get; set; }
-       
-        public FrmCatchWeight(ClsEnums.ScaleBrands _scaleBrand, string _portName)
+
+        public FrmCatchWeight(ScaleBrands _scaleBrand, string _portName)
         {
             InitializeComponent();
             ScaleBrand = _scaleBrand;
             PortName = _portName;
-          }
+        }
 
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
             try
             {
-                if (ScaleBrand == ClsEnums.ScaleBrands.DATALOGIC)
+                if (ScaleBrand == ScaleBrands.DATALOGIC)
                 {
                     LblTitle.Text = "Coloque el Producto en la Balanza";
                 }
                 else
                 {
-                    strWaitTime =
-                        new POSEntities()
-                        .GlobalParameter
-                        .Where(par => par.Name == "MaxScaleWaitTime")
-                        .Select(par => par.Value)
-                        .FirstOrDefault();
+                    strWaitTime = new ClsGeneral(Program.customConnectionString).GetParameterByName("MaxScaleWaitTime").Value;
 
                     LblTitle.Text = string.Empty;
                     BtnCatchWeight.Visible = false;
 
-                    if (ScaleBrand == ClsEnums.ScaleBrands.NONE || PortName == string.Empty)
+                    if (ScaleBrand == ScaleBrands.NONE || PortName == string.Empty)
                     {
-                        functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("No se ha especificado la marca o puerto serial de la balanza.", MessageType.WARNING);
                         DialogResult = DialogResult.Cancel;
                         return;
                     }
@@ -62,13 +57,13 @@ namespace POS
                     catchWeight = new ClsCatchWeight(ScaleBrand, PortName, false, true, false);
                     catchWeight.OpenScale();
 
-                    if (functions.ShowMessage("Coloque el producto en la balanza.", ClsEnums.MessageType.CONFIRM))
+                    if (functions.ShowMessage("Coloque el producto en la balanza.", MessageType.CONFIRM))
                     {
                         CatchWeightProduct(ScaleBrand, PortName);
                     }
                     else
                     {
-                        if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+                        if (ScaleBrand != ScaleBrands.DATALOGIC)
                             catchWeight.CloseScale();
 
                         DialogResult = DialogResult.Cancel;
@@ -80,7 +75,7 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ha ocurrido un error al inicializar la balanza.", ClsEnums.MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("Ha ocurrido un error al inicializar la balanza.", MessageType.WARNING, true, ex.InnerException.Message);
             }
         }
 
@@ -90,7 +85,7 @@ namespace POS
             BtnAccept.Focus();
         }
 
-        private void CatchWeightProduct(ClsEnums.ScaleBrands _scaleBrand, string _portName)
+        private void CatchWeightProduct(ScaleBrands _scaleBrand, string _portName)
         {
             weight = 0;
 
@@ -98,7 +93,7 @@ namespace POS
             {
                 switch (_scaleBrand)
                 {
-                    case ClsEnums.ScaleBrands.DATALOGIC:
+                    case ScaleBrands.DATALOGIC:
                         axOposScale.ReadWeight(out int request, 5000);
                         weight = request / 1000M;
 
@@ -106,7 +101,7 @@ namespace POS
                         {
                             LblTitle.Text = "Peso no Capturado";
                             LblTitle.ForeColor = Color.Red;
-                            functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.WARNING);
+                            functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", MessageType.WARNING);
                         }
                         else
                         {
@@ -133,7 +128,7 @@ namespace POS
                             LblTitle.Text = "Peso no Capturado";
                             LblTitle.ForeColor = Color.Red;
 
-                            if (functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", ClsEnums.MessageType.CONFIRM))
+                            if (functions.ShowMessage("El peso no ha sido capturado. Por favor intente nuevamente", MessageType.CONFIRM))
                             {
                                 if (catchWeight.Weight > 0)
                                 {
@@ -158,7 +153,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al capturar peso.",
-                                        ClsEnums.MessageType.ERROR,
+                                         MessageType.ERROR,
                                         true,
                                         ex.Message);
             }
@@ -166,7 +161,7 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (ScaleBrand != ClsEnums.ScaleBrands.DATALOGIC)
+            if (ScaleBrand != ScaleBrands.DATALOGIC)
             {
                 if (catchWeight.Weight > 0)
                 {

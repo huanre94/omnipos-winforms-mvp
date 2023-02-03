@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace POS
         {
             if (emissionPoint == null)
             {
-                functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", MessageType.ERROR);
                 Close();
             }
             LoadCustomerInformation(customerIdentification);
@@ -49,11 +49,11 @@ namespace POS
 
                 try
                 {
-                    customer = new ClsCustomer().GetCustomerByIdentification(_identification);
+                    customer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(_identification);
 
                     if (customer == null)
                     {
-                        functions.ShowMessage("El cliente consultado no esta registrado.", ClsEnums.MessageType.WARNING);
+                        functions.ShowMessage("El cliente consultado no esta registrado.", MessageType.WARNING);
                         return;
                     }
 
@@ -73,7 +73,7 @@ namespace POS
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
-                        ClsEnums.MessageType.ERROR,
+                         MessageType.ERROR,
                         true,
                         ex.InnerException.Message);
                 }
@@ -86,7 +86,7 @@ namespace POS
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION
+                inputFromOption = InputFromOption.CUSTOMER_IDENTIFICATION
             };
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.customerIdentification;
@@ -97,7 +97,7 @@ namespace POS
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME
+                inputFromOption = InputFromOption.CUSTOMER_FIRSTNAME
             };
             keyBoard.ShowDialog();
             TxtFirstName.Text = keyBoard.customerFirstName;
@@ -108,7 +108,7 @@ namespace POS
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_LASTNAME
+                inputFromOption = InputFromOption.CUSTOMER_LASTNAME
             };
             keyBoard.ShowDialog();
             TxtLastName.Text = keyBoard.customerLastName;
@@ -119,7 +119,7 @@ namespace POS
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_ADDRESS
+                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
             };
             keyBoard.ShowDialog();
             TxtAddress.Text = keyBoard.customerAddress;
@@ -130,7 +130,7 @@ namespace POS
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_EMAIL
+                inputFromOption = InputFromOption.CUSTOMER_EMAIL
             };
             keyBoard.ShowDialog();
             TxtEmail.Text = keyBoard.customerEmail;
@@ -141,7 +141,7 @@ namespace POS
         {
             FrmKeyPad keyPad = new FrmKeyPad()
             {
-                inputFromOption = ClsEnums.InputFromOption.CUSTOMER_PHONE
+                inputFromOption = InputFromOption.CUSTOMER_PHONE
             };
             keyPad.ShowDialog();
             TxtPhone.Text = keyPad.customerPhone;
@@ -151,15 +151,13 @@ namespace POS
 
         private void LoadIdentTypes()
         {
-            IEnumerable<IdentType> custIdentTypes;
-
             try
             {
-                custIdentTypes = new ClsCustomer().GetIdentTypes();
+                IEnumerable<IdentType> custIdentTypes = new ClsCustomer(Program.customConnectionString).GetIdentTypes();
 
                 if (custIdentTypes?.Count() > 0)
                 {
-                    foreach (var identType in custIdentTypes)
+                    foreach (IdentType identType in custIdentTypes)
                     {
                         CmbIdenType.Properties.Items.Add(new ImageComboBoxItem { Value = identType.Prefix, ImageIndex = identType.IdentTypeId, Description = identType.Name });
                     }
@@ -169,7 +167,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar tipos de identificación.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.InnerException.Message);
             }
@@ -193,13 +191,13 @@ namespace POS
 
             if (!createOrUpdate)
             {
-                functions.ShowMessage("El cliente no puede ser registrado.", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("El cliente no puede ser registrado.", MessageType.WARNING);
                 return;
             }
 
             try
             {
-                ClsCustomer clsCustomer = new ClsCustomer();
+                ClsCustomer clsCustomer = new ClsCustomer(Program.customConnectionString);
                 SP_Customer_Insert_Result result;
                 int cityId;
 
@@ -236,7 +234,7 @@ namespace POS
 
                 if ((result?.CustomerId) <= 0)
                 {
-                    functions.ShowMessage("No se pudo registrar cliente.", ClsEnums.MessageType.WARNING, true, result.Text);
+                    functions.ShowMessage("No se pudo registrar cliente.", MessageType.WARNING, true, result.Text);
                     return;
                 }
 
@@ -252,7 +250,7 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
@@ -262,38 +260,32 @@ namespace POS
 
         private bool ValidateCustomerIdentification(string _identification, string _identType)
         {
-            bool response = false;
-
             try
             {
-                ClsCustomer clsCustomer = new ClsCustomer();
-                FN_Identification_Validate_Result validateResult;
+                FN_Identification_Validate_Result validateResult = new ClsCustomer(Program.customConnectionString).ValidateCustomerIdentification(_identification, _identType);
 
-                validateResult = clsCustomer.ValidateCustomerIdentification(_identification, _identType);
-
-                if (validateResult?.Validated > 0)
+                if ((validateResult?.Validated) <= 0)
                 {
-                    LblPersonType.Text = validateResult.PersonType;
-                    CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex = (int)validateResult.IdentTypeId;
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage(validateResult.Text, ClsEnums.MessageType.WARNING);
+                    functions.ShowMessage(validateResult.Text, MessageType.WARNING);
                     TxtIdentification.Text = string.Empty;
+                    return false;
                 }
+
+                LblPersonType.Text = validateResult.PersonType;
+                CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex = (int)validateResult.IdentTypeId;
+                return true;
+
             }
             catch (Exception ex)
             {
                 functions.ShowMessage(
                                         "Ocurrio un problema al validar identificación del cliente."
-                                        , ClsEnums.MessageType.ERROR
+                                        , MessageType.ERROR
                                         , true
                                         , ex.InnerException.Message
                                     );
+                return false;
             }
-
-            return response;
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -310,7 +302,7 @@ namespace POS
                      || TxtFirstName.Text == string.Empty || TxtLastName.Text == string.Empty
                      || TxtAddress.Text == string.Empty || TxtPhone.Text == string.Empty)
             {
-                functions.ShowMessage("Debe llenar los campos necesarios del formulario", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return false;
             }

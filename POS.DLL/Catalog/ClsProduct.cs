@@ -6,28 +6,30 @@ namespace POS.DLL.Catalog
 {
     public class ClsProduct
     {
-        public List<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
-        {
-            List<SP_ProductBarcode_Consult_Result> result;
+        private readonly string connectionString;
 
+        public ClsProduct(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
+        public IEnumerable<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
+        {
             try
             {
-                result = new POSEntities().SP_ProductBarcode_Consult(_productName, _location).ToList();
+                return new POSEntities(connectionString).SP_ProductBarcode_Consult(_productName, _location).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return result;
         }
 
         public SP_PhysicalStockProduct_Consult_Result GetProductPhysicalStock(EmissionPoint emissionPoint, string barcode, string internal_code)
         {
-            SP_PhysicalStockProduct_Consult_Result result;
-
             try
             {
-                result = new POSEntities().SP_PhysicalStockProduct_Consult(
+                return new POSEntities(connectionString).SP_PhysicalStockProduct_Consult(
                                                             emissionPoint.LocationId
                                                             , emissionPoint.EmissionPointId
                                                             , barcode, internal_code
@@ -37,7 +39,6 @@ namespace POS.DLL.Catalog
             {
                 throw new Exception(ex.Message);
             }
-            return result;
         }
     }
 }

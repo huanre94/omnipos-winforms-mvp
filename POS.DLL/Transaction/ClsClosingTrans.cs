@@ -8,99 +8,90 @@ namespace POS.DLL.Transaction
 {
     public class ClsClosingTrans
     {
-        public List<SP_ClosingCashierDenominations_Consult_Result> GetDenominations()
+        private readonly string connectionString;
+
+        public ClsClosingTrans(string connectionString)
         {
-            List<SP_ClosingCashierDenominations_Consult_Result> denominations;
-            try
-            {
-                denominations = new POSEntities().SP_ClosingCashierDenominations_Consult().ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return denominations;
+            this.connectionString = connectionString;
         }
 
-        public List<SP_ClosingCashierPartial_Consult_Result> GetPartialClosings(EmissionPoint emissionPoint, SP_Login_Consult_Result loginInformation)
+        public IEnumerable<SP_ClosingCashierDenominations_Consult_Result> GetDenominations()
         {
-            List<SP_ClosingCashierPartial_Consult_Result> partials;
             try
             {
-                partials = new POSEntities().SP_ClosingCashierPartial_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
+                return new POSEntities(connectionString).SP_ClosingCashierDenominations_Consult().ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return partials;
         }
 
-        public List<SP_ClosingCashierPayment_Consult_Result> GetClosingPayments(EmissionPoint emissionPoint, SP_Login_Consult_Result loginInformation)
+        public IEnumerable<SP_ClosingCashierPartial_Consult_Result> GetPartialClosings(EmissionPoint emissionPoint, SP_Login_Consult_Result loginInformation)
         {
-            List<SP_ClosingCashierPayment_Consult_Result> payments;
             try
             {
-                payments = new POSEntities().SP_ClosingCashierPayment_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
+                return new POSEntities(connectionString).SP_ClosingCashierPartial_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return payments;
         }
 
-        public List<SP_ClosingCashier_Insert_Result> InsertFullClosing(XElement element, string TipoCierre = "")
+        public IEnumerable<SP_ClosingCashierPayment_Consult_Result> GetClosingPayments(EmissionPoint emissionPoint, SP_Login_Consult_Result loginInformation)
         {
-            List<SP_ClosingCashier_Insert_Result> closing;
             try
             {
-                closing = new POSEntities().SP_ClosingCashier_Insert(element.ToString(), TipoCierre).ToList();
+                return new POSEntities(connectionString).SP_ClosingCashierPayment_Consult(emissionPoint.LocationId, loginInformation.UserId, emissionPoint.EmissionPointId, "").ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return closing;
         }
 
-        public List<SP_ClosingCashierPartial_Insert_Result> InsertPartialClosing(XElement element)
+        public IEnumerable<SP_ClosingCashier_Insert_Result> InsertFullClosing(XElement element, string TipoCierre = "")
         {
-            List<SP_ClosingCashierPartial_Insert_Result> closing;
             try
             {
-                closing = new POSEntities().SP_ClosingCashierPartial_Insert(element.ToString(), "P").ToList();
+                return new POSEntities(connectionString).SP_ClosingCashier_Insert(element.ToString(), TipoCierre).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return closing;
         }
 
-        public List<SP_ClosingCashierTicket_Consult_Result> GetClosingTicket(Int64 _invoiceId)
+        public IEnumerable<SP_ClosingCashierPartial_Insert_Result> InsertPartialClosing(XElement element)
         {
-            List<SP_ClosingCashierTicket_Consult_Result> invoiceTicketResult;
-
             try
             {
-                invoiceTicketResult = new POSEntities().SP_ClosingCashierTicket_Consult(_invoiceId).ToList();
+                return new POSEntities(connectionString).SP_ClosingCashierPartial_Insert(element.ToString(), "P").ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
 
-            return invoiceTicketResult;
+        public IEnumerable<SP_ClosingCashierTicket_Consult_Result> GetClosingTicket(Int64 _invoiceId)
+        {
+            try
+            {
+                return new POSEntities(connectionString).SP_ClosingCashierTicket_Consult(_invoiceId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public long ConsultLastClosing(EmissionPoint emissionPoint, string type)
         {
-            long consult;
-
             try
             {
-                consult = new POSEntities()
+                return new POSEntities(connectionString)
                     .ClosingCashierTable
                     .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId
                     && it.LocationId == emissionPoint.LocationId
@@ -116,13 +107,11 @@ namespace POS.DLL.Transaction
             {
                 throw new Exception(ex.Message);
             }
-
-            return consult;
         }
 
         public bool PendingClosings(long emissionPointId, int userId)
         {
-            return new POSEntities()
+            return new POSEntities(connectionString)
                 .InvoiceTable
                 .Where(inv => inv.ClosingCashierId == 0
                 && DbFunctions.TruncateTime(inv.InvoiceDate) == DbFunctions.TruncateTime(DateTime.Today)

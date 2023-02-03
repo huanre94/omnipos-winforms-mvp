@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
-using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
+using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,19 +38,17 @@ namespace POS
 
         private void LoadTaxPercent()
         {
-            ClsPaymMode paymMode = new ClsPaymMode();
-
             bool customerTaxPayer = customer.IsSpecialTaxpayer ?? false;
             bool companyTaxPayer = loginInformation.IsTaxpayerSpecial ?? false;
             customer.UseRetention = true;
             if (!(customer.UseRetention ?? false))
             {
-                functions.ShowMessage("Cliente no aplica retencion", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("Cliente no aplica retencion", MessageType.ERROR);
                 Close();
                 return;
             }
 
-            IEnumerable<RetentionTable> retentions = LoadRetentions((int)ClsEnums.Taxtype.RENTA);
+            IEnumerable<RetentionTable> retentions = LoadRetentions((int)Taxtype.RENTA);
             RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
             decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
             LblBaseAmount.Text = Math.Round(baseAmount, 2).ToString();
@@ -60,7 +58,7 @@ namespace POS
 
             InvoicePayment invoicePayment = new InvoicePayment
             {
-                PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
+                PaymModeId = (int)PaymModeEnum.RETENCION,
                 RetentionCode = retentionPercent.RetentionCode,
                 Amount = totalBaseCalculated
             };
@@ -72,11 +70,11 @@ namespace POS
 
             if (taxAmount > 0)
             {
-                retentions = LoadRetentions((int)ClsEnums.Taxtype.IVA);
+                retentions = LoadRetentions((int)Taxtype.IVA);
 
                 if (retentions?.Count() > 0)
                 {
-                    foreach (var retention in retentions)
+                    foreach (RetentionTable retention in retentions)
                     {
                         CmbTaxPercent.Properties.Items.Add(new ImageComboBoxItem { Value = retention.RetentionCode, Description = retention.Percent.ToString() });
                     }
@@ -97,7 +95,7 @@ namespace POS
                 return true;
             }
 
-            functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", ClsEnums.MessageType.ERROR);
+            functions.ShowMessage("La factura no puede ser CONSUMIDOR FINAL.", MessageType.ERROR);
             DialogResult = DialogResult.Cancel;
             return false;
         }
@@ -109,34 +107,34 @@ namespace POS
             if (taxAmount != 0 && CmbTaxPercent.SelectedItem == null)
             {
                 validate = false;
-                functions.ShowMessage("Debe seleccionar un impuesto para la retención al IVA.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("Debe seleccionar un impuesto para la retención al IVA.", MessageType.ERROR);
             }
 
             if (TxtNAutorization.Text.Length == 0)
             {
                 validate = false;
-                functions.ShowMessage("El número de autorización no puede estar vacío.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de autorización no puede estar vacío.", MessageType.ERROR);
             }
             else if (TxtNAutorization.Text.Length != 10)
             {
                 validate = false;
-                functions.ShowMessage("El número de autorización debe tener 10 dígitos.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de autorización debe tener 10 dígitos.", MessageType.ERROR);
             }
 
             if (TxtNRetention.Text.Length == 0)
             {
                 validate = false;
-                functions.ShowMessage("El número de la retención no puede estar vacío.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de la retención no puede estar vacío.", MessageType.ERROR);
             }
             else if (TxtNRetention.Text.Length != 15)
             {
-                functions.ShowMessage("El número de la retención debe tener 15 dígitos.", ClsEnums.MessageType.ERROR);
+                functions.ShowMessage("El número de la retención debe tener 15 dígitos.", MessageType.ERROR);
                 validate = false;
             }
 
             if (!validate)
             {
-                functions.ShowMessage("Debe llenar todos los campos", ClsEnums.MessageType.WARNING);
+                functions.ShowMessage("Debe llenar todos los campos", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return;
             }
@@ -145,7 +143,7 @@ namespace POS
             {
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
-                    PaymModeId = (int)ClsEnums.PaymModeEnum.RETENCION,
+                    PaymModeId = (int)PaymModeEnum.RETENCION,
                     RetentionCode = int.Parse(CmbTaxPercent.EditValue.ToString()),
                     Amount = decimal.Parse(LblTaxAmount.Text)
                 };
@@ -172,7 +170,7 @@ namespace POS
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
+            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNAutorization.Text = keyPad.creditCardAuthorization;
         }
@@ -180,7 +178,7 @@ namespace POS
         private void BtnKeypadRet_Click(object sender, EventArgs e)
         {
             FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = ClsEnums.InputFromOption.CREDITCARD_AUTHORIZATION;
+            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
             keyPad.ShowDialog();
             TxtNRetention.Text = keyPad.creditCardAuthorization;
         }
@@ -190,12 +188,12 @@ namespace POS
             IEnumerable<RetentionTable> retentions = null;
             try
             {
-                retentions = new ClsPaymMode().GetRetentionTables(typeRetention);
+                retentions = new ClsPaymMode(Program.customConnectionString).GetRetentionTables(typeRetention);
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar lista de Bancos.",
-                    ClsEnums.MessageType.ERROR,
+                     MessageType.ERROR,
                     true,
                     ex.InnerException.Message);
             }

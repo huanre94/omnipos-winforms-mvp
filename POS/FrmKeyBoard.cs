@@ -1,11 +1,11 @@
-﻿using POS.Classes;
+﻿using POS.DLL.Enums;
 using System;
 
 namespace POS
 {
     public partial class FrmKeyBoard : DevExpress.XtraEditors.XtraForm
     {
-        public ClsEnums.InputFromOption inputFromOption;
+        public InputFromOption inputFromOption;
         public string checkOwnerName = "";
         public string checkOwnerIdentification = "";
         public string customerIdentification = "";
@@ -252,28 +252,28 @@ namespace POS
             {
                 switch (inputFromOption)
                 {
-                    case ClsEnums.InputFromOption.CHECK_OWNERNAME:
+                    case InputFromOption.CHECK_OWNERNAME:
                         checkOwnerName = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CHECK_OWNERIDENTIFICATION:
+                    case InputFromOption.CHECK_OWNERIDENTIFICATION:
                         checkOwnerIdentification = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CUSTOMER_IDENTIFICATION:
+                    case InputFromOption.CUSTOMER_IDENTIFICATION:
                         customerIdentification = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CUSTOMER_FIRSTNAME:
+                    case InputFromOption.CUSTOMER_FIRSTNAME:
                         customerFirstName = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CUSTOMER_LASTNAME:
+                    case InputFromOption.CUSTOMER_LASTNAME:
                         customerLastName = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CUSTOMER_ADDRESS:
+                    case InputFromOption.CUSTOMER_ADDRESS:
                         customerAddress = TxtValue.Text;
                         break;
-                    case ClsEnums.InputFromOption.CUSTOMER_EMAIL:
+                    case InputFromOption.CUSTOMER_EMAIL:
                         customerEmail = TxtValue.Text.ToLower();
                         break;
-                    case ClsEnums.InputFromOption.OBSERVATION:
+                    case InputFromOption.OBSERVATION:
                         observation = TxtValue.Text;
                         break;
                     default:
@@ -295,13 +295,13 @@ namespace POS
 
             if (((int)e.KeyCode) == 27)
             {
-                this.Close();
+                Close();
             }
 
 
             if (((int)e.KeyCode) == 13)
             {
-                this.BtnEnter_Click(null, null);
+                BtnEnter_Click(null, null);
             }
 
         }
