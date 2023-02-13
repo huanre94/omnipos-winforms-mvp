@@ -18,16 +18,23 @@ namespace POS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            string Server = @"HKEY_CURRENT_USER\SOFTWARE\OmniPOS";
-            object ValorIP = Registry.GetValue(Server, "IP", null);
-            object SBase = Registry.GetValue(Server, "Base", null);
-            object SPass = Registry.GetValue(Server, "Pass", null);
+            const string registryKey = @"HKEY_CURRENT_USER\SOFTWARE\OmniPOS";
+
+            object ValorIP = "192.168.17.115";// Registry.GetValue(registryKey, "IP", null);
+            if (ValorIP == null)
+            {
+                return;
+            }
+
+            object VUser = "sa"; //Registry.GetValue(registryKey, "User", null);
+            object SBase = "POSDB";//Registry.GetValue(registryKey, "Base", null);
+            object SPass = "S1stemas";//Registry.GetValue(registryKey, "Pass", null);
 
             //12/07/2022  Se agregó para que Cadena de conexion sea parametrizable
             EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder
             {
                 Provider = "System.Data.SqlClient",
-                ProviderConnectionString = "data source=" + ValorIP + ";initial catalog=" + SBase + ";persist security info=True;user id=sa;password=" + SPass + ";MultipleActiveResultSets=True;App=EntityFramework",
+                ProviderConnectionString = $"data source={ValorIP};initial catalog={SBase};persist security info=True;user id={VUser};password={SPass};MultipleActiveResultSets=True;App=EntityFramework",
                 Metadata = "res://*/ModelPOS.csdl|res://*/ModelPOS.ssdl|res://*/ModelPOS.msl"
             };
             customConnectionString = constructorConexion.ToString();

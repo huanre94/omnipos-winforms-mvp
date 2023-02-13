@@ -6,7 +6,7 @@ namespace POS.DLL.Transaction
 {
     public class ClsSalesOrderTrans
     {
-        private readonly string connectionString;
+        readonly string connectionString;
 
         public ClsSalesOrderTrans(string connectionString)
         {
@@ -17,40 +17,37 @@ namespace POS.DLL.Transaction
 
         public SP_RemissionGuideInvoice_Insert_Result FinishRemissionGuide(long _remissionGuideId, int _emissionPointId, int _locationId)
         {
-            SP_RemissionGuideInvoice_Insert_Result result;
             try
             {
-                result = new POSEntities(connectionString).SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, loginInformation.UserId, loginInformation.Workstation).FirstOrDefault();
+                return new POSEntities(connectionString).SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, loginInformation.UserId, loginInformation.Workstation).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return result;
         }
 
         public SP_SalesOrderOmnipos_Insert_Result CreateOrUpdateSalesOrder(string _xml, long _salesOrderId = 0)
         {
-            POSEntities db = new POSEntities(connectionString);
-            SP_SalesOrderOmnipos_Insert_Result result;
             try
             {
-                if (_salesOrderId != 0)
+                using (POSEntities db = new POSEntities(connectionString))
                 {
-                    SalesOrder sales = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+                    if (_salesOrderId != 0)
+                    {
+                        SalesOrder sales = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
 
-                    sales.ModifiedBy = loginInformation.UserId;
-                    sales.ModifiedDatetime = DateTime.Now;
-                    db.SaveChanges();
+                        sales.ModifiedBy = loginInformation.UserId;
+                        sales.ModifiedDatetime = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                    return db.SP_SalesOrderOmnipos_Insert(_xml, _salesOrderId).FirstOrDefault();
                 }
-                result = db.SP_SalesOrderOmnipos_Insert(_xml, _salesOrderId).FirstOrDefault();
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
-            return result;
         }
 
         public bool CancelSalesOrder(long _salesOrderId, bool cancelFromGuide = false)
@@ -88,31 +85,33 @@ namespace POS.DLL.Transaction
                 order.ModifiedBy = loginInformation.UserId;
                 order.ModifiedDatetime = DateTime.Now;
                 order.Workstation = loginInformation.Workstation;
+                return db.SaveChanges() > 0;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return db.SaveChanges() > 0;
         }
 
         public bool FinishSalesOrder(long _salesOrderId)
         {
-            POSEntities db = new POSEntities(connectionString);
-            SalesOrder order;
             try
             {
-                order = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
-                order.Status = "E";
-                order.ModifiedBy = loginInformation.UserId;
-                order.ModifiedDatetime = DateTime.Now;
-                order.Workstation = loginInformation.Workstation;
+                using (POSEntities db = new POSEntities(connectionString))
+                {
+                    SalesOrder order = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+
+                    order.Status = "E";
+                    order.ModifiedBy = loginInformation.UserId;
+                    order.ModifiedDatetime = DateTime.Now;
+                    order.Workstation = loginInformation.Workstation;
+                    return db.SaveChanges() > 0;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return db.SaveChanges() > 0;
         }
 
         public SP_SalesOrderRemission_Insert_Result CreateNewRemissionGuide(string _remissionGuideXml)

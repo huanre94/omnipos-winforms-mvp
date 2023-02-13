@@ -39,8 +39,10 @@ namespace POS
         #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.GIFTCARD_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.GIFTCARD_NUMBER
+            };
             keyPad.ShowDialog();
             TxtGiftCardNumber.Text = keyPad.giftcardNumber;
             TxtGiftCardNumber.Focus();//08/07/2022
@@ -48,9 +50,12 @@ namespace POS
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.GIFTCARD_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.GIFTCARD_NUMBER
+            };
             keyPad.ShowDialog();
+
             TxtBarcode.Text = keyPad.giftcardNumber;
             TxtBarcode.Focus();
             SendKeys.Send("{ENTER}");
@@ -58,8 +63,10 @@ namespace POS
 
         private void BtnIdentificationKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = InputFromOption.CHECK_OWNERNAME;
+            FrmKeyBoard keyBoard = new FrmKeyBoard
+            {
+                inputFromOption = InputFromOption.CHECK_OWNERNAME
+            };
             keyBoard.ShowDialog();
             TxtRedeemIdentification.Text = keyBoard.checkOwnerName;
             TxtRedeemIdentification.Focus();//08/07/2022
@@ -67,9 +74,9 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (TxtGiftCardNumber.Text == "")
+            if (TxtGiftCardNumber.Text == string.Empty)
             {
-                functions.ShowMessage("Campo N. Bono no puede estar vacio.", MessageType.WARNING);
+                functions.ShowMessage("Campo # Bono no puede estar vacio.", MessageType.WARNING);
                 ClearGiftCard();
                 return;
             }
@@ -85,115 +92,125 @@ namespace POS
                 }
 
                 SP_GiftCard_Consult_Result giftcard = result[0];
-                if (result != null)
-                {
-                    if (giftcard.Type == "CC")
-                    {
-                        bool status = false;
-                        BtnAccept.Enabled = status;
-                        TxtRedeemIdentification.Enabled = status;
-                        TxtRedeemName.Enabled = status;
-                        TxtBarcode.Enabled = status;
-                        BtnBarcodeKeyPad.Enabled = status;
-                        BtnIdentificationKeyPad.Enabled = status;
-                        BtnRedeemCustomerName.Enabled = status;
-                        BtnRemove.Enabled = status;
-
-                        functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", MessageType.WARNING);
-                        LblGiftCardStatus.Text = "bono tipo consumo".ToUpper();
-                        LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
-                        LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
-                        LblExpirationDate.Text = giftcard.Expiration.ToString();
-                    }
-                    else if (DateTime.Today.CompareTo(giftcard.Expiration) > 0)
-                    {
-                        bool status = false;
-                        BtnAccept.Enabled = status;
-                        TxtRedeemIdentification.Enabled = status;
-                        TxtRedeemName.Enabled = status;
-                        TxtBarcode.Enabled = status;
-                        BtnBarcodeKeyPad.Enabled = status;
-                        BtnIdentificationKeyPad.Enabled = status;
-                        BtnRedeemCustomerName.Enabled = status;
-                        BtnRemove.Enabled = status;
-
-                        LblGiftCardStatus.Text = "expirado".ToUpper();
-                        functions.ShowMessage("El bono ingresado esta caducado. Consulte con Supervisor.", MessageType.WARNING);
-                        LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
-                        LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
-                        LblExpirationDate.Text = giftcard.Expiration.ToString();
-                    }
-                    else if (giftcard.StatusLine == "C")
-                    {
-                        bool status = false;
-                        BtnAccept.Enabled = status;
-                        TxtRedeemIdentification.Enabled = status;
-                        TxtRedeemName.Enabled = status;
-                        TxtBarcode.Enabled = status;
-                        BtnBarcodeKeyPad.Enabled = status;
-                        BtnIdentificationKeyPad.Enabled = status;
-                        BtnRedeemCustomerName.Enabled = status;
-                        BtnRemove.Enabled = status;
-
-                        LblGiftCardStatus.Text = "consumido".ToUpper();
-                        functions.ShowMessage("El bono ingresado ya fue consumido. Consulte con Supervisor.", MessageType.WARNING);
-                        LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
-                        LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
-                        LblExpirationDate.Text = giftcard.Expiration.ToString();
-                    }
-                    else if (giftcard.StatusLine == "I")
-                    {
-                        bool status = false;
-                        BtnAccept.Enabled = status;
-                        TxtRedeemIdentification.Enabled = status;
-                        TxtRedeemName.Enabled = status;
-                        TxtBarcode.Enabled = status;
-                        BtnBarcodeKeyPad.Enabled = status;
-                        BtnIdentificationKeyPad.Enabled = status;
-                        BtnRedeemCustomerName.Enabled = status;
-                        BtnRemove.Enabled = status;
-
-                        LblGiftCardStatus.Text = "anulado".ToUpper();
-                        functions.ShowMessage("El bono ingresado esta anulado. Consulte con Supervisor.", MessageType.WARNING);
-                        LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
-                        LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
-                        LblExpirationDate.Text = giftcard.Expiration.ToString();
-                    }
-                    else
-                    {
-                        bool status = true;
-                        BtnAccept.Enabled = status;
-                        TxtRedeemIdentification.Enabled = status;
-                        TxtRedeemName.Enabled = status;
-                        TxtBarcode.Enabled = status;
-                        BtnBarcodeKeyPad.Enabled = status;
-                        BtnIdentificationKeyPad.Enabled = status;
-                        BtnRedeemCustomerName.Enabled = status;
-                        BtnRemove.Enabled = status;
-
-                        BtnAccept.Enabled = true;
-                        LblGiftCardStatus.Text = "activo".ToUpper();
-                        LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
-                        LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
-                        LblExpirationDate.Text = giftcard.Expiration.ToString();
-                        giftcardNumber = giftcard.GiftCardNumber;
-                        //LblAmount.Text = giftcardAmount.ToString
-                    }
-                }
-                else
+                if (result == null)
                 {
                     functions.ShowMessage("No existe bono con el numero ingresado.", MessageType.WARNING);
                     TxtGiftCardNumber.Text = "";
+                    return;
+                }
+
+                if (giftcard.Type == "CC")
+                {
+                    bool status = false;
+                    BtnAccept.Enabled = status;
+                    TxtRedeemIdentification.Enabled = status;
+                    TxtRedeemName.Enabled = status;
+                    TxtBarcode.Enabled = status;
+                    BtnBarcodeKeyPad.Enabled = status;
+                    BtnIdentificationKeyPad.Enabled = status;
+                    BtnRedeemCustomerName.Enabled = status;
+                    BtnRemove.Enabled = status;
+
+                    functions.ShowMessage("El bono ingresado es de consumo. Consulte con Supervisor.", MessageType.WARNING);
+                    LblGiftCardStatus.Text = "bono tipo consumo".ToUpper();
+                    LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                    LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                    LblExpirationDate.Text = giftcard.Expiration.ToString();
+                    return;
+                }
+
+                if (DateTime.Today.CompareTo(giftcard.Expiration) > 0)
+                {
+                    bool status = false;
+                    BtnAccept.Enabled = status;
+                    TxtRedeemIdentification.Enabled = status;
+                    TxtRedeemName.Enabled = status;
+                    TxtBarcode.Enabled = status;
+                    BtnBarcodeKeyPad.Enabled = status;
+                    BtnIdentificationKeyPad.Enabled = status;
+                    BtnRedeemCustomerName.Enabled = status;
+                    BtnRemove.Enabled = status;
+
+                    LblGiftCardStatus.Text = "expirado".ToUpper();
+                    functions.ShowMessage("El bono ingresado esta caducado. Consulte con Supervisor.", MessageType.WARNING);
+                    LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                    LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                    LblExpirationDate.Text = giftcard.Expiration.ToString();
+                    return;
+                }
+
+
+                switch (giftcard.StatusLine)
+                {
+                    case "C":
+                        {
+                            bool status = false;
+                            BtnAccept.Enabled = status;
+                            TxtRedeemIdentification.Enabled = status;
+                            TxtRedeemName.Enabled = status;
+                            TxtBarcode.Enabled = status;
+                            BtnBarcodeKeyPad.Enabled = status;
+                            BtnIdentificationKeyPad.Enabled = status;
+                            BtnRedeemCustomerName.Enabled = status;
+                            BtnRemove.Enabled = status;
+
+                            LblGiftCardStatus.Text = "consumido".ToUpper();
+                            functions.ShowMessage("El bono ingresado ya fue consumido. Consulte con Supervisor.", MessageType.WARNING);
+                            LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                            LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                            LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            break;
+                        }
+
+                    case "I":
+                        {
+                            bool status = false;
+                            BtnAccept.Enabled = status;
+                            TxtRedeemIdentification.Enabled = status;
+                            TxtRedeemName.Enabled = status;
+                            TxtBarcode.Enabled = status;
+                            BtnBarcodeKeyPad.Enabled = status;
+                            BtnIdentificationKeyPad.Enabled = status;
+                            BtnRedeemCustomerName.Enabled = status;
+                            BtnRemove.Enabled = status;
+
+                            LblGiftCardStatus.Text = "anulado".ToUpper();
+                            functions.ShowMessage("El bono ingresado esta anulado. Consulte con Supervisor.", MessageType.WARNING);
+                            LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                            LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                            LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            break;
+                        }
+
+                    default:
+                        {
+                            bool status = true;
+                            BtnAccept.Enabled = status;
+                            TxtRedeemIdentification.Enabled = status;
+                            TxtRedeemName.Enabled = status;
+                            TxtBarcode.Enabled = status;
+                            BtnBarcodeKeyPad.Enabled = status;
+                            BtnIdentificationKeyPad.Enabled = status;
+                            BtnRedeemCustomerName.Enabled = status;
+                            BtnRemove.Enabled = status;
+
+                            BtnAccept.Enabled = true;
+                            LblGiftCardStatus.Text = "activo".ToUpper();
+                            LblGiftCardInvoice.Text = giftcard.InvoiceNumber;
+                            LblCustomerNameRegistered.Text = giftcard.CustomerNameInvoice;
+                            LblExpirationDate.Text = giftcard.Expiration.ToString();
+                            giftcardNumber = giftcard.GiftCardNumber;
+                            break;
+                            //LblAmount.Text = giftcardAmount.ToString
+                        }
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al consultar el bono."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al consultar el bono.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
         }
@@ -210,32 +227,36 @@ namespace POS
 
         private void FrmRedeemGiftCard_Load(object sender, EventArgs e)
         {
-            if (GetEmissionPointInformation())
+            if (GetEmissionPointInformation(loginInformation.AddressIP))
             {
                 if (emissionPoint.ScaleBrand != "")
                 {
                     scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
 
-                    if (scaleBrand == ScaleBrands.DATALOGIC)
+                    switch (scaleBrand)
                     {
-                        catchWeight = new ClsCatchWeight(scaleBrand)
-                        {
-                            AxOPOSScale = AxOPOSScale
-                        };
-                        catchWeight.EnableScale(emissionPoint.ScaleName);
-                        functions.AxOPOSScanner = AxOPOSScanner;
-                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                    }
-                    else
-                    {
-                        string[] portNames = SerialPort.GetPortNames();
-                        portName = string.Empty;
-
-                        foreach (string item in portNames)
-                        {
-                            portName = item;
+                        case ScaleBrands.DATALOGIC:
+                            catchWeight = new ClsCatchWeight(scaleBrand)
+                            {
+                                AxOPOSScale = AxOPOSScale
+                            };
+                            catchWeight.EnableScale(emissionPoint.ScaleName);
+                            functions.AxOPOSScanner = AxOPOSScanner;
+                            functions.EnableScanner(emissionPoint.ScanBarcodeName);
                             break;
-                        }
+                        default:
+                            {
+                                string[] portNames = SerialPort.GetPortNames();
+                                portName = string.Empty;
+
+                                foreach (string item in portNames)
+                                {
+                                    portName = item;
+                                    break;
+                                }
+
+                                break;
+                            }
                     }
                 }
                 LblCashierUser.Text = loginInformation.UserName;
@@ -251,75 +272,73 @@ namespace POS
                 functions.ShowMessage("El numero de bono no puede estar vacio.", MessageType.WARNING);
                 return;
             }
-            else if (TxtRedeemIdentification.Text.Equals("") || TxtRedeemName.Text.Equals(""))
+
+            if (TxtRedeemIdentification.Text.Equals("") || TxtRedeemName.Text.Equals(""))
             {
                 functions.ShowMessage("Los datos del canje no pueden estar vacios.", MessageType.WARNING);
                 return;
             }
-            else if (((BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource).Count == 0)
+
+            if (((BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource).Count == 0)
             {
                 functions.ShowMessage("Debe existir productos registrados.", MessageType.WARNING);
                 return;
             }
-            else
+
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth())
             {
-                functions.emissionPoint = emissionPoint;
-
-                if (functions.RequestSupervisorAuth(requireMotive: false))
+                XElement giftCardLine = new XElement("GiftCardLine");
+                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
+                foreach (SP_Product_Consult_Result item in dataSource)
                 {
-                    XElement giftCardLine = new XElement("GiftCardLine");
-                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvProduct.DataSource;
-                    foreach (SP_Product_Consult_Result item in dataSource)
+                    XElement giftCardTrans = new XElement("GiftCardTrans");
+
+                    GiftCardTrans gift = new GiftCardTrans
                     {
-                        XElement giftCardTrans = new XElement("GiftCardTrans");
-                        GiftCardTrans gift = new GiftCardTrans
+                        ProductId = item.ProductId,
+                        Quantity = (decimal)item.Quantity,
+                        RedeemQuantity = 1
+                    };
+
+                    Type type = gift.GetType();
+                    PropertyInfo[] properties = type.GetProperties();
+                    foreach (PropertyInfo prop in properties)
+                    {
+                        string name = prop.Name;
+                        object value = prop.GetValue(gift);
+                        if (value == null)
                         {
-                            ProductId = item.ProductId,
-                            Quantity = (decimal)item.Quantity,
-                            RedeemQuantity = 1
-                        };
-                        Type type = gift.GetType();
-                        PropertyInfo[] properties = type.GetProperties();
-                        foreach (PropertyInfo prop in properties)
-                        {
-                            string name = prop.Name;
-                            object value = prop.GetValue(gift);
-                            if (value == null)
-                            {
-                                value = "";
-                            }
-                            giftCardTrans.Add(new XElement(name, value));
+                            value = "";
                         }
-                        giftCardLine.Add(giftCardTrans);
+                        giftCardTrans.Add(new XElement(name, value));
                     }
-                    try
+                    giftCardLine.Add(giftCardTrans);
+                }
+
+                try
+                {
+                    SP_GiftCardRedeem_Insert_Result response = new ClsCustomerTrans(Program.customConnectionString).GiftCardRedeemInsert(TxtGiftCardNumber.Text,
+                        TxtRedeemName.Text,
+                        TxtRedeemIdentification.Text,
+                        emissionPoint.LocationId,
+                       $"{giftCardLine}");
+
+                    if ((bool)response.Error)
                     {
-                        SP_GiftCardRedeem_Insert_Result response = new ClsCustomerTrans(Program.customConnectionString).GiftCardRedeemInsert(TxtGiftCardNumber.Text,
-                            TxtRedeemName.Text,
-                            TxtRedeemIdentification.Text,
-                            emissionPoint.LocationId,
-                           $"{giftCardLine}");
-
-                        if ((bool)response.Error)
-                        {
-                            functions.ShowMessage("Bono no pudo ser canjeado.", MessageType.INFO, true, response.TextError);
-                            return;
-                        }
-
-
-                        functions.ShowMessage("Bono canjeado exitosamente.", MessageType.INFO);
-                        ClearGiftCard();
-
+                        functions.ShowMessage("Bono no pudo ser canjeado.", MessageType.INFO, true, response.TextError);
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                                 "Ocurrio un problema al canjear bono."
-                                                 , MessageType.ERROR
-                                                 , true
-                                                 , ex.InnerException.Message
-                                                 );
-                    }
+
+                    functions.ShowMessage("Bono canjeado exitosamente.", MessageType.INFO);
+                    ClearGiftCard();
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrio un problema al canjear bono.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
             }
         }
@@ -353,12 +372,12 @@ namespace POS
             if (e.KeyCode == Keys.Enter)
             {
                 GetProductInformation(emissionPoint.LocationId,
-                    TxtBarcode.Text,
-                    1,
-                    1,
-                    1,
-                    "",
-                    false);
+                                      TxtBarcode.Text,
+                                      1,
+                                      1,
+                                      1,
+                                      "",
+                                      false);
             }
         }
 
@@ -392,7 +411,7 @@ namespace POS
             }
 
             GrcProduct.DataSource = dataSource;
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
         #endregion
 
@@ -406,7 +425,13 @@ namespace POS
             TxtRedeemIdentification.Text = string.Empty;
             LblExpirationDate.Text = DateTime.Today.ToString();
 
-            bool status = false;
+            EnableControls(false);
+
+            CheckGridView();
+        }
+
+        private void EnableControls(bool status)
+        {
             BtnAccept.Enabled = status;
             TxtRedeemIdentification.Enabled = status;
             TxtRedeemName.Enabled = status;
@@ -415,8 +440,6 @@ namespace POS
             BtnIdentificationKeyPad.Enabled = status;
             BtnRedeemCustomerName.Enabled = status;
             BtnRemove.Enabled = status;
-
-            CheckGridView();
         }
 
         private void AddRecordToGrid(SP_Product_Consult_Result _productResult, bool _updateRecord)
@@ -455,46 +478,38 @@ namespace POS
                 GrvProduct.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
             }
 
-            TxtBarcode.Text = "";
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
-        private bool GetEmissionPointInformation()
+        private bool GetEmissionPointInformation(string addressIP)
         {
-            bool response = false;
-            string addressIP = loginInformation.AddressIP;
-
             if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
                 return false;
             }
+
             try
             {
                 emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información de punto de emisión."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
 
 
-            if (emissionPoint != null)
-            {
-                response = true;
-                functions.PrinterName = emissionPoint.PrinterName;
-            }
-            else
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            functions.PrinterName = emissionPoint.PrinterName;
+            return true;
         }
 
         private void CheckGridView()
@@ -511,15 +526,14 @@ namespace POS
             GrcProduct.DataSource = bindingList;
         }
 
-        private void GetProductInformation(short _locationId
-                                            , string _barcode
-                                            , decimal _qty
-                                            , long _customerId
-                                            , long _internalCreditCardId
-                                            , string _paymMode
-                                            , bool _skipCatchWeight)
+        private void GetProductInformation(short _locationId,
+                                           string _barcode,
+                                           decimal _qty,
+                                           long _customerId,
+                                           long _internalCreditCardId,
+                                           string _paymMode,
+                                           bool _skipCatchWeight)
         {
-            SP_Product_Consult_Result result;
             decimal qtyFound = 0;
             decimal amountFound = 0;
             decimal amountTaxFound = 0;
@@ -563,21 +577,20 @@ namespace POS
                     _qty += qtyFound;
                 }
 
-                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                        _locationId
-                                                        , _barcode
-                                                        , _qty
-                                                        , _customerId
-                                                        , _internalCreditCardId
-                                                        , _paymMode
-                                                        , barcodeBefore
-                                                        );
+                SP_Product_Consult_Result result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
+                                            _locationId
+                                            , _barcode
+                                            , _qty
+                                            , _customerId
+                                            , _internalCreditCardId
+                                            , _paymMode
+                                            , barcodeBefore
+                                            );
 
                 if (result == null)
                 {
                     functions.ShowMessage($"El producto con codigo de barras {_barcode} no se encuentra registrado.", MessageType.WARNING);
-                    TxtBarcode.Text = "";
-                    TxtBarcode.Focus();
+                    ClearBarcode();
                     return;
                 }
 
@@ -587,30 +600,29 @@ namespace POS
 
                     if (!_skipCatchWeight)
                     {
-                        decimal weight = functions.CatchWeightProduct(AxOPOSScale
-                                                                        , result.ProductName
-                                                                        , scaleBrand
-                                                                        , portName
-                                                                        );
+                        decimal weight = functions.CatchWeightProduct(AxOPOSScale,
+                                                                      result.ProductName,
+                                                                      scaleBrand,
+                                                                      portName);
 
-                        if (weight > 0)
-                        {
-                            result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                                    _locationId
-                                                                    , _barcode
-                                                                    , weight + qtyFound
-                                                                    , _customerId
-                                                                    , _internalCreditCardId
-                                                                    , _paymMode
-                                                                    , barcodeBefore
-                                                                    );
-
-                            AddRecordToGrid(result, false);
-                        }
-                        else
+                        if (weight <= 0)
                         {
                             functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
+                            return;
                         }
+
+                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
+                                                                _locationId
+                                                                , _barcode
+                                                                , weight + qtyFound
+                                                                , _customerId
+                                                                , _internalCreditCardId
+                                                                , _paymMode
+                                                                , barcodeBefore
+                                                                );
+
+                        AddRecordToGrid(result, false);
+
                     }
                 }
                 else
@@ -626,6 +638,12 @@ namespace POS
                     true,
                     ex.Message);
             }
+        }
+
+        private void ClearBarcode()
+        {
+            TxtBarcode.Text = "";
+            TxtBarcode.Focus();
         }
         #endregion
 

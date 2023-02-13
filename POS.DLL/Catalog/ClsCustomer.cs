@@ -34,7 +34,7 @@ namespace POS.DLL.Catalog
             {
                 return new POSEntities(connectionString)
                     .Customer
-                    .Where(cust => cust.Status == "A" && cust.Identification == _indentification)
+                    .Where(cust => cust.Status.Equals("A") && cust.Identification == _indentification)
                     .FirstOrDefault();
             }
             catch (Exception ex)

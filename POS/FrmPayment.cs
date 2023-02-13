@@ -17,7 +17,6 @@ namespace POS
     public partial class FrmPayment : DevExpress.XtraEditors.XtraForm
     {
         #region Global Load Definitions
-
         readonly ClsFunctions functions = new ClsFunctions();
         public XElement paymentXml = new XElement("Payment");
         public Customer customer = null;
@@ -72,7 +71,6 @@ namespace POS
             pendingAmount = invoiceAmount;
             LblPending.Text = pendingAmount.ToString();
 
-
             //TODO 
             string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax();
 
@@ -86,8 +84,7 @@ namespace POS
             LblDiscountAmount.Text = $"{discountAmount:f2}";
             LblIRBPAmount.Text = $"{irbpAmount:f2}";
 
-            bool customerRetention = customer.UseRetention ?? false;
-            if (customerRetention)
+            if (customer.UseRetention ?? false)
             {
                 if (functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", MessageType.CONFIRM))
                 {
@@ -111,55 +108,25 @@ namespace POS
         #endregion
 
         #region Keypad Buttons
-        private void Btn0_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "0";
-        }
+        private void Btn0_Click(object sender, EventArgs e) => TxtAmount.Text += "0";
 
-        private void Btn1_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "1";
-        }
+        private void Btn1_Click(object sender, EventArgs e) => TxtAmount.Text += "1";
 
-        private void Btn2_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "2";
-        }
+        private void Btn2_Click(object sender, EventArgs e) => TxtAmount.Text += "2";
 
-        private void Btn3_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "3";
-        }
+        private void Btn3_Click(object sender, EventArgs e) => TxtAmount.Text += "3";
 
-        private void Btn4_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "4";
-        }
+        private void Btn4_Click(object sender, EventArgs e) => TxtAmount.Text += "4";
 
-        private void Btn5_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "5";
-        }
+        private void Btn5_Click(object sender, EventArgs e) => TxtAmount.Text += "5";
 
-        private void Btn6_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "6";
-        }
+        private void Btn6_Click(object sender, EventArgs e) => TxtAmount.Text += "6";
 
-        private void Btn7_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "7";
-        }
+        private void Btn7_Click(object sender, EventArgs e) => TxtAmount.Text += "7";
 
-        private void Btn8_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "8";
-        }
+        private void Btn8_Click(object sender, EventArgs e) => TxtAmount.Text += "8";
 
-        private void Btn9_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text += "9";
-        }
+        private void Btn9_Click(object sender, EventArgs e) => TxtAmount.Text += "9";
 
         private void BtnDot_Click(object sender, EventArgs e)
         {
@@ -169,10 +136,7 @@ namespace POS
             }
         }
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            TxtAmount.Text = "";
-        }
+        private void BtnDelete_Click(object sender, EventArgs e) => TxtAmount.Text = string.Empty;
 
         #endregion
 
@@ -180,7 +144,7 @@ namespace POS
 
         private void BtnCash_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == "")
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
                 return;
@@ -191,62 +155,57 @@ namespace POS
 
         private void BtnCreditCard_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                CreditCard();
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
+                return;
             }
+
+            CreditCard();
         }
 
         private void BtnCheck_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                Check();
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
+                return;
             }
+
+            Check();
         }
 
         private void BtnInternalCredit_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                InternalCredit();
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
+                return;
             }
+
+            InternalCredit();
         }
 
         private void BtnGiftcard_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                GiftCard();
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
+                return;
             }
+
+            GiftCard();
         }
 
         private void BtnWithhold_Click(object sender, EventArgs e)
         {
-            if (taxAmount == 0 && baseAmount == 0)
+            if (taxAmount == 0 && baseAmount == 0 && (customer.UseRetention ?? false))
             {
                 functions.ShowMessage("La venta no aplica retención, la base imponible es cero", MessageType.WARNING);
+                return;
             }
-            else
-            {
-                Withhold();
-            }
+
+            Withhold();
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -254,45 +213,37 @@ namespace POS
             BindingList<PaymentEntry> bindingList = (BindingList<PaymentEntry>)GrvPayment.DataSource;
             if (bindingList.Count > 0)
             {
-                bool response;
-
-                response = functions.ShowMessage("Existen pagos registrados, desea continuar?", MessageType.CONFIRM);
-
-                if (response)
+                if (functions.ShowMessage("Existen pagos registrados, desea continuar?", MessageType.CONFIRM))
                 {
                     GrcPayment.DataSource = null;
                     paymentXml.RemoveAll();
                     Close();
+                    return;
                 }
-                else
-                {
-                    DialogResult = DialogResult.None;
-                }
+
+                DialogResult = DialogResult.None;
             }
         }
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                AccountReceivable((int)PaymModeEnum.ANTICIPOS);
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
+                return;
             }
+
+            AccountReceivable(PaymModeEnum.ANTICIPOS);
         }
 
         private void BtnReturn_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text != "")
-            {
-                AccountReceivable((int)PaymModeEnum.NOTA_CREDITO);
-            }
-            else
+            if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
             }
+
+            AccountReceivable(PaymModeEnum.NOTA_CREDITO);
         }
 
         #endregion
@@ -623,7 +574,7 @@ namespace POS
             }
         }
 
-        private void AccountReceivable(int _paymMode)
+        private void AccountReceivable(PaymModeEnum _paymMode)
         {
             FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
@@ -648,7 +599,7 @@ namespace POS
                         {
                             InvoicePayment invoicePayment = new InvoicePayment()
                             {
-                                PaymModeId = _paymMode,
+                                PaymModeId = (int)_paymMode,
                                 Amount = (decimal)item.AdvanceAmount,
                                 GiftCardNumber = item.AdvanceId.ToString(),
                                 Authorization = functions.supervisorAuthorization

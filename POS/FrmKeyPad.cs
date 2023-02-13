@@ -1,5 +1,6 @@
 ﻿using POS.DLL.Enums;
 using System;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -23,6 +24,7 @@ namespace POS
         public string supervisorPassword = "";
         public string salesOrderId = "";
         public string advanceAmount = "";
+        public string closingCashierId = "";
 
         public FrmKeyPad()
         {
@@ -31,17 +33,18 @@ namespace POS
 
         private void FrmKeyPad_Load(object sender, EventArgs e)
         {
-            if (inputFromOption == InputFromOption.LOGIN_PASSWORD)
+            switch (inputFromOption)
             {
-                TxtValue.Properties.UseSystemPasswordChar = true;
-                TxtValue.Properties.PasswordChar = '•';
-            }
-            else
-            {
-                TxtValue.Properties.UseSystemPasswordChar = false;
-                TxtValue.Properties.PasswordChar = '\0';
+                case InputFromOption.LOGIN_PASSWORD:
+                    TxtValue.Properties.UseSystemPasswordChar = true;
+                    TxtValue.Properties.PasswordChar = '•';
+                    break;
+                default:
+                    TxtValue.Properties.UseSystemPasswordChar = false;
+                    TxtValue.Properties.PasswordChar = '\0';
 
-                BtnDot.Enabled = inputFromOption == InputFromOption.PRODUCT_INVENTORY || inputFromOption == InputFromOption.ADVANCE_AMOUNT;
+                    BtnDot.Enabled = inputFromOption == InputFromOption.PRODUCT_INVENTORY || inputFromOption == InputFromOption.ADVANCE_AMOUNT;
+                    break;
             }
         }
 
@@ -138,6 +141,9 @@ namespace POS
                 case InputFromOption.ADVANCE_AMOUNT:
                     advanceAmount = TxtValue.Text;
                     break;
+                case InputFromOption.CLOSING_CASHIER_ID:
+                    closingCashierId = TxtValue.Text;
+                    break;
                 default:
                     break;
             }
@@ -146,14 +152,16 @@ namespace POS
 
         private void TxtValue_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (((int)e.KeyCode) == 13)
+            switch (e.KeyCode)
             {
-                BtnEnter_Click(null, null);
-            }
-
-            if (((int)e.KeyCode) == 27)
-            {
-                Close();
+                case Keys.Enter:
+                    BtnEnter_Click(null, null);
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
+                default:
+                    break;
             }
         }
 

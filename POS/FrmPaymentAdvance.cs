@@ -14,7 +14,7 @@ namespace POS
         public Customer _currentCustomer;
         public decimal advanceAmount;
         public bool processResponse;
-        public int _paymMode;
+        public PaymModeEnum _paymMode;
         public decimal pendingAmount;
         public BindingList<SP_Advance_Consult_Result> advances;
         decimal selectedAmount = 0;
@@ -54,10 +54,9 @@ namespace POS
         {
             try
             {
-                advances = new BindingList<SP_Advance_Consult_Result>(
-                    new ClsAccountsReceivable().GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode)
-                );
-                if (!advances.Any())
+                var advancesList = new ClsAccountsReceivable(Program.customConnectionString).GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode);
+                advances = new BindingList<SP_Advance_Consult_Result>(advancesList);
+                if (advances?.Count() <= 0)
                 {
                     functions.ShowMessage("El cliente no cuenta con valores registrados.", MessageType.WARNING);
                     DialogResult = DialogResult.Cancel;
@@ -68,12 +67,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                    "No se ha podido cargar registros.",
-                     MessageType.WARNING,
-                    true,
-                    ex.Message
-                );
+                functions.ShowMessage("No se ha podido cargar registros.",
+                                      MessageType.WARNING,
+                                      true,
+                                      ex.Message);
             }
         }
 
@@ -81,7 +78,7 @@ namespace POS
         {
             if (ValidateCustomerInformation())
             {
-                Text = _paymMode == (int)PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
+                Text = _paymMode == PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
                 LblAmount.Text = $"{advanceAmount}";
@@ -114,6 +111,7 @@ namespace POS
                 DialogResult = DialogResult.Cancel;
                 return false;
             }
+
             return true;
         }
     }

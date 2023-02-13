@@ -39,31 +39,27 @@ namespace POS
             {
                 products = new ClsProduct(Program.customConnectionString).GetProductsWithBarcode(_searchProduct, _locationId);
 
-
-                if (products?.Count() > 0)
+                if (products?.Count() == 0)
                 {
-                    BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList());
-                    bindingList.AllowNew = true;
-
-                    GrcSalesDetail.DataSource = bindingList;
-                }
-                else
-                {
+                    functions.ShowMessage("Producto no encontrado", MessageType.WARNING);
                     TxtSearchName.Text = "";
                     TxtSearchName.Focus();
                     GrcSalesDetail.DataSource = null;
-                    functions.ShowMessage("Producto no encontrado", MessageType.WARNING);
+                    return;
                 }
 
+                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList())
+                {
+                    AllowNew = true
+                };
+                GrcSalesDetail.DataSource = bindingList;
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Productos."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar lista de Productos.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -124,7 +120,7 @@ namespace POS
         private void TxtSearchName_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             //06/07/2022
-            switch (((int)e.KeyCode))
+            switch ((int)e.KeyCode)
             {
 
                 case 13:

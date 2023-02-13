@@ -14,7 +14,7 @@ namespace POS
 {
     public partial class FrmSalesOrderPicker : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public IEnumerable<GlobalParameter> globalParameters;
@@ -27,10 +27,12 @@ namespace POS
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.globalParameters = globalParameters;
-            frmMenu.Visible = true;
+            FrmMenu frmMenu = new FrmMenu
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters,
+                Visible = true
+            };
             Close();
         }
 
@@ -53,12 +55,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar estados de ordenes."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar estados de ordenes.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -81,9 +81,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar origenes de orden.",
-                    MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -101,33 +101,12 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al configurar temporizador.",
-                    MessageType.ERROR,
-                    true,
-                    ex.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
 
-            if (GetEmissionPointInformation())
-            {
-                timer = new System.Timers.Timer
-                {
-                    Enabled = orderTimerEnabled,
-                    Interval = orderTimerInvertal
-                };
-                timer.Elapsed += Timer_Elapsed;
-
-                if (timer.Enabled)
-                {
-                    timer.Start();
-                }
-
-                chkDate.Checked = true;
-                ETOrderDate.Text = DateTime.Today.ToShortDateString();
-                CheckGridView();
-                LoadOrderStatus();
-                LoadSalesOrigin();
-                LoadSaleOrdesByFilters();
-            }
-            else
+            if (!GetEmissionPointInformation(loginInformation.AddressIP))
             {
                 FrmMenu frmMenu = new FrmMenu
                 {
@@ -137,6 +116,26 @@ namespace POS
                 };
                 Close();
             }
+
+
+            timer = new System.Timers.Timer
+            {
+                Enabled = orderTimerEnabled,
+                Interval = orderTimerInvertal
+            };
+            timer.Elapsed += Timer_Elapsed;
+
+            if (timer.Enabled)
+            {
+                timer.Start();
+            }
+
+            chkDate.Checked = true;
+            ETOrderDate.Text = DateTime.Today.ToShortDateString();
+            CheckGridView();
+            LoadOrderStatus();
+            LoadSalesOrigin();
+            LoadSaleOrdesByFilters();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -167,58 +166,47 @@ namespace POS
                 GrcSalesOrder.DataSource = list;
                 GrvSalesOrder.ActiveFilter.Clear();
                 GrvSalesOrder.Appearance.HideSelectionRow.BackColor = Color.FromArgb(255, 255, 255);
-
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                      "Ocurrio un problema al cargar ordenes."
-                                      , MessageType.ERROR
-                                      , true
-                                      , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar ordenes.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 
         #region Functions
-        private bool GetEmissionPointInformation()
+        private bool GetEmissionPointInformation(string addressIp)
         {
-
-            bool response = false;
-            string addressIP = loginInformation.AddressIP;
-
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-
-                    if (emissionPoint != null)
-                    {
-                        response = true;
-                        functions.PrinterName = emissionPoint.PrinterName;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIp == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return true;
             }
 
-            return response;
+            try
+            {
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIp);
+
+                if (emissionPoint == null)
+                {
+                    functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                    return false;
+                }
+
+                functions.PrinterName = emissionPoint.PrinterName;
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+                return false;
+            }
         }
 
         private void CheckGridView()
@@ -236,57 +224,61 @@ namespace POS
 
         private void BtnModify_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //07/07/2022
+            Cursor.Current = Cursors.WaitCursor; //07/07/2022
 
             int rowIndex = GrvSalesOrder.FocusedRowHandle;
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No ha seleccionado ninguna orden.", MessageType.WARNING);
+                return;
             }
-            else
+
+            SP_SalesOrderStatus_Consult_Result item = (SP_SalesOrderStatus_Consult_Result)GrvSalesOrder.GetRow(rowIndex);
+            if (item.StatusShortCode.Equals("I"))
             {
-                SP_SalesOrderStatus_Consult_Result item = (SP_SalesOrderStatus_Consult_Result)GrvSalesOrder.GetRow(rowIndex);
-                if (item.StatusShortCode.Equals("I"))
-                {
-                    functions.ShowMessage("No puede modificar una orden cancelada.", MessageType.WARNING);
-                    return;
-                }
-                if (item.StatusShortCode.Equals("F"))
-                {
-                    functions.ShowMessage("No puede modificar una orden facturada.", MessageType.WARNING);
-                    return;
-                }
-
-                if (item.OrderECommerce > 0)
-                {
-                    FrmSalesOrderEcommerce frmSalesOrder = new FrmSalesOrderEcommerce();
-                    frmSalesOrder.loginInformation = loginInformation;
-                    frmSalesOrder.emissionPoint = emissionPoint;
-                    frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
-                    frmSalesOrder.globalParameters = globalParameters;
-                    frmSalesOrder.ShowDialog();
-
-                    if (frmSalesOrder.isUpdated)
-                    {
-                        LoadSaleOrdesByFilters();
-                    }
-                }
-                else
-                {
-                    FrmSalesOrder frmSalesOrder = new FrmSalesOrder();
-                    frmSalesOrder.loginInformation = loginInformation;
-                    frmSalesOrder.emissionPoint = emissionPoint;
-                    frmSalesOrder.salesOrderId = (long)item.SalesOrderId;
-                    frmSalesOrder.globalParameters = globalParameters;
-                    frmSalesOrder.ShowDialog();
-
-                    if (frmSalesOrder.isUpdated)
-                    {
-                        LoadSaleOrdesByFilters();
-                    }
-                }
+                functions.ShowMessage("No puede modificar una orden cancelada.", MessageType.WARNING);
+                return;
             }
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            if (item.StatusShortCode.Equals("F"))
+            {
+                functions.ShowMessage("No puede modificar una orden facturada.", MessageType.WARNING);
+                return;
+            }
+
+            if (item.OrderECommerce > 0)
+            {
+                FrmSalesOrderEcommerce salesOrderEcommerce = new FrmSalesOrderEcommerce
+                {
+                    loginInformation = loginInformation,
+                    emissionPoint = emissionPoint,
+                    salesOrderId = (long)item.SalesOrderId,
+                    globalParameters = globalParameters
+                };
+                salesOrderEcommerce.ShowDialog();
+
+                if (salesOrderEcommerce.isUpdated)
+                {
+                    LoadSaleOrdesByFilters();
+                }
+
+                return;
+            }
+
+            FrmSalesOrder frmSalesOrder = new FrmSalesOrder
+            {
+                loginInformation = loginInformation,
+                emissionPoint = emissionPoint,
+                salesOrderId = (long)item.SalesOrderId,
+                globalParameters = globalParameters
+            };
+            frmSalesOrder.ShowDialog();
+
+            if (frmSalesOrder.isUpdated)
+            {
+                LoadSaleOrdesByFilters();
+            }
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void BtnRemissionGuide_Click(object sender, EventArgs e)
@@ -348,20 +340,17 @@ namespace POS
                     if (lastId == 0)
                     {
                         functions.ShowMessage("No hay documento previo existente.", MessageType.WARNING);
+                        return;
                     }
-                    else
-                    {
-                        functions.PrintDocument(lastId, DocumentType.SALESORDER, false);
-                    }
+
+                    functions.PrintDocument(lastId, DocumentType.SALESORDER, false);
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al imprimir la última factura."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
+                    functions.ShowMessage("Ocurrio un problema al imprimir la última factura.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.Message);
                 }
             }
         }
@@ -497,7 +486,6 @@ namespace POS
             {
                 CmbSalesOrderOrigin.Focus();
             }
-
         }
     }
 }

@@ -64,10 +64,10 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(370, 472);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(452, 590);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 4;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
@@ -84,10 +84,10 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(200, 472);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancel.Location = new System.Drawing.Point(244, 590);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
+            this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 5;
             this.BtnCancel.Text = "Cancelar";
             // 
@@ -100,11 +100,11 @@
             this.BtnKeypadInvoice.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadInvoice.ImageOptions.SvgImage")));
             this.BtnKeypadInvoice.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadInvoice.Location = new System.Drawing.Point(323, 67);
-            this.BtnKeypadInvoice.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadInvoice.Location = new System.Drawing.Point(395, 84);
+            this.BtnKeypadInvoice.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadInvoice.Name = "BtnKeypadInvoice";
             this.BtnKeypadInvoice.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadInvoice.Size = new System.Drawing.Size(78, 50);
+            this.BtnKeypadInvoice.Size = new System.Drawing.Size(95, 62);
             this.BtnKeypadInvoice.TabIndex = 13;
             this.BtnKeypadInvoice.Click += new System.EventHandler(this.BtnKeypadInvoice_Click);
             // 
@@ -118,20 +118,21 @@
             this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.find;
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(60, 60);
-            this.BtnSearch.Location = new System.Drawing.Point(402, 62);
-            this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnSearch.Location = new System.Drawing.Point(491, 78);
+            this.BtnSearch.Margin = new System.Windows.Forms.Padding(6);
             this.BtnSearch.Name = "BtnSearch";
             this.BtnSearch.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnSearch.Size = new System.Drawing.Size(63, 55);
+            this.BtnSearch.Size = new System.Drawing.Size(77, 69);
             this.BtnSearch.TabIndex = 14;
             this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // TxtInvoiceNumber
             // 
-            this.TxtInvoiceNumber.Location = new System.Drawing.Point(101, 72);
+            this.TxtInvoiceNumber.Location = new System.Drawing.Point(123, 90);
+            this.TxtInvoiceNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TxtInvoiceNumber.Name = "TxtInvoiceNumber";
             this.TxtInvoiceNumber.Properties.MaxLength = 9;
-            this.TxtInvoiceNumber.Size = new System.Drawing.Size(219, 38);
+            this.TxtInvoiceNumber.Size = new System.Drawing.Size(268, 30);
             this.TxtInvoiceNumber.TabIndex = 1;
             this.TxtInvoiceNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtInvoiceNumber_KeyDown);
             // 
@@ -139,18 +140,21 @@
             // 
             this.LblInvoice.AutoSize = true;
             this.LblInvoice.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblInvoice.Location = new System.Drawing.Point(24, 83);
+            this.LblInvoice.Location = new System.Drawing.Point(29, 104);
+            this.LblInvoice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblInvoice.Name = "LblInvoice";
-            this.LblInvoice.Size = new System.Drawing.Size(71, 18);
+            this.LblInvoice.Size = new System.Drawing.Size(86, 23);
             this.LblInvoice.TabIndex = 15;
             this.LblInvoice.Text = "Factura";
             // 
             // GrcPayments
             // 
-            this.GrcPayments.Location = new System.Drawing.Point(27, 137);
+            this.GrcPayments.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
+            this.GrcPayments.Location = new System.Drawing.Point(33, 171);
             this.GrcPayments.MainView = this.GrvPayments;
+            this.GrcPayments.Margin = new System.Windows.Forms.Padding(4);
             this.GrcPayments.Name = "GrcPayments";
-            this.GrcPayments.Size = new System.Drawing.Size(438, 200);
+            this.GrcPayments.Size = new System.Drawing.Size(535, 270);
             this.GrcPayments.TabIndex = 2;
             this.GrcPayments.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvPayments});
@@ -160,6 +164,7 @@
             this.GrvPayments.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.PaymMode,
             this.PaymentAmount});
+            this.GrvPayments.DetailHeight = 437;
             this.GrvPayments.GridControl = this.GrcPayments;
             this.GrvPayments.Name = "GrvPayments";
             this.GrvPayments.OptionsView.ShowGroupPanel = false;
@@ -168,11 +173,13 @@
             // 
             this.PaymMode.Caption = "Forma de Pago";
             this.PaymMode.FieldName = "Name";
+            this.PaymMode.MinWidth = 24;
             this.PaymMode.Name = "PaymMode";
             this.PaymMode.OptionsColumn.AllowEdit = false;
             this.PaymMode.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.PaymMode.Visible = true;
             this.PaymMode.VisibleIndex = 0;
+            this.PaymMode.Width = 92;
             // 
             // PaymentAmount
             // 
@@ -180,19 +187,22 @@
             this.PaymentAmount.DisplayFormat.FormatString = "c2";
             this.PaymentAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.PaymentAmount.FieldName = "Amount";
+            this.PaymentAmount.MinWidth = 24;
             this.PaymentAmount.Name = "PaymentAmount";
             this.PaymentAmount.OptionsColumn.AllowEdit = false;
             this.PaymentAmount.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
             this.PaymentAmount.Visible = true;
             this.PaymentAmount.VisibleIndex = 1;
+            this.PaymentAmount.Width = 92;
             // 
             // CmbPaymMode
             // 
-            this.CmbPaymMode.Location = new System.Drawing.Point(147, 372);
+            this.CmbPaymMode.Location = new System.Drawing.Point(180, 465);
+            this.CmbPaymMode.Margin = new System.Windows.Forms.Padding(4);
             this.CmbPaymMode.Name = "CmbPaymMode";
             this.CmbPaymMode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbPaymMode.Size = new System.Drawing.Size(318, 38);
+            this.CmbPaymMode.Size = new System.Drawing.Size(389, 30);
             this.CmbPaymMode.TabIndex = 3;
             this.CmbPaymMode.SelectedValueChanged += new System.EventHandler(this.CmbPaymMode_SelectedValueChanged);
             this.CmbPaymMode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbPaymMode_KeyDown);
@@ -201,9 +211,10 @@
             // 
             this.LblPaymMode.AutoSize = true;
             this.LblPaymMode.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblPaymMode.Location = new System.Drawing.Point(24, 383);
+            this.LblPaymMode.Location = new System.Drawing.Point(29, 479);
+            this.LblPaymMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblPaymMode.Name = "LblPaymMode";
-            this.LblPaymMode.Size = new System.Drawing.Size(68, 18);
+            this.LblPaymMode.Size = new System.Drawing.Size(85, 23);
             this.LblPaymMode.TabIndex = 18;
             this.LblPaymMode.Text = "Cambio";
             // 
@@ -216,21 +227,22 @@
             this.BtnKeypadEmission.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadEmission.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadEmission.ImageOptions.SvgImage")));
             this.BtnKeypadEmission.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadEmission.Location = new System.Drawing.Point(323, 9);
-            this.BtnKeypadEmission.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeypadEmission.Location = new System.Drawing.Point(395, 11);
+            this.BtnKeypadEmission.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadEmission.Name = "BtnKeypadEmission";
             this.BtnKeypadEmission.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadEmission.Size = new System.Drawing.Size(78, 50);
+            this.BtnKeypadEmission.Size = new System.Drawing.Size(95, 62);
             this.BtnKeypadEmission.TabIndex = 20;
             this.BtnKeypadEmission.Visible = false;
             this.BtnKeypadEmission.Click += new System.EventHandler(this.BtnKeypadEmission_Click);
             // 
             // TxtEmissionPoint
             // 
-            this.TxtEmissionPoint.Location = new System.Drawing.Point(101, 14);
+            this.TxtEmissionPoint.Location = new System.Drawing.Point(123, 18);
+            this.TxtEmissionPoint.Margin = new System.Windows.Forms.Padding(4);
             this.TxtEmissionPoint.Name = "TxtEmissionPoint";
             this.TxtEmissionPoint.Properties.MaxLength = 3;
-            this.TxtEmissionPoint.Size = new System.Drawing.Size(219, 38);
+            this.TxtEmissionPoint.Size = new System.Drawing.Size(268, 30);
             this.TxtEmissionPoint.TabIndex = 0;
             this.TxtEmissionPoint.Visible = false;
             this.TxtEmissionPoint.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtEmissionPoint_KeyDown);
@@ -239,19 +251,20 @@
             // 
             this.LblEmission.AutoSize = true;
             this.LblEmission.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.LblEmission.Location = new System.Drawing.Point(24, 25);
+            this.LblEmission.Location = new System.Drawing.Point(29, 31);
+            this.LblEmission.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEmission.Name = "LblEmission";
-            this.LblEmission.Size = new System.Drawing.Size(70, 18);
+            this.LblEmission.Size = new System.Drawing.Size(86, 23);
             this.LblEmission.TabIndex = 21;
             this.LblEmission.Text = "Emision";
             this.LblEmission.Visible = false;
             // 
             // FrmChangePaymMode
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnCancel;
-            this.ClientSize = new System.Drawing.Size(544, 536);
+            this.ClientSize = new System.Drawing.Size(665, 670);
             this.ControlBox = false;
             this.Controls.Add(this.BtnKeypadEmission);
             this.Controls.Add(this.TxtEmissionPoint);
@@ -266,6 +279,7 @@
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmChangePaymMode";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cambio Forma de Pago";

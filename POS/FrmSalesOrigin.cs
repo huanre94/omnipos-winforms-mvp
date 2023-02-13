@@ -10,7 +10,7 @@ namespace POS
 {
     public partial class FrmSalesOrigin : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
@@ -45,9 +45,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar origenes de venta.",
-                    MessageType.ERROR,
-                    true,
-                    ex.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 

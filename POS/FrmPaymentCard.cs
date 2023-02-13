@@ -240,19 +240,21 @@ namespace POS
                                 }
                             }
 
-                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                 emissionPoint.LocationId,
-                                                 barcode,
-                                                 qtyFound,
-                                                 customer.CustomerId,
-                                                 0,
-                                                 paymmode,
-                                                 "");
+                            ProductConsultDto product = new ProductConsultDto(emissionPoint.LocationId,
+                                barcode,
+                                qtyFound,
+                                customer.CustomerId,
+                                0,
+                                paymmode);
+
+                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString)
+                                .ProductConsult(product);
 
 
-                            IEnumerable<XElement> updateQuery = from r in invoiceXml.Descendants("InvoiceLine")
-                                                                where r.Element("ProductId").Value == _productResult.ProductId.ToString()
-                                                                select r;
+                            IEnumerable<XElement> updateQuery =
+                                invoiceXml
+                                .Descendants("InvoiceLine")
+                                .Where(r => r.Element("ProductId").Value == _productResult.ProductId.ToString());
 
                             foreach (XElement query in updateQuery)
                             {
@@ -288,12 +290,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                           "Ocurrio un problema al cargar promociones de este banco."
-                                           , MessageType.ERROR
-                                           , true
-                                           , ex.InnerException.Message
-                                       );
+                    functions.ShowMessage("Ocurrio un problema al cargar promociones de este banco.",
+                        MessageType.ERROR,
+                        true,
+                        ex.InnerException.Message);
                 }
             }
         }

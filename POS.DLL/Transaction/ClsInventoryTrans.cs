@@ -6,48 +6,45 @@ namespace POS.DLL.Transaction
 {
     public class ClsInventoryTrans
     {
+        private readonly string connectionString;
+
+        public ClsInventoryTrans(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
         public SP_PhysicalStockLine_Insert_Result InsertPhysicalStockCounting(int sequence, string _xml)
         {
-            POSEntities db = new POSEntities();
-            SP_PhysicalStockLine_Insert_Result result;
-
             try
             {
-                result = db.SP_PhysicalStockLine_Insert(sequence, _xml).FirstOrDefault();
+                return new POSEntities(connectionString).SP_PhysicalStockLine_Insert(sequence, _xml).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return result;
         }
 
-        public SP_PhysicalStockTable_Insert_Result InsertNewSequence(string _xml)
+        public SP_PhysicalStockTable_Insert_Result InsertNewSequence(string physicalStockXml)
         {
-            POSEntities db = new POSEntities();
-            SP_PhysicalStockTable_Insert_Result result;
-
             try
             {
-                result = db.SP_PhysicalStockTable_Insert(_xml).FirstOrDefault();
+                return new POSEntities(connectionString).SP_PhysicalStockTable_Insert(physicalStockXml).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return result;
         }
 
-        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId) => new POSEntities()
+        public bool HasPendingCounting(EmissionPoint emissionPoint, int UserId) => new POSEntities(connectionString)
                 .PhysicalStockCountingTable
                 .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
                     && a.Status == "O"
                     && a.CreatedBy == UserId)
                 .Any();
 
-        public int GetPendingCounting(EmissionPoint emissionPoint, long UserId) => new POSEntities()
+        public int GetPendingCounting(EmissionPoint emissionPoint, long UserId) => new POSEntities(connectionString)
                  .PhysicalStockCountingTable
                  .Where(ta => ta.EmissionPointId == emissionPoint.EmissionPointId
                        && ta.Status == "O"
@@ -55,27 +52,23 @@ namespace POS.DLL.Transaction
                  .Select(ta => ta.PhysicalStockCountingId)
                  .FirstOrDefault();
 
-        public List<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id)
+        public IEnumerable<SP_PhysicalStockLine_Consult_Result> GetPendingCountingLine(int id)
         {
-            POSEntities db = new POSEntities();
-            List<SP_PhysicalStockLine_Consult_Result> list;
             try
             {
-                list = db.SP_PhysicalStockLine_Consult(id).ToList();
+                return new POSEntities(connectionString).SP_PhysicalStockLine_Consult(id).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return list;
         }
 
         public bool UpdateStockTableStatus(int sequence)
         {
-            bool response = false;
             try
             {
-                using (POSEntities db = new POSEntities())
+                using (POSEntities db = new POSEntities(connectionString))
                 {
 
                     PhysicalStockCountingTable table =
@@ -87,14 +80,13 @@ namespace POS.DLL.Transaction
                     table.ModifiedBy = table.CreatedBy;
                     table.ModifiedDatetime = DateTime.Now;
                     table.Status = "A";
-                    response = db.SaveChanges() > 0;
+                    return db.SaveChanges() > 0;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return response;
         }
     }
 }

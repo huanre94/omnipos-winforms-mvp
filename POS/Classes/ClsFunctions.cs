@@ -32,20 +32,12 @@ namespace POS
         /// <param name="_showMessageDetail"></param>
         /// <param name="_messageTextDetail"></param>
         /// <returns></returns>
-        public bool ShowMessage(
-                                string _messageText
-                                , MessageType _messageType = MessageType.INFO
-                                , bool _showMessageDetail = false
-                                , string _messageTextDetail = ""
-                                )
+        public bool ShowMessage(string _messageText,
+                                MessageType _messageType = MessageType.INFO,
+                                bool _showMessageDetail = false,
+                                string _messageTextDetail = "")
         {
-            FrmMessage frmMessage = new FrmMessage
-            {
-                messagetype = _messageType,
-                messageText = _messageText,
-                showMessageDetail = _showMessageDetail,
-                messageTextDetail = _messageTextDetail
-            };
+            FrmMessage frmMessage = new FrmMessage(_messageText, _messageType, _showMessageDetail, _messageTextDetail);
             frmMessage.ShowDialog();
 
             return frmMessage.messageResponse;
@@ -53,23 +45,25 @@ namespace POS
 
         public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
         {
-            FrmSupervisorAuth auth = new FrmSupervisorAuth()
+            using (FrmSupervisorAuth auth = new FrmSupervisorAuth()
             {
                 scanner = AxOPOSScanner,
                 emissionPoint = emissionPoint,
                 requireMotive = requireMotive,
                 reasonType = reasonType
-            };
-            auth.ShowDialog();
-
-            if (auth.formActionResult)
+            })
             {
-                reasonType = auth.reasonType;
-                motiveId = auth.motiveId;
-                supervisorAuthorization = auth.supervisorAuthorization;
-            }
+                auth.ShowDialog();
 
-            return auth.formActionResult;
+                if (auth.formActionResult)
+                {
+                    this.reasonType = auth.reasonType;
+                    this.motiveId = auth.motiveId;
+                    this.supervisorAuthorization = auth.supervisorAuthorization;
+                }
+
+                return auth.formActionResult;
+            }
         }
 
         public void EnableScanner(string _scannerName)
@@ -79,31 +73,29 @@ namespace POS
                 AxOPOSScanner.BeginInit();
                 int isOpen = AxOPOSScanner.Open(_scannerName);
 
-                if (isOpen == 0)
-                {
-                    AxOPOSScanner.ClaimDevice(1000);
-
-                    if (AxOPOSScanner.Claimed)
-                    {
-                        AxOPOSScanner.DeviceEnabled = true;
-                        AxOPOSScanner.DataEventEnabled = true;
-                        AxOPOSScanner.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                        AxOPOSScanner.DecodeData = true;
-                    }
-                }
-                else
+                if (isOpen != 0)
                 {
                     ShowMessage("El puerto del scanner esta cerrado.", MessageType.WARNING);
+                    return;
                 }
+
+                AxOPOSScanner.ClaimDevice(1000);
+
+                if (AxOPOSScanner.Claimed)
+                {
+                    AxOPOSScanner.DeviceEnabled = true;
+                    AxOPOSScanner.DataEventEnabled = true;
+                    AxOPOSScanner.PowerNotify = 1; //(OPOS_PN_ENABLED);
+                    AxOPOSScanner.DecodeData = true;
+                }
+
             }
             catch (Exception ex)
             {
-                ShowMessage(
-                                "Ocurrio un problema al habilitar scanner."
-                                , MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
+                ShowMessage("Ocurrio un problema al habilitar scanner.",
+                            MessageType.ERROR,
+                            true,
+                            ex.Message);
             }
         }
 
@@ -119,12 +111,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    ShowMessage(
-                                    "Ocurrio un problema al deshabilitar scanner."
-                                    , MessageType.ERROR
-                                    , true
-                                    , ex.Message
-                                );
+                    ShowMessage("Ocurrio un problema al deshabilitar scanner.",
+                                MessageType.ERROR,
+                                true,
+                                ex.Message);
                 }
                 finally
                 {
@@ -140,29 +130,26 @@ namespace POS
                 AxOPOSScale.BeginInit();
                 int isOpen = AxOPOSScale.Open(_scaleName);
 
-                if (isOpen == 0)
-                {
-                    AxOPOSScale.ClaimDevice(1000);
-
-                    if (AxOPOSScale.Claimed)
-                    {
-                        AxOPOSScale.DeviceEnabled = true;
-                        AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                    }
-                }
-                else
+                if (isOpen != 0)
                 {
                     ShowMessage("El puerto de la balanza esta cerrado.", MessageType.WARNING);
+                    return;
+                }
+
+                AxOPOSScale.ClaimDevice(1000);
+
+                if (AxOPOSScale.Claimed)
+                {
+                    AxOPOSScale.DeviceEnabled = true;
+                    AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
                 }
             }
             catch (Exception ex)
             {
-                ShowMessage(
-                                "Ocurrio un problema al habilitar balanza."
-                                , MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
+                ShowMessage("Ocurrio un problema al habilitar balanza.",
+                            MessageType.ERROR,
+                            true,
+                            ex.Message);
             }
         }
 
@@ -177,12 +164,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    ShowMessage(
-                                 "Ocurrio un problema al deshabilitar balanza."
-                                 , MessageType.ERROR
-                                 , true
-                                 , ex.Message
-                             );
+                    ShowMessage("Ocurrio un problema al deshabilitar balanza.",
+                                MessageType.ERROR,
+                                true,
+                                ex.Message);
                 }
                 finally
                 {
@@ -192,11 +177,11 @@ namespace POS
         }
 
         public bool ValidateCatchWeightProduct(AxOPOSScale _axOposScale,
-                                                decimal _qty,
-                                                string _productName,
-                                                 ScaleBrands _scaleBrand,
-                                                string _portName = "",
-                                                bool isTestMode = false)
+                                               decimal _qty,
+                                               string _productName,
+                                               ScaleBrands _scaleBrand,
+                                               string _portName = "",
+                                               bool isTestMode = false)
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
             {
@@ -205,33 +190,29 @@ namespace POS
                 globalParameters = globalParameters
             };
             frmCatchWeight.ShowDialog();
-            bool response = true;
-            decimal lostWeight = 0;
-            decimal catchWeight = 0;
-            string parameter = string.Empty;
 
-            catchWeight = isTestMode ? _qty : frmCatchWeight.weight;
+            decimal catchWeight = isTestMode ? _qty : frmCatchWeight.GetWeight();
 
             //Begin(IG001)
             if (catchWeight == 0)
             {
-                response = false;
                 ShowMessage("No se ha realizado captura de peso.", MessageType.WARNING);
+                return false;
             }
             //End(IG001)
 
-            parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty").Value;
+            decimal minimumLostWeightQty = decimal.Parse(new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty").Value);
 
-            lostWeight = _qty - catchWeight;
+            decimal lostWeight = _qty - catchWeight;
             lostWeight = Math.Abs(lostWeight);
 
-            if (lostWeight > decimal.Parse(parameter))
+            if (lostWeight > minimumLostWeightQty)
             {
-                response = false;
                 ShowMessage("El peso es incorrecto. Vuelva a pesar el Producto.", MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            return true;
         }
 
         /// <summary>
@@ -243,9 +224,9 @@ namespace POS
         /// <param name="_portName"></param>
         /// <returns></returns>
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
-                                    string _productName,
-                                     ScaleBrands _scaleBrand,
-                                    string _portName = "")
+                                          string _productName,
+                                          ScaleBrands _scaleBrand,
+                                          string _portName = "")
         {
             FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
             {
@@ -255,50 +236,39 @@ namespace POS
             };
             frmCatchWeight.ShowDialog();
 
-            return frmCatchWeight.weight;
+            return frmCatchWeight.GetWeight();
+        }
+
+        public string GetPublishVersion()
+        {
+            Version ver = System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed ? System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion : Assembly.GetExecutingAssembly().GetName().Version;
+            return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+
         }
 
         public bool ProcessDocumentToPrint(string TextDocument)
         {
-            bool response = false;
-
             try
             {
                 Printer printer = new Printer(PrinterName, GetTypePrinter(PrinterName));
                 printer.WriteLine(TextDocument);
                 printer.PrintDocument();
-                response = true;
+                return true;
             }
             catch (Exception ex)
             {
-                ShowMessage(
-                                "Ocurrió un problema al Imprimir el Documento."
-                                , MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
-            }
+                ShowMessage("Ocurrió un problema al Imprimir el Documento.",
+                            MessageType.ERROR,
+                            true,
+                            ex.Message);
 
-            return response;
+                return false;
+            }
         }
 
-        private PrinterType GetTypePrinter(String PrinterName)
+        private PrinterType GetTypePrinter(string PrinterName)
         {
             return PrinterName == "LR2000" ? PrinterType.Bematech : PrinterType.Epson;
-        }
-
-        public string GetPublishVersion()
-        {
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
-            }
-            else
-            {
-                Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-                return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
-            }
         }
 
         public bool PrintDocument(long _documentId, DocumentType _documentType, bool _openCashier = false)
@@ -374,12 +344,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                ShowMessage(
-                                "Ha ocurrido un problema al imprimir " + _documentType.ToString()
-                                , MessageType.ERROR
-                                , true
-                                , ex.Message
-                            );
+                ShowMessage($"Ha ocurrido un problema al imprimir {_documentType}",
+                            MessageType.ERROR,
+                            true,
+                            ex.Message);
             }
 
             return response;

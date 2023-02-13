@@ -17,8 +17,8 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public IEnumerable<GlobalParameter> globalParameters;
-        EmissionPoint emissionPoint = new EmissionPoint();
         public SP_Login_Consult_Result loginInformation;
+        EmissionPoint emissionPoint = new EmissionPoint();
         IEnumerable<SP_ClosingCashierDenominations_Consult_Result> denominations;
         IEnumerable<SP_ClosingCashierPartial_Consult_Result> partials;
         XElement closingXml = new XElement("ClosingCashier");
@@ -79,12 +79,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                            "Ocurrio un problema al cargar informacion."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al cargar informacion.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
         private decimal CalculateDenominations()
@@ -102,14 +100,18 @@ namespace POS
         {
             GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcDenomination.DataSource = null;
-            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList());
-            bindingList.AllowNew = false;
+            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList())
+            {
+                AllowNew = false
+            };
             GrcDenomination.DataSource = bindingList;
 
             GrvPartialClosing.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPartialClosing.DataSource = null;
-            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList());
-            bindingList.AllowNew = false;
+            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList())
+            {
+                AllowNew = false
+            };
             GrcPartialClosing.DataSource = bindingList3;
         }
 
@@ -446,15 +448,15 @@ namespace POS
                 }
                 else
                 {
-                    functions.ShowMessage("Cierre parcial impreso.");
+                    functions.ShowMessage("Cierre parcial realizado correctamente, pero no se pudo imprimir comprobante.");
                 }
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al realizar el cierre parcial.",
-                     MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 

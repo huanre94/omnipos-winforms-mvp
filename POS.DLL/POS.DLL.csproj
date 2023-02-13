@@ -225,6 +225,7 @@
     <Compile Include="ProductCategory.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ProductConsultDto.cs" />
     <Compile Include="ProductGroup.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

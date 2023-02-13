@@ -1,4 +1,5 @@
-﻿using POS.DLL.Enums;
+﻿using AxOposScale_CCO;
+using POS.DLL.Enums;
 using System;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ namespace POS.Classes
         private bool requestWeight = false;
         private bool useCatchWeight = false;
 
-        public AxOposScale_CCO.AxOPOSScale AxOPOSScale { get; set; }
+        public AxOPOSScale AxOPOSScale { get; set; }
         public ScaleBrands ScaleBrand
         {
             get => scaleBrand;
@@ -162,9 +163,9 @@ namespace POS.Classes
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al abrir puerto serial de la balanza.",
-                    MessageType.ERROR,
-                    true,
-                    ex.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 
@@ -189,9 +190,9 @@ namespace POS.Classes
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema en la lectura desde el puerto serial de la balanza.",
-                    MessageType.ERROR,
-                    true,
-                    ex.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 

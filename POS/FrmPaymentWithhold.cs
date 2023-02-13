@@ -11,8 +11,8 @@ namespace POS
 {
     public partial class FrmPaymentWithhold : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public bool processResponse;
-        ClsFunctions functions = new ClsFunctions();
         public Customer customer = null;
         public SP_Login_Consult_Result loginInformation;
         public decimal baseAmount = 0.00M;
@@ -68,23 +68,22 @@ namespace POS
                     invoicePayment
                 };
 
-            if (taxAmount > 0)
-            {
-                retentions = LoadRetentions((int)Taxtype.IVA);
-
-                if (retentions?.Count() > 0)
-                {
-                    foreach (RetentionTable retention in retentions)
-                    {
-                        CmbTaxPercent.Properties.Items.Add(new ImageComboBoxItem { Value = retention.RetentionCode, Description = retention.Percent.ToString() });
-                    }
-                }
-            }
-            else
+            if (taxAmount <= 0)
             {
                 LblTaxBaseAmount.Enabled = false;
                 CmbTaxPercent.Enabled = false;
                 LblTaxAmount.Enabled = false;
+                return;
+            }
+
+            retentions = LoadRetentions((int)Taxtype.IVA);
+
+            if (retentions?.Count() > 0)
+            {
+                foreach (RetentionTable retention in retentions)
+                {
+                    CmbTaxPercent.Properties.Items.Add(new ImageComboBoxItem { Value = retention.RetentionCode, Description = retention.Percent.ToString() });
+                }
             }
         }
 
@@ -106,8 +105,8 @@ namespace POS
 
             if (taxAmount != 0 && CmbTaxPercent.SelectedItem == null)
             {
-                validate = false;
                 functions.ShowMessage("Debe seleccionar un impuesto para la retención al IVA.", MessageType.ERROR);
+                validate = false;
             }
 
             if (TxtNAutorization.Text.Length == 0)

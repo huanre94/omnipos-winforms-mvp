@@ -129,9 +129,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar lista de Bancos.",
-                    MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -140,67 +140,57 @@ namespace POS
             if (ValidateCheckFields())
             {
                 int dateDiff = DateTime.Today.CompareTo(DateTime.Parse(TxtCheckDate.Text).Date);
-                if (dateDiff == 0)
+                if (dateDiff < 0)
                 {
-                    SP_GaranCheck_Authorize_Result authorizeResult;
+                    //Validar si la fecha es menor a fecha actual
+                    return;
+                }
 
-                    try
+                try
+                {
+                    SP_GaranCheck_Authorize_Result authorizeResult = new ClsAuthorizationTrans(Program.customConnectionString).GetGaranCheckAuth(int.Parse(CmbCheckBank.EditValue.ToString()),
+                                                                                                                                                 TxtAccountNumber.Text,
+                                                                                                                                                 int.Parse(TxtCheckNumber.Text),
+                                                                                                                                                 checkAmount,
+                                                                                                                                                 TxtIdentification.Text,
+                                                                                                                                                 TxtOwnerName.Text,
+                                                                                                                                                 TxtPhone.Text,
+                                                                                                                                                 "");
+
+                    if (authorizeResult == null)
                     {
-                        authorizeResult = new ClsAuthorizationTrans(Program.customConnectionString).GetGaranCheckAuth(
-                                                                            int.Parse(CmbCheckBank.EditValue.ToString())
-                                                                            , TxtAccountNumber.Text
-                                                                            , int.Parse(TxtCheckNumber.Text)
-                                                                            , checkAmount
-                                                                            , TxtIdentification.Text
-                                                                            , TxtOwnerName.Text
-                                                                            , TxtPhone.Text
-                                                                            , ""
+                        return;
+                    }
 
-                                                                            );
+                    string result = authorizeResult.Result;
 
-                        if (authorizeResult != null)
+                    if (authorizeResult.Response != 0)
+                    {
+                        if (functions.ShowMessage("No se ha podido obtener autorizacion. ¿Desea ingresarla manualmente?",
+                                                              MessageType.CONFIRM,
+                                                              true,
+                                                              result))
                         {
-
-                            string result = authorizeResult.Result;
-
-                            if (authorizeResult.Response == 0)
-                            {
-                                TxtAuthorization.Text = result;
-                                functions.ShowMessage("Se ha obtenido autorizacion exitosamente. Autorizacion: " + result);
-                                BtnAccept.Focus();  //06/07/2022
-
-                            }
-                            else
-                            {
-                                bool response = functions.ShowMessage("No se ha podido obtener autorizacion. Desea ingresarla manualmente?"
-                                                                        , MessageType.CONFIRM
-                                                                        , true
-                                                                        , result
-                                                                        );
-                                if (response)
-                                {
-                                    BtnAuthorization.Visible = false;
-                                    BtnKeypadAuth.Visible = true;
-                                    TxtAuthorization.Enabled = true;
-                                }
-                            }
-
+                            BtnAuthorization.Visible = false;
+                            BtnKeypadAuth.Visible = true;
+                            TxtAuthorization.Enabled = true;
+                            TxtAuthorization.Focus();
+                            return;
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                                "Ocurrio un problema al obtener autorizacion."
-                                                , MessageType.ERROR
-                                                , true
-                                                , ex.InnerException.Message
-                                                );
-                    }
-                }
-                else
-                {
 
+                    TxtAuthorization.Text = result;
+                    functions.ShowMessage($"Se ha obtenido autorizacion exitosamente. Autorizacion: {result}");
+                    BtnAccept.Focus();  //06/07/2022
                 }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrio un problema al obtener autorizacion.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
+                }
+
             }
         }
 

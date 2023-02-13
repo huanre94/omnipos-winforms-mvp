@@ -7,7 +7,8 @@
         CAS,
         METTLER_TOLEDO,
         RICE_LAKE,
-        DATALOGIC
+        DATALOGIC,
+        JADEVER
     }
 
 }

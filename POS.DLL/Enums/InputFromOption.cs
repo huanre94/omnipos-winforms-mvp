@@ -25,6 +25,7 @@
         SUPERVISOR_PASSWORD,
         SALESORDER_ID,
         ADVANCE_AMOUNT,
-        OBSERVATION
+        OBSERVATION,
+        CLOSING_CASHIER_ID
     }
 }

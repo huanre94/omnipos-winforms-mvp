@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraEditors.Controls;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
@@ -10,7 +11,7 @@ using System.Xml.Linq;
 
 namespace POS
 {
-    public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm, ICustomerInformationValidator
+    public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public string customerIdentification;
@@ -73,9 +74,9 @@ namespace POS
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
-                         MessageType.ERROR,
-                        true,
-                        ex.InnerException.Message);
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
             }
         }
@@ -278,12 +279,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al validar identificación del cliente."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al validar identificación del cliente.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
                 return false;
             }
         }
@@ -296,18 +295,97 @@ namespace POS
             }
         }
 
-        public bool ValidateCustomerFields()
+        private bool TextValidations(object obj, string fieldName)
         {
-            if (CmbIdenType.Text == string.Empty || TxtIdentification.Text == string.Empty
-                     || TxtFirstName.Text == string.Empty || TxtLastName.Text == string.Empty
-                     || TxtAddress.Text == string.Empty || TxtPhone.Text == string.Empty)
+            if (((TextEdit)obj).Text == string.Empty)
             {
-                functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
-                DialogResult = DialogResult.None;
-                return false;
+                functions.ShowMessage($"El campo {fieldName} no puede estar vacio.", MessageType.WARNING);
+                ((TextEdit)obj).Focus();
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ValidateCustomerFields()
+        {
+            Dictionary<object, string> controls = new Dictionary<object, string>()
+            {
+                { CmbIdenType, LblIdentType.Text },
+                { TxtIdentification, LblIdentification.Text },
+                { TxtFirstName, LblName.Text },
+                { TxtLastName, LblLastname.Text },
+                { TxtAddress, LblAddress.Text },
+                { TxtPhone, LblPhone.Text },
+                { TxtEmail, LblEmail.Text }
+            };
+
+            foreach (var control in controls)
+            {
+                if (TextValidations(control.Key, control.Value.Replace("*", "")))
+                {
+                    DialogResult = DialogResult.None;
+                    return false;
+                }
             }
 
             return true;
+            //if (CmbIdenType.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    CmbIdenType.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtIdentification.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtIdentification.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtFirstName.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtFirstName.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtLastName.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtLastName.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtAddress.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtAddress.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtPhone.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtPhone.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
+            //if (TxtEmail.Text == string.Empty)
+            //{
+            //    functions.ShowMessage("Debe llenar los campos necesarios del formulario", MessageType.WARNING);
+            //    TxtEmail.Focus();
+            //    DialogResult = DialogResult.None;
+            //    return false;
+            //}
+
         }
 
         private void TxtPhone_KeyDown(object sender, KeyEventArgs e)

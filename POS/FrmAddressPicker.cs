@@ -71,25 +71,24 @@ namespace POS
                     newAddress = true;
                     BtnAddressPicker.Text = "F6 Guardar";
                     EnableAddressInput(true);
+                    return;
                 }
-                else
-                {
 
-                    foreach (CustomerAddress address in addressList)
-                    {
-                        CmbAddressPicker.Properties.Items.Add(new ImageComboBoxItem { Value = address.CustomerAddressId, Description = address.Address });
-                        CmbAddressPicker.EditValue = null;
-                    }
-                    EnableAddressInput(false);
+
+                foreach (CustomerAddress address in addressList)
+                {
+                    CmbAddressPicker.Properties.Items.Add(new ImageComboBoxItem { Value = address.CustomerAddressId, Description = address.Address });
+                    CmbAddressPicker.EditValue = null;
                 }
+                EnableAddressInput(false);
+
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al cargar origenes de orden."
-                                       , MessageType.ERROR
-                                       , true
-                                       , ex.InnerException.Message
-                                   );
+                functions.ShowMessage("Ocurrio un problema al cargar origenes de orden.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
         }
@@ -115,6 +114,7 @@ namespace POS
                 inputFromOption = InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
+
             TxtAddress.Text = frmKeyBoard.customerAddress;
             TxtAddress.Focus();
         }
@@ -126,6 +126,7 @@ namespace POS
                 inputFromOption = InputFromOption.CUSTOMER_ADDRESS
             };
             frmKeyBoard.ShowDialog();
+
             TxtAddressRef.Text = frmKeyBoard.customerAddress;
             TxtAddressRef.Focus();
         }
@@ -169,125 +170,120 @@ namespace POS
 
         private void BtnAddressPicker_Click(object sender, EventArgs e)
         {
-            if (newAddress)
-            {
-                if (TxtAddress.Text == string.Empty)
-                {
-                    functions.ShowMessage("La direccion no puede estar vacia.", MessageType.WARNING);
-                    return;
-                }
-
-                if (TxtAddressRef.Text == string.Empty)
-                {
-                    functions.ShowMessage("La referencia de la direccion no puede estar vacia.", MessageType.WARNING);
-                    return;
-                }
-
-                if (TxtTelephoneAddress.Text == string.Empty)
-                {
-                    functions.ShowMessage("El numero de telefono no puede estar vacia.", MessageType.WARNING);
-                    return;
-                }
-
-                long customerAddressId = CmbAddressPicker.EditValue == null ? 0 : (long)CmbAddressPicker.EditValue;
-                if (customerAddressId > 0)
-                {
-                    response.Address = TxtAddress.Text;
-                    response.AddressReference = TxtAddressRef.Text;
-                    response.Telephone = TxtTelephoneAddress.Text;
-                    response.ModifiedBy = loginInformation.UserId;
-                    response.ModifiedDatetime = DateTime.Now;
-
-                    bool result = new ClsCustomer(Program.customConnectionString).UpdateCustomerDeliveryAddress(response);
-                    if (result)
-                    {
-                        functions.ShowMessage("Direccion de entrega actualizada exitosamente.", MessageType.INFO);
-                        newAddress = false;
-                        ClearFields();
-                        LoadAddressesByCustomer(currentCustomer);
-                        BtnAddressPicker.Text = "F6 Elegir";
-                        CmbAddressPicker.Focus();//08/07/2022
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se pudo actualizar direccion de entrega.", MessageType.WARNING);
-                    }
-                }
-                else
-                {
-                    XElement customer = new XElement("Customer");
-                    XElement address = new XElement("CustomerAddress");
-
-                    CustomerAddress customerAddress = new CustomerAddress
-                    {
-                        CustomerId = currentCustomer.CustomerId,
-                        Sequence = 1,
-                        Address = TxtAddress.Text.ToUpper(),
-                        AddressReference = TxtAddressRef.Text.ToUpper(),
-                        Telephone = TxtTelephoneAddress.Text,
-                        Coordinates = "",
-                        CreatedDatetime = DateTime.Now,
-                        CreatedBy = (int)loginInformation.UserId,
-                        Status = "A",
-                        Workstation = loginInformation.Workstation
-                    };
-
-                    Type type = customerAddress.GetType();
-                    PropertyInfo[] properties = type.GetProperties();
-
-                    foreach (PropertyInfo prop in properties)
-                    {
-                        string name = prop.Name;
-                        object value = prop.GetValue(customerAddress);
-
-                        if (value == null)
-                        {
-                            value = "";
-                        }
-
-                        address.Add(new XElement(name, value));
-                    }
-                    customer.Add(address);
-
-                    try
-                    {
-                        SP_CustomerAddress_Insert_Result result = new ClsCustomer(Program.customConnectionString).CreateCustomerDeliveryAddress(customer.ToString());
-                        if ((bool)result.Error)
-                        {
-                            functions.ShowMessage("No se pudo crear direccion de entrega.", MessageType.WARNING, true, result.TextError);
-                        }
-                        else
-                        {
-                            functions.ShowMessage("Direccion de entrega registrada exitosamente.", MessageType.INFO);
-                            newAddress = false;
-                            ClearFields();
-                            LoadAddressesByCustomer(currentCustomer);
-                            BtnAddressPicker.Text = "F6 Elegir";
-                            CmbAddressPicker.Focus();//07/07/2022
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                          "Ocurrio un problema al cargar origenes de orden."
-                                          , MessageType.ERROR
-                                          , true
-                                          , ex.InnerException.Message
-                                      );
-                    }
-                }
-            }
-            else
+            if (!newAddress)
             {
                 if (CmbAddressPicker.SelectedIndex < 0)
                 {
                     functions.ShowMessage("Debe seleccionar una direccion.", MessageType.WARNING);
+                    return;
                 }
-                else
+
+                formResult = true;
+                DialogResult = DialogResult.OK;
+                return;
+            }
+
+            if (TxtAddress.Text == string.Empty)
+            {
+                functions.ShowMessage("La direccion no puede estar vacia.", MessageType.WARNING);
+                return;
+            }
+
+            if (TxtAddressRef.Text == string.Empty)
+            {
+                functions.ShowMessage("La referencia de la direccion no puede estar vacia.", MessageType.WARNING);
+                return;
+            }
+
+            if (TxtTelephoneAddress.Text == string.Empty)
+            {
+                functions.ShowMessage("El numero de telefono no puede estar vacia.", MessageType.WARNING);
+                return;
+            }
+
+            long customerAddressId = CmbAddressPicker.EditValue == null ? 0 : (long)CmbAddressPicker.EditValue;
+            if (customerAddressId > 0)
+            {
+                response.Address = TxtAddress.Text;
+                response.AddressReference = TxtAddressRef.Text;
+                response.Telephone = TxtTelephoneAddress.Text;
+                response.ModifiedBy = loginInformation.UserId;
+                response.ModifiedDatetime = DateTime.Now;
+
+                if (!new ClsCustomer(Program.customConnectionString).UpdateCustomerDeliveryAddress(response))
                 {
-                    formResult = true;
-                    DialogResult = DialogResult.OK;
+                    functions.ShowMessage("No se pudo actualizar direccion de entrega.", MessageType.WARNING);
+                    return;
+                }
+
+                functions.ShowMessage("Direccion de entrega actualizada exitosamente.", MessageType.INFO);
+                newAddress = false;
+                ClearFields();
+                LoadAddressesByCustomer(currentCustomer);
+                BtnAddressPicker.Text = "F6 Elegir";
+                CmbAddressPicker.Focus();//08/07/2022
+                return;
+            }
+            else
+            {
+                XElement customer = new XElement("Customer");
+                XElement address = new XElement("CustomerAddress");
+
+                CustomerAddress customerAddress = new CustomerAddress
+                {
+                    CustomerId = currentCustomer.CustomerId,
+                    Sequence = 1,
+                    Address = TxtAddress.Text.ToUpper(),
+                    AddressReference = TxtAddressRef.Text.ToUpper(),
+                    Telephone = TxtTelephoneAddress.Text,
+                    Coordinates = "",
+                    CreatedDatetime = DateTime.Now,
+                    CreatedBy = (int)loginInformation.UserId,
+                    Status = "A",
+                    Workstation = loginInformation.Workstation
+                };
+
+                Type type = customerAddress.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (PropertyInfo prop in properties)
+                {
+                    string name = prop.Name;
+                    object value = prop.GetValue(customerAddress);
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    address.Add(new XElement(name, value));
+                }
+                customer.Add(address);
+
+                try
+                {
+                    SP_CustomerAddress_Insert_Result result = new ClsCustomer(Program.customConnectionString).CreateCustomerDeliveryAddress(customer.ToString());
+                    if ((bool)result.Error)
+                    {
+                        functions.ShowMessage("No se pudo crear direccion de entrega.", MessageType.WARNING, true, result.TextError);
+                    }
+                    else
+                    {
+                        functions.ShowMessage("Direccion de entrega registrada exitosamente.", MessageType.INFO);
+                        newAddress = false;
+                        ClearFields();
+                        LoadAddressesByCustomer(currentCustomer);
+                        BtnAddressPicker.Text = "F6 Elegir";
+                        CmbAddressPicker.Focus();//07/07/2022
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrio un problema al cargar origenes de orden.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
             }
         }
@@ -299,12 +295,10 @@ namespace POS
                 functions.ShowMessage("Debe seleccionar una direccion.", MessageType.WARNING);
                 return;
             }
-            else
-            {
-                EnableAddressInput(true);
-                newAddress = true;
-                BtnAddressPicker.Text = "F6 Guardar";
-            }
+
+            EnableAddressInput(true);
+            newAddress = true;
+            BtnAddressPicker.Text = "F6 Guardar";
         }
 
         private void TxtAddress_KeyDown(object sender, KeyEventArgs e)

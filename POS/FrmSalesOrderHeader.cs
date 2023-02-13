@@ -37,7 +37,7 @@ namespace POS
             };
             keyBoard.ShowDialog();
 
-            if (keyBoard.customerIdentification == "")
+            if (keyBoard.customerIdentification == string.Empty)
             {
                 return;
             }
@@ -48,38 +48,7 @@ namespace POS
             {
                 currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(identification);
 
-                if (currentCustomer != null)
-                {
-                    if (currentCustomer?.CustomerId > 0)
-                    {
-                        //if (currentCustomer.IsEmployee)
-                        //{
-                        //    bool response = functions.ShowMessage("El cliente es un empleado, desea utilizar la tarjeta de afiliado?.",  MessageType.CONFIRM);
-
-                        //    if (response)
-                        //    {
-                        //        FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
-                        //        paymentCredit.customer = currentCustomer;
-                        //        paymentCredit.emissionPoint = emissionPoint;
-                        //        paymentCredit.scanner = AxOPOSScanner;
-                        //        paymentCredit.isPresentingCreditCard = true;
-                        //        paymentCredit.ShowDialog();
-
-                        //        if (paymentCredit.formActionResult)
-                        //        {
-                        //            internalCreditCardId = paymentCredit.internalCreditCardId;
-                        //            internalCreditCardCode = paymentCredit.internalCreditCardCode;
-                        //        }
-                        //    }
-                        //}
-
-                        LblCustomerId.Text = currentCustomer.Identification;
-                        LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
-                        LblCustomerAddress.Text = currentCustomer.Address;
-                        LblCustomerEmail.Text = currentCustomer.Email;
-                    }
-                }
-                else
+                if ((currentCustomer?.CustomerId) <= 0)
                 {
                     bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", MessageType.CONFIRM);
 
@@ -100,15 +69,19 @@ namespace POS
                         }
                     }
                 }
+
+                LblCustomerId.Text = currentCustomer.Identification;
+                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
+                LblCustomerAddress.Text = currentCustomer.Address;
+                LblCustomerEmail.Text = currentCustomer.Email;
+
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información del cliente."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 
@@ -138,42 +111,35 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-
-                    if (emissionPoint != null)
-                    {
-                        response = true;
-                        functions.PrinterName = emissionPoint.PrinterName;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            try
+            {
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
+
+                if (emissionPoint == null)
+                {
+                    functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                    return false;
+                }
+
+                functions.PrinterName = emissionPoint.PrinterName;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+                return false;
+            }
         }
 
         private void LoadSalesOrigin()
@@ -225,24 +191,24 @@ namespace POS
             if (currentCustomer.CustomerId == 1)
             {
                 functions.ShowMessage("No puede seleccionar direccion para un cliente CONSUMIDOR FINAL.", MessageType.WARNING);
+                return;
             }
-            else
-            {
-                FrmAddressPicker frmCustomer = new FrmAddressPicker()
-                {
-                    emissionPoint = emissionPoint,
-                    currentCustomer = currentCustomer,
-                    loginInformation = loginInformation
-                };
-                frmCustomer.ShowDialog();
 
-                if (frmCustomer.formResult)
-                {
-                    customerAddress = frmCustomer.response;
-                    LblDeliveryAddress.Text = customerAddress.Address;
-                    LblDeliveryAddressRef.Text = customerAddress.AddressReference;
-                }
+            FrmAddressPicker frmCustomer = new FrmAddressPicker()
+            {
+                emissionPoint = emissionPoint,
+                currentCustomer = currentCustomer,
+                loginInformation = loginInformation
+            };
+            frmCustomer.ShowDialog();
+
+            if (frmCustomer.formResult)
+            {
+                customerAddress = frmCustomer.response;
+                LblDeliveryAddress.Text = customerAddress.Address;
+                LblDeliveryAddressRef.Text = customerAddress.AddressReference;
             }
+
         }
 
         private void BtnSaveOrder_Click(object sender, EventArgs e)
@@ -343,28 +309,28 @@ namespace POS
                 if ((bool)result.Error)
                 {
                     functions.ShowMessage("No se pudo crear orden de venta.", MessageType.WARNING, true, result.TextError);
+                    return;
+                }
+
+                functions.emissionPoint = emissionPoint;
+                if (functions.PrintDocument((long)result.SalesOrderId, DocumentType.SALESORDER, false))
+                {
+                    functions.ShowMessage("Orden de Venta generada exitosamente.", MessageType.INFO);
                 }
                 else
                 {
-                    functions.emissionPoint = emissionPoint;
-                    if (functions.PrintDocument((long)result.SalesOrderId, DocumentType.SALESORDER, false))
-                    {
-                        functions.ShowMessage("Orden de Venta generada exitosamente.", MessageType.INFO);
-                    }
-                    else
-                    {
-                        functions.ShowMessage("La orden de venta fue generada exitosamente pero no se pudo imprimir.", MessageType.WARNING);
-                    }
-                    formActionResult = true;
-                    DialogResult = DialogResult.OK;
+                    functions.ShowMessage("La orden de venta fue generada exitosamente pero no se pudo imprimir.", MessageType.WARNING);
                 }
+
+                formActionResult = true;
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al generar orden.",
-                    MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 

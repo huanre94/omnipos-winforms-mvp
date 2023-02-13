@@ -12,9 +12,9 @@ namespace POS
 {
     public partial class FrmRemissionGuide : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public EmissionPoint emissionPoint;
-        ClsFunctions functions = new ClsFunctions();
 
         public FrmRemissionGuide()
         {
@@ -23,9 +23,11 @@ namespace POS
 
         private void BtnNewOrder_Click(object sender, EventArgs e)
         {
-            FrmRemissionGuideOrderSelector frm = new FrmRemissionGuideOrderSelector();
-            frm.emissionPoint = emissionPoint;
-            frm.loginInformation = loginInformation;
+            FrmRemissionGuideOrderSelector frm = new FrmRemissionGuideOrderSelector
+            {
+                emissionPoint = emissionPoint,
+                loginInformation = loginInformation
+            };
             frm.ShowDialog();
 
             if (frm.isUpdated)
@@ -40,13 +42,14 @@ namespace POS
             {
                 BindingList<SP_RemissionGuide_Consult_Result> list = (BindingList<SP_RemissionGuide_Consult_Result>)GrcRemissionGuide.DataSource;
 
-                if (list.Count == 0)
+                if (list?.Count() == 0)
                 {
                     functions.ShowMessage("No existen guias de remisiones activas", MessageType.WARNING);
                     return;
                 }
 
                 SP_RemissionGuide_Consult_Result remissionGuideConsult = (SP_RemissionGuide_Consult_Result)GrvRemissionGuide.GetRow(GrvRemissionGuide.FocusedRowHandle);
+
                 FrmRemissionGuideOrderToInvoice frm = new FrmRemissionGuideOrderToInvoice()
                 {
                     remission = remissionGuideConsult,
@@ -109,42 +112,35 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != string.Empty)
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == string.Empty)
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return false;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
+
+                if (emissionPoint == null)
+                {
+                    functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                    return false;
+                }
+
                 functions.PrinterName = emissionPoint.PrinterName;
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+                return false;
             }
-
-            return response;
         }
 
         private void LoadPendingRemissionGuides()
@@ -174,7 +170,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("No se pudo cargar las guias de remisiones activas", MessageType.WARNING, true, ex.InnerException.Message);
+                functions.ShowMessage("No se pudo cargar las guias de remisiones activas",
+                                      MessageType.WARNING,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 

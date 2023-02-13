@@ -80,9 +80,9 @@
             this.LblName.Location = new System.Drawing.Point(27, 98);
             this.LblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblName.Name = "LblName";
-            this.LblName.Size = new System.Drawing.Size(100, 23);
+            this.LblName.Size = new System.Drawing.Size(98, 23);
             this.LblName.TabIndex = 8;
-            this.LblName.Text = "Nombres";
+            this.LblName.Text = "Nombre*";
             // 
             // BtnAccept
             // 
@@ -129,7 +129,7 @@
             this.BtnKeyboardName.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardName.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardName.ImageOptions.SvgImage")));
             this.BtnKeyboardName.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardName.Location = new System.Drawing.Point(814, 80);
+            this.BtnKeyboardName.Location = new System.Drawing.Point(695, 78);
             this.BtnKeyboardName.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyboardName.Name = "BtnKeyboardName";
             this.BtnKeyboardName.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -144,9 +144,9 @@
             this.LblIdentType.Location = new System.Drawing.Point(27, 26);
             this.LblIdentType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblIdentType.Name = "LblIdentType";
-            this.LblIdentType.Size = new System.Drawing.Size(53, 23);
+            this.LblIdentType.Size = new System.Drawing.Size(62, 23);
             this.LblIdentType.TabIndex = 13;
-            this.LblIdentType.Text = "Tipo";
+            this.LblIdentType.Text = "Tipo*";
             // 
             // BtnKeyboardIdentification
             // 
@@ -157,7 +157,7 @@
             this.BtnKeyboardIdentification.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardIdentification.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardIdentification.ImageOptions.SvgImage")));
             this.BtnKeyboardIdentification.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardIdentification.Location = new System.Drawing.Point(814, 11);
+            this.BtnKeyboardIdentification.Location = new System.Drawing.Point(782, -3);
             this.BtnKeyboardIdentification.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyboardIdentification.Name = "BtnKeyboardIdentification";
             this.BtnKeyboardIdentification.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -167,7 +167,7 @@
             // 
             // TxtIdentification
             // 
-            this.TxtIdentification.Location = new System.Drawing.Point(561, 15);
+            this.TxtIdentification.Location = new System.Drawing.Point(571, 15);
             this.TxtIdentification.Margin = new System.Windows.Forms.Padding(4);
             this.TxtIdentification.Name = "TxtIdentification";
             this.TxtIdentification.Size = new System.Drawing.Size(200, 30);
@@ -181,9 +181,9 @@
             this.LblIdentification.Location = new System.Drawing.Point(412, 26);
             this.LblIdentification.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblIdentification.Name = "LblIdentification";
-            this.LblIdentification.Size = new System.Drawing.Size(142, 23);
+            this.LblIdentification.Size = new System.Drawing.Size(151, 23);
             this.LblIdentification.TabIndex = 16;
-            this.LblIdentification.Text = "Identificación";
+            this.LblIdentification.Text = "Identificación*";
             // 
             // BtnKeyboardLastname
             // 
@@ -194,7 +194,7 @@
             this.BtnKeyboardLastname.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardLastname.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardLastname.ImageOptions.SvgImage")));
             this.BtnKeyboardLastname.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardLastname.Location = new System.Drawing.Point(814, 151);
+            this.BtnKeyboardLastname.Location = new System.Drawing.Point(695, 149);
             this.BtnKeyboardLastname.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyboardLastname.Name = "BtnKeyboardLastname";
             this.BtnKeyboardLastname.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -218,9 +218,9 @@
             this.LblLastname.Location = new System.Drawing.Point(27, 169);
             this.LblLastname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblLastname.Name = "LblLastname";
-            this.LblLastname.Size = new System.Drawing.Size(100, 23);
+            this.LblLastname.Size = new System.Drawing.Size(98, 23);
             this.LblLastname.TabIndex = 18;
-            this.LblLastname.Text = "Apellidos";
+            this.LblLastname.Text = "Apellido*";
             // 
             // BtnKeyboardAddress
             // 
@@ -231,7 +231,7 @@
             this.BtnKeyboardAddress.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardAddress.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardAddress.ImageOptions.SvgImage")));
             this.BtnKeyboardAddress.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardAddress.Location = new System.Drawing.Point(814, 222);
+            this.BtnKeyboardAddress.Location = new System.Drawing.Point(695, 220);
             this.BtnKeyboardAddress.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyboardAddress.Name = "BtnKeyboardAddress";
             this.BtnKeyboardAddress.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -255,9 +255,9 @@
             this.LblAddress.Location = new System.Drawing.Point(27, 240);
             this.LblAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblAddress.Name = "LblAddress";
-            this.LblAddress.Size = new System.Drawing.Size(104, 23);
+            this.LblAddress.Size = new System.Drawing.Size(113, 23);
             this.LblAddress.TabIndex = 21;
-            this.LblAddress.Text = "Dirección";
+            this.LblAddress.Text = "Dirección*";
             // 
             // BtnKeyboardEmail
             // 
@@ -268,7 +268,7 @@
             this.BtnKeyboardEmail.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyboardEmail.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyboardEmail.ImageOptions.SvgImage")));
             this.BtnKeyboardEmail.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyboardEmail.Location = new System.Drawing.Point(814, 294);
+            this.BtnKeyboardEmail.Location = new System.Drawing.Point(695, 291);
             this.BtnKeyboardEmail.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyboardEmail.Name = "BtnKeyboardEmail";
             this.BtnKeyboardEmail.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
@@ -292,9 +292,9 @@
             this.LblEmail.Location = new System.Drawing.Point(27, 311);
             this.LblEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEmail.Name = "LblEmail";
-            this.LblEmail.Size = new System.Drawing.Size(63, 23);
+            this.LblEmail.Size = new System.Drawing.Size(72, 23);
             this.LblEmail.TabIndex = 24;
-            this.LblEmail.Text = "Email";
+            this.LblEmail.Text = "Email*";
             // 
             // LblGender
             // 
@@ -339,9 +339,9 @@
             this.LblPhone.Location = new System.Drawing.Point(27, 382);
             this.LblPhone.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblPhone.Name = "LblPhone";
-            this.LblPhone.Size = new System.Drawing.Size(95, 23);
+            this.LblPhone.Size = new System.Drawing.Size(104, 23);
             this.LblPhone.TabIndex = 31;
-            this.LblPhone.Text = "Teléfono";
+            this.LblPhone.Text = "Teléfono*";
             // 
             // TxtPhone
             // 
@@ -373,7 +373,7 @@
             this.BtnKeypadPhone.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeypadPhone.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadPhone.ImageOptions.SvgImage")));
             this.BtnKeypadPhone.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadPhone.Location = new System.Drawing.Point(390, 365);
+            this.BtnKeypadPhone.Location = new System.Drawing.Point(349, 362);
             this.BtnKeypadPhone.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeypadPhone.Name = "BtnKeypadPhone";
             this.BtnKeypadPhone.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;

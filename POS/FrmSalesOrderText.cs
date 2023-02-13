@@ -1,4 +1,5 @@
-﻿using POS.DLL.Catalog;
+﻿using POS.DLL;
+using POS.DLL.Catalog;
 using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,8 @@ namespace POS
 {
     public partial class FrmSalesOrderText : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
-        public DLL.SalesOrder salesOrder;
+        readonly ClsFunctions functions = new ClsFunctions();
+        public SalesOrder salesOrder;
 
         public FrmSalesOrderText()
         {
@@ -20,12 +21,12 @@ namespace POS
         {
             try
             {
-                IEnumerable<DLL.SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(salesOrder.SalesOrderId);
                 string list = "";
+                IEnumerable<SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(salesOrder.SalesOrderId);
 
-                foreach (DLL.SalesOrderText item in command)
+                foreach (SalesOrderText item in command)
                 {
-                    list = list + item.SalesOrderText1 + Environment.NewLine;
+                    list += item.SalesOrderText1 + Environment.NewLine;
                 }
 
                 TxtOrderText.Text = list;

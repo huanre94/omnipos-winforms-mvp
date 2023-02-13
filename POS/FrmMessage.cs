@@ -6,15 +6,24 @@ namespace POS
 {
     public partial class FrmMessage : DevExpress.XtraEditors.XtraForm
     {
-        public string messageText = "";
-        public string messageTextDetail = "";
-        public bool showMessageDetail;
-        public MessageType messagetype;
+        readonly string messageText;
+        readonly string messageTextDetail;
+        readonly bool showMessageDetail;
+        readonly MessageType messagetype;
         public bool messageResponse;
 
         public FrmMessage()
         {
             InitializeComponent();
+        }
+
+        public FrmMessage(string messageText, MessageType messagetype, bool showMessageDetail, string messageTextDetail)
+        {
+            InitializeComponent();
+            this.messageText = messageText;
+            this.messageTextDetail = messageTextDetail;
+            this.showMessageDetail = showMessageDetail;
+            this.messagetype = messagetype;
         }
 
         private void FrmMessage_Load(object sender, EventArgs e)

@@ -255,7 +255,7 @@
             this.CmbSalesOrderOrigin.Name = "CmbSalesOrderOrigin";
             this.CmbSalesOrderOrigin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(250, 38);
+            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(250, 30);
             this.CmbSalesOrderOrigin.TabIndex = 1;
             this.CmbSalesOrderOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbSalesOrderOrigin_KeyDown);
             // 
@@ -284,7 +284,7 @@
             this.EdtDeliveryDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.EdtDeliveryDate.Properties.FirstDayOfWeek = System.DayOfWeek.Monday;
             this.EdtDeliveryDate.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 38);
+            this.EdtDeliveryDate.Size = new System.Drawing.Size(250, 30);
             this.EdtDeliveryDate.TabIndex = 2;
             // 
             // TxtObservation
@@ -328,7 +328,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.BtnExit;
-            this.ClientSize = new System.Drawing.Size(736, 647);
+            this.ClientSize = new System.Drawing.Size(740, 651);
             this.ControlBox = false;
             this.Controls.Add(this.LblCustomerEmail);
             this.Controls.Add(this.label8);

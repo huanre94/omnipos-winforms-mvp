@@ -8,7 +8,7 @@ namespace POS
 {
     public partial class FrmPaymentGiftcard : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public decimal giftcardAmount;
         public string giftcardNumber;
@@ -95,31 +95,20 @@ namespace POS
 
         private bool ValidateGiftCardFields()
         {
-            bool response = false;
-
-            if (TxtGiftCard.Text != "")
-            {
-                if (LblDocument.Text != "" && LblReference.Text != "")
-                {
-                    response = true;
-                }
-                else
-                {
-                    functions.ShowMessage("No se obtuvieron datos del bono.", MessageType.WARNING);
-                }
-            }
-            else
+            if (TxtGiftCard.Text == "")
             {
                 functions.ShowMessage("Debe proporcionar el numero del bono.", MessageType.WARNING);
                 return false;
             }
 
-            if (!response)
+            if (LblDocument.Text == "" || LblReference.Text == "")
             {
-                DialogResult = DialogResult.None;
+                functions.ShowMessage("No se obtuvieron datos del bono.", MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            DialogResult = DialogResult.None;
+            return true;
         }
 
         private void BtnKeypad_Click(object sender, EventArgs e)

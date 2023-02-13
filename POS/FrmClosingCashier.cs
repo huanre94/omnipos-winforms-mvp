@@ -58,15 +58,13 @@ namespace POS
             functions.PrinterName = emissionPoint.PrinterName;
         }
 
-
-
         #region Functions
         private decimal CalculatePartials()
         {
             decimal totalPartials = 0;
             for (int i = 0; i < GrvPartialClosing.DataRowCount; i++)
             {
-                totalPartials += ((decimal)GrvPartialClosing.GetRowCellValue(i, "CashierAmount"));
+                totalPartials += (decimal)GrvPartialClosing.GetRowCellValue(i, "CashierAmount");
             }
 
             return totalPartials;
@@ -76,7 +74,7 @@ namespace POS
             decimal totalDenominations = 0;
             for (int i = 0; i < GrvDenomination.DataRowCount; i++)
             {
-                totalDenominations += ((decimal)GrvDenomination.GetRowCellValue(i, "TotalAmount"));
+                totalDenominations += (decimal)GrvDenomination.GetRowCellValue(i, "TotalAmount");
             }
 
             return totalDenominations;
@@ -117,7 +115,7 @@ namespace POS
                 ClsClosingTrans closing = new ClsClosingTrans(Program.customConnectionString);
                 denominations = closing.GetDenominations();
                 partials = closing.GetPartialClosings(emissionPoint, loginInformation);
-                partials = (from pa in partials where pa.CashierAmount != 0 select pa).ToList();
+                partials = partials.Where(pa => pa.CashierAmount != 0).ToList();
                 payments = closing.GetClosingPayments(emissionPoint, loginInformation);
 
 
@@ -153,60 +151,61 @@ namespace POS
         {
             GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcDenomination.DataSource = null;
-            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList());
-            bindingList.AllowNew = false;
+            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList())
+            {
+                AllowNew = false
+            };
             GrcDenomination.DataSource = bindingList;
 
             GrvPayment.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPayment.DataSource = null;
-            BindingList<SP_ClosingCashierPayment_Consult_Result> bindingList2 = new BindingList<SP_ClosingCashierPayment_Consult_Result>(payments.ToList());
-            bindingList2.AllowNew = false;
+            BindingList<SP_ClosingCashierPayment_Consult_Result> bindingList2 = new BindingList<SP_ClosingCashierPayment_Consult_Result>(payments.ToList())
+            {
+                AllowNew = false
+            };
             GrcPayment.DataSource = bindingList2;
 
             GrvPartialClosing.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPartialClosing.DataSource = null;
-            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList());
-            bindingList3.AllowNew = false;
+            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList())
+            {
+                AllowNew = false
+            };
             GrcPartialClosing.DataSource = bindingList3;
         }
 
         private bool GetEmissionPointInformation()
         {
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-
-                    if (emissionPoint != null)
-                    {
-                        response = true;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return true;
             }
 
-            return response;
+            try
+            {
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
+
+                if (emissionPoint == null)
+                {
+                    functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                    return false;
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+                return false;
+            }
+
         }
         #endregion
 
@@ -222,172 +221,164 @@ namespace POS
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            GlobalParameter parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName("MaxDifferenceClosingCashierValue");
-
             if (payments.Count() == 0)
             {
                 functions.ShowMessage("No hay metodos de pago registrados.", MessageType.WARNING);
+                return;
             }
-            else
+
+            XElement closingXml = new XElement("ClosingCashier");
+
+            decimal maxDifferenceClosingValue = decimal.Parse(new ClsGeneral(Program.customConnectionString).GetParameterByName("MaxDifferenceClosingCashierValue").Value);
+            if (Math.Abs(decimal.Parse(LblDifference.Text)) > maxDifferenceClosingValue)
             {
-                XElement closingXml = new XElement("ClosingCashier");
-                if (Math.Abs(decimal.Parse(LblDifference.Text)) <= decimal.Parse(parameter.Value))
+                functions.ShowMessage("El cierre supera el margen maximo permitido", MessageType.ERROR);
+                return;
+            }
+
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth())
+            {
+                XElement closingCashierTableXml = new XElement("ClosingCashierTable");
+                ClosingCashierTable cashierTable = new ClosingCashierTable()
                 {
-                    functions.emissionPoint = emissionPoint;
-                    if (functions.RequestSupervisorAuth(false, 0))
+                    LocationId = emissionPoint.LocationId,
+                    EmissionPointId = emissionPoint.EmissionPointId,
+                    UserId = (int)loginInformation.UserId,
+                    OpeningAmount = 0,
+                    Authorization = functions.supervisorAuthorization,
+                    Status = "A",
+                    CreatedBy = (int)loginInformation.UserId,
+                    Workstation = emissionPoint.Workstation
+                };
+
+                Type type = cashierTable.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (PropertyInfo prop in properties)
+                {
+                    string name = prop.Name;
+                    object value = prop.GetValue(cashierTable);
+
+                    if (value == null)
                     {
-                        XElement closingCashierTableXml = new XElement("ClosingCashierTable");
-                        ClosingCashierTable cashierTable = new ClosingCashierTable()
+                        value = "";
+                    }
+
+                    closingCashierTableXml.Add(new XElement(name, value));
+                }
+
+                closingXml.Add(closingCashierTableXml);
+
+
+                for (int i = 0; i < GrvDenomination.DataRowCount; i++)
+                {
+                    SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
+
+                    if ((int)row.TypedAmount == 0)
+                    {
+                        continue;
+                    }
+
+                    XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
+                    ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
+                    {
+                        Sequence = 0,
+                        CurrencyDenominationId = row.CurrencyDenominationId,
+                        Quantity = (int)row.TypedAmount
+                    };
+                    type = cashierMoney.GetType();
+                    properties = type.GetProperties();
+
+                    foreach (PropertyInfo prop in properties)
+                    {
+                        string name = prop.Name;
+                        object value = prop.GetValue(cashierMoney);
+
+                        if (value == null)
                         {
-                            LocationId = emissionPoint.LocationId,
-                            EmissionPointId = emissionPoint.EmissionPointId,
-                            UserId = (int)loginInformation.UserId,
-                            OpeningAmount = 0,
-                            Authorization = functions.supervisorAuthorization,
-                            Status = "A",
-                            CreatedBy = (int)loginInformation.UserId,
-                            Workstation = emissionPoint.Workstation
-                        };
-
-                        Type type = cashierTable.GetType();
-                        PropertyInfo[] properties = type.GetProperties();
-
-                        foreach (PropertyInfo prop in properties)
-                        {
-                            string name = prop.Name;
-                            object value = prop.GetValue(cashierTable);
-
-                            if (value == null)
-                            {
-                                value = "";
-                            }
-
-                            closingCashierTableXml.Add(new XElement(name, value));
+                            value = "";
                         }
 
-                        closingXml.Add(closingCashierTableXml);
+                        closingCashierMoneyXml.Add(new XElement(name, value));
+                    }
+                    closingXml.Add(closingCashierMoneyXml);
+                }
 
+                for (int i = 0; i < GrvPayment.DataRowCount; i++)
+                {
+                    SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
 
-                        for (int i = 0; i < GrvDenomination.DataRowCount; i++)
+                    if (row.PaymModeId == 8)
+                    {
+                        row.Amount = totalHideCash;
+                    }
+
+                    XElement closingCashierLineXml = new XElement("ClosingCashierLine");
+                    ClosingCashierLine cashierLine = new ClosingCashierLine()
+                    {
+
+                        PaymModeId = row.PaymModeId,
+                        CashierAmount = (decimal)row.CashierAmount,
+                        SystemAmount = (decimal)row.Amount
+                    };
+                    type = cashierLine.GetType();
+                    properties = type.GetProperties();
+
+                    foreach (PropertyInfo prop in properties)
+                    {
+                        string name = prop.Name;
+                        object value = prop.GetValue(cashierLine);
+
+                        if (value == null)
                         {
-                            SP_ClosingCashierDenominations_Consult_Result row = (SP_ClosingCashierDenominations_Consult_Result)GrvDenomination.GetRow(i);
-
-                            if ((int)row.TypedAmount == 0)
-                            {
-                                continue;
-                            }
-
-                            XElement closingCashierMoneyXml = new XElement("ClosingCashierMoney");
-                            ClosingCashierMoney cashierMoney = new ClosingCashierMoney()
-                            {
-                                Sequence = 0,
-                                CurrencyDenominationId = row.CurrencyDenominationId,
-                                Quantity = (int)row.TypedAmount
-                            };
-                            type = cashierMoney.GetType();
-                            properties = type.GetProperties();
-
-                            foreach (PropertyInfo prop in properties)
-                            {
-                                string name = prop.Name;
-                                object value = prop.GetValue(cashierMoney);
-
-                                if (value == null)
-                                {
-                                    value = "";
-                                }
-
-                                closingCashierMoneyXml.Add(new XElement(name, value));
-                            }
-                            closingXml.Add(closingCashierMoneyXml);
+                            value = "";
                         }
 
-                        for (int i = 0; i < GrvPayment.DataRowCount; i++)
+                        closingCashierLineXml.Add(new XElement(name, value));
+                    }
+                    closingXml.Add(closingCashierLineXml);
+                }
+
+                try
+                {
+                    List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertFullClosing(closingXml, TipoCierre).ToList();
+
+
+                    if (clsClosing?.Count() > 0)
+                    {
+                        SP_ClosingCashier_Insert_Result closing = clsClosing[0];
+                        if ((bool)closing.Error)
                         {
-                            SP_ClosingCashierPayment_Consult_Result row = (SP_ClosingCashierPayment_Consult_Result)GrvPayment.GetRow(i);
-
-                            if (row.PaymModeId == 8)
-                            {
-                                row.Amount = totalHideCash;
-                            }
-
-                            XElement closingCashierLineXml = new XElement("ClosingCashierLine");
-                            ClosingCashierLine cashierLine = new ClosingCashierLine()
-                            {
-
-                                PaymModeId = row.PaymModeId,
-                                CashierAmount = (decimal)row.CashierAmount,
-                                SystemAmount = (decimal)row.Amount
-                            };
-                            type = cashierLine.GetType();
-                            properties = type.GetProperties();
-
-                            foreach (PropertyInfo prop in properties)
-                            {
-                                string name = prop.Name;
-                                object value = prop.GetValue(cashierLine);
-
-                                if (value == null)
-                                {
-                                    value = "";
-                                }
-
-                                closingCashierLineXml.Add(new XElement(name, value));
-                            }
-                            closingXml.Add(closingCashierLineXml);
+                            functions.ShowMessage("No se ha podido realizar cierre de caja.",
+                                                  MessageType.WARNING,
+                                                  true,
+                                                  closing.TextError);
+                            return;
                         }
 
-                        try
+                        if (!functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER))
                         {
-                            List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertFullClosing(closingXml, TipoCierre).ToList();
-
-
-                            if (clsClosing?.Count() > 0)
-                            {
-                                SP_ClosingCashier_Insert_Result closing = clsClosing[0];
-                                if (!(bool)closing.Error)
-                                {
-                                    if (functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER, false))
-                                    {
-                                        functions.ShowMessage("Cierre de caja finalizado exitosamente.");
-                                    }
-                                    else
-                                    {
-                                        functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", MessageType.WARNING);
-                                    }
-
-                                    FrmMenu frmMenu = new FrmMenu();
-                                    frmMenu.loginInformation = loginInformation;
-                                    frmMenu.globalParameters = globalParameters;
-                                    frmMenu.Visible = true;
-                                    Close();
-                                }
-                                else
-                                {
-                                    functions.ShowMessage(
-                                                            "No se ha podido realizar cierre de caja."
-                                                            , MessageType.WARNING
-                                                            , true
-                                                            , closing.TextError
-                                                            );
-                                }
-                            }
-
+                            functions.ShowMessage("El cierre de caja finalizó correctamente, pero no se pudo imprimir documento.", MessageType.WARNING);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            functions.ShowMessage(
-                                                    "Ocurrio un problema al registrar cierre de caja."
-                                                    , MessageType.ERROR
-                                                    , true
-                                                    , ex.Message
-                                                );
+                            functions.ShowMessage("Cierre de caja finalizado exitosamente.");
                         }
+
+                        FrmMenu frmMenu = new FrmMenu();
+                        frmMenu.loginInformation = loginInformation;
+                        frmMenu.globalParameters = globalParameters;
+                        frmMenu.Visible = true;
+                        Close();
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    functions.ShowMessage("El cierre supera el margen maximo permitido", MessageType.ERROR);
+                    functions.ShowMessage("Ocurrio un problema al registrar cierre de caja.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.Message);
                 }
             }
         }
@@ -509,6 +500,13 @@ namespace POS
 
         private void BtnCancelClosing_Click(object sender, EventArgs e)
         {
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.CLOSING_CASHIER_ID
+            };
+            keyPad.ShowDialog();
+
+
 
         }
 

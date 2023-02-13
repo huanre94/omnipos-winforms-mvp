@@ -72,68 +72,66 @@ namespace POS
             if (long.Parse(LblInvoiceId.Text) <= 0)
             {
                 functions.ShowMessage("Debe seleccionar una factura valida", MessageType.WARNING);
+                return;
             }
-            else
+
+            functions.emissionPoint = emissionPoint;
+            if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.ITEM_CANCEL))
             {
-                functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.ITEM_CANCEL))
+                SalesLog salesLog = new SalesLog
                 {
-                    SalesLog salesLog = new SalesLog
-                    {
-                        CustomerId = 1,
-                        EmissionPointId = emissionPoint.EmissionPointId,
-                        LocationId = emissionPoint.LocationId,
-                        InvoiceNumber = int.Parse(TxtSequence.Text),
-                        XmlLog = string.Empty,
-                        ReasonId = functions.motiveId,
-                        LogTypeId = (int)DLL.Enums.LogType.ANULAR_FACTURA,
-                        Authorization = functions.supervisorAuthorization,
-                        CreatedDatetime = DateTime.Now,
-                        CreatedBy = (int)loginInformation.UserId,
-                        Status = "A",
-                        Workstation = loginInformation.Workstation
-                    };
+                    CustomerId = 1,
+                    EmissionPointId = emissionPoint.EmissionPointId,
+                    LocationId = emissionPoint.LocationId,
+                    InvoiceNumber = int.Parse(TxtSequence.Text),
+                    XmlLog = string.Empty,
+                    ReasonId = functions.motiveId,
+                    LogTypeId = (int)DLL.Enums.LogType.ANULAR_FACTURA,
+                    Authorization = functions.supervisorAuthorization,
+                    CreatedDatetime = DateTime.Now,
+                    CreatedBy = (int)loginInformation.UserId,
+                    Status = "A",
+                    Workstation = loginInformation.Workstation
+                };
 
-                    InvoiceTable invoiceTable = null;
-                    try
-                    {
-                        invoiceTable = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoice(int.Parse(LblInvoiceId.Text));
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("Ocurrio un problema al consultar documento.", MessageType.ERROR, true, ex.Message);
-                    }
-
-                    invoiceTable.TransferStatusId = 4;
-                    invoiceTable.Observation = TxtObservation.Text;
-                    invoiceTable.ClosingCashierId = -99;
-                    invoiceTable.Status = "I";
-                    invoiceTable.ModifiedBy = loginInformation.UserId;
-                    invoiceTable.ModifiedDatetime = DateTime.Now;
-
-                    bool invoiceCancel = false;
-                    try
-                    {
-                        invoiceCancel = new ClsInvoiceTrans(Program.customConnectionString).CancelInvoice(salesLog, invoiceTable);
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message);
-                    }
-
-                    if (invoiceCancel)
-                    {
-                        functions.ShowMessage("Factura anulada correctamente.", MessageType.INFO);
-                        ClearInvoice();
-                    }
-                    else
-                    {
-                        functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", MessageType.ERROR);
-                    }
+                InvoiceTable invoiceTable = null;
+                try
+                {
+                    invoiceTable = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoice(int.Parse(LblInvoiceId.Text));
                 }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrio un problema al consultar documento.", MessageType.ERROR, true, ex.Message);
+                }
+
+                invoiceTable.TransferStatusId = 4;
+                invoiceTable.Observation = TxtObservation.Text;
+                invoiceTable.ClosingCashierId = -99;
+                invoiceTable.Status = "I";
+                invoiceTable.ModifiedBy = loginInformation.UserId;
+                invoiceTable.ModifiedDatetime = DateTime.Now;
+
+                bool invoiceCancel = false;
+                try
+                {
+                    invoiceCancel = new ClsInvoiceTrans(Program.customConnectionString).CancelInvoice(salesLog, invoiceTable);
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
+                                        , MessageType.ERROR
+                                        , true
+                                        , ex.Message);
+                }
+
+                if (!invoiceCancel)
+                {
+                    functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", MessageType.ERROR);
+                    return;
+                }
+
+                functions.ShowMessage("Factura anulada correctamente.", MessageType.INFO);
+                ClearInvoice();
             }
         }
 
@@ -154,53 +152,49 @@ namespace POS
             if (TxtEmissionPoint.Text == string.Empty)
             {
                 functions.ShowMessage("Punto de emision de factura no puede estar vacia", MessageType.WARNING);
+                return;
             }
-            else if (TxtSequence.Text == string.Empty)
+
+            if (TxtSequence.Text == string.Empty)
             {
                 functions.ShowMessage("Secuencia de factura no puede estar vacia", MessageType.WARNING);
+                return;
             }
-            else
+
+            try
             {
+                SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
 
-                try
+                if (response == null)
                 {
-                    SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
-
-                    if (response != null)
-                    {
-
-                        if (response.TransferStatusId == (int)DLL.Enums.TransferStatus.PENDING_MIGRATE)
-                        {
-                            functions.ShowMessage("La factura aun no ha sido migrada a ERP.", MessageType.WARNING);
-                            return;
-                        }
-
-                        if (response.Status.Equals("A") || response.Status.Equals("C"))
-                        {
-                            LblInvoiceId.Text = $"{response.InvoiceId}";
-                            LblInvoiceStatus.Text = response.StatusDesc;
-                            LblCustomerIdentification.Text = response.Identification;
-                            LblCustomerName.Text = $"{response.Firtsname} {response.Lastname}";
-                            LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
-                        }
-                        else
-                        {
-                            functions.ShowMessage("La factura ya se encuentra anulada.", MessageType.WARNING);
-                        }
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe factura con la secuencia digitada.", MessageType.WARNING);
-                        ClearInvoice();
-                    }
+                    functions.ShowMessage("No existe factura con la secuencia digitada.", MessageType.WARNING);
+                    return;
                 }
-                catch (Exception ex)
+
+                if (response.TransferStatusId == (int)DLL.Enums.TransferStatus.PENDING_MIGRATE)
                 {
-                    functions.ShowMessage("Ocurrio un problema al cargar venta anulada."
-                                                , MessageType.ERROR
-                                                , true
-                                                , ex.InnerException.Message);
+                    functions.ShowMessage("La factura aun no ha sido migrada a ERP.", MessageType.WARNING);
+                    return;
                 }
+
+                if (!response.Status.Equals("A") && !response.Status.Equals("C"))
+                {
+                    functions.ShowMessage("La factura ya se encuentra anulada.", MessageType.WARNING);
+                    return;
+                }
+
+                LblInvoiceId.Text = $"{response.InvoiceId}";
+                LblInvoiceStatus.Text = response.StatusDesc;
+                LblCustomerIdentification.Text = response.Identification;
+                LblCustomerName.Text = $"{response.Firtsname} {response.Lastname}";
+                LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar venta anulada.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 

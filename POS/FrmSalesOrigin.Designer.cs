@@ -46,20 +46,21 @@
             this.BtnExit.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnExit.Location = new System.Drawing.Point(204, 412);
-            this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnExit.Location = new System.Drawing.Point(249, 515);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(160, 50);
+            this.BtnExit.Size = new System.Drawing.Size(196, 62);
             this.BtnExit.TabIndex = 2;
             this.BtnExit.Text = "Salir";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // ILBSalesOrigin
             // 
-            this.ILBSalesOrigin.ItemHeight = 84;
-            this.ILBSalesOrigin.Location = new System.Drawing.Point(12, 12);
+            this.ILBSalesOrigin.ItemHeight = 105;
+            this.ILBSalesOrigin.Location = new System.Drawing.Point(15, 15);
+            this.ILBSalesOrigin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ILBSalesOrigin.Name = "ILBSalesOrigin";
-            this.ILBSalesOrigin.Size = new System.Drawing.Size(522, 388);
+            this.ILBSalesOrigin.Size = new System.Drawing.Size(638, 485);
             this.ILBSalesOrigin.TabIndex = 0;
             this.ILBSalesOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ILBSalesOrigin_KeyDown);
             // 
@@ -76,25 +77,26 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(374, 412);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(457, 515);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // FrmSalesOrigin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtnExit;
-            this.ClientSize = new System.Drawing.Size(548, 476);
+            this.ClientSize = new System.Drawing.Size(670, 595);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.ILBSalesOrigin);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmSalesOrigin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Origen de Venta";

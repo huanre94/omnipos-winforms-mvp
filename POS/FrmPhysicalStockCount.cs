@@ -49,9 +49,9 @@ namespace POS
 
                 try
                 {
-                    if (new ClsInventoryTrans().HasPendingCounting(emissionPoint, (int)loginInformation.UserId))
+                    if (new ClsInventoryTrans(Program.customConnectionString).HasPendingCounting(emissionPoint, (int)loginInformation.UserId))
                     {
-                        sequence = new ClsInventoryTrans().GetPendingCounting(emissionPoint, (int)loginInformation.UserId);
+                        sequence = new ClsInventoryTrans(Program.customConnectionString).GetPendingCounting(emissionPoint, (int)loginInformation.UserId);
                         LoadStockGrid();
                         LoadWarehouseList(emissionPoint.LocationId);
 
@@ -69,12 +69,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar inventario."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                            );
+                    functions.ShowMessage("Ocurrio un problema al cargar inventario.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
 
                 LblCashierUser.Text = loginInformation.UserName;
@@ -88,33 +86,33 @@ namespace POS
             GrcPhysicalStock.DataSource = null;
             GrvPhysicalStock.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
-            List<SP_PhysicalStockLine_Consult_Result> list;
+            IEnumerable<SP_PhysicalStockLine_Consult_Result> list;
             List<SP_PhysicalStockProduct_Consult_Result> newList = new List<SP_PhysicalStockProduct_Consult_Result>();
             try
             {
-                list = new ClsInventoryTrans().GetPendingCountingLine(sequence);
+                list = new ClsInventoryTrans(Program.customConnectionString).GetPendingCountingLine(sequence);
 
                 foreach (SP_PhysicalStockLine_Consult_Result item in list)
                 {
-                    SP_PhysicalStockProduct_Consult_Result result = new SP_PhysicalStockProduct_Consult_Result();
-                    result.ProductId = item.ProductId;
-                    result.ProductOldCode = item.ProductOldCode;
-                    result.Barcode = item.Barcode;
-                    result.ProductName = item.ProductName;
-                    result.InventUnitId = item.InventUnitId;
-                    result.UM = item.UM;
-                    result.Quantity = item.Quantity;
+                    SP_PhysicalStockProduct_Consult_Result result = new SP_PhysicalStockProduct_Consult_Result
+                    {
+                        ProductId = item.ProductId,
+                        ProductOldCode = item.ProductOldCode,
+                        Barcode = item.Barcode,
+                        ProductName = item.ProductName,
+                        InventUnitId = item.InventUnitId,
+                        UM = item.UM,
+                        Quantity = item.Quantity
+                    };
                     newList.Add(result);
                 }
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar detalle de inventario."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al cargar detalle de inventario.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
 
@@ -126,11 +124,9 @@ namespace POS
 
         private void LoadWarehouseList(int _locationId)
         {
-            IEnumerable<InventLocation> inventLocations;
-
             try
             {
-                inventLocations = new ClsGeneral(Program.customConnectionString).GetMainWarehouseByLocationId(_locationId);
+                IEnumerable<InventLocation> inventLocations = new ClsGeneral(Program.customConnectionString).GetMainWarehouseByLocationId(_locationId);
 
                 if (inventLocations.Any())
                 {
@@ -145,11 +141,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar bodegas."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message);
+                functions.ShowMessage("Ocurrio un problema al cargar bodegas.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
         }
@@ -183,9 +178,9 @@ namespace POS
                 return false;
             }
 
-            return true;
             functions.PrinterName = emissionPoint.PrinterName;
             LblCashierUser.Text = loginInformation.UserName;
+            return true;
         }
 
         private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
@@ -490,7 +485,7 @@ namespace POS
                             count++;
                         }
 
-                        SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans().InsertPhysicalStockCounting(sequence, physicalCountingList.ToString());
+                        SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertPhysicalStockCounting(sequence, physicalCountingList.ToString());
 
                         if (!(bool)response.Error)
                         {
@@ -607,7 +602,7 @@ namespace POS
                 {
                     try
                     {
-                        bool response = new ClsInventoryTrans().UpdateStockTableStatus(sequence);
+                        bool response = new ClsInventoryTrans(Program.customConnectionString).UpdateStockTableStatus(sequence);
                         if (response)
                         {
                             functions.ShowMessage("Inventario finalizado con exito.", MessageType.INFO, false);
@@ -630,16 +625,18 @@ namespace POS
                 XElement physicalCountingList = new XElement("PhysicalStockCounting");
 
                 XElement physicalCountingTable = new XElement("PhysicalStockCountingTable");
-                PhysicalStockCountingTable header = new PhysicalStockCountingTable();
-                header.LocationId = emissionPoint.LocationId;
-                header.EmissionPointId = emissionPoint.EmissionPointId;
-                header.InventLocationId = int.Parse(CmbWarehouse.EditValue.ToString());
-                header.Type = "C";
-                header.StockCountingId = 0;
-                header.Observation = "";
-                header.Status = "O";
-                header.CreatedBy = (int)loginInformation.UserId;
-                header.Workstation = loginInformation.Workstation;
+                PhysicalStockCountingTable header = new PhysicalStockCountingTable
+                {
+                    LocationId = emissionPoint.LocationId,
+                    EmissionPointId = emissionPoint.EmissionPointId,
+                    InventLocationId = int.Parse(CmbWarehouse.EditValue.ToString()),
+                    Type = "C",
+                    StockCountingId = 0,
+                    Observation = "",
+                    Status = "O",
+                    CreatedBy = (int)loginInformation.UserId,
+                    Workstation = loginInformation.Workstation
+                };
 
                 Type type = header.GetType();
                 PropertyInfo[] properties = type.GetProperties();
@@ -658,7 +655,7 @@ namespace POS
 
                 try
                 {
-                    SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans().InsertNewSequence(physicalCountingList.ToString());
+                    SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertNewSequence(physicalCountingList.ToString());
 
                     if (!(bool)response.Error)
                     {
@@ -674,12 +671,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                             "Ocurrio un problema al generar secuencia del conteo."
-                                             , MessageType.ERROR
-                                             , true
-                                             , ex.Message
-                                             );
+                    functions.ShowMessage("Ocurrio un problema al generar secuencia del conteo.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.Message);
                 }
             }
 

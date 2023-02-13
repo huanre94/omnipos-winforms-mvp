@@ -12,7 +12,7 @@ namespace POS
 {
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions = new ClsFunctions();
         public bool formActionResult;
         public EmissionPoint emissionPoint;
         public AxOPOSScanner scanner;
@@ -20,7 +20,6 @@ namespace POS
         public string supervisorAuthorization;
         public bool requireMotive;
         public int reasonType = 1;
-
         ScaleBrands scaleBrand;
 
         public FrmSupervisorAuth()
@@ -62,7 +61,7 @@ namespace POS
             {
                 IEnumerable<CancelReason> cancelReasons = new ClsAuthorizationTrans(Program.customConnectionString).ConsultReasons(reasonType);
 
-                if (cancelReasons.Any())
+                if (cancelReasons?.Count() > 0)
                 {
                     foreach (CancelReason reason in cancelReasons)
                     {
@@ -73,9 +72,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar lista de motivos de anulacion.",
-                     MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
         }
@@ -83,6 +82,7 @@ namespace POS
         private void BtnAccept_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+
             if (TxtAuthorization.Text == string.Empty)
             {
                 functions.ShowMessage("Debe proporcionar autorizacion del supervisor.", MessageType.WARNING);
@@ -97,66 +97,59 @@ namespace POS
                 return;
             }
 
-            if (CmbMotive.Visible)
-            {
-                if (CmbMotive.SelectedItem != null)
-                {
-                    SP_Supervisor_Validate_Result result;
-
-                    try
-                    {
-                        result = new ClsAuthorizationTrans(Program.customConnectionString).GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
-
-                        if (result == null)
-                        {
-                            functions.ShowMessage("El codigo ingresado no es correcto.", MessageType.ERROR);
-                            TxtAuthorization.Text = "";
-                            TxtAuthorization.Focus();
-                            TxtSupervisorPassword.Text = string.Empty;
-                            DialogResult = DialogResult.None;
-                            return;
-                        }
-
-                        if ((bool)result.Error)
-                        {
-                            if (CmbMotive.SelectedItem != null)
-                            {
-                                int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
-                                motiveId = cancelReason;
-                            }
-                            formActionResult = true;
-                            supervisorAuthorization = TxtAuthorization.Text;
-                            TxtAuthorization.Text = "";
-
-                            if (scaleBrand == ScaleBrands.DATALOGIC)
-                            {
-                                functions.DisableScanner();
-
-                                if (scanner != null)
-                                {
-                                    functions.AxOPOSScanner = scanner;
-                                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            functions.ShowMessage("Ocurrio un problema al anular producto.", MessageType.ERROR, true, result.ErrorMessage);
-                            DialogResult = DialogResult.None;
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", MessageType.ERROR, true, ex.InnerException.Message);
-                    }
-                }
-            }
-            else
+            if (CmbMotive.Visible && CmbMotive.SelectedItem == null)
             {
                 functions.ShowMessage("Debe seleccionar un motivo para anular.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
+                return;
             }
+
+            try
+            {
+                SP_Supervisor_Validate_Result result = new ClsAuthorizationTrans(Program.customConnectionString).GetSupervisorAuth(TxtAuthorization.Text, TxtSupervisorPassword.Text);
+
+                if (result == null)
+                {
+                    functions.ShowMessage("El codigo ingresado no es correcto.", MessageType.ERROR);
+                    TxtAuthorization.Text = string.Empty;
+                    TxtSupervisorPassword.Text = string.Empty;
+                    TxtAuthorization.Focus();
+                    DialogResult = DialogResult.None;
+                    return;
+                }
+
+                if (!(bool)result.Error)
+                {
+                    functions.ShowMessage("Ocurrio un problema al anular producto.", MessageType.ERROR, true, result.ErrorMessage);
+                    DialogResult = DialogResult.None;
+                    return;
+                }
+
+                if (CmbMotive.SelectedItem != null)
+                {
+                    int cancelReason = int.Parse(CmbMotive.EditValue.ToString());
+                    motiveId = cancelReason;
+                }
+                formActionResult = true;
+                supervisorAuthorization = TxtAuthorization.Text;
+                TxtAuthorization.Text = "";
+
+                if (scaleBrand == ScaleBrands.DATALOGIC)
+                {
+                    functions.DisableScanner();
+
+                    if (scanner != null)
+                    {
+                        functions.AxOPOSScanner = scanner;
+                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", MessageType.ERROR, true, ex.InnerException.Message);
+            }
+
 
             Cursor.Current = Cursors.Default;
         }

@@ -34,10 +34,11 @@
             // 
             // TxtOrderText
             // 
-            this.TxtOrderText.Location = new System.Drawing.Point(45, 12);
+            this.TxtOrderText.Location = new System.Drawing.Point(55, 15);
+            this.TxtOrderText.Margin = new System.Windows.Forms.Padding(4);
             this.TxtOrderText.Name = "TxtOrderText";
             this.TxtOrderText.ReadOnly = true;
-            this.TxtOrderText.Size = new System.Drawing.Size(400, 245);
+            this.TxtOrderText.Size = new System.Drawing.Size(488, 305);
             this.TxtOrderText.TabIndex = 0;
             this.TxtOrderText.Text = "";
             this.TxtOrderText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtOrderText_KeyDown);
@@ -56,22 +57,23 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(156, 271);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(191, 339);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(169, 55);
+            this.BtnAccept.Size = new System.Drawing.Size(207, 69);
             this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             // 
             // FrmSalesOrderText
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 340);
+            this.ClientSize = new System.Drawing.Size(603, 425);
             this.ControlBox = false;
             this.Controls.Add(this.BtnAccept);
             this.Controls.Add(this.TxtOrderText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmSalesOrderText";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Comanda";

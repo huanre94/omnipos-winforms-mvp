@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm, ICustomerInformationValidator
+    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
@@ -29,12 +29,12 @@ namespace POS
 
         private void ProcessLogin()
         {
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
 
             if (ValidateCustomerFields())
             {
                 bool allowLogin = false;
-                List<string> ipAddressList = GetLocalIPAddress();
+                IEnumerable<string> ipAddressList = GetLocalIPAddress();
 
                 foreach (string ipAddress in ipAddressList)
                 {
@@ -65,7 +65,7 @@ namespace POS
                     frmMenu.Show();
                 }
             }
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -75,11 +75,9 @@ namespace POS
 
         private bool GetLoginInformation(string _identification, string _password, string _workstation, string _addressIP)
         {
-            SP_Login_Consult_Result result;
-
             try
             {
-                result = new ClsAdministration(Program.customConnectionString).GetLoginInformation(_identification, _password, _workstation, _addressIP);
+                SP_Login_Consult_Result result = new ClsAdministration(Program.customConnectionString).GetLoginInformation(_identification, _password, _workstation, _addressIP);
 
                 if ((bool)result?.Error)
                 {
@@ -92,29 +90,24 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                    "Ocurrió un problema al iniciar sesión.",
-                     MessageType.WARNING,
-                    true,
-                    ex.Message
-                );
+                functions.ShowMessage("Ocurrió un problema al iniciar sesión.",
+                                      MessageType.WARNING,
+                                      true,
+                                      ex.Message);
                 return false;
             }
         }
 
         private bool GetGlobalParameters()
         {
-
             try
             {
                 globalParameters = new ClsGeneral(Program.customConnectionString).GetGlobalParameters();
 
-                if (!globalParameters.Any())
+                if (globalParameters?.Count() <= 0)
                 {
-                    functions.ShowMessage(
-                        "No se pudieron cargar parámetros globales.",
-                         MessageType.WARNING
-                    );
+                    functions.ShowMessage("No se pudieron cargar parámetros globales.",
+                                          MessageType.WARNING);
                     return false;
                 }
 
@@ -122,28 +115,24 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                    "Ocurrio un problema al cargar parámetros globales.",
-                     MessageType.ERROR,
-                    true,
-                    ex.Message
-                );
+                functions.ShowMessage("Ocurrio un problema al cargar parámetros globales.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
                 return false;
             }
         }
 
-        private List<string> GetLocalIPAddress()
+        private IEnumerable<string> GetLocalIPAddress()
         {
             List<string> addressIP = new List<string>();
             bool networkOK = NetworkInterface.GetIsNetworkAvailable();
 
             if (!networkOK)
             {
-                functions.ShowMessage(
-                    "El equipo no se encuentra conectado a la red.",
-                     MessageType.ERROR
-                );
-                return new List<string>();
+                functions.ShowMessage("El equipo no se encuentra conectado a la red.",
+                                      MessageType.ERROR);
+                return null;
             }
 
             try
@@ -160,12 +149,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                    "No se encontraron adaptadores de red IPv4 en el sistema.",
-                     MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message
-                );
+                functions.ShowMessage("No se encontraron adaptadores de red IPv4 en el sistema.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
             return addressIP;
@@ -237,12 +224,16 @@ namespace POS
 
         public bool ValidateCustomerFields()
         {
-            if (TxtUsername.Text == string.Empty || TxtPassword.Text == string.Empty)
+            if (TxtUsername.Text == string.Empty)
             {
-                functions.ShowMessage(
-                    "Debe llenar los campos necesarios del formulario",
-                     MessageType.WARNING
-                );
+                functions.ShowMessage("El usuario no puede estar vacio.", MessageType.WARNING);
+                DialogResult = DialogResult.None;
+                return false;
+            }
+
+            if (TxtPassword.Text == string.Empty)
+            {
+                functions.ShowMessage("La clave no puede estar vacia.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
                 return false;
             }
