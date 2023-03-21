@@ -19,19 +19,20 @@ namespace POS
 {
     public partial class FrmSalesOrder : DevExpress.XtraEditors.XtraForm
     {
+        readonly ClsFunctions functions = new ClsFunctions();
         public SP_Login_Consult_Result loginInformation;
         public long salesOrderId;
         public EmissionPoint emissionPoint;
-        SalesOrder salesOrder;
+        SalesOrder salesOrder { get; set; }
         public IEnumerable<GlobalParameter> globalParameters;
-        ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrderTrans sales = new ClsSalesOrderTrans(Program.customConnectionString);
+        ClsSalesOrderTrans sales { get; set; } = new ClsSalesOrderTrans(Program.customConnectionString);
         XElement salesOrderXml = new XElement("SalesOrder");
         ClsCatchWeight catchWeight;
         ScaleBrands scaleBrand;
         private string portName = "";
         public bool isUpdated = false;
         Customer customer;
+
 
         public FrmSalesOrder()
         {
@@ -62,48 +63,54 @@ namespace POS
         {
             try
             {
-                if (GetEmissionPointInformation())
+                if (!GetEmissionPointInformation())
                 {
-                    if (emissionPoint.ScaleBrand != "")
-                    {
-                        scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
+                    DialogResult = DialogResult.Cancel;
+                    return;
+                }
 
-                        if (scaleBrand == ScaleBrands.DATALOGIC)
-                        {
-                            catchWeight = new ClsCatchWeight(scaleBrand);
-                            catchWeight.AxOPOSScale = AxOPOSScale;
+
+                if (emissionPoint.ScaleBrand != "")
+                {
+                    scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
+
+                    switch (scaleBrand)
+                    {
+                        case ScaleBrands.DATALOGIC:
+                            catchWeight = new ClsCatchWeight(scaleBrand)
+                            {
+                                AxOPOSScale = AxOPOSScale
+                            };
                             catchWeight.EnableScale(emissionPoint.ScaleName);
                             functions.AxOPOSScanner = AxOPOSScanner;
                             functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                        }
-                        else
-                        {
-                            string[] portNames = SerialPort.GetPortNames();
-                            portName = string.Empty;
-
-                            foreach (string item in portNames)
+                            break;
+                        default:
                             {
-                                portName = item;
+                                string[] portNames = SerialPort.GetPortNames();
+                                portName = string.Empty;
+
+                                foreach (string item in portNames)
+                                {
+                                    portName = item;
+                                    break;
+                                }
+
                                 break;
                             }
-                        }
-                    }
-
-                    salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
-                    if (salesOrder == null)
-                    {
-                        DialogResult = DialogResult.Cancel;
-                    }
-                    else
-                    {
-                        LoadSalesOrderDetails();
                     }
                 }
-                else
+
+                salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
+                if (salesOrder == null)
                 {
                     DialogResult = DialogResult.Cancel;
+                    return;
                 }
+
+                LoadSalesOrderDetails();
             }
+
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un error al cargar Orden de Venta", MessageType.WARNING, true, ex.InnerException.Message);
@@ -112,43 +119,36 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return true;
             }
 
-            if (emissionPoint != null)
+            try
             {
-                response = true;
-                functions.PrinterName = emissionPoint.PrinterName;
-                LblCashier.Text = loginInformation.UserName;
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
             }
-            else
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+            }
+
+
+            if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                return true;
             }
 
-            return response;
+            functions.PrinterName = emissionPoint.PrinterName;
+            LblCashier.Text = loginInformation.UserName;
+            return false;
         }
 
         private void LoadSalesOrderDetails()
@@ -156,7 +156,7 @@ namespace POS
             LblSalesOrderNumber.Text = salesOrder.SalesOrderId.ToString();
             customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(salesOrder.CustomerId);
             LblCustomerId.Text = customer.Identification;
-            LblCustomerName.Text = $"{customer.Firtsname } {customer.Lastname}";
+            LblCustomerName.Text = $"{customer.Firtsname} {customer.Lastname}";
             LblCustomerAddress.Text = customer.Address;
             LblCustomerTelephoneNumber.Text = customer.Phone;
             LblObservation.Text = salesOrder.Observation;
@@ -190,89 +190,58 @@ namespace POS
                 }
                 CalculateInvoice();
             }
+
+            if (salesOrder.OrderECommerce > 0)
+            {
+                BtnProductSearch.Visible = false;
+                BtnShowCommand.Visible = false;
+                BtnSaveChanges.Visible = false;
+            }
         }
 
         #region Keypad Buttons
 
-        private void Btn0_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "0";
-        }
+        private void Btn0_Click(object sender, EventArgs e) => TxtBarcode.Text += "0";
 
-        private void Btn1_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "1";
-        }
+        private void Btn1_Click(object sender, EventArgs e) => TxtBarcode.Text += "1";
 
-        private void Btn2_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "2";
-        }
+        private void Btn2_Click(object sender, EventArgs e) => TxtBarcode.Text += "2";
 
-        private void Btn3_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "3";
-        }
+        private void Btn3_Click(object sender, EventArgs e) => TxtBarcode.Text += "3";
 
-        private void Btn4_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "4";
-        }
+        private void Btn4_Click(object sender, EventArgs e) => TxtBarcode.Text += "4";
 
-        private void Btn5_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "5";
-        }
+        private void Btn5_Click(object sender, EventArgs e) => TxtBarcode.Text += "5";
 
-        private void Btn6_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "6";
-        }
+        private void Btn6_Click(object sender, EventArgs e) => TxtBarcode.Text += "6";
 
-        private void Btn7_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "7";
-        }
+        private void Btn7_Click(object sender, EventArgs e) => TxtBarcode.Text += "7";
 
-        private void Btn8_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "8";
-        }
+        private void Btn8_Click(object sender, EventArgs e) => TxtBarcode.Text += "8";
 
-        private void Btn9_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text += "9";
-        }
+        private void Btn9_Click(object sender, EventArgs e) => TxtBarcode.Text += "9";
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text = "";
-            TxtBarcode.Focus();
-        }
+        private void BtnDelete_Click(object sender, EventArgs e) => ClearBarcode();
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-            GetProductInformation(
-                emissionPoint.LocationId
-                , TxtBarcode.Text
-                , 1
-                , salesOrder.CustomerId
-                , 1
-                , ""
-                , false
-            );
+            GetProductInformation(emissionPoint.LocationId,
+                                  TxtBarcode.Text,
+                                  1,
+                                  salesOrder.CustomerId,
+                                  1,
+                                  "",
+                                  false);
         }
         #endregion
 
-        private void GetProductInformation(
-                                           short _locationId
-                                           , string _barcode
-                                           , decimal _qty
-                                           , long _customerId
-                                           , long _internalCreditCardId
-                                           , string _paymMode
-                                           , bool _skipCatchWeight
-                                           )
+        private void GetProductInformation(short _locationId,
+                                           string _barcode,
+                                           decimal _qty,
+                                           long _customerId,
+                                           long _internalCreditCardId,
+                                           string _paymMode,
+                                           bool _skipCatchWeight)
         {
             SP_Product_Consult_Result result;
             bool updateRecord = false;
@@ -284,207 +253,175 @@ namespace POS
             bool canInsert = true;
             string barcodeBefore = _barcode;
 
-            if (_barcode != "")
+            if (_barcode == "")
             {
-                try
+                functions.ShowMessage("El código de barras no puede estar vacío.", MessageType.WARNING);
+                return;
+            }
+
+            try
+            {
+                string searchBarcode = _barcode;
+
+                if (searchBarcode.StartsWith("21") && searchBarcode.Length >= 7)
                 {
-                    string searchBarcode = _barcode;
+                    int barcodeLength = searchBarcode.Length;
+                    searchBarcode = searchBarcode.Substring(0, 7);
+                    searchBarcode = searchBarcode.PadRight(barcodeLength, '0');
+                }
 
-                    if (searchBarcode.StartsWith("21") && searchBarcode.Length >= 7)
+                IEnumerable<XElement> searchXml =
+                    salesOrderXml
+                    .Descendants("SalesOrderLine")
+                    .Where(xm => xm.Element("Barcode").Value == searchBarcode || xm.Element("Barcode").Value == _barcode);
+
+                foreach (XElement node in searchXml.Elements())
+                {
+                    updateRecord = true;
+
+                    switch (node.Name.ToString())
                     {
-                        int barcodeLength = searchBarcode.Length;
-                        searchBarcode = searchBarcode.Substring(0, 7);
-                        searchBarcode = searchBarcode.PadRight(barcodeLength, '0');
+                        case "WeightControl":
+                            if (bool.Parse(node.Value))
+                                useWeightControl = true;
+                            break;
+                        case "UseCatchWeight":
+                            useCatchWeight = bool.Parse(node.Value);
+                            break;
+                        case "Quantity":
+                            qtyFound = decimal.Parse(node.Value);
+                            break;
+                        case "BaseAmount":
+                            amountFound = decimal.Parse(node.Value);
+                            break;
+                        case "BaseTaxAmount":
+                            amountTaxFound = decimal.Parse(node.Value);
+                            break;
                     }
+                }
 
-
-                    IEnumerable<XElement> searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                                      where xm.Element("Barcode").Value == searchBarcode
-                                                      || xm.Element("Barcode").Value == _barcode
-                                                      select xm;
-
-                    foreach (XElement node in searchXml.Elements())
+                if (updateRecord)
+                {
+                    if (useWeightControl && !useCatchWeight)
                     {
-                        updateRecord = true;
-
-                        switch (node.Name.ToString())
-                        {
-                            case "WeightControl":
-                                if (bool.Parse(node.Value))
-                                    useWeightControl = true;
-                                break;
-                            case "UseCatchWeight":
-                                useCatchWeight = bool.Parse(node.Value);
-                                break;
-                            case "Quantity":
-                                qtyFound = decimal.Parse(node.Value);
-                                break;
-                            case "BaseAmount":
-                                amountFound = decimal.Parse(node.Value);
-                                break;
-                            case "BaseTaxAmount":
-                                amountTaxFound = decimal.Parse(node.Value);
-                                break;
-                        }
+                        string productCode = _barcode.Substring(0, 7);
+                        string entere = _barcode.Substring(7, 3);
+                        string decimals = _barcode.Substring(10, 3);
+                        string newNumber = entere + "." + decimals;
+                        decimal newAmount = decimal.Parse(newNumber);
+                        newAmount += amountFound + amountTaxFound;
+                        newAmount = Math.Round(newAmount, 3);
+                        string value = newAmount.ToString();
+                        value = value.Replace(".", "");
+                        value = value.PadLeft(6, '0');
+                        _barcode = productCode + value;
                     }
-
-                    if (updateRecord)
+                    else
                     {
-                        if (useWeightControl && !useCatchWeight)
-                        {
-                            string productCode = _barcode.Substring(0, 7);
-                            string entere = _barcode.Substring(7, 3);
-                            string decimals = _barcode.Substring(10, 3);
-                            string newNumber = entere + "." + decimals;
-                            decimal newAmount = decimal.Parse(newNumber);
-                            newAmount += amountFound + amountTaxFound;
-                            newAmount = Math.Round(newAmount, 3);
-                            string value = newAmount.ToString();
-                            value = value.Replace(".", "");
-                            value = value.PadLeft(6, '0');
-                            _barcode = productCode + value;
-                        }
-                        else
-                        {
-                            _qty += qtyFound;
-                        }
+                        _qty += qtyFound;
                     }
+                }
 
-                    result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId
-                                                            , _barcode
-                                                            , _qty
-                                                            , _customerId
-                                                            , _internalCreditCardId
-                                                            , _paymMode
-                                                            , barcodeBefore);
+                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                                                                                            _barcode,
+                                                                                            _qty,
+                                                                                            _customerId,
+                                                                                            _internalCreditCardId,
+                                                                                            _paymMode,
+                                                                                            barcodeBefore);
 
-                    if (result != null)
+                if (result == null)
+                {
+                    functions.ShowMessage($"El producto con codigo de barras {_barcode} no se encuentra registrado.", MessageType.WARNING);
+                    ClearBarcode();
+                    return;
+                }
+
+                if (result.Price == 0)
+                {
+                    functions.ShowMessage("No se puede procesar un producto con precio cero.", MessageType.WARNING);
+                    return;
+                }
+
+                if ((bool)result.WeightControl)
+                {
+                    functions.globalParameters = globalParameters;
+
+                    if (result.UseCatchWeight)
                     {
-                        if (result.Price == 0)
+                        if (!_skipCatchWeight)
                         {
-                            functions.ShowMessage("No se puede procesar un producto con precio cero.", MessageType.WARNING);
-                            return;
-                        }
+                            decimal weight = functions.CatchWeightProduct(AxOPOSScale,
+                                                                          result.ProductName,
+                                                                          scaleBrand,
+                                                                          portName);
 
-                        if ((bool)result.WeightControl)
-                        {
-                            functions.globalParameters = globalParameters;
-
-                            if (result.UseCatchWeight)
+                            if (weight <= 0)
                             {
-                                if (!_skipCatchWeight)
-                                {
-                                    decimal weight = functions.CatchWeightProduct(
-                                                                                    AxOPOSScale
-                                                                                    , result.ProductName
-                                                                                    , scaleBrand
-                                                                                    , portName
-                                                                                    );
-
-                                    if (weight > 0)
-                                    {
-                                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                                                _locationId
-                                                                                , _barcode
-                                                                                , weight + qtyFound
-                                                                                , _customerId
-                                                                                , _internalCreditCardId
-                                                                                , _paymMode
-                                                                                , barcodeBefore
-
-                                                                                );
-                                    }
-                                    else
-                                    {
-                                        functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
-                                        canInsert = false;
-                                    }
-                                }
+                                functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
+                                canInsert = false;
                             }
                             else
                             {
+                                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
+                                                                        _locationId
+                                                                        , _barcode
+                                                                        , weight + qtyFound
+                                                                        , _customerId
+                                                                        , _internalCreditCardId
+                                                                        , _paymMode
+                                                                        , barcodeBefore
 
-                                if (!_skipCatchWeight)
-                                {
-                                    canInsert = functions.ValidateCatchWeightProduct(
-                                                                                        AxOPOSScale
-                                                                                        , (decimal)result.QuantityBefore
-                                                                                        , result.ProductName
-                                                                                        , scaleBrand
-                                                                                        , portName
-                                                                                        , false
-
-                                                                                    );
-                                }
+                                                                        );
                             }
-                        }
-
-                        if (canInsert)
-                        {
-                            AddRecordToGrid(
-                                            result
-                                            , updateRecord
-                                            , _barcode
-                                            );
-                            CalculateInvoice();
-                        }
-                        else
-                        {
-                            TxtBarcode.Text = "";
-                            TxtBarcode.Focus();
                         }
                     }
                     else
                     {
-                        functions.ShowMessage("El producto con codigo de barras " + _barcode + " no se encuentra registrado.", MessageType.WARNING);
-                        TxtBarcode.Text = "";
-                        TxtBarcode.Focus();
+
+                        if (!_skipCatchWeight)
+                        {
+                            canInsert = functions.ValidateCatchWeightProduct(
+                                                                                AxOPOSScale
+                                                                                , (decimal)result.QuantityBefore
+                                                                                , result.ProductName
+                                                                                , scaleBrand
+                                                                                , portName
+                                                                                , false
+
+                                                                            );
+                        }
                     }
                 }
-                catch (Exception ex)
+
+                if (!canInsert)
                 {
-                    functions.ShowMessage(
-                                            "Hubo un problema al consultar producto."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                            );
+                    ClearBarcode();
+                    return;
                 }
+
+                AddRecordToGrid(result, updateRecord, _barcode);
+                CalculateInvoice();
             }
-            else
+            catch (Exception ex)
             {
-                functions.ShowMessage("El código de barras no puede estar vacío.", MessageType.WARNING);
+                functions.ShowMessage("Hubo un problema al consultar producto.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 
+        private void ClearBarcode()
+        {
+            TxtBarcode.Text = "";
+            TxtBarcode.Focus();
+        }
 
         private void BtnShowCommand_Click(object sender, EventArgs e)
         {
-            FrmSalesOrderText orderText = new FrmSalesOrderText();
-            orderText.salesOrder = salesOrder;
+            FrmSalesOrderText orderText = new FrmSalesOrderText(salesOrderId);
             orderText.ShowDialog();
-
-            //if (salesOrder.OrderECommerce > 0)
-            //{
-            //    functions.ShowMessage("Pedidos de E-Commerce no contiene comanda.",  MessageType.INFO);
-            //}
-            //else
-            //{
-            //    try
-            //    {
-            //        List<SalesOrderText> command = new ClsSalesOrder().ConsultCommand(salesOrderId);
-            //        string list = "";
-            //        foreach (var item in command)
-            //        {
-            //            list = list + item.SalesOrderText1 + Environment.NewLine;
-            //        }
-            //        XtraMessageBox.Show(list, "Comanda");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        functions.ShowMessage("No se pudo mostrar comanda.",  MessageType.WARNING, true, ex.Message);
-            //    }
-            //}
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -492,9 +429,9 @@ namespace POS
             Close();
         }
 
-        private void AddRecordToGrid(dynamic _productResult
-                                     , bool _updateRecord
-                                     , string _barcode)
+        private void AddRecordToGrid(dynamic _productResult,
+                                     bool _updateRecord,
+                                     string _barcode)
         {
             Type type = _productResult.GetType();
             PropertyInfo[] properties = type.GetProperties();
@@ -574,8 +511,7 @@ namespace POS
                 }
             }
 
-            TxtBarcode.Text = "";
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
         private void CalculateInvoice()
@@ -605,8 +541,10 @@ namespace POS
                 GrvSalesDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
             }
 
-            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>();
-            bindingList.AllowNew = true;
+            BindingList<SP_Product_Consult_Result> bindingList = new BindingList<SP_Product_Consult_Result>
+            {
+                AllowNew = true
+            };
 
             GrcSalesDetail.DataSource = bindingList;
         }
@@ -619,16 +557,15 @@ namespace POS
                 if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
                 {
                     sales.loginInformation = loginInformation;
-                    if (sales.CancelSalesOrder(salesOrder.SalesOrderId))
-                    {
-                        isUpdated = true;
-                        functions.ShowMessage("Orden Cancelada Exitosamente", MessageType.INFO);
-                        Close();
-                    }
-                    else
+                    if (!sales.CancelSalesOrder(salesOrder.SalesOrderId))
                     {
                         functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);
+                        return;
                     }
+
+                    isUpdated = true;
+                    functions.ShowMessage("Orden Cancelada Exitosamente", MessageType.INFO);
+                    Close();
                 }
             }
         }
@@ -645,7 +582,7 @@ namespace POS
             {
                 try
                 {
-                    (from li in salesOrderXml.Descendants("SalesOrderPayment") select li).Remove();
+                    salesOrderXml.Descendants("SalesOrderPayment").Remove();
 
                     XElement salesOrderPayment = new XElement("SalesOrderPayment");
                     SalesOrderPayment payment = new SalesOrderPayment()
@@ -737,7 +674,7 @@ namespace POS
             else
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth(false, 0);
+                bool isApproved = functions.RequestSupervisorAuth();
                 if (isApproved)
                 {
                     SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
@@ -752,9 +689,9 @@ namespace POS
                         }
                     }
 
-                    IEnumerable<XElement> newInvoiceXML = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                                          where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
-                                                          select xm;
+                    IEnumerable<XElement> newInvoiceXML = salesOrderXml
+                        .Descendants("SalesOrderLine")
+                        .Where(xm => long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId);
 
                     XElement element = null;
                     if (newInvoiceXML.Count() == 1)

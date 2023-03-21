@@ -10,7 +10,14 @@ namespace POS
     public partial class FrmSalesOrderText : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public SalesOrder salesOrder;
+        //public SalesOrder salesOrder;
+        readonly long _salesOrderId;
+
+        public FrmSalesOrderText(long salesOrderId)
+        {
+            InitializeComponent();
+            _salesOrderId = salesOrderId;
+        }
 
         public FrmSalesOrderText()
         {
@@ -22,7 +29,7 @@ namespace POS
             try
             {
                 string list = "";
-                IEnumerable<SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(salesOrder.SalesOrderId);
+                IEnumerable<SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(_salesOrderId);
 
                 foreach (SalesOrderText item in command)
                 {

@@ -24,7 +24,7 @@ namespace POS
         private IEnumerable<SP_ClosingCashierPayment_Consult_Result> payments;
         private GridView selectedGrv;
         private decimal totalHideCash = 0;
-        string TipoCierre;
+        readonly string TipoCierre;
 
         public FrmClosingCashier(string TipoCierre = "")
         {

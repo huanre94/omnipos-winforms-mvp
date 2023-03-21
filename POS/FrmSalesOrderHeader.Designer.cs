@@ -328,7 +328,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.BtnExit;
-            this.ClientSize = new System.Drawing.Size(740, 651);
+            this.ClientSize = new System.Drawing.Size(748, 659);
             this.ControlBox = false;
             this.Controls.Add(this.LblCustomerEmail);
             this.Controls.Add(this.label8);

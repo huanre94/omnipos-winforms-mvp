@@ -208,6 +208,12 @@ namespace POS
                 return;
             }
 
+            if (TxtAccountingCode.Text == string.Empty)
+            {
+                functions.ShowMessage("El campo Codigo Contable no puede estar vacio", MessageType.WARNING);
+                return;
+            }
+
             functions.emissionPoint = emissionPoint;
             if (functions.RequestSupervisorAuth())
             {

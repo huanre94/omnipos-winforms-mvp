@@ -1,15 +1,15 @@
 ﻿namespace POS.Classes
 {
-    class PaymentEntry
+    public class PaymentEntry
     {
-        public PaymentEntry() { }
+        PaymentEntry() { }
 
-        public PaymentEntry(string _description, decimal _amount)
+        PaymentEntry(string _description, decimal _amount)
         {
             Description = _description; Amount = _amount;
         }
 
-        public string Description { get; set; }
-        public decimal Amount { get; set; }
+        string Description { get; set; }
+        decimal Amount { get; set; }
     }
 }

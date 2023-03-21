@@ -323,7 +323,7 @@
             this.LblMotive.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.LblMotive.Location = new System.Drawing.Point(345, 38);
             this.LblMotive.Name = "LblMotive";
-            this.LblMotive.Size = new System.Drawing.Size(64, 18);
+            this.LblMotive.Size = new System.Drawing.Size(78, 23);
             this.LblMotive.TabIndex = 142;
             this.LblMotive.Text = "&Estado";
             // 
@@ -333,7 +333,7 @@
             this.CmbOrderStatus.Name = "CmbOrderStatus";
             this.CmbOrderStatus.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbOrderStatus.Size = new System.Drawing.Size(238, 38);
+            this.CmbOrderStatus.Size = new System.Drawing.Size(238, 30);
             this.CmbOrderStatus.TabIndex = 143;
             this.CmbOrderStatus.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbOrderStatus_KeyDown);
             // 
@@ -343,7 +343,7 @@
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.label1.Location = new System.Drawing.Point(23, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 18);
+            this.label1.Size = new System.Drawing.Size(70, 23);
             this.label1.TabIndex = 142;
             this.label1.Text = "Fecha";
             // 
@@ -353,7 +353,7 @@
             this.CmbSalesOrderOrigin.Name = "CmbSalesOrderOrigin";
             this.CmbSalesOrderOrigin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(245, 38);
+            this.CmbSalesOrderOrigin.Size = new System.Drawing.Size(245, 30);
             this.CmbSalesOrderOrigin.TabIndex = 143;
             this.CmbSalesOrderOrigin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbSalesOrderOrigin_KeyDown);
             // 
@@ -363,7 +363,7 @@
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
             this.label2.Location = new System.Drawing.Point(685, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 18);
+            this.label2.Size = new System.Drawing.Size(66, 23);
             this.label2.TabIndex = 142;
             this.label2.Text = "&Canal";
             // 
@@ -380,7 +380,7 @@
             this.ETOrderDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.ETOrderDate.Properties.Mask.EditMask = "";
             this.ETOrderDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
-            this.ETOrderDate.Size = new System.Drawing.Size(186, 38);
+            this.ETOrderDate.Size = new System.Drawing.Size(186, 30);
             this.ETOrderDate.TabIndex = 143;
             this.ETOrderDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ETOrderDate_KeyDown);
             // 

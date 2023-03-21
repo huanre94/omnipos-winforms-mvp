@@ -150,7 +150,6 @@ namespace POS
                 functions.ShowMessage("Ocurrio un problema al verificar codigo de autorizacion.", MessageType.ERROR, true, ex.InnerException.Message);
             }
 
-
             Cursor.Current = Cursors.Default;
         }
 
@@ -187,12 +186,14 @@ namespace POS
 
         private void TxtAuthorization_KeyDown(object sender, KeyEventArgs e)
         {
-            if (TxtAuthorization.Text != "")
+            if (TxtAuthorization.Text == string.Empty)
             {
-                if (((int)e.KeyCode) == 13)
-                {
-                    TxtSupervisorPassword.Focus();
-                }
+                return;
+            }
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                TxtSupervisorPassword.Focus();
             }
         }
 

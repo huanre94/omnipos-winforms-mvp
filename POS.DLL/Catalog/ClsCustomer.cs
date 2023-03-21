@@ -91,7 +91,7 @@ namespace POS.DLL.Catalog
             POSEntities db = new POSEntities(connectionString);//07/07/2022  Se incremento linea de la variable
             try
             {
-                return new POSEntities(connectionString)
+                return db
                     .CustomerAddress
                     .Join(db.Customer,
                     cu => cu.CustomerId,

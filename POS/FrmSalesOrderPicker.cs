@@ -66,7 +66,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SalesOrigin> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin(true);
+                IEnumerable<SalesOrigin> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin();
 
                 if (custIdentTypes?.Count() > 0)
                 {
@@ -149,10 +149,15 @@ namespace POS
 
         private void LoadSaleOrdesByFilters()
         {
-            IEnumerable<SP_SalesOrderStatus_Consult_Result> sales;
             try
             {
-                sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
+                if (ETOrderDate.Text == string.Empty)
+                {
+                    functions.ShowMessage("Debe seleccionar una fecha valida.", MessageType.WARNING);
+                    return;
+                }
+
+                IEnumerable<SP_SalesOrderStatus_Consult_Result> sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
 
                 if (sales.Count() == 0)
                 {
@@ -179,7 +184,7 @@ namespace POS
         #region Functions
         private bool GetEmissionPointInformation(string addressIp)
         {
-            if (addressIp == "")
+            if (addressIp == string.Empty)
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
                 return true;
@@ -239,30 +244,31 @@ namespace POS
                 functions.ShowMessage("No puede modificar una orden cancelada.", MessageType.WARNING);
                 return;
             }
+
             if (item.StatusShortCode.Equals("F"))
             {
                 functions.ShowMessage("No puede modificar una orden facturada.", MessageType.WARNING);
                 return;
             }
 
-            if (item.OrderECommerce > 0)
-            {
-                FrmSalesOrderEcommerce salesOrderEcommerce = new FrmSalesOrderEcommerce
-                {
-                    loginInformation = loginInformation,
-                    emissionPoint = emissionPoint,
-                    salesOrderId = (long)item.SalesOrderId,
-                    globalParameters = globalParameters
-                };
-                salesOrderEcommerce.ShowDialog();
+            //if (item.OrderECommerce > 0)
+            //{
+            //    FrmSalesOrderEcommerce salesOrderEcommerce = new FrmSalesOrderEcommerce
+            //    {
+            //        loginInformation = loginInformation,
+            //        emissionPoint = emissionPoint,
+            //        salesOrderId = (long)item.SalesOrderId,
+            //        globalParameters = globalParameters
+            //    };
+            //    salesOrderEcommerce.ShowDialog();
 
-                if (salesOrderEcommerce.isUpdated)
-                {
-                    LoadSaleOrdesByFilters();
-                }
+            //    if (salesOrderEcommerce.isUpdated)
+            //    {
+            //        LoadSaleOrdesByFilters();
+            //    }
 
-                return;
-            }
+            //    return;
+            //}
 
             FrmSalesOrder frmSalesOrder = new FrmSalesOrder
             {
@@ -323,7 +329,14 @@ namespace POS
                 try
                 {
                     BindingList<SP_SalesOrderStatus_Consult_Result> list = (BindingList<SP_SalesOrderStatus_Consult_Result>)GrcSalesOrder.DataSource;
-                    if (list.Count == 0)
+
+                    if (list == null)
+                    {
+                        functions.ShowMessage("No existen documentos por imprimir.", MessageType.WARNING);
+                        return;
+                    }
+
+                    if (list?.Count() == 0)
                     {
                         functions.ShowMessage("No existen documentos por imprimir.", MessageType.WARNING);
                         return;

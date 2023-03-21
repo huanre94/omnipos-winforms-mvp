@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 
 namespace POS.DLL.Catalog
 {
@@ -29,7 +30,10 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString).GlobalParameter.Where(gp => gp.Name == _name && gp.Status == "A").FirstOrDefault();
+                return new POSEntities(connectionString)
+                    .GlobalParameter
+                    .Where(gp => gp.Name == _name && gp.Status.Equals("A"))
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -78,7 +82,7 @@ namespace POS.DLL.Catalog
                     .Where(seq => seq.EmissionPointId == _emissionPointId
                                  && seq.LocationId == _locationId
                                  && seq.SequenceTypeId == _sequenceType
-                                 && seq.Status == "A")
+                                 && seq.Status.Equals("A"))
                     .FirstOrDefault();
             }
             catch (Exception ex)

@@ -100,15 +100,16 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(174, 19);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(0, 16);
+            this.LblCashierUser.Size = new System.Drawing.Size(127, 20);
             this.LblCashierUser.TabIndex = 158;
+            this.LblCashierUser.Text = "Administrador";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(31, 19);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 16);
+            this.label6.Size = new System.Drawing.Size(69, 20);
             this.label6.TabIndex = 159;
             this.label6.Text = "Cajero:";
             // 
@@ -117,7 +118,7 @@
             this.LblBono.AutoSize = true;
             this.LblBono.Location = new System.Drawing.Point(31, 72);
             this.LblBono.Name = "LblBono";
-            this.LblBono.Size = new System.Drawing.Size(87, 16);
+            this.LblBono.Size = new System.Drawing.Size(108, 20);
             this.LblBono.TabIndex = 160;
             this.LblBono.Text = "Documento:";
             // 
@@ -127,7 +128,7 @@
             this.TxtSequence.Name = "TxtSequence";
             this.TxtSequence.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtSequence.Properties.Appearance.Options.UseFont = true;
-            this.TxtSequence.Size = new System.Drawing.Size(216, 44);
+            this.TxtSequence.Size = new System.Drawing.Size(216, 34);
             this.TxtSequence.TabIndex = 0;
             this.TxtSequence.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSequence_KeyDown);
             // 
@@ -137,7 +138,7 @@
             this.LblEstablishment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Bold);
             this.LblEstablishment.Location = new System.Drawing.Point(172, 62);
             this.LblEstablishment.Name = "LblEstablishment";
-            this.LblEstablishment.Size = new System.Drawing.Size(57, 28);
+            this.LblEstablishment.Size = new System.Drawing.Size(72, 34);
             this.LblEstablishment.TabIndex = 167;
             this.LblEstablishment.Text = "999";
             // 
@@ -147,7 +148,7 @@
             this.LblLine1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine1.Location = new System.Drawing.Point(226, 62);
             this.LblLine1.Name = "LblLine1";
-            this.LblLine1.Size = new System.Drawing.Size(19, 26);
+            this.LblLine1.Size = new System.Drawing.Size(24, 32);
             this.LblLine1.TabIndex = 166;
             this.LblLine1.Text = "-";
             // 
@@ -157,7 +158,7 @@
             this.LblLine2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.LblLine2.Location = new System.Drawing.Point(364, 62);
             this.LblLine2.Name = "LblLine2";
-            this.LblLine2.Size = new System.Drawing.Size(19, 26);
+            this.LblLine2.Size = new System.Drawing.Size(24, 32);
             this.LblLine2.TabIndex = 165;
             this.LblLine2.Text = "-";
             // 
@@ -225,7 +226,7 @@
             this.TxtEmissionPoint.Name = "TxtEmissionPoint";
             this.TxtEmissionPoint.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtEmissionPoint.Properties.Appearance.Options.UseFont = true;
-            this.TxtEmissionPoint.Size = new System.Drawing.Size(107, 44);
+            this.TxtEmissionPoint.Size = new System.Drawing.Size(107, 34);
             this.TxtEmissionPoint.TabIndex = 157;
             // 
             // label1
@@ -233,7 +234,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(31, 240);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 16);
+            this.label1.Size = new System.Drawing.Size(127, 20);
             this.label1.TabIndex = 160;
             this.label1.Text = "Identificacion:";
             // 
@@ -242,7 +243,7 @@
             this.LblCustomerIdentification.AutoSize = true;
             this.LblCustomerIdentification.Location = new System.Drawing.Point(174, 240);
             this.LblCustomerIdentification.Name = "LblCustomerIdentification";
-            this.LblCustomerIdentification.Size = new System.Drawing.Size(88, 16);
+            this.LblCustomerIdentification.Size = new System.Drawing.Size(109, 20);
             this.LblCustomerIdentification.TabIndex = 160;
             this.LblCustomerIdentification.Text = "9999999999";
             // 
@@ -251,7 +252,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(31, 297);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 16);
+            this.label3.Size = new System.Drawing.Size(73, 20);
             this.label3.TabIndex = 160;
             this.label3.Text = "Cliente:";
             // 
@@ -260,7 +261,7 @@
             this.LblCustomerName.AutoSize = true;
             this.LblCustomerName.Location = new System.Drawing.Point(174, 297);
             this.LblCustomerName.Name = "LblCustomerName";
-            this.LblCustomerName.Size = new System.Drawing.Size(83, 16);
+            this.LblCustomerName.Size = new System.Drawing.Size(99, 20);
             this.LblCustomerName.TabIndex = 160;
             this.LblCustomerName.Text = "JOHN DOE";
             // 
@@ -269,7 +270,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(31, 187);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 16);
+            this.label5.Size = new System.Drawing.Size(71, 20);
             this.label5.TabIndex = 160;
             this.label5.Text = "Estado:";
             // 
@@ -278,7 +279,7 @@
             this.LblInvoiceId.AutoSize = true;
             this.LblInvoiceId.Location = new System.Drawing.Point(174, 131);
             this.LblInvoiceId.Name = "LblInvoiceId";
-            this.LblInvoiceId.Size = new System.Drawing.Size(16, 16);
+            this.LblInvoiceId.Size = new System.Drawing.Size(19, 20);
             this.LblInvoiceId.TabIndex = 160;
             this.LblInvoiceId.Text = "0";
             // 
@@ -287,7 +288,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(31, 353);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(48, 16);
+            this.label8.Size = new System.Drawing.Size(58, 20);
             this.label8.TabIndex = 160;
             this.label8.Text = "Valor:";
             // 
@@ -296,9 +297,9 @@
             this.LblInvoiceAmount.AutoSize = true;
             this.LblInvoiceAmount.Location = new System.Drawing.Point(174, 353);
             this.LblInvoiceAmount.Name = "LblInvoiceAmount";
-            this.LblInvoiceAmount.Size = new System.Drawing.Size(60, 16);
+            this.LblInvoiceAmount.Size = new System.Drawing.Size(54, 20);
             this.LblInvoiceAmount.TabIndex = 160;
-            this.LblInvoiceAmount.Text = "$100.00";
+            this.LblInvoiceAmount.Text = "$0.00";
             // 
             // TxtObservation
             // 
@@ -306,7 +307,7 @@
             this.TxtObservation.Name = "TxtObservation";
             this.TxtObservation.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtObservation.Properties.Appearance.Options.UseFont = true;
-            this.TxtObservation.Size = new System.Drawing.Size(584, 44);
+            this.TxtObservation.Size = new System.Drawing.Size(584, 34);
             this.TxtObservation.TabIndex = 1;
             this.TxtObservation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtObservation_KeyDown);
             // 
@@ -315,7 +316,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(31, 419);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(98, 16);
+            this.label10.Size = new System.Drawing.Size(118, 20);
             this.label10.TabIndex = 160;
             this.label10.Text = "Observacion:";
             // 
@@ -341,7 +342,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(31, 131);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 16);
+            this.label2.Size = new System.Drawing.Size(66, 20);
             this.label2.TabIndex = 160;
             this.label2.Text = "Trans.:";
             // 
@@ -350,7 +351,7 @@
             this.LblInvoiceStatus.AutoSize = true;
             this.LblInvoiceStatus.Location = new System.Drawing.Point(174, 187);
             this.LblInvoiceStatus.Name = "LblInvoiceStatus";
-            this.LblInvoiceStatus.Size = new System.Drawing.Size(62, 16);
+            this.LblInvoiceStatus.Size = new System.Drawing.Size(75, 20);
             this.LblInvoiceStatus.TabIndex = 160;
             this.LblInvoiceStatus.Text = "ACTIVO";
             // 

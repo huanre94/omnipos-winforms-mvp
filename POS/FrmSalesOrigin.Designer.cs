@@ -47,7 +47,7 @@
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(249, 515);
-            this.BtnExit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(6);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(196, 62);
             this.BtnExit.TabIndex = 2;
@@ -58,7 +58,7 @@
             // 
             this.ILBSalesOrigin.ItemHeight = 105;
             this.ILBSalesOrigin.Location = new System.Drawing.Point(15, 15);
-            this.ILBSalesOrigin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ILBSalesOrigin.Margin = new System.Windows.Forms.Padding(4);
             this.ILBSalesOrigin.Name = "ILBSalesOrigin";
             this.ILBSalesOrigin.Size = new System.Drawing.Size(638, 485);
             this.ILBSalesOrigin.TabIndex = 0;
@@ -78,7 +78,7 @@
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnAccept.Location = new System.Drawing.Point(457, 515);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 1;
@@ -96,7 +96,7 @@
             this.Controls.Add(this.ILBSalesOrigin);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmSalesOrigin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Origen de Venta";

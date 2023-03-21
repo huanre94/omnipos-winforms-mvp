@@ -50,6 +50,8 @@ namespace POS.DLL.Transaction
             }
         }
 
+        //public bool ValidateSalesOrderinRemissionGuide(long _salesOrderId) { }
+
         public bool CancelSalesOrder(long _salesOrderId, bool cancelFromGuide = false)
         {
             POSEntities db = new POSEntities(connectionString);
@@ -59,7 +61,8 @@ namespace POS.DLL.Transaction
                 if (!cancelFromGuide)
                 {
                     SalesOrder result =
-                        db.SalesOrder
+                        db
+                        .SalesOrder
                         .Join(db.SalesRemissionLine,
                         so => so.SalesOrderId,
                         sr => sr.SalesOrderId,

@@ -17,7 +17,9 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString).SP_ProductBarcode_Consult(_productName, _location).ToList();
+                return new POSEntities(connectionString)
+                    .SP_ProductBarcode_Consult(_productName, _location)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -29,11 +31,12 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString).SP_PhysicalStockProduct_Consult(
-                                                            emissionPoint.LocationId
-                                                            , emissionPoint.EmissionPointId
-                                                            , barcode, internal_code
-                                                            ).First();
+                return new POSEntities(connectionString)
+                    .SP_PhysicalStockProduct_Consult(emissionPoint.LocationId,
+                                                     emissionPoint.EmissionPointId,
+                                                     barcode,
+                                                     internal_code)
+                    .First();
             }
             catch (Exception ex)
             {

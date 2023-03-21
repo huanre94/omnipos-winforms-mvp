@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraGrid.Views.Grid;
+using OposScale_CCO;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
@@ -44,8 +45,8 @@ namespace POS
         ClsCatchWeight catchWeight;
         ScaleBrands scaleBrand;
         long sequenceNumber;
-        public IEnumerable<GlobalParameter> globalParameters;
-        public SP_Login_Consult_Result loginInformation;
+        public IEnumerable<GlobalParameter> globalParameters { get; set; }
+        public SP_Login_Consult_Result loginInformation { get; set; }
         public long internalCreditCardId = 0;
         public string internalCreditCardCode = "";
         private string portName = "";
@@ -74,33 +75,37 @@ namespace POS
 
         private void InitializeScaleAndScanner()
         {
-            if (emissionPoint.ScaleBrand != string.Empty)
+            if (emissionPoint.ScaleBrand == string.Empty)
             {
-                scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
-
-                switch (scaleBrand)
-                {
-                    case ScaleBrands.DATALOGIC:
-                        catchWeight = new ClsCatchWeight(scaleBrand)
-                        {
-                            AxOPOSScale = AxOPOSScale
-                        };
-                        catchWeight.EnableScale(emissionPoint.ScaleName);
-                        functions.AxOPOSScanner = AxOPOSScanner;
-                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
-                        break;
-                    default:
-                        string[] portNames = SerialPort.GetPortNames();
-                        portName = string.Empty;
-
-                        foreach (string item in portNames)
-                        {
-                            portName = item;
-                            break;
-                        }
-                        break;
-                }
+                functions.ShowMessage("No se proporcionó configuracion de balanza.", MessageType.WARNING);
+                return;
             }
+
+            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
+
+            switch (scaleBrand)
+            {
+                case ScaleBrands.DATALOGIC:
+                    catchWeight = new ClsCatchWeight(scaleBrand)
+                    {
+                        AxOPOSScale = AxOPOSScale
+                    };
+                    catchWeight.EnableScale(emissionPoint.ScaleName);
+                    functions.AxOPOSScanner = AxOPOSScanner;
+                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                    break;
+                default:
+                    string[] portNames = SerialPort.GetPortNames();
+                    portName = string.Empty;
+
+                    foreach (string item in portNames)
+                    {
+                        portName = item;
+                        break;
+                    }
+                    break;
+            }
+
 
             if (new ClsInvoiceTrans(Program.customConnectionString).HasSuspendedSale(emissionPoint))
             {
@@ -134,12 +139,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar información de punto de emisión."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
 
             if (emissionPoint == null)
@@ -398,9 +401,10 @@ namespace POS
                     }
                 }
 
-                IEnumerable<XElement> itemDeletedXml = from xm in invoiceXml.Descendants("InvoiceLine")
-                                                       where long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId
-                                                       select xm;
+                IEnumerable<XElement> itemDeletedXml =
+                        invoiceXml
+                        .Descendants("InvoiceLine")
+                        .Where(xm => long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId);
 
                 XElement element = null;
                 if (itemDeletedXml.Count() == 1)
@@ -647,10 +651,7 @@ namespace POS
                         {
                             if (currentCustomer.CustomerId > 0)
                             {
-                                LblCustomerId.Text = currentCustomer.Identification;
-                                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
-                                LblCustomerAddress.Text = currentCustomer.Address;
-                                TxtBarcode.Focus();
+                                LoadCustomerInformation(currentCustomer);
                             }
                         }
 
@@ -1078,12 +1079,10 @@ namespace POS
                 if ((bool)invoiceResult?.Error)
                 {
                     // Begin(IG004)
-                    IEnumerable<XElement> invoiceRemoveXml = invoiceXml.Descendants("Payment");
-                    invoiceRemoveXml.Remove();
+                    invoiceXml.Descendants("Payment").Remove();
                     // End(IG004)
 
-                    IEnumerable<XElement> invoiceTableRemoveXml = invoiceXml.Descendants("InvoiceTable");
-                    invoiceTableRemoveXml.Remove();
+                    invoiceXml.Descendants("InvoiceTable").Remove();
 
                     functions.ShowMessage("No se ha podido registrar la factura. Revisar detalle.",
                                           MessageType.WARNING,
@@ -1097,11 +1096,10 @@ namespace POS
                 if (functions.PrintDocument((long)invoiceResult.InvoiceId, DocumentType.INVOICE, true))
                 {
                     functions.ShowMessage("Venta finalizada exitosamente.");
+                    return;
                 }
-                else
-                {
-                    functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", MessageType.WARNING);
-                }
+
+                functions.ShowMessage("La venta finalizó correctamente pero no se pudo imprimir factura.", MessageType.WARNING);
             }
             catch (Exception ex)
             {

@@ -592,6 +592,25 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxOposScale_CCO">
+      <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxOposScanner_CCO">
+      <Guid>{CCB90180-B81E-11D2-AB74-0040054C3719}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="OposScale_CCO">
       <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -610,9 +629,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -39,6 +39,7 @@ namespace POS
 
             if (keyBoard.customerIdentification == string.Empty)
             {
+                DialogResult = DialogResult.None;
                 return;
             }
 
@@ -50,31 +51,19 @@ namespace POS
 
                 if ((currentCustomer?.CustomerId) <= 0)
                 {
-                    bool response = functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", MessageType.CONFIRM);
-
-                    if (response)
+                    if (functions.ShowMessage("El cliente ingresado no esta registrado, desea ingresarlo?.", MessageType.CONFIRM))
                     {
                         currentCustomer = CreateCustomer(identification);
 
-                        if (currentCustomer != null)
-                        {
-                            LblCustomerId.Text = currentCustomer.Identification;
-                            LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
-                            LblCustomerAddress.Text = currentCustomer.Address;
-                            LblCustomerEmail.Text = currentCustomer.Email;
-                        }
-                        else
+                        if (currentCustomer == null)
                         {
                             functions.ShowMessage("No se pudo cargar datos de cliente.", MessageType.WARNING);
+                            return;
                         }
                     }
                 }
 
-                LblCustomerId.Text = currentCustomer.Identification;
-                LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
-                LblCustomerAddress.Text = currentCustomer.Address;
-                LblCustomerEmail.Text = currentCustomer.Email;
-
+                LoadCustomerInformation(currentCustomer);
             }
             catch (Exception ex)
             {
@@ -83,6 +72,14 @@ namespace POS
                                       true,
                                       ex.Message);
             }
+        }
+
+        private void LoadCustomerInformation(Customer customer)
+        {
+            LblCustomerId.Text = customer.Identification;
+            LblCustomerName.Text = $"{customer.Firtsname} {customer.Lastname}";
+            LblCustomerAddress.Text = customer.Address;
+            LblCustomerEmail.Text = customer.Email;
         }
 
         private Customer CreateCustomer(string _identification)
@@ -159,12 +156,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar origenes de orden."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar origenes de orden.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -174,10 +169,7 @@ namespace POS
             BtnDeliveryAddress.Enabled = true;
 
             currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
-            LblCustomerId.Text = currentCustomer.Identification;
-            LblCustomerName.Text = $"{ currentCustomer.Firtsname} {currentCustomer.Lastname}";
-            LblCustomerAddress.Text = currentCustomer.Address;
-            LblCustomerEmail.Text = currentCustomer.Email;
+            LoadCustomerInformation(currentCustomer);
 
             LblDeliveryAddress.Text = string.Empty;
             LblDeliveryAddressRef.Text = string.Empty;

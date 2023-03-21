@@ -141,10 +141,6 @@ namespace POS.Classes
                                     }
 
                                 case ScaleBrands.METTLER_TOLEDO:
-                                    {
-                                        serialPort.NewLine = "\r";
-                                        break;
-                                    }
                                 case ScaleBrands.DATALOGIC:
                                     {
                                         serialPort.NewLine = "\r";

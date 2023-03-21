@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartialClosing));
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Monto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PaymModeId = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -66,6 +66,8 @@
             this.BtnDelete = new DevExpress.XtraEditors.SimpleButton();
             this.CmbMotive = new DevExpress.XtraEditors.ImageComboBoxEdit();
             this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TxtAccountingCode = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcPartialClosing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvPartialClosing)).BeginInit();
@@ -73,6 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAccountingCode.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // Amount2
@@ -231,7 +234,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label2.Location = new System.Drawing.Point(454, 19);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 22);
+            this.label2.Size = new System.Drawing.Size(204, 28);
             this.label2.TabIndex = 187;
             this.label2.Text = "Denominaciones";
             // 
@@ -242,7 +245,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label1.Location = new System.Drawing.Point(979, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 22);
+            this.label1.Size = new System.Drawing.Size(216, 28);
             this.label1.TabIndex = 186;
             this.label1.Text = "Cierres Parciales";
             // 
@@ -252,7 +255,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(159, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(159, 34);
             this.TxtBarcode.TabIndex = 1;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -274,7 +277,7 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label4.Location = new System.Drawing.Point(694, 668);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 22);
+            this.label4.Size = new System.Drawing.Size(168, 28);
             this.label4.TabIndex = 181;
             this.label4.Text = "Total            $  ";
             // 
@@ -285,7 +288,7 @@
             this.LblBarcode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.LblBarcode.Location = new System.Drawing.Point(60, 275);
             this.LblBarcode.Name = "LblBarcode";
-            this.LblBarcode.Size = new System.Drawing.Size(58, 22);
+            this.LblBarcode.Size = new System.Drawing.Size(75, 28);
             this.LblBarcode.TabIndex = 184;
             this.LblBarcode.Text = "Valor";
             // 
@@ -335,15 +338,15 @@
             this.Amount2,
             this.Monto,
             this.PaymModeId});
-            gridFormatRule2.ApplyToRow = true;
-            gridFormatRule2.Column = this.Amount2;
-            gridFormatRule2.Name = "Format0";
-            formatConditionRuleValue2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            formatConditionRuleValue2.Appearance.Options.UseFont = true;
-            formatConditionRuleValue2.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
-            formatConditionRuleValue2.Expression = "[TypedAmount] <> 0";
-            gridFormatRule2.Rule = formatConditionRuleValue2;
-            this.GrvDenomination.FormatRules.Add(gridFormatRule2);
+            gridFormatRule1.ApplyToRow = true;
+            gridFormatRule1.Column = this.Amount2;
+            gridFormatRule1.Name = "Format0";
+            formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            formatConditionRuleValue1.Appearance.Options.UseFont = true;
+            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
+            formatConditionRuleValue1.Expression = "[TypedAmount] <> 0";
+            gridFormatRule1.Rule = formatConditionRuleValue1;
+            this.GrvDenomination.FormatRules.Add(gridFormatRule1);
             this.GrvDenomination.GridControl = this.GrcDenomination;
             this.GrvDenomination.Name = "GrvDenomination";
             this.GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -556,7 +559,7 @@
             this.CmbMotive.Name = "CmbMotive";
             this.CmbMotive.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbMotive.Size = new System.Drawing.Size(334, 38);
+            this.CmbMotive.Size = new System.Drawing.Size(334, 30);
             this.CmbMotive.TabIndex = 0;
             this.CmbMotive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CmbMotive_KeyDown);
             // 
@@ -567,9 +570,30 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
             this.label3.Location = new System.Drawing.Point(60, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 22);
+            this.label3.Size = new System.Drawing.Size(88, 28);
             this.label3.TabIndex = 190;
             this.label3.Text = "Motivo";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.label5.Location = new System.Drawing.Point(60, 102);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(205, 28);
+            this.label5.TabIndex = 184;
+            this.label5.Text = "Codigo Contable";
+            // 
+            // TxtAccountingCode
+            // 
+            this.TxtAccountingCode.Location = new System.Drawing.Point(64, 137);
+            this.TxtAccountingCode.Name = "TxtAccountingCode";
+            this.TxtAccountingCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
+            this.TxtAccountingCode.Properties.Appearance.Options.UseFont = true;
+            this.TxtAccountingCode.Size = new System.Drawing.Size(334, 34);
+            this.TxtAccountingCode.TabIndex = 1;
+            this.TxtAccountingCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // FrmPartialClosing
             // 
@@ -585,8 +609,10 @@
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.TxtAccountingCode);
             this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.LblTotalCashier);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.LblBarcode);
             this.Controls.Add(this.BtnLastClosing);
@@ -616,6 +642,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GrvDenomination)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcDenomination)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtAccountingCode.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -658,5 +685,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnDelete;
         private DevExpress.XtraEditors.ImageComboBoxEdit CmbMotive;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private DevExpress.XtraEditors.TextEdit TxtAccountingCode;
     }
 }

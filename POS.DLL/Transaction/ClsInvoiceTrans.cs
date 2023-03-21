@@ -112,7 +112,7 @@ namespace POS.DLL.Transaction
                 .SalesLog
                 .Where(a => a.EmissionPointId == emissionPoint.EmissionPointId
                 && a.Status.Equals("A")
-                && a.LogTypeId == 3)
+                && a.LogTypeId == (int)Enums.LogType.SUSPENDER_DOCUMENTO)
                 .Any();
 
 
@@ -175,21 +175,23 @@ namespace POS.DLL.Transaction
         {
             using (POSEntities db = new POSEntities(connectionString))
             {
-                InvoicePayment invoicePayment = db
-                    .InvoicePayment
-                    .Where(x => x.InvoiceId == _invoiceId && x.PaymModeId == _paymModeId && x.Sequence == _sequence).FirstOrDefault();
-
                 InvoiceTable invoiceTable = db
                     .InvoiceTable
                     .Where(y => y.InvoiceId == _invoiceId)
                     .FirstOrDefault();
 
-                invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
-
                 invoiceTable.TransferStatusId = 4;
                 invoiceTable.ModifiedBy = _userId;
                 invoiceTable.ModifiedDatetime = DateTime.Now;
                 invoiceTable.Workstation = _workStation;
+
+                InvoicePayment invoicePayment = db
+                    .InvoicePayment
+                    .Where(x => x.InvoiceId == _invoiceId && x.PaymModeId == _paymModeId && x.Sequence == _sequence).FirstOrDefault();
+
+                invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
+
+
 
                 switch (_invoicePayment.PaymModeId)
                 {

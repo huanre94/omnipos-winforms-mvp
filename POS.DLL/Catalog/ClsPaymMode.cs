@@ -90,7 +90,9 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return (long)new POSEntities(connectionString).SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId).FirstOrDefault();
+                return (long)new POSEntities(connectionString)
+                    .SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {

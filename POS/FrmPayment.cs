@@ -39,7 +39,7 @@ namespace POS
         public XElement invoiceXml; //HR002
         public bool isInvoicePaymentDiscount = false;   //HR002
         public int salesOriginId = 1;
-        public bool paymentMethod = true;
+        public bool paymentMethod { get; } = true;
 
         public FrmPayment()
         {
@@ -84,12 +84,9 @@ namespace POS
             LblDiscountAmount.Text = $"{discountAmount:f2}";
             LblIRBPAmount.Text = $"{irbpAmount:f2}";
 
-            if (customer.UseRetention ?? false)
+            if ((customer.UseRetention ?? false) && functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", MessageType.CONFIRM))
             {
-                if (functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", MessageType.CONFIRM))
-                {
-                    Withhold();
-                }
+                Withhold();
             }
 
         }
@@ -137,7 +134,6 @@ namespace POS
         }
 
         private void BtnDelete_Click(object sender, EventArgs e) => TxtAmount.Text = string.Empty;
-
         #endregion
 
         #region Payment Buttons      

@@ -75,7 +75,7 @@ namespace POS.DLL.Transaction
             }
         }
 
-        public IEnumerable<SP_ClosingCashierTicket_Consult_Result> GetClosingTicket(Int64 _invoiceId)
+        public IEnumerable<SP_ClosingCashierTicket_Consult_Result> GetClosingTicket(long _invoiceId)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace POS.DLL.Transaction
             }
         }
 
-        public long ConsultLastClosing(EmissionPoint emissionPoint, string type)
+        public long ConsultLastClosing(EmissionPoint emissionPoint, string closingType)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace POS.DLL.Transaction
                     .Where(it => it.EmissionPointId == emissionPoint.EmissionPointId
                     && it.LocationId == emissionPoint.LocationId
                     && it.ClosingCashierIdParent == 0
-                    && it.Type == type
+                    && it.Type == closingType
                     && it.Status == "A")
                     .OrderByDescending(it => it.ClosingCashierId)
                     .Take(1)

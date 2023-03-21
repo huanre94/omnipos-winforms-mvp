@@ -32,13 +32,13 @@ namespace POS.DLL.Catalog
             }
         }
 
-        public IEnumerable<SalesOrigin> GetSalesOrderOrigin(bool canal = true)
+        public IEnumerable<SalesOrigin> GetSalesOrderOrigin(bool customerServiceOrigins = true)
         {
             try
             {
                 return new POSEntities(connectionString)
                     .SalesOrigin
-                    .Where(so => so.Status.Equals("A") && canal ? (so.SalesOriginId >= 6) : (so.SalesmanId == 2))
+                    .Where(so => customerServiceOrigins ? (so.SalesOriginId >= 6) : (so.SalesmanId == 2) && so.Status.Equals("A"))
                     .ToList();
             }
             catch (Exception ex)
