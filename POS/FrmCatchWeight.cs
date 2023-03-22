@@ -16,7 +16,7 @@ namespace POS
         readonly ClsFunctions functions = new ClsFunctions();
         public AxOPOSScale axOposScale;
         public bool formActionResult;
-        decimal weight;
+        decimal weight { get; set; } = 0;
         public string productName = string.Empty;
         public IEnumerable<GlobalParameter> globalParameters;
         private ClsCatchWeight catchWeight;
@@ -90,8 +90,6 @@ namespace POS
 
         private void CatchWeightProduct(ScaleBrands _scaleBrand, string _portName)
         {
-            weight = 0;
-
             try
             {
                 switch (_scaleBrand)
@@ -132,15 +130,8 @@ namespace POS
                             return;
                         }
 
-                        // if (catchWeight.Weight > 0)
-
-                        LblCatchedWeight.Text = catchWeight.Weight.ToString();
-                        LblTitle.Text = "Peso Capturado Correctamente";
-                        LblTitle.ForeColor = Color.Green;
-
-
+                        weight = catchWeight.Weight;
                         catchWeight.CloseScale();
-
                         break;
                 }
 

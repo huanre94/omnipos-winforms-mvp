@@ -121,39 +121,37 @@ namespace POS.Classes
                 {
                     // SerialPortFixer.Execute(this.portName);
                     //serial = new SerialPort(this.portName, 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-                    using (serialPort = new SerialPort(portName, 38400, Parity.None, 8, StopBits.One)
+                    serialPort = new SerialPort(portName, 38400, Parity.None, 8, StopBits.One)
                     {
                         PortName = portName,
                         RtsEnable = true
-                    })
-                    {
-                        serialPort.Open();
-
-                        if (serialPort.IsOpen)
-                        {
-                            switch (scaleBrand)
-                            {
-                                case ScaleBrands.CAS:
-                                    {
-                                        serialPort.NewLine = "\n";
-                                        serialPort.WriteLine("P");
-                                        break;
-                                    }
-
-                                case ScaleBrands.METTLER_TOLEDO:
-                                case ScaleBrands.DATALOGIC:
-                                    {
-                                        serialPort.NewLine = "\r";
-                                        break;
-                                    }
-                            }
-
-                            if (requestWeight)
-                            {
-                                serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
-                            }
-                        }
                     };
+                    serialPort.Open();
+
+                    if (serialPort.IsOpen)
+                    {
+                        switch (scaleBrand)
+                        {
+                            case ScaleBrands.CAS:
+                                {
+                                    serialPort.NewLine = "\n";
+                                    serialPort.WriteLine("P");
+                                    break;
+                                }
+
+                            case ScaleBrands.METTLER_TOLEDO:
+                            case ScaleBrands.DATALOGIC:
+                                {
+                                    serialPort.NewLine = "\r";
+                                    break;
+                                }
+                        }
+
+                        if (requestWeight)
+                        {
+                            serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
+                        }
+                    }
                 }
             }
             catch (Exception ex)

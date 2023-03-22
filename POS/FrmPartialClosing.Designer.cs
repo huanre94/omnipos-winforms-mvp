@@ -584,6 +584,7 @@
             this.label5.Size = new System.Drawing.Size(205, 28);
             this.label5.TabIndex = 184;
             this.label5.Text = "Codigo Contable";
+            this.label5.Visible = false;
             // 
             // TxtAccountingCode
             // 
@@ -593,6 +594,7 @@
             this.TxtAccountingCode.Properties.Appearance.Options.UseFont = true;
             this.TxtAccountingCode.Size = new System.Drawing.Size(334, 34);
             this.TxtAccountingCode.TabIndex = 1;
+            this.TxtAccountingCode.Visible = false;
             this.TxtAccountingCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // FrmPartialClosing
