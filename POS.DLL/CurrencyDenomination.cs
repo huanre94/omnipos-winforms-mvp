@@ -31,9 +31,9 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashierMoney> ClosingCashierMoney { get; set; }
         public virtual CurrencyType CurrencyType { get; set; }
         public virtual DenominationType DenominationType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClosingCashierMoney> ClosingCashierMoney { get; set; }
     }
 }

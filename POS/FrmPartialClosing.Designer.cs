@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartialClosing));
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.Amount2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Monto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PaymModeId = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -338,15 +338,15 @@
             this.Amount2,
             this.Monto,
             this.PaymModeId});
-            gridFormatRule1.ApplyToRow = true;
-            gridFormatRule1.Column = this.Amount2;
-            gridFormatRule1.Name = "Format0";
-            formatConditionRuleValue1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
-            formatConditionRuleValue1.Appearance.Options.UseFont = true;
-            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
-            formatConditionRuleValue1.Expression = "[TypedAmount] <> 0";
-            gridFormatRule1.Rule = formatConditionRuleValue1;
-            this.GrvDenomination.FormatRules.Add(gridFormatRule1);
+            gridFormatRule2.ApplyToRow = true;
+            gridFormatRule2.Column = this.Amount2;
+            gridFormatRule2.Name = "Format0";
+            formatConditionRuleValue2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
+            formatConditionRuleValue2.Appearance.Options.UseFont = true;
+            formatConditionRuleValue2.Condition = DevExpress.XtraEditors.FormatCondition.Expression;
+            formatConditionRuleValue2.Expression = "[TypedAmount] <> 0";
+            gridFormatRule2.Rule = formatConditionRuleValue2;
+            this.GrvDenomination.FormatRules.Add(gridFormatRule2);
             this.GrvDenomination.GridControl = this.GrcDenomination;
             this.GrvDenomination.Name = "GrvDenomination";
             this.GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -584,7 +584,6 @@
             this.label5.Size = new System.Drawing.Size(205, 28);
             this.label5.TabIndex = 184;
             this.label5.Text = "Codigo Contable";
-            this.label5.Visible = false;
             // 
             // TxtAccountingCode
             // 
@@ -594,7 +593,6 @@
             this.TxtAccountingCode.Properties.Appearance.Options.UseFont = true;
             this.TxtAccountingCode.Size = new System.Drawing.Size(334, 34);
             this.TxtAccountingCode.TabIndex = 1;
-            this.TxtAccountingCode.Visible = false;
             this.TxtAccountingCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
             // FrmPartialClosing

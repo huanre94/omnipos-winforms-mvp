@@ -252,15 +252,15 @@ namespace POS
                             return;
                         }
                     }
+
+                    currentCustomer = LoadFinalConsumptionCustomer();
                 }
 
                 if (currentCustomer?.CustomerId > 0)
                 {
                     if (currentCustomer.IsEmployee)
                     {
-                        bool response = functions.ShowMessage("El cliente es un empleado, ¿Desea utilizar la tarjeta de afiliado?", MessageType.CONFIRM);
-
-                        if (response)
+                        if (functions.ShowMessage("El cliente es un empleado, ¿Desea utilizar la tarjeta de afiliado?", MessageType.CONFIRM))
                         {
                             FrmPaymentCredit paymentCredit = new FrmPaymentCredit()
                             {
@@ -541,7 +541,7 @@ namespace POS
                 }
             }
 
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
@@ -552,44 +552,32 @@ namespace POS
             };
             productSearch.ShowDialog();
 
-            if (productSearch.barcode != "")
+            if (productSearch.barcode == string.Empty)
             {
-                decimal quantity;
-                if (productSearch.useCatchWeight)
-                {
+            }
+            else
+            {
+                decimal quantity = productSearch.useCatchWeight ? functions.CatchWeightProduct(AxOPOSScale,
+                                                                                               productSearch.productName,
+                                                                                               scaleBrand,
+                                                                                               portName) : 1;
 
-                    quantity = functions.CatchWeightProduct(
-                                                            AxOPOSScale
-                                                            , productSearch.productName
-                                                            , scaleBrand
-                                                            , portName
-
-                                                            );
-                }
-                else
-                {
-                    quantity = 1;
-                }
-
-                if (quantity > 0)
-                {
-                    GetProductInformation(
-                                            emissionPoint.LocationId
-                                            , productSearch.barcode
-                                            , quantity
-                                            , currentCustomer.CustomerId
-                                            , internalCreditCardId
-                                            , ""
-                                            , true
-                                            );
-                }
-                else
+                if (quantity <= 0)
                 {
                     functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
+                    return;
                 }
+
+                GetProductInformation(emissionPoint.LocationId,
+                                      productSearch.barcode,
+                                      quantity,
+                                      currentCustomer.CustomerId,
+                                      internalCreditCardId,
+                                      "",
+                                      true);
             }
 
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
         private void BtnSuspendSale_Click(object sender, EventArgs e)
@@ -757,10 +745,7 @@ namespace POS
 
         private void BtnProductChecker_Click(object sender, EventArgs e)
         {
-            FrmProductChecker checker = new FrmProductChecker()
-            {
-                functions = functions
-            };
+            FrmProductChecker checker = new FrmProductChecker();
             checker.ShowDialog();
         }
         #endregion
@@ -801,9 +786,6 @@ namespace POS
                 default:
                     break;
             }
-
-
-
 
             if (e.KeyCode == Keys.Enter)
             {
@@ -1028,12 +1010,13 @@ namespace POS
                                       MessageType.ERROR,
                                       true,
                                       ex.Message);
+
+                ClearBarcode();
             }
         }
 
         private void ClosingInvoice()
         {
-            SP_Invoice_Insert_Result invoiceResult = null;
             XElement invoiceTableXml = new XElement("InvoiceTable");
 
             try
@@ -1074,7 +1057,13 @@ namespace POS
 
                 invoiceXml.Add(invoiceTableXml);
 
-                invoiceResult = new ClsInvoiceTrans(Program.customConnectionString).CreateInvoice(invoiceXml);
+                if (!invoiceXml.HasElements)
+                {
+                    functions.ShowMessage("No se ha podido registrar la factura. Revisar detalle.", MessageType.WARNING);
+                    return;
+                }
+
+                SP_Invoice_Insert_Result invoiceResult = new ClsInvoiceTrans(Program.customConnectionString).CreateInvoice(invoiceXml);
 
                 if ((bool)invoiceResult?.Error)
                 {
@@ -1118,10 +1107,11 @@ namespace POS
         {
             BtnCustomer.Enabled = true;
 
-            currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
+            currentCustomer = LoadFinalConsumptionCustomer();
             LoadCustomerInformation(currentCustomer);
             internalCreditCardId = 0;
             internalCreditCardCode = string.Empty;
+
             salesOriginId = 1;
             salesManId = 1;
 
@@ -1135,6 +1125,11 @@ namespace POS
             ClearBarcode();
 
             //ChbBbqZone.Checked = false;
+        }
+
+        private Customer LoadFinalConsumptionCustomer()
+        {
+            return new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
         }
 
         #endregion
@@ -1271,7 +1266,6 @@ namespace POS
 
             LblTotal.Text = Math.Round(invoiceAmount, 2).ToString();
             LblDiscAmount.Text = Math.Round(discountAmount, 2).ToString();
-
         }
 
         private Customer CreateCustomer(string _identification)
@@ -1279,31 +1273,27 @@ namespace POS
             FrmCustomer frmCustomer = new FrmCustomer()
             {
                 emissionPoint = emissionPoint,
-                isNewCustomer = true,
+                IsNewCustomer = true,
                 customerIdentification = _identification,
                 loginInformation = loginInformation
             };
             frmCustomer.ShowDialog();
+
+            if (frmCustomer.currentCustomer.CustomerId == 0)
+            {
+                return LoadFinalConsumptionCustomer();
+            }
 
             return frmCustomer.currentCustomer;
         }
 
         #endregion
 
-        private void TxtBarcode_EditValueChanged(object sender, EventArgs e)
-        {
+        private void TxtBarcode_EditValueChanged(object sender, EventArgs e) { }
 
-        }
+        private void TxtBarcode_Click(object sender, EventArgs e) { }
 
-        private void TxtBarcode_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TxtBarcode_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
+        private void TxtBarcode_KeyPress(object sender, KeyPressEventArgs e) { }
 
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {

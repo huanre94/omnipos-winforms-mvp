@@ -4,7 +4,8 @@ namespace POS
 {
     public partial class FrmProductChecker : DevExpress.XtraEditors.XtraForm
     {
-        public ClsFunctions functions;
+        readonly ClsFunctions functions;
+
 
         public FrmProductChecker()
         {

@@ -133,12 +133,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                            "Ocurrio un problema al cargar informacion."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al cargar informacion.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
             if (payments.Count() == 0)
@@ -500,14 +498,10 @@ namespace POS
 
         private void BtnCancelClosing_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.CLOSING_CASHIER_ID
-            };
-            keyPad.ShowDialog();
+            FrmVoidClosing closingForm = new FrmVoidClosing();
+            closingForm.ShowDialog();
 
-
-
+            if (closingForm.returnStatus) { }
         }
 
         private void GrcDenomination_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)

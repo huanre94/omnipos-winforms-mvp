@@ -119,5 +119,21 @@ namespace POS.DLL.Transaction
                 && inv.CreatedBy != userId)
                 .Any();
         }
+
+        public ClosingCashierTable GetClosing()
+        {
+            return new POSEntities(connectionString)
+                .ClosingCashierTable
+                .Where(c => c.ClosingCashierId == 1)
+                .FirstOrDefault();
+        }
+
+        public bool ValidateDuplicateAccountingCode(int _locationId, string _accountingCode)
+        {
+            return new POSEntities(connectionString)
+                .ClosingCashierTable
+                .Where(c => c.LocationId == _locationId && c.AccountingCode.Equals(_accountingCode))
+                .Count() > 0;
+        }
     }
 }

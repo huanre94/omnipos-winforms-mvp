@@ -95,7 +95,7 @@
             this.LblCustomerAddress.AutoSize = true;
             this.LblCustomerAddress.Location = new System.Drawing.Point(31, 106);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(61, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(73, 20);
             this.LblCustomerAddress.TabIndex = 154;
             this.LblCustomerAddress.Text = "N. Bono";
             // 
@@ -105,7 +105,7 @@
             this.TxtGiftCardNumber.Name = "TxtGiftCardNumber";
             this.TxtGiftCardNumber.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtGiftCardNumber.Properties.Appearance.Options.UseFont = true;
-            this.TxtGiftCardNumber.Size = new System.Drawing.Size(216, 44);
+            this.TxtGiftCardNumber.Size = new System.Drawing.Size(216, 34);
             this.TxtGiftCardNumber.TabIndex = 153;
             this.TxtGiftCardNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtGiftCardNumber_KeyDown);
             // 
@@ -115,7 +115,7 @@
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(856, 171);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(139, 16);
+            this.label2.Size = new System.Drawing.Size(167, 20);
             this.label2.TabIndex = 154;
             this.label2.Text = "Fecha Expiracion";
             // 
@@ -124,7 +124,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(31, 53);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 16);
+            this.label6.Size = new System.Drawing.Size(64, 20);
             this.label6.TabIndex = 154;
             this.label6.Text = "Cajero";
             // 
@@ -133,7 +133,7 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(174, 53);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(61, 16);
+            this.LblCashierUser.Size = new System.Drawing.Size(73, 20);
             this.LblCashierUser.TabIndex = 154;
             this.LblCashierUser.Text = "N. Bono";
             // 
@@ -143,7 +143,7 @@
             this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label8.Location = new System.Drawing.Point(453, 170);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(88, 16);
+            this.label8.Size = new System.Drawing.Size(104, 20);
             this.label8.TabIndex = 154;
             this.label8.Text = "N. Factura";
             // 
@@ -153,7 +153,7 @@
             this.LblGiftCardInvoice.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblGiftCardInvoice.Location = new System.Drawing.Point(559, 171);
             this.LblGiftCardInvoice.Name = "LblGiftCardInvoice";
-            this.LblGiftCardInvoice.Size = new System.Drawing.Size(146, 16);
+            this.LblGiftCardInvoice.Size = new System.Drawing.Size(177, 20);
             this.LblGiftCardInvoice.TabIndex = 154;
             this.LblGiftCardInvoice.Text = "001-001-00000001";
             // 
@@ -179,7 +179,7 @@
             this.LblExpirationDate.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblExpirationDate.Location = new System.Drawing.Point(999, 171);
             this.LblExpirationDate.Name = "LblExpirationDate";
-            this.LblExpirationDate.Size = new System.Drawing.Size(90, 16);
+            this.LblExpirationDate.Size = new System.Drawing.Size(109, 20);
             this.LblExpirationDate.TabIndex = 154;
             this.LblExpirationDate.Text = "11/12/2020";
             // 
@@ -207,7 +207,7 @@
             this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label9.Location = new System.Drawing.Point(31, 170);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 16);
+            this.label9.Size = new System.Drawing.Size(128, 20);
             this.label9.TabIndex = 154;
             this.label9.Text = "Registrado A";
             // 
@@ -217,7 +217,7 @@
             this.LblCustomerNameRegistered.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblCustomerNameRegistered.Location = new System.Drawing.Point(174, 170);
             this.LblCustomerNameRegistered.Name = "LblCustomerNameRegistered";
-            this.LblCustomerNameRegistered.Size = new System.Drawing.Size(168, 16);
+            this.LblCustomerNameRegistered.Size = new System.Drawing.Size(199, 20);
             this.LblCustomerNameRegistered.TabIndex = 154;
             this.LblCustomerNameRegistered.Text = "CONSUMIDOR FINAL";
             // 
@@ -265,7 +265,7 @@
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(594, 106);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 16);
+            this.label1.Size = new System.Drawing.Size(123, 20);
             this.label1.TabIndex = 154;
             this.label1.Text = "Estado Bono";
             // 
@@ -275,7 +275,7 @@
             this.LblGiftCardStatus.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Bold);
             this.LblGiftCardStatus.Location = new System.Drawing.Point(737, 106);
             this.LblGiftCardStatus.Name = "LblGiftCardStatus";
-            this.LblGiftCardStatus.Size = new System.Drawing.Size(98, 16);
+            this.LblGiftCardStatus.Size = new System.Drawing.Size(117, 20);
             this.LblGiftCardStatus.TabIndex = 154;
             this.LblGiftCardStatus.Text = "PENDIENTE";
             // 
@@ -371,7 +371,7 @@
             this.AxOPOSScale.Location = new System.Drawing.Point(707, 471);
             this.AxOPOSScale.Name = "AxOPOSScale";
             this.AxOPOSScale.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScale.OcxState")));
-            this.AxOPOSScale.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScale.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScale.TabIndex = 186;
             // 
             // BtnRedeemCustomerName
@@ -430,7 +430,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(544, 262);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 16);
+            this.label4.Size = new System.Drawing.Size(125, 20);
             this.label4.TabIndex = 179;
             this.label4.Text = "Usuario Canje";
             // 
@@ -439,7 +439,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(48, 262);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 16);
+            this.label3.Size = new System.Drawing.Size(99, 20);
             this.label3.TabIndex = 180;
             this.label3.Text = "Doc. Canje";
             // 
@@ -448,7 +448,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(48, 338);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 16);
+            this.label5.Size = new System.Drawing.Size(98, 20);
             this.label5.TabIndex = 181;
             this.label5.Text = "Cod. Barra";
             // 
@@ -458,7 +458,7 @@
             this.TxtRedeemName.Name = "TxtRedeemName";
             this.TxtRedeemName.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtRedeemName.Properties.Appearance.Options.UseFont = true;
-            this.TxtRedeemName.Size = new System.Drawing.Size(570, 44);
+            this.TxtRedeemName.Size = new System.Drawing.Size(570, 34);
             this.TxtRedeemName.TabIndex = 176;
             this.TxtRedeemName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRedeemName_KeyDown);
             // 
@@ -468,7 +468,7 @@
             this.TxtRedeemIdentification.Name = "TxtRedeemIdentification";
             this.TxtRedeemIdentification.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtRedeemIdentification.Properties.Appearance.Options.UseFont = true;
-            this.TxtRedeemIdentification.Size = new System.Drawing.Size(216, 44);
+            this.TxtRedeemIdentification.Size = new System.Drawing.Size(216, 34);
             this.TxtRedeemIdentification.TabIndex = 177;
             this.TxtRedeemIdentification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRedeemIdentification_KeyDown);
             // 
@@ -478,7 +478,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(216, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(216, 34);
             this.TxtBarcode.TabIndex = 178;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -488,7 +488,7 @@
             this.AxOPOSScanner.Location = new System.Drawing.Point(1160, 12);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(192, 192);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 189;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 

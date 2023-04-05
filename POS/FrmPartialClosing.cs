@@ -21,7 +21,6 @@ namespace POS
         EmissionPoint emissionPoint = new EmissionPoint();
         IEnumerable<SP_ClosingCashierDenominations_Consult_Result> denominations;
         IEnumerable<SP_ClosingCashierPartial_Consult_Result> partials;
-        XElement closingXml = new XElement("ClosingCashier");
         decimal cashAmount = 0;
 
         public FrmPartialClosing()
@@ -100,58 +99,47 @@ namespace POS
         {
             GrvDenomination.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcDenomination.DataSource = null;
-            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList())
-            {
-                AllowNew = false
-            };
+            BindingList<SP_ClosingCashierDenominations_Consult_Result> bindingList = new BindingList<SP_ClosingCashierDenominations_Consult_Result>(denominations.ToList()) { AllowNew = false };
             GrcDenomination.DataSource = bindingList;
 
             GrvPartialClosing.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcPartialClosing.DataSource = null;
-            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList())
-            {
-                AllowNew = false
-            };
+            BindingList<SP_ClosingCashierPartial_Consult_Result> bindingList3 = new BindingList<SP_ClosingCashierPartial_Consult_Result>(partials.ToList()) { AllowNew = false };
             GrcPartialClosing.DataSource = bindingList3;
         }
 
         private bool GetEmissionPointInformation()
         {
-
-            bool response = false;
             string addressIP = loginInformation.AddressIP;
 
-            if (addressIP != "")
-            {
-                try
-                {
-                    emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
-
-                    if (emissionPoint != null)
-                    {
-                        response = true;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al cargar información de punto de emisión."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
-                }
-            }
-            else
+            if (addressIP == string.Empty)
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
+                return false;
             }
 
-            return response;
+            try
+            {
+                emissionPoint = new ClsGeneral(Program.customConnectionString).GetEmissionPointByIP(addressIP);
+
+                if (emissionPoint == null)
+                {
+                    functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información de punto de emisión.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+
+                return false;
+            }
+
+            return true;
         }
 
         private void LoadPartialClosingReason()
@@ -171,9 +159,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Ocurrio un problema al cargar motivos de cierre.",
-                     MessageType.ERROR,
-                    true,
-                    ex.InnerException.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
         #endregion
@@ -181,12 +169,17 @@ namespace POS
         #region Keypad Buttons
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.loginInformation = loginInformation;
-            frmMenu.globalParameters = globalParameters;
-            frmMenu.Visible = true;
+            FrmMenu frmMenu = new FrmMenu
+            {
+                loginInformation = loginInformation,
+                globalParameters = globalParameters,
+                Visible = true
+            };
             Close();
         }
+
+
+
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
@@ -214,9 +207,19 @@ namespace POS
                 return;
             }
 
+            var hasDuplicateAccountingCode = new ClsClosingTrans(Program.customConnectionString).ValidateDuplicateAccountingCode(emissionPoint.LocationId, TxtAccountingCode.Text);
+            if (hasDuplicateAccountingCode)
+            {
+                functions.ShowMessage("El codigo contable ya ha sido registrada previamente.", MessageType.WARNING);
+                return;
+            }
+
+
             functions.emissionPoint = emissionPoint;
             if (functions.RequestSupervisorAuth())
             {
+                XElement closingXml = new XElement("ClosingCashier");
+
                 XElement closingCashierTableXml = new XElement("ClosingCashierTable");
                 ClosingCashierTable cashierTable = new ClosingCashierTable()
                 {
@@ -228,7 +231,8 @@ namespace POS
                     Status = "A",
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = emissionPoint.Workstation,
-                    ReasonId = int.Parse(CmbMotive.EditValue.ToString())
+                    ReasonId = int.Parse(CmbMotive.EditValue.ToString()),
+                    AccountingCode = TxtAccountingCode.Text
                 };
 
                 Type type = cashierTable.GetType();
@@ -318,19 +322,20 @@ namespace POS
                         if (!(bool)closing.Error)
                         {
                             //if (PrintInvoice((Int64)closing.ClosingCashierId))
-                            if (functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER, false))
-                            {
-                                functions.ShowMessage("Cierre parcial finalizado exitosamente.");
-                            }
-                            else
+                            if (!functions.PrintDocument((long)closing.ClosingCashierId, DocumentType.CLOSINGCASHIER, false))
                             {
                                 functions.ShowMessage("El cierre parcial finalizó correctamente, pero no se pudo imprimir factura.", MessageType.WARNING);
+                                return;
                             }
 
-                            FrmMenu frmMenu = new FrmMenu();
-                            frmMenu.loginInformation = loginInformation;
-                            frmMenu.globalParameters = globalParameters;
-                            frmMenu.Visible = true;
+                            functions.ShowMessage("Cierre parcial finalizado exitosamente.");
+
+                            FrmMenu frmMenu = new FrmMenu
+                            {
+                                loginInformation = loginInformation,
+                                globalParameters = globalParameters,
+                                Visible = true
+                            };
                             Close();
                         }
                     }
@@ -338,12 +343,10 @@ namespace POS
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ocurrio un problema al registrar cierre parcial de caja."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.Message
-                                        );
+                    functions.ShowMessage("Ocurrio un problema al registrar cierre parcial de caja.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.Message);
                 }
             }
         }
@@ -398,10 +401,7 @@ namespace POS
             TxtBarcode.Text += "9";
         }
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            TxtBarcode.Text = "";
-        }
+        private void BtnDelete_Click(object sender, EventArgs e) => TxtBarcode.Text = "";
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {

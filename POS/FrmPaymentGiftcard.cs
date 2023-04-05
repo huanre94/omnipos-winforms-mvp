@@ -9,10 +9,10 @@ namespace POS
     public partial class FrmPaymentGiftcard : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public bool formActionResult;
         public decimal giftcardAmount;
         public string giftcardNumber;
         public decimal paidAmount;
+        public bool formActionResult;
 
         public FrmPaymentGiftcard()
         {
@@ -21,9 +21,10 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (TxtGiftCard.Text == "")
+            if (TxtGiftCard.Text == string.Empty)
             {
                 functions.ShowMessage("El numero de bono no puede estar vacio.", MessageType.WARNING);
+                ClearGiftCard();
                 return;
             }
 
@@ -34,13 +35,14 @@ namespace POS
                 if (result == null)
                 {
                     functions.ShowMessage("No existe bono con el numero ingresado.", MessageType.WARNING);
-                    TxtGiftCard.Text = "";
+                    ClearGiftCard();
                     return;
                 }
 
                 if (result.Type == "PR")
                 {
                     functions.ShowMessage("El bono ingresado es un bono de producto. Por favor consultar con Supervisor.", MessageType.WARNING);
+                    ClearGiftCard();
                     return;
                 }
 
@@ -50,7 +52,6 @@ namespace POS
                 giftcardNumber = result.GiftCardNumber;
                 LblAmount.Text = giftcardAmount.ToString();
                 BtnAccept.Focus();  //07/07/2022
-
 
             }
             catch (Exception ex)
@@ -62,6 +63,12 @@ namespace POS
                                         , ex.InnerException.Message
                                         );
             }
+        }
+
+        private void ClearGiftCard()
+        {
+            TxtGiftCard.Text = string.Empty;
+            TxtGiftCard.Focus();
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -88,20 +95,20 @@ namespace POS
                     return;
                 }
 
-                TxtGiftCard.Text = "";
+                ClearGiftCard();
                 formActionResult = true;
             }
         }
 
         private bool ValidateGiftCardFields()
         {
-            if (TxtGiftCard.Text == "")
+            if (TxtGiftCard.Text == string.Empty)
             {
                 functions.ShowMessage("Debe proporcionar el numero del bono.", MessageType.WARNING);
                 return false;
             }
 
-            if (LblDocument.Text == "" || LblReference.Text == "")
+            if (LblDocument.Text == string.Empty || LblReference.Text == string.Empty)
             {
                 functions.ShowMessage("No se obtuvieron datos del bono.", MessageType.WARNING);
                 return false;

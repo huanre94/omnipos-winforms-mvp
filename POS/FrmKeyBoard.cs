@@ -15,6 +15,7 @@ namespace POS
         public string customerAddress = "";
         public string customerEmail = "";
         public string observation = "";
+        public string productName = "";
 
         public FrmKeyBoard()
         {
@@ -151,6 +152,10 @@ namespace POS
                 case InputFromOption.OBSERVATION:
                     observation = TxtValue.Text;
                     break;
+                case InputFromOption.PRODUCT_NAME:
+                    productName = TxtValue.Text;
+                    break;
+
                 default:
                     break;
             }

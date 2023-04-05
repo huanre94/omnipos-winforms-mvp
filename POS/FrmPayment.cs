@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraGrid.Views.Grid;
+using POS.Class;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
@@ -66,23 +67,26 @@ namespace POS
 
         private void GetPaymentInformation()
         {
-            LblTotal.Text = invoiceAmount.ToString();
-            TxtAmount.Text = invoiceAmount.ToString();
             pendingAmount = invoiceAmount;
+
+            TxtAmount.Text = invoiceAmount.ToString();
             LblPending.Text = pendingAmount.ToString();
 
             //TODO 
             string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax();
 
-            LblBase.Text = $"Base IVA 0%";
-            LblBaseTax.Text = $"(+) Base IVA {taxPercent}%";
-            LblTax.Text = $"(+) IVA {taxPercent}%";
+            IList<PaymentDetail> paymentDetails = new List<PaymentDetail>();
+            paymentDetails.Add(new PaymentDetail($"Base IVA 0%", baseAmount));
+            paymentDetails.Add(new PaymentDetail($"(+) Base IVA {taxPercent}%", baseTaxAmount));
+            paymentDetails.Add(new PaymentDetail($"(+) IVA {taxPercent}%", taxAmount));
+            paymentDetails.Add(new PaymentDetail($"(+) IRBP", irbpAmount));
+            paymentDetails.Add(new PaymentDetail($"(-) Descuento", discountAmount));
+            paymentDetails.Add(new PaymentDetail($"(=) Total", invoiceAmount));
 
-            LblBaseAmount.Text = $"{baseAmount:f2}";
-            LblBaseTaxAmount.Text = $"{baseTaxAmount:f2}";
-            LblTaxAmount.Text = $"{taxAmount:f2}";
-            LblDiscountAmount.Text = $"{discountAmount:f2}";
-            LblIRBPAmount.Text = $"{irbpAmount:f2}";
+            foreach (PaymentDetail detail in paymentDetails)
+            {
+                AddRecordToPaymentGrid(detail);
+            }
 
             if ((customer.UseRetention ?? false) && functions.ShowMessage("El cliente seleccionado genera retención. ¿Desea registrarla ahora?", MessageType.CONFIRM))
             {
@@ -280,7 +284,7 @@ namespace POS
             {
                 creditCardAmount = decimal.Parse(TxtAmount.Text),
                 customer = customer,
-                applyPaymmodeDiscount = TxtAmount.Text.Equals(LblTotal.Text),   //HR002
+                applyPaymmodeDiscount = TxtAmount.Text.Equals(invoiceAmount),   //HR002
                 invoiceXml = invoiceXml,    //HR002
                 emissionPoint = emissionPoint //HR002
             };
@@ -497,17 +501,33 @@ namespace POS
             GrcPayment.DataSource = null;
             GrvPayment.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
 
-            BindingList<PaymentEntry> bindingList = new BindingList<PaymentEntry>
-            {
-                AllowNew = true
-            };
+            BindingList<PaymentEntry> bindingList = new BindingList<PaymentEntry> { AllowNew = true };
 
             GrcPayment.DataSource = bindingList;
+
+
+            GrcInvoicePaymentDetail.DataSource = null;
+            GrvInvoicePaymentDetail.OptionsView.NewItemRowPosition = NewItemRowPosition.Bottom;
+
+            BindingList<PaymentDetail> invoicePaymentDetail = new BindingList<PaymentDetail> { AllowNew = true };
+
+            GrcInvoicePaymentDetail.DataSource = invoicePaymentDetail;
+        }
+
+        private void AddRecordToPaymentGrid(PaymentDetail detail)
+        {
+
+            GrvInvoicePaymentDetail.AddNewRow();
+            GrvInvoicePaymentDetail.SetRowCellValue(GrvInvoicePaymentDetail.FocusedRowHandle, GrvInvoicePaymentDetail.Columns["Description"], detail.Description);
+            GrvInvoicePaymentDetail.SetRowCellValue(GrvInvoicePaymentDetail.FocusedRowHandle, GrvInvoicePaymentDetail.Columns["Amount"], detail.Amount);
+
         }
 
         private void AddRecordToGrid(InvoicePayment _invoicePayment)
         {
             PaymModeEnum paymModeEnum = (PaymModeEnum)_invoicePayment.PaymModeId;
+
+            //PaymentEntry entry = new PaymentEntry(paymModeEnum.ToString(), _invoicePayment.Amount);
 
             GrvPayment.AddNewRow();
             GrvPayment.SetRowCellValue(GrvPayment.FocusedRowHandle, GrvPayment.Columns["Description"], paymModeEnum);
@@ -547,44 +567,42 @@ namespace POS
                 paidAmount = invoiceAmount;
             }
 
-            if (invoiceAmount >= paidAmount)
-            {
-                pendingAmount = invoiceAmount - paidAmount;
-
-                LblPaid.Text = paidAmount.ToString();
-                LblPending.Text = pendingAmount.ToString();
-
-                if (paidAmount == invoiceAmount)
-                {
-                    canCloseInvoice = true;
-                    Close();
-                }
-                else
-                {
-                    TxtAmount.Text = pendingAmount.ToString();
-                }
-            }
-            else
+            if (invoiceAmount < paidAmount)
             {
                 functions.ShowMessage("El monto a pagar no puede ser mayor al de la factura.", MessageType.ERROR);
+                return;
             }
+
+            pendingAmount = invoiceAmount - paidAmount;
+
+            LblPaid.Text = paidAmount.ToString();
+            LblPending.Text = pendingAmount.ToString();
+
+            if (paidAmount != invoiceAmount)
+            {
+                TxtAmount.Text = pendingAmount.ToString();
+                return;
+            }
+
+            canCloseInvoice = true;
+            Close();
         }
 
         private void AccountReceivable(PaymModeEnum _paymMode)
         {
             FrmPaymentAdvance paymentAdvance = new FrmPaymentAdvance()
             {
-                advanceAmount = decimal.Parse(TxtAmount.Text),
+                paymentAmount = decimal.Parse(TxtAmount.Text),
                 _currentCustomer = customer,
                 _paymMode = _paymMode
             };
             paymentAdvance.ShowDialog();
 
-            if (paymentAdvance.processResponse)
+            if (paymentAdvance.GetResponse())
             {
                 functions.emissionPoint = emissionPoint;
                 functions.AxOPOSScanner = scanner;
-                bool responseAuthorization = functions.RequestSupervisorAuth(false, 0);
+                bool responseAuthorization = functions.RequestSupervisorAuth();
                 if (responseAuthorization)
                 {
                     decimal pendingAdvanceAmount = paymentAdvance.pendingAmount;
@@ -655,6 +673,11 @@ namespace POS
             {
                 BtnCancel_Click(null, null);
             }
+
+        }
+
+        private void BtnTransfer_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -31,7 +31,6 @@ namespace POS.DLL
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<InventLocation> InventLocation { get; set; }
         public virtual DbSet<InventUnit> InventUnit { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<ProductGroup> ProductGroup { get; set; }
@@ -57,7 +56,6 @@ namespace POS.DLL
         public virtual DbSet<LogType> LogType { get; set; }
         public virtual DbSet<SalesLog> SalesLog { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
         public virtual DbSet<EmissionPoint> EmissionPoint { get; set; }
         public virtual DbSet<SequenceTable> SequenceTable { get; set; }
         public virtual DbSet<SequenceType> SequenceType { get; set; }
@@ -76,8 +74,6 @@ namespace POS.DLL
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<CancelReason> CancelReason { get; set; }
         public virtual DbSet<City> City { get; set; }
-        public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
-        public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CreditCard> CreditCard { get; set; }
         public virtual DbSet<CurrencyDenomination> CurrencyDenomination { get; set; }
@@ -102,6 +98,10 @@ namespace POS.DLL
         public virtual DbSet<SalesRemissionTable> SalesRemissionTable { get; set; }
         public virtual DbSet<InventProductLocation> InventProductLocation { get; set; }
         public virtual DbSet<SalesOrigin> SalesOrigin { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
+        public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
+        public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {
@@ -428,23 +428,6 @@ namespace POS.DLL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GiftCardRedeem_Insert_Result>("SP_GiftCardRedeem_Insert", giftCardNumberParameter, redeemNameParameter, redeemIdentificationParameter, redeemLocationParameter, productGridParameter);
         }
     
-        public virtual ObjectResult<SP_InvoiceCancel_Consult_Result> SP_InvoiceCancel_Consult(Nullable<int> locationId, Nullable<int> emissionPointId, Nullable<int> invoiceNumber)
-        {
-            var locationIdParameter = locationId.HasValue ?
-                new ObjectParameter("LocationId", locationId) :
-                new ObjectParameter("LocationId", typeof(int));
-    
-            var emissionPointIdParameter = emissionPointId.HasValue ?
-                new ObjectParameter("EmissionPointId", emissionPointId) :
-                new ObjectParameter("EmissionPointId", typeof(int));
-    
-            var invoiceNumberParameter = invoiceNumber.HasValue ?
-                new ObjectParameter("InvoiceNumber", invoiceNumber) :
-                new ObjectParameter("InvoiceNumber", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceCancel_Consult_Result>("SP_InvoiceCancel_Consult", locationIdParameter, emissionPointIdParameter, invoiceNumberParameter);
-        }
-    
         public virtual ObjectResult<SP_PhysicalStockCounting_Insert_Result> SP_PhysicalStockCounting_Insert(string physicalStockXml)
         {
             var physicalStockXmlParameter = physicalStockXml != null ?
@@ -746,6 +729,23 @@ namespace POS.DLL
                 new ObjectParameter("AddressIP", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Advance_Consult_Result>("SP_Advance_Consult", customerIdParameter, paymmodeTypeParameter, addressIPParameter);
+        }
+    
+        public virtual ObjectResult<SP_InvoiceCancel_Consult_Result> SP_InvoiceCancel_Consult(Nullable<int> locationId, Nullable<int> emissionPointId, Nullable<int> invoiceNumber)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var emissionPointIdParameter = emissionPointId.HasValue ?
+                new ObjectParameter("EmissionPointId", emissionPointId) :
+                new ObjectParameter("EmissionPointId", typeof(int));
+    
+            var invoiceNumberParameter = invoiceNumber.HasValue ?
+                new ObjectParameter("InvoiceNumber", invoiceNumber) :
+                new ObjectParameter("InvoiceNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InvoiceCancel_Consult_Result>("SP_InvoiceCancel_Consult", locationIdParameter, emissionPointIdParameter, invoiceNumberParameter);
         }
     }
 }

@@ -18,7 +18,6 @@ namespace POS.DLL
         public Location()
         {
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
-            this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
             this.Customer = new HashSet<Customer>();
             this.EmissionPoint = new HashSet<EmissionPoint>();
             this.GiftCardBlockTable = new HashSet<GiftCardBlockTable>();
@@ -32,6 +31,7 @@ namespace POS.DLL
             this.InvoicePayment = new HashSet<InvoicePayment>();
             this.SalesOrder = new HashSet<SalesOrder>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
+            this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
         }
     
         public short LocationId { get; set; }
@@ -52,8 +52,6 @@ namespace POS.DLL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountsReceivable> AccountsReceivable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -82,5 +80,7 @@ namespace POS.DLL
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
     }
 }

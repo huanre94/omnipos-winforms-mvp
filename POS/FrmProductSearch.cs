@@ -1,6 +1,7 @@
 ﻿using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,10 +12,10 @@ namespace POS
     public partial class FrmProductSearch : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
+        public EmissionPoint emissionPoint;
         public string barcode = "";
         public bool useCatchWeight;
         public long productId;
-        public EmissionPoint emissionPoint;
         public bool returnProduct = false;
         public string productName = "";
 
@@ -25,33 +26,29 @@ namespace POS
 
         private void BtnKeyPad_Click(object sender, System.EventArgs e)
         {
-            FrmKeyBoard keyPad = new FrmKeyBoard();
-            keyPad.inputFromOption = InputFromOption.CUSTOMER_FIRSTNAME;
+            FrmKeyBoard keyPad = new FrmKeyBoard
+            {
+                inputFromOption = InputFromOption.PRODUCT_NAME
+            };
             keyPad.ShowDialog();
-            TxtSearchName.Text = keyPad.customerFirstName;
+            TxtSearchName.Text = keyPad.productName;
         }
 
         private void SearchProduct(string _searchProduct, int _locationId)
         {
-            IEnumerable<SP_ProductBarcode_Consult_Result> products;
-
             try
             {
-                products = new ClsProduct(Program.customConnectionString).GetProductsWithBarcode(_searchProduct, _locationId);
+                IEnumerable<SP_ProductBarcode_Consult_Result> products = new ClsProduct(Program.customConnectionString).GetProductsWithBarcode(_searchProduct, _locationId);
 
                 if (products?.Count() == 0)
                 {
                     functions.ShowMessage("Producto no encontrado", MessageType.WARNING);
-                    TxtSearchName.Text = "";
-                    TxtSearchName.Focus();
+                    ClearSearchName();
                     GrcSalesDetail.DataSource = null;
                     return;
                 }
 
-                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList())
-                {
-                    AllowNew = true
-                };
+                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList()) { AllowNew = true };
                 GrcSalesDetail.DataSource = bindingList;
             }
             catch (Exception ex)
@@ -61,6 +58,12 @@ namespace POS
                                       true,
                                       ex.InnerException.Message);
             }
+        }
+
+        private void ClearSearchName()
+        {
+            TxtSearchName.Text = "";
+            TxtSearchName.Focus();
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -74,7 +77,7 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado item por agregar.", MessageType.ERROR);
-                DialogResult = System.Windows.Forms.DialogResult.None;
+                DialogResult = DialogResult.None;
                 return;
             }
 
@@ -88,10 +91,17 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            if (TxtSearchName.Text == "")
+            if (TxtSearchName.Text == string.Empty)
             {
                 functions.ShowMessage("El filtro de busqueda no puede estar vacio.", MessageType.ERROR);
-                TxtSearchName.Focus();
+                ClearSearchName();
+                return;
+            }
+
+            if (TxtSearchName.Text.Length <= 3)
+            {
+                functions.ShowMessage("La busqueda debe al menos contener 3 caracteres para proceder.", MessageType.ERROR);
+                ClearSearchName();
                 return;
             }
 
@@ -109,10 +119,7 @@ namespace POS
             GrvSalesDetail.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcSalesDetail.DataSource = null;
 
-            BindingList<Product> bindingList = new BindingList<Product>
-            {
-                AllowNew = true
-            };
+            BindingList<Product> bindingList = new BindingList<Product> { AllowNew = true };
 
             GrcSalesDetail.DataSource = bindingList;
         }
@@ -120,13 +127,12 @@ namespace POS
         private void TxtSearchName_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             //06/07/2022
-            switch ((int)e.KeyCode)
+            switch (e.KeyCode)
             {
-
-                case 13:
+                case Keys.Enter:
                     BtnSearch_Click(null, null);
                     break;
-                case 27:
+                case Keys.Escape:
                     Close();
                     break;
                 default:
@@ -136,14 +142,14 @@ namespace POS
 
         private void GrcSalesDetail_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            switch (((byte)e.KeyChar))
+            switch (e.KeyChar)
             {
-                case 13:
+                case (char)Keys.Enter:
                     BtnAccept_Click(null, null);
                     Close();
                     break;
-                case 27:
-                    TxtSearchName.Focus();
+                case (char)Keys.Escape:
+                    ClearSearchName();
                     break;
                 default:
                     break;

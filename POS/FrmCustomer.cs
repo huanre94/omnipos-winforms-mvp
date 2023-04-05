@@ -15,9 +15,9 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public string customerIdentification;
-        public bool isNewCustomer;
+        public bool IsNewCustomer { get; set; }
         public EmissionPoint emissionPoint;
-        public Customer currentCustomer = new Customer();
+        public Customer currentCustomer { get; set; } = new Customer();
         public SP_Login_Consult_Result loginInformation;
 
         public FrmCustomer()
@@ -31,6 +31,7 @@ namespace POS
             {
                 functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", MessageType.ERROR);
                 Close();
+                return;
             }
             LoadCustomerInformation(customerIdentification);
         }
@@ -39,7 +40,7 @@ namespace POS
         {
             TxtIdentification.Text = _identification;
 
-            if (isNewCustomer)
+            if (IsNewCustomer)
             {
                 LoadIdentTypes();
                 LoadGenders();
@@ -177,15 +178,16 @@ namespace POS
         private void LoadGenders()
         {
             CmbGender.Properties.Items.Clear();
+            CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "N", Description = "NO DEFINIDO" });
             CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "M", Description = "MASCULINO" });
             CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "F", Description = "FEMENINO" });
         }
 
-        private void CreateOrUpdateCustomer(string _identification)
+        private bool CreateOrUpdateCustomer(string _identification)
         {
             bool createOrUpdate = true;
 
-            if (isNewCustomer)
+            if (IsNewCustomer)
             {
                 createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString());
             }
@@ -193,15 +195,11 @@ namespace POS
             if (!createOrUpdate)
             {
                 functions.ShowMessage("El cliente no puede ser registrado.", MessageType.WARNING);
-                return;
+                return false;
             }
 
             try
             {
-                ClsCustomer clsCustomer = new ClsCustomer(Program.customConnectionString);
-                SP_Customer_Insert_Result result;
-                int cityId;
-
                 XElement customerXml = new XElement("Customer");
                 customerXml.Add(new XElement("CustomerId", currentCustomer.CustomerId));
                 customerXml.Add(new XElement("LocationId", emissionPoint.LocationId));
@@ -217,6 +215,7 @@ namespace POS
                 customerXml.Add(new XElement("CreatedBy", loginInformation.UserId));
                 customerXml.Add(new XElement("Workstation", loginInformation.Workstation));
 
+                int cityId;
                 switch (emissionPoint.LocationId) //While city does not select on customer register
                 {
                     case 1:
@@ -231,32 +230,35 @@ namespace POS
                 }
 
                 customerXml.Add(new XElement("CityId", cityId));
-                result = clsCustomer.CreateOrUpdateCustomer(customerXml.ToString());
+
+                SP_Customer_Insert_Result result = new ClsCustomer(Program.customConnectionString).CreateOrUpdateCustomer(customerXml.ToString());
 
                 if ((result?.CustomerId) <= 0)
                 {
                     functions.ShowMessage("No se pudo registrar cliente.", MessageType.WARNING, true, result.Text);
-                    return;
+                    return false;
                 }
 
-                if (isNewCustomer)
+                if (IsNewCustomer)
                 {
-                    currentCustomer = clsCustomer.GetCustomerByIdentification(result.Identification);
+                    currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(result.Identification);
                     functions.ShowMessage("El cliente se registró exitosamente.");
-                    return;
+                    return true;
                 }
 
                 functions.ShowMessage("El cliente se actualizó exitosamente.");
             }
             catch (Exception ex)
             {
-                functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al crear / actualizar cliente.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
+
+                return false;
             }
 
+            return true;
         }
 
         private bool ValidateCustomerIdentification(string _identification, string _identType)
@@ -291,7 +293,10 @@ namespace POS
         {
             if (ValidateCustomerFields())
             {
-                CreateOrUpdateCustomer(TxtIdentification.Text);
+                if (CreateOrUpdateCustomer(TxtIdentification.Text))
+                {
+                    DialogResult = DialogResult.OK;
+                }
             }
         }
 

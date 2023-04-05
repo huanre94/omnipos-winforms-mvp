@@ -37,10 +37,11 @@ namespace POS.DLL
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
         public Nullable<int> ReasonId { get; set; }
+        public string AccountingCode { get; set; }
     
-        public virtual EmissionPoint EmissionPoint { get; set; }
-        public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashierLine> ClosingCashierLine { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
     }
 }

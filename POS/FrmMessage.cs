@@ -6,11 +6,11 @@ namespace POS
 {
     public partial class FrmMessage : DevExpress.XtraEditors.XtraForm
     {
-        readonly string messageText;
-        readonly string messageTextDetail;
-        readonly bool showMessageDetail;
-        readonly MessageType messagetype;
-        public bool messageResponse;
+        string messageText { get; set; }
+        string messageTextDetail { get; set; }
+        bool showMessageDetail { get; set; }
+        MessageType messagetype { get; set; }
+        public bool messageResponse { get; set; }
 
         public FrmMessage()
         {

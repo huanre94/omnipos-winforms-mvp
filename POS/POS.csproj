@@ -18,7 +18,7 @@
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>\\192.168.18.9\shared\Omnipos\</PublishUrl>
+    <PublishUrl>\\192.168.17.115\shared\Omnipos\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -34,7 +34,7 @@
     <SuiteName>Retail</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -130,8 +130,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\ClsCatchWeight.cs" />
-    <Compile Include="Classes\PaymentEntry.cs" />
+    <Compile Include="Class\ClsCatchWeight.cs" />
+    <Compile Include="Class\PaymentDetail.cs" />
+    <Compile Include="Class\PaymentEntry.cs" />
     <Compile Include="FrmAddressPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -342,7 +343,13 @@
     <Compile Include="FrmSupervisorAuth.Designer.cs">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\ClsFunctions.cs" />
+    <Compile Include="Class\ClsFunctions.cs" />
+    <Compile Include="FrmVoidClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmVoidClosing.Designer.cs">
+      <DependentUpon>FrmVoidClosing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FrmAddressPicker.resx">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
@@ -448,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSupervisorAuth.resx">
       <DependentUpon>FrmSupervisorAuth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmVoidClosing.resx">
+      <DependentUpon>FrmVoidClosing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -583,9 +593,7 @@
       <Version>2.0.5</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <COMReference Include="AxOposScale_CCO">
       <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>

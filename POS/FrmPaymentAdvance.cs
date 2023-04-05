@@ -12,11 +12,12 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public Customer _currentCustomer;
-        public decimal advanceAmount;
-        public bool processResponse;
+        public decimal paymentAmount;
         public PaymModeEnum _paymMode;
         public decimal pendingAmount;
         public BindingList<SP_Advance_Consult_Result> advances;
+        bool ProcessResponse { get; set; } = false;
+
         decimal selectedAmount = 0;
 
         public FrmPaymentAdvance()
@@ -24,30 +25,28 @@ namespace POS
             InitializeComponent();
         }
 
+        public bool GetResponse() => ProcessResponse;
+
         private void CheckGridView()
         {
             GrvAdvanceHistory.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             GrcAdvanceHistory.DataSource = null;
-            BindingList<SP_Advance_Consult_Result> advances =
-                new BindingList<SP_Advance_Consult_Result> { AllowNew = false };
+
+            BindingList<SP_Advance_Consult_Result> advances = new BindingList<SP_Advance_Consult_Result> { AllowNew = false };
             GrcAdvanceHistory.DataSource = advances;
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (selectedAmount > 0 && selectedAmount <= advanceAmount)
+            if (selectedAmount <= 0 || selectedAmount > paymentAmount)
             {
-                pendingAmount = selectedAmount;
-                processResponse = true;
-            }
-            else
-            {
-                functions.ShowMessage(
-                    "El monto seleccionado debe ser igual o menor al monto digitado.",
-                     MessageType.WARNING
-                );
+                functions.ShowMessage("El monto seleccionado debe ser igual o menor al monto digitado.", MessageType.WARNING);
                 DialogResult = DialogResult.None;
+                return;
             }
+
+            pendingAmount = selectedAmount;
+            ProcessResponse = true;
         }
 
         private void LoadPreviousAdvances()
@@ -81,7 +80,7 @@ namespace POS
                 Text = _paymMode == PaymModeEnum.ANTICIPOS ? "Anticipo" : "Nota de Credito";
                 CheckGridView();
                 LoadPreviousAdvances();
-                LblAmount.Text = $"{advanceAmount}";
+                LblAmount.Text = $"{paymentAmount}";
                 LblSelectedAmount.Text = $"0.00M";
             }
         }
@@ -91,8 +90,7 @@ namespace POS
         private void GrvAdvanceHistory_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             selectedAmount = 0;
-            BindingList<SP_Advance_Consult_Result> array =
-                (BindingList<SP_Advance_Consult_Result>)GrvAdvanceHistory.DataSource;
+            BindingList<SP_Advance_Consult_Result> array = (BindingList<SP_Advance_Consult_Result>)GrvAdvanceHistory.DataSource;
             foreach (SP_Advance_Consult_Result item in array)
             {
                 if ((bool)item.IsSelected)

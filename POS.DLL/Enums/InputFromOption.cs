@@ -26,6 +26,7 @@
         SALESORDER_ID,
         ADVANCE_AMOUNT,
         OBSERVATION,
-        CLOSING_CASHIER_ID
+        CLOSING_CASHIER_ID,
+        PRODUCT_NAME
     }
 }

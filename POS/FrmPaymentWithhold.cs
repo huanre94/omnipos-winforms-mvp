@@ -32,8 +32,10 @@ namespace POS
 
         private void FrmPaymentWithhold2_Load(object sender, EventArgs e)
         {
-            ValidateCustomerInformation();
-            LoadTaxPercent();
+            if (ValidateCustomerInformation())
+            {
+                LoadTaxPercent();
+            }
         }
 
         private void LoadTaxPercent()
@@ -168,16 +170,20 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION
+            };
             keyPad.ShowDialog();
             TxtNAutorization.Text = keyPad.creditCardAuthorization;
         }
 
         private void BtnKeypadRet_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION
+            };
             keyPad.ShowDialog();
             TxtNRetention.Text = keyPad.creditCardAuthorization;
         }
@@ -196,7 +202,7 @@ namespace POS
                     true,
                     ex.InnerException.Message);
             }
-            return retentions;
+            return null;
         }
 
         private void CmbTaxPercent_SelectedIndexChanged(object sender, EventArgs e)

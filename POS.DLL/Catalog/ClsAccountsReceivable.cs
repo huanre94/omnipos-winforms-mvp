@@ -20,20 +20,20 @@ namespace POS.DLL.Catalog
         /// <param name="customer">Current customer filter</param>
         public List<SP_Advance_Consult_Result> GetPendingAccountReceivable(long _customerId, PaymModeEnum paymmodeId)
         {
-            List<SP_Advance_Consult_Result> advances;
             try
             {
-                advances = new POSEntities(connectionString).SP_Advance_Consult(_customerId, (int?)paymmodeId, "").ToList();
+                List<SP_Advance_Consult_Result> advances = new POSEntities(connectionString).SP_Advance_Consult(_customerId, (int)paymmodeId, "").ToList();
                 if (advances?.Count() == 0)
                 {
                     advances = new List<SP_Advance_Consult_Result>();
                 }
+
+                return advances;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.InnerException.Message);
+                throw new Exception(ex.Message);
             }
-            return advances;
         }
     }
 }

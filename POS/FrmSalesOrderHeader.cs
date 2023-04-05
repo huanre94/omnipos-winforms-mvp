@@ -87,7 +87,7 @@ namespace POS
             FrmCustomer frmCustomer = new FrmCustomer()
             {
                 emissionPoint = emissionPoint,
-                isNewCustomer = true,
+                IsNewCustomer = true,
                 customerIdentification = _identification,
                 loginInformation = loginInformation
             };

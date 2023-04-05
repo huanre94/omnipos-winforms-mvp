@@ -62,21 +62,14 @@ namespace POS.DLL.Transaction
 
         public SP_Invoice_Insert_Result CreateInvoice(XElement _invoiceXml)
         {
-            SP_Invoice_Insert_Result invoiceResult = null;
-
             try
             {
-                if (_invoiceXml.HasElements)
-                {
-                    return new POSEntities(connectionString).SP_Invoice_Insert(_invoiceXml.ToString()).FirstOrDefault();
-                }
+                return new POSEntities(connectionString).SP_Invoice_Insert(_invoiceXml.ToString()).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.Message);
             }
-
-            return invoiceResult;
         }
 
         public IEnumerable<SP_InvoiceTicket_Consult_Result> GetInvoiceTicket(long _invoiceId, bool _openCashier = false)

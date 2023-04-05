@@ -44,7 +44,7 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual InventUnit InventUnit { get; set; }
-        public virtual Product Product { get; set; }
         public virtual SalesOrder SalesOrder { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
