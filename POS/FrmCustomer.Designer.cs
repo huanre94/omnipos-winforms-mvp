@@ -134,6 +134,7 @@
             this.BtnKeyboardName.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyboardName.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyboardName.TabIndex = 11;
+            this.BtnKeyboardName.TabStop = false;
             this.BtnKeyboardName.Click += new System.EventHandler(this.BtnKeyboardName_Click);
             // 
             // LblIdentType
@@ -162,6 +163,7 @@
             this.BtnKeyboardIdentification.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyboardIdentification.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyboardIdentification.TabIndex = 15;
+            this.BtnKeyboardIdentification.TabStop = false;
             this.BtnKeyboardIdentification.Click += new System.EventHandler(this.BtnKeyboardIdentification_Click);
             // 
             // TxtIdentification
@@ -199,6 +201,7 @@
             this.BtnKeyboardLastname.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyboardLastname.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyboardLastname.TabIndex = 19;
+            this.BtnKeyboardLastname.TabStop = false;
             this.BtnKeyboardLastname.Click += new System.EventHandler(this.BtnKeyboardLastname_Click);
             // 
             // TxtLastName
@@ -236,6 +239,7 @@
             this.BtnKeyboardAddress.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyboardAddress.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyboardAddress.TabIndex = 22;
+            this.BtnKeyboardAddress.TabStop = false;
             this.BtnKeyboardAddress.Click += new System.EventHandler(this.BtnKeyboardAddress_Click);
             // 
             // TxtAddress
@@ -273,6 +277,7 @@
             this.BtnKeyboardEmail.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeyboardEmail.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyboardEmail.TabIndex = 25;
+            this.BtnKeyboardEmail.TabStop = false;
             this.BtnKeyboardEmail.Click += new System.EventHandler(this.BtnKeyboardEmail_Click);
             // 
             // TxtEmail
@@ -378,6 +383,7 @@
             this.BtnKeypadPhone.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeypadPhone.Size = new System.Drawing.Size(100, 62);
             this.BtnKeypadPhone.TabIndex = 33;
+            this.BtnKeypadPhone.TabStop = false;
             this.BtnKeypadPhone.Click += new System.EventHandler(this.BtnKeypadPhone_Click);
             // 
             // FrmCustomer

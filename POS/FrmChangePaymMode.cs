@@ -14,16 +14,22 @@ namespace POS
     public partial class FrmChangePaymMode : DevExpress.XtraEditors.XtraForm
     {
         private readonly ClsFunctions functions = new ClsFunctions();
-        public SP_Login_Consult_Result loginInformation;
+        private SP_Login_Consult_Result LoginInformation { get; set; }
         private EmissionPoint emissionPoint;
         private InvoicePayment invoicePayment;
         private SP_InvoicePayment_Consult_Result row;
         private Customer customer;
-        private bool allowChangePaymode;
+        private bool allowChangePaymode { get; set; }
 
         public FrmChangePaymMode()
         {
             InitializeComponent();
+        }
+
+        public FrmChangePaymMode(SP_Login_Consult_Result _loginInformation)
+        {
+            InitializeComponent();
+            LoginInformation = _loginInformation;
         }
 
         private void FrmChangePaymMode_Load(object sender, EventArgs e)
@@ -39,7 +45,7 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            string addressIP = loginInformation.AddressIP;
+            string addressIP = LoginInformation.AddressIP;
 
             if (addressIP == "")
             {
@@ -114,7 +120,7 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            GetPaymentsInformation((int)loginInformation.LocationId,
+            GetPaymentsInformation((int)LoginInformation.LocationId,
                                    TxtEmissionPoint.Text,
                                    TxtInvoiceNumber.Text);
         }
@@ -225,19 +231,27 @@ namespace POS
                 case (int)PaymModeEnum.BONO:
                     FrmPaymentGiftcard paymentGiftcard = new FrmPaymentGiftcard()
                     {
-                        paidAmount = row.Amount
+                        PaidAmount = row.Amount
                     };
                     paymentGiftcard.ShowDialog();
 
-                    if (paymentGiftcard.formActionResult)
+                    if (paymentGiftcard.FormActionResult)
                     {
-                        allowChangePaymode = paymentGiftcard.formActionResult;
+                        allowChangePaymode = paymentGiftcard.FormActionResult;
                         invoicePayment = new InvoicePayment
                         {
                             PaymModeId = (int)CmbPaymMode.EditValue,
                             GiftCardNumber = paymentGiftcard.giftcardNumber
                         };
                     }
+                    break;
+
+                //case (int)PaymModeEnum.CREDITO:
+                //    FrmPaymentCredit credit = new FrmPaymentCredit()
+                //    {
+
+                //    }
+
                     break;
 
                 default:
@@ -257,7 +271,6 @@ namespace POS
 
         private void ChangePaymMode()
         {
-
             if (!allowChangePaymode)
             {
                 functions.ShowMessage("No se puede realizar actualización por falta de información.", MessageType.WARNING);
@@ -265,7 +278,7 @@ namespace POS
             }
 
             functions.emissionPoint = emissionPoint;
-            if (emissionPoint != null ? functions.RequestSupervisorAuth(false) : true)
+            if (emissionPoint == null || functions.RequestSupervisorAuth(false))
             {
                 try
                 {
@@ -273,8 +286,8 @@ namespace POS
                                                                                                               row.PaymModeId,
                                                                                                               row.Sequence,
                                                                                                               invoicePayment,
-                                                                                                              (int)loginInformation.UserId,
-                                                                                                              loginInformation.Workstation);
+                                                                                                              (int)LoginInformation.UserId,
+                                                                                                              LoginInformation.Workstation);
 
                     if (!response)
                     {

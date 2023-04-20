@@ -51,6 +51,7 @@ namespace POS
             }
 
             IEnumerable<RetentionTable> retentions = LoadRetentions((int)Taxtype.RENTA);
+            retentions.ToList().Sort();
             RetentionTable retentionPercent = (from re in retentions select re).FirstOrDefault();
             decimal totalBaseCalculated = baseAmount * retentionPercent.Percent / 100;
             LblBaseAmount.Text = Math.Round(baseAmount, 2).ToString();
@@ -190,10 +191,9 @@ namespace POS
 
         private IEnumerable<RetentionTable> LoadRetentions(int typeRetention)
         {
-            IEnumerable<RetentionTable> retentions = null;
             try
             {
-                retentions = new ClsPaymMode(Program.customConnectionString).GetRetentionTables(typeRetention);
+                return new ClsPaymMode(Program.customConnectionString).GetRetentionTables(typeRetention);
             }
             catch (Exception ex)
             {
@@ -201,8 +201,9 @@ namespace POS
                      MessageType.ERROR,
                     true,
                     ex.InnerException.Message);
+
+                return null;
             }
-            return null;
         }
 
         private void CmbTaxPercent_SelectedIndexChanged(object sender, EventArgs e)

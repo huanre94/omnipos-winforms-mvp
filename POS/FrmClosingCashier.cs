@@ -501,7 +501,9 @@ namespace POS
             FrmVoidClosing closingForm = new FrmVoidClosing();
             closingForm.ShowDialog();
 
-            if (closingForm.returnStatus) { }
+            if (closingForm.returnStatus)
+            {
+            }
         }
 
         private void GrcDenomination_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)

@@ -11,8 +11,15 @@ namespace POS
         readonly ClsFunctions functions = new ClsFunctions();
         public decimal giftcardAmount;
         public string giftcardNumber;
-        public decimal paidAmount;
-        public bool formActionResult;
+        public decimal PaidAmount { get; set; }
+        public bool FormActionResult { get; set; }
+
+        public FrmPaymentGiftcard(decimal paidAmount)
+        {
+            InitializeComponent();
+            PaidAmount = paidAmount;
+        }
+
 
         public FrmPaymentGiftcard()
         {
@@ -56,12 +63,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al consultar el bono."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                        );
+                functions.ShowMessage("Ocurrio un problema al consultar el bono.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
         }
 
@@ -82,9 +87,9 @@ namespace POS
                     return;
                 }
 
-                if (giftcardAmount != paidAmount)
+                if (giftcardAmount != PaidAmount)
                 {
-                    if (paidAmount > giftcardAmount)
+                    if (PaidAmount > giftcardAmount)
                     {
                         functions.ShowMessage("El saldo del bono es insuficiente para realizar la compra.", MessageType.WARNING);
                     }
@@ -96,7 +101,7 @@ namespace POS
                 }
 
                 ClearGiftCard();
-                formActionResult = true;
+                FormActionResult = true;
             }
         }
 

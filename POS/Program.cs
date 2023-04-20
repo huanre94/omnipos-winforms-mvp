@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;  //14/07/2022
 using System;
+using System.Configuration;
 using System.Data.Entity.Core.EntityClient;
 using System.Windows.Forms;
 

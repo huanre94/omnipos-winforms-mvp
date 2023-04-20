@@ -40,30 +40,23 @@ namespace POS
             FrmMessage frmMessage = new FrmMessage(_messageText, _messageType, _showMessageDetail, _messageTextDetail);
             frmMessage.ShowDialog();
 
-            return frmMessage.messageResponse;
+            return frmMessage.GetMessageResponse();
         }
 
         public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
         {
-            using (FrmSupervisorAuth auth = new FrmSupervisorAuth()
-            {
-                scanner = AxOPOSScanner,
-                emissionPoint = emissionPoint,
-                requireMotive = requireMotive,
-                reasonType = reasonType
-            })
-            {
-                auth.ShowDialog();
+            FrmSupervisorAuth auth = new FrmSupervisorAuth(AxOPOSScanner, emissionPoint, requireMotive, reasonType);
+            auth.ShowDialog();
 
-                if (auth.formActionResult)
-                {
-                    this.reasonType = auth.reasonType;
-                    this.motiveId = auth.motiveId;
-                    this.supervisorAuthorization = auth.supervisorAuthorization;
-                }
-
-                return auth.formActionResult;
+            if (auth.formActionResult)
+            {
+                this.reasonType = auth.ReasonType;
+                this.motiveId = auth.motiveId;
+                this.supervisorAuthorization = auth.SupervisorAuthorization;
             }
+
+            return auth.formActionResult;
+
         }
 
         public void EnableScanner(string _scannerName)

@@ -25,18 +25,27 @@ namespace POS
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder { get; set; }
         public IEnumerable<GlobalParameter> globalParameters;
-        ClsSalesOrderTrans sales { get; set; } = new ClsSalesOrderTrans(Program.customConnectionString);
+        ClsSalesOrderTrans ClsSales { get; set; } = new ClsSalesOrderTrans(Program.customConnectionString);
         XElement salesOrderXml = new XElement("SalesOrder");
         ClsCatchWeight catchWeight;
         ScaleBrands scaleBrand;
-        private string portName = "";
-        public bool isUpdated = false;
+        public bool IsUpdated { get; set; } = false;
         Customer customer;
 
+        string portName = "";
 
         public FrmSalesOrder()
         {
             InitializeComponent();
+        }
+
+        public FrmSalesOrder(SP_Login_Consult_Result loginInformation, EmissionPoint emissionPoint, long salesOrderId, IEnumerable<GlobalParameter> globalParameters)
+        {
+            InitializeComponent();
+            this.loginInformation = loginInformation;
+            this.emissionPoint = emissionPoint;
+            this.salesOrderId = salesOrderId;
+            this.globalParameters = globalParameters;
         }
 
         private void EnableKeypad(bool status)
@@ -124,7 +133,7 @@ namespace POS
             if (addressIP == "")
             {
                 functions.ShowMessage("No se proporcionó dirección IP del equipo.", MessageType.WARNING);
-                return true;
+                return false;
             }
 
             try
@@ -143,12 +152,12 @@ namespace POS
             if (emissionPoint == null)
             {
                 functions.ShowMessage("No existe punto de emisión asignado a este equipo.", MessageType.WARNING);
-                return true;
+                return false;
             }
 
             functions.PrinterName = emissionPoint.PrinterName;
             LblCashier.Text = loginInformation.UserName;
-            return false;
+            return true;
         }
 
         private void LoadSalesOrderDetails()
@@ -556,14 +565,14 @@ namespace POS
                 functions.emissionPoint = emissionPoint;
                 if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
                 {
-                    sales.loginInformation = loginInformation;
-                    if (!sales.CancelSalesOrder(salesOrder.SalesOrderId))
+                    ClsSales.loginInformation = loginInformation;
+                    if (!ClsSales.CancelSalesOrder(salesOrder.SalesOrderId))
                     {
                         functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);
                         return;
                     }
 
-                    isUpdated = true;
+                    IsUpdated = true;
                     functions.ShowMessage("Orden Cancelada Exitosamente", MessageType.INFO);
                     Close();
                 }
@@ -609,11 +618,11 @@ namespace POS
                     }
                     salesOrderXml.Add(salesOrderPayment);
 
-                    sales.loginInformation = loginInformation;
-                    SP_SalesOrderOmnipos_Insert_Result result = sales.CreateOrUpdateSalesOrder(salesOrderXml.ToString(), salesOrderId);
+                    ClsSales.loginInformation = loginInformation;
+                    SP_SalesOrderOmnipos_Insert_Result result = ClsSales.CreateOrUpdateSalesOrder(salesOrderXml.ToString(), salesOrderId);
                     if ((bool)!result.Error)
                     {
-                        isUpdated = true;
+                        IsUpdated = true;
                         functions.ShowMessage("Detalles de la orden fueron guardados correctamente", MessageType.INFO);
                     }
                     else
@@ -650,10 +659,10 @@ namespace POS
                     functions.emissionPoint = emissionPoint;
                     if (functions.ShowMessage("¿Esta seguro de finalizar la orden? Posterior a esto la orden solo podra ser agregada a una guia de remision", MessageType.CONFIRM))
                     {
-                        sales.loginInformation = loginInformation;
-                        if (sales.FinishSalesOrder(salesOrder.SalesOrderId))
+                        ClsSales.loginInformation = loginInformation;
+                        if (ClsSales.FinishSalesOrder(salesOrder.SalesOrderId))
                         {
-                            isUpdated = true;
+                            IsUpdated = true;
                             functions.PrintDocument(salesOrderId, DocumentType.SALESORDER, false);
                             functions.ShowMessage("Orden cambiada a Packing Exitosamente", MessageType.INFO);
                             Close();
@@ -727,8 +736,7 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch();
-            productSearch.emissionPoint = emissionPoint;
+            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
             productSearch.ShowDialog();
 
             if (productSearch.barcode != "")
@@ -738,13 +746,10 @@ namespace POS
                 if (productSearch.useCatchWeight)
                 {
 
-                    quantity = functions.CatchWeightProduct(
-                                                            AxOPOSScale
-                                                            , productSearch.productName
-                                                            , scaleBrand
-                                                            , portName
-
-                                                            );
+                    quantity = functions.CatchWeightProduct(AxOPOSScale,
+                                                            productSearch.productName,
+                                                            scaleBrand,
+                                                            portName);
                 }
                 else
                 {
@@ -753,15 +758,13 @@ namespace POS
 
                 if (quantity > 0)
                 {
-                    GetProductInformation(
-                                            emissionPoint.LocationId
-                                            , productSearch.barcode
-                                            , quantity
-                                            , customer.CustomerId
-                                            , 1
-                                            , ""
-                                            , true
-                                            );
+                    GetProductInformation(emissionPoint.LocationId,
+                                          productSearch.barcode,
+                                          quantity,
+                                          customer.CustomerId,
+                                          1,
+                                          "",
+                                          true);
                 }
                 else
                 {

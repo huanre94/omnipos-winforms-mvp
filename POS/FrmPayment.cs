@@ -40,7 +40,7 @@ namespace POS
         public XElement invoiceXml; //HR002
         public bool isInvoicePaymentDiscount = false;   //HR002
         public int salesOriginId = 1;
-        public bool paymentMethod { get; } = true;
+        public bool paymentMethod { get; set; } = true;
 
         public FrmPayment()
         {
@@ -61,9 +61,12 @@ namespace POS
             BtnWithhold.Enabled = paymentMethod;
             BtnAdvance.Enabled = paymentMethod;
             BtnReturn.Enabled = paymentMethod;
-            BtnCash.Text = "&Efectivo";
 
+            BtnCash.Click += BtnCash_Click;
+
+            TxtAmount.Focus();
         }
+
 
         private void GetPaymentInformation()
         {
@@ -75,13 +78,15 @@ namespace POS
             //TODO 
             string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax();
 
-            IList<PaymentDetail> paymentDetails = new List<PaymentDetail>();
-            paymentDetails.Add(new PaymentDetail($"Base IVA 0%", baseAmount));
-            paymentDetails.Add(new PaymentDetail($"(+) Base IVA {taxPercent}%", baseTaxAmount));
-            paymentDetails.Add(new PaymentDetail($"(+) IVA {taxPercent}%", taxAmount));
-            paymentDetails.Add(new PaymentDetail($"(+) IRBP", irbpAmount));
-            paymentDetails.Add(new PaymentDetail($"(-) Descuento", discountAmount));
-            paymentDetails.Add(new PaymentDetail($"(=) Total", invoiceAmount));
+            IList<PaymentDetail> paymentDetails = new List<PaymentDetail>
+            {
+                new PaymentDetail($"Base IVA 0%", baseAmount),
+                new PaymentDetail($"(+) Base IVA {taxPercent}%", baseTaxAmount),
+                new PaymentDetail($"(+) IVA {taxPercent}%", taxAmount),
+                new PaymentDetail($"(+) IRBP", irbpAmount),
+                new PaymentDetail($"(-) Descuento", discountAmount),
+                new PaymentDetail($"(=) Total", invoiceAmount)
+            };
 
             foreach (PaymentDetail detail in paymentDetails)
             {
@@ -144,68 +149,97 @@ namespace POS
 
         private void BtnCash_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-                return;
-            }
-
-            Cash();
+            CallPaymentMethod(PaymModeEnum.EFECTIVO);
         }
 
         private void BtnCreditCard_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-                return;
-            }
-
-            CreditCard();
+            CallPaymentMethod(PaymModeEnum.TARJETA_CREDITO);
         }
 
         private void BtnCheck_Click(object sender, EventArgs e)
         {
+            CallPaymentMethod(PaymModeEnum.CHEQUE_DIA);
+        }
+
+        private void CallPaymentMethod(PaymModeEnum paymMode)
+        {
             if (TxtAmount.Text == string.Empty)
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
                 return;
             }
 
-            Check();
+            if (decimal.Parse(TxtAmount.Text) > pendingAmount && paymMode != PaymModeEnum.EFECTIVO)
+            {
+                functions.ShowMessage("Solo el metodo de pago Efectivo permite montos mayor al pendiente.", MessageType.WARNING);
+                return;
+            }
+
+            switch (paymMode)
+            {
+                case PaymModeEnum.NOTA_CREDITO:
+                case PaymModeEnum.ANTICIPOS:
+                    AccountReceivable(paymMode);
+                    break;
+                case PaymModeEnum.EFECTIVO:
+                    Cash();
+                    break;
+                case PaymModeEnum.CHEQUE_DIA:
+                    Check();
+                    break;
+                case PaymModeEnum.CREDITO:
+                    InternalCredit();
+                    break;
+                case PaymModeEnum.TARJETA_CREDITO:
+                    CreditCard();
+                    break;
+                case PaymModeEnum.BONO:
+                    GiftCard();
+                    break;
+
+
+                case PaymModeEnum.RETENCION:
+                    if (customer.CustomerId == 1)
+                    {
+                        functions.ShowMessage("No aplica retencion, cliente ", MessageType.WARNING);
+                        return;
+                    }
+
+                    if (taxAmount == 0 && baseAmount == 0)
+                    {
+                        functions.ShowMessage("La venta no aplica retención, la base imponible es cero", MessageType.WARNING);
+                        return;
+                    }
+
+                    if (!(bool)customer.UseRetention)
+                    {
+                        functions.ShowMessage("No aplica retencion, cliente ", MessageType.WARNING);
+                        return;
+                    }
+
+                    Withhold();
+                    break;
+
+                default:
+                    functions.ShowMessage("Metodo no implementado. Por favor contactar con Sistemas.", MessageType.WARNING);
+                    break;
+            }
         }
 
         private void BtnInternalCredit_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-                return;
-            }
-
-            InternalCredit();
+            CallPaymentMethod(PaymModeEnum.CREDITO);
         }
 
         private void BtnGiftcard_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-                return;
-            }
-
-            GiftCard();
+            CallPaymentMethod(PaymModeEnum.BONO);
         }
 
         private void BtnWithhold_Click(object sender, EventArgs e)
         {
-            if (taxAmount == 0 && baseAmount == 0 && (customer.UseRetention ?? false))
-            {
-                functions.ShowMessage("La venta no aplica retención, la base imponible es cero", MessageType.WARNING);
-                return;
-            }
-
-            Withhold();
+            CallPaymentMethod(PaymModeEnum.RETENCION);
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -227,25 +261,18 @@ namespace POS
 
         private void BtnAdvance_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-                return;
-            }
-
-            AccountReceivable(PaymModeEnum.ANTICIPOS);
+            CallPaymentMethod(PaymModeEnum.ANTICIPOS);
         }
 
         private void BtnReturn_Click(object sender, EventArgs e)
         {
-            if (TxtAmount.Text == string.Empty)
-            {
-                functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
-            }
-
-            AccountReceivable(PaymModeEnum.NOTA_CREDITO);
+            CallPaymentMethod(PaymModeEnum.NOTA_CREDITO);
         }
 
+        private void BtnTransfer_Click(object sender, EventArgs e)
+        {
+            CallPaymentMethod(PaymModeEnum.DEPOSITO_BANCARIO);
+        }
         #endregion
 
         #region Payment Functions
@@ -368,44 +395,40 @@ namespace POS
 
         private void InternalCredit()
         {
-            FrmPaymentCredit paymentCredit = new FrmPaymentCredit();
-            paymentCredit.paidAmount = decimal.Parse(TxtAmount.Text);
-            paymentCredit.customer = customer;
-            paymentCredit.emissionPoint = emissionPoint;
-            //paymentCredit.scanner = scanner;
-            paymentCredit.internalCreditCardCode = internalCreditCardCode;
-            paymentCredit.salesOriginId = salesOriginId;
+            FrmPaymentCredit paymentCredit = new FrmPaymentCredit
+            (
+               paidAmount: decimal.Parse(TxtAmount.Text),
+                customer,
+                emissionPoint,
+                internalCreditCardCode,
+                salesOriginId
+            );
             paymentCredit.ShowDialog();
 
             if (paymentCredit.formActionResult)
             {
-                bool responseAuthorization = true;
+                bool requireAutorization = true;
                 try
                 {
-                    string value = customer.IsEmployee ? "InternalCreditRequestAuth" : "RequireSupervisorAuthorizationCustomer";
-                    GlobalParameter parameter = new ClsGeneral(Program.customConnectionString).GetParameterByName(value);
+                    string parameterName = customer.IsEmployee ? "InternalCreditRequestAuth" : "RequireSupervisorAuthorizationCustomer";
 
-                    if (parameter != null)
+                    if (new ClsGeneral(Program.customConnectionString).GetParameterByName(parameterName).Value == "1")
                     {
-                        if (parameter.Value == "1")
-                        {
-                            functions.emissionPoint = emissionPoint;
-                            functions.AxOPOSScanner = scanner;
-                            responseAuthorization = functions.RequestSupervisorAuth();
-                        }
+                        functions.emissionPoint = emissionPoint;
+                        functions.AxOPOSScanner = scanner;
+                        requireAutorization = functions.RequestSupervisorAuth();
                     }
+
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage(
-                                            "Ha ocurrido un problema al consultar parametro."
-                                            , MessageType.ERROR
-                                            , true
-                                            , ex.InnerException.Message
-                                        );
+                    functions.ShowMessage("Ha ocurrido un problema al consultar parametro.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
 
-                if (responseAuthorization)
+                if (requireAutorization)
                 {
                     InvoicePayment invoicePayment = new InvoicePayment();
                     if (!customer.IsEmployee)
@@ -430,11 +453,13 @@ namespace POS
 
         private void GiftCard()
         {
-            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard();
-            giftcard.paidAmount = decimal.Parse(TxtAmount.Text);
+            FrmPaymentGiftcard giftcard = new FrmPaymentGiftcard
+            {
+                PaidAmount = decimal.Parse(TxtAmount.Text)
+            };
             giftcard.ShowDialog();
 
-            if (giftcard.formActionResult)
+            if (giftcard.FormActionResult)
             {
                 InvoicePayment invoicePayment = new InvoicePayment
                 {
@@ -450,49 +475,36 @@ namespace POS
 
         private void Withhold()
         {
-            bool hasRetention = false;
-
-            try
-            {
-                int retentionCount = (from pa in paymentXml.Descendants("InvoicePayment") where int.Parse(pa.Element("PaymModeId").Value) == (int)PaymModeEnum.RETENCION select pa).Count();
-                if (retentionCount > 0)
-                {
-                    hasRetention = true;
-                }
-            }
-            catch
-            {
-                hasRetention = false;
-            }
-
-            if (hasRetention)
+            if (paymentXml
+                .Descendants("InvoicePayment")
+                .Where(pa => int.Parse(pa.Element("PaymModeId").Value) == (int)PaymModeEnum.RETENCION)
+                .Count() > 0)
             {
                 functions.ShowMessage("Ya se encuentra registrada una retencion", MessageType.WARNING);
+                return;
             }
-            else
+
+            FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold()
             {
-                FrmPaymentWithhold paymentWithhold = new FrmPaymentWithhold()
+                customer = customer,
+                loginInformation = loginInformation,
+                taxAmount = taxAmount,
+                baseAmount = baseAmount + baseTaxAmount - discountAmount
+            };
+            paymentWithhold.ShowDialog();
+
+            if (paymentWithhold.processResponse)
+            {
+                decimal paymentRetencion = paymentWithhold.totalDiscounted;
+                TxtAmount.Text = paymentRetencion.ToString();
+                List<InvoicePayment> retentionList = paymentWithhold.retentionList;
+
+                foreach (InvoicePayment item in retentionList)
                 {
-                    customer = customer,
-                    loginInformation = loginInformation,
-                    taxAmount = taxAmount,
-                    baseAmount = baseAmount + baseTaxAmount - discountAmount
-                };
-                paymentWithhold.ShowDialog();
-
-                if (paymentWithhold.processResponse)
-                {
-                    decimal paymentRetencion = paymentWithhold.totalDiscounted;
-                    TxtAmount.Text = paymentRetencion.ToString();
-                    List<InvoicePayment> retentionList = paymentWithhold.retentionList;
-
-                    foreach (InvoicePayment item in retentionList)
-                    {
-                        AddRecordToGrid(item);
-                    }
-
-                    CalculatePayment();
+                    AddRecordToGrid(item);
                 }
+
+                CalculatePayment();
             }
         }
 
@@ -581,6 +593,7 @@ namespace POS
             if (paidAmount != invoiceAmount)
             {
                 TxtAmount.Text = pendingAmount.ToString();
+                TxtAmount.Focus();
                 return;
             }
 
@@ -625,60 +638,38 @@ namespace POS
                 }
             }
         }
+
         #endregion
 
-        private void TxtAmount_KeyUp(object sender, KeyEventArgs e)
+        private void TxtAmount_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.E))
+            switch (e.KeyCode)
             {
-                BtnCash_Click(null, null); //BtnCash.Focus();
+                case Keys.F1:
+                    CallPaymentMethod(PaymModeEnum.EFECTIVO);
+                    break;
+                case Keys.F2:
+                    CallPaymentMethod(PaymModeEnum.TARJETA_CREDITO);
+                    break;
+                case Keys.F3:
+                    CallPaymentMethod(PaymModeEnum.CHEQUE_DIA);
+                    break;
+                case Keys.F4:
+                    CallPaymentMethod(PaymModeEnum.CREDITO);
+                    break;
+                case Keys.F5:
+                    CallPaymentMethod(PaymModeEnum.RETENCION);
+                    break;
+                case Keys.F6:
+                    CallPaymentMethod(PaymModeEnum.BONO);
+                    break;
+                case Keys.F7:
+                    CallPaymentMethod(PaymModeEnum.ANTICIPOS);
+                    break;
+                case Keys.F8:
+                    CallPaymentMethod(PaymModeEnum.NOTA_CREDITO);
+                    break;
             }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.T))
-            {
-                BtnCreditCard_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.C))
-            {
-                BtnCheck_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.D))
-            {
-                BtnInternalCredit_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.B))
-            {
-                BtnGiftcard_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.R))
-            {
-                BtnWithhold_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.A))
-            {
-                BtnAdvance_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.Control) + Convert.ToInt32(Keys.N))
-            {
-                BtnReturn_Click(null, null);
-            }
-
-            if (Convert.ToInt32(e.KeyData) == Convert.ToInt32(Keys.F9))
-            {
-                BtnCancel_Click(null, null);
-            }
-
-        }
-
-        private void BtnTransfer_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

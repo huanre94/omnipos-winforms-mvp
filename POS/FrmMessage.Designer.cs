@@ -56,6 +56,7 @@
             this.BtnAccept.TabIndex = 1;
             this.BtnAccept.Text = "Aceptar";
             this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
+            this.BtnAccept.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BtnAccept_KeyDown);
             // 
             // LblMessage
             // 
@@ -65,7 +66,7 @@
             this.LblMessage.MaximumSize = new System.Drawing.Size(489, 250);
             this.LblMessage.Name = "LblMessage";
             this.LblMessage.Size = new System.Drawing.Size(450, 150);
-            this.LblMessage.TabIndex = 2;
+            this.LblMessage.TabIndex = 0;
             this.LblMessage.Text = "Mensaje a mostrar";
             this.LblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -76,7 +77,8 @@
             this.ImgSvgMessage.Name = "ImgSvgMessage";
             this.ImgSvgMessage.Size = new System.Drawing.Size(92, 81);
             this.ImgSvgMessage.SizeMode = DevExpress.XtraEditors.SvgImageSizeMode.Stretch;
-            this.ImgSvgMessage.TabIndex = 4;
+            this.ImgSvgMessage.TabIndex = 0;
+            this.ImgSvgMessage.TabStop = false;
             // 
             // BtnCancel
             // 
@@ -104,9 +106,9 @@
             this.LnkViewDetail.Location = new System.Drawing.Point(37, 291);
             this.LnkViewDetail.Margin = new System.Windows.Forms.Padding(4);
             this.LnkViewDetail.Name = "LnkViewDetail";
-            this.LnkViewDetail.Size = new System.Drawing.Size(90, 20);
-            this.LnkViewDetail.TabIndex = 5;
-            this.LnkViewDetail.Text = "Ver detalle";
+            this.LnkViewDetail.Size = new System.Drawing.Size(126, 20);
+            this.LnkViewDetail.TabIndex = 3;
+            this.LnkViewDetail.Text = "[F1] Ver detalle";
             this.LnkViewDetail.Visible = false;
             this.LnkViewDetail.Click += new System.EventHandler(this.LnkViewDetail_Click);
             // 

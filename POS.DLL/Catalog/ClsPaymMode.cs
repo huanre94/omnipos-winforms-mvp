@@ -37,8 +37,8 @@ namespace POS.DLL.Catalog
                 return
                      new POSEntities(connectionString)
                      .RetentionTable
-                     .Where(ret => ret.Status.Equals("A") && ret.Type == $"{_retentionType}")
-                     .ToList();
+                     .Where(ret => ret.Status.Equals("A") && ret.Type.Equals($"{_retentionType}"))
+                     .AsEnumerable();
             }
             catch (Exception ex)
             {

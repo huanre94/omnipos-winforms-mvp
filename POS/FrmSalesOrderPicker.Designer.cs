@@ -50,7 +50,7 @@
             this.CmbSalesOrderOrigin = new DevExpress.XtraEditors.ImageComboBoxEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.ETOrderDate = new DevExpress.XtraEditors.DateEdit();
-            this.chkDate = new DevExpress.XtraEditors.CheckButton();
+            this.ChkDate = new DevExpress.XtraEditors.CheckButton();
             this.BtnPrintSaleOrder = new DevExpress.XtraEditors.SimpleButton();
             this.BtnSearch = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesOrder)).BeginInit();
@@ -384,16 +384,16 @@
             this.ETOrderDate.TabIndex = 143;
             this.ETOrderDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ETOrderDate_KeyDown);
             // 
-            // chkDate
+            // ChkDate
             // 
-            this.chkDate.AppearancePressed.BackColor = System.Drawing.Color.Lime;
-            this.chkDate.AppearancePressed.Options.UseBackColor = true;
-            this.chkDate.Location = new System.Drawing.Point(26, 30);
-            this.chkDate.Name = "chkDate";
-            this.chkDate.Size = new System.Drawing.Size(103, 36);
-            this.chkDate.TabIndex = 144;
-            this.chkDate.Text = "&Fecha";
-            this.chkDate.CheckedChanged += new System.EventHandler(this.chkDate_CheckedChanged);
+            this.ChkDate.AppearancePressed.BackColor = System.Drawing.Color.Lime;
+            this.ChkDate.AppearancePressed.Options.UseBackColor = true;
+            this.ChkDate.Location = new System.Drawing.Point(26, 30);
+            this.ChkDate.Name = "ChkDate";
+            this.ChkDate.Size = new System.Drawing.Size(103, 36);
+            this.ChkDate.TabIndex = 144;
+            this.ChkDate.Text = "&Fecha";
+            this.ChkDate.CheckedChanged += new System.EventHandler(this.ChkDate_CheckedChanged);
             // 
             // BtnPrintSaleOrder
             // 
@@ -438,7 +438,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.BtnPrintSaleOrder);
-            this.Controls.Add(this.chkDate);
+            this.Controls.Add(this.ChkDate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.LblMotive);
@@ -493,7 +493,7 @@
         private DevExpress.XtraEditors.DateEdit ETOrderDate;
         private DevExpress.XtraGrid.Columns.GridColumn OrderDate;
         private DevExpress.XtraGrid.Columns.GridColumn RemGuide;
-        private DevExpress.XtraEditors.CheckButton chkDate;
+        private DevExpress.XtraEditors.CheckButton ChkDate;
         private DevExpress.XtraEditors.SimpleButton BtnPrintSaleOrder;
         private DevExpress.XtraEditors.SimpleButton BtnSearch;
     }

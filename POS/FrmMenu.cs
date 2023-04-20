@@ -132,10 +132,7 @@ namespace POS
 
         private void BtnChangePaymMode_Click(object sender, EventArgs e)
         {
-            FrmChangePaymMode frmChange = new FrmChangePaymMode()
-            {
-                loginInformation = loginInformation
-            };
+            FrmChangePaymMode frmChange = new FrmChangePaymMode(loginInformation);
             frmChange.ShowDialog();
         }
 

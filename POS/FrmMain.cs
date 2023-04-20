@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraGrid.Views.Grid;
-using OposScale_CCO;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
@@ -262,20 +261,19 @@ namespace POS
                     {
                         if (functions.ShowMessage("El cliente es un empleado, ¿Desea utilizar la tarjeta de afiliado?", MessageType.CONFIRM))
                         {
-                            FrmPaymentCredit paymentCredit = new FrmPaymentCredit()
-                            {
-                                customer = currentCustomer,
-                                emissionPoint = emissionPoint,
-                                scanner = AxOPOSScanner,
-                                isPresentingCreditCard = true,
-                                salesOriginId = salesOriginId
-                            };
+                            FrmPaymentCredit paymentCredit = new FrmPaymentCredit(customer: currentCustomer,
+                                emissionPoint: emissionPoint,
+                                scanner: AxOPOSScanner,
+                                isPresentingCreditCard: true,
+                                SalesOriginId: salesOriginId);
+
+
                             paymentCredit.ShowDialog();
 
                             if (paymentCredit.formActionResult)
                             {
                                 internalCreditCardId = paymentCredit.internalCreditCardId;
-                                internalCreditCardCode = paymentCredit.internalCreditCardCode;
+                                internalCreditCardCode = paymentCredit.InternalCreditCardCode;
                             }
                         }
                     }
@@ -546,14 +544,12 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch()
-            {
-                emissionPoint = emissionPoint
-            };
+            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
             productSearch.ShowDialog();
 
             if (productSearch.barcode == string.Empty)
             {
+
             }
             else
             {
@@ -693,7 +689,7 @@ namespace POS
         {
             if (decimal.Parse(LblTotal.Text) <= 0)
             {
-                functions.ShowMessage("El valor a pagar debe ser mayor a cero", MessageType.WARNING);
+                functions.ShowMessage("No se puede anular una transaccion sin detalles.", MessageType.WARNING);
                 return;
             }
 
@@ -1035,7 +1031,8 @@ namespace POS
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = loginInformation.Workstation,
                     SalesOriginId = salesOriginId,
-                    SalesmanId = salesManId
+                    SalesmanId = salesManId,
+                    TypeDoc = 1
                     //,IsBbqZone = ChbBbqZone.Checked
                 };
 

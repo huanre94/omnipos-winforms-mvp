@@ -236,7 +236,6 @@
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(76, 45);
             this.BtnDelete.TabIndex = 134;
-            this.BtnDelete.Text = "Borrar";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // Btn3

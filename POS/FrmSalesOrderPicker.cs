@@ -130,7 +130,7 @@ namespace POS
                 timer.Start();
             }
 
-            chkDate.Checked = true;
+            ChkDate.Checked = true;
             ETOrderDate.Text = DateTime.Today.ToShortDateString();
             CheckGridView();
             LoadOrderStatus();
@@ -157,7 +157,7 @@ namespace POS
                     return;
                 }
 
-                IEnumerable<SP_SalesOrderStatus_Consult_Result> sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), chkDate.Checked);
+                IEnumerable<SP_SalesOrderStatus_Consult_Result> sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), ChkDate.Checked);
 
                 if (sales.Count() == 0)
                 {
@@ -270,16 +270,24 @@ namespace POS
             //    return;
             //}
 
-            FrmSalesOrder frmSalesOrder = new FrmSalesOrder
-            {
-                loginInformation = loginInformation,
-                emissionPoint = emissionPoint,
-                salesOrderId = (long)item.SalesOrderId,
-                globalParameters = globalParameters
-            };
+
+            FrmSalesOrder frmSalesOrder = new FrmSalesOrder(
+                loginInformation,
+                emissionPoint,
+                (long)item.SalesOrderId,
+                globalParameters);
+
+
+            //FrmSalesOrder frmSalesOrder = new FrmSalesOrder
+            //{
+            //    loginInformation = loginInformation,
+            //    emissionPoint = emissionPoint,
+            //    salesOrderId = (long)item.SalesOrderId,
+            //    globalParameters = globalParameters
+            //};
             frmSalesOrder.ShowDialog();
 
-            if (frmSalesOrder.isUpdated)
+            if (frmSalesOrder.IsUpdated)
             {
                 LoadSaleOrdesByFilters();
             }
@@ -368,9 +376,9 @@ namespace POS
             }
         }
 
-        private void chkDate_CheckedChanged(object sender, EventArgs e)
+        private void ChkDate_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkDate.Checked)
+            if (ChkDate.Checked)
             {
                 ETOrderDate.Enabled = false;
             }
@@ -390,8 +398,10 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.SALESORDER_ID;
+            FrmKeyPad keyPad = new FrmKeyPad
+            {
+                inputFromOption = InputFromOption.SALESORDER_ID
+            };
             keyPad.ShowDialog();
 
             int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);
@@ -485,6 +495,7 @@ namespace POS
                     break;
                 default:
                     break;
+
             }
         }
 
@@ -499,6 +510,11 @@ namespace POS
             {
                 CmbSalesOrderOrigin.Focus();
             }
+        }
+
+        private void chkDate_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,16 +1,19 @@
 ﻿using DevExpress.XtraEditors;
 using POS.DLL.Enums;
 using System;
+using System.Windows.Forms;
 
 namespace POS
 {
     public partial class FrmMessage : DevExpress.XtraEditors.XtraForm
     {
-        string messageText { get; set; }
-        string messageTextDetail { get; set; }
-        bool showMessageDetail { get; set; }
-        MessageType messagetype { get; set; }
-        public bool messageResponse { get; set; }
+        string MessageText { get; set; }
+        string MessageTextDetail { get; set; }
+        bool ShowMessageDetail { get; set; }
+        MessageType Messagetype { get; set; }
+        bool MessageResponse { get; set; }
+
+        public bool GetMessageResponse() => MessageResponse;
 
         public FrmMessage()
         {
@@ -20,10 +23,10 @@ namespace POS
         public FrmMessage(string messageText, MessageType messagetype, bool showMessageDetail, string messageTextDetail)
         {
             InitializeComponent();
-            this.messageText = messageText;
-            this.messageTextDetail = messageTextDetail;
-            this.showMessageDetail = showMessageDetail;
-            this.messagetype = messagetype;
+            MessageText = messageText;
+            MessageTextDetail = messageTextDetail;
+            ShowMessageDetail = showMessageDetail;
+            Messagetype = messagetype;
         }
 
         private void FrmMessage_Load(object sender, EventArgs e)
@@ -35,9 +38,9 @@ namespace POS
         {
             DevExpress.Utils.Svg.SvgImage image = new DevExpress.Utils.Svg.SvgImage();
 
-            LnkViewDetail.Visible = showMessageDetail;
+            LnkViewDetail.Visible = ShowMessageDetail;
 
-            switch (messagetype)
+            switch (Messagetype)
             {
                 case MessageType.INFO:
                     image = Properties.Resources.info2;
@@ -55,17 +58,31 @@ namespace POS
             }
 
             ImgSvgMessage.SvgImage = image;
-            LblMessage.Text = messageText;
+            LblMessage.Text = MessageText;
+
+            BtnAccept.Focus();
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            messageResponse = true;
+            MessageResponse = true;
         }
 
         private void LnkViewDetail_Click(object sender, EventArgs e)
         {
-            XtraMessageBox.Show(messageTextDetail);
+            XtraMessageBox.Show(MessageTextDetail);
+        }
+
+        private void BtnAccept_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    LnkViewDetail_Click(null, null);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

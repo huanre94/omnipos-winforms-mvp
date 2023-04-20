@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPhysicalStockCount));
-            this.BtnAccept = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnSaveChanges = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.GrcPhysicalStock = new DevExpress.XtraGrid.GridControl();
             this.GrvPhysicalStock = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -63,28 +63,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.CmbWarehouse.Properties)).BeginInit();
             this.SuspendLayout();
             // 
-            // BtnAccept
+            // BtnSaveChanges
             // 
-            this.BtnAccept.AllowFocus = false;
-            this.BtnAccept.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
-            this.BtnAccept.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnAccept.Appearance.ForeColor = System.Drawing.Color.Yellow;
-            this.BtnAccept.Appearance.Options.UseBackColor = true;
-            this.BtnAccept.Appearance.Options.UseFont = true;
-            this.BtnAccept.Appearance.Options.UseForeColor = true;
-            this.BtnAccept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnAccept.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnAccept.ImageOptions.Image")));
-            this.BtnAccept.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
-            this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(1192, 704);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
-            this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
-            this.BtnAccept.TabIndex = 0;
-            this.BtnAccept.TabStop = false;
-            this.BtnAccept.Text = "F2 Guardar";
-            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
+            this.BtnSaveChanges.AllowFocus = false;
+            this.BtnSaveChanges.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(84)))), ((int)(((byte)(105)))));
+            this.BtnSaveChanges.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnSaveChanges.Appearance.ForeColor = System.Drawing.Color.Yellow;
+            this.BtnSaveChanges.Appearance.Options.UseBackColor = true;
+            this.BtnSaveChanges.Appearance.Options.UseFont = true;
+            this.BtnSaveChanges.Appearance.Options.UseForeColor = true;
+            this.BtnSaveChanges.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BtnSaveChanges.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnSaveChanges.ImageOptions.Image")));
+            this.BtnSaveChanges.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
+            this.BtnSaveChanges.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
+            this.BtnSaveChanges.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
+            this.BtnSaveChanges.Location = new System.Drawing.Point(1192, 704);
+            this.BtnSaveChanges.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnSaveChanges.Name = "BtnSaveChanges";
+            this.BtnSaveChanges.Size = new System.Drawing.Size(160, 50);
+            this.BtnSaveChanges.TabIndex = 0;
+            this.BtnSaveChanges.TabStop = false;
+            this.BtnSaveChanges.Text = "F2 Guardar";
+            this.BtnSaveChanges.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
@@ -262,7 +262,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(28, 99);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 16);
+            this.label5.Size = new System.Drawing.Size(131, 20);
             this.label5.TabIndex = 190;
             this.label5.Text = "Código Interno";
             // 
@@ -272,7 +272,7 @@
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtBarcode.Properties.Appearance.Options.UseFont = true;
-            this.TxtBarcode.Size = new System.Drawing.Size(216, 44);
+            this.TxtBarcode.Size = new System.Drawing.Size(216, 34);
             this.TxtBarcode.TabIndex = 189;
             this.TxtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtBarcode_KeyDown);
             // 
@@ -282,7 +282,7 @@
             this.TxtInternalCode.Name = "TxtInternalCode";
             this.TxtInternalCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtInternalCode.Properties.Appearance.Options.UseFont = true;
-            this.TxtInternalCode.Size = new System.Drawing.Size(177, 44);
+            this.TxtInternalCode.Size = new System.Drawing.Size(177, 34);
             this.TxtInternalCode.TabIndex = 0;
             this.TxtInternalCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtInternalCode_KeyDown);
             // 
@@ -291,7 +291,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(521, 99);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 16);
+            this.label1.Size = new System.Drawing.Size(119, 20);
             this.label1.TabIndex = 190;
             this.label1.Text = "Código Barra";
             // 
@@ -318,7 +318,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 16);
+            this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 190;
             this.label2.Text = "Cajero";
             // 
@@ -327,7 +327,7 @@
             this.LblCashierUser.AutoSize = true;
             this.LblCashierUser.Location = new System.Drawing.Point(171, 38);
             this.LblCashierUser.Name = "LblCashierUser";
-            this.LblCashierUser.Size = new System.Drawing.Size(0, 16);
+            this.LblCashierUser.Size = new System.Drawing.Size(0, 20);
             this.LblCashierUser.TabIndex = 190;
             // 
             // BtnRemove
@@ -366,7 +366,7 @@
             this.CmbWarehouse.Name = "CmbWarehouse";
             this.CmbWarehouse.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.CmbWarehouse.Size = new System.Drawing.Size(445, 38);
+            this.CmbWarehouse.Size = new System.Drawing.Size(445, 30);
             this.CmbWarehouse.TabIndex = 194;
             // 
             // label3
@@ -374,7 +374,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(28, 164);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 16);
+            this.label3.Size = new System.Drawing.Size(73, 20);
             this.label3.TabIndex = 190;
             this.label3.Text = "Bodega";
             // 
@@ -459,7 +459,7 @@
             this.Controls.Add(this.TxtInternalCode);
             this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.GrcPhysicalStock);
-            this.Controls.Add(this.BtnAccept);
+            this.Controls.Add(this.BtnSaveChanges);
             this.Controls.Add(this.BtnNew);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -481,7 +481,7 @@
 
         #endregion
 
-        private DevExpress.XtraEditors.SimpleButton BtnAccept;
+        private DevExpress.XtraEditors.SimpleButton BtnSaveChanges;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraGrid.GridControl GrcPhysicalStock;
         private DevExpress.XtraGrid.Views.Grid.GridView GrvPhysicalStock;

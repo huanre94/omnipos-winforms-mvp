@@ -501,7 +501,8 @@ namespace POS
             {
                 try
                 {
-                    (from li in salesOrderXml.Descendants("SalesOrderPayment") select li).Remove();
+                    salesOrderXml.Descendants("SalesOrderPayment").Remove();
+
                     //TODO validar metodo pago 
                     XElement salesOrderPayment = new XElement("SalesOrderPayment");
                     SalesOrderPayment payment = new SalesOrderPayment()

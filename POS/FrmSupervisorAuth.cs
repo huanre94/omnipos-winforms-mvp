@@ -13,13 +13,14 @@ namespace POS
     public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
+        public EmissionPoint _emissionPoint { get; set; }
+        public AxOPOSScanner _scanner { get; set; }
+
+        public bool RequireMotive { get; set; }
         public bool formActionResult;
-        public EmissionPoint emissionPoint;
-        public AxOPOSScanner scanner;
         public int motiveId;
-        public string supervisorAuthorization;
-        public bool requireMotive;
-        public int reasonType = 1;
+        public int ReasonType { get; set; } = 1;
+        public string SupervisorAuthorization { get; set; }
         ScaleBrands scaleBrand;
 
         public FrmSupervisorAuth()
@@ -27,31 +28,45 @@ namespace POS
             InitializeComponent();
         }
 
+        public FrmSupervisorAuth(AxOPOSScanner axOPOSScanner, EmissionPoint emissionPoint, bool requireMotive, int reasonType)
+        {
+            InitializeComponent();
+            AxOPOSScanner = axOPOSScanner;
+            _emissionPoint = emissionPoint;
+            RequireMotive = requireMotive;
+            ReasonType = reasonType;
+        }
+
         private void FrmSupervisorAuth_Load(object sender, EventArgs e)
+        {
+            LoadForm();
+        }
+
+        private void LoadForm()
         {
             LblMotive.Visible = false;
             CmbMotive.Visible = false;
 
-            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), emissionPoint.ScaleBrand, true);
+            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), _emissionPoint.ScaleBrand, true);
 
             if (scaleBrand == ScaleBrands.DATALOGIC)
             {
-                if (scanner != null)
+                if (_scanner != null)
                 {
-                    functions.AxOPOSScanner = scanner;
+                    functions.AxOPOSScanner = _scanner;
                     functions.DisableScanner();
                 }
 
                 functions.AxOPOSScanner = AxOPOSScanner;
-                functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                functions.EnableScanner(_emissionPoint.ScanBarcodeName);
             }
 
-            if (requireMotive)
+            if (RequireMotive)
             {
                 LblMotive.Visible = true;
                 CmbMotive.Visible = true;
 
-                LoadReasons(reasonType);
+                LoadReasons(ReasonType);
             }
         }
 
@@ -131,17 +146,17 @@ namespace POS
                     motiveId = cancelReason;
                 }
                 formActionResult = true;
-                supervisorAuthorization = TxtAuthorization.Text;
+                SupervisorAuthorization = TxtAuthorization.Text;
                 TxtAuthorization.Text = "";
 
                 if (scaleBrand == ScaleBrands.DATALOGIC)
                 {
                     functions.DisableScanner();
 
-                    if (scanner != null)
+                    if (_scanner != null)
                     {
-                        functions.AxOPOSScanner = scanner;
-                        functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                        functions.AxOPOSScanner = _scanner;
+                        functions.EnableScanner(_emissionPoint.ScanBarcodeName);
                     }
                 }
             }
@@ -159,10 +174,10 @@ namespace POS
             {
                 functions.DisableScanner();
 
-                if (scanner != null)
+                if (_scanner != null)
                 {
-                    functions.AxOPOSScanner = scanner;
-                    functions.EnableScanner(emissionPoint.ScanBarcodeName);
+                    functions.AxOPOSScanner = _scanner;
+                    functions.EnableScanner(_emissionPoint.ScanBarcodeName);
                 }
             }
         }
@@ -180,7 +195,9 @@ namespace POS
                 inputFromOption = InputFromOption.LOGIN_PASSWORD
             };
             passwordKeypad.ShowDialog();
+
             TxtSupervisorPassword.Text = passwordKeypad.loginPassword;
+
             CmbMotive.Focus();   //06/07/2022
         }
 

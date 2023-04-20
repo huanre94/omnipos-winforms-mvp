@@ -379,11 +379,9 @@ namespace POS
         {
             BindingList<SP_PhysicalStockProduct_Consult_Result> list = (BindingList<SP_PhysicalStockProduct_Consult_Result>)GrvPhysicalStock.DataSource;
 
-            int existe = (from li in list
-                          where li.ProductId == result.ProductId
-                          select li).Count();
+            int hasBeenScanned = list.Where(p => p.ProductId == result.ProductId).Count();
 
-            if (existe == 0)
+            if (hasBeenScanned == 0)
             {
                 GrvPhysicalStock.AddNewRow();
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["ProductId"], result.ProductId);
@@ -394,8 +392,10 @@ namespace POS
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["UM"], result.UM);
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], 0);
 
-                FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
+                FrmKeyPad keyPad = new FrmKeyPad
+                {
+                    inputFromOption = InputFromOption.PRODUCT_INVENTORY
+                };
 
                 if (result.InventUnitId == 1)
                 {
@@ -430,9 +430,7 @@ namespace POS
                 GrvPhysicalStock.Appearance.HideSelectionRow.BackColor = Color.FromArgb(184, 255, 61);
             }
 
-            TxtBarcode.Text = "";
-            TxtInternalCode.Text = "";
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
@@ -440,76 +438,71 @@ namespace POS
             if (sequence == 0)
             {
                 functions.ShowMessage("Debe generar una nueva secuencia.", MessageType.WARNING);
+                return;
             }
-            else
+
+            BindingList<SP_PhysicalStockProduct_Consult_Result> list = (BindingList<SP_PhysicalStockProduct_Consult_Result>)GrvPhysicalStock.DataSource;
+
+            if (list.Count == 0)
             {
-                BindingList<SP_PhysicalStockProduct_Consult_Result> list = (BindingList<SP_PhysicalStockProduct_Consult_Result>)GrvPhysicalStock.DataSource;
-
-                if (list.Count == 0)
-                {
-                    functions.ShowMessage("No existen items por agregar.", MessageType.WARNING);
-                }
-                else
-                {
-                    XElement physicalCountingList = new XElement("PhysicalStockCounting");
-
-                    try
-                    {
-                        int count = 1;
-                        foreach (SP_PhysicalStockProduct_Consult_Result item in list)
-                        {
-                            XElement physicalCountingLine = new XElement("PhysicalStockCountingLine");
-                            PhysicalStockCountingLine line = new PhysicalStockCountingLine
-                            {
-                                Sequence = count,
-                                ProductId = item.ProductId,
-                                InventUnitId = item.InventUnitId,
-                                StockQuantity = 0,
-                                CountedQuantity = (decimal)item.Quantity,
-                                Cost = 0
-                            };
-
-                            Type type = line.GetType();
-                            PropertyInfo[] properties = type.GetProperties();
-                            foreach (PropertyInfo prop in properties)
-                            {
-                                string name = prop.Name;
-                                object value = prop.GetValue(line);
-                                if (value == null)
-                                {
-                                    value = "";
-                                }
-                                physicalCountingLine.Add(new XElement(name, value));
-                            }
-                            physicalCountingList.Add(physicalCountingLine);
-                            count++;
-                        }
-
-                        SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertPhysicalStockCounting(sequence, physicalCountingList.ToString());
-
-                        if (!(bool)response.Error)
-                        {
-                            functions.ShowMessage("Registros guardados exitosamente.", MessageType.INFO);
-                            //ClearPhysicalStockCount();
-                        }
-                        else
-                        {
-                            functions.ShowMessage("No se pudo generar conteo fisico.", MessageType.WARNING, true, response.TextError);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage(
-                                                 "Ocurrio un problema al generar conteo fisico."
-                                                 , MessageType.ERROR
-                                                 , true
-                                                 , ex.Message
-                                                 );
-                    }
-                }
+                functions.ShowMessage("No existen items por agregar.", MessageType.WARNING);
+                return;
             }
 
-            TxtBarcode.Text = "";
+            XElement physicalCountingList = new XElement("PhysicalStockCounting");
+
+            try
+            {
+                int count = 1;
+                foreach (SP_PhysicalStockProduct_Consult_Result item in list)
+                {
+                    XElement physicalCountingLine = new XElement("PhysicalStockCountingLine");
+                    PhysicalStockCountingLine line = new PhysicalStockCountingLine
+                    {
+                        Sequence = count,
+                        ProductId = item.ProductId,
+                        InventUnitId = item.InventUnitId,
+                        StockQuantity = 0,
+                        CountedQuantity = (decimal)item.Quantity,
+                        Cost = 0
+                    };
+
+                    Type type = line.GetType();
+                    PropertyInfo[] properties = type.GetProperties();
+                    foreach (PropertyInfo prop in properties)
+                    {
+                        string name = prop.Name;
+                        object value = prop.GetValue(line);
+                        if (value == null)
+                        {
+                            value = "";
+                        }
+                        physicalCountingLine.Add(new XElement(name, value));
+                    }
+                    physicalCountingList.Add(physicalCountingLine);
+                    count++;
+                }
+
+                SP_PhysicalStockLine_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertPhysicalStockCounting(sequence, physicalCountingList.ToString());
+
+                if ((bool)response.Error)
+                {
+                    functions.ShowMessage("No se pudo generar conteo fisico.", MessageType.WARNING, true, response.TextError);
+                    return;
+                }
+
+                functions.ShowMessage("Registros guardados exitosamente.", MessageType.INFO);
+                //ClearPhysicalStockCount();
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al generar conteo fisico.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+            }
+
+            ClearBarcode();
 
         }
 
@@ -553,132 +546,139 @@ namespace POS
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
             }
 
-            TxtBarcode.Focus();
+            ClearBarcode();
         }
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch();
-            productSearch.emissionPoint = emissionPoint;
+            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
             productSearch.ShowDialog();
 
-            if (productSearch.barcode != "")
+            if (productSearch.barcode == "")
             {
-                try
-                {
-                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
-                    if ((bool)result.Error)
-                    {
-                        functions.ShowMessage(result.Message, MessageType.WARNING, false);
-
-                        TxtBarcode.Text = "";
-                        TxtInternalCode.Text = "";
-                        TxtBarcode.Focus();
-                    }
-                    else
-                    {
-                        AddResultToGrid(result);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    functions.ShowMessage("No se encontró item con el codigo de barra digitado."
-                                                               , MessageType.ERROR
-                                                               , true
-                                                               , ex.Message);
-
-                    TxtBarcode.Text = "";
-                    TxtInternalCode.Text = "";
-                    TxtBarcode.Focus();
-                }
+                return;
             }
+
+            try
+            {
+                SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
+                if ((bool)result.Error)
+                {
+                    functions.ShowMessage(result.Message, MessageType.WARNING, false);
+                    return;
+                }
+
+                AddResultToGrid(result);
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("No se encontró item con el codigo de barra digitado.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+            }
+
+            ClearBarcode();
+        }
+
+        private void ClearBarcode()
+        {
+            TxtBarcode.Text = "";
+            TxtInternalCode.Text = "";
+            TxtBarcode.Focus();
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            if (sequence != 0)
+            if (sequence == 0)
             {
-                if (functions.ShowMessage("¿Esta seguro de finalizar el recuento de inventario?", MessageType.CONFIRM))
-                {
-                    try
-                    {
-                        bool response = new ClsInventoryTrans(Program.customConnectionString).UpdateStockTableStatus(sequence);
-                        if (response)
-                        {
-                            functions.ShowMessage("Inventario finalizado con exito.", MessageType.INFO, false);
-                            BtnNew.Text = "F5 Nuevo";
-                            //BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
-                            ClearPhysicalStockCount();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("Ocurrio un error al momento de finalizar el inventario.",
-                             MessageType.ERROR,
-                            true,
-                            ex.Message);
-                    }
-                }
+                OpenNewWarehouseSequence();
+                ClearBarcode();
+                return;
             }
-            else
+
+            if (functions.ShowMessage("¿Esta seguro de finalizar el recuento de inventario?", MessageType.CONFIRM))
             {
-                XElement physicalCountingList = new XElement("PhysicalStockCounting");
-
-                XElement physicalCountingTable = new XElement("PhysicalStockCountingTable");
-                PhysicalStockCountingTable header = new PhysicalStockCountingTable
-                {
-                    LocationId = emissionPoint.LocationId,
-                    EmissionPointId = emissionPoint.EmissionPointId,
-                    InventLocationId = int.Parse(CmbWarehouse.EditValue.ToString()),
-                    Type = "C",
-                    StockCountingId = 0,
-                    Observation = "",
-                    Status = "O",
-                    CreatedBy = (int)loginInformation.UserId,
-                    Workstation = loginInformation.Workstation
-                };
-
-                Type type = header.GetType();
-                PropertyInfo[] properties = type.GetProperties();
-                foreach (PropertyInfo prop in properties)
-                {
-                    string name = prop.Name;
-                    object value = prop.GetValue(header);
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-                    physicalCountingTable.Add(new XElement(name, value));
-                }
-
-                physicalCountingList.Add(physicalCountingTable);
-
                 try
                 {
-                    SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertNewSequence(physicalCountingList.ToString());
-
-                    if (!(bool)response.Error)
+                    bool response = new ClsInventoryTrans(Program.customConnectionString).UpdateStockTableStatus(sequence);
+                    if (response)
                     {
-                        sequence = (int)response.Sequence;
-                        functions.ShowMessage("Secuencia generada exitosamente.", MessageType.INFO);
-                        BtnNew.Text = "F5 Finalizar";
-                        BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
-                    }
-                    else
-                    {
-                        functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", MessageType.WARNING);
+                        functions.ShowMessage("Inventario finalizado con exito.", MessageType.INFO, false);
+                        BtnNew.Text = "F5 Nuevo";
+                        //BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
+                        ClearPhysicalStockCount();
                     }
                 }
                 catch (Exception ex)
                 {
-                    functions.ShowMessage("Ocurrio un problema al generar secuencia del conteo.",
+                    functions.ShowMessage("Ocurrio un error al momento de finalizar el inventario.",
                                           MessageType.ERROR,
                                           true,
                                           ex.Message);
                 }
             }
 
-            TxtBarcode.Focus();
+        }
+
+        private bool OpenNewWarehouseSequence()
+        {
+            XElement physicalCountingList = new XElement("PhysicalStockCounting");
+
+            XElement physicalCountingTable = new XElement("PhysicalStockCountingTable");
+            PhysicalStockCountingTable header = new PhysicalStockCountingTable
+            {
+                LocationId = emissionPoint.LocationId,
+                EmissionPointId = emissionPoint.EmissionPointId,
+                InventLocationId = int.Parse(CmbWarehouse.EditValue.ToString()),
+                Type = "C",
+                StockCountingId = 0,
+                Observation = "",
+                Status = "O",
+                CreatedBy = (int)loginInformation.UserId,
+                Workstation = loginInformation.Workstation
+            };
+
+            Type type = header.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo prop in properties)
+            {
+                string name = prop.Name;
+                object value = prop.GetValue(header);
+                if (value == null)
+                {
+                    value = "";
+                }
+                physicalCountingTable.Add(new XElement(name, value));
+            }
+
+            physicalCountingList.Add(physicalCountingTable);
+
+            try
+            {
+                SP_PhysicalStockTable_Insert_Result response = new ClsInventoryTrans(Program.customConnectionString).InsertNewSequence(physicalCountingList.ToString());
+
+                if ((bool)response.Error)
+                {
+                    functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", MessageType.WARNING);
+                    return false;
+                }
+
+                sequence = (int)response.Sequence;
+                functions.ShowMessage("Secuencia generada exitosamente.", MessageType.INFO);
+                BtnNew.Text = "F5 Finalizar";
+                BtnNew.ImageOptions.SvgImage = Properties.Resources.resume;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al generar secuencia del conteo.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
+
+                return false;
+            }
         }
 
         private void FrmPhysicalStockCount_FormClosing(object sender, FormClosingEventArgs e)
@@ -708,6 +708,9 @@ namespace POS
                     break;
                 case Keys.F11:
                     BtnRemove_Click(null, null);
+                    break;
+                case Keys.Escape:
+                    TxtBarcode.Focus();
                     break;
                 default:
                     break;
