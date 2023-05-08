@@ -62,7 +62,7 @@ namespace POS
             BtnAdvance.Enabled = paymentMethod;
             BtnReturn.Enabled = paymentMethod;
 
-            BtnCash.Click += BtnCash_Click;
+            //BtnCash.Click += BtnCash_Click;
 
             TxtAmount.Focus();
         }
@@ -289,7 +289,7 @@ namespace POS
                 LblTitleChange.Visible = true;
                 LblChange.Visible = true;
                 LblChange.Text = changeAmount.ToString();
-                functions.ShowMessage("El cambio a entregar es de $ " + changeAmount.ToString());
+                functions.ShowMessage($"El cambio a entregar es de ${changeAmount}");
             }
 
             InvoicePayment invoicePayment = new InvoicePayment

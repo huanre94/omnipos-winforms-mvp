@@ -534,6 +534,7 @@ namespace POS
             switch (e.KeyCode)
             {
                 case Keys.Enter:
+                    selectedGrv = GrvDenomination;
                     BtnEnter_Click(null, null);
                     GrcDenomination.Focus();
                     break;

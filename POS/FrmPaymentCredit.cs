@@ -15,15 +15,16 @@ namespace POS
         public long internalCreditCardId;
         public decimal creditLimit;
 
-        readonly decimal paidAmount;
-        Customer Customer { get; set; }
-        EmissionPoint EmissionPoint { get; set; }
-        public string InternalCreditCardCode { get; set; } = string.Empty;
+        //readonly decimal paidAmount;
+        public decimal paidAmount;
+        public Customer Customer { get; set; }
+        public EmissionPoint EmissionPoint { get; set; }        
 
+        public string InternalCreditCardCode { get; set; } = string.Empty;        
+        public bool IsPresentingCreditCard { get; set; } = false;        
 
-        bool IsPresentingCreditCard { get; set; } = false;
-
-        readonly AxOPOSScanner scanner;
+        public AxOPOSScanner scanner;
+        //readonly AxOPOSScanner scanner;
         public int SalesOriginId { get; set; }
         ScaleBrands scaleBrand;
 

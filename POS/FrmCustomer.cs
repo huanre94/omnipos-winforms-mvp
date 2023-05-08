@@ -181,18 +181,19 @@ namespace POS
             CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "N", Description = "NO DEFINIDO" });
             CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "M", Description = "MASCULINO" });
             CmbGender.Properties.Items.Add(new ImageComboBoxItem { Value = "F", Description = "FEMENINO" });
+            CmbGender.SelectedIndex = 0;
         }
 
         private bool CreateOrUpdateCustomer(string _identification)
         {
-            bool createOrUpdate = true;
+            bool isValidCustomerIdentification = true;
 
             if (IsNewCustomer)
             {
-                createOrUpdate = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString());
+                isValidCustomerIdentification = ValidateCustomerIdentification(_identification, CmbIdenType.EditValue.ToString());
             }
 
-            if (!createOrUpdate)
+            if (!isValidCustomerIdentification)
             {
                 functions.ShowMessage("El cliente no puede ser registrado.", MessageType.WARNING);
                 return false;
@@ -308,6 +309,16 @@ namespace POS
                 ((TextEdit)obj).Focus();
                 return true;
             }
+
+            if (((TextEdit)obj).Name == "TxtPhone" && ((TextEdit)obj).Text.Length == 10)
+            {
+                return false;
+            }
+
+            //if (((TextEdit)obj).Name == "TxtEmail" && ((TextEdit)obj).Text.Length == 10)
+            //{
+            //    return true;
+            //}
 
             return false;
         }
@@ -500,6 +511,11 @@ namespace POS
                 default:
                     break;
             }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

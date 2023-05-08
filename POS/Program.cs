@@ -21,15 +21,15 @@ namespace POS
 
             const string registryKey = @"HKEY_CURRENT_USER\SOFTWARE\OmniPOS";
 
-            object ValorIP = "192.168.17.115";// Registry.GetValue(registryKey, "IP", null);
+            object ValorIP = Registry.GetValue(registryKey, "IP", null);
             if (ValorIP == null)
             {
                 return;
             }
 
-            object VUser = "sa"; //Registry.GetValue(registryKey, "User", null);
-            object SBase = "POSDB";//Registry.GetValue(registryKey, "Base", null);
-            object SPass = "S1stemas";//Registry.GetValue(registryKey, "Pass", null);
+            object VUser = Registry.GetValue(registryKey, "User", null);
+            object SBase = Registry.GetValue(registryKey, "Base", null);
+            object SPass = Registry.GetValue(registryKey, "Pass", null);
 
             //12/07/2022  Se agregó para que Cadena de conexion sea parametrizable
             EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder

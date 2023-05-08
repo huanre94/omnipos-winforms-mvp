@@ -282,7 +282,7 @@
             // 
             // GrcPayment
             // 
-            this.GrcPayment.Location = new System.Drawing.Point(911, 61);
+            this.GrcPayment.Location = new System.Drawing.Point(888, 70);
             this.GrcPayment.MainView = this.GrvPayment;
             this.GrcPayment.Name = "GrcPayment";
             this.GrcPayment.Size = new System.Drawing.Size(426, 539);

@@ -248,11 +248,10 @@ namespace POS
                         if (currentCustomer == null)
                         {
                             functions.ShowMessage("No se pudo cargar datos de cliente.", MessageType.WARNING);
+                            currentCustomer = LoadFinalConsumptionCustomer();
                             return;
                         }
                     }
-
-                    currentCustomer = LoadFinalConsumptionCustomer();
                 }
 
                 if (currentCustomer?.CustomerId > 0)
@@ -261,11 +260,20 @@ namespace POS
                     {
                         if (functions.ShowMessage("El cliente es un empleado, ¿Desea utilizar la tarjeta de afiliado?", MessageType.CONFIRM))
                         {
-                            FrmPaymentCredit paymentCredit = new FrmPaymentCredit(customer: currentCustomer,
-                                emissionPoint: emissionPoint,
-                                scanner: AxOPOSScanner,
-                                isPresentingCreditCard: true,
-                                SalesOriginId: salesOriginId);
+                            //FrmPaymentCredit paymentCredit = new FrmPaymentCredit(customer: currentCustomer,
+                            //    emissionPoint: emissionPoint,
+                            //    scanner: AxOPOSScanner,
+                            //    isPresentingCreditCard: true,
+                            //    SalesOriginId: salesOriginId);
+
+                            FrmPaymentCredit paymentCredit = new FrmPaymentCredit()
+                            {
+                                Customer = currentCustomer,
+                                EmissionPoint = emissionPoint,
+                                scanner = AxOPOSScanner,
+                                IsPresentingCreditCard = true,
+                                SalesOriginId = salesOriginId
+                            };
 
 
                             paymentCredit.ShowDialog();
