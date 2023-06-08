@@ -125,12 +125,9 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.GIFTCARD_NUMBER
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.GIFTCARD_NUMBER);
             keyPad.ShowDialog();
-            TxtGiftCard.Text = keyPad.giftcardNumber;
+            TxtGiftCard.Text = keyPad.GetValue();
             TxtGiftCard.Focus();
         }
 

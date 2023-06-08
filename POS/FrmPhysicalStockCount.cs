@@ -232,20 +232,19 @@ namespace POS
 
         private void BtnInternalCodeKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.PRODUCT_INVENTORY);
             keyPad.ShowDialog();
-            TxtInternalCode.Text = keyPad.productInventory;
+
+            TxtInternalCode.Text = keyPad.GetValue();
             TxtInternalCode.Focus();
             SendKeys.Send("{ENTER}");
         }
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.PRODUCT_INVENTORY;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.PRODUCT_INVENTORY);
             keyPad.ShowDialog();
-            TxtBarcode.Text = keyPad.productInventory;
+            TxtBarcode.Text = keyPad.GetValue();
             TxtBarcode.Focus();
             SendKeys.Send("{ENTER}");
         }
@@ -255,36 +254,37 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (TxtInternalCode.Text != string.Empty)
+                if (TxtInternalCode.Text == string.Empty)
                 {
-                    try
-                    {
-                        SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text);
-                        if ((bool)result.Error)
-                        {
-                            functions.ShowMessage(result.Message, MessageType.WARNING, false);
-                            return;
-                        }
-
-                        AddResultToGrid(result);
-                    }
-                    catch (Exception ex)
-                    {
-                        functions.ShowMessage("No se encontró item con el codigo interno digitado."
-                                                                   , MessageType.ERROR
-                                                                   , true
-                                                                   , ex.Message
-                                                               );
-
-
-                    }
-                    finally
-                    {
-                        TxtBarcode.Text = "";
-                        TxtInternalCode.Text = "";
-                        TxtBarcode.Focus();
-                    }
                 }
+
+                try
+                {
+                    SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, "", TxtInternalCode.Text);
+                    if ((bool)result.Error)
+                    {
+                        functions.ShowMessage(result.Message, MessageType.WARNING, false);
+                        return;
+                    }
+
+                    AddResultToGrid(result);
+                }
+                catch (Exception ex)
+                {
+                    functions.ShowMessage("No se encontró item con el codigo interno digitado.",
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.Message);
+
+
+                }
+                finally
+                {
+                    TxtBarcode.Text = "";
+                    TxtInternalCode.Text = "";
+                    TxtBarcode.Focus();
+                }
+
             }
 
             //08/07/2022
@@ -392,17 +392,9 @@ namespace POS
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["UM"], result.UM);
                 GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], 0);
 
-                FrmKeyPad keyPad = new FrmKeyPad
-                {
-                    inputFromOption = InputFromOption.PRODUCT_INVENTORY
-                };
-
-                if (result.InventUnitId == 1)
-                {
-                    keyPad.inputFromOption = InputFromOption.PRODUCT_QUANTITY;
-                }
-
+                FrmKeyPad keyPad = new FrmKeyPad(result.InventUnitId == 1 ? InputFromOption.PRODUCT_QUANTITY : InputFromOption.PRODUCT_INVENTORY);
                 keyPad.ShowDialog();
+
                 TxtBarcode.Focus();
 
                 int rowIndex = GrvPhysicalStock.LocateByValue("ProductId", result.ProductId);
@@ -414,7 +406,7 @@ namespace POS
 
                 GrvPhysicalStock.FocusedRowHandle = rowIndex;
                 GrvPhysicalStock.UpdateCurrentRow();
-                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
+                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.GetValue());
             }
             else
             {
@@ -528,23 +520,16 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado producto a modificar.", MessageType.ERROR);
+                return;
             }
-            else
-            {
-                SP_PhysicalStockProduct_Consult_Result item = (SP_PhysicalStockProduct_Consult_Result)GrvPhysicalStock.GetRow(rowIndex);
 
+            SP_PhysicalStockProduct_Consult_Result item = (SP_PhysicalStockProduct_Consult_Result)GrvPhysicalStock.GetRow(rowIndex);
 
+            FrmKeyPad keyPad = new FrmKeyPad(item?.InventUnitId == 1 ? InputFromOption.PRODUCT_QUANTITY : InputFromOption.PRODUCT_INVENTORY);
+            keyPad.ShowDialog();
 
-                FrmKeyPad keyPad = new FrmKeyPad();
-                if (item.InventUnitId == 1)
-                {
-                    keyPad.inputFromOption = item?.InventUnitId == 1 ? InputFromOption.PRODUCT_QUANTITY : InputFromOption.PRODUCT_INVENTORY;
-                };
-                keyPad.ShowDialog();
-
-                GrvPhysicalStock.UpdateCurrentRow();
-                GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.inputFromOption == InputFromOption.PRODUCT_INVENTORY ? keyPad.productInventory : keyPad.productQuantity);
-            }
+            GrvPhysicalStock.UpdateCurrentRow();
+            GrvPhysicalStock.SetRowCellValue(GrvPhysicalStock.FocusedRowHandle, GrvPhysicalStock.Columns["Quantity"], keyPad.GetValue());
 
             ClearBarcode();
         }
@@ -554,14 +539,14 @@ namespace POS
             FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
             productSearch.ShowDialog();
 
-            if (productSearch.barcode == "")
+            if (productSearch.GetProduct().Barcode == "")
             {
                 return;
             }
 
             try
             {
-                SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.barcode, "");
+                SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.GetProduct().Barcode, "");
                 if ((bool)result.Error)
                 {
                     functions.ShowMessage(result.Message, MessageType.WARNING, false);

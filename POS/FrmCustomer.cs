@@ -14,26 +14,42 @@ namespace POS
     public partial class FrmCustomer : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public string customerIdentification;
-        public bool IsNewCustomer { get; set; }
-        public EmissionPoint emissionPoint;
-        public Customer currentCustomer { get; set; } = new Customer();
-        public SP_Login_Consult_Result loginInformation;
+
+        SP_Login_Consult_Result LoginInformation { get; set; }
+        EmissionPoint EmissionPoint { get; set; }
+        string CustomerIdentification { get; set; }
+        bool IsNewCustomer { get; set; } = true;
+
+        Customer CurrentCustomer { get; set; } = new Customer();
 
         public FrmCustomer()
         {
             InitializeComponent();
         }
 
+
+        public FrmCustomer(EmissionPoint emissionPoint,
+            SP_Login_Consult_Result loginInformation,
+            string _customerIdentification,
+            bool isNewCustomer = true)
+        {
+            InitializeComponent();
+            EmissionPoint = emissionPoint;
+            LoginInformation = loginInformation;
+            CustomerIdentification = _customerIdentification;
+            IsNewCustomer = isNewCustomer;
+        }
+        public Customer GetCurrentCustomer() => CurrentCustomer;
+
         private void FrmCustomer_Load(object sender, EventArgs e)
         {
-            if (emissionPoint == null)
+            if (EmissionPoint == null)
             {
                 functions.ShowMessage("Ha ocurrido un problema en la carga de punto de emisión.", MessageType.ERROR);
                 Close();
                 return;
             }
-            LoadCustomerInformation(customerIdentification);
+            LoadCustomerInformation(CustomerIdentification);
         }
 
         private void LoadCustomerInformation(string _identification)
@@ -141,12 +157,9 @@ namespace POS
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_PHONE
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CUSTOMER_PHONE);
             keyPad.ShowDialog();
-            TxtPhone.Text = keyPad.customerPhone;
+            TxtPhone.Text = keyPad.GetValue();
             TxtPhone.Focus();
         }
         #endregion
@@ -202,8 +215,8 @@ namespace POS
             try
             {
                 XElement customerXml = new XElement("Customer");
-                customerXml.Add(new XElement("CustomerId", currentCustomer.CustomerId));
-                customerXml.Add(new XElement("LocationId", emissionPoint.LocationId));
+                customerXml.Add(new XElement("CustomerId", CurrentCustomer.CustomerId));
+                customerXml.Add(new XElement("LocationId", EmissionPoint.LocationId));
                 customerXml.Add(new XElement("IdentTypeId", CmbIdenType.Properties.Items[CmbIdenType.SelectedIndex].ImageIndex));
                 customerXml.Add(new XElement("PersonType", LblPersonType.Text));
                 customerXml.Add(new XElement("Identification", _identification));
@@ -213,11 +226,11 @@ namespace POS
                 customerXml.Add(new XElement("Email", TxtEmail.Text));
                 customerXml.Add(new XElement("Phone", TxtPhone.Text));
                 customerXml.Add(new XElement("Gender", CmbGender.EditValue.ToString()));
-                customerXml.Add(new XElement("CreatedBy", loginInformation.UserId));
-                customerXml.Add(new XElement("Workstation", loginInformation.Workstation));
+                customerXml.Add(new XElement("CreatedBy", LoginInformation.UserId));
+                customerXml.Add(new XElement("Workstation", LoginInformation.Workstation));
 
                 int cityId;
-                switch (emissionPoint.LocationId) //While city does not select on customer register
+                switch (EmissionPoint.LocationId) //While city does not select on customer register
                 {
                     case 1:
                         cityId = 3;
@@ -242,7 +255,7 @@ namespace POS
 
                 if (IsNewCustomer)
                 {
-                    currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(result.Identification);
+                    CurrentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(result.Identification);
                     functions.ShowMessage("El cliente se registró exitosamente.");
                     return true;
                 }

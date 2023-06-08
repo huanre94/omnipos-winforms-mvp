@@ -82,6 +82,7 @@
     <Compile Include="City.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Product.cs" />
     <Compile Include="ClosingCashierLine.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>

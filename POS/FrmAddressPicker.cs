@@ -15,28 +15,39 @@ namespace POS
     public partial class FrmAddressPicker : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public EmissionPoint emissionPoint;
-        public SP_Login_Consult_Result loginInformation;
-        public Customer currentCustomer;
+
+        //EmissionPoint EmissionPoint { get; set; }
+        SP_Login_Consult_Result LoginInformation { get; set; }
+        Customer CurrentCustomer { get; set; }
+
         public CustomerAddress response;
-        public bool formResult;
+        bool FormResult { get; set; } = false;
         public long addressId;
         bool newAddress = false;
         IEnumerable<CustomerAddress> addressList;
 
+        public bool GetResult() => FormResult;
 
         public FrmAddressPicker()
         {
             InitializeComponent();
         }
 
+        public FrmAddressPicker(EmissionPoint _emissionPoint, SP_Login_Consult_Result _loginInformation, Customer _currentCustomer)
+        {
+            InitializeComponent();
+            //EmissionPoint = _emissionPoint;
+            LoginInformation = _loginInformation;
+            CurrentCustomer = _currentCustomer;
+        }
+
         private void FrmAddressPicker_Load(object sender, EventArgs e)
         {
             ClearFields();
-            LoadAddressesByCustomer(currentCustomer);
+            LoadAddressesByCustomer(CurrentCustomer);
 
-            LblCustomerId.Text = currentCustomer.Identification;
-            LblCustomerName.Text = $"{currentCustomer.Firtsname} {currentCustomer.Lastname}";
+            LblCustomerId.Text = CurrentCustomer.Identification;
+            LblCustomerName.Text = $"{CurrentCustomer.Firtsname} {CurrentCustomer.Lastname}";
         }
 
         private void ClearFields()
@@ -73,7 +84,6 @@ namespace POS
                     EnableAddressInput(true);
                     return;
                 }
-
 
                 foreach (CustomerAddress address in addressList)
                 {
@@ -152,19 +162,16 @@ namespace POS
 
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
-            LoadAddressesByCustomer(currentCustomer);
+            LoadAddressesByCustomer(CurrentCustomer);
             BtnAddressPicker.Text = "F6 Elegir";
             newAddress = false;
         }
 
         private void BtnKeypadTelephone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad frmKeyBoard = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_PHONE
-            };
+            FrmKeyPad frmKeyBoard = new FrmKeyPad(InputFromOption.CUSTOMER_PHONE);
             frmKeyBoard.ShowDialog();
-            TxtTelephoneAddress.Text = frmKeyBoard.customerPhone;
+            TxtTelephoneAddress.Text = frmKeyBoard.GetValue();
             TxtTelephoneAddress.Focus();
         }
 
@@ -178,7 +185,7 @@ namespace POS
                     return;
                 }
 
-                formResult = true;
+                FormResult = true;
                 DialogResult = DialogResult.OK;
                 return;
             }
@@ -207,7 +214,7 @@ namespace POS
                 response.Address = TxtAddress.Text;
                 response.AddressReference = TxtAddressRef.Text;
                 response.Telephone = TxtTelephoneAddress.Text;
-                response.ModifiedBy = loginInformation.UserId;
+                response.ModifiedBy = LoginInformation.UserId;
                 response.ModifiedDatetime = DateTime.Now;
 
                 if (!new ClsCustomer(Program.customConnectionString).UpdateCustomerDeliveryAddress(response))
@@ -219,7 +226,7 @@ namespace POS
                 functions.ShowMessage("Direccion de entrega actualizada exitosamente.", MessageType.INFO);
                 newAddress = false;
                 ClearFields();
-                LoadAddressesByCustomer(currentCustomer);
+                LoadAddressesByCustomer(CurrentCustomer);
                 BtnAddressPicker.Text = "F6 Elegir";
                 CmbAddressPicker.Focus();//08/07/2022
                 return;
@@ -231,16 +238,16 @@ namespace POS
 
                 CustomerAddress customerAddress = new CustomerAddress
                 {
-                    CustomerId = currentCustomer.CustomerId,
+                    CustomerId = CurrentCustomer.CustomerId,
                     Sequence = 1,
                     Address = TxtAddress.Text.ToUpper(),
                     AddressReference = TxtAddressRef.Text.ToUpper(),
                     Telephone = TxtTelephoneAddress.Text,
                     Coordinates = "",
                     CreatedDatetime = DateTime.Now,
-                    CreatedBy = (int)loginInformation.UserId,
+                    CreatedBy = (int)LoginInformation.UserId,
                     Status = "A",
-                    Workstation = loginInformation.Workstation
+                    Workstation = LoginInformation.Workstation
                 };
 
                 Type type = customerAddress.GetType();
@@ -272,7 +279,7 @@ namespace POS
                         functions.ShowMessage("Direccion de entrega registrada exitosamente.", MessageType.INFO);
                         newAddress = false;
                         ClearFields();
-                        LoadAddressesByCustomer(currentCustomer);
+                        LoadAddressesByCustomer(CurrentCustomer);
                         BtnAddressPicker.Text = "F6 Elegir";
                         CmbAddressPicker.Focus();//07/07/2022
                     }

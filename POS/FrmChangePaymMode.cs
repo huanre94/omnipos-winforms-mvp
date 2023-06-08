@@ -100,22 +100,17 @@ namespace POS
 
         private void BtnKeypadEmission_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.EMISSIONPOINT_NUMBER
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.EMISSIONPOINT_NUMBER);
             keyPad.ShowDialog();
-            TxtEmissionPoint.Text = keyPad.emissionPoint;
+
+            TxtEmissionPoint.Text = keyPad.GetValue();
         }
 
         private void BtnKeypadInvoice_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.INVOICE_NUMBER
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.INVOICE_NUMBER);
             keyPad.ShowDialog();
-            TxtInvoiceNumber.Text = keyPad.invoiceNumber;
+            TxtInvoiceNumber.Text = keyPad.GetValue();
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -252,7 +247,6 @@ namespace POS
 
                 //    }
 
-                    break;
 
                 default:
                     allowChangePaymode = true;

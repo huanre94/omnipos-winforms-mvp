@@ -56,7 +56,7 @@
             this.BtnCancel.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnCancel.Location = new System.Drawing.Point(310, 308);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 9;
@@ -89,7 +89,7 @@
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnAccept.Location = new System.Drawing.Point(518, 308);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6);
             this.BtnAccept.Name = "BtnAccept";
             this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 8;
@@ -139,7 +139,7 @@
             // TxtCreditCardCode
             // 
             this.TxtCreditCardCode.Location = new System.Drawing.Point(177, 22);
-            this.TxtCreditCardCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtCreditCardCode.Margin = new System.Windows.Forms.Padding(4);
             this.TxtCreditCardCode.Name = "TxtCreditCardCode";
             this.TxtCreditCardCode.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtCreditCardCode.Properties.Appearance.Options.UseFont = true;
@@ -153,10 +153,10 @@
             // 
             this.AxOPOSScanner.Enabled = true;
             this.AxOPOSScanner.Location = new System.Drawing.Point(13, 313);
-            this.AxOPOSScanner.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AxOPOSScanner.Margin = new System.Windows.Forms.Padding(4);
             this.AxOPOSScanner.Name = "AxOPOSScanner";
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
-            this.AxOPOSScanner.Size = new System.Drawing.Size(94, 62);
+            this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 10;
             this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
@@ -177,7 +177,7 @@
             this.Controls.Add(this.LblAuthorization);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmPaymentCredit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credito Interno";

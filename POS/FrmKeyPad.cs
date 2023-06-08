@@ -1,39 +1,119 @@
 ﻿using POS.DLL.Enums;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace POS
 {
     public partial class FrmKeyPad : DevExpress.XtraEditors.XtraForm
     {
-        public InputFromOption inputFromOption;
-        public string creditCardAuthorization = "";
-        public string checkAuthorization = "";
-        public string checkAccountNumber = "";
-        public string checkNumber = "";
-        public string checkOwnerIdentification = "";
-        public string checkPhone = "";
-        public string giftcardNumber = "";
-        public string customerPhone = "";
-        public string loginUsername = "";
-        public string loginPassword = "";
-        public string productQuantity = "";
-        public string emissionPoint = "";
-        public string invoiceNumber = "";
-        public string productInventory = "";
-        public string supervisorPassword = "";
-        public string salesOrderId = "";
-        public string advanceAmount = "";
-        public string closingCashierId = "";
+        InputFromOption InputFromOption { get; set; }
 
-        public FrmKeyPad()
+
+        string creditCardAuthorization { get; set; } = "";
+        string checkAuthorization { get; set; } = "";
+        string checkAccountNumber { get; set; } = "";
+        string checkNumber { get; set; } = "";
+        string checkOwnerIdentification { get; set; } = "";
+        string checkPhone { get; set; } = "";
+        string giftcardNumber { get; set; } = "";
+        string customerPhone { get; set; } = "";
+        string loginUsername { get; set; } = "";
+        string loginPassword { get; set; } = "";
+        string productQuantity { get; set; } = "";
+        string emissionPoint { get; set; } = "";
+        string invoiceNumber { get; set; } = "";
+        string productInventory { get; set; } = "";
+        string supervisorPassword { get; set; } = "";
+        string salesOrderId { get; set; } = "";
+        string advanceAmount { get; set; } = "";
+        string closingCashierId { get; set; } = "";
+        string WithHoldNumber { get; set; } = "";
+        string WithHoldAuthorization { get; set; } = "";
+        //public FrmKeyPad()
+        //{
+        //    InitializeComponent();
+        //}
+
+        public FrmKeyPad(InputFromOption _inputFromOption)
         {
             InitializeComponent();
+            InputFromOption = _inputFromOption;
         }
+
+        public string GetValue()
+        {
+            string value = "";
+
+            switch (InputFromOption)
+            {
+                case InputFromOption.CHECK_ACCOUNTNUMBER:
+                    value = checkAccountNumber;
+                    break;
+                case InputFromOption.CHECK_AUTHORIZATION:
+                    value = checkAuthorization;
+                    break;
+                case InputFromOption.CHECK_NUMBER:
+                    value = checkNumber;
+                    break;
+                case InputFromOption.CHECK_OWNERIDENTIFICATION:
+                    value = checkOwnerIdentification;
+                    break;
+                case InputFromOption.CHECK_PHONE:
+                    value = checkPhone;
+                    break;
+                case InputFromOption.CREDITCARD_AUTHORIZATION:
+                    value = creditCardAuthorization;
+                    break;
+                case InputFromOption.GIFTCARD_NUMBER:
+                    value = giftcardNumber;
+                    break;
+                case InputFromOption.CUSTOMER_PHONE:
+                    value = customerPhone;
+                    break;
+                case InputFromOption.LOGIN_USERNAME:
+                    value = loginUsername;
+                    break;
+                case InputFromOption.LOGIN_PASSWORD:
+                    value = loginPassword;
+                    break;
+                case InputFromOption.PRODUCT_QUANTITY:
+                    value = productQuantity;
+                    break;
+                case InputFromOption.EMISSIONPOINT_NUMBER:
+                    value = emissionPoint;
+                    break;
+                case InputFromOption.INVOICE_NUMBER:
+                    value = invoiceNumber;
+                    break;
+                case InputFromOption.PRODUCT_INVENTORY:
+                    value = productInventory;
+                    break;
+                case InputFromOption.SUPERVISOR_PASSWORD:
+                    value = supervisorPassword;
+                    break;
+                case InputFromOption.SALESORDER_ID:
+                    value = salesOrderId;
+                    break;
+                case InputFromOption.ADVANCE_AMOUNT:
+                    value = advanceAmount;
+                    break;
+                case InputFromOption.CLOSING_CASHIER_ID:
+                    value = closingCashierId;
+                    break;
+                case InputFromOption.WITHOHOLD_AUTHORIZATION: value = WithHoldAuthorization; break;
+                case InputFromOption.WITHOHOLD_NUMBER: value = WithHoldNumber; break;
+                default:
+                    break;
+            }
+            return value;
+        }
+
+        public InputFromOption GetInputFromOption() => InputFromOption;
 
         private void FrmKeyPad_Load(object sender, EventArgs e)
         {
-            switch (inputFromOption)
+            switch (InputFromOption)
             {
                 case InputFromOption.LOGIN_PASSWORD:
                     TxtValue.Properties.UseSystemPasswordChar = true;
@@ -43,7 +123,7 @@ namespace POS
                     TxtValue.Properties.UseSystemPasswordChar = false;
                     TxtValue.Properties.PasswordChar = '\0';
 
-                    BtnDot.Enabled = inputFromOption == InputFromOption.PRODUCT_INVENTORY || inputFromOption == InputFromOption.ADVANCE_AMOUNT;
+                    BtnDot.Enabled = InputFromOption == InputFromOption.PRODUCT_INVENTORY || InputFromOption == InputFromOption.ADVANCE_AMOUNT;
                     break;
             }
         }
@@ -88,7 +168,7 @@ namespace POS
                 return;
             }
 
-            switch (inputFromOption)
+            switch (InputFromOption)
             {
                 case InputFromOption.CHECK_ACCOUNTNUMBER:
                     checkAccountNumber = TxtValue.Text;
@@ -144,9 +224,12 @@ namespace POS
                 case InputFromOption.CLOSING_CASHIER_ID:
                     closingCashierId = TxtValue.Text;
                     break;
+                case InputFromOption.WITHOHOLD_AUTHORIZATION: WithHoldAuthorization = TxtValue.Text; break;
+                case InputFromOption.WITHOHOLD_NUMBER: WithHoldNumber = TxtValue.Text; break;
                 default:
                     break;
             }
+
             Close();
         }
 

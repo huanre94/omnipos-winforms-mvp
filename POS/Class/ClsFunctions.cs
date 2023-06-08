@@ -171,39 +171,54 @@ namespace POS
 
         public bool ValidateCatchWeightProduct(AxOPOSScale _axOposScale,
                                                decimal _qty,
-                                               string _productName,
+                                               SP_Product_Consult_Result _product,
                                                ScaleBrands _scaleBrand,
                                                string _portName = "",
                                                bool isTestMode = false)
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
-            {
-                axOposScale = _axOposScale,
-                productName = _productName,
-                globalParameters = globalParameters
-            };
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _axOposScale, _product);
             frmCatchWeight.ShowDialog();
+
+            if (!frmCatchWeight.GetActionResult())
+            {
+                ShowMessage("No se ha realizado captura de peso.", MessageType.WARNING);
+                return false;
+            }
 
             decimal catchWeight = isTestMode ? _qty : frmCatchWeight.GetWeight();
 
             //Begin(IG001)
             if (catchWeight == 0)
             {
-                ShowMessage("No se ha realizado captura de peso.", MessageType.WARNING);
+                ShowMessage("Por favor volver a intentarlo, existio un problema al validar peso.", MessageType.WARNING);
                 return false;
             }
             //End(IG001)
 
             decimal minimumLostWeightQty = decimal.Parse(new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty").Value);
 
-            decimal lostWeight = _qty - catchWeight;
-            lostWeight = Math.Abs(lostWeight);
-
-            if (lostWeight > minimumLostWeightQty)
+            if (Math.Abs(_qty - catchWeight) > minimumLostWeightQty)
             {
-                ShowMessage("El peso es incorrecto. Vuelva a pesar el Producto.", MessageType.WARNING);
+                ShowMessage($"La diferencia de peso sobrepasa el minimo de merma ({minimumLostWeightQty}). Vuelva a pesar el Producto.", MessageType.WARNING);
                 return false;
             }
+
+            //string entere = _product.BarcodeBefore.Substring(7, 3);
+            //string decimals = _product.BarcodeBefore.Substring(10, 3);
+            //decimal newAmount = decimal.Parse($"{entere}.{decimals}");
+
+            //decimal ticketBaseValue = newAmount / catchWeight;
+            //decimal priceDiff = Math.Abs((decimal)_product.Price - Math.Round(ticketBaseValue, 2, MidpointRounding.AwayFromZero));
+
+            ////VALIDACION DE PRECIO BASE VS PRECIO TICKET
+            //if (priceDiff > minimumLostWeightQty)
+            //{
+            //    ShowMessage("Existe una diferencia de precio en articulo en balanza. Por favor validar valor en balanza.",
+            //                MessageType.WARNING,
+            //                true,
+            //                $"El valor descuadrado por: {priceDiff} {Environment.NewLine} Valor calculado: ${Math.Round(ticketBaseValue, 2, MidpointRounding.AwayFromZero)} {Environment.NewLine} Valor Sistema: ${_product.Price}");
+            //    return false;
+            //}
 
             return true;
         }
@@ -217,17 +232,19 @@ namespace POS
         /// <param name="_portName"></param>
         /// <returns></returns>
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
-                                          string _productName,
+                                          SP_Product_Consult_Result _product,
                                           ScaleBrands _scaleBrand,
                                           string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName)
-            {
-                axOposScale = _axOposScale,
-                productName = _productName,
-                globalParameters = globalParameters
-            };
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _axOposScale, _product);
             frmCatchWeight.ShowDialog();
+
+
+            if (!frmCatchWeight.GetActionResult())
+            {
+                ShowMessage("No se ha realizado captura de peso.", MessageType.WARNING);
+                return 0;
+            }
 
             return frmCatchWeight.GetWeight();
         }

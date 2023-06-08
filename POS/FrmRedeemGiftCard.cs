@@ -39,24 +39,18 @@ namespace POS
         #region Control Events
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.GIFTCARD_NUMBER
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.GIFTCARD_NUMBER);
             keyPad.ShowDialog();
-            TxtGiftCardNumber.Text = keyPad.giftcardNumber;
+            TxtGiftCardNumber.Text = keyPad.GetValue();
             TxtGiftCardNumber.Focus();//08/07/2022
         }
 
         private void BtnBarcodeKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.GIFTCARD_NUMBER
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.GIFTCARD_NUMBER);
             keyPad.ShowDialog();
 
-            TxtBarcode.Text = keyPad.giftcardNumber;
+            TxtBarcode.Text = keyPad.GetValue();
             TxtBarcode.Focus();
             SendKeys.Send("{ENTER}");
         }
@@ -273,7 +267,7 @@ namespace POS
                 return;
             }
 
-            if (TxtRedeemIdentification.Text.Equals("") || TxtRedeemName.Text.Equals(""))
+            if (TxtRedeemIdentification.Text.Equals("") && TxtRedeemName.Text.Equals(""))
             {
                 functions.ShowMessage("Los datos del canje no pueden estar vacios.", MessageType.WARNING);
                 return;
@@ -601,7 +595,7 @@ namespace POS
                     if (!_skipCatchWeight)
                     {
                         decimal weight = functions.CatchWeightProduct(AxOPOSScale,
-                                                                      result.ProductName,
+                                                                      result,
                                                                       scaleBrand,
                                                                       portName);
 
@@ -611,15 +605,13 @@ namespace POS
                             return;
                         }
 
-                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                                _locationId
-                                                                , _barcode
-                                                                , weight + qtyFound
-                                                                , _customerId
-                                                                , _internalCreditCardId
-                                                                , _paymMode
-                                                                , barcodeBefore
-                                                                );
+                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                                                                                                    _barcode,
+                                                                                                    weight + qtyFound,
+                                                                                                    _customerId,
+                                                                                                    _internalCreditCardId,
+                                                                                                    _paymMode,
+                                                                                                    barcodeBefore);
 
                         AddRecordToGrid(result, false);
 
@@ -634,9 +626,9 @@ namespace POS
             catch (Exception ex)
             {
                 functions.ShowMessage("Hubo un problema al consultar producto.",
-                    MessageType.ERROR,
-                    true,
-                    ex.Message);
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
         }
 

@@ -171,22 +171,16 @@ namespace POS
 
         private void BtnKeypad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.WITHOHOLD_AUTHORIZATION);
             keyPad.ShowDialog();
-            TxtNAutorization.Text = keyPad.creditCardAuthorization;
+            TxtNAutorization.Text = keyPad.GetValue();
         }
 
         private void BtnKeypadRet_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.WITHOHOLD_NUMBER);
             keyPad.ShowDialog();
-            TxtNRetention.Text = keyPad.creditCardAuthorization;
+            TxtNRetention.Text = keyPad.GetValue();
         }
 
         private IEnumerable<RetentionTable> LoadRetentions(int typeRetention)

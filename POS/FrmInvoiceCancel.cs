@@ -200,33 +200,21 @@ namespace POS
 
         private void BtnEmissionPointKeyPad_Click(object sender, EventArgs e)
         {
-            using (FrmKeyPad emissionPointKeypad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.EMISSIONPOINT_NUMBER
-            })
+            using (FrmKeyPad emissionPointKeypad = new FrmKeyPad(InputFromOption.EMISSIONPOINT_NUMBER))
             {
                 emissionPointKeypad.ShowDialog();
 
-                if (emissionPointKeypad.emissionPoint != string.Empty)
-                {
-                    TxtEmissionPoint.Text = emissionPointKeypad.emissionPoint;
-                }
+                TxtEmissionPoint.Text = emissionPointKeypad.GetValue();
             }
         }
 
         private void BtnSeqKeyPad_Click(object sender, EventArgs e)
         {
-            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.INVOICE_NUMBER
-            })
+            using (FrmKeyPad sequenceKeyPad = new FrmKeyPad(InputFromOption.INVOICE_NUMBER))
             {
                 sequenceKeyPad.ShowDialog();
 
-                if (sequenceKeyPad.invoiceNumber != string.Empty)
-                {
-                    TxtSequence.Text = sequenceKeyPad.invoiceNumber;
-                }
+                TxtSequence.Text = sequenceKeyPad.GetValue();
             }
         }
 

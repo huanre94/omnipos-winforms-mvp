@@ -78,37 +78,33 @@ namespace POS
 
         private void BtnKeypadPhone_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CHECK_PHONE;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CHECK_PHONE);
             keyPad.ShowDialog();
-            TxtPhone.Text = keyPad.checkPhone;
+            TxtPhone.Text = keyPad.GetValue();
             TxtPhone.Focus();   //06/07/2022
         }
 
         private void BtnKeypadAccount_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CHECK_ACCOUNTNUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CHECK_ACCOUNTNUMBER);
             keyPad.ShowDialog();
-            TxtAccountNumber.Text = keyPad.checkAccountNumber;
+            TxtAccountNumber.Text = keyPad.GetValue();
             TxtAccountNumber.Focus();   //06/07/2022
         }
 
         private void BtnKeypadCheck_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CHECK_NUMBER;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CHECK_NUMBER);
             keyPad.ShowDialog();
-            TxtCheckNumber.Text = keyPad.checkNumber;
+            TxtCheckNumber.Text = keyPad.GetValue();
             TxtCheckNumber.Focus();   //06/07/2022
         }
 
         private void BtnKeypadAuth_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CHECK_AUTHORIZATION;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CHECK_AUTHORIZATION);
             keyPad.ShowDialog();
-            TxtAuthorization.Text = keyPad.checkAuthorization;
+            TxtAuthorization.Text = keyPad.GetValue();
         }
         #endregion
 

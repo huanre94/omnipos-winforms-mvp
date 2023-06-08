@@ -160,22 +160,16 @@ namespace POS
 
         private void BtnKeypadUsername_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.LOGIN_USERNAME
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.LOGIN_USERNAME);
             keyPad.ShowDialog();
-            TxtUsername.Text = keyPad.loginUsername;
+            TxtUsername.Text = keyPad.GetValue();
         }
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.LOGIN_PASSWORD
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.LOGIN_PASSWORD);
             keyPad.ShowDialog();
-            TxtPassword.Text = keyPad.loginPassword;
+            TxtPassword.Text = keyPad.GetValue();
         }
 
         private void TxtPassword_KeyDown(object sender, KeyEventArgs e)

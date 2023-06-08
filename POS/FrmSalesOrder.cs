@@ -361,7 +361,7 @@ namespace POS
                         if (!_skipCatchWeight)
                         {
                             decimal weight = functions.CatchWeightProduct(AxOPOSScale,
-                                                                          result.ProductName,
+                                                                          result,
                                                                           scaleBrand,
                                                                           portName);
 
@@ -372,16 +372,13 @@ namespace POS
                             }
                             else
                             {
-                                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
-                                                                        _locationId
-                                                                        , _barcode
-                                                                        , weight + qtyFound
-                                                                        , _customerId
-                                                                        , _internalCreditCardId
-                                                                        , _paymMode
-                                                                        , barcodeBefore
-
-                                                                        );
+                                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                                                                                                            _barcode,
+                                                                                                            weight + qtyFound,
+                                                                                                            _customerId,
+                                                                                                            _internalCreditCardId,
+                                                                                                            _paymMode,
+                                                                                                            barcodeBefore);
                             }
                         }
                     }
@@ -390,15 +387,12 @@ namespace POS
 
                         if (!_skipCatchWeight)
                         {
-                            canInsert = functions.ValidateCatchWeightProduct(
-                                                                                AxOPOSScale
-                                                                                , (decimal)result.QuantityBefore
-                                                                                , result.ProductName
-                                                                                , scaleBrand
-                                                                                , portName
-                                                                                , false
-
-                                                                            );
+                            canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale,
+                                                                             (decimal)result.QuantityBefore,
+                                                                             result,
+                                                                             scaleBrand,
+                                                                             portName,
+                                                                             false);
                         }
                     }
                 }
@@ -739,38 +733,32 @@ namespace POS
             FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
             productSearch.ShowDialog();
 
-            if (productSearch.barcode != "")
+            if (productSearch.GetProduct().Barcode == "")
             {
-                decimal quantity = 0;
-
-                if (productSearch.useCatchWeight)
-                {
-
-                    quantity = functions.CatchWeightProduct(AxOPOSScale,
-                                                            productSearch.productName,
-                                                            scaleBrand,
-                                                            portName);
-                }
-                else
-                {
-                    quantity = 1;
-                }
-
-                if (quantity > 0)
-                {
-                    GetProductInformation(emissionPoint.LocationId,
-                                          productSearch.barcode,
-                                          quantity,
-                                          customer.CustomerId,
-                                          1,
-                                          "",
-                                          true);
-                }
-                else
-                {
-                    functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
-                }
+                return;
             }
+
+            decimal quantity =
+                   productSearch.GetProduct().UseCatchWeight ?
+                   functions.CatchWeightProduct(AxOPOSScale,
+                                                        productSearch.GetProduct(),
+                                                        scaleBrand,
+                                                        portName) : 1;
+
+
+            if (quantity <= 0)
+            {
+                functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
+                return;
+            }
+
+            GetProductInformation(emissionPoint.LocationId,
+                                  productSearch.GetProduct().Barcode,
+                                  quantity,
+                                  customer.CustomerId,
+                                  1,
+                                  "",
+                                  true);
 
             TxtBarcode.Focus();
         }
@@ -781,52 +769,47 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No ha seleccionado ningun producto.", MessageType.WARNING);
+                return;
             }
-            else
+
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.PRODUCT_QUANTITY);
+            keyPad.ShowDialog();
             {
-                FrmKeyPad keyPad = new FrmKeyPad();
-                keyPad.inputFromOption = InputFromOption.PRODUCT_QUANTITY;
-                keyPad.ShowDialog();
+                int newAmount = int.Parse(keyPad.GetValue());
+                //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
+                SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
 
-                if (keyPad.productQuantity != "")
+                if (newAmount <= row.Quantity)
                 {
-                    int newAmount = int.Parse(keyPad.productQuantity);
-                    //decimal quantity = (decimal)GrvSalesDetail.GetRowCellValue(rowIndex, "Quantity");
-                    SP_Product_Consult_Result row = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                    if (newAmount > row.Quantity)
-                    {
-                        IEnumerable<XElement> searchXml = from xm in salesOrderXml.Descendants("SalesOrderLine")
-                                                          where long.Parse(xm.Element("ProductId").Value) == row.ProductId
-                                                          select xm;
-
-                        string barcode = "";
-                        foreach (XElement item in searchXml.Elements())
-                        {
-                            if (item.Name == "Barcode")
-                                barcode = item.Value;
-                        }
-
-                        long newValue = (long)(newAmount - row.Quantity);
-
-                        GetProductInformation(
-                                               emissionPoint.LocationId
-                                               , barcode
-                                               , newValue
-                                               , customer.CustomerId
-                                               , 1
-                                               , ""
-                                               , false
-                                               );
-                    }
-                    else
-                    {
-                        functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", MessageType.WARNING);
-                    }
+                    functions.ShowMessage("El valor ingresado no puede ser igual o menor al actual.", MessageType.WARNING);
+                    return;
                 }
-            }
 
-            TxtBarcode.Focus();
+                IEnumerable<XElement> searchXml =
+                    salesOrderXml
+                    .Descendants("SalesOrderLine")
+                    .Where(xm => long.Parse(xm.Element("ProductId").Value) == row.ProductId);
+
+                string barcode = "";
+                foreach (XElement item in searchXml.Elements())
+                {
+                    if (item.Name == "Barcode")
+                        barcode = item.Value;
+                }
+
+                long newValue = (long)(newAmount - row.Quantity);
+
+                GetProductInformation(emissionPoint.LocationId,
+                                      barcode,
+                                      newValue,
+                                      customer.CustomerId,
+                                      1,
+                                      "",
+                                      false);
+
+
+                TxtBarcode.Focus();
+            }
         }
 
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)

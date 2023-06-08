@@ -12,19 +12,16 @@ namespace POS
     public partial class FrmProductSearch : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public EmissionPoint Emission { get; set; }
+        private EmissionPoint Emission { get; set; }
+        private SP_Product_Consult_Result result { get; set; } = new SP_Product_Consult_Result();
 
-
-        public string barcode = "";
-        public bool useCatchWeight;
-        public long productId;
-        public bool returnProduct = false;
-        public string productName = "";
+        public SP_Product_Consult_Result GetProduct() => result;
 
         public FrmProductSearch()
         {
             InitializeComponent();
         }
+
         public FrmProductSearch(EmissionPoint emission)
         {
             InitializeComponent();
@@ -89,11 +86,11 @@ namespace POS
             }
 
             SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-            barcode = selectedProduct.Barcode;
-            productId = selectedProduct.ProductId;
-            useCatchWeight = selectedProduct.UseCatchWeight;
-            productName = selectedProduct.Name;
-            returnProduct = true;
+
+            result.Barcode = selectedProduct.Barcode;
+            result.ProductId = selectedProduct.ProductId;
+            result.UseCatchWeight = selectedProduct.UseCatchWeight;
+            result.ProductName = selectedProduct.Name;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)

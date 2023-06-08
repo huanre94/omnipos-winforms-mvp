@@ -14,25 +14,30 @@ namespace POS
     public partial class FrmCatchWeight : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public AxOPOSScale axOposScale;
-        public bool formActionResult;
-        decimal weight { get; set; } = 0;
-        public string productName = string.Empty;
-        public IEnumerable<GlobalParameter> globalParameters;
-        private ClsCatchWeight catchWeight;
-        private string strWaitTime = string.Empty;
+        ClsCatchWeight catchWeight;
+        string strWaitTime = string.Empty;
+
+        decimal Weight { get; set; } = 0;
+        bool ActionResult { get; set; } = false;
+
 
         ScaleBrands ScaleBrand { get; set; }
         string PortName { get; set; }
+        SP_Product_Consult_Result Product { get; set; }
+        AxOPOSScale AxOposScale { get; set; }
 
-        public FrmCatchWeight(ScaleBrands _scaleBrand, string _portName)
+        public FrmCatchWeight(ScaleBrands _scaleBrand, string _portName, AxOPOSScale _axOposScale, SP_Product_Consult_Result _product)
         {
             InitializeComponent();
             ScaleBrand = _scaleBrand;
             PortName = _portName;
+            AxOposScale = _axOposScale;
+            Product = _product;
         }
 
-        public decimal GetWeight() => weight;
+        public decimal GetWeight() => Weight;
+
+        public bool GetActionResult() => ActionResult;
 
         private void FrmCatchWeight_Load(object sender, EventArgs e)
         {
@@ -62,19 +67,17 @@ namespace POS
                         if (functions.ShowMessage("Coloque el producto en la balanza.", MessageType.CONFIRM))
                         {
                             CatchWeightProduct(ScaleBrand, PortName);
+                            break;
                         }
-                        else
-                        {
-                            if (ScaleBrand != ScaleBrands.DATALOGIC)
-                                catchWeight.CloseScale();
 
-                            DialogResult = DialogResult.Cancel;
-                        }
+                        if (ScaleBrand != ScaleBrands.DATALOGIC) catchWeight.CloseScale();
+
+                        DialogResult = DialogResult.Cancel;
 
                         break;
                 }
 
-                LblProductName.Text = productName;
+                LblProductName.Text = Product.ProductName;
             }
             catch (Exception ex)
             {
@@ -95,10 +98,10 @@ namespace POS
                 switch (_scaleBrand)
                 {
                     case ScaleBrands.DATALOGIC:
-                        axOposScale.ReadWeight(out int request, 5000);
-                        weight = request / 1000M;
+                        AxOposScale.ReadWeight(out int request, 5000);
+                        Weight = request / 1000M;
 
-                        if (weight <= 0)
+                        if (Weight <= 0)
                         {
                             LblTitle.Text = "Peso no Capturado";
                             LblTitle.ForeColor = Color.Red;
@@ -117,7 +120,7 @@ namespace POS
                         DateTime endTime = DateTime.Now.AddSeconds(waitTime);
                         while (DateTime.Now < endTime && catchWeight.Weight == 0)
                         {
-                            weight = catchWeight.Weight;
+                            Weight = catchWeight.Weight;
                         }
 
                         if (catchWeight.Weight <= 0)
@@ -130,12 +133,12 @@ namespace POS
                             return;
                         }
 
-                        weight = catchWeight.Weight;
+                        Weight = catchWeight.Weight;
                         catchWeight.CloseScale();
                         break;
                 }
 
-                LblCatchedWeight.Text = weight.ToString();
+                LblCatchedWeight.Text = $"{Weight:0.###}"; 
                 LblTitle.Text = "Peso Capturado Correctamente";
                 LblTitle.ForeColor = Color.Green;
 
@@ -154,17 +157,19 @@ namespace POS
             switch (ScaleBrand)
             {
                 case ScaleBrands.DATALOGIC:
-                    if (weight > 0)
-                        formActionResult = true;
+                    if (Weight > 0)
+                    {
+                        ActionResult = true;
+                    }
                     break;
                 default:
                     if (catchWeight.Weight > 0)
                     {
-                        weight = catchWeight.Weight;
-                        LblCatchedWeight.Text = $"{weight}";
+                        Weight = catchWeight.Weight;
+                        LblCatchedWeight.Text = $"{Weight}";
                         LblTitle.Text = "Peso Capturado Correctamente";
                         LblTitle.ForeColor = Color.Green;
-                        formActionResult = true;
+                        ActionResult = true;
                     }
                     break;
             }

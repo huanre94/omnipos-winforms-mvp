@@ -27,8 +27,8 @@ namespace POS
                 return;
             }
 
-            object VUser = Registry.GetValue(registryKey, "User", null);
             object SBase = Registry.GetValue(registryKey, "Base", null);
+            object VUser = Registry.GetValue(registryKey, "User", null);
             object SPass = Registry.GetValue(registryKey, "Pass", null);
 
             //12/07/2022  Se agregó para que Cadena de conexion sea parametrizable

@@ -344,13 +344,10 @@ namespace POS
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad
-            {
-                inputFromOption = InputFromOption.SALESORDER_ID
-            };
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.SALESORDER_ID);
             keyPad.ShowDialog();
 
-            int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.salesOrderId);
+            int rowIndex = GrvSalesOrder.LocateByDisplayText(0, GrvSalesOrder.Columns["SalesOrderId"], keyPad.GetValue());
 
             if (rowIndex < 0)
             {

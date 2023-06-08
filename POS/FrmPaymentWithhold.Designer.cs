@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPaymentWithhold));
-            this.BtnKeypad = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnAuthorizationKeypad = new DevExpress.XtraEditors.SimpleButton();
             this.LblAmount = new System.Windows.Forms.Label();
             this.LblTitleAmount = new System.Windows.Forms.Label();
             this.TxtNAutorization = new DevExpress.XtraEditors.TextEdit();
@@ -38,7 +38,7 @@
             this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtNRetention = new DevExpress.XtraEditors.TextEdit();
-            this.BtnKeypadRet = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnWithholdNumberKeypad = new DevExpress.XtraEditors.SimpleButton();
             this.label2 = new System.Windows.Forms.Label();
             this.LblBasePercent = new System.Windows.Forms.Label();
             this.LblBaseAmount = new System.Windows.Forms.Label();
@@ -57,22 +57,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.CmbTaxPercent.Properties)).BeginInit();
             this.SuspendLayout();
             // 
-            // BtnKeypad
+            // BtnAuthorizationKeypad
             // 
-            this.BtnKeypad.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.BtnKeypad.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnKeypad.Appearance.Options.UseBackColor = true;
-            this.BtnKeypad.Appearance.Options.UseFont = true;
-            this.BtnKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypad.ImageOptions.SvgImage")));
-            this.BtnKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypad.Location = new System.Drawing.Point(633, 240);
-            this.BtnKeypad.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
-            this.BtnKeypad.Name = "BtnKeypad";
-            this.BtnKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypad.Size = new System.Drawing.Size(94, 62);
-            this.BtnKeypad.TabIndex = 20;
-            this.BtnKeypad.Click += new System.EventHandler(this.BtnKeypad_Click);
+            this.BtnAuthorizationKeypad.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnAuthorizationKeypad.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnAuthorizationKeypad.Appearance.Options.UseBackColor = true;
+            this.BtnAuthorizationKeypad.Appearance.Options.UseFont = true;
+            this.BtnAuthorizationKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.BtnAuthorizationKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypad.ImageOptions.SvgImage")));
+            this.BtnAuthorizationKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnAuthorizationKeypad.Location = new System.Drawing.Point(633, 240);
+            this.BtnAuthorizationKeypad.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
+            this.BtnAuthorizationKeypad.Name = "BtnAuthorizationKeypad";
+            this.BtnAuthorizationKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnAuthorizationKeypad.Size = new System.Drawing.Size(94, 62);
+            this.BtnAuthorizationKeypad.TabIndex = 20;
+            this.BtnAuthorizationKeypad.Click += new System.EventHandler(this.BtnKeypad_Click);
             // 
             // LblAmount
             // 
@@ -176,22 +176,22 @@
             this.TxtNRetention.Size = new System.Drawing.Size(266, 30);
             this.TxtNRetention.TabIndex = 19;
             // 
-            // BtnKeypadRet
+            // BtnWithholdNumberKeypad
             // 
-            this.BtnKeypadRet.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.BtnKeypadRet.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
-            this.BtnKeypadRet.Appearance.Options.UseBackColor = true;
-            this.BtnKeypadRet.Appearance.Options.UseFont = true;
-            this.BtnKeypadRet.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.BtnKeypadRet.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadRet.ImageOptions.SvgImage")));
-            this.BtnKeypadRet.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeypadRet.Location = new System.Drawing.Point(633, 309);
-            this.BtnKeypadRet.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
-            this.BtnKeypadRet.Name = "BtnKeypadRet";
-            this.BtnKeypadRet.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeypadRet.Size = new System.Drawing.Size(94, 62);
-            this.BtnKeypadRet.TabIndex = 20;
-            this.BtnKeypadRet.Click += new System.EventHandler(this.BtnKeypadRet_Click);
+            this.BtnWithholdNumberKeypad.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.BtnWithholdNumberKeypad.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F);
+            this.BtnWithholdNumberKeypad.Appearance.Options.UseBackColor = true;
+            this.BtnWithholdNumberKeypad.Appearance.Options.UseFont = true;
+            this.BtnWithholdNumberKeypad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.BtnWithholdNumberKeypad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeypadRet.ImageOptions.SvgImage")));
+            this.BtnWithholdNumberKeypad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
+            this.BtnWithholdNumberKeypad.Location = new System.Drawing.Point(633, 309);
+            this.BtnWithholdNumberKeypad.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
+            this.BtnWithholdNumberKeypad.Name = "BtnWithholdNumberKeypad";
+            this.BtnWithholdNumberKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.BtnWithholdNumberKeypad.Size = new System.Drawing.Size(94, 62);
+            this.BtnWithholdNumberKeypad.TabIndex = 20;
+            this.BtnWithholdNumberKeypad.Click += new System.EventHandler(this.BtnKeypadRet_Click);
             // 
             // label2
             // 
@@ -351,8 +351,8 @@
             this.Controls.Add(this.LblBaseAmount);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.BtnKeypadRet);
-            this.Controls.Add(this.BtnKeypad);
+            this.Controls.Add(this.BtnWithholdNumberKeypad);
+            this.Controls.Add(this.BtnAuthorizationKeypad);
             this.Controls.Add(this.LblBasePercent);
             this.Controls.Add(this.LblTaxAmount);
             this.Controls.Add(this.LblAmount);
@@ -382,7 +382,7 @@
 
         #endregion
 
-        private DevExpress.XtraEditors.SimpleButton BtnKeypad;
+        private DevExpress.XtraEditors.SimpleButton BtnAuthorizationKeypad;
         private System.Windows.Forms.Label LblAmount;
         private System.Windows.Forms.Label LblTitleAmount;
         public DevExpress.XtraEditors.TextEdit TxtNAutorization;
@@ -391,7 +391,7 @@
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private System.Windows.Forms.Label label1;
         public DevExpress.XtraEditors.TextEdit TxtNRetention;
-        private DevExpress.XtraEditors.SimpleButton BtnKeypadRet;
+        private DevExpress.XtraEditors.SimpleButton BtnWithholdNumberKeypad;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label LblBasePercent;
         private System.Windows.Forms.Label LblBaseAmount;

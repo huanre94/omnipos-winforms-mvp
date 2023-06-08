@@ -84,16 +84,10 @@ namespace POS
 
         private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer()
-            {
-                emissionPoint = emissionPoint,
-                IsNewCustomer = true,
-                customerIdentification = _identification,
-                loginInformation = loginInformation
-            };
+            FrmCustomer frmCustomer = new FrmCustomer(emissionPoint, loginInformation, _identification);
             frmCustomer.ShowDialog();
 
-            return frmCustomer.currentCustomer;
+            return frmCustomer.GetCurrentCustomer();
         }
 
         private void FrmSalesOrderHeader_Load(object sender, EventArgs e)
@@ -147,9 +141,9 @@ namespace POS
 
                 if (salesOrigins?.Count() > 0)
                 {
-                    foreach (SalesOrigin identType in salesOrigins)
+                    foreach (SalesOrigin origin in salesOrigins)
                     {
-                        CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = identType.SalesOriginId, Description = identType.Name });
+                        CmbSalesOrderOrigin.Properties.Items.Add(new ImageComboBoxItem { Value = origin.SalesOriginId, Description = origin.Name });
                     }
                     CmbSalesOrderOrigin.SelectedIndex = 0;
                 }
@@ -186,15 +180,10 @@ namespace POS
                 return;
             }
 
-            FrmAddressPicker frmCustomer = new FrmAddressPicker()
-            {
-                emissionPoint = emissionPoint,
-                currentCustomer = currentCustomer,
-                loginInformation = loginInformation
-            };
+            FrmAddressPicker frmCustomer = new FrmAddressPicker(emissionPoint, loginInformation, currentCustomer);
             frmCustomer.ShowDialog();
 
-            if (frmCustomer.formResult)
+            if (frmCustomer.GetResult())
             {
                 customerAddress = frmCustomer.response;
                 LblDeliveryAddress.Text = customerAddress.Address;

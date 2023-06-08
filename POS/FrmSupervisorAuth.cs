@@ -190,13 +190,10 @@ namespace POS
 
         private void BtnKeypadPassword_Click(object sender, EventArgs e)
         {
-            FrmKeyPad passwordKeypad = new FrmKeyPad()
-            {
-                inputFromOption = InputFromOption.LOGIN_PASSWORD
-            };
+            FrmKeyPad passwordKeypad = new FrmKeyPad(InputFromOption.LOGIN_PASSWORD);
             passwordKeypad.ShowDialog();
 
-            TxtSupervisorPassword.Text = passwordKeypad.loginPassword;
+            TxtSupervisorPassword.Text = passwordKeypad.GetValue();
 
             CmbMotive.Focus();   //06/07/2022
         }

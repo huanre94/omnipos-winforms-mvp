@@ -72,10 +72,10 @@ namespace POS
 
         private void BtnKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyPad keyPad = new FrmKeyPad();
-            keyPad.inputFromOption = InputFromOption.CREDITCARD_AUTHORIZATION;
+            FrmKeyPad keyPad = new FrmKeyPad(InputFromOption.CREDITCARD_AUTHORIZATION);
             keyPad.ShowDialog();
-            TxtAuthorization.Text = keyPad.creditCardAuthorization;
+
+            TxtAuthorization.Text = keyPad.GetValue();
             TxtAuthorization.Focus();
         }
 
@@ -96,12 +96,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                        "Ocurrio un problema al cargar lista de Bancos."
-                                        , MessageType.ERROR
-                                        , true
-                                        , ex.InnerException.Message
-                                    );
+                functions.ShowMessage("Ocurrio un problema al cargar lista de Bancos.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
             }
 
         }
@@ -137,29 +135,27 @@ namespace POS
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al cargar lista de Marcas de Tarjeta.",
-                         MessageType.ERROR,
-                        true,
-                        ex.InnerException.Message);
+                                          MessageType.ERROR,
+                                          true,
+                                          ex.InnerException.Message);
                 }
             }
         }
 
         private void BtnAccept_Click(object sender, EventArgs e)
         {
-            if (CmbCardType.SelectedItem != null && CmbCardBank.EditValue != null
-                && CmbCardBrand.EditValue != null && TxtAuthorization.Text != "")
-            {
-                bankId = int.Parse(CmbCardBank.EditValue.ToString());
-                creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
-                authorization = TxtAuthorization.Text;
-                amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);
-                processResponse = true;
-            }
-            else
+            if (CmbCardType.SelectedItem == null || CmbCardBank.EditValue == null || CmbCardBrand.EditValue == null || TxtAuthorization.Text == "")
             {
                 functions.ShowMessage("Debe llenar todos los campos", MessageType.WARNING);
                 DialogResult = DialogResult.None;
+                return;
             }
+
+            bankId = int.Parse(CmbCardBank.EditValue.ToString());
+            creditCardId = int.Parse(CmbCardBrand.EditValue.ToString());
+            authorization = TxtAuthorization.Text;
+            amountPaymmodeDiscount = LblAmountDiscounted.Text == string.Empty ? 0 : decimal.Parse(LblAmountDiscounted.Text);
+            processResponse = true;
         }
 
         private void CmbCardType_SelectedIndexChanged(object sender, EventArgs e)
@@ -182,8 +178,7 @@ namespace POS
             decimal invoiceAmount = 0.00M;
             decimal discAmount = 0.00M;
 
-            IEnumerable<XElement> line = from r in invoiceXml.Descendants("InvoiceLine")
-                                         select r;
+            IEnumerable<XElement> line = invoiceXml.Descendants("InvoiceLine");
 
             foreach (XElement item in line)
             {
@@ -247,8 +242,7 @@ namespace POS
                                 0,
                                 paymmode);
 
-                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString)
-                                .ProductConsult(product);
+                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(product);
 
 
                             IEnumerable<XElement> updateQuery =
