@@ -18,10 +18,10 @@ namespace POS
         //readonly decimal paidAmount;
         public decimal paidAmount;
         public Customer Customer { get; set; }
-        public EmissionPoint EmissionPoint { get; set; }        
+        public EmissionPoint EmissionPoint { get; set; }
 
-        public string InternalCreditCardCode { get; set; } = string.Empty;        
-        public bool IsPresentingCreditCard { get; set; } = false;        
+        public string InternalCreditCardCode { get; set; } = string.Empty;
+        public bool IsPresentingCreditCard { get; set; } = false;
 
         public AxOPOSScanner scanner;
         //readonly AxOPOSScanner scanner;
@@ -35,25 +35,25 @@ namespace POS
 
         public FrmPaymentCredit(Customer customer, EmissionPoint emissionPoint, AxOPOSScanner scanner, int SalesOriginId, bool isPresentingCreditCard = false)
         {
-            this.Customer = customer;
-            this.EmissionPoint = emissionPoint;
+            Customer = customer;
+            EmissionPoint = emissionPoint;
             this.scanner = scanner;
-            this.IsPresentingCreditCard = isPresentingCreditCard;
+            IsPresentingCreditCard = isPresentingCreditCard;
             this.SalesOriginId = SalesOriginId;
         }
 
         public FrmPaymentCredit(decimal paidAmount, Customer customer, EmissionPoint emissionPoint, string internalCreditCardCode, int salesOriginId)
         {
             this.paidAmount = paidAmount;
-            this.Customer = customer;
-            this.EmissionPoint = emissionPoint;
-            this.InternalCreditCardCode = internalCreditCardCode;
+            Customer = customer;
+            EmissionPoint = emissionPoint;
+            InternalCreditCardCode = internalCreditCardCode;
             SalesOriginId = salesOriginId;
         }
 
         private void FrmPaymentCredit_Load(object sender, EventArgs e)
         {
-            if (new ClsInvoiceTrans(Program.customConnectionString).ConsultSalesOriginCredit(SalesOriginId))
+            if (new InvoiceRepository(Program.customConnectionString).ConsultSalesOriginCredit(SalesOriginId))
             {
                 formActionResult = true;
                 Close();
@@ -109,7 +109,7 @@ namespace POS
             {
                 LblAuthorization.Visible = false;
                 TxtCreditCardCode.Visible = false;
-                Customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(Customer.CustomerId);
+                Customer = new CustomerRepository(Program.customConnectionString).GetCustomerById(Customer.CustomerId);
                 decimal _creditLimit = Customer.CreditLimit;
                 LblCreditLimit.Text = $"{_creditLimit:#.00}";
                 LblHolderName.Text = $"{Customer.Firtsname} {Customer.Lastname}";
@@ -141,7 +141,7 @@ namespace POS
         {
             if (Customer.IsEmployee)
             {
-                if (LblHolderName.Text == "" || LblCreditLimit.Text == "")
+                if (LblHolderName.Text.Equals(string.Empty) || LblCreditLimit.Text.Equals(string.Empty))
                 {
                     functions.ShowMessage("No se obtuvieron datos de la tarjeta de consumo.", MessageType.WARNING);
                     return false;
@@ -187,7 +187,7 @@ namespace POS
 
             try
             {
-                SP_InternalCreditCard_Consult_Result internalCreditCardCustomer = new ClsCustomerTrans(Program.customConnectionString).GetInternalCreditCard(_internalCreditCardCode);
+                SP_InternalCreditCard_Consult_Result internalCreditCardCustomer = new GiftcardRepository(Program.customConnectionString).GetInternalCreditCard(_internalCreditCardCode);
 
                 if (internalCreditCardCustomer == null)
                 {

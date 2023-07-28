@@ -40,7 +40,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SalesOrderStatus> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderStatus();
+                IEnumerable<SalesOrderStatus> custIdentTypes = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderStatus();
 
                 if (custIdentTypes?.Count() > 0)
                 {
@@ -66,7 +66,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SalesOrigin> custIdentTypes = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin();
+                IEnumerable<SalesOrigin> custIdentTypes = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderOrigin();
 
                 if (custIdentTypes?.Count() > 0)
                 {
@@ -157,7 +157,7 @@ namespace POS
                     return;
                 }
 
-                IEnumerable<SP_SalesOrderStatus_Consult_Result> sales = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), ChkDate.Checked);
+                IEnumerable<SP_SalesOrderStatus_Consult_Result> sales = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderByStatus(DateTime.Parse(ETOrderDate.Text.ToString()).ToString("yyyyMMdd"), CmbOrderStatus.EditValue.ToString(), int.Parse(CmbSalesOrderOrigin.EditValue.ToString()), ChkDate.Checked);
 
                 if (sales.Count() == 0)
                 {
@@ -312,7 +312,7 @@ namespace POS
             FrmSalesOrderHeader frmSalesOrderHeader = new FrmSalesOrderHeader()
             {
                 emissionPoint = emissionPoint,
-                loginInformation = loginInformation
+                LoginInformation = loginInformation
             };
             frmSalesOrderHeader.ShowDialog();
 

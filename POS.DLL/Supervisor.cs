@@ -23,6 +23,7 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
+        public bool AllowEmployeeCredit { get; set; }
     
         public virtual UserLogin UserLogin { get; set; }
     }

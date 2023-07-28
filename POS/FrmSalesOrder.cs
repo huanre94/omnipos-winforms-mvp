@@ -3,7 +3,6 @@ using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +24,7 @@ namespace POS
         public EmissionPoint emissionPoint;
         SalesOrder salesOrder { get; set; }
         public IEnumerable<GlobalParameter> globalParameters;
-        ClsSalesOrderTrans ClsSales { get; set; } = new ClsSalesOrderTrans(Program.customConnectionString);
+        SalesOrderRepository ClsSales { get; set; } = new SalesOrderRepository(Program.customConnectionString);
         XElement salesOrderXml = new XElement("SalesOrder");
         ClsCatchWeight catchWeight;
         ScaleBrands scaleBrand;
@@ -110,7 +109,7 @@ namespace POS
                     }
                 }
 
-                salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
+                salesOrder = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderById(salesOrderId);
                 if (salesOrder == null)
                 {
                     DialogResult = DialogResult.Cancel;
@@ -163,14 +162,14 @@ namespace POS
         private void LoadSalesOrderDetails()
         {
             LblSalesOrderNumber.Text = salesOrder.SalesOrderId.ToString();
-            customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(salesOrder.CustomerId);
+            customer = new CustomerRepository(Program.customConnectionString).GetCustomerById(salesOrder.CustomerId);
             LblCustomerId.Text = customer.Identification;
             LblCustomerName.Text = $"{customer.Firtsname} {customer.Lastname}";
             LblCustomerAddress.Text = customer.Address;
             LblCustomerTelephoneNumber.Text = customer.Phone;
             LblObservation.Text = salesOrder.Observation;
 
-            IEnumerable<CustomerAddress> customerAddress = new ClsCustomer(Program.customConnectionString).GetCustomerAddressesById(customer);
+            IEnumerable<CustomerAddress> customerAddress = new CustomerRepository(Program.customConnectionString).GetCustomerAddressesById(customer);
             CustomerAddress selectedAddress = null;
             selectedAddress =
                 customerAddress
@@ -190,7 +189,7 @@ namespace POS
             CheckGridView(canAddNewItems);
             EnableKeypad(canAddNewItems);
 
-            IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(salesOrder.SalesOrderId);
+            IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderProductsById(salesOrder.SalesOrderId);
             if (list.Count() != 0)
             {
                 foreach (SP_SalesOrderProduct_Consult_Result item in list)
@@ -331,7 +330,7 @@ namespace POS
                     }
                 }
 
-                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                result = new ProductRepository(Program.customConnectionString).ProductConsult(_locationId,
                                                                                             _barcode,
                                                                                             _qty,
                                                                                             _customerId,
@@ -372,7 +371,7 @@ namespace POS
                             }
                             else
                             {
-                                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                                result = new ProductRepository(Program.customConnectionString).ProductConsult(_locationId,
                                                                                                             _barcode,
                                                                                                             weight + qtyFound,
                                                                                                             _customerId,
@@ -557,9 +556,9 @@ namespace POS
             if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
+                if (functions.RequestSupervisorAuth(true, CancelReasonType.SALESORDER_CANCEL))
                 {
-                    ClsSales.loginInformation = loginInformation;
+                    ClsSales.LoginInformation = loginInformation;
                     if (!ClsSales.CancelSalesOrder(salesOrder.SalesOrderId))
                     {
                         functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);
@@ -612,7 +611,7 @@ namespace POS
                     }
                     salesOrderXml.Add(salesOrderPayment);
 
-                    ClsSales.loginInformation = loginInformation;
+                    ClsSales.LoginInformation = loginInformation;
                     SP_SalesOrderOmnipos_Insert_Result result = ClsSales.CreateOrUpdateSalesOrder(salesOrderXml.ToString(), salesOrderId);
                     if ((bool)!result.Error)
                     {
@@ -643,7 +642,7 @@ namespace POS
             }
             else
             {
-                salesOrder = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderById(salesOrderId);
+                salesOrder = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderById(salesOrderId);
                 if (salesOrder.Status != "A" && salesOrder.Status != "S")
                 {
                     functions.ShowMessage("Solo puede finalizar la orden posterior al picking.", MessageType.WARNING);
@@ -653,7 +652,7 @@ namespace POS
                     functions.emissionPoint = emissionPoint;
                     if (functions.ShowMessage("¿Esta seguro de finalizar la orden? Posterior a esto la orden solo podra ser agregada a una guia de remision", MessageType.CONFIRM))
                     {
-                        ClsSales.loginInformation = loginInformation;
+                        ClsSales.LoginInformation = loginInformation;
                         if (ClsSales.FinishSalesOrder(salesOrder.SalesOrderId))
                         {
                             IsUpdated = true;

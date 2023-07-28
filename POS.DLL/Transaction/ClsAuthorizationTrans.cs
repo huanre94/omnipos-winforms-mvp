@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Transaction
 {
     public class ClsAuthorizationTrans
     {
-        private readonly string connectionString;
+        readonly POSEntities _dbContext;
 
         public ClsAuthorizationTrans(string connectionString)
         {
-            this.connectionString = connectionString;
+            _dbContext = new POSEntities(connectionString);
         }
 
         public SP_Supervisor_Validate_Result GetSupervisorAuth(string _barcode, string _password)
         {
             try
             {
-                return new POSEntities(connectionString).SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
+                return _dbContext.SP_Supervisor_Validate(_barcode, _password).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -36,7 +35,7 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                return new POSEntities(connectionString)
+                return _dbContext
                     .SP_GaranCheck_Authorize(_bankId,
                     _accountNumber,
                     _checkNumber,
@@ -45,21 +44,6 @@ namespace POS.DLL.Transaction
                     _ownerName,
                     _phone,
                     _reference).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public IEnumerable<CancelReason> ConsultReasons(int _reasonType)
-        {
-            try
-            {
-                return new POSEntities(connectionString)
-                    .CancelReason
-                    .Where(re => re.Status.Equals("A") && re.ReasonType == _reasonType)
-                    .ToList();
             }
             catch (Exception ex)
             {

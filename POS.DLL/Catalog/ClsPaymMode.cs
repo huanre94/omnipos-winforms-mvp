@@ -6,28 +6,11 @@ namespace POS.DLL.Catalog
 {
     public class ClsPaymMode
     {
-        private readonly string connectionString;
+        readonly POSEntities _dbContext;
 
         public ClsPaymMode(string connectionString)
         {
-            this.connectionString = connectionString;
-        }
-
-        public IEnumerable<Bank> GetBanks()
-        {
-            try
-            {
-                return
-                    new POSEntities(connectionString)
-                    .Bank
-                    .Where(ba => ba.Status.Equals("A"))
-                    .OrderBy(ba => ba.Name)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _dbContext = new POSEntities(connectionString);
         }
 
         public IEnumerable<RetentionTable> GetRetentionTables(int _retentionType)
@@ -35,7 +18,7 @@ namespace POS.DLL.Catalog
             try
             {
                 return
-                     new POSEntities(connectionString)
+                     _dbContext
                      .RetentionTable
                      .Where(ret => ret.Status.Equals("A") && ret.Type.Equals($"{_retentionType}"))
                      .AsEnumerable();
@@ -49,7 +32,7 @@ namespace POS.DLL.Catalog
 
         public IEnumerable<CreditCard> GetCreditCardsByBank(int _bankId, bool _isCredit = true)
         {
-            POSEntities db = new POSEntities(connectionString);
+            POSEntities db = _dbContext;
             try
             {
                 return
@@ -75,24 +58,10 @@ namespace POS.DLL.Catalog
             try
             {
                 return
-                    new POSEntities(connectionString)
+                    _dbContext
                     .PaymMode
                     .Where(pa => pa.Status.Equals("A"))
                     .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public long GetPromotionsCount(long _customerId, int _bankId, int _cardBrandId)
-        {
-            try
-            {
-                return (long)new POSEntities(connectionString)
-                    .SP_PromotionPaymmode_Consult(_customerId, (short?)_bankId, (short?)_cardBrandId)
-                    .FirstOrDefault();
             }
             catch (Exception ex)
             {

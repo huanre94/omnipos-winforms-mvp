@@ -6,18 +6,18 @@ namespace POS.DLL.Catalog
 {
     public class ClsProduct
     {
-        private readonly string connectionString;
+        readonly POSEntities _dbContext;
 
         public ClsProduct(string connectionString)
         {
-            this.connectionString = connectionString;
+            _dbContext = new POSEntities(connectionString);
         }
 
-        public IEnumerable<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
+        public ICollection<SP_ProductBarcode_Consult_Result> GetProductsWithBarcode(string _productName, int _location)
         {
             try
             {
-                return new POSEntities(connectionString)
+                return _dbContext
                     .SP_ProductBarcode_Consult(_productName, _location)
                     .ToList();
             }
@@ -31,12 +31,22 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString)
-                    .SP_PhysicalStockProduct_Consult(emissionPoint.LocationId,
-                                                     emissionPoint.EmissionPointId,
-                                                     barcode,
-                                                     internal_code)
-                    .First();
+                //Product product = _dbContext
+                //    .Set<Product>()
+                //    .Where(p => p.ProductBarcode.Any(b => b.Barcode.Contains(barcode)) || p.ProductOldCode.Equals(internal_code)).FirstOrDefault();
+
+                return _dbContext
+                    .SP_PhysicalStockProduct_Consult(emissionPoint.LocationId, emissionPoint.EmissionPointId, barcode, internal_code)
+                  .First();
+
+                //var itemOnCounting = _dbContext
+                //.PhysicalStockCountingTable
+                //.Where(p =>
+                //p.Status.Equals("O") &&
+                //p.PhysicalStockCountingLine.Any(x => x.ProductId == product.ProductId))
+                //.Select(c => c);
+
+
             }
             catch (Exception ex)
             {

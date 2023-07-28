@@ -5,7 +5,6 @@ using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -138,7 +137,7 @@ namespace POS
                         break;
                 }
 
-                LblCatchedWeight.Text = $"{Weight:0.###}"; 
+                LblCatchedWeight.Text = $"{Weight:0.###}";
                 LblTitle.Text = "Peso Capturado Correctamente";
                 LblTitle.ForeColor = Color.Green;
 

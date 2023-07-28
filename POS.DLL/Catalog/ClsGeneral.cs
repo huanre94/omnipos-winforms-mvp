@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 
 namespace POS.DLL.Catalog
 {
     public class ClsGeneral
     {
-        private readonly string connectionString;
+        readonly POSEntities _dbContext;
 
         public ClsGeneral(string connectionString)
         {
-            this.connectionString = connectionString;
+            _dbContext = new POSEntities(connectionString);
         }
 
         public IEnumerable<GlobalParameter> GetGlobalParameters()
         {
             try
             {
-                return new POSEntities(connectionString).GlobalParameter.ToList();
+                return _dbContext.GlobalParameter.ToList();
             }
             catch (Exception ex)
             {
@@ -30,7 +29,7 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString)
+                return _dbContext
                     .GlobalParameter
                     .Where(gp => gp.Name == _name && gp.Status.Equals("A"))
                     .FirstOrDefault();
@@ -46,7 +45,7 @@ namespace POS.DLL.Catalog
             try
             {
                 return
-                    new POSEntities(connectionString)
+                    _dbContext
                     .EmissionPoint
                     .Where(em => em.AddressIP == _addressIP && em.Status.Equals("A"))
                     .FirstOrDefault();
@@ -62,7 +61,7 @@ namespace POS.DLL.Catalog
             try
             {
                 return
-                    new POSEntities(connectionString)
+                    _dbContext
                     .InventLocation
                     .Where(inl => inl.LocationId == _locationId && inl.Status.Equals("A") && inl.IsMain == true)
                     .ToList();
@@ -77,7 +76,7 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString)
+                return _dbContext
                     .SequenceTable
                     .Where(seq => seq.EmissionPointId == _emissionPointId
                                  && seq.LocationId == _locationId
@@ -96,7 +95,7 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return new POSEntities(connectionString)
+                return _dbContext
                     .TaxTable
                     .Where(t => t.Status.Equals("A"))
                     .Select(t => t.TaxValue)

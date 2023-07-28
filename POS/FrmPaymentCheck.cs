@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
@@ -112,7 +112,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<Bank> banks = new ClsPaymMode(Program.customConnectionString).GetBanks();
+                IEnumerable<Bank> banks = new BankRepository(Program.customConnectionString).GetBanks();
 
                 if (banks?.Count() > 0)
                 {

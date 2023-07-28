@@ -5,18 +5,18 @@ namespace POS.DLL.Catalog
 {
     public class ClsAdministration
     {
-        private string ConnectionString;
+        readonly POSEntities _dbContext;
 
         public ClsAdministration(string connectionString)
         {
-            ConnectionString = connectionString;
+            _dbContext = new POSEntities(connectionString);
         }
 
         public SP_Login_Consult_Result GetLoginInformation(string _user, string _password, string _workstation, string _addressIP)
         {
             try
             {
-                return new POSEntities(ConnectionString)
+                return _dbContext
                        .SP_Login_Consult(_user, _password, _workstation, _addressIP)
                        .FirstOrDefault();
             }

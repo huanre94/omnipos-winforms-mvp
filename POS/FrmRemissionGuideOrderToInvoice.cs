@@ -85,7 +85,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId);
+                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(remission.SalesRemissionId);
                 BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list.ToList());
                 GrcSalesOrder.DataSource = bind;
             }
@@ -114,12 +114,12 @@ namespace POS
             if (functions.ShowMessage("Se procedera a anular la guia ¿Desea continuar?", MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth(true, (int)CancelReasonType.REMISSIONGUIDE_CANCEL);
+                bool isApproved = functions.RequestSupervisorAuth(true, CancelReasonType.REMISSIONGUIDE_CANCEL);
                 if (isApproved)
                 {
-                    SP_RemissionGuide_Cancel_Result result = new ClsSalesOrderTrans(Program.customConnectionString)
+                    SP_RemissionGuide_Cancel_Result result = new RemissionSaleRepository(Program.customConnectionString)
                     {
-                        loginInformation = loginInformation
+                        LoginInformation = loginInformation
                     }.CancelRemissionGuide(remission.SalesRemissionId);
                     if ((bool)result.Error)
                     {
@@ -155,7 +155,7 @@ namespace POS
                         decimal baseAmount = 0;
                         decimal taxAmount = 0;
 
-                        IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
+                        IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
                         if (list.Count() != 0)
                         {
                             foreach (SP_SalesOrderProduct_Consult_Result item in list)
@@ -165,7 +165,7 @@ namespace POS
                             }
                         }
 
-                        Customer customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(result.CustomerId);
+                        Customer customer = new CustomerRepository(Program.customConnectionString).GetCustomerById(result.CustomerId);
 
                         FrmPayment payment = new FrmPayment()
                         {
@@ -191,7 +191,7 @@ namespace POS
                             {
                                 try
                                 {
-                                    SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                    SP_SalesOrderPayment_Insert_Result update = new SalesOrderRepository(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
                                     if ((bool)update.Error)
                                     {
                                         result.HavePaymentMethod = update.Error;
@@ -216,7 +216,7 @@ namespace POS
                             bool isWebPayment = false;
                             try
                             {
-                                isWebPayment = new ClsSalesOrder(Program.customConnectionString).SalesOrderHaveWebPayments(result.SalesOrderId);
+                                isWebPayment = new SalesOrderRepository(Program.customConnectionString).SalesOrderHaveWebPayments(result.SalesOrderId);
                             }
                             catch (Exception)
                             {
@@ -238,7 +238,7 @@ namespace POS
                                     decimal baseAmount = 0;
                                     decimal taxAmount = 0;
 
-                                    IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
+                                    IEnumerable<SP_SalesOrderProduct_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderProductsById(result.SalesOrderId);
                                     if (list.Count() != 0)
                                     {
                                         foreach (SP_SalesOrderProduct_Consult_Result item in list)
@@ -248,7 +248,7 @@ namespace POS
                                         }
                                     }
 
-                                    Customer customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(result.CustomerId);
+                                    Customer customer = new CustomerRepository(Program.customConnectionString).GetCustomerById(result.CustomerId);
 
                                     FrmPayment payment = new FrmPayment()
                                     {
@@ -274,7 +274,7 @@ namespace POS
                                         {
                                             try
                                             {
-                                                SP_SalesOrderPayment_Insert_Result update = new ClsSalesOrder(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
+                                                SP_SalesOrderPayment_Insert_Result update = new SalesOrderRepository(Program.customConnectionString).UpdateSalesOrderPayment(payment.paymentXml.ToString(), result.SalesOrderId);
                                                 if ((bool)update.Error)
                                                 {
                                                     result.HavePaymentMethod = update.Error;
@@ -322,7 +322,9 @@ namespace POS
                     try
                     {
 
-                        SP_RemissionGuideInvoice_Insert_Result response = new ClsSalesOrderTrans(Program.customConnectionString) { loginInformation = loginInformation }.FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
+                        SP_RemissionGuideInvoice_Insert_Result response = new RemissionSaleRepository(Program.customConnectionString)
+                        { LoginInformation = loginInformation }
+                        .FinishRemissionGuide(remission.SalesRemissionId, emissionPoint.EmissionPointId, emissionPoint.LocationId);
 
                         if (!(bool)response.Error)
                         {
@@ -365,11 +367,11 @@ namespace POS
             if (functions.ShowMessage("¿Esta seguro de cancelar la orden?", MessageType.CONFIRM))
             {
                 functions.emissionPoint = emissionPoint;
-                if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.SALESORDER_CANCEL))
+                if (functions.RequestSupervisorAuth(true, CancelReasonType.SALESORDER_CANCEL))
                 {
-                    if (!new ClsSalesOrderTrans(Program.customConnectionString)
+                    if (!new SalesOrderRepository(Program.customConnectionString)
                     {
-                        loginInformation = loginInformation
+                        LoginInformation = loginInformation
                     }.CancelSalesOrder(result.SalesOrderId, true))
                     {
                         functions.ShowMessage("Orden no pudo ser cancelada, valide que no este ingresada en una guia.", MessageType.WARNING);

@@ -58,17 +58,16 @@ namespace POS.DLL
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDatetime { get; set; }
         public string Workstation { get; set; }
-        public Nullable<bool> IsBbqZone { get; set; }
     
-        public virtual EmissionPoint EmissionPoint { get; set; }
-        public virtual Salesman Salesman { get; set; }
-        public virtual TransferStatus TransferStatus { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Location Location { get; set; }
+        public virtual EmissionPoint EmissionPoint { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceLine> InvoiceLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoicePayment> InvoicePayment { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual Salesman Salesman { get; set; }
         public virtual SalesOrigin SalesOrigin { get; set; }
+        public virtual TransferStatus TransferStatus { get; set; }
     }
 }

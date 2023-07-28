@@ -20,9 +20,11 @@ namespace POS
         public IEnumerable<GlobalParameter> globalParameters;
         public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
-        public int motiveId;
-        public string supervisorAuthorization;
-        public int reasonType;
+
+
+        public int MotiveId { get; set; }
+        public string SupervisorAuthorization { get; set; }
+        public CancelReasonType ReasonType { get; set; }
 
         /// <summary>
         /// Common message box to show information or warnings.
@@ -43,16 +45,16 @@ namespace POS
             return frmMessage.GetMessageResponse();
         }
 
-        public bool RequestSupervisorAuth(bool requireMotive = false, int reasonType = 0)
+        public bool RequestSupervisorAuth(bool requireMotive = false, CancelReasonType reasonType = 0)
         {
             FrmSupervisorAuth auth = new FrmSupervisorAuth(AxOPOSScanner, emissionPoint, requireMotive, reasonType);
             auth.ShowDialog();
 
             if (auth.formActionResult)
             {
-                this.reasonType = auth.ReasonType;
-                this.motiveId = auth.motiveId;
-                this.supervisorAuthorization = auth.SupervisorAuthorization;
+                ReasonType = auth.ReasonType;
+                MotiveId = auth.motiveId;
+                SupervisorAuthorization = auth.SupervisorAuthorization;
             }
 
             return auth.formActionResult;
@@ -195,7 +197,15 @@ namespace POS
             }
             //End(IG001)
 
-            decimal minimumLostWeightQty = decimal.Parse(new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty").Value);
+            GlobalParameter lostWeightGP = new ClsGeneral(Program.customConnectionString).GetParameterByName("LostWeightQty");
+
+            if (lostWeightGP.Value.Equals("0"))
+            {
+                Console.WriteLine("No accede a validacion de peso por estar inactivo");
+                return false;
+            }
+
+            decimal minimumLostWeightQty = decimal.Parse(lostWeightGP.Value2);
 
             if (Math.Abs(_qty - catchWeight) > minimumLostWeightQty)
             {
@@ -283,9 +293,10 @@ namespace POS
 
         public bool PrintDocument(long _documentId, DocumentType _documentType, bool _openCashier = false)
         {
-            ClsInvoiceTrans clsInvoiceTrans = new ClsInvoiceTrans(Program.customConnectionString);
-            ClsClosingTrans clsClosingTrans = new ClsClosingTrans(Program.customConnectionString);
-            ClsSalesOrderTrans clsSalesOrderTrans = new ClsSalesOrderTrans(Program.customConnectionString);
+            InvoiceRepository invoiceRepo = new InvoiceRepository(Program.customConnectionString);
+            ClosingCashierRepository closingRepo = new ClosingCashierRepository(Program.customConnectionString);
+            SalesOrderRepository orderRepo = new SalesOrderRepository(Program.customConnectionString);
+            RemissionSaleRepository remissionRepo = new RemissionSaleRepository(Program.customConnectionString);
 
             IEnumerable<SP_InvoiceTicket_Consult_Result> invoiceTicket;
             IEnumerable<SP_ClosingCashierTicket_Consult_Result> closingCashierTicket;
@@ -299,7 +310,7 @@ namespace POS
                 switch (_documentType)
                 {
                     case DocumentType.INVOICE:
-                        invoiceTicket = clsInvoiceTrans.GetInvoiceTicket(_documentId, _openCashier);
+                        invoiceTicket = invoiceRepo.GetInvoiceTicket(_documentId, _openCashier);
 
                         if (invoiceTicket?.Count() > 0)
                         {
@@ -311,7 +322,7 @@ namespace POS
                         }
                         break;
                     case DocumentType.CLOSINGCASHIER:
-                        closingCashierTicket = clsClosingTrans.GetClosingTicket(_documentId);
+                        closingCashierTicket = closingRepo.GetClosingTicket(_documentId);
 
                         if (closingCashierTicket?.Count() > 0)
                         {
@@ -323,7 +334,7 @@ namespace POS
 
                         break;
                     case DocumentType.SALESORDER:
-                        salesOrderTicket = clsSalesOrderTrans.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false);
+                        salesOrderTicket = orderRepo.GetSalesOrderTicket(_documentId, (short)emissionPoint.EmissionPointId, false);
 
                         if (salesOrderTicket?.Count() > 0)
                         {
@@ -335,7 +346,7 @@ namespace POS
 
                         break;
                     case DocumentType.REMISSIONGUIDE:
-                        remissionGuideTicket = clsSalesOrderTrans.GetRemissionGuideTicket(_documentId);
+                        remissionGuideTicket = remissionRepo.GetRemissionGuideTicket(_documentId);
 
                         if (remissionGuideTicket?.Count() > 0)
                         {

@@ -14,7 +14,7 @@ namespace POS
         public EmissionPoint emissionPoint;
         public SP_Login_Consult_Result loginInformation;
         public List<GlobalParameter> globalParameters;
-        public SP_SalesOrigin_Consult_Result result;
+        public SalesOrigin result;
 
         public FrmSalesOrigin()
         {
@@ -26,10 +26,10 @@ namespace POS
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                IEnumerable<SP_SalesOrigin_Consult_Result> salesOrigins = new ClsSalesOrder(Program.customConnectionString).GetSalesOrigins();
+                IEnumerable<SalesOrigin> salesOrigins = new SalesOrderRepository(Program.customConnectionString).GetSalesOrigins();
 
-                BindingList<SP_SalesOrigin_Consult_Result> bindingOrigins = new BindingList<SP_SalesOrigin_Consult_Result>();
-                foreach (SP_SalesOrigin_Consult_Result item in salesOrigins)
+                BindingList<SalesOrigin> bindingOrigins = new BindingList<SalesOrigin>();
+                foreach (SalesOrigin item in salesOrigins)
                 {
                     DevExpress.Utils.Svg.SvgImage svgImage;
                     svgImage = (DevExpress.Utils.Svg.SvgImage)Properties.Resources.ResourceManager.GetObject(item.Name);
@@ -59,7 +59,7 @@ namespace POS
                 return;
             }
 
-            SP_SalesOrigin_Consult_Result item = (SP_SalesOrigin_Consult_Result)ILBSalesOrigin.SelectedItem;
+            SalesOrigin item = (SalesOrigin)ILBSalesOrigin.SelectedItem;
             result = item;
         }
 

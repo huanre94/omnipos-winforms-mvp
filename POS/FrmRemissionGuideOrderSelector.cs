@@ -126,7 +126,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SP_RemissionPendingSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetPendingSalesOrders();
+                IEnumerable<SP_RemissionPendingSalesOrder_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetPendingSalesOrders();
                 BindingList<SP_RemissionPendingSalesOrder_Consult_Result> bindingList = new BindingList<SP_RemissionPendingSalesOrder_Consult_Result>(list.ToList());
                 if (bindingList.Count == 0)
                 {
@@ -150,7 +150,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<TransportDriver> transportDrivers = new ClsSalesOrder(Program.customConnectionString).GetTransportDrivers();
+                IEnumerable<TransportDriver> transportDrivers = new SalesOrderRepository(Program.customConnectionString).GetTransportDrivers();
 
                 if (transportDrivers?.Count() > 0)
                 {
@@ -174,7 +174,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<Transport> transports = new ClsSalesOrder(Program.customConnectionString).GetTransports();
+                IEnumerable<Transport> transports = new SalesOrderRepository(Program.customConnectionString).GetTransports();
 
                 if (transports?.Count() > 0)
                 {
@@ -200,7 +200,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<TransportReason> transportReasons = new ClsSalesOrder(Program.customConnectionString).GetTransportReasons();
+                IEnumerable<TransportReason> transportReasons = new SalesOrderRepository(Program.customConnectionString).GetTransportReasons();
 
                 if (transportReasons?.Count() > 0)
                 {
@@ -308,7 +308,7 @@ namespace POS
                     }
                 }
 
-                SP_SalesOrderRemission_Insert_Result result = new ClsSalesOrderTrans(Program.customConnectionString).CreateNewRemissionGuide(salesRemission.ToString());
+                SP_SalesOrderRemission_Insert_Result result = new RemissionSaleRepository(Program.customConnectionString).CreateNewRemissionGuide(salesRemission.ToString());
                 if (!(bool)result.Error)
                 {
                     isUpdated = true;

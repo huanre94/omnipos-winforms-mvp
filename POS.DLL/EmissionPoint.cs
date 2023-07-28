@@ -17,9 +17,9 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EmissionPoint()
         {
-            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesRemissionTable = new HashSet<SalesRemissionTable>();
             this.ClosingCashierTable = new HashSet<ClosingCashierTable>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
         }
     
         public int EmissionPointId { get; set; }
@@ -42,12 +42,12 @@ namespace POS.DLL
         public string Workstation { get; set; }
     
         public virtual InventLocation InventLocation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesRemissionTable> SalesRemissionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClosingCashierTable> ClosingCashierTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
     }
 }

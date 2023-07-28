@@ -17,8 +17,8 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SalesOrigin()
         {
-            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.SalesOrder = new HashSet<SalesOrder>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
         }
     
         public int SalesOriginId { get; set; }
@@ -33,10 +33,10 @@ namespace POS.DLL
         public string Workstation { get; set; }
         public bool AllowCredit { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
         public virtual Salesman Salesman { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
     }
 }

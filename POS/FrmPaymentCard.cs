@@ -2,7 +2,7 @@
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +83,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<Bank> banks = new ClsPaymMode(Program.customConnectionString).GetBanks();
+                IEnumerable<Bank> banks = new BankRepository(Program.customConnectionString).GetBanks();
 
                 if (banks?.Count() > 0)
                 {
@@ -204,7 +204,7 @@ namespace POS
             {
                 try
                 {
-                    long availableProm = new ClsPaymMode(Program.customConnectionString).GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
+                    long availableProm = new PromotionRepository(Program.customConnectionString).GetPromotionsCount(customer.CustomerId, selectedCardBank, selectedCardBrand);
                     if (availableProm > 0)
                     {
                         string paymmode = string.Format("{0}|{1}|{2}", (int)paymModeEnum, selectedCardBank, selectedCardBrand);
@@ -242,7 +242,7 @@ namespace POS
                                 0,
                                 paymmode);
 
-                            SP_Product_Consult_Result _productResult = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(product);
+                            SP_Product_Consult_Result _productResult = new ProductRepository(Program.customConnectionString).ProductConsult(product);
 
 
                             IEnumerable<XElement> updateQuery =

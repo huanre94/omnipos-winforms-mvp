@@ -126,7 +126,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<SP_InvoicePayment_Consult_Result> payments = new ClsInvoiceTrans(Program.customConnectionString).GetInvoicePayments(_locationId, _emissionPoint, _invoiceNumber);
+                IEnumerable<SP_InvoicePayment_Consult_Result> payments = new InvoiceRepository(Program.customConnectionString).GetInvoicePayments(_locationId, _emissionPoint, _invoiceNumber);
 
                 if (payments == null)
                 {
@@ -141,7 +141,7 @@ namespace POS
                     {
                         AllowNew = true
                     };
-                    customer = new ClsCustomer(Program.customConnectionString).GetCustomerById(payments.First().CustomerId);
+                    customer = new CustomerRepository(Program.customConnectionString).GetCustomerById(payments.First().CustomerId);
 
                     GrcPayments.DataSource = bindingList;
                 }
@@ -272,11 +272,11 @@ namespace POS
             }
 
             functions.emissionPoint = emissionPoint;
-            if (emissionPoint == null || functions.RequestSupervisorAuth(false))
+            if (emissionPoint == null || functions.RequestSupervisorAuth())
             {
                 try
                 {
-                    bool response = new ClsInvoiceTrans(Program.customConnectionString).UpdateInvoicePayments(row.InvoiceId,
+                    bool response = new InvoiceRepository(Program.customConnectionString).UpdateInvoicePayments(row.InvoiceId,
                                                                                                               row.PaymModeId,
                                                                                                               row.Sequence,
                                                                                                               invoicePayment,

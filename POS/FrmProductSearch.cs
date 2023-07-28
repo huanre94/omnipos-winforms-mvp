@@ -1,11 +1,11 @@
 ﻿using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
-using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace POS
 {
@@ -13,9 +13,9 @@ namespace POS
     {
         readonly ClsFunctions functions = new ClsFunctions();
         private EmissionPoint Emission { get; set; }
-        private SP_Product_Consult_Result result { get; set; } = new SP_Product_Consult_Result();
+        private SP_Product_Consult_Result Result { get; set; } = new SP_Product_Consult_Result();
 
-        public SP_Product_Consult_Result GetProduct() => result;
+        public SP_Product_Consult_Result GetProduct() => Result;
 
         public FrmProductSearch()
         {
@@ -42,7 +42,9 @@ namespace POS
         {
             try
             {
-                IEnumerable<SP_ProductBarcode_Consult_Result> products = new ClsProduct(Program.customConnectionString).GetProductsWithBarcode(_searchProduct, _locationId);
+                //TODO: Replace this result with product
+                ICollection<SP_ProductBarcode_Consult_Result> products = new ClsProduct(Program.customConnectionString).GetProductsWithBarcode(_searchProduct, _locationId);
+                //ICollection<Product> products = new ProductRepository(Program.customConnectionString).GetProductsByName(_searchProduct);
 
                 if (products?.Count() == 0)
                 {
@@ -52,7 +54,9 @@ namespace POS
                     return;
                 }
 
-                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList()) { AllowNew = true };
+                BindingList<SP_ProductBarcode_Consult_Result> bindingList = new BindingList<SP_ProductBarcode_Consult_Result>(products.ToList())
+                { AllowNew = true };
+
                 GrcSalesDetail.DataSource = bindingList;
             }
             catch (Exception ex)
@@ -86,11 +90,12 @@ namespace POS
             }
 
             SP_ProductBarcode_Consult_Result selectedProduct = (SP_ProductBarcode_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+            //Product selectedProduct = (Product)GrvSalesDetail.GetRow(rowIndex);
 
-            result.Barcode = selectedProduct.Barcode;
-            result.ProductId = selectedProduct.ProductId;
-            result.UseCatchWeight = selectedProduct.UseCatchWeight;
-            result.ProductName = selectedProduct.Name;
+            Result.Barcode = selectedProduct.Barcode;
+            Result.ProductId = selectedProduct.ProductId;
+            Result.ProductName = selectedProduct.Name;
+            Result.UseCatchWeight = selectedProduct.UseCatchWeight;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)

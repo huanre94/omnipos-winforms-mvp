@@ -118,7 +118,7 @@ namespace POS
                 functions.ShowMessage("Ocurrio un problema al cargar parámetros globales.",
                                       MessageType.ERROR,
                                       true,
-                                      ex.Message);
+                                      ex.InnerException.Message);
                 return false;
             }
         }

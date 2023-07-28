@@ -63,7 +63,6 @@ namespace POS.DLL
         public virtual DbSet<GiftCardBlockTable> GiftCardBlockTable { get; set; }
         public virtual DbSet<GiftCardTable> GiftCardTable { get; set; }
         public virtual DbSet<PromotionPaymMode> PromotionPaymMode { get; set; }
-        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
         public virtual DbSet<TransferStatus> TransferStatus { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Location> Location { get; set; }
@@ -102,6 +101,7 @@ namespace POS.DLL
         public virtual DbSet<ClosingCashierLine> ClosingCashierLine { get; set; }
         public virtual DbSet<ClosingCashierMoney> ClosingCashierMoney { get; set; }
         public virtual DbSet<ClosingCashierTable> ClosingCashierTable { get; set; }
+        public virtual DbSet<InvoiceTable> InvoiceTable { get; set; }
     
         public virtual ObjectResult<SP_InternalCreditCard_Consult_Result> SP_InternalCreditCard_Consult(Nullable<long> internalCreditCardId, string barcode, string type, string cActivacion, string status)
         {

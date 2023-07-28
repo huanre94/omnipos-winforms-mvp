@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;  //14/07/2022
-using System;
-using System.Configuration;
+﻿using System;
 using System.Data.Entity.Core.EntityClient;
 using System.Windows.Forms;
 
@@ -19,17 +17,15 @@ namespace POS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            const string registryKey = @"HKEY_CURRENT_USER\SOFTWARE\OmniPOS";
-
-            object ValorIP = Registry.GetValue(registryKey, "IP", null);
+            object ValorIP = "192.168.17.115";//Registry.GetValue(registryKey, "IP", null);
             if (ValorIP == null)
             {
                 return;
             }
 
-            object SBase = Registry.GetValue(registryKey, "Base", null);
-            object VUser = Registry.GetValue(registryKey, "User", null);
-            object SPass = Registry.GetValue(registryKey, "Pass", null);
+            object SBase = "POSDB"; //Registry.GetValue(registryKey, "Base", null);
+            object VUser = "sa"; //Registry.GetValue(registryKey, "User", null);
+            object SPass = "S1stemas"; //Registry.GetValue(registryKey, "Pass", null);
 
             //12/07/2022  Se agregó para que Cadena de conexion sea parametrizable
             EntityConnectionStringBuilder constructorConexion = new EntityConnectionStringBuilder

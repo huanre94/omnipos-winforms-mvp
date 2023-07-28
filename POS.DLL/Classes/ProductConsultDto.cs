@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace POS.DLL
+﻿namespace POS.DLL
 {
     public class ProductConsultDto
     {
@@ -15,6 +9,8 @@ namespace POS.DLL
         public long InternalCreditCardId { get; set; }
         public string Paymmode { get; set; }
         public string BarcodeBefore { get; set; }
+
+        public ProductConsultDto() { }
 
         public ProductConsultDto(short locationId, string barcode, decimal quantity, long customerId, long internalCreditCardId, string paymmode, string barcodeBefore = "")
         {

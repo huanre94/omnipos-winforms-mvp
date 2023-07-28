@@ -89,7 +89,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<TransportDriver> transportDrivers = new ClsSalesOrder(Program.customConnectionString).GetTransportDrivers();
+                IEnumerable<TransportDriver> transportDrivers = new SalesOrderRepository(Program.customConnectionString).GetTransportDrivers();
 
                 if (transportDrivers?.Count() > 0)
                 {
@@ -159,7 +159,7 @@ namespace POS
                 }
 
 
-                IEnumerable<SP_RemissionGuide_Consult_Result> result = new ClsSalesOrder(Program.customConnectionString).GetActiveRemissionGuides(userId, driverId);
+                IEnumerable<SP_RemissionGuide_Consult_Result> result = new SalesOrderRepository(Program.customConnectionString).GetActiveRemissionGuides(userId, driverId);
                 if (result.Count() == 0)
                 {
                     GrcSalesOrder.DataSource = null;
@@ -212,7 +212,7 @@ namespace POS
 
             try
             {
-                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId);
+                IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> list = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderByRemissionGuideNumber(ds[selectedIndex].SalesRemissionId);
                 BindingList<SP_RemissionGuideSalesOrder_Consult_Result> bind = new BindingList<SP_RemissionGuideSalesOrder_Consult_Result>(list.ToList());
                 GrcSalesOrder.DataSource = bind;
             }

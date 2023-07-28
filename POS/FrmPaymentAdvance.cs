@@ -53,7 +53,7 @@ namespace POS
         {
             try
             {
-                var advancesList = new ClsAccountsReceivable(Program.customConnectionString).GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode);
+                System.Collections.Generic.List<SP_Advance_Consult_Result> advancesList = new AccountsReceivableRepository(Program.customConnectionString).GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode);
                 advances = new BindingList<SP_Advance_Consult_Result>(advancesList);
                 if (advances?.Count() <= 0)
                 {

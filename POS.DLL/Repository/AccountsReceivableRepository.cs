@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace POS.DLL.Catalog
 {
-    public class ClsAccountsReceivable
+    public class AccountsReceivableRepository
     {
-        readonly string connectionString;
+        readonly POSEntities _dbContext;
 
-        public ClsAccountsReceivable(string connectionString)
+        public AccountsReceivableRepository(string connectionString)
         {
-            this.connectionString = connectionString;
+            _dbContext = new POSEntities(connectionString);
         }
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                List<SP_Advance_Consult_Result> advances = new POSEntities(connectionString).SP_Advance_Consult(_customerId, (int)paymmodeId, "").ToList();
+                List<SP_Advance_Consult_Result> advances = _dbContext.SP_Advance_Consult(_customerId, (int)paymmodeId, "").ToList();
                 if (advances?.Count() == 0)
                 {
                     advances = new List<SP_Advance_Consult_Result>();
@@ -33,6 +34,18 @@ namespace POS.DLL.Catalog
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public SP_Advance_Insert_Result AddAdvance(XElement _advanceXml)
+        {
+            try
+            {
+                return _dbContext.SP_Advance_Insert($"{_advanceXml}").FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException.Message);
             }
         }
     }

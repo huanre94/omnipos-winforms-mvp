@@ -60,42 +60,42 @@ namespace POS
             {
                 LoadIdentTypes();
                 LoadGenders();
+                return;
             }
-            else
+
+            Customer customer;
+
+            try
             {
-                Customer customer;
+                customer = new CustomerRepository(Program.customConnectionString).GetCustomerByIdentification(_identification);
 
-                try
+                if (customer == null)
                 {
-                    customer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(_identification);
-
-                    if (customer == null)
-                    {
-                        functions.ShowMessage("El cliente consultado no esta registrado.", MessageType.WARNING);
-                        return;
-                    }
-
-                    if (customer?.CustomerId > 0)
-                    {
-                        CmbIdenType.EditValue = customer.IdentTypeId;
-                        LblPersonType.Text = customer.PersonType;
-                        TxtIdentification.Text = customer.Identification;
-                        TxtFirstName.Text = customer.Firtsname;
-                        TxtFirstName.Text = customer.Lastname;
-                        TxtAddress.Text = customer.Address;
-                        TxtEmail.Text = customer.Email;
-                        TxtPhone.Text = customer.Phone;
-                        CmbGender.EditValue = customer.Gender;
-                    }
+                    functions.ShowMessage("El cliente consultado no esta registrado.", MessageType.WARNING);
+                    return;
                 }
-                catch (Exception ex)
+
+                if (customer?.CustomerId > 0)
                 {
-                    functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
-                                          MessageType.ERROR,
-                                          true,
-                                          ex.InnerException.Message);
+                    CmbIdenType.EditValue = customer.IdentTypeId;
+                    LblPersonType.Text = customer.PersonType;
+                    TxtIdentification.Text = customer.Identification;
+                    TxtFirstName.Text = customer.Firtsname;
+                    TxtFirstName.Text = customer.Lastname;
+                    TxtAddress.Text = customer.Address;
+                    TxtEmail.Text = customer.Email;
+                    TxtPhone.Text = customer.Phone;
+                    CmbGender.EditValue = customer.Gender;
                 }
             }
+            catch (Exception ex)
+            {
+                functions.ShowMessage("Ocurrio un problema al cargar información del cliente.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.InnerException.Message);
+            }
+
         }
 
         #region Keyboard Call Buttons
@@ -168,7 +168,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<IdentType> custIdentTypes = new ClsCustomer(Program.customConnectionString).GetIdentTypes();
+                IEnumerable<IdentType> custIdentTypes = new IdentTypeRepository(Program.customConnectionString).GetIdentTypes();
 
                 if (custIdentTypes?.Count() > 0)
                 {
@@ -245,7 +245,7 @@ namespace POS
 
                 customerXml.Add(new XElement("CityId", cityId));
 
-                SP_Customer_Insert_Result result = new ClsCustomer(Program.customConnectionString).CreateOrUpdateCustomer(customerXml.ToString());
+                SP_Customer_Insert_Result result = new CustomerRepository(Program.customConnectionString).CreateOrUpdateCustomer(customerXml.ToString());
 
                 if ((result?.CustomerId) <= 0)
                 {
@@ -255,7 +255,7 @@ namespace POS
 
                 if (IsNewCustomer)
                 {
-                    CurrentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(result.Identification);
+                    CurrentCustomer = new CustomerRepository(Program.customConnectionString).GetCustomerByIdentification(result.Identification);
                     functions.ShowMessage("El cliente se registró exitosamente.");
                     return true;
                 }
@@ -279,7 +279,7 @@ namespace POS
         {
             try
             {
-                FN_Identification_Validate_Result validateResult = new ClsCustomer(Program.customConnectionString).ValidateCustomerIdentification(_identification, _identType);
+                FN_Identification_Validate_Result validateResult = new CustomerRepository(Program.customConnectionString).ValidateCustomerIdentification(_identification, _identType);
 
                 if ((validateResult?.Validated) <= 0)
                 {
@@ -349,7 +349,7 @@ namespace POS
                 { TxtEmail, LblEmail.Text }
             };
 
-            foreach (var control in controls)
+            foreach (KeyValuePair<object, string> control in controls)
             {
                 if (TextValidations(control.Key, control.Value.Replace("*", "")))
                 {

@@ -112,7 +112,7 @@ namespace POS
         {
             try
             {
-                ClsClosingTrans closing = new ClsClosingTrans(Program.customConnectionString);
+                ClosingCashierRepository closing = new ClosingCashierRepository(Program.customConnectionString);
                 denominations = closing.GetDenominations();
                 partials = closing.GetPartialClosings(emissionPoint, loginInformation);
                 partials = partials.Where(pa => pa.CashierAmount != 0).ToList();
@@ -244,7 +244,7 @@ namespace POS
                     EmissionPointId = emissionPoint.EmissionPointId,
                     UserId = (int)loginInformation.UserId,
                     OpeningAmount = 0,
-                    Authorization = functions.supervisorAuthorization,
+                    Authorization = functions.SupervisorAuthorization,
                     Status = "A",
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = emissionPoint.Workstation
@@ -340,7 +340,7 @@ namespace POS
 
                 try
                 {
-                    List<SP_ClosingCashier_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertFullClosing(closingXml, TipoCierre).ToList();
+                    List<SP_ClosingCashier_Insert_Result> clsClosing = new ClosingCashierRepository(Program.customConnectionString).InsertFullClosing(closingXml, TipoCierre).ToList();
 
 
                     if (clsClosing?.Count() > 0)
@@ -488,7 +488,7 @@ namespace POS
         private void BtnLastClosing_Click(object sender, EventArgs e)
         {
             //long lastId = new ClsClosingTrans().ConsultLastClosing(emissionPoint, "F" );   // 04/01/2023
-            long lastId = new ClsClosingTrans(Program.customConnectionString).ConsultLastClosing(emissionPoint, TipoCierre);
+            long lastId = new ClosingCashierRepository(Program.customConnectionString).ConsultLastClosing(emissionPoint, TipoCierre);
 
             if (functions.PrintDocument(lastId, DocumentType.CLOSINGCASHIER, false))
             {

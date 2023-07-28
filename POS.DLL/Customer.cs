@@ -20,11 +20,11 @@ namespace POS.DLL
             this.AccountsReceivable = new HashSet<AccountsReceivable>();
             this.GiftCardTable = new HashSet<GiftCardTable>();
             this.InternalCreditCard = new HashSet<InternalCreditCard>();
-            this.InvoiceTable = new HashSet<InvoiceTable>();
             this.PromotionCustomer = new HashSet<PromotionCustomer>();
             this.CustomerAddress = new HashSet<CustomerAddress>();
             this.GiftCardLine = new HashSet<GiftCardLine>();
             this.SalesOrder = new HashSet<SalesOrder>();
+            this.InvoiceTable = new HashSet<InvoiceTable>();
         }
     
         public long CustomerId { get; set; }
@@ -62,8 +62,6 @@ namespace POS.DLL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternalCreditCard> InternalCreditCard { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromotionCustomer> PromotionCustomer { get; set; }
         public virtual Location Location { get; set; }
         public virtual City City { get; set; }
@@ -75,5 +73,7 @@ namespace POS.DLL
         public virtual ICollection<GiftCardLine> GiftCardLine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceTable> InvoiceTable { get; set; }
     }
 }

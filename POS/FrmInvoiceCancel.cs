@@ -11,13 +11,20 @@ namespace POS
     public partial class FrmInvoiceCancel : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public IEnumerable<GlobalParameter> globalParameters;
-        public SP_Login_Consult_Result loginInformation;
+        IEnumerable<GlobalParameter> GlobalParameters { get; set; }
+        SP_Login_Consult_Result LoginInformation { get; set; }
         EmissionPoint emissionPoint;
 
         public FrmInvoiceCancel()
         {
             InitializeComponent();
+        }
+
+        public FrmInvoiceCancel(IEnumerable<GlobalParameter> globalParameters, SP_Login_Consult_Result loginInformation)
+        {
+            InitializeComponent();
+            GlobalParameters = globalParameters;
+            LoginInformation = loginInformation;
         }
 
         private void FrmInvoiceCancel_Load(object sender, EventArgs e)
@@ -27,12 +34,12 @@ namespace POS
             {
 
             }
-            LblCashierUser.Text = loginInformation.UserName;
+            LblCashierUser.Text = LoginInformation.UserName;
         }
 
         private bool GetEmissionPointInformation()
         {
-            string addressIP = loginInformation.AddressIP;
+            string addressIP = LoginInformation.AddressIP;
 
             if (addressIP == string.Empty)
             {
@@ -76,7 +83,7 @@ namespace POS
             }
 
             functions.emissionPoint = emissionPoint;
-            if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.ITEM_CANCEL))
+            if (functions.RequestSupervisorAuth(true, CancelReasonType.ITEM_CANCEL))
             {
                 SalesLog salesLog = new SalesLog
                 {
@@ -85,36 +92,36 @@ namespace POS
                     LocationId = emissionPoint.LocationId,
                     InvoiceNumber = int.Parse(TxtSequence.Text),
                     XmlLog = string.Empty,
-                    ReasonId = functions.motiveId,
+                    ReasonId = functions.MotiveId,
                     LogTypeId = (int)DLL.Enums.LogType.ANULAR_FACTURA,
-                    Authorization = functions.supervisorAuthorization,
+                    Authorization = functions.SupervisorAuthorization,
                     CreatedDatetime = DateTime.Now,
-                    CreatedBy = (int)loginInformation.UserId,
+                    CreatedBy = (int)LoginInformation.UserId,
                     Status = "A",
-                    Workstation = loginInformation.Workstation
+                    Workstation = LoginInformation.Workstation
                 };
 
                 InvoiceTable invoiceTable = null;
                 try
                 {
-                    invoiceTable = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoice(int.Parse(LblInvoiceId.Text));
+                    invoiceTable = new InvoiceRepository(Program.customConnectionString).GetInvoiceById(int.Parse(LblInvoiceId.Text));
                 }
                 catch (Exception ex)
                 {
                     functions.ShowMessage("Ocurrio un problema al consultar documento.", MessageType.ERROR, true, ex.Message);
                 }
 
-                invoiceTable.TransferStatusId = 4;
+                invoiceTable.TransferStatusId = (int)DLL.Enums.TransferStatus.PENDING_UPDATE;
                 invoiceTable.Observation = TxtObservation.Text;
                 invoiceTable.ClosingCashierId = -99;
                 invoiceTable.Status = "I";
-                invoiceTable.ModifiedBy = loginInformation.UserId;
+                invoiceTable.ModifiedBy = LoginInformation.UserId;
                 invoiceTable.ModifiedDatetime = DateTime.Now;
 
                 bool invoiceCancel = false;
                 try
                 {
-                    invoiceCancel = new ClsInvoiceTrans(Program.customConnectionString).CancelInvoice(salesLog, invoiceTable);
+                    invoiceCancel = new InvoiceRepository(Program.customConnectionString).CancelInvoice(salesLog, invoiceTable);
                 }
                 catch (Exception ex)
                 {
@@ -163,7 +170,7 @@ namespace POS
 
             try
             {
-                SP_InvoiceCancel_Consult_Result response = new ClsInvoiceTrans(Program.customConnectionString).ConsultInvoiceStatus(emissionPoint, int.Parse(TxtSequence.Text));
+                InvoiceTable response = new InvoiceRepository(Program.customConnectionString).GetInvoiceByNumber(emissionPoint, int.Parse(TxtSequence.Text));
 
                 if (response == null)
                 {
@@ -184,9 +191,9 @@ namespace POS
                 }
 
                 LblInvoiceId.Text = $"{response.InvoiceId}";
-                LblInvoiceStatus.Text = response.StatusDesc;
-                LblCustomerIdentification.Text = response.Identification;
-                LblCustomerName.Text = $"{response.Firtsname} {response.Lastname}";
+                LblInvoiceStatus.Text = response.Status;
+                LblCustomerIdentification.Text = response.Customer.Identification;
+                LblCustomerName.Text = $"{response.Customer.Firtsname} {response.Customer.Lastname}";
                 LblInvoiceAmount.Text = $"$ {response.Total:0.##}";
             }
             catch (Exception ex)

@@ -119,11 +119,7 @@ namespace POS
 
         private void BtnInvoiceCancel_Click(object sender, EventArgs e)
         {
-            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel()
-            {
-                loginInformation = loginInformation,
-                globalParameters = globalParameters
-            };
+            FrmInvoiceCancel frmPartial = new FrmInvoiceCancel(globalParameters, loginInformation);
             frmPartial.ShowDialog();
 
             if (Application.OpenForms.OfType<FrmInvoiceCancel>().Count() == 1)
@@ -147,12 +143,10 @@ namespace POS
             }
             catch (Exception ex)
             {
-                functions.ShowMessage(
-                                    "Ocurrio un problema al configurar validar inventario."
-                                    , MessageType.ERROR
-                                    , true
-                                    , ex.Message
-                                  );
+                functions.ShowMessage("Ocurrio un problema al configurar validar inventario.",
+                                      MessageType.ERROR,
+                                      true,
+                                      ex.Message);
             }
 
             if (allowInventory)
@@ -201,7 +195,7 @@ namespace POS
 
             try
             {
-                bool pendingClosing = new ClsClosingTrans(Program.customConnectionString).PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
+                bool pendingClosing = new ClosingCashierRepository(Program.customConnectionString).PendingClosings(emissionPoint.EmissionPointId, (int)loginInformation.UserId);
                 if (pendingClosing)
                 {
                     functions.ShowMessage("Existen cierres pendientes por otro usuario.", MessageType.WARNING);

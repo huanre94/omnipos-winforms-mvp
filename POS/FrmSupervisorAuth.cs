@@ -19,7 +19,7 @@ namespace POS
         public bool RequireMotive { get; set; }
         public bool formActionResult;
         public int motiveId;
-        public int ReasonType { get; set; } = 1;
+        public CancelReasonType ReasonType { get; set; } = 0;
         public string SupervisorAuthorization { get; set; }
         ScaleBrands scaleBrand;
 
@@ -28,7 +28,7 @@ namespace POS
             InitializeComponent();
         }
 
-        public FrmSupervisorAuth(AxOPOSScanner axOPOSScanner, EmissionPoint emissionPoint, bool requireMotive, int reasonType)
+        public FrmSupervisorAuth(AxOPOSScanner axOPOSScanner, EmissionPoint emissionPoint, bool requireMotive, CancelReasonType reasonType)
         {
             InitializeComponent();
             AxOPOSScanner = axOPOSScanner;
@@ -70,11 +70,11 @@ namespace POS
             }
         }
 
-        private void LoadReasons(int reasonType)
+        private void LoadReasons(CancelReasonType reasonType)
         {
             try
             {
-                IEnumerable<CancelReason> cancelReasons = new ClsAuthorizationTrans(Program.customConnectionString).ConsultReasons(reasonType);
+                IEnumerable<CancelReason> cancelReasons = new CancelReasonRepository(Program.customConnectionString).ConsultReasons(reasonType);
 
                 if (cancelReasons?.Count() > 0)
                 {
@@ -135,7 +135,7 @@ namespace POS
 
                 if (!(bool)result.Error)
                 {
-                    functions.ShowMessage("Ocurrio un problema al anular producto.", MessageType.ERROR, true, result.ErrorMessage);
+                    functions.ShowMessage("Ocurrio un problema al realizar la anulacion.", MessageType.ERROR, true, result.ErrorMessage);
                     DialogResult = DialogResult.None;
                     return;
                 }
@@ -248,6 +248,11 @@ namespace POS
                 default:
                     break;
             }
+        }
+
+        private void FrmSupervisorAuth_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (scaleBrand == ScaleBrands.DATALOGIC) functions.DisableScanner();
         }
     }
 }

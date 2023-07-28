@@ -2,7 +2,6 @@
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,11 +14,11 @@ namespace POS
 {
     public partial class FrmSalesOrderHeader : DevExpress.XtraEditors.XtraForm
     {
-        ClsFunctions functions = new ClsFunctions();
-        ClsSalesOrder sales = new ClsSalesOrder(Program.customConnectionString);
+        readonly ClsFunctions functions = new ClsFunctions();
+        SalesOrderRepository sales = new SalesOrderRepository(Program.customConnectionString);
         Customer currentCustomer = new Customer();
         public EmissionPoint emissionPoint;
-        public SP_Login_Consult_Result loginInformation;
+        public SP_Login_Consult_Result LoginInformation { get; set; }
         CustomerAddress customerAddress;
         public bool formActionResult = false;
         IEnumerable<SalesOrigin> salesOrigins;
@@ -47,7 +46,7 @@ namespace POS
 
             try
             {
-                currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(identification);
+                currentCustomer = new CustomerRepository(Program.customConnectionString).GetCustomerByIdentification(identification);
 
                 if ((currentCustomer?.CustomerId) <= 0)
                 {
@@ -84,7 +83,7 @@ namespace POS
 
         private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer(emissionPoint, loginInformation, _identification);
+            FrmCustomer frmCustomer = new FrmCustomer(emissionPoint, LoginInformation, _identification);
             frmCustomer.ShowDialog();
 
             return frmCustomer.GetCurrentCustomer();
@@ -102,7 +101,7 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            string addressIP = loginInformation.AddressIP;
+            string addressIP = LoginInformation.AddressIP;
 
             if (addressIP == "")
             {
@@ -137,7 +136,7 @@ namespace POS
         {
             try
             {
-                salesOrigins = new ClsSalesOrder(Program.customConnectionString).GetSalesOrderOrigin(false);
+                salesOrigins = new SalesOrderRepository(Program.customConnectionString).GetSalesOrderOrigin(false);
 
                 if (salesOrigins?.Count() > 0)
                 {
@@ -162,7 +161,7 @@ namespace POS
             BtnCustomer.Enabled = true;
             BtnDeliveryAddress.Enabled = true;
 
-            currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
+            currentCustomer = new CustomerRepository(Program.customConnectionString).GetCustomerById(1);
             LoadCustomerInformation(currentCustomer);
 
             LblDeliveryAddress.Text = string.Empty;
@@ -180,7 +179,7 @@ namespace POS
                 return;
             }
 
-            FrmAddressPicker frmCustomer = new FrmAddressPicker(emissionPoint, loginInformation, currentCustomer);
+            FrmAddressPicker frmCustomer = new FrmAddressPicker(emissionPoint, LoginInformation, currentCustomer);
             frmCustomer.ShowDialog();
 
             if (frmCustomer.GetResult())
@@ -218,6 +217,7 @@ namespace POS
 
             XElement header = new XElement("SalesOrder");
             XElement headerNode = new XElement("SalesOrder");
+
             SalesOrder salesOrder = new SalesOrder
             {
                 CustomerId = currentCustomer.CustomerId,
@@ -230,9 +230,9 @@ namespace POS
                 SalesOriginId = origin.SalesOriginId,
                 Observation = TxtObservation.Text,
                 Status = "O",
-                CreatedBy = (int)loginInformation.UserId,
-                ModifiedBy = (int)loginInformation.UserId,
-                Workstation = loginInformation.Workstation
+                CreatedBy = (int)LoginInformation.UserId,
+                ModifiedBy = (int)LoginInformation.UserId,
+                Workstation = LoginInformation.Workstation
             };
 
             Type type = salesOrder.GetType();
@@ -261,9 +261,9 @@ namespace POS
                 {
                     Sequence = i + 1,
                     SalesOrderText1 = array[i].ToUpper(),
-                    CreatedBy = (int)loginInformation.UserId,
-                    ModifiedBy = (int)loginInformation.UserId,
-                    Workstation = loginInformation.Workstation
+                    CreatedBy = (int)LoginInformation.UserId,
+                    ModifiedBy = (int)LoginInformation.UserId,
+                    Workstation = LoginInformation.Workstation
                 };
 
                 type = orderText.GetType();
@@ -286,7 +286,7 @@ namespace POS
 
             try
             {
-                SP_SalesOrderOmnipos_Insert_Result result = new ClsSalesOrderTrans(Program.customConnectionString).CreateOrUpdateSalesOrder(header.ToString());
+                SP_SalesOrderOmnipos_Insert_Result result = new SalesOrderRepository(Program.customConnectionString).CreateOrUpdateSalesOrder(header.ToString());
                 if ((bool)result.Error)
                 {
                     functions.ShowMessage("No se pudo crear orden de venta.", MessageType.WARNING, true, result.TextError);
@@ -294,14 +294,13 @@ namespace POS
                 }
 
                 functions.emissionPoint = emissionPoint;
-                if (functions.PrintDocument((long)result.SalesOrderId, DocumentType.SALESORDER, false))
-                {
-                    functions.ShowMessage("Orden de Venta generada exitosamente.", MessageType.INFO);
-                }
-                else
+                if (!functions.PrintDocument((long)result.SalesOrderId, DocumentType.SALESORDER, false))
                 {
                     functions.ShowMessage("La orden de venta fue generada exitosamente pero no se pudo imprimir.", MessageType.WARNING);
+                    return;
                 }
+
+                functions.ShowMessage("Orden de Venta generada exitosamente.", MessageType.INFO);
 
                 formActionResult = true;
                 DialogResult = DialogResult.OK;

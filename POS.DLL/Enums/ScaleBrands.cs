@@ -8,7 +8,8 @@
         METTLER_TOLEDO,
         RICE_LAKE,
         DATALOGIC,
-        JADEVER
+        JADEVER,
+        ZEBRA
     }
 
 }

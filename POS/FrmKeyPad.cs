@@ -1,6 +1,5 @@
 ﻿using POS.DLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace POS
@@ -30,6 +29,8 @@ namespace POS
         string closingCashierId { get; set; } = "";
         string WithHoldNumber { get; set; } = "";
         string WithHoldAuthorization { get; set; } = "";
+        string ProductBarcode { get; set; } = "";
+
         //public FrmKeyPad()
         //{
         //    InitializeComponent();
@@ -103,6 +104,7 @@ namespace POS
                     break;
                 case InputFromOption.WITHOHOLD_AUTHORIZATION: value = WithHoldAuthorization; break;
                 case InputFromOption.WITHOHOLD_NUMBER: value = WithHoldNumber; break;
+                case InputFromOption.PRODUCT_BARCODE: value = ProductBarcode; break;
                 default:
                     break;
             }
@@ -226,6 +228,7 @@ namespace POS
                     break;
                 case InputFromOption.WITHOHOLD_AUTHORIZATION: WithHoldAuthorization = TxtValue.Text; break;
                 case InputFromOption.WITHOHOLD_NUMBER: WithHoldNumber = TxtValue.Text; break;
+                case InputFromOption.PRODUCT_BARCODE: ProductBarcode = TxtValue.Text; break;
                 default:
                     break;
             }

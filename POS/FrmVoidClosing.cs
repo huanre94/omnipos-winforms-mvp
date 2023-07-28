@@ -1,15 +1,5 @@
-﻿using DevExpress.XtraEditors;
-using POS.DLL;
-using POS.DLL.Enums;
+﻿using POS.DLL.Enums;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace POS
 {
@@ -30,7 +20,7 @@ namespace POS
                 return;
             }
 
-            
+
         }
 
         private void FrmVoidClosing_Load(object sender, EventArgs e)

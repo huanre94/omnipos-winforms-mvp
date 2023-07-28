@@ -37,7 +37,7 @@ namespace POS
 
             try
             {
-                SP_GiftCard_Consult_Result result = new ClsCustomerTrans(Program.customConnectionString).GetGiftCard(TxtGiftCard.Text);
+                SP_GiftCard_Consult_Result result = new GiftcardRepository(Program.customConnectionString).GetGiftCard(TxtGiftCard.Text);
 
                 if (result == null)
                 {

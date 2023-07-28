@@ -85,6 +85,7 @@ namespace POS
             switch (scaleBrand)
             {
                 case ScaleBrands.DATALOGIC:
+                case ScaleBrands.ZEBRA:
                     catchWeight = new ClsCatchWeight(scaleBrand)
                     {
                         AxOPOSScale = AxOPOSScale
@@ -106,7 +107,7 @@ namespace POS
             }
 
 
-            if (new ClsInvoiceTrans(Program.customConnectionString).HasSuspendedSale(emissionPoint))
+            if (new InvoiceRepository(Program.customConnectionString).HasSuspendedSale(emissionPoint))
             {
                 BtnSuspendSale.Text = "F4 Reanudar";
                 BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
@@ -115,7 +116,7 @@ namespace POS
 
         void CheckForSuspendedSale()
         {
-            if (new ClsInvoiceTrans(Program.customConnectionString).HasSuspendedSale(emissionPoint))
+            if (new InvoiceRepository(Program.customConnectionString).HasSuspendedSale(emissionPoint))
             {
                 BtnSuspendSale.Text = "Reanudar";
                 BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
@@ -237,7 +238,7 @@ namespace POS
 
             try
             {
-                currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerByIdentification(identification);
+                currentCustomer = new CustomerRepository(Program.customConnectionString).GetCustomerByIdentification(identification);
 
                 if (currentCustomer == null)
                 {
@@ -300,7 +301,7 @@ namespace POS
         private void LoadCustomerInformation(Customer customer)
         {
             LblCustomerId.Text = customer.Identification;
-            LblCustomerName.Text = $"{customer.Firtsname} {customer.Lastname}";
+            LblCustomerName.Text = $"{customer.FullName}";
             LblCustomerAddress.Text = customer.Address;
             LblCustomerEmail.Text = customer.Email;
             TxtBarcode.Focus();
@@ -413,6 +414,7 @@ namespace POS
                 {
                     element = itemDeletedXml.First();
                 }
+
                 SalesLog salesLog = new SalesLog
                 {
                     CustomerId = currentCustomer.CustomerId,
@@ -421,14 +423,14 @@ namespace POS
                     InvoiceNumber = sequenceNumber,
                     XmlLog = element.ToString(),
                     LogTypeId = (int)DLL.Enums.LogType.ELIMINAR_PRODUCTO,
-                    Authorization = functions.supervisorAuthorization,
+                    Authorization = functions.SupervisorAuthorization,
                     CreatedDatetime = DateTime.Now,
                     CreatedBy = (int)loginInformation.UserId,
                     Status = "A",
                     Workstation = loginInformation.Workstation
                 };
 
-                new ClsInvoiceTrans(Program.customConnectionString).InsertCancelledSales(salesLog);
+                new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog);
 
                 itemDeletedXml.Remove();
 
@@ -446,7 +448,7 @@ namespace POS
             {
                 try
                 {
-                    long lastId = new ClsInvoiceTrans(Program.customConnectionString).ConsultLastInvoice(emissionPoint);
+                    long lastId = new InvoiceRepository(Program.customConnectionString).GetLastInvoice(emissionPoint);
 
                     if (lastId == 0)
                     {
@@ -590,7 +592,7 @@ namespace POS
             bool isApproved = functions.RequestSupervisorAuth();
             if (isApproved)
             {
-                if (new ClsInvoiceTrans(Program.customConnectionString).HasSuspendedSale(emissionPoint))
+                if (new InvoiceRepository(Program.customConnectionString).HasSuspendedSale(emissionPoint))
                 {
                     if (!IsProductGridEmpty())
                     {
@@ -601,7 +603,7 @@ namespace POS
                     BtnSuspendSale.Text = "F4 Suspender";
                     BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.SuspendSale;
 
-                    SP_SalesLog_Consult_Result sales = new ClsInvoiceTrans(Program.customConnectionString).ConsultSuspendedSale(emissionPoint);
+                    SP_SalesLog_Consult_Result sales = new InvoiceRepository(Program.customConnectionString).ConsultSuspendedSale(emissionPoint);
 
                     XElement element = XElement.Parse(sales.XmlLog);
 
@@ -640,7 +642,7 @@ namespace POS
                                               true);
                     }
 
-                    currentCustomer = new ClsCustomer(Program.customConnectionString).GetCustomerById(sales.CustomerId);
+                    currentCustomer = new CustomerRepository(Program.customConnectionString).GetCustomerById(sales.CustomerId);
 
                     if (currentCustomer?.CustomerId > 0)
                     {
@@ -667,7 +669,7 @@ namespace POS
                     LocationId = emissionPoint.LocationId,
                     InvoiceNumber = sequenceNumber,
                     XmlLog = invoiceXml.ToString(),
-                    ReasonId = functions.motiveId,
+                    ReasonId = functions.MotiveId,
                     LogTypeId = (int)DLL.Enums.LogType.SUSPENDER_DOCUMENTO,
                     Authorization = "",
                     CreatedDatetime = DateTime.Now,
@@ -676,7 +678,7 @@ namespace POS
                     Workstation = loginInformation.Workstation
                 };
 
-                if (!new ClsInvoiceTrans(Program.customConnectionString).InsertCancelledSales(salesLog))
+                if (!new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog))
                 {
                     functions.ShowMessage("Hubo un error al poner la venta en espera, por favor vuelva a intentar", MessageType.ERROR);
                     return;
@@ -697,7 +699,7 @@ namespace POS
             }
 
             functions.emissionPoint = emissionPoint;
-            if (functions.RequestSupervisorAuth(true, (int)CancelReasonType.INVOICE_CANCEL))
+            if (functions.RequestSupervisorAuth(true, CancelReasonType.INVOICE_CANCEL))
             {
                 SalesLog salesLog = new SalesLog
                 {
@@ -706,16 +708,16 @@ namespace POS
                     LocationId = emissionPoint.LocationId,
                     InvoiceNumber = sequenceNumber,
                     XmlLog = invoiceXml.ToString(),
-                    ReasonId = functions.motiveId,
+                    ReasonId = functions.MotiveId,
                     LogTypeId = (int)DLL.Enums.LogType.ANULAR_DOCUMENTO,
-                    Authorization = functions.supervisorAuthorization,
+                    Authorization = functions.SupervisorAuthorization,
                     CreatedDatetime = DateTime.Now,
                     CreatedBy = (int)loginInformation.UserId,
                     Status = "A",
                     Workstation = loginInformation.Workstation
                 };
 
-                if (!new ClsInvoiceTrans(Program.customConnectionString).InsertCancelledSales(salesLog))
+                if (!new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog))
                 {
                     functions.ShowMessage("Hubo un error al anular la transaccion, por favor vuelva a intentar", MessageType.ERROR);
                     return;
@@ -744,7 +746,7 @@ namespace POS
 
         private void BtnProductChecker_Click(object sender, EventArgs e)
         {
-            FrmProductChecker checker = new FrmProductChecker();
+            FrmProductChecker checker = new FrmProductChecker(new ProductRepository(Program.customConnectionString));
             checker.ShowDialog();
         }
         #endregion
@@ -928,7 +930,7 @@ namespace POS
                     }
                 }
 
-                result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                result = new ProductRepository(Program.customConnectionString).ProductConsult(_locationId,
                                                                                             _barcode,
                                                                                             _qty,
                                                                                             _customerId,
@@ -970,7 +972,7 @@ namespace POS
                                 canInsert = false;
                             }
 
-                            result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                            result = new ProductRepository(Program.customConnectionString).ProductConsult(_locationId,
                                                                                                         _barcode,
                                                                                                         weight + qtyFound,
                                                                                                         _customerId,
@@ -1037,7 +1039,8 @@ namespace POS
                     Workstation = loginInformation.Workstation,
                     SalesOriginId = salesOriginId,
                     SalesmanId = salesManId,
-                    TypeDoc = 1
+                    TransferStatusId = (int)DLL.Enums.TransferStatus.PENDING_MIGRATE,
+                    TypeDoc = (short)DocumentType.INVOICE
                     //,IsBbqZone = ChbBbqZone.Checked
                 };
 
@@ -1065,7 +1068,7 @@ namespace POS
                     return;
                 }
 
-                SP_Invoice_Insert_Result invoiceResult = new ClsInvoiceTrans(Program.customConnectionString).CreateInvoice(invoiceXml);
+                SP_Invoice_Insert_Result invoiceResult = new InvoiceRepository(Program.customConnectionString).CreateInvoice(invoiceXml);
 
                 if ((bool)invoiceResult?.Error)
                 {
@@ -1131,7 +1134,7 @@ namespace POS
 
         private Customer LoadFinalConsumptionCustomer()
         {
-            return new ClsCustomer(Program.customConnectionString).GetCustomerById(1);
+            return new CustomerRepository(Program.customConnectionString).GetCustomerById(1);
         }
 
         #endregion

@@ -435,14 +435,14 @@ namespace POS
                     {
                         invoicePayment.PaymModeId = (int)PaymModeEnum.CREDITO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
-                        invoicePayment.Authorization = functions.supervisorAuthorization;
+                        invoicePayment.Authorization = functions.SupervisorAuthorization;
                     }
                     else
                     {
                         invoicePayment.PaymModeId = (int)PaymModeEnum.TARJETA_CONSUMO;
                         invoicePayment.Amount = decimal.Parse(TxtAmount.Text);
                         invoicePayment.InternalCreditCardId = paymentCredit.internalCreditCardId;
-                        invoicePayment.Authorization = functions.supervisorAuthorization;
+                        invoicePayment.Authorization = functions.SupervisorAuthorization;
                     }
 
                     AddRecordToGrid(invoicePayment);
@@ -629,7 +629,7 @@ namespace POS
                                 PaymModeId = (int)_paymMode,
                                 Amount = (decimal)item.AdvanceAmount,
                                 GiftCardNumber = item.AdvanceId.ToString(),
-                                Authorization = functions.supervisorAuthorization
+                                Authorization = functions.SupervisorAuthorization
                             };
                             AddRecordToGrid(invoicePayment);
                         }

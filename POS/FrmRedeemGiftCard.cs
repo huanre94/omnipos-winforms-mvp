@@ -77,7 +77,7 @@ namespace POS
 
             try
             {
-                result = new ClsCustomerTrans(Program.customConnectionString).GetGiftCardProducts(TxtGiftCardNumber.Text);
+                result = new GiftcardRepository(Program.customConnectionString).GetGiftCardProducts(TxtGiftCardNumber.Text);
                 if (result.Count() == 0)
                 {
                     functions.ShowMessage("No existe bono con el numero ingresado.", MessageType.WARNING);
@@ -312,7 +312,7 @@ namespace POS
 
                 try
                 {
-                    SP_GiftCardRedeem_Insert_Result response = new ClsCustomerTrans(Program.customConnectionString).GiftCardRedeemInsert(TxtGiftCardNumber.Text,
+                    SP_GiftCardRedeem_Insert_Result response = new GiftcardRepository(Program.customConnectionString).GiftCardRedeemInsert(TxtGiftCardNumber.Text,
                         TxtRedeemName.Text,
                         TxtRedeemIdentification.Text,
                         emissionPoint.LocationId,
@@ -365,6 +365,8 @@ namespace POS
 
             if (e.KeyCode == Keys.Enter)
             {
+                ProductConsultDto dto = new ProductConsultDto();
+
                 GetProductInformation(emissionPoint.LocationId,
                                       TxtBarcode.Text,
                                       1,
@@ -571,15 +573,14 @@ namespace POS
                     _qty += qtyFound;
                 }
 
-                SP_Product_Consult_Result result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(
+                SP_Product_Consult_Result result = new ProductRepository(Program.customConnectionString).ProductConsult(
                                             _locationId
                                             , _barcode
                                             , _qty
                                             , _customerId
                                             , _internalCreditCardId
                                             , _paymMode
-                                            , barcodeBefore
-                                            );
+                                            , barcodeBefore);
 
                 if (result == null)
                 {
@@ -605,7 +606,7 @@ namespace POS
                             return;
                         }
 
-                        result = new ClsInvoiceTrans(Program.customConnectionString).ProductConsult(_locationId,
+                        result = new ProductRepository(Program.customConnectionString).ProductConsult(_locationId,
                                                                                                     _barcode,
                                                                                                     weight + qtyFound,
                                                                                                     _customerId,

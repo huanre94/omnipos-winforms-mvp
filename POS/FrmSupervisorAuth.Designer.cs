@@ -207,6 +207,7 @@
             this.Name = "FrmSupervisorAuth";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Autorizacion de Supervisor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSupervisorAuth_FormClosing);
             this.Load += new System.EventHandler(this.FrmSupervisorAuth_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtAuthorization.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CmbMotive.Properties)).EndInit();

@@ -329,11 +329,10 @@ namespace POS
                             TxtBarcode.Text = "";
                             TxtInternalCode.Text = "";
                             TxtBarcode.Focus();
+                            return;
                         }
-                        else
-                        {
-                            AddResultToGrid(result);
-                        }
+
+                        AddResultToGrid(result);
                     }
                     catch (Exception ex)
                     {

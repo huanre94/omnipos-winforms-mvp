@@ -2,7 +2,6 @@
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace POS
@@ -10,7 +9,6 @@ namespace POS
     public partial class FrmSalesOrderText : DevExpress.XtraEditors.XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        //public SalesOrder salesOrder;
         readonly long _salesOrderId;
 
         public FrmSalesOrderText(long salesOrderId)
@@ -26,12 +24,18 @@ namespace POS
 
         private void FrmSalesOrderText_Load(object sender, EventArgs e)
         {
+            PrintCommandOnScreen();
+        }
+
+        private void PrintCommandOnScreen()
+        {
             try
             {
-                string list = "";
-                IEnumerable<SalesOrderText> command = new ClsSalesOrder(Program.customConnectionString).ConsultCommand(_salesOrderId);
+                SalesOrder order = new SalesOrderRepository(Program.customConnectionString).GetSalesOrder(_salesOrderId);
 
-                foreach (SalesOrderText item in command)
+                string list = "";
+
+                foreach (SalesOrderText item in order.SalesOrderText)
                 {
                     list += item.SalesOrderText1 + Environment.NewLine;
                 }

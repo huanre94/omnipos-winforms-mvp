@@ -87,7 +87,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Remote|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>\\192.168.15.24\test\</OutputPath>
+    <OutputPath>\\192.168.14.77\test\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -526,12 +526,6 @@
     <None Include="Resources\cashier_partial.svg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\POS.DLL\POS.DLL.csproj">
-      <Project>{4a1d9a7f-96e2-4fea-9a25-8b200bb28bce}</Project>
-      <Name>POS.DLL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
@@ -577,14 +571,16 @@
     <PackageReference Include="DevExpress.Data">
       <Version>20.1.3</Version>
     </PackageReference>
-    <PackageReference Include="EntityFramework">
-      <Version>6.4.4</Version>
-    </PackageReference>
     <PackageReference Include="Vip.Printer">
       <Version>2.0.5</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\POS.DLL\POS.DLL.csproj">
+      <Project>{4a1d9a7f-96e2-4fea-9a25-8b200bb28bce}</Project>
+      <Name>POS.DLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxOposScale_CCO">
       <Guid>{CCB90170-B81E-11D2-AB74-0040054C3719}</Guid>

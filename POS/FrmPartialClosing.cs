@@ -39,7 +39,7 @@ namespace POS
         {
             try
             {
-                ClsClosingTrans closing = new ClsClosingTrans(Program.customConnectionString);
+                ClosingCashierRepository closing = new ClosingCashierRepository(Program.customConnectionString);
                 denominations = closing.GetDenominations();
                 partials = closing.GetPartialClosings(emissionPoint, loginInformation);
 
@@ -146,7 +146,7 @@ namespace POS
         {
             try
             {
-                IEnumerable<CancelReason> cancelReasons = new ClsAuthorizationTrans(Program.customConnectionString).ConsultReasons((int)CancelReasonType.PARTIAL_CLOSING);
+                IEnumerable<CancelReason> cancelReasons = new CancelReasonRepository(Program.customConnectionString).ConsultReasons(CancelReasonType.PARTIAL_CLOSING);
 
                 if (cancelReasons?.Count() > 0)
                 {
@@ -207,7 +207,7 @@ namespace POS
                 return;
             }
 
-            var hasDuplicateAccountingCode = new ClsClosingTrans(Program.customConnectionString).ValidateDuplicateAccountingCode(emissionPoint.LocationId, TxtAccountingCode.Text);
+            bool hasDuplicateAccountingCode = new ClosingCashierRepository(Program.customConnectionString).ValidateDuplicateAccountingCode(emissionPoint.LocationId, TxtAccountingCode.Text);
             if (hasDuplicateAccountingCode)
             {
                 functions.ShowMessage("El codigo contable ya ha sido registrada previamente.", MessageType.WARNING);
@@ -227,7 +227,7 @@ namespace POS
                     EmissionPointId = emissionPoint.EmissionPointId,
                     UserId = (int)loginInformation.UserId,
                     OpeningAmount = 0,
-                    Authorization = functions.supervisorAuthorization,
+                    Authorization = functions.SupervisorAuthorization,
                     Status = "A",
                     CreatedBy = (int)loginInformation.UserId,
                     Workstation = emissionPoint.Workstation,
@@ -314,7 +314,7 @@ namespace POS
 
                 try
                 {
-                    List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClsClosingTrans(Program.customConnectionString).InsertPartialClosing(closingXml).ToList();
+                    List<SP_ClosingCashierPartial_Insert_Result> clsClosing = new ClosingCashierRepository(Program.customConnectionString).InsertPartialClosing(closingXml).ToList();
 
                     if (clsClosing?.Count() > 0)
                     {
@@ -446,7 +446,7 @@ namespace POS
         {
             try
             {
-                long lastId = new ClsClosingTrans(Program.customConnectionString).ConsultLastClosing(emissionPoint, "P");
+                long lastId = new ClosingCashierRepository(Program.customConnectionString).ConsultLastClosing(emissionPoint, "P");
 
                 if (functions.PrintDocument(lastId, DocumentType.CLOSINGCASHIER))
                 {

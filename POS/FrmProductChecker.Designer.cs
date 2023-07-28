@@ -33,14 +33,14 @@ namespace POS
             this.BtnKeypad = new DevExpress.XtraEditors.SimpleButton();
             this.TxtBarcode = new DevExpress.XtraEditors.TextEdit();
             this.LblGiftCard = new System.Windows.Forms.Label();
-            this.LblSelectedAmount = new System.Windows.Forms.Label();
+            this.LblProductName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.LblProductBarcode = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.LblProductPromotionalPrice = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.LblProductPrice = new System.Windows.Forms.Label();
             this.BtnExit = new DevExpress.XtraEditors.SimpleButton();
             this.axOPOSScanner = new AxOposScanner_CCO.AxOPOSScanner();
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).BeginInit();
@@ -62,11 +62,12 @@ namespace POS
             this.BtnKeypad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.BtnKeypad.Size = new System.Drawing.Size(95, 62);
             this.BtnKeypad.TabIndex = 13;
+            this.BtnKeypad.Click += new System.EventHandler(this.BtnKeypad_Click);
             // 
             // TxtBarcode
             // 
             this.TxtBarcode.Location = new System.Drawing.Point(230, 34);
-            this.TxtBarcode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtBarcode.Margin = new System.Windows.Forms.Padding(4);
             this.TxtBarcode.Name = "TxtBarcode";
             this.TxtBarcode.Size = new System.Drawing.Size(323, 30);
             this.TxtBarcode.TabIndex = 12;
@@ -82,15 +83,15 @@ namespace POS
             this.LblGiftCard.TabIndex = 14;
             this.LblGiftCard.Text = "Codigo Barra";
             // 
-            // LblSelectedAmount
+            // LblProductName
             // 
-            this.LblSelectedAmount.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.LblSelectedAmount.Location = new System.Drawing.Point(269, 180);
-            this.LblSelectedAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblSelectedAmount.Name = "LblSelectedAmount";
-            this.LblSelectedAmount.Size = new System.Drawing.Size(446, 22);
-            this.LblSelectedAmount.TabIndex = 146;
-            this.LblSelectedAmount.Text = "Text";
+            this.LblProductName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblProductName.Location = new System.Drawing.Point(269, 180);
+            this.LblProductName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblProductName.Name = "LblProductName";
+            this.LblProductName.Size = new System.Drawing.Size(446, 22);
+            this.LblProductName.TabIndex = 146;
+            this.LblProductName.Text = "Text";
             // 
             // label2
             // 
@@ -114,15 +115,15 @@ namespace POS
             this.label1.TabIndex = 145;
             this.label1.Text = "Codigo Barra:";
             // 
-            // label3
+            // LblProductBarcode
             // 
-            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(269, 121);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(446, 22);
-            this.label3.TabIndex = 146;
-            this.label3.Text = "Text";
+            this.LblProductBarcode.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblProductBarcode.Location = new System.Drawing.Point(269, 121);
+            this.LblProductBarcode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblProductBarcode.Name = "LblProductBarcode";
+            this.LblProductBarcode.Size = new System.Drawing.Size(446, 22);
+            this.LblProductBarcode.TabIndex = 146;
+            this.LblProductBarcode.Text = "Text";
             // 
             // label4
             // 
@@ -135,15 +136,15 @@ namespace POS
             this.label4.TabIndex = 145;
             this.label4.Text = "Precio Promocional:";
             // 
-            // label5
+            // LblProductPromotionalPrice
             // 
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(269, 309);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(446, 22);
-            this.label5.TabIndex = 146;
-            this.label5.Text = "Text";
+            this.LblProductPromotionalPrice.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblProductPromotionalPrice.Location = new System.Drawing.Point(269, 309);
+            this.LblProductPromotionalPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblProductPromotionalPrice.Name = "LblProductPromotionalPrice";
+            this.LblProductPromotionalPrice.Size = new System.Drawing.Size(446, 22);
+            this.LblProductPromotionalPrice.TabIndex = 146;
+            this.LblProductPromotionalPrice.Text = "Text";
             // 
             // label6
             // 
@@ -156,15 +157,15 @@ namespace POS
             this.label6.TabIndex = 145;
             this.label6.Text = "Precio:";
             // 
-            // label7
+            // LblProductPrice
             // 
-            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(269, 242);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(446, 22);
-            this.label7.TabIndex = 146;
-            this.label7.Text = "Text";
+            this.LblProductPrice.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Bold);
+            this.LblProductPrice.Location = new System.Drawing.Point(269, 242);
+            this.LblProductPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblProductPrice.Name = "LblProductPrice";
+            this.LblProductPrice.Size = new System.Drawing.Size(446, 22);
+            this.LblProductPrice.TabIndex = 146;
+            this.LblProductPrice.Text = "Text";
             // 
             // BtnExit
             // 
@@ -179,7 +180,7 @@ namespace POS
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(262, 380);
-            this.BtnExit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(6);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(196, 62);
             this.BtnExit.TabIndex = 148;
@@ -190,7 +191,7 @@ namespace POS
             // 
             this.axOPOSScanner.Enabled = true;
             this.axOPOSScanner.Location = new System.Drawing.Point(476, 247);
-            this.axOPOSScanner.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.axOPOSScanner.Margin = new System.Windows.Forms.Padding(4);
             this.axOPOSScanner.Name = "axOPOSScanner";
             this.axOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axOPOSScanner.OcxState")));
             this.axOPOSScanner.Size = new System.Drawing.Size(240, 240);
@@ -206,19 +207,19 @@ namespace POS
             this.ControlBox = false;
             this.Controls.Add(this.axOPOSScanner);
             this.Controls.Add(this.BtnExit);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.LblProductPrice);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.LblProductPromotionalPrice);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.LblProductBarcode);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.LblSelectedAmount);
+            this.Controls.Add(this.LblProductName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.BtnKeypad);
             this.Controls.Add(this.TxtBarcode);
             this.Controls.Add(this.LblGiftCard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmProductChecker";
             this.Text = "Producto";
             ((System.ComponentModel.ISupportInitialize)(this.TxtBarcode.Properties)).EndInit();
@@ -232,14 +233,14 @@ namespace POS
         private DevExpress.XtraEditors.SimpleButton BtnKeypad;
         public DevExpress.XtraEditors.TextEdit TxtBarcode;
         private System.Windows.Forms.Label LblGiftCard;
-        private System.Windows.Forms.Label LblSelectedAmount;
+        private System.Windows.Forms.Label LblProductName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LblProductBarcode;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label LblProductPromotionalPrice;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label LblProductPrice;
         private DevExpress.XtraEditors.SimpleButton BtnExit;
         private AxOposScanner_CCO.AxOPOSScanner axOPOSScanner;
     }
