@@ -105,20 +105,13 @@ namespace POS
                     }
                     break;
             }
-
-
-            if (new InvoiceRepository(Program.customConnectionString).HasSuspendedSale(emissionPoint))
-            {
-                BtnSuspendSale.Text = "F4 Reanudar";
-                BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
-            }
         }
 
         void CheckForSuspendedSale()
         {
             if (new InvoiceRepository(Program.customConnectionString).HasSuspendedSale(emissionPoint))
             {
-                BtnSuspendSale.Text = "Reanudar";
+                BtnSuspendSale.Text = "F4 Reanudar";
                 BtnSuspendSale.ImageOptions.SvgImage = Properties.Resources.resume;
             }
         }
