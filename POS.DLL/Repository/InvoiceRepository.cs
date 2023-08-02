@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.DLL.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -6,10 +7,8 @@ using System.Xml.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class InvoiceRepository
+    public class InvoiceRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public InvoiceRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

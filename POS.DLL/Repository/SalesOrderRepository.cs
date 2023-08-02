@@ -1,4 +1,5 @@
 ﻿using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,9 +8,8 @@ using System.Linq;
 namespace POS.DLL.Catalog
 {
 
-    public class SalesOrderRepository
+    public class SalesOrderRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
         public SP_Login_Consult_Result LoginInformation { get; set; }
 
         public SalesOrderRepository(string connectionString)

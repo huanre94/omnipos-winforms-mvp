@@ -1,11 +1,12 @@
 ﻿using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class CancelReasonRepository
+    public class CancelReasonRepository : BaseRepository
     {
         readonly POSEntities _dbContext;
 

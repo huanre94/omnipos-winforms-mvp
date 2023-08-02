@@ -1,10 +1,11 @@
-﻿using System;
+﻿using POS.DLL.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class GiftcardRepository
+    public class GiftcardRepository : BaseRepository
     {
         readonly POSEntities _dbContext;
 

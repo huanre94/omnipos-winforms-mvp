@@ -47,6 +47,8 @@ namespace POS
 
         public bool RequestSupervisorAuth(bool requireMotive = false, CancelReasonType reasonType = 0)
         {
+            //DisableScanner();
+
             FrmSupervisorAuth auth = new FrmSupervisorAuth(AxOPOSScanner, emissionPoint, requireMotive, reasonType);
             auth.ShowDialog();
 

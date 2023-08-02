@@ -1,4 +1,5 @@
 ﻿using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,9 @@ using System.Xml.Linq;
 
 namespace POS.DLL.Catalog
 {
-    public class AccountsReceivableRepository
+    public class AccountsReceivableRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
+    
         public AccountsReceivableRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

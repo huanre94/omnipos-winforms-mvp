@@ -1,4 +1,5 @@
 ﻿using AxOposScanner_CCO;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using POS.DLL;
 using POS.DLL.Enums;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 // IG001 Israel Gonzalez 2021-01-14: Disable scanner only when using Datalogic
 namespace POS
 {
-    public partial class FrmSupervisorAuth : DevExpress.XtraEditors.XtraForm
+    public partial class FrmSupervisorAuth : XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
         public EmissionPoint _emissionPoint { get; set; }

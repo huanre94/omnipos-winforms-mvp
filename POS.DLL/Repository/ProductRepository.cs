@@ -7,9 +7,8 @@ using System.Linq.Expressions;
 
 namespace POS.DLL
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository, IProductRepository
     {
-        readonly POSEntities _dbContext;
 
         public ProductRepository(string connectionString)
         {

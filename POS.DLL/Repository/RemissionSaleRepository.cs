@@ -1,12 +1,12 @@
-﻿using System;
+﻿using POS.DLL.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class RemissionSaleRepository
+    public class RemissionSaleRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
         public SP_Login_Consult_Result LoginInformation { get; set; }
 
         public RemissionSaleRepository(string connectionString)

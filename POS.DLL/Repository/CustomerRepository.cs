@@ -1,10 +1,11 @@
-﻿using System;
+﻿using POS.DLL.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace POS.DLL.Catalog
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : BaseRepository, ICustomerRepository
     {
         readonly POSEntities _dbContext;
 

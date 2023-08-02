@@ -57,8 +57,8 @@ namespace POS
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
             FrmMain frmMain = new FrmMain()
             {
-                loginInformation = loginInformation,
-                globalParameters = globalParameters
+                LoginInformation = loginInformation,
+                GlobalParameters = globalParameters
             };
             frmMain.Show();
 

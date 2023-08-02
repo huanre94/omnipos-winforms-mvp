@@ -75,14 +75,15 @@
     <Compile Include="Classes\Customer.cs" />
     <Compile Include="Classes\SalesOrder.cs" />
     <Compile Include="Repository\AccountsReceivableRepository.cs" />
-    <Compile Include="Catalog\ClsAdministration.cs" />
-    <Compile Include="Catalog\CustomerRepository.cs" />
-    <Compile Include="Catalog\ClsGeneral.cs" />
-    <Compile Include="Catalog\ClsPaymMode.cs" />
-    <Compile Include="Catalog\ClsProduct.cs" />
-    <Compile Include="Catalog\SalesOrderRepository.cs" />
+    <Compile Include="Repository\ClsAdministration.cs" />
+    <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\ClsGeneral.cs" />
+    <Compile Include="Repository\ClsPaymMode.cs" />
+    <Compile Include="Repository\ClsProduct.cs" />
+    <Compile Include="Repository\SalesOrderRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Repository\BankRepository.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\IdentTypeRepository.cs" />
     <Compile Include="City.cs">
       <DependentUpon>ModelPOS.tt</DependentUpon>
@@ -436,10 +437,10 @@
       <DependentUpon>ModelPOS.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\CancelReasonRepository.cs" />
-    <Compile Include="Transaction\ClsAuthorizationTrans.cs" />
+    <Compile Include="Repository\ClsAuthorizationTrans.cs" />
     <Compile Include="Repository\ClosingCashierRepository.cs" />
     <Compile Include="Repository\GiftcardRepository.cs" />
-    <Compile Include="Transaction\ClsInventoryTrans.cs" />
+    <Compile Include="Repository\ClsInventoryTrans.cs" />
     <Compile Include="Repository\InvoiceRepository.cs" />
     <Compile Include="Repository\RemissionSaleRepository.cs" />
     <Compile Include="TransferStatus.cs">

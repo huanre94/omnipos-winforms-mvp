@@ -44,8 +44,8 @@ namespace POS
         ClsCatchWeight catchWeight;
         ScaleBrands scaleBrand;
         long sequenceNumber;
-        public IEnumerable<GlobalParameter> globalParameters { get; set; }
-        public SP_Login_Consult_Result loginInformation { get; set; }
+        public IEnumerable<GlobalParameter> GlobalParameters { get; set; }
+        public SP_Login_Consult_Result LoginInformation { get; set; }
         public long internalCreditCardId = 0;
         public string internalCreditCardCode = "";
         private string portName = "";
@@ -125,7 +125,7 @@ namespace POS
 
         private bool GetEmissionPointInformation()
         {
-            string addressIP = loginInformation.AddressIP;
+            string addressIP = LoginInformation.AddressIP;
 
             if (addressIP == string.Empty)
             {
@@ -154,7 +154,7 @@ namespace POS
             LblEstablishment.Text = emissionPoint.Establishment;
             LblEmissionPoint.Text = emissionPoint.Emission;
             functions.PrinterName = emissionPoint.PrinterName;
-            LblCashier.Text = loginInformation.UserName;
+            LblCashier.Text = LoginInformation.UserName;
 
             GetNewSequenceNumber(emissionPoint.EmissionPointId, emissionPoint.LocationId);
 
@@ -318,7 +318,7 @@ namespace POS
 
             FrmMenu frmMenu = new FrmMenu()
             {
-                loginInformation = loginInformation
+                loginInformation = LoginInformation
             };
             frmMenu.Show();
             Close();
@@ -425,9 +425,9 @@ namespace POS
                     LogTypeId = (int)DLL.Enums.LogType.ELIMINAR_PRODUCTO,
                     Authorization = functions.SupervisorAuthorization,
                     CreatedDatetime = DateTime.Now,
-                    CreatedBy = (int)loginInformation.UserId,
+                    CreatedBy = (int)LoginInformation.UserId,
                     Status = "A",
-                    Workstation = loginInformation.Workstation
+                    Workstation = LoginInformation.Workstation
                 };
 
                 new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog);
@@ -523,7 +523,7 @@ namespace POS
                 baseTaxAmount = baseTaxAmount,
                 irbpAmount = irbpAmount,
                 discountAmount = discountAmount,
-                loginInformation = loginInformation,
+                loginInformation = LoginInformation,
                 scanner = AxOPOSScanner,
                 internalCreditCardCode = internalCreditCardCode,
                 invoiceXml = invoiceXml,
@@ -673,9 +673,9 @@ namespace POS
                     LogTypeId = (int)DLL.Enums.LogType.SUSPENDER_DOCUMENTO,
                     Authorization = "",
                     CreatedDatetime = DateTime.Now,
-                    CreatedBy = (int)loginInformation.UserId,
+                    CreatedBy = (int)LoginInformation.UserId,
                     Status = "A",
-                    Workstation = loginInformation.Workstation
+                    Workstation = LoginInformation.Workstation
                 };
 
                 if (!new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog))
@@ -712,9 +712,9 @@ namespace POS
                     LogTypeId = (int)DLL.Enums.LogType.ANULAR_DOCUMENTO,
                     Authorization = functions.SupervisorAuthorization,
                     CreatedDatetime = DateTime.Now,
-                    CreatedBy = (int)loginInformation.UserId,
+                    CreatedBy = (int)LoginInformation.UserId,
                     Status = "A",
-                    Workstation = loginInformation.Workstation
+                    Workstation = LoginInformation.Workstation
                 };
 
                 if (!new InvoiceRepository(Program.customConnectionString).InsertCancelledSales(salesLog))
@@ -955,7 +955,7 @@ namespace POS
 
                 if ((bool)result.WeightControl)
                 {
-                    functions.globalParameters = globalParameters;
+                    functions.globalParameters = GlobalParameters;
 
                     if (result.UseCatchWeight)
                     {
@@ -1035,8 +1035,8 @@ namespace POS
                     ShippingFree = false,
                     ShippingAmount = 0,
                     SalesOrderId = 0,
-                    CreatedBy = (int)loginInformation.UserId,
-                    Workstation = loginInformation.Workstation,
+                    CreatedBy = (int)LoginInformation.UserId,
+                    Workstation = LoginInformation.Workstation,
                     SalesOriginId = salesOriginId,
                     SalesmanId = salesManId,
                     TransferStatusId = (int)DLL.Enums.TransferStatus.PENDING_MIGRATE,
@@ -1275,7 +1275,7 @@ namespace POS
 
         private Customer CreateCustomer(string _identification)
         {
-            FrmCustomer frmCustomer = new FrmCustomer(emissionPoint, loginInformation, _identification);
+            FrmCustomer frmCustomer = new FrmCustomer(emissionPoint, LoginInformation, _identification);
             frmCustomer.ShowDialog();
 
             if (frmCustomer.GetCurrentCustomer().CustomerId == 0)

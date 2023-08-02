@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace POS.DLL.Repository
 {
-    public class PromotionRepository
+    public class PromotionRepository : BaseRepository
     {
         readonly POSEntities _dbContext;
 

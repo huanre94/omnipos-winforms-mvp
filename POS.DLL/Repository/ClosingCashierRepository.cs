@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.DLL.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Xml.Linq;
 
 namespace POS.DLL.Transaction
 {
-    public class ClosingCashierRepository
+    public class ClosingCashierRepository : BaseRepository
     {
         readonly POSEntities _dbContext;
 
