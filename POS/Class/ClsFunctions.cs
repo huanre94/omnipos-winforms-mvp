@@ -47,7 +47,7 @@ namespace POS
 
         public bool RequestSupervisorAuth(bool requireMotive = false, CancelReasonType reasonType = 0)
         {
-            //DisableScanner();
+
 
             FrmSupervisorAuth auth = new FrmSupervisorAuth(AxOPOSScanner, emissionPoint, requireMotive, reasonType);
             auth.ShowDialog();
@@ -116,59 +116,6 @@ namespace POS
                 finally
                 {
                     AxOPOSScanner = null;
-                }
-            }
-        }
-
-        public void EnableScale(string _scaleName)
-        {
-            try
-            {
-                AxOPOSScale.BeginInit();
-                int isOpen = AxOPOSScale.Open(_scaleName);
-
-                if (isOpen != 0)
-                {
-                    ShowMessage("El puerto de la balanza esta cerrado.", MessageType.WARNING);
-                    return;
-                }
-
-                AxOPOSScale.ClaimDevice(1000);
-
-                if (AxOPOSScale.Claimed)
-                {
-                    AxOPOSScale.DeviceEnabled = true;
-                    AxOPOSScale.PowerNotify = 1; //(OPOS_PN_ENABLED);
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowMessage("Ocurrio un problema al habilitar balanza.",
-                            MessageType.ERROR,
-                            true,
-                            ex.Message);
-            }
-        }
-
-        public void DisableScale()
-        {
-            if (AxOPOSScale != null)
-            {
-                try
-                {
-                    AxOPOSScale.DeviceEnabled = false;
-                    AxOPOSScale.Close();
-                }
-                catch (Exception ex)
-                {
-                    ShowMessage("Ocurrio un problema al deshabilitar balanza.",
-                                MessageType.ERROR,
-                                true,
-                                ex.Message);
-                }
-                finally
-                {
-                    AxOPOSScale = null;
                 }
             }
         }
