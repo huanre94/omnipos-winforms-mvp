@@ -16,7 +16,7 @@ namespace POS
     public class ClsFunctions
     {
         public AxOPOSScanner AxOPOSScanner { get; set; }
-        public AxOPOSScale AxOPOSScale { get; set; }
+        //public AxOPOSScale AxOPOSScale { get; set; }
         public IEnumerable<GlobalParameter> globalParameters;
         public EmissionPoint emissionPoint;
         public string PrinterName { get; set; }
@@ -47,8 +47,6 @@ namespace POS
 
         public bool RequestSupervisorAuth(bool requireMotive = false, CancelReasonType reasonType = 0)
         {
-
-
             FrmSupervisorAuth auth = new FrmSupervisorAuth(AxOPOSScanner, emissionPoint, requireMotive, reasonType);
             auth.ShowDialog();
 
@@ -122,7 +120,7 @@ namespace POS
 
         public bool ValidateCatchWeightProduct(AxOPOSScale _axOposScale,
                                                decimal _qty,
-                                               SP_Product_Consult_Result _product,
+                                               string _product,
                                                ScaleBrands _scaleBrand,
                                                string _portName = "",
                                                bool isTestMode = false)
@@ -191,11 +189,11 @@ namespace POS
         /// <param name="_portName"></param>
         /// <returns></returns>
         public decimal CatchWeightProduct(AxOPOSScale _axOposScale,
-                                          SP_Product_Consult_Result _product,
+                                          string _productName,
                                           ScaleBrands _scaleBrand,
                                           string _portName = "")
         {
-            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _axOposScale, _product);
+            FrmCatchWeight frmCatchWeight = new FrmCatchWeight(_scaleBrand, _portName, _axOposScale, _productName);
             frmCatchWeight.ShowDialog();
 
 

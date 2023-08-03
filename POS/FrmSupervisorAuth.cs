@@ -14,8 +14,8 @@ namespace POS
     public partial class FrmSupervisorAuth : XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
-        public EmissionPoint _emissionPoint { get; set; }
-        public AxOPOSScanner _scanner { get; set; }
+        public EmissionPoint EmissionPoint { get; set; }
+        public AxOPOSScanner Scanner { get; set; }
 
         public bool RequireMotive { get; set; }
         public bool formActionResult;
@@ -32,8 +32,8 @@ namespace POS
         public FrmSupervisorAuth(AxOPOSScanner axOPOSScanner, EmissionPoint emissionPoint, bool requireMotive, CancelReasonType reasonType)
         {
             InitializeComponent();
-            AxOPOSScanner = axOPOSScanner;
-            _emissionPoint = emissionPoint;
+            Scanner = axOPOSScanner;
+            EmissionPoint = emissionPoint;
             RequireMotive = requireMotive;
             ReasonType = reasonType;
         }
@@ -48,18 +48,18 @@ namespace POS
             LblMotive.Visible = false;
             CmbMotive.Visible = false;
 
-            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), _emissionPoint.ScaleBrand, true);
+            scaleBrand = (ScaleBrands)Enum.Parse(typeof(ScaleBrands), EmissionPoint.ScaleBrand, true);
 
             if (scaleBrand == ScaleBrands.DATALOGIC)
             {
-                if (_scanner != null)
+                if (Scanner != null)
                 {
-                    functions.AxOPOSScanner = _scanner;
+                    functions.AxOPOSScanner = Scanner;
                     functions.DisableScanner();
                 }
 
                 functions.AxOPOSScanner = AxOPOSScanner;
-                functions.EnableScanner(_emissionPoint.ScanBarcodeName);
+                functions.EnableScanner(EmissionPoint.ScanBarcodeName);
             }
 
             if (RequireMotive)
@@ -154,10 +154,10 @@ namespace POS
                 {
                     functions.DisableScanner();
 
-                    if (_scanner != null)
+                    if (Scanner != null)
                     {
-                        functions.AxOPOSScanner = _scanner;
-                        functions.EnableScanner(_emissionPoint.ScanBarcodeName);
+                        functions.AxOPOSScanner = Scanner;
+                        functions.EnableScanner(EmissionPoint.ScanBarcodeName);
                     }
                 }
             }
@@ -175,10 +175,10 @@ namespace POS
             {
                 functions.DisableScanner();
 
-                if (_scanner != null)
+                if (Scanner != null)
                 {
-                    functions.AxOPOSScanner = _scanner;
-                    functions.EnableScanner(_emissionPoint.ScanBarcodeName);
+                    functions.AxOPOSScanner = Scanner;
+                    functions.EnableScanner(EmissionPoint.ScanBarcodeName);
                 }
             }
         }
