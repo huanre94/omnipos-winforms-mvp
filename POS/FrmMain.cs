@@ -1,9 +1,13 @@
-﻿using DevExpress.XtraGrid.Views.Grid;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Grid;
 using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using POS.DLL.Transaction;
+using POS.Presenter;
+using POS.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +39,7 @@ using System.Xml.Linq;
 
 namespace POS
 {
-    public partial class FrmMain : DevExpress.XtraEditors.XtraForm
+    public partial class FrmMain : XtraForm
     {
         readonly ClsFunctions functions = new ClsFunctions();
         EmissionPoint emissionPoint;
@@ -216,10 +220,7 @@ namespace POS
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_IDENTIFICATION
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_IDENTIFICATION);
             keyBoard.ShowDialog();
 
             if (keyBoard.customerIdentification == string.Empty)
@@ -543,18 +544,29 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
-            productSearch.ShowDialog();
+            IProductView productView = new FrmProductSearch();
+            IProductRepository productRepo = new ProductRepository(Program.customConnectionString);
 
-            if (productSearch.GetProduct().Barcode == string.Empty)
+            var productSearch = new ProductPresenter(productView, productRepo);
+
+            if (productSearch.product == null) return;
+
+            var productBarcode = productSearch.product.ProductBarcode.Select(p => p.Barcode).FirstOrDefault();
+
+            if (productBarcode == string.Empty)
             {
                 return;
             }
 
-            decimal quantity = productSearch.GetProduct().UseCatchWeight ? functions.CatchWeightProduct(AxOPOSScale,
-                                                                                           productSearch.GetProduct(),
-                                                                                           scaleBrand,
-                                                                                           portName) : 1;
+            decimal quantity;
+
+            if (productSearch.product.InventUnit.WeightControl || productSearch.product.UseCatchWeight)
+            {
+                quantity = functions.CatchWeightProduct(AxOPOSScale, productSearch.product.Name, scaleBrand, portName);
+            }
+
+            quantity = 1;
+
 
             if (quantity <= 0)
             {
@@ -563,7 +575,7 @@ namespace POS
             }
 
             GetProductInformation(emissionPoint.LocationId,
-                                  productSearch.GetProduct().Barcode,
+                                  productBarcode,
                                   quantity,
                                   currentCustomer.CustomerId,
                                   internalCreditCardId,
@@ -955,7 +967,7 @@ namespace POS
                         if (!_skipCatchWeight)
                         {
                             decimal weight = functions.CatchWeightProduct(AxOPOSScale,
-                                                                          result,
+                                                                          result.ProductName,
                                                                           scaleBrand,
                                                                           portName);
 
@@ -982,7 +994,7 @@ namespace POS
 
                             canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale,
                                                                              (decimal)result.QuantityBefore,
-                                                                             result,
+                                                                             result.ProductName,
                                                                              scaleBrand,
                                                                              portName,
                                                                              isTestMode);

@@ -117,10 +117,7 @@ namespace POS
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
-            };
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_ADDRESS);
             frmKeyBoard.ShowDialog();
 
             TxtAddress.Text = frmKeyBoard.customerAddress;
@@ -129,10 +126,7 @@ namespace POS
 
         private void BtnKeyboardAddressRef_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard frmKeyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
-            };
+            FrmKeyBoard frmKeyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_ADDRESS);
             frmKeyBoard.ShowDialog();
 
             TxtAddressRef.Text = frmKeyBoard.customerAddress;

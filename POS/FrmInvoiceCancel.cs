@@ -227,10 +227,7 @@ namespace POS
 
         private void BtnObservationKeyBoard_Click(object sender, EventArgs e)
         {
-            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.OBSERVATION
-            })
+            using (FrmKeyBoard observationKeyboard = new FrmKeyBoard(InputFromOption.OBSERVATION))
             {
                 observationKeyboard.ShowDialog();
                 TxtObservation.Text = observationKeyboard.observation;  // observationKeyboard.checkOwnerName;  08/07/2022 Se inactivo porque trae un campo vacio

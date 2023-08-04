@@ -6,7 +6,7 @@ namespace POS
 {
     public partial class FrmKeyBoard : DevExpress.XtraEditors.XtraForm
     {
-        public InputFromOption inputFromOption;
+        InputFromOption InputFromOption { get; set; }
         public string checkOwnerName = "";
         public string checkOwnerIdentification = "";
         public string customerIdentification = "";
@@ -17,9 +17,10 @@ namespace POS
         public string observation = "";
         public string productName = "";
 
-        public FrmKeyBoard()
+        public FrmKeyBoard(InputFromOption _inputFromOption)
         {
             InitializeComponent();
+            InputFromOption = _inputFromOption;
         }
 
         #region Keyboard Buttons
@@ -126,7 +127,7 @@ namespace POS
                 new ClsFunctions().ShowMessage("Debe ingresar un valor.", MessageType.WARNING);
                 return;
             }
-            switch (inputFromOption)
+            switch (InputFromOption)
             {
                 case InputFromOption.CHECK_OWNERNAME:
                     checkOwnerName = TxtValue.Text;
@@ -165,7 +166,6 @@ namespace POS
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-
         }
 
         //05/07/2022

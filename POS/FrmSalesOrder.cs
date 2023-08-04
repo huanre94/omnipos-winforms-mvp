@@ -3,6 +3,9 @@ using POS.Classes;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
+using POS.Presenter;
+using POS.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +21,7 @@ namespace POS
 {
     public partial class FrmSalesOrder : DevExpress.XtraEditors.XtraForm
     {
-        readonly ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions;
         public SP_Login_Consult_Result loginInformation;
         public long salesOrderId;
         public EmissionPoint emissionPoint;
@@ -41,6 +44,7 @@ namespace POS
         public FrmSalesOrder(SP_Login_Consult_Result loginInformation, EmissionPoint emissionPoint, long salesOrderId, IEnumerable<GlobalParameter> globalParameters)
         {
             InitializeComponent();
+            functions = new ClsFunctions();
             this.loginInformation = loginInformation;
             this.emissionPoint = emissionPoint;
             this.salesOrderId = salesOrderId;
@@ -360,7 +364,7 @@ namespace POS
                         if (!_skipCatchWeight)
                         {
                             decimal weight = functions.CatchWeightProduct(AxOPOSScale,
-                                                                          result,
+                                                                          result.ProductName,
                                                                           scaleBrand,
                                                                           portName);
 
@@ -388,7 +392,7 @@ namespace POS
                         {
                             canInsert = functions.ValidateCatchWeightProduct(AxOPOSScale,
                                                                              (decimal)result.QuantityBefore,
-                                                                             result,
+                                                                             result.ProductName,
                                                                              scaleBrand,
                                                                              portName,
                                                                              false);
@@ -672,40 +676,39 @@ namespace POS
             if (rowIndex < 0)
             {
                 functions.ShowMessage("No se ha seleccionado producto a anular.", MessageType.ERROR);
+                return;
             }
-            else
+
+            functions.emissionPoint = emissionPoint;
+            bool isApproved = functions.RequestSupervisorAuth();
+            if (isApproved)
             {
-                functions.emissionPoint = emissionPoint;
-                bool isApproved = functions.RequestSupervisorAuth();
-                if (isApproved)
+                SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
+
+                BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
+                foreach (SP_Product_Consult_Result item in dataSource)
                 {
-                    SP_Product_Consult_Result selectedRow = (SP_Product_Consult_Result)GrvSalesDetail.GetRow(rowIndex);
-
-                    BindingList<SP_Product_Consult_Result> dataSource = (BindingList<SP_Product_Consult_Result>)GrvSalesDetail.DataSource;
-                    foreach (SP_Product_Consult_Result item in dataSource)
+                    if (item.ProductId == selectedRow.ProductId)
                     {
-                        if (item.ProductId == selectedRow.ProductId)
-                        {
-                            dataSource.Remove(item);
-                            break;
-                        }
+                        dataSource.Remove(item);
+                        break;
                     }
-
-                    IEnumerable<XElement> newInvoiceXML = salesOrderXml
-                        .Descendants("SalesOrderLine")
-                        .Where(xm => long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId);
-
-                    XElement element = null;
-                    if (newInvoiceXML.Count() == 1)
-                    {
-                        element = newInvoiceXML.First();
-                    }
-
-                    newInvoiceXML.Remove();
-
-                    CalculateInvoice();
-                    GrcSalesDetail.DataSource = dataSource;
                 }
+
+                IEnumerable<XElement> newInvoiceXML = salesOrderXml
+                    .Descendants("SalesOrderLine")
+                    .Where(xm => long.Parse(xm.Element("ProductId").Value) == selectedRow.ProductId);
+
+                XElement element = null;
+                if (newInvoiceXML.Count() == 1)
+                {
+                    element = newInvoiceXML.First();
+                }
+
+                newInvoiceXML.Remove();
+
+                CalculateInvoice();
+                GrcSalesDetail.DataSource = dataSource;
             }
 
             TxtBarcode.Focus();
@@ -729,30 +732,32 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
-            productSearch.ShowDialog();
+            IProductView productView = new FrmProductSearch();
+            IProductRepository productRepo = new ProductRepository(Program.customConnectionString);
 
-            if (productSearch.GetProduct().Barcode == "")
+            var productSearch = new ProductPresenter(productView, productRepo);
+
+            var productBarcode = productSearch.product.ProductBarcode.Select(b => b.Barcode).FirstOrDefault();
+
+            if (string.IsNullOrEmpty(productBarcode))
             {
                 return;
             }
 
+            const int MIN_VALID_UNIT = 1;
             decimal quantity =
-                   productSearch.GetProduct().UseCatchWeight ?
-                   functions.CatchWeightProduct(AxOPOSScale,
-                                                        productSearch.GetProduct(),
-                                                        scaleBrand,
-                                                        portName) : 1;
+              (productSearch.product.InventUnit.WeightControl || productSearch.product.UseCatchWeight) ?
+                   functions.CatchWeightProduct(AxOPOSScale, productSearch.product.Name, scaleBrand, portName) : MIN_VALID_UNIT;
 
 
             if (quantity <= 0)
             {
-                functions.ShowMessage("La cantidad tiene que ser mayor a cero. Vuelva a seleccionar el Producto.", MessageType.WARNING);
+                functions.ShowMessage("la cantidad tiene que ser mayor a cero. vuelva a seleccionar el producto.", MessageType.WARNING);
                 return;
             }
 
             GetProductInformation(emissionPoint.LocationId,
-                                  productSearch.GetProduct().Barcode,
+                                  productBarcode,
                                   quantity,
                                   customer.CustomerId,
                                   1,

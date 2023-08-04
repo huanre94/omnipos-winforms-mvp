@@ -61,17 +61,15 @@ namespace POS
         #region Keypad Call Buttons
         private void BtnKeyboardOwner_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = InputFromOption.CHECK_OWNERNAME;
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CHECK_OWNERNAME);
             keyBoard.ShowDialog();
             TxtOwnerName.Text = keyBoard.checkOwnerName;
             TxtOwnerName.Focus();
         }
         private void BtnKeypadIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard();
-            keyBoard.inputFromOption = InputFromOption.CHECK_OWNERIDENTIFICATION;
-            keyBoard.ShowDialog();
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CHECK_OWNERIDENTIFICATION);
+             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.checkOwnerIdentification;
             TxtIdentification.Focus();
         }

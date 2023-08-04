@@ -858,6 +858,7 @@
             this.BtnProductChecker.Size = new System.Drawing.Size(250, 45);
             this.BtnProductChecker.TabIndex = 8;
             this.BtnProductChecker.Text = "F3   Producto";
+            this.BtnProductChecker.Visible = false;
             this.BtnProductChecker.Click += new System.EventHandler(this.BtnProductChecker_Click);
             // 
             // LblTitleCustomerEmail

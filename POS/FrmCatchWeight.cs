@@ -22,16 +22,16 @@ namespace POS
 
         ScaleBrands ScaleBrand { get; set; }
         string PortName { get; set; }
-        SP_Product_Consult_Result Product { get; set; }
+        string productName { get; set; }
         AxOPOSScale AxOposScale { get; set; }
 
-        public FrmCatchWeight(ScaleBrands _scaleBrand, string _portName, AxOPOSScale _axOposScale, SP_Product_Consult_Result _product)
+        public FrmCatchWeight(ScaleBrands _scaleBrand, string _portName, AxOPOSScale _axOposScale, string _productName)
         {
             InitializeComponent();
             ScaleBrand = _scaleBrand;
             PortName = _portName;
             AxOposScale = _axOposScale;
-            Product = _product;
+            productName = _productName;
         }
 
         public decimal GetWeight() => Weight;
@@ -76,7 +76,7 @@ namespace POS
                         break;
                 }
 
-                LblProductName.Text = Product.ProductName;
+                LblProductName.Text = productName;
             }
             catch (Exception ex)
             {

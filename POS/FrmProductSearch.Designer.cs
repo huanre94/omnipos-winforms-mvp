@@ -47,24 +47,27 @@
             // 
             // TxtSearchName
             // 
-            this.TxtSearchName.Location = new System.Drawing.Point(115, 12);
+            this.TxtSearchName.Location = new System.Drawing.Point(141, 15);
+            this.TxtSearchName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtSearchName.Name = "TxtSearchName";
             this.TxtSearchName.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtSearchName.Properties.Appearance.Options.UseFont = true;
-            this.TxtSearchName.Size = new System.Drawing.Size(451, 44);
+            this.TxtSearchName.Size = new System.Drawing.Size(551, 34);
             this.TxtSearchName.TabIndex = 139;
-            this.TxtSearchName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearchName_KeyDown);
+
             // 
             // GrcSalesDetail
             // 
-            this.GrcSalesDetail.Location = new System.Drawing.Point(22, 64);
+            this.GrcSalesDetail.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GrcSalesDetail.Location = new System.Drawing.Point(27, 80);
             this.GrcSalesDetail.MainView = this.GrvSalesDetail;
+            this.GrcSalesDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.GrcSalesDetail.Name = "GrcSalesDetail";
-            this.GrcSalesDetail.Size = new System.Drawing.Size(642, 417);
+            this.GrcSalesDetail.Size = new System.Drawing.Size(785, 521);
             this.GrcSalesDetail.TabIndex = 141;
             this.GrcSalesDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.GrvSalesDetail});
-            this.GrcSalesDetail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GrcSalesDetail_KeyPress);
+            
             // 
             // GrvSalesDetail
             // 
@@ -72,6 +75,7 @@
             this.ProductId,
             this.ProductDescription,
             this.Stock});
+            this.GrvSalesDetail.DetailHeight = 437;
             this.GrvSalesDetail.GridControl = this.GrcSalesDetail;
             this.GrvSalesDetail.Name = "GrvSalesDetail";
             this.GrvSalesDetail.OptionsView.ShowGroupPanel = false;
@@ -79,7 +83,9 @@
             // ProductId
             // 
             this.ProductId.FieldName = "ProductId";
+            this.ProductId.MinWidth = 24;
             this.ProductId.Name = "ProductId";
+            this.ProductId.Width = 92;
             // 
             // ProductDescription
             // 
@@ -87,7 +93,8 @@
             this.ProductDescription.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ProductDescription.Caption = "Producto";
             this.ProductDescription.FieldName = "Name";
-            this.ProductDescription.MaxWidth = 600;
+            this.ProductDescription.MaxWidth = 733;
+            this.ProductDescription.MinWidth = 24;
             this.ProductDescription.Name = "ProductDescription";
             this.ProductDescription.OptionsColumn.AllowEdit = false;
             this.ProductDescription.OptionsColumn.AllowMove = false;
@@ -97,23 +104,23 @@
             this.ProductDescription.OptionsColumn.ReadOnly = true;
             this.ProductDescription.Visible = true;
             this.ProductDescription.VisibleIndex = 0;
-            this.ProductDescription.Width = 457;
+            this.ProductDescription.Width = 559;
             // 
             // Stock
             // 
             this.Stock.Caption = "Stock";
             this.Stock.FieldName = "Stock";
+            this.Stock.MinWidth = 24;
             this.Stock.Name = "Stock";
-            this.Stock.Visible = true;
-            this.Stock.VisibleIndex = 1;
-            this.Stock.Width = 668;
+            this.Stock.Width = 816;
             // 
             // LblCustomerAddress
             // 
             this.LblCustomerAddress.AutoSize = true;
-            this.LblCustomerAddress.Location = new System.Drawing.Point(19, 27);
+            this.LblCustomerAddress.Location = new System.Drawing.Point(23, 34);
+            this.LblCustomerAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblCustomerAddress.Name = "LblCustomerAddress";
-            this.LblCustomerAddress.Size = new System.Drawing.Size(89, 16);
+            this.LblCustomerAddress.Size = new System.Drawing.Size(109, 20);
             this.LblCustomerAddress.TabIndex = 151;
             this.LblCustomerAddress.Text = "Descripción";
             // 
@@ -128,13 +135,12 @@
             this.BtnAccept.ImageOptions.SvgImage = global::POS.Properties.Resources.accept2;
             this.BtnAccept.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnAccept.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnAccept.Location = new System.Drawing.Point(646, 503);
-            this.BtnAccept.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnAccept.Location = new System.Drawing.Point(790, 629);
+            this.BtnAccept.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnAccept.Name = "BtnAccept";
-            this.BtnAccept.Size = new System.Drawing.Size(160, 50);
+            this.BtnAccept.Size = new System.Drawing.Size(196, 62);
             this.BtnAccept.TabIndex = 153;
             this.BtnAccept.Text = "Aceptar";
-            this.BtnAccept.Click += new System.EventHandler(this.BtnAccept_Click);
             // 
             // BtnCancel
             // 
@@ -145,13 +151,12 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(476, 503);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnCancel.Location = new System.Drawing.Point(582, 629);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(160, 50);
+            this.BtnCancel.Size = new System.Drawing.Size(196, 62);
             this.BtnCancel.TabIndex = 154;
             this.BtnCancel.Text = "Cancelar";
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // BtnKeyPad
             // 
@@ -162,13 +167,12 @@
             this.BtnKeyPad.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.BtnKeyPad.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnKeyPad.ImageOptions.SvgImage")));
             this.BtnKeyPad.ImageOptions.SvgImageSize = new System.Drawing.Size(80, 80);
-            this.BtnKeyPad.Location = new System.Drawing.Point(572, 11);
-            this.BtnKeyPad.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnKeyPad.Location = new System.Drawing.Point(699, 14);
+            this.BtnKeyPad.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnKeyPad.Name = "BtnKeyPad";
             this.BtnKeyPad.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.BtnKeyPad.Size = new System.Drawing.Size(82, 50);
+            this.BtnKeyPad.Size = new System.Drawing.Size(100, 62);
             this.BtnKeyPad.TabIndex = 152;
-            this.BtnKeyPad.Click += new System.EventHandler(this.BtnKeyPad_Click);
             // 
             // BtnSearch
             // 
@@ -180,19 +184,18 @@
             this.BtnSearch.ImageOptions.SvgImage = global::POS.Properties.Resources.find;
             this.BtnSearch.ImageOptions.SvgImageColorizationMode = DevExpress.Utils.SvgImageColorizationMode.Full;
             this.BtnSearch.ImageOptions.SvgImageSize = new System.Drawing.Size(48, 48);
-            this.BtnSearch.Location = new System.Drawing.Point(684, 64);
-            this.BtnSearch.Margin = new System.Windows.Forms.Padding(5);
+            this.BtnSearch.Location = new System.Drawing.Point(836, 80);
+            this.BtnSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(122, 87);
+            this.BtnSearch.Size = new System.Drawing.Size(149, 109);
             this.BtnSearch.TabIndex = 153;
             this.BtnSearch.Text = "Buscar";
-            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // FrmProductSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 567);
+            this.ClientSize = new System.Drawing.Size(1002, 709);
             this.ControlBox = false;
             this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.BtnAccept);
@@ -202,11 +205,11 @@
             this.Controls.Add(this.TxtSearchName);
             this.Controls.Add(this.GrcSalesDetail);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "FrmProductSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Busqueda Producto";
-            this.Load += new System.EventHandler(this.FrmProductSearch_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TxtSearchName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrcSalesDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GrvSalesDetail)).EndInit();

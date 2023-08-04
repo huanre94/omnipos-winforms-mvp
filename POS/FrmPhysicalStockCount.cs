@@ -3,7 +3,10 @@ using DevExpress.XtraGrid.Views.Grid;
 using POS.DLL;
 using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using POS.DLL.Transaction;
+using POS.Presenter;
+using POS.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -535,17 +538,23 @@ namespace POS
 
         private void BtnProductSearch_Click(object sender, EventArgs e)
         {
-            FrmProductSearch productSearch = new FrmProductSearch(emissionPoint);
-            productSearch.ShowDialog();
+            IProductView productView = new FrmProductSearch();
+            IProductRepository productRepo = new ProductRepository(Program.customConnectionString);
 
-            if (productSearch.GetProduct().Barcode == "")
+            var productSearch = new ProductPresenter(productView, productRepo);
+
+
+            var productBarcode = productSearch.product.ProductBarcode.Select(b => b.Barcode).FirstOrDefault();
+
+            if (string.IsNullOrEmpty(productBarcode))
             {
+                Console.WriteLine("product sin codigo de barras");
                 return;
             }
 
             try
             {
-                SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productSearch.GetProduct().Barcode, "");
+                SP_PhysicalStockProduct_Consult_Result result = new ClsProduct(Program.customConnectionString).GetProductPhysicalStock(emissionPoint, productBarcode, "");
                 if ((bool)result.Error)
                 {
                     functions.ShowMessage(result.Message, MessageType.WARNING, false);
@@ -644,7 +653,7 @@ namespace POS
 
                 if ((bool)response.Error)
                 {
-                    functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", MessageType.WARNING);
+                    functions.ShowMessage("No se pudo generar secuencia de conteo fisico.", MessageType.WARNING, true, response.TextError);
                     return false;
                 }
 

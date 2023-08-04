@@ -344,7 +344,9 @@
     <Compile Include="FrmVoidClosing.Designer.cs">
       <DependentUpon>FrmVoidClosing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presenter\ProductPresenter.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Views\IProductView.cs" />
     <EmbeddedResource Include="FrmAddressPicker.resx">
       <DependentUpon>FrmAddressPicker.cs</DependentUpon>
     </EmbeddedResource>

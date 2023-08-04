@@ -20,7 +20,7 @@ namespace POS.DLL
             List<Product> products = _dbContext
                 .Product
                 .Where(p => p.ProductBarcode.Any(x => x.Barcode.Contains(_barcode)))
-                .Include(p => p.ProductModule)
+                //.Include(p => p.ProductModule)
                 .Include(p => p.ProductBarcode)
                 .ToList();
 
@@ -33,6 +33,9 @@ namespace POS.DLL
                 .Product
                 .Where(p => p.Name.Contains(_name))
                 .Include(p => p.ProductBarcode)
+                .Include(iu=>iu.InventUnit)
+                .Take(50)
+                .OrderBy(p => p.Name)
                 .ToList();
         }
 

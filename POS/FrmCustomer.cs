@@ -102,10 +102,7 @@ namespace POS
 
         private void BtnKeyboardIdentification_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_IDENTIFICATION
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_IDENTIFICATION);
             keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.customerIdentification;
             TxtIdentification.Focus();
@@ -113,10 +110,7 @@ namespace POS
 
         private void BtnKeyboardName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_FIRSTNAME
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_FIRSTNAME);
             keyBoard.ShowDialog();
             TxtFirstName.Text = keyBoard.customerFirstName;
             TxtFirstName.Focus();
@@ -124,10 +118,7 @@ namespace POS
 
         private void BtnKeyboardLastname_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_LASTNAME
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_LASTNAME);
             keyBoard.ShowDialog();
             TxtLastName.Text = keyBoard.customerLastName;
             TxtLastName.Focus();
@@ -135,10 +126,7 @@ namespace POS
 
         private void BtnKeyboardAddress_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_ADDRESS
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_ADDRESS);
             keyBoard.ShowDialog();
             TxtAddress.Text = keyBoard.customerAddress;
             TxtAddress.Focus();
@@ -146,10 +134,7 @@ namespace POS
 
         private void BtnKeyboardEmail_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CUSTOMER_EMAIL
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_EMAIL);
             keyBoard.ShowDialog();
             TxtEmail.Text = keyBoard.customerEmail;
             TxtEmail.Focus();

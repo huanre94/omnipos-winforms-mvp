@@ -57,10 +57,7 @@ namespace POS
 
         private void BtnIdentificationKeyPad_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
-            {
-                inputFromOption = InputFromOption.CHECK_OWNERNAME
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CHECK_OWNERNAME);
             keyBoard.ShowDialog();
             TxtRedeemIdentification.Text = keyBoard.checkOwnerName;
             TxtRedeemIdentification.Focus();//08/07/2022
@@ -211,10 +208,7 @@ namespace POS
 
         private void BtnRedeemCustomerName_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard()
-            {
-                inputFromOption = InputFromOption.CHECK_OWNERNAME
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CHECK_OWNERNAME);
             keyBoard.ShowDialog();
             TxtRedeemName.Text = keyBoard.checkOwnerName;
         }
@@ -596,7 +590,7 @@ namespace POS
                     if (!_skipCatchWeight)
                     {
                         decimal weight = functions.CatchWeightProduct(AxOPOSScale,
-                                                                      result,
+                                                                      result.ProductName,
                                                                       scaleBrand,
                                                                       portName);
 

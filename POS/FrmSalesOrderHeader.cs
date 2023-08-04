@@ -30,10 +30,7 @@ namespace POS
 
         private void BtnCustomer_Click(object sender, EventArgs e)
         {
-            FrmKeyBoard keyBoard = new FrmKeyBoard
-            {
-                inputFromOption = InputFromOption.CUSTOMER_IDENTIFICATION
-            };
+            FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CUSTOMER_IDENTIFICATION);
             keyBoard.ShowDialog();
 
             if (keyBoard.customerIdentification == string.Empty)
