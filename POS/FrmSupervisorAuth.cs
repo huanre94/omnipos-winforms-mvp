@@ -3,7 +3,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using POS.DLL;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

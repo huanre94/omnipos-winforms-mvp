@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class AccountsReceivableRepository : BaseRepository
     {

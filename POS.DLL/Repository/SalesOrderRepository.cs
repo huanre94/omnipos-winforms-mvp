@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
 
     public class SalesOrderRepository : BaseRepository
@@ -31,18 +31,18 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                using (POSEntities db = _dbContext)
-                {
-                    if (_salesOrderId != 0)
-                    {
-                        SalesOrder sales = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+                POSEntities db = _dbContext;
 
-                        sales.ModifiedBy = LoginInformation.UserId;
-                        sales.ModifiedDatetime = DateTime.Now;
-                        db.SaveChanges();
-                    }
-                    return db.SP_SalesOrderOmnipos_Insert(_xml, _salesOrderId).FirstOrDefault();
+                if (_salesOrderId != 0)
+                {
+                    SalesOrder sales = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+
+                    sales.ModifiedBy = LoginInformation.UserId;
+                    sales.ModifiedDatetime = DateTime.Now;
+                    db.SaveChanges();
                 }
+                return db.SP_SalesOrderOmnipos_Insert(_xml, _salesOrderId).FirstOrDefault();
+
             }
             catch (Exception ex)
             {
@@ -236,17 +236,7 @@ namespace POS.DLL.Catalog
             }
         }
 
-        public IEnumerable<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides(long userId = 0, long driverId = 0)
-        {
-            try
-            {
-                return _dbContext.SP_RemissionGuide_Consult(userId, driverId).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+    
 
         public IEnumerable<SP_RemissionGuideSalesOrder_Consult_Result> GetSalesOrderByRemissionGuideNumber(long _guideId)
         {
@@ -296,16 +286,14 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                using (POSEntities db = _dbContext)
-                {
-                    SalesOrder order = db.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
+                SalesOrder order = _dbContext.SalesOrder.Where(so => so.SalesOrderId == _salesOrderId).FirstOrDefault();
 
-                    order.Status = "E";
-                    order.ModifiedBy = LoginInformation.UserId;
-                    order.ModifiedDatetime = DateTime.Now;
-                    order.Workstation = LoginInformation.Workstation;
-                    return db.SaveChanges() > 0;
-                }
+                order.Status = "E";
+                order.ModifiedBy = LoginInformation.UserId;
+                order.ModifiedDatetime = DateTime.Now;
+                order.Workstation = LoginInformation.Workstation;
+
+                return _dbContext.SaveChanges() > 0;
             }
             catch (Exception ex)
             {
@@ -323,23 +311,6 @@ namespace POS.DLL.Catalog
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-
-        public IEnumerable<SalesOrigin> GetSalesOrigins()
-        {
-            try
-            {
-                //return _dbContext.SP_SalesOrigin_Consult().ToList();
-                return _dbContext
-                    .SalesOrigin
-                    .Where(s => s.SalesOriginId != 2 && s.IsECommerce == false)
-                    //.Select(s => new { s.SalesOriginId, s.Name, s.SalesmanId })
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.InnerException.Message);
             }
         }
 

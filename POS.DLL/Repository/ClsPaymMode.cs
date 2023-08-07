@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class ClsPaymMode : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public ClsPaymMode(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

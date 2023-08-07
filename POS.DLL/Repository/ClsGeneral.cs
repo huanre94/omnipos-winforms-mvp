@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class ClsGeneral : BaseRepository
     {

@@ -2,7 +2,6 @@
 using POS.DLL;
 using POS.DLL.Enums;
 using POS.DLL.Repository;
-using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +68,7 @@ namespace POS
         private void BtnKeypadIdentification_Click(object sender, EventArgs e)
         {
             FrmKeyBoard keyBoard = new FrmKeyBoard(InputFromOption.CHECK_OWNERIDENTIFICATION);
-             keyBoard.ShowDialog();
+            keyBoard.ShowDialog();
             TxtIdentification.Text = keyBoard.checkOwnerIdentification;
             TxtIdentification.Focus();
         }

@@ -5,12 +5,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class ClosingCashierRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public ClosingCashierRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

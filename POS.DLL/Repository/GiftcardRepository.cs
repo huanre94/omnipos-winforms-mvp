@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class GiftcardRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public GiftcardRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

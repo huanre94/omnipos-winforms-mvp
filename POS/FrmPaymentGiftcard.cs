@@ -1,6 +1,6 @@
-﻿using POS.DLL;
+﻿using POS.DLL.Repository;
+using POS.DLL;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
 using System;
 using System.Windows.Forms;
 

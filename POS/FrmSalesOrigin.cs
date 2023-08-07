@@ -1,7 +1,7 @@
 ﻿using DevExpress.Utils;
 using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +26,7 @@ namespace POS
             SvgImageCollection collection = new SvgImageCollection();
             try
             {
-                IEnumerable<SalesOrigin> salesOrigins = new SalesOrderRepository(Program.customConnectionString).GetSalesOrigins();
+                IEnumerable<SalesOrigin> salesOrigins = new SalesOriginRepository(Program.customConnectionString).GetSalesOrigins();
 
                 BindingList<SalesOrigin> bindingOrigins = new BindingList<SalesOrigin>();
                 foreach (SalesOrigin item in salesOrigins)

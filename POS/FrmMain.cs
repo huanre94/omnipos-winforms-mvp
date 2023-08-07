@@ -2,10 +2,9 @@
 using DevExpress.XtraGrid.Views.Grid;
 using POS.Classes;
 using POS.DLL;
-using POS.DLL.Catalog;
+using POS.DLL.Contracts;
 using POS.DLL.Enums;
 using POS.DLL.Repository;
-using POS.DLL.Transaction;
 using POS.Presenter;
 using POS.Views;
 using System;
@@ -41,7 +40,7 @@ namespace POS
 {
     public partial class FrmMain : XtraForm
     {
-        readonly ClsFunctions functions = new ClsFunctions();
+        readonly ClsFunctions functions;
         EmissionPoint emissionPoint;
         Customer currentCustomer = new Customer();
         XElement invoiceXml = new XElement("Invoice");
@@ -53,12 +52,15 @@ namespace POS
         public long internalCreditCardId = 0;
         public string internalCreditCardCode = "";
         private string portName = "";
-        private int salesOriginId;
-        private int salesManId;
+        private int salesOriginId { get; set; }
+        private int salesManId { get; set; }
 
         public FrmMain()
         {
             InitializeComponent();
+
+            functions = new ClsFunctions();
+            //functions.emissionPoint = emissionPoint;
         }
 
         #region Global Load Definitions
@@ -70,9 +72,9 @@ namespace POS
                 return;
             }
 
+            InitializeScaleAndScanner();
             ClearInvoice();
             CheckGridView();
-            InitializeScaleAndScanner();
             CheckForSuspendedSale();
         }
 
@@ -200,6 +202,7 @@ namespace POS
 
         private void ClearBarcode()
         {
+            if (!AxOPOSScanner.Claimed) functions.EnableScanner(emissionPoint.ScanBarcodeName);
             TxtBarcode.Text = string.Empty;
             TxtBarcode.Focus();
         }
@@ -547,11 +550,11 @@ namespace POS
             IProductView productView = new FrmProductSearch();
             IProductRepository productRepo = new ProductRepository(Program.customConnectionString);
 
-            var productSearch = new ProductPresenter(productView, productRepo);
+            ProductPresenter productSearch = new ProductPresenter(productView, productRepo);
 
             if (productSearch.product == null) return;
 
-            var productBarcode = productSearch.product.ProductBarcode.Select(p => p.Barcode).FirstOrDefault();
+            string productBarcode = productSearch.product.ProductBarcode.Select(p => p.Barcode).FirstOrDefault();
 
             if (productBarcode == string.Empty)
             {
@@ -775,7 +778,12 @@ namespace POS
                     BtnCancelSale_Click(null, null);
                     break;
                 case Keys.F6:
-                    BtnCustomer_Click(null, null);
+
+                    if (BtnCustomer.Enabled)
+                    {
+                        BtnCustomer_Click(null, null);
+                    }
+
                     break;
                 case Keys.F7:
                     BtnPrintLastInvoice_Click(null, null);

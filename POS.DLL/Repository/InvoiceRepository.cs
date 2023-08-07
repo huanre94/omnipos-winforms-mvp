@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class InvoiceRepository : BaseRepository
     {
@@ -120,59 +120,59 @@ namespace POS.DLL.Transaction
                                           int _userId,
                                           string _workStation)
         {
-            using (POSEntities db = _dbContext)
+            POSEntities db = _dbContext;
+
+            InvoiceTable invoiceTable = db
+                .InvoiceTable
+                .Where(y => y.InvoiceId == _invoiceId)
+                .FirstOrDefault();
+
+            invoiceTable.TransferStatusId = (int)Enums.TransferStatus.PENDING_PAYMMODE_UPDATE;
+            invoiceTable.ModifiedBy = _userId;
+            invoiceTable.ModifiedDatetime = DateTime.Now;
+            invoiceTable.Workstation = _workStation;
+
+            InvoicePayment invoicePayment = db
+                .InvoicePayment
+                .Where(x => x.InvoiceId == _invoiceId && x.PaymModeId == _paymModeId && x.Sequence == _sequence).FirstOrDefault();
+
+            invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
+
+            switch (_invoicePayment.PaymModeId)
             {
-                InvoiceTable invoiceTable = db
-                    .InvoiceTable
-                    .Where(y => y.InvoiceId == _invoiceId)
-                    .FirstOrDefault();
-
-                invoiceTable.TransferStatusId = (int)Enums.TransferStatus.PENDING_PAYMMODE_UPDATE;
-                invoiceTable.ModifiedBy = _userId;
-                invoiceTable.ModifiedDatetime = DateTime.Now;
-                invoiceTable.Workstation = _workStation;
-
-                InvoicePayment invoicePayment = db
-                    .InvoicePayment
-                    .Where(x => x.InvoiceId == _invoiceId && x.PaymModeId == _paymModeId && x.Sequence == _sequence).FirstOrDefault();
-
-                invoicePayment.PaymModeId = _invoicePayment.PaymModeId;
-
-                switch (_invoicePayment.PaymModeId)
-                {
-                    case 1:
-                        invoicePayment.GiftCardNumber = _invoicePayment.GiftCardNumber;
-                        break;
-                    case 5:
-                    case 13:
-                        invoicePayment.BankId = _invoicePayment.BankId;
-                        invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
-                        invoicePayment.Authorization = _invoicePayment.Authorization;
-                        break;
-                    case 2:
-                    case 3:
-                        invoicePayment.BankId = _invoicePayment.BankId;
-                        invoicePayment.AccountNumber = _invoicePayment.AccountNumber;
-                        invoicePayment.CkeckNumber = _invoicePayment.CkeckNumber;
-                        invoicePayment.CkeckType = _invoicePayment.CkeckType;
-                        invoicePayment.CkeckDate = _invoicePayment.CkeckDate;
-                        invoicePayment.CheckOwner = _invoicePayment.CheckOwner;
-                        invoicePayment.Authorization = _invoicePayment.Authorization;
-                        break;
-                    default:
-                        break;
-                }
-
-                try
-                {
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+                case 1:
+                    invoicePayment.GiftCardNumber = _invoicePayment.GiftCardNumber;
+                    break;
+                case 5:
+                case 13:
+                    invoicePayment.BankId = _invoicePayment.BankId;
+                    invoicePayment.CreditCardId = _invoicePayment.CreditCardId;
+                    invoicePayment.Authorization = _invoicePayment.Authorization;
+                    break;
+                case 2:
+                case 3:
+                    invoicePayment.BankId = _invoicePayment.BankId;
+                    invoicePayment.AccountNumber = _invoicePayment.AccountNumber;
+                    invoicePayment.CkeckNumber = _invoicePayment.CkeckNumber;
+                    invoicePayment.CkeckType = _invoicePayment.CkeckType;
+                    invoicePayment.CkeckDate = _invoicePayment.CkeckDate;
+                    invoicePayment.CheckOwner = _invoicePayment.CheckOwner;
+                    invoicePayment.Authorization = _invoicePayment.Authorization;
+                    break;
+                default:
+                    break;
             }
+
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         public InvoiceTable GetInvoiceById(long invoiceId)
@@ -212,24 +212,24 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                using (POSEntities context = _dbContext)
-                {
-                    context.SalesLog.Add(salesLog);
+                POSEntities context = _dbContext;
 
-                    InvoiceTable invoiceTable = context
-                        .InvoiceTable
-                        .Where(y => y.InvoiceId == _invoiceTable.InvoiceId)
-                        .FirstOrDefault();
+                context.SalesLog.Add(salesLog);
 
-                    invoiceTable.TransferStatusId = _invoiceTable.TransferStatusId;
-                    invoiceTable.Observation = _invoiceTable.Observation;
-                    invoiceTable.ClosingCashierId = _invoiceTable.ClosingCashierId;
-                    invoiceTable.Status = _invoiceTable.Status;
-                    invoiceTable.ModifiedBy = _invoiceTable.ModifiedBy;
-                    invoiceTable.ModifiedDatetime = _invoiceTable.ModifiedDatetime;
+                InvoiceTable invoiceTable = context
+                    .InvoiceTable
+                    .Where(y => y.InvoiceId == _invoiceTable.InvoiceId)
+                    .FirstOrDefault();
 
-                    return context.SaveChanges() > 0;
-                }
+                invoiceTable.TransferStatusId = _invoiceTable.TransferStatusId;
+                invoiceTable.Observation = _invoiceTable.Observation;
+                invoiceTable.ClosingCashierId = _invoiceTable.ClosingCashierId;
+                invoiceTable.Status = _invoiceTable.Status;
+                invoiceTable.ModifiedBy = _invoiceTable.ModifiedBy;
+                invoiceTable.ModifiedDatetime = _invoiceTable.ModifiedDatetime;
+
+                return context.SaveChanges() > 0;
+
             }
             catch (Exception ex)
             {

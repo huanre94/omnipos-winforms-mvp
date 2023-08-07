@@ -1,7 +1,8 @@
 ﻿using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -53,8 +54,8 @@ namespace POS
         {
             try
             {
-                System.Collections.Generic.List<SP_Advance_Consult_Result> advancesList = new AccountsReceivableRepository(Program.customConnectionString).GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode);
-                advances = new BindingList<SP_Advance_Consult_Result>(advancesList);
+                ICollection<SP_Advance_Consult_Result> advancesList = new AccountsReceivableRepository(Program.customConnectionString).GetPendingAccountReceivable(_currentCustomer.CustomerId, _paymMode);
+                advances = new BindingList<SP_Advance_Consult_Result>(advancesList.ToList());
                 if (advances?.Count() <= 0)
                 {
                     functions.ShowMessage("El cliente no cuenta con valores registrados.", MessageType.WARNING);

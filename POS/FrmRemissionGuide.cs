@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -159,7 +159,7 @@ namespace POS
                 }
 
 
-                IEnumerable<SP_RemissionGuide_Consult_Result> result = new SalesOrderRepository(Program.customConnectionString).GetActiveRemissionGuides(userId, driverId);
+                IEnumerable<SP_RemissionGuide_Consult_Result> result = new RemissionSaleRepository(Program.customConnectionString).GetActiveRemissionGuides(userId, driverId);
                 if (result.Count() == 0)
                 {
                     GrcSalesOrder.DataSource = null;

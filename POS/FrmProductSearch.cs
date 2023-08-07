@@ -1,12 +1,8 @@
 ﻿using DevExpress.XtraEditors;
 using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
 using POS.Views;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace POS
@@ -82,7 +78,7 @@ namespace POS
 
         void IProductView.ShowDialog()
         {
-            this.ShowDialog();
+            ShowDialog();
         }
 
 

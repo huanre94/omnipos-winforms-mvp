@@ -1,10 +1,9 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Views.Grid;
 using POS.DLL;
-using POS.DLL.Catalog;
+using POS.DLL.Contracts;
 using POS.DLL.Enums;
 using POS.DLL.Repository;
-using POS.DLL.Transaction;
 using POS.Presenter;
 using POS.Views;
 using System;
@@ -541,10 +540,10 @@ namespace POS
             IProductView productView = new FrmProductSearch();
             IProductRepository productRepo = new ProductRepository(Program.customConnectionString);
 
-            var productSearch = new ProductPresenter(productView, productRepo);
+            ProductPresenter productSearch = new ProductPresenter(productView, productRepo);
 
 
-            var productBarcode = productSearch.product.ProductBarcode.Select(b => b.Barcode).FirstOrDefault();
+            string productBarcode = productSearch.product.ProductBarcode.Select(b => b.Barcode).FirstOrDefault();
 
             if (string.IsNullOrEmpty(productBarcode))
             {

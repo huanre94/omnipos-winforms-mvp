@@ -1,6 +1,6 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.DLL;
-using POS.DLL.Catalog;
+using POS.DLL.Repository;
 using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;

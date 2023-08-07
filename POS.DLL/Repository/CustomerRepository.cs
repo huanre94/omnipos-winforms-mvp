@@ -1,13 +1,13 @@
-﻿using POS.DLL.Repository;
+﻿using POS.DLL.Contracts;
+using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class CustomerRepository : BaseRepository, ICustomerRepository
     {
-        readonly POSEntities _dbContext;
 
         public CustomerRepository(string connectionString)
         {
@@ -18,10 +18,13 @@ namespace POS.DLL.Catalog
         {
             try
             {
-                return _dbContext
+                var customer =
+                    _dbContext
                     .Customer
                     .Where(cust => cust.Status.Equals("A") && cust.Identification == _indentification)
                     .FirstOrDefault();
+
+                return customer is null ? new Customer() : customer;
             }
             catch (Exception ex)
             {

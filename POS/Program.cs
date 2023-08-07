@@ -23,6 +23,7 @@ namespace POS
             object ValorIP = Registry.GetValue(registryKey, "IP", null);
             if (ValorIP == null)
             {
+                MessageBox.Show("Por favor registrar OmniPOS.reg");
                 return;
             }
 

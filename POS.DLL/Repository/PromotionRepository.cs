@@ -5,8 +5,6 @@ namespace POS.DLL.Repository
 {
     public class PromotionRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public PromotionRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

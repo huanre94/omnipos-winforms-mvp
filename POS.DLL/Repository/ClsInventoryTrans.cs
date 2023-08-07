@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class ClsInventoryTrans : BaseRepository
     {
@@ -69,20 +69,20 @@ namespace POS.DLL.Transaction
         {
             try
             {
-                using (POSEntities db = _dbContext)
-                {
+                POSEntities db = _dbContext;
 
-                    PhysicalStockCountingTable table =
-                            db
-                            .PhysicalStockCountingTable
-                            .Where(ta => ta.PhysicalStockCountingId == sequence)
-                            .FirstOrDefault();
+                PhysicalStockCountingTable table =
+                        db
+                        .PhysicalStockCountingTable
+                        .Where(ta => ta.PhysicalStockCountingId == sequence)
+                        .FirstOrDefault();
 
-                    table.ModifiedBy = table.CreatedBy;
-                    table.ModifiedDatetime = DateTime.Now;
-                    table.Status = "A";
-                    return db.SaveChanges() > 0;
-                }
+                table.ModifiedBy = table.CreatedBy;
+                table.ModifiedDatetime = DateTime.Now;
+                table.Status = "A";
+
+                return db.SaveChanges() > 0;
+
             }
             catch (Exception ex)
             {

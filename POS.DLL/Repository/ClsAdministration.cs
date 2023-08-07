@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class ClsAdministration : BaseRepository
     {

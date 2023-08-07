@@ -1,11 +1,10 @@
-﻿using POS.DLL.Repository;
+﻿using POS.DLL.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 
-namespace POS.DLL
+namespace POS.DLL.Repository
 {
     public class ProductRepository : BaseRepository, IProductRepository
     {
@@ -33,7 +32,7 @@ namespace POS.DLL
                 .Product
                 .Where(p => p.Name.Contains(_name))
                 .Include(p => p.ProductBarcode)
-                .Include(iu=>iu.InventUnit)
+                .Include(iu => iu.InventUnit)
                 .Take(50)
                 .OrderBy(p => p.Name)
                 .ToList();

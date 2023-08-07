@@ -1,6 +1,6 @@
 ﻿using POS.DLL;
+using POS.DLL.Contracts;
 using POS.DLL.Enums;
-using POS.DLL.Repository;
 using POS.Views;
 using System;
 using System.Collections.Generic;

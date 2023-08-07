@@ -1,12 +1,12 @@
 ﻿using DevExpress.XtraEditors.Controls;
 using POS.DLL;
-using POS.DLL.Catalog;
 using POS.DLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using POS.DLL.Repository;
 using System.Windows.Forms;
 using System.Xml.Linq;
 

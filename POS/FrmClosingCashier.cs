@@ -1,8 +1,7 @@
 ﻿using DevExpress.XtraGrid.Views.Grid;
 using POS.DLL;
-using POS.DLL.Catalog;
+using POS.DLL.Repository;
 using POS.DLL.Enums;
-using POS.DLL.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

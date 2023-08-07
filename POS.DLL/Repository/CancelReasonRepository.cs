@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class CancelReasonRepository : BaseRepository
     {
-        readonly POSEntities _dbContext;
-
         public CancelReasonRepository(string connectionString)
         {
             _dbContext = new POSEntities(connectionString);

@@ -1,4 +1,4 @@
-﻿namespace POS.DLL.Catalog
+﻿namespace POS.DLL.Contracts
 {
     public interface ICustomerRepository
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class RemissionSaleRepository : BaseRepository
     {
@@ -55,6 +55,18 @@ namespace POS.DLL.Transaction
             try
             {
                 return _dbContext.SP_RemissionGuideInvoice_Insert(_remissionGuideId, (short?)_emissionPointId, (short?)_locationId, LoginInformation.UserId, LoginInformation.Workstation).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<SP_RemissionGuide_Consult_Result> GetActiveRemissionGuides(long userId = 0, long driverId = 0)
+        {
+            try
+            {
+                return _dbContext.SP_RemissionGuide_Consult(userId, driverId).ToList();
             }
             catch (Exception ex)
             {

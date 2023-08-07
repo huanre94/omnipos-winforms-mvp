@@ -1,10 +1,11 @@
-﻿using POS.DLL.Enums;
+﻿using DevExpress.XtraEditors;
+using POS.DLL.Enums;
 using System;
 using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class FrmKeyPad : DevExpress.XtraEditors.XtraForm
+    public partial class FrmKeyPad : XtraForm
     {
         InputFromOption InputFromOption { get; set; }
 

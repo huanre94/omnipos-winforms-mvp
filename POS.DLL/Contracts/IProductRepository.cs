@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace POS.DLL.Repository
+namespace POS.DLL.Contracts
 {
     public interface IProductRepository
     {

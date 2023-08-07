@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace POS.DLL.Catalog
+namespace POS.DLL.Repository
 {
     public class ClsProduct : BaseRepository
     {
-        readonly POSEntities _dbContext;
 
         public ClsProduct(string connectionString)
         {

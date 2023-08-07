@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace POS.DLL.Transaction
+namespace POS.DLL.Repository
 {
     public class ClsAuthorizationTrans : BaseRepository
     {
