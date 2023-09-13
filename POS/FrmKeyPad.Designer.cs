@@ -54,10 +54,10 @@
             this.BtnEnter.Appearance.Options.UseBackColor = true;
             this.BtnEnter.Appearance.Options.UseFont = true;
             this.BtnEnter.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnEnter.ImageOptions.SvgImage")));
-            this.BtnEnter.Location = new System.Drawing.Point(200, 279);
-            this.BtnEnter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnEnter.Location = new System.Drawing.Point(244, 349);
+            this.BtnEnter.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.BtnEnter.Name = "BtnEnter";
-            this.BtnEnter.Size = new System.Drawing.Size(76, 121);
+            this.BtnEnter.Size = new System.Drawing.Size(93, 151);
             this.BtnEnter.TabIndex = 2;
             this.BtnEnter.Click += new System.EventHandler(this.BtnEnter_Click);
             // 
@@ -67,10 +67,10 @@
             this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn9.Appearance.Options.UseBackColor = true;
             this.Btn9.Appearance.Options.UseFont = true;
-            this.Btn9.Location = new System.Drawing.Point(201, 55);
-            this.Btn9.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Btn9.Location = new System.Drawing.Point(246, 69);
+            this.Btn9.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Btn9.Name = "Btn9";
-            this.Btn9.Size = new System.Drawing.Size(75, 65);
+            this.Btn9.Size = new System.Drawing.Size(92, 81);
             this.Btn9.TabIndex = 157;
             this.Btn9.Text = "9";
             this.Btn9.Click += new System.EventHandler(this.Btn9_Click);
@@ -81,10 +81,10 @@
             this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn8.Appearance.Options.UseBackColor = true;
             this.Btn8.Appearance.Options.UseFont = true;
-            this.Btn8.Location = new System.Drawing.Point(116, 55);
-            this.Btn8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Btn8.Location = new System.Drawing.Point(142, 69);
+            this.Btn8.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Btn8.Name = "Btn8";
-            this.Btn8.Size = new System.Drawing.Size(75, 65);
+            this.Btn8.Size = new System.Drawing.Size(92, 81);
             this.Btn8.TabIndex = 156;
             this.Btn8.Text = "8";
             this.Btn8.Click += new System.EventHandler(this.Btn8_Click);
@@ -95,10 +95,10 @@
             this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn7.Appearance.Options.UseBackColor = true;
             this.Btn7.Appearance.Options.UseFont = true;
-            this.Btn7.Location = new System.Drawing.Point(32, 55);
-            this.Btn7.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn7.Location = new System.Drawing.Point(39, 69);
+            this.Btn7.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.Btn7.Name = "Btn7";
-            this.Btn7.Size = new System.Drawing.Size(75, 65);
+            this.Btn7.Size = new System.Drawing.Size(92, 81);
             this.Btn7.TabIndex = 155;
             this.Btn7.Text = "7";
             this.Btn7.Click += new System.EventHandler(this.Btn7_Click);
@@ -109,10 +109,10 @@
             this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn6.Appearance.Options.UseBackColor = true;
             this.Btn6.Appearance.Options.UseFont = true;
-            this.Btn6.Location = new System.Drawing.Point(201, 131);
-            this.Btn6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Btn6.Location = new System.Drawing.Point(246, 164);
+            this.Btn6.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Btn6.Name = "Btn6";
-            this.Btn6.Size = new System.Drawing.Size(75, 65);
+            this.Btn6.Size = new System.Drawing.Size(92, 81);
             this.Btn6.TabIndex = 154;
             this.Btn6.Text = "6";
             this.Btn6.Click += new System.EventHandler(this.Btn6_Click);
@@ -123,10 +123,10 @@
             this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn5.Appearance.Options.UseBackColor = true;
             this.Btn5.Appearance.Options.UseFont = true;
-            this.Btn5.Location = new System.Drawing.Point(116, 131);
-            this.Btn5.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn5.Location = new System.Drawing.Point(142, 164);
+            this.Btn5.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.Btn5.Name = "Btn5";
-            this.Btn5.Size = new System.Drawing.Size(75, 65);
+            this.Btn5.Size = new System.Drawing.Size(92, 81);
             this.Btn5.TabIndex = 153;
             this.Btn5.Text = "5";
             this.Btn5.Click += new System.EventHandler(this.Btn5_Click);
@@ -137,10 +137,10 @@
             this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn1.Appearance.Options.UseBackColor = true;
             this.Btn1.Appearance.Options.UseFont = true;
-            this.Btn1.Location = new System.Drawing.Point(32, 205);
-            this.Btn1.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn1.Location = new System.Drawing.Point(39, 256);
+            this.Btn1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Btn1.Name = "Btn1";
-            this.Btn1.Size = new System.Drawing.Size(75, 65);
+            this.Btn1.Size = new System.Drawing.Size(92, 81);
             this.Btn1.TabIndex = 149;
             this.Btn1.Text = "1";
             this.Btn1.Click += new System.EventHandler(this.Btn1_Click);
@@ -151,10 +151,10 @@
             this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn4.Appearance.Options.UseBackColor = true;
             this.Btn4.Appearance.Options.UseFont = true;
-            this.Btn4.Location = new System.Drawing.Point(32, 131);
-            this.Btn4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Btn4.Location = new System.Drawing.Point(39, 164);
+            this.Btn4.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Btn4.Name = "Btn4";
-            this.Btn4.Size = new System.Drawing.Size(75, 65);
+            this.Btn4.Size = new System.Drawing.Size(92, 81);
             this.Btn4.TabIndex = 152;
             this.Btn4.Text = "4";
             this.Btn4.Click += new System.EventHandler(this.Btn4_Click);
@@ -165,10 +165,10 @@
             this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn2.Appearance.Options.UseBackColor = true;
             this.Btn2.Appearance.Options.UseFont = true;
-            this.Btn2.Location = new System.Drawing.Point(116, 205);
-            this.Btn2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Btn2.Location = new System.Drawing.Point(142, 256);
+            this.Btn2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Btn2.Name = "Btn2";
-            this.Btn2.Size = new System.Drawing.Size(75, 65);
+            this.Btn2.Size = new System.Drawing.Size(92, 81);
             this.Btn2.TabIndex = 150;
             this.Btn2.Text = "2";
             this.Btn2.Click += new System.EventHandler(this.Btn2_Click);
@@ -179,10 +179,10 @@
             this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn3.Appearance.Options.UseBackColor = true;
             this.Btn3.Appearance.Options.UseFont = true;
-            this.Btn3.Location = new System.Drawing.Point(201, 205);
-            this.Btn3.Margin = new System.Windows.Forms.Padding(6);
+            this.Btn3.Location = new System.Drawing.Point(246, 256);
+            this.Btn3.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.Btn3.Name = "Btn3";
-            this.Btn3.Size = new System.Drawing.Size(75, 65);
+            this.Btn3.Size = new System.Drawing.Size(92, 81);
             this.Btn3.TabIndex = 151;
             this.Btn3.Text = "3";
             this.Btn3.Click += new System.EventHandler(this.Btn3_Click);
@@ -193,10 +193,10 @@
             this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F);
             this.Btn0.Appearance.Options.UseBackColor = true;
             this.Btn0.Appearance.Options.UseFont = true;
-            this.Btn0.Location = new System.Drawing.Point(32, 279);
-            this.Btn0.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Btn0.Location = new System.Drawing.Point(39, 349);
+            this.Btn0.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Btn0.Name = "Btn0";
-            this.Btn0.Size = new System.Drawing.Size(75, 65);
+            this.Btn0.Size = new System.Drawing.Size(92, 81);
             this.Btn0.TabIndex = 148;
             this.Btn0.Text = "0";
             this.Btn0.Click += new System.EventHandler(this.Btn0_Click);
@@ -211,10 +211,10 @@
             this.BtnCancel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
             this.BtnCancel.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnCancel.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
-            this.BtnCancel.Location = new System.Drawing.Point(32, 432);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnCancel.Location = new System.Drawing.Point(39, 540);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(244, 49);
+            this.BtnCancel.Size = new System.Drawing.Size(298, 61);
             this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancelar";
             // 
@@ -225,21 +225,22 @@
             this.BtnDelete.Appearance.Options.UseBackColor = true;
             this.BtnDelete.Appearance.Options.UseFont = true;
             this.BtnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("BtnDelete.ImageOptions.SvgImage")));
-            this.BtnDelete.Location = new System.Drawing.Point(32, 354);
-            this.BtnDelete.Margin = new System.Windows.Forms.Padding(6);
+            this.BtnDelete.Location = new System.Drawing.Point(39, 442);
+            this.BtnDelete.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.BtnDelete.Name = "BtnDelete";
-            this.BtnDelete.Size = new System.Drawing.Size(159, 46);
+            this.BtnDelete.Size = new System.Drawing.Size(194, 58);
             this.BtnDelete.TabIndex = 3;
             this.BtnDelete.Text = "Borrar";
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // TxtValue
             // 
-            this.TxtValue.Location = new System.Drawing.Point(32, 0);
+            this.TxtValue.Location = new System.Drawing.Point(39, 0);
+            this.TxtValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtValue.Name = "TxtValue";
             this.TxtValue.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
-            this.TxtValue.Size = new System.Drawing.Size(244, 44);
+            this.TxtValue.Size = new System.Drawing.Size(298, 34);
             this.TxtValue.TabIndex = 1;
             this.TxtValue.EditValueChanged += new System.EventHandler(this.TxtValue_EditValueChanged);
             this.TxtValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtValue_KeyDown);
@@ -251,19 +252,19 @@
             this.BtnDot.Appearance.Options.UseBackColor = true;
             this.BtnDot.Appearance.Options.UseFont = true;
             this.BtnDot.Enabled = false;
-            this.BtnDot.Location = new System.Drawing.Point(116, 279);
-            this.BtnDot.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnDot.Location = new System.Drawing.Point(142, 349);
+            this.BtnDot.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.BtnDot.Name = "BtnDot";
-            this.BtnDot.Size = new System.Drawing.Size(76, 65);
+            this.BtnDot.Size = new System.Drawing.Size(93, 81);
             this.BtnDot.TabIndex = 158;
             this.BtnDot.Text = ".";
             this.BtnDot.Click += new System.EventHandler(this.BtnDot_Click);
             // 
             // FrmKeyPad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 496);
+            this.ClientSize = new System.Drawing.Size(389, 620);
             this.ControlBox = false;
             this.Controls.Add(this.BtnDot);
             this.Controls.Add(this.TxtValue);
@@ -281,7 +282,7 @@
             this.Controls.Add(this.Btn3);
             this.Controls.Add(this.Btn0);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.MaximizeBox = false;
             this.Name = "FrmKeyPad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

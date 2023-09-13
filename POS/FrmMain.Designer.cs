@@ -909,7 +909,6 @@
             this.AxOPOSScanner.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("AxOPOSScanner.OcxState")));
             this.AxOPOSScanner.Size = new System.Drawing.Size(240, 240);
             this.AxOPOSScanner.TabIndex = 169;
-            this.AxOPOSScanner.DataEvent += new AxOposScanner_CCO._IOPOSScannerEvents_DataEventEventHandler(this.AxOPOSScanner_DataEvent);
             // 
             // AxOPOSScale
             // 

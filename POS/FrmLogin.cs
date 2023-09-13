@@ -1,4 +1,5 @@
-﻿using POS.DLL;
+﻿using DevExpress.XtraEditors;
+using POS.DLL;
 using POS.DLL.Enums;
 using POS.DLL.Repository;
 using System;
@@ -7,11 +8,12 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class FrmLogin : DevExpress.XtraEditors.XtraForm
+    public partial class FrmLogin : XtraForm//, ILoginView
     {
         readonly ClsFunctions functions = new ClsFunctions();
         SP_Login_Consult_Result loginInfomation = new SP_Login_Consult_Result();
@@ -234,5 +236,16 @@ namespace POS
 
             return true;
         }
+    }
+
+    public interface ILoginView
+    {
+
+        string Username { get; set; }
+        string Password { get; set; }
+        bool IsLoggedIn { get; set; }
+
+        event EventHandler SubmitLogin;
+
     }
 }

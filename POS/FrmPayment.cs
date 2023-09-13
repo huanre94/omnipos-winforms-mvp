@@ -76,7 +76,7 @@ namespace POS
             LblPending.Text = pendingAmount.ToString();
 
             //TODO 
-            string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax();
+            string taxPercent = new ClsGeneral(Program.customConnectionString).GetActiveTax().ToString();
 
             IList<PaymentDetail> paymentDetails = new List<PaymentDetail>
             {
@@ -164,7 +164,7 @@ namespace POS
 
         private void CallPaymentMethod(PaymModeEnum paymMode)
         {
-            if (TxtAmount.Text == string.Empty)
+            if (string.IsNullOrEmpty(TxtAmount.Text))
             {
                 functions.ShowMessage("Debe ingresar un valor obligatoriamente", MessageType.WARNING);
                 return;

@@ -91,7 +91,7 @@ namespace POS.DLL.Repository
         }
 
 
-        public string GetActiveTax()
+        public decimal GetActiveTax()
         {
             try
             {
@@ -99,8 +99,7 @@ namespace POS.DLL.Repository
                     .TaxTable
                     .Where(t => t.Status.Equals("A"))
                     .Select(t => t.TaxValue)
-                    .FirstOrDefault()
-                    .ToString();
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {

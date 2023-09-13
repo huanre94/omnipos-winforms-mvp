@@ -21,11 +21,13 @@ namespace POS.Presenter
         public ProductPresenter(IProductView productView, IProductRepository productRepository)
         {
             productsBindingSource = new BindingSource();
+
             this.productView = productView;
             this.productRepository = productRepository;
 
             this.productView.SearchEvent += SearchProducts;
             this.productView.SelectProduct += SelectProduct;
+            //this.productView.Close += Close;
 
             this.productView.SetProductListBindingSource(productsBindingSource);
 
@@ -57,7 +59,7 @@ namespace POS.Presenter
 
             if (!productList.Any())
             {
-                new ClsFunctions().ShowMessage("No se encontro productos con la descripcion escrita.", MessageType.INFO);
+                new ClsFunctions().ShowMessage("No se encontro productos con la descripcion ingresada.", MessageType.WARNING);
                 return;
             }
 

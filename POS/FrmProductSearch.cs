@@ -33,7 +33,15 @@ namespace POS
                         Close();
                         break;
                     case (char)Keys.Escape:
+                        if (GrcSalesDetail.Focused)
+                        {
+                            TxtSearchName.Focus();
+                            return;
+                        }
                         Close();
+                        break;
+                    case (char)Keys.F12:
+                        TxtSearchName.Focus();
                         break;
                     default:
                         break;
@@ -49,6 +57,9 @@ namespace POS
                         break;
                     case Keys.Escape:
                         Close();
+                        break;
+                    case Keys.F12:
+                        GrcSalesDetail.Focus();
                         break;
                     default:
                         break;
@@ -80,6 +91,7 @@ namespace POS
         {
             ShowDialog();
         }
+
 
 
 

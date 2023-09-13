@@ -52,8 +52,8 @@ namespace POS
         public long internalCreditCardId = 0;
         public string internalCreditCardCode = "";
         private string portName = "";
-        private int salesOriginId { get; set; }
-        private int salesManId { get; set; }
+        private int SalesOriginId { get; set; }
+        private int SalesManId { get; set; }
 
         public FrmMain()
         {
@@ -61,6 +61,13 @@ namespace POS
 
             functions = new ClsFunctions();
             //functions.emissionPoint = emissionPoint;
+
+            AxOPOSScanner.DataEvent += (s, e) =>
+            {
+                TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
+                SendKeys.Send("{ENTER}");
+                functions.AxOPOSScanner.DataEventEnabled = true;
+            };
         }
 
         #region Global Load Definitions
@@ -270,7 +277,7 @@ namespace POS
                                 EmissionPoint = emissionPoint,
                                 scanner = AxOPOSScanner,
                                 IsPresentingCreditCard = true,
-                                SalesOriginId = salesOriginId
+                                SalesOriginId = SalesOriginId
                             };
 
 
@@ -473,10 +480,10 @@ namespace POS
 
             if (frmSalesOrigin.result != null)
             {
-                salesOriginId = frmSalesOrigin.result.SalesOriginId;
-                salesManId = frmSalesOrigin.result.SalesmanId;
+                SalesOriginId = frmSalesOrigin.result.SalesOriginId;
+                SalesManId = frmSalesOrigin.result.SalesmanId;
 
-                ImgSalesOrigin.Visible = (salesOriginId == 1);
+                ImgSalesOrigin.Visible = (SalesOriginId == 1);
                 ImgSalesOrigin.SvgImage = (DevExpress.Utils.Svg.SvgImage)Properties.Resources.ResourceManager.GetObject(frmSalesOrigin.result.Name);
             }
         }
@@ -524,7 +531,7 @@ namespace POS
                 scanner = AxOPOSScanner,
                 internalCreditCardCode = internalCreditCardCode,
                 invoiceXml = invoiceXml,
-                salesOriginId = salesOriginId
+                salesOriginId = SalesOriginId
             };
             payment.ShowDialog();
 
@@ -552,12 +559,17 @@ namespace POS
 
             ProductPresenter productSearch = new ProductPresenter(productView, productRepo);
 
-            if (productSearch.product == null) return;
+            if (productSearch.product == null)
+            {
+                TxtBarcode.Focus();
+                return;
+            }
 
             string productBarcode = productSearch.product.ProductBarcode.Select(p => p.Barcode).FirstOrDefault();
 
             if (productBarcode == string.Empty)
             {
+                TxtBarcode.Focus();
                 return;
             }
 
@@ -783,7 +795,6 @@ namespace POS
                     {
                         BtnCustomer_Click(null, null);
                     }
-
                     break;
                 case Keys.F7:
                     BtnPrintLastInvoice_Click(null, null);
@@ -830,12 +841,12 @@ namespace POS
             }
         }
 
-        private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
-        {
-            TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
-            SendKeys.Send("{ENTER}");
-            functions.AxOPOSScanner.DataEventEnabled = true;
-        }
+        //private void AxOPOSScanner_DataEvent(object sender, AxOposScanner_CCO._IOPOSScannerEvents_DataEventEvent e)
+        //{
+        //    TxtBarcode.Text = functions.AxOPOSScanner.ScanDataLabel;
+        //    SendKeys.Send("{ENTER}");
+        //    functions.AxOPOSScanner.DataEventEnabled = true;
+        //}
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1050,8 +1061,8 @@ namespace POS
                     SalesOrderId = 0,
                     CreatedBy = (int)LoginInformation.UserId,
                     Workstation = LoginInformation.Workstation,
-                    SalesOriginId = salesOriginId,
-                    SalesmanId = salesManId,
+                    SalesOriginId = SalesOriginId,
+                    SalesmanId = SalesManId,
                     TransferStatusId = (int)DLL.Enums.TransferStatus.PENDING_MIGRATE,
                     TypeDoc = (short)DocumentType.INVOICE
                     //,IsBbqZone = ChbBbqZone.Checked
@@ -1130,8 +1141,8 @@ namespace POS
             internalCreditCardId = 0;
             internalCreditCardCode = string.Empty;
 
-            salesOriginId = 1;
-            salesManId = 1;
+            SalesOriginId = 1;
+            SalesManId = 1;
 
             invoiceXml.RemoveAll();
             GrcSalesDetail.DataSource = null;

@@ -265,7 +265,7 @@ namespace POS
             bool canInsert = true;
             string barcodeBefore = _barcode;
 
-            if (_barcode == "")
+            if (string.IsNullOrEmpty(_barcode))
             {
                 functions.ShowMessage("El código de barras no puede estar vacío.", MessageType.WARNING);
                 return;

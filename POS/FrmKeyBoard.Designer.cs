@@ -98,7 +98,7 @@
             // TxtValue
             // 
             this.TxtValue.Location = new System.Drawing.Point(116, 15);
-            this.TxtValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtValue.Margin = new System.Windows.Forms.Padding(4);
             this.TxtValue.Name = "TxtValue";
             this.TxtValue.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14F);
             this.TxtValue.Properties.Appearance.Options.UseFont = true;
@@ -122,7 +122,7 @@
             this.BtnQ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnQ.Appearance.Options.UseFont = true;
             this.BtnQ.Location = new System.Drawing.Point(43, 99);
-            this.BtnQ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnQ.Margin = new System.Windows.Forms.Padding(4);
             this.BtnQ.Name = "BtnQ";
             this.BtnQ.Size = new System.Drawing.Size(86, 75);
             this.BtnQ.TabIndex = 162;
@@ -134,7 +134,7 @@
             this.BtnW.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnW.Appearance.Options.UseFont = true;
             this.BtnW.Location = new System.Drawing.Point(136, 99);
-            this.BtnW.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnW.Margin = new System.Windows.Forms.Padding(4);
             this.BtnW.Name = "BtnW";
             this.BtnW.Size = new System.Drawing.Size(86, 75);
             this.BtnW.TabIndex = 163;
@@ -146,7 +146,7 @@
             this.BtnE.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnE.Appearance.Options.UseFont = true;
             this.BtnE.Location = new System.Drawing.Point(229, 99);
-            this.BtnE.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnE.Margin = new System.Windows.Forms.Padding(4);
             this.BtnE.Name = "BtnE";
             this.BtnE.Size = new System.Drawing.Size(86, 75);
             this.BtnE.TabIndex = 164;
@@ -158,7 +158,7 @@
             this.BtnR.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnR.Appearance.Options.UseFont = true;
             this.BtnR.Location = new System.Drawing.Point(321, 99);
-            this.BtnR.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnR.Margin = new System.Windows.Forms.Padding(4);
             this.BtnR.Name = "BtnR";
             this.BtnR.Size = new System.Drawing.Size(86, 75);
             this.BtnR.TabIndex = 165;
@@ -170,7 +170,7 @@
             this.BtnT.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnT.Appearance.Options.UseFont = true;
             this.BtnT.Location = new System.Drawing.Point(414, 99);
-            this.BtnT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnT.Margin = new System.Windows.Forms.Padding(4);
             this.BtnT.Name = "BtnT";
             this.BtnT.Size = new System.Drawing.Size(86, 75);
             this.BtnT.TabIndex = 166;
@@ -182,7 +182,7 @@
             this.BtnY.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnY.Appearance.Options.UseFont = true;
             this.BtnY.Location = new System.Drawing.Point(507, 99);
-            this.BtnY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnY.Margin = new System.Windows.Forms.Padding(4);
             this.BtnY.Name = "BtnY";
             this.BtnY.Size = new System.Drawing.Size(86, 75);
             this.BtnY.TabIndex = 167;
@@ -194,7 +194,7 @@
             this.BtnU.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnU.Appearance.Options.UseFont = true;
             this.BtnU.Location = new System.Drawing.Point(600, 99);
-            this.BtnU.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnU.Margin = new System.Windows.Forms.Padding(4);
             this.BtnU.Name = "BtnU";
             this.BtnU.Size = new System.Drawing.Size(86, 75);
             this.BtnU.TabIndex = 168;
@@ -206,7 +206,7 @@
             this.BtnI.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnI.Appearance.Options.UseFont = true;
             this.BtnI.Location = new System.Drawing.Point(693, 99);
-            this.BtnI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnI.Margin = new System.Windows.Forms.Padding(4);
             this.BtnI.Name = "BtnI";
             this.BtnI.Size = new System.Drawing.Size(86, 75);
             this.BtnI.TabIndex = 169;
@@ -218,7 +218,7 @@
             this.BtnO.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnO.Appearance.Options.UseFont = true;
             this.BtnO.Location = new System.Drawing.Point(786, 99);
-            this.BtnO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnO.Margin = new System.Windows.Forms.Padding(4);
             this.BtnO.Name = "BtnO";
             this.BtnO.Size = new System.Drawing.Size(86, 75);
             this.BtnO.TabIndex = 170;
@@ -230,7 +230,7 @@
             this.BtnP.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnP.Appearance.Options.UseFont = true;
             this.BtnP.Location = new System.Drawing.Point(879, 99);
-            this.BtnP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnP.Margin = new System.Windows.Forms.Padding(4);
             this.BtnP.Name = "BtnP";
             this.BtnP.Size = new System.Drawing.Size(86, 75);
             this.BtnP.TabIndex = 171;
@@ -242,7 +242,7 @@
             this.BtnA.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnA.Appearance.Options.UseFont = true;
             this.BtnA.Location = new System.Drawing.Point(86, 191);
-            this.BtnA.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnA.Margin = new System.Windows.Forms.Padding(4);
             this.BtnA.Name = "BtnA";
             this.BtnA.Size = new System.Drawing.Size(86, 75);
             this.BtnA.TabIndex = 172;
@@ -254,7 +254,7 @@
             this.BtnS.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnS.Appearance.Options.UseFont = true;
             this.BtnS.Location = new System.Drawing.Point(178, 191);
-            this.BtnS.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnS.Margin = new System.Windows.Forms.Padding(4);
             this.BtnS.Name = "BtnS";
             this.BtnS.Size = new System.Drawing.Size(86, 75);
             this.BtnS.TabIndex = 173;
@@ -266,7 +266,7 @@
             this.BtnD.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnD.Appearance.Options.UseFont = true;
             this.BtnD.Location = new System.Drawing.Point(271, 191);
-            this.BtnD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnD.Margin = new System.Windows.Forms.Padding(4);
             this.BtnD.Name = "BtnD";
             this.BtnD.Size = new System.Drawing.Size(86, 75);
             this.BtnD.TabIndex = 174;
@@ -278,7 +278,7 @@
             this.BtnF.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnF.Appearance.Options.UseFont = true;
             this.BtnF.Location = new System.Drawing.Point(364, 191);
-            this.BtnF.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnF.Margin = new System.Windows.Forms.Padding(4);
             this.BtnF.Name = "BtnF";
             this.BtnF.Size = new System.Drawing.Size(86, 75);
             this.BtnF.TabIndex = 175;
@@ -290,7 +290,7 @@
             this.BtnG.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnG.Appearance.Options.UseFont = true;
             this.BtnG.Location = new System.Drawing.Point(457, 191);
-            this.BtnG.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnG.Margin = new System.Windows.Forms.Padding(4);
             this.BtnG.Name = "BtnG";
             this.BtnG.Size = new System.Drawing.Size(86, 75);
             this.BtnG.TabIndex = 176;
@@ -302,7 +302,7 @@
             this.BtnH.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnH.Appearance.Options.UseFont = true;
             this.BtnH.Location = new System.Drawing.Point(550, 191);
-            this.BtnH.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnH.Margin = new System.Windows.Forms.Padding(4);
             this.BtnH.Name = "BtnH";
             this.BtnH.Size = new System.Drawing.Size(86, 75);
             this.BtnH.TabIndex = 177;
@@ -314,7 +314,7 @@
             this.BtnJ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnJ.Appearance.Options.UseFont = true;
             this.BtnJ.Location = new System.Drawing.Point(643, 191);
-            this.BtnJ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnJ.Margin = new System.Windows.Forms.Padding(4);
             this.BtnJ.Name = "BtnJ";
             this.BtnJ.Size = new System.Drawing.Size(86, 75);
             this.BtnJ.TabIndex = 178;
@@ -326,7 +326,7 @@
             this.BtnK.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnK.Appearance.Options.UseFont = true;
             this.BtnK.Location = new System.Drawing.Point(736, 191);
-            this.BtnK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnK.Margin = new System.Windows.Forms.Padding(4);
             this.BtnK.Name = "BtnK";
             this.BtnK.Size = new System.Drawing.Size(86, 75);
             this.BtnK.TabIndex = 179;
@@ -338,7 +338,7 @@
             this.BtnL.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnL.Appearance.Options.UseFont = true;
             this.BtnL.Location = new System.Drawing.Point(829, 191);
-            this.BtnL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnL.Margin = new System.Windows.Forms.Padding(4);
             this.BtnL.Name = "BtnL";
             this.BtnL.Size = new System.Drawing.Size(86, 75);
             this.BtnL.TabIndex = 180;
@@ -350,7 +350,7 @@
             this.BtnZ.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnZ.Appearance.Options.UseFont = true;
             this.BtnZ.Location = new System.Drawing.Point(111, 284);
-            this.BtnZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnZ.Margin = new System.Windows.Forms.Padding(4);
             this.BtnZ.Name = "BtnZ";
             this.BtnZ.Size = new System.Drawing.Size(86, 75);
             this.BtnZ.TabIndex = 181;
@@ -362,7 +362,7 @@
             this.BtnX.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnX.Appearance.Options.UseFont = true;
             this.BtnX.Location = new System.Drawing.Point(204, 284);
-            this.BtnX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnX.Margin = new System.Windows.Forms.Padding(4);
             this.BtnX.Name = "BtnX";
             this.BtnX.Size = new System.Drawing.Size(86, 75);
             this.BtnX.TabIndex = 182;
@@ -374,7 +374,7 @@
             this.BtnC.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnC.Appearance.Options.UseFont = true;
             this.BtnC.Location = new System.Drawing.Point(297, 284);
-            this.BtnC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnC.Margin = new System.Windows.Forms.Padding(4);
             this.BtnC.Name = "BtnC";
             this.BtnC.Size = new System.Drawing.Size(86, 75);
             this.BtnC.TabIndex = 183;
@@ -386,7 +386,7 @@
             this.BtnV.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnV.Appearance.Options.UseFont = true;
             this.BtnV.Location = new System.Drawing.Point(390, 284);
-            this.BtnV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnV.Margin = new System.Windows.Forms.Padding(4);
             this.BtnV.Name = "BtnV";
             this.BtnV.Size = new System.Drawing.Size(86, 75);
             this.BtnV.TabIndex = 184;
@@ -398,7 +398,7 @@
             this.BtnB.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnB.Appearance.Options.UseFont = true;
             this.BtnB.Location = new System.Drawing.Point(483, 284);
-            this.BtnB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnB.Margin = new System.Windows.Forms.Padding(4);
             this.BtnB.Name = "BtnB";
             this.BtnB.Size = new System.Drawing.Size(86, 75);
             this.BtnB.TabIndex = 185;
@@ -410,7 +410,7 @@
             this.BtnN.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnN.Appearance.Options.UseFont = true;
             this.BtnN.Location = new System.Drawing.Point(576, 284);
-            this.BtnN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnN.Margin = new System.Windows.Forms.Padding(4);
             this.BtnN.Name = "BtnN";
             this.BtnN.Size = new System.Drawing.Size(86, 75);
             this.BtnN.TabIndex = 186;
@@ -422,7 +422,7 @@
             this.BtnM.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnM.Appearance.Options.UseFont = true;
             this.BtnM.Location = new System.Drawing.Point(669, 284);
-            this.BtnM.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnM.Margin = new System.Windows.Forms.Padding(4);
             this.BtnM.Name = "BtnM";
             this.BtnM.Size = new System.Drawing.Size(86, 75);
             this.BtnM.TabIndex = 187;
@@ -434,7 +434,7 @@
             this.BtnDot.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnDot.Appearance.Options.UseFont = true;
             this.BtnDot.Location = new System.Drawing.Point(854, 284);
-            this.BtnDot.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnDot.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDot.Name = "BtnDot";
             this.BtnDot.Size = new System.Drawing.Size(86, 75);
             this.BtnDot.TabIndex = 188;
@@ -446,7 +446,7 @@
             this.BtnHyphen.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnHyphen.Appearance.Options.UseFont = true;
             this.BtnHyphen.Location = new System.Drawing.Point(725, 376);
-            this.BtnHyphen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnHyphen.Margin = new System.Windows.Forms.Padding(4);
             this.BtnHyphen.Name = "BtnHyphen";
             this.BtnHyphen.Size = new System.Drawing.Size(86, 75);
             this.BtnHyphen.TabIndex = 189;
@@ -458,7 +458,7 @@
             this.BtnSpace.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnSpace.Appearance.Options.UseFont = true;
             this.BtnSpace.Location = new System.Drawing.Point(204, 376);
-            this.BtnSpace.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnSpace.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSpace.Name = "BtnSpace";
             this.BtnSpace.Size = new System.Drawing.Size(513, 75);
             this.BtnSpace.TabIndex = 190;
@@ -475,7 +475,7 @@
             this.BtnExit.ImageOptions.SvgImage = global::POS.Properties.Resources.cancel3;
             this.BtnExit.ImageOptions.SvgImageSize = new System.Drawing.Size(32, 32);
             this.BtnExit.Location = new System.Drawing.Point(913, 376);
-            this.BtnExit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(6);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(147, 75);
             this.BtnExit.TabIndex = 3;
@@ -487,7 +487,7 @@
             this.BtnComma.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnComma.Appearance.Options.UseFont = true;
             this.BtnComma.Location = new System.Drawing.Point(761, 284);
-            this.BtnComma.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnComma.Margin = new System.Windows.Forms.Padding(4);
             this.BtnComma.Name = "BtnComma";
             this.BtnComma.Size = new System.Drawing.Size(86, 75);
             this.BtnComma.TabIndex = 194;
@@ -499,7 +499,7 @@
             this.BtnUnderscore.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnUnderscore.Appearance.Options.UseFont = true;
             this.BtnUnderscore.Location = new System.Drawing.Point(818, 376);
-            this.BtnUnderscore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnUnderscore.Margin = new System.Windows.Forms.Padding(4);
             this.BtnUnderscore.Name = "BtnUnderscore";
             this.BtnUnderscore.Size = new System.Drawing.Size(86, 75);
             this.BtnUnderscore.TabIndex = 195;
@@ -511,7 +511,7 @@
             this.Btn3.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn3.Appearance.Options.UseFont = true;
             this.Btn3.Location = new System.Drawing.Point(1277, 284);
-            this.Btn3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn3.Margin = new System.Windows.Forms.Padding(4);
             this.Btn3.Name = "Btn3";
             this.Btn3.Size = new System.Drawing.Size(86, 75);
             this.Btn3.TabIndex = 198;
@@ -523,7 +523,7 @@
             this.Btn2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn2.Appearance.Options.UseFont = true;
             this.Btn2.Location = new System.Drawing.Point(1184, 284);
-            this.Btn2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn2.Margin = new System.Windows.Forms.Padding(4);
             this.Btn2.Name = "Btn2";
             this.Btn2.Size = new System.Drawing.Size(86, 75);
             this.Btn2.TabIndex = 197;
@@ -535,7 +535,7 @@
             this.Btn1.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn1.Appearance.Options.UseFont = true;
             this.Btn1.Location = new System.Drawing.Point(1091, 284);
-            this.Btn1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn1.Margin = new System.Windows.Forms.Padding(4);
             this.Btn1.Name = "Btn1";
             this.Btn1.Size = new System.Drawing.Size(86, 75);
             this.Btn1.TabIndex = 196;
@@ -547,7 +547,7 @@
             this.BtnDot2.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnDot2.Appearance.Options.UseFont = true;
             this.BtnDot2.Location = new System.Drawing.Point(1277, 375);
-            this.BtnDot2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnDot2.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDot2.Name = "BtnDot2";
             this.BtnDot2.Size = new System.Drawing.Size(86, 75);
             this.BtnDot2.TabIndex = 200;
@@ -559,7 +559,7 @@
             this.Btn0.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn0.Appearance.Options.UseFont = true;
             this.Btn0.Location = new System.Drawing.Point(1091, 375);
-            this.Btn0.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn0.Margin = new System.Windows.Forms.Padding(4);
             this.Btn0.Name = "Btn0";
             this.Btn0.Size = new System.Drawing.Size(178, 75);
             this.Btn0.TabIndex = 199;
@@ -571,7 +571,7 @@
             this.Btn6.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn6.Appearance.Options.UseFont = true;
             this.Btn6.Location = new System.Drawing.Point(1277, 191);
-            this.Btn6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn6.Margin = new System.Windows.Forms.Padding(4);
             this.Btn6.Name = "Btn6";
             this.Btn6.Size = new System.Drawing.Size(86, 75);
             this.Btn6.TabIndex = 203;
@@ -583,7 +583,7 @@
             this.Btn5.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn5.Appearance.Options.UseFont = true;
             this.Btn5.Location = new System.Drawing.Point(1184, 191);
-            this.Btn5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn5.Margin = new System.Windows.Forms.Padding(4);
             this.Btn5.Name = "Btn5";
             this.Btn5.Size = new System.Drawing.Size(86, 75);
             this.Btn5.TabIndex = 202;
@@ -595,7 +595,7 @@
             this.Btn4.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn4.Appearance.Options.UseFont = true;
             this.Btn4.Location = new System.Drawing.Point(1091, 191);
-            this.Btn4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn4.Margin = new System.Windows.Forms.Padding(4);
             this.Btn4.Name = "Btn4";
             this.Btn4.Size = new System.Drawing.Size(86, 75);
             this.Btn4.TabIndex = 201;
@@ -607,7 +607,7 @@
             this.Btn9.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn9.Appearance.Options.UseFont = true;
             this.Btn9.Location = new System.Drawing.Point(1277, 99);
-            this.Btn9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn9.Margin = new System.Windows.Forms.Padding(4);
             this.Btn9.Name = "Btn9";
             this.Btn9.Size = new System.Drawing.Size(86, 75);
             this.Btn9.TabIndex = 206;
@@ -619,7 +619,7 @@
             this.Btn8.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn8.Appearance.Options.UseFont = true;
             this.Btn8.Location = new System.Drawing.Point(1184, 99);
-            this.Btn8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn8.Margin = new System.Windows.Forms.Padding(4);
             this.Btn8.Name = "Btn8";
             this.Btn8.Size = new System.Drawing.Size(86, 75);
             this.Btn8.TabIndex = 205;
@@ -631,7 +631,7 @@
             this.Btn7.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.Btn7.Appearance.Options.UseFont = true;
             this.Btn7.Location = new System.Drawing.Point(1091, 99);
-            this.Btn7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn7.Margin = new System.Windows.Forms.Padding(4);
             this.Btn7.Name = "Btn7";
             this.Btn7.Size = new System.Drawing.Size(86, 75);
             this.Btn7.TabIndex = 204;
@@ -643,7 +643,7 @@
             this.BtnAt.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 16F);
             this.BtnAt.Appearance.Options.UseFont = true;
             this.BtnAt.Location = new System.Drawing.Point(111, 375);
-            this.BtnAt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnAt.Margin = new System.Windows.Forms.Padding(4);
             this.BtnAt.Name = "BtnAt";
             this.BtnAt.Size = new System.Drawing.Size(86, 75);
             this.BtnAt.TabIndex = 207;
@@ -719,7 +719,7 @@
             this.Controls.Add(this.TxtValue);
             this.Controls.Add(this.BtnEnter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmKeyBoard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Teclado Alfanumérico";

@@ -24,7 +24,7 @@ namespace POS.DLL.Repository
                     .Where(cust => cust.Status.Equals("A") && cust.Identification == _indentification)
                     .FirstOrDefault();
 
-                return customer is null ? new Customer() : customer;
+                return customer;
             }
             catch (Exception ex)
             {
