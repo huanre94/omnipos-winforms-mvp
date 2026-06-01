@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OmniPOS — Documentación Técnica</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #21242f;
+      --border: #2e3245;
+      --accent: #6c8fff;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --accent4: #f59e0b;
+      --danger: #f87171;
+      --text: #e2e8f0;
+      --text-muted: #8892a4;
+      --text-code: #7dd3fc;
+      --sidebar-w: 280px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: transform .25s ease;
+    }
+
+    #sidebar-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #sidebar-header .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -.3px;
+    }
+
+    #sidebar-header .subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    #sidebar nav { padding: 12px 0 24px; flex: 1; }
+
+    .nav-section {
+      padding: 10px 20px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      border-left: 3px solid transparent;
+      transition: all .15s;
+      user-select: none;
+    }
+
+    .nav-item:hover { color: var(--text); background: var(--surface2); }
+
+    .nav-item.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(108,143,255,.08);
+      font-weight: 600;
+    }
+
+    .nav-item .icon { font-size: 15px; flex-shrink: 0; }
+
+    /* ── MAIN ── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    #topbar .breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    #topbar .breadcrumb span { color: var(--text); font-weight: 500; }
+
+    #hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+
+    /* ── CONTENT ── */
+    #content { padding: 40px; max-width: 960px; }
+
+    .doc-section { display: none; }
+    .doc-section.active { display: block; }
+
+    /* ── TYPOGRAPHY ── */
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .doc-lead {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 36px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 22px 0 8px;
+    }
+
+    h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent4);
+      margin: 16px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    p { font-size: 14px; line-height: 1.75; color: var(--text); margin-bottom: 10px; }
+
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 14px; line-height: 1.8; color: var(--text); }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── CODE ── */
+    code {
+      background: rgba(108,143,255,.12);
+      color: var(--text-code);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 12.5px;
+    }
+
+    pre {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 14px 0 18px;
+      line-height: 1.65;
+    }
+
+    pre code {
+      background: none;
+      color: #c9d1d9;
+      padding: 0;
+      font-size: 13px;
+    }
+
+    /* ── TABLES ── */
+    .table-wrap { overflow-x: auto; margin: 14px 0 20px; border-radius: 8px; border: 1px solid var(--border); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+    thead tr { background: var(--surface2); }
+
+    th {
+      padding: 11px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+
+    td code { font-size: 12px; }
+
+    /* ── CARDS / BADGES ── */
+    .card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .badge-blue  { background: rgba(108,143,255,.18); color: var(--accent); }
+    .badge-green { background: rgba(52,211,153,.18);  color: var(--accent3); }
+    .badge-amber { background: rgba(245,158,11,.18);  color: var(--accent4); }
+    .badge-red   { background: rgba(248,113,113,.18); color: var(--danger); }
+    .badge-purple{ background: rgba(167,139,250,.18); color: var(--accent2); }
+
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .callout-info  { background: rgba(108,143,255,.1); border-left: 3px solid var(--accent); }
+    .callout-warn  { background: rgba(245,158,11,.1);  border-left: 3px solid var(--accent4); }
+    .callout-ok    { background: rgba(52,211,153,.1);  border-left: 3px solid var(--accent3); }
+    .callout-icon  { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+
+    .phase-block {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .phase-header {
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phase-1 .phase-header { background: rgba(108,143,255,.15); color: var(--accent); }
+    .phase-2 .phase-header { background: rgba(167,139,250,.15); color: var(--accent2); }
+    .phase-3 .phase-header { background: rgba(52,211,153,.15);  color: var(--accent3); }
+    .phase-4 .phase-header { background: rgba(245,158,11,.15);  color: var(--accent4); }
+
+    .phase-body { padding: 16px 18px; background: var(--surface2); }
+    .phase-body li { margin-bottom: 5px; }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .module-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: border-color .2s;
+    }
+
+    .module-card:hover { border-color: var(--accent); }
+
+    .module-card .mod-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .module-card .mod-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .endpoint-list { margin: 8px 0; }
+
+    .endpoint {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .endpoint:last-child { border-bottom: none; }
+
+    .method {
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      min-width: 46px;
+      text-align: center;
+    }
+
+    .method-get    { background: rgba(52,211,153,.2);  color: var(--accent3); }
+    .method-post   { background: rgba(108,143,255,.2); color: var(--accent); }
+    .method-put    { background: rgba(245,158,11,.2);  color: var(--accent4); }
+    .method-delete { background: rgba(248,113,113,.2); color: var(--danger); }
+
+    .endpoint-path { color: var(--text-code); font-family: monospace; font-size: 12.5px; }
+    .endpoint-desc { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+
+    .screen-prompt {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .screen-prompt-header {
+      padding: 12px 18px;
+      background: rgba(108,143,255,.1);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .screen-prompt-header .sp-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    .screen-prompt-body { padding: 16px 18px; }
+
+    .screen-prompt-body pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #0d1117;
+    }
+
+    .copy-btn {
+      background: rgba(108,143,255,.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: background .15s;
+    }
+
+    .copy-btn:hover { background: rgba(108,143,255,.3); }
+
+    .tree {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: #c9d1d9;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .dep-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .dep-row { display: flex; align-items: center; gap: 8px; }
+    .dep-name { color: var(--accent); font-weight: 600; }
+    .dep-arrow { color: var(--text-muted); }
+    .dep-target { color: var(--accent3); }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+    /* ── OVERVIEW HERO ── */
+    .hero {
+      background: linear-gradient(135deg, rgba(108,143,255,.12), rgba(167,139,250,.08));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 36px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 { font-size: 32px; margin-bottom: 10px; }
+    .hero p  { font-size: 15px; color: var(--text-muted); max-width: 600px; line-height: 1.7; }
+
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .stat {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px;
+      min-width: 130px;
+      text-align: center;
+    }
+
+    .stat-num { font-size: 26px; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: .5px; }
+
+    /* ── DEBT TABLE ── */
+    .priority-alta  { color: var(--danger); font-weight: 600; }
+    .priority-media { color: var(--accent4); font-weight: 600; }
+    .priority-baja  { color: var(--accent3); font-weight: 600; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #main { margin-left: 0; }
+      #hamburger { display: block; }
+      #content { padding: 24px 20px; }
+      .stats-row { flex-direction: column; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #444; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo">⚡ OmniPOS</div>
+    <div class="subtitle">Documentación Técnica</div>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <div class="nav-item active" onclick="show('overview')" id="nav-overview">
+      <span class="icon">🏠</span> Inicio
+    </div>
+
+    <div class="nav-section">Arquitectura</div>
+    <div class="nav-item" onclick="show('architecture')" id="nav-architecture">
+      <span class="icon">🏗️</span> Arquitectura General
+    </div>
+    <div class="nav-item" onclick="show('structure')" id="nav-structure">
+      <span class="icon">📁</span> Estructura de Proyectos
+    </div>
+
+    <div class="nav-section">Backend</div>
+    <div class="nav-item" onclick="show('mod-auth')" id="nav-mod-auth">
+      <span class="icon">🔐</span> Auth
+    </div>
+    <div class="nav-item" onclick="show('mod-customers')" id="nav-mod-customers">
+      <span class="icon">👤</span> Customers
+    </div>
+    <div class="nav-item" onclick="show('mod-products')" id="nav-mod-products">
+      <span class="icon">📦</span> Products
+    </div>
+    <div class="nav-item" onclick="show('mod-invoices')" id="nav-mod-invoices">
+      <span class="icon">🧾</span> Invoices
+    </div>
+    <div class="nav-item" onclick="show('mod-payments')" id="nav-mod-payments">
+      <span class="icon">💳</span> Payments
+    </div>
+    <div class="nav-item" onclick="show('mod-salesorders')" id="nav-mod-salesorders">
+      <span class="icon">🛒</span> Sales Orders
+    </div>
+    <div class="nav-item" onclick="show('mod-remission')" id="nav-mod-remission">
+      <span class="icon">🚛</span> Remission Guide
+    </div>
+    <div class="nav-item" onclick="show('mod-closing')" id="nav-mod-closing">
+      <span class="icon">🏦</span> Closing Cashier
+    </div>
+    <div class="nav-item" onclick="show('mod-stock')" id="nav-mod-stock">
+      <span class="icon">📋</span> Physical Stock
+    </div>
+    <div class="nav-item" onclick="show('mod-config')" id="nav-mod-config">
+      <span class="icon">⚙️</span> Configuration
+    </div>
+
+    <div class="nav-section">Migración</div>
+    <div class="nav-item" onclick="show('migration')" id="nav-migration">
+      <span class="icon">🚀</span> Plan de Migración
+    </div>
+    <div class="nav-item" onclick="show('debt')" id="nav-debt">
+      <span class="icon">⚠️</span> Deuda Técnica
+    </div>
+
+    <div class="nav-section">Frontend</div>
+    <div class="nav-item" onclick="show('screens')" id="nav-screens">
+      <span class="icon">🖥️</span> Prompts por Pantalla
+    </div>
+  </nav>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+  <div id="topbar">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="breadcrumb">OmniPOS / <span id="topbar-title">Inicio</span></div>
+  </div>
+
+  <div id="content">
+
+    <!-- ───── OVERVIEW ───── -->
+    <section class="doc-section active" id="overview">
+      <div class="hero">
+        <h1>OmniPOS — Documentación Técnica</h1>
+        <p>Guía completa de arquitectura, módulos de negocio, plan de migración y prompts para implementación del nuevo frontend. Generada a partir del análisis del código fuente.</p>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num">7</div><div class="stat-label">Proyectos</div></div>
+          <div class="stat"><div class="stat-num">10</div><div class="stat-label">Módulos</div></div>
+          <div class="stat"><div class="stat-num">21</div><div class="stat-label">Pantallas</div></div>
+          <div class="stat"><div class="stat-num">3</div><div class="stat-label">Fases migración</div></div>
+          <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Endpoints REST</div></div>
+        </div>
+      </div>
+
+      <h2>Índice de documentos</h2>
+      <div class="module-grid">
+        <div class="module-card" onclick="show('architecture')" style="cursor:pointer">
+          <div class="mod-name">🏗️ Arquitectura General</div>
+          <div class="mod-desc">Estado actual vs. objetivo. Stack tecnológico. Diagrama de capas.</div>
+        </div>
+        <div class="module-card" onclick="show('structure')" style="cursor:pointer">
+          <div class="mod-name">📁 Estructura de Proyectos</div>
+          <div class="mod-desc">Árbol de directorios propuesto. Dependencias entre proyectos. Convenciones.</div>
+        </div>
+        <div class="module-card" onclick="show('mod-auth')" style="cursor:pointer">
+          <div class="mod-name">🔐 Módulos del Backend</div>
+          <div class="mod-desc">Entidades, reglas de negocio, validaciones y endpoints por módulo.</div>
+        </div>
+        <div class="module-card" onclick="show('migration')" style="cursor:pointer">
+          <div class="mod-name">🚀 Plan de Migración</div>
+          <div class="mod-desc">4 fases. Mapeo WinForms → API. Deuda técnica identificada.</div>
+        </div>
+        <div class="module-card" onclick="show('screens')" style="cursor:pointer">
+          <div class="mod-name">🖥️ Prompts por Pantalla</div>
+          <div class="mod-desc">21 prompts listos para usar con IA y generar cada pantalla del frontend.</div>
+        </div>
+      </div>
+
+      <h2>Proyectos en la solución</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Proyecto</th><th>Target</th><th>Estado</th><th>Rol</th></tr></thead>
+          <tbody>
+            <tr><td><code>POS</code></td><td>.NET Framework 4.7.2</td><td><span class="badge badge-green">Activo</span></td><td>Frontend WinForms (DevExpress)</td></tr>
+            <tr><td><code>POS.DLL</code></td><td>.NET Framework 4.7.2</td><td><span class="badge badge-green">Activo</span></td><td>Repositorios, EF6, Contratos, Enums</td></tr>
+            <tr><td><code>POS.Api</code></td><td>.NET 8</td><td><span class="badge badge-amber">Scaffold</span></td><td>API REST (solo demo WeatherForecast)</td></tr>
+            <tr><td><code>POS.Domain</code></td><td>.NET 8</td><td><span class="badge badge-red">Vacío</span></td><td>Entidades y contratos de dominio</td></tr>
+            <tr><td><code>Domain.Application</code></td><td>.NET 8</td><td><span class="badge badge-red">Vacío</span></td><td>Casos de uso, DTOs, Validators</td></tr>
+            <tr><td><code>POS.Infrastructure</code></td><td>.NET 8</td><td><span class="badge badge-red">Vacío</span></td><td>Repositorios EF Core, servicios externos</td></tr>
+            <tr><td><code>POS.Tests</code></td><td>.NET Framework 4.8</td><td><span class="badge badge-red">Vacío</span></td><td>Pruebas unitarias e integración</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───── ARCHITECTURE ───── -->
+    <section class="doc-section" id="architecture">
+      <h1>Arquitectura General</h1>
+      <p class="doc-lead">Análisis del estado actual (As-Is) y diseño de la arquitectura objetivo (To-Be) para la separación frontend/backend.</p>
+
+      <h2>Estado Actual (As-Is)</h2>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <span>El WinForms instancia directamente los repositorios. No hay separación de capas real. La lógica de negocio está distribuida entre los Forms y los Stored Procedures.</span>
+      </div>
+      <div class="tree">┌─────────────────────────────────────────────────────────────────┐
+│                        POS (WinForms)                           │
+│  FrmLogin  FrmMain  FrmPayment  FrmCustomer  FrmSalesOrder ...  │
+│                  Uses DevExpress UI Controls                    │
+│                  MVP pattern incompleto (solo ProductPresenter) │
+└────────────────────┬────────────────────────────────────────────┘
+                     │ Direct instantiation / static calls
+┌────────────────────▼────────────────────────────────────────────┐
+│                       POS.DLL                                   │
+│  Repository/  ← Entity Framework 6 (Database-First, EDMX)      │
+│  Contracts/   ← interfaces (parcialmente implementadas)         │
+│  Classes/     ← DTOs y clases auxiliares                        │
+│  Enums/       ← enumeraciones de dominio                        │
+│  ModelPOS.edmx ← contexto EF (POSEntities)                      │
+└────────────────────┬────────────────────────────────────────────┘
+                     │ EF6 + Stored Procedures + XML params
+┌────────────────────▼────────────────────────────────────────────┐
+│                  SQL Server Database                             │
+│  Stored Procedures (SP_*) para toda la lógica transaccional     │
+│  Functions (FN_*) para validaciones                             │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+      <h2>Arquitectura Objetivo (To-Be)</h2>
+      <div class="callout callout-ok">
+        <span class="callout-icon">✅</span>
+        <span>Clean Architecture. El dominio no depende de nada externo. La API consume la capa de aplicación. El frontend solo habla con la API por HTTP/REST.</span>
+      </div>
+      <div class="tree">┌──────────────────────────────────────────┐
+│           Frontend (nuevo)               │
+│  Opción A: WinForms + HttpClient         │
+│  Opción B: React / Blazor (Web App)      │
+│  Opción C: MAUI / Electron (desktop)     │
+└──────────────┬───────────────────────────┘
+               │ HTTP/REST (JSON)
+┌──────────────▼───────────────────────────┐
+│         POS.Api  (ASP.NET Core 8)        │
+│  Controllers/ ← endpoints REST           │
+│  Middleware/  ← JWT, error handling      │
+└──────┬──────────────────┬────────────────┘
+       │                  │
+┌──────▼──────┐  ┌────────▼────────────────┐
+│ POS.Domain  │  │   Domain.Application    │
+│ Entities    │  │   Services / Use Cases  │
+│ Value Obj.  │  │   FluentValidation      │
+│ Interfaces  │  │   DTOs Request/Response │
+└─────────────┘  └────────┬────────────────┘
+                          │
+         ┌────────────────▼──────────────┐
+         │      POS.Infrastructure       │
+         │  Repositories (EF Core 8)     │
+         │  SP wrappers → EF Raw SQL     │
+         │  Printers / Scales / Scanners │
+         └────────────────┬──────────────┘
+                          │
+         ┌────────────────▼──────────────┐
+         │        SQL Server             │
+         └───────────────────────────────┘</div>
+
+      <h2>Principios de Diseño</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Principio</th><th>Aplicación</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Clean Architecture</strong></td><td>Dependencias apuntan hacia el dominio</td></tr>
+            <tr><td><strong>CQRS ligero</strong></td><td>Commands (escritura) / Queries (lectura) separados en <code>Domain.Application</code></td></tr>
+            <tr><td><strong>Repository Pattern</strong></td><td>Interfaces en <code>POS.Domain</code>, implementaciones en <code>POS.Infrastructure</code></td></tr>
+            <tr><td><strong>Separation of Concerns</strong></td><td>UI no conoce la BD; API no conoce UI</td></tr>
+            <tr><td><strong>Validación en backend</strong></td><td>Todas las reglas de negocio viven en la API, nunca solo en el front</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Stack Tecnológico Propuesto</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Capa</th><th>Tecnología</th></tr></thead>
+          <tbody>
+            <tr><td>API</td><td>ASP.NET Core 8 — controllers + minimal API</td></tr>
+            <tr><td>Autenticación</td><td>JWT Bearer tokens</td></tr>
+            <tr><td>ORM</td><td>EF Core 8 (migración desde EF6)</td></tr>
+            <tr><td>Validaciones</td><td>FluentValidation</td></tr>
+            <tr><td>Documentación API</td><td>Swagger / OpenAPI</td></tr>
+            <tr><td>Logging</td><td>Serilog → archivo + Seq</td></tr>
+            <tr><td>Tests</td><td>xUnit + Moq + FluentAssertions</td></tr>
+            <tr><td>CI/CD</td><td>GitHub Actions</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Módulos del Sistema</h2>
+      <div class="module-grid">
+        <div class="module-card"><div class="mod-name">🔐 Auth</div><div class="mod-desc">Login, validación de usuario, parámetros globales, autorización supervisor</div></div>
+        <div class="module-card"><div class="mod-name">👤 Customers</div><div class="mod-desc">CRUD cliente, direcciones de entrega, validación RUC/CI/Pasaporte</div></div>
+        <div class="module-card"><div class="mod-name">📦 Products</div><div class="mod-desc">Búsqueda, consulta de precio/stock, productos de peso variable</div></div>
+        <div class="module-card"><div class="mod-name">🧾 Invoices</div><div class="mod-desc">Creación, anulación, tickets de impresión, ventas suspendidas</div></div>
+        <div class="module-card"><div class="mod-name">💳 Payments</div><div class="mod-desc">Efectivo, tarjeta, cheque, crédito interno, gift card, retención, anticipo</div></div>
+        <div class="module-card"><div class="mod-name">🛒 Sales Orders</div><div class="mod-desc">Creación, edición, copiado, conversión a factura</div></div>
+        <div class="module-card"><div class="mod-name">🚛 Remission Guide</div><div class="mod-desc">Guías de remisión, selección de órdenes, conversión a factura</div></div>
+        <div class="module-card"><div class="mod-name">🏦 Closing Cashier</div><div class="mod-desc">Cierre total, cierre parcial, anulación, denominaciones</div></div>
+        <div class="module-card"><div class="mod-name">📋 Physical Stock</div><div class="mod-desc">Conteo físico de inventario, líneas por producto</div></div>
+        <div class="module-card"><div class="mod-name">⚙️ Configuration</div><div class="mod-desc">Punto de emisión, parámetros globales, impuestos, canales de venta</div></div>
+      </div>
+    </section>
+
+    <!-- ───── STRUCTURE ───── -->
+    <section class="doc-section" id="structure">
+      <h1>Estructura de Proyectos</h1>
+      <p class="doc-lead">Árbol de directorios propuesto para la arquitectura limpia, junto con las dependencias entre proyectos y convenciones de nomenclatura.</p>
+
+      <h2>Árbol de Directorios</h2>
+      <div class="tree">omnipos-winforms-mvp/
+│
+├── POS/                          ← WinForms (mantener durante transición)
+│   ├── Views/                    ← Interfaces MVP
+│   ├── Presenter/                ← Presentadores (ampliar)
+│   └── Frm*.cs                   ← Forms existentes
+│
+├── POS.DLL/                      ← Mantener para compatibilidad WinForms
+│   ├── Repository/               ← Acceso a datos EF6
+│   ├── Contracts/                ← Interfaces de repositorios
+│   ├── Classes/                  ← DTOs auxiliares
+│   ├── Enums/                    ← Enumeraciones
+│   └── ModelPOS.edmx             ← Modelo EF6
+│
+├── POS.Domain/                   ← Capa de dominio (NUEVA)
+│   ├── Entities/                 ← Customer, Invoice, Product, SalesOrder...
+│   ├── Interfaces/
+│   │   ├── Repositories/         ← ICustomerRepository, IInvoiceRepository...
+│   │   └── Services/             ← IAuthService, ICustomerService...
+│   ├── ValueObjects/             ← Identification, Money...
+│   └── Enums/                    ← Mover desde POS.DLL
+│
+├── Domain.Application/           ← Casos de uso (NUEVA)
+│   ├── Services/                 ← AuthService, CustomerService, InvoiceService...
+│   ├── DTOs/
+│   │   ├── Requests/             ← LoginRequest, CreateInvoiceRequest...
+│   │   └── Responses/            ← LoginResponse, InvoiceResponse...
+│   └── Validators/               ← FluentValidation por cada Request
+│
+├── POS.Infrastructure/           ← Infraestructura (NUEVA)
+│   ├── Persistence/
+│   │   ├── PosDbContext.cs       ← EF Core
+│   │   ├── Repositories/         ← Implementaciones concretas
+│   │   └── Migrations/
+│   ├── ExternalServices/         ← Printer, Scale, Scanner
+│   └── DependencyInjection.cs   ← Registro de servicios
+│
+├── POS.Api/                      ← API REST (AMPLIAR)
+│   ├── Controllers/              ← Un controller por módulo
+│   ├── Middleware/               ← Error handling, logging
+│   ├── Program.cs
+│   └── appsettings.json
+│
+└── POS.Tests/                    ← Pruebas (AMPLIAR)
+    ├── Unit/
+    │   ├── Services/
+    │   └── Validators/
+    └── Integration/
+        └── Controllers/</div>
+
+      <h2>Dependencias entre Proyectos</h2>
+      <div class="dep-box">
+        <div class="dep-row"><span class="dep-name">POS.Api</span><span class="dep-arrow">→</span><span class="dep-target">Domain.Application, POS.Infrastructure</span></div>
+        <div class="dep-row"><span class="dep-name">Domain.Application</span><span class="dep-arrow">→</span><span class="dep-target">POS.Domain</span></div>
+        <div class="dep-row"><span class="dep-name">POS.Infrastructure</span><span class="dep-arrow">→</span><span class="dep-target">POS.Domain</span></div>
+        <div class="dep-row"><span class="dep-name">POS.Domain</span><span class="dep-arrow">→</span><span class="dep-target">(sin dependencias internas)</span></div>
+        <div class="dep-row"><span class="dep-name">POS (WinForms)</span><span class="dep-arrow">→</span><span class="dep-target">POS.DLL (transición) → POS.Api client (post-migración)</span></div>
+        <div class="dep-row"><span class="dep-name">POS.Tests</span><span class="dep-arrow">→</span><span class="dep-target">Domain.Application, POS.Infrastructure</span></div>
+      </div>
+
+      <h2>Convenciones de Nomenclatura</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tipo</th><th>Convención</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Controller</td><td><code>{Entidad}Controller</code></td><td><code>CustomersController</code></td></tr>
+            <tr><td>Service (interfaz)</td><td><code>I{Entidad}Service</code></td><td><code>ICustomerService</code></td></tr>
+            <tr><td>Service (impl.)</td><td><code>{Entidad}Service</code></td><td><code>CustomerService</code></td></tr>
+            <tr><td>Repository (interfaz)</td><td><code>I{Entidad}Repository</code></td><td><code>ICustomerRepository</code></td></tr>
+            <tr><td>Repository (impl.)</td><td><code>{Entidad}Repository</code></td><td><code>CustomerRepository</code></td></tr>
+            <tr><td>Request DTO</td><td><code>{Acción}{Entidad}Request</code></td><td><code>CreateCustomerRequest</code></td></tr>
+            <tr><td>Response DTO</td><td><code>{Entidad}Response</code></td><td><code>CustomerResponse</code></td></tr>
+            <tr><td>Validator</td><td><code>{Request}Validator</code></td><td><code>CreateCustomerRequestValidator</code></td></tr>
+            <tr><td>Enum</td><td>PascalCase</td><td><code>PaymentMode</code>, <code>DocumentType</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════ MODULE SECTIONS ═══════════ -->
+
+    <!-- AUTH -->
+    <section class="doc-section" id="mod-auth">
+      <h1>🔐 Módulo Auth</h1>
+      <p class="doc-lead">Autenticación de usuarios, validación de punto de emisión y autorización de supervisores.</p>
+      <h3>Entidades involucradas</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">UserLogin</span><span class="badge badge-blue">SP_Login_Consult_Result</span><span class="badge badge-blue">GlobalParameter</span><span class="badge badge-blue">EmissionPoint</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Autenticar usuario por <code>Username + Password + Workstation + IP</code>.</li>
+        <li>Validar que el punto de emisión esté configurado y activo para la máquina.</li>
+        <li>Devolver parámetros globales del sistema junto al token JWT.</li>
+        <li>Validar autorización de supervisor (<code>SP_Supervisor_Validate</code>).</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Usuario y contraseña son requeridos.</li>
+        <li>IP y nombre de máquina deben coincidir con los registrados.</li>
+        <li>Un usuario no puede tener dos sesiones activas simultáneas en distintas cajas.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/auth/login</span><span class="endpoint-desc">LoginRequest → LoginResponse (token + globalParams)</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/auth/supervisor</span><span class="endpoint-desc">SupervisorAuthRequest → bool</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/auth/emission-point</span><span class="endpoint-desc">EmissionPointResponse</span></div>
+      </div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="doc-section" id="mod-customers">
+      <h1>👤 Módulo Customers</h1>
+      <p class="doc-lead">CRUD de clientes, gestión de direcciones de entrega y validación de identificaciones fiscales.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">Customer</span><span class="badge badge-blue">CustomerAddress</span><span class="badge badge-blue">IdentType</span><span class="badge badge-blue">CustomerType</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Buscar cliente por cédula / RUC / pasaporte.</li>
+        <li>Validar tipo y formato de identificación (<code>FN_Identification_Validate</code>).</li>
+        <li>Crear o actualizar cliente (<code>SP_Customer_Insert</code>).</li>
+        <li>Gestionar múltiples direcciones de entrega por cliente.</li>
+        <li>Un cliente puede tener retención habilitada (<code>UseRetention</code>).</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Identificación: formato según tipo (CI = 10 dígitos, RUC = 13 dígitos).</li>
+        <li>Nombre, apellido, email: requeridos para factura con datos del cliente.</li>
+        <li>Solo un cliente con status <code>A</code> puede ser seleccionado.</li>
+        <li>Dirección de entrega: campos <code>Address</code> y <code>Telephone</code> requeridos.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/customers/{identification}</span><span class="endpoint-desc">CustomerResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/customers/{customerId}/addresses</span><span class="endpoint-desc">List&lt;CustomerAddressResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/customers</span><span class="endpoint-desc">CreateCustomerRequest → CustomerResponse</span></div>
+        <div class="endpoint"><span class="method method-put">PUT</span><span class="endpoint-path">/api/customers/{customerId}</span><span class="endpoint-desc">UpdateCustomerRequest → CustomerResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/customers/{customerId}/addresses</span><span class="endpoint-desc">CreateAddressRequest → CustomerAddressResponse</span></div>
+        <div class="endpoint"><span class="method method-put">PUT</span><span class="endpoint-path">/api/customers/addresses/{addressId}</span><span class="endpoint-desc">UpdateAddressRequest → CustomerAddressResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/customers/validate-identification</span><span class="endpoint-desc">ValidateIdentRequest → ValidationResult</span></div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="doc-section" id="mod-products">
+      <h1>📦 Módulo Products</h1>
+      <p class="doc-lead">Búsqueda, consulta de precios con descuentos y promociones, y soporte para productos de peso variable.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">Product</span><span class="badge badge-blue">ProductBarcode</span><span class="badge badge-blue">InventUnit</span><span class="badge badge-blue">ProductCategory</span><span class="badge badge-blue">ProductGroup</span><span class="badge badge-blue">SP_Product_Consult_Result</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Consultar producto por código de barras o nombre.</li>
+        <li>Calcular precio con descuentos, promociones y modo de pago (<code>SP_Product_Consult</code>).</li>
+        <li>Soporte para productos de peso variable (balanza integrada).</li>
+        <li>Consultar barras adicionales (<code>SP_ProductBarcode_Consult</code>).</li>
+        <li>Modo verificador de precios independiente.</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Producto no puede tener precio <code>&lt;= 0</code> (IG003).</li>
+        <li>Cantidad debe ser positiva y en la unidad correspondiente.</li>
+        <li>Si el producto requiere peso, se debe leer de la balanza antes de agregar.</li>
+        <li>Validar stock disponible según ubicación (<code>LocationId</code>).</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/products/barcode/{barcode}</span><span class="endpoint-desc">ProductConsultResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/products/search?name={name}</span><span class="endpoint-desc">List&lt;ProductResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/products/consult</span><span class="endpoint-desc">ProductConsultRequest → ProductConsultResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/products/{productId}/barcodes</span><span class="endpoint-desc">List&lt;ProductBarcodeResponse&gt;</span></div>
+      </div>
+    </section>
+
+    <!-- INVOICES -->
+    <section class="doc-section" id="mod-invoices">
+      <h1>🧾 Módulo Invoices</h1>
+      <p class="doc-lead">Creación y anulación de facturas, tickets de impresión y gestión de ventas suspendidas.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">InvoiceTable</span><span class="badge badge-blue">InvoiceLine</span><span class="badge badge-blue">InvoicePayment</span><span class="badge badge-blue">SP_Invoice_Insert_Result</span><span class="badge badge-blue">SalesLog</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Crear factura con líneas de productos y pagos via XML (<code>SP_Invoice_Insert</code>).</li>
+        <li>Anular factura, requiere autorización de supervisor.</li>
+        <li>Consultar ticket de impresión (<code>SP_InvoiceTicket_Consult</code>).</li>
+        <li>Suspender y reanudar factura en progreso (<code>SalesLog</code>).</li>
+        <li>Detectar si hay una venta suspendida al abrir caja.</li>
+        <li>Calcular: Base IVA 0%, Base IVA X%, IVA, IRBP, Descuento.</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Al menos una línea de producto es requerida.</li>
+        <li>El monto pagado debe cubrir el total de la factura.</li>
+        <li>Si hay retención, debe registrarse en el mismo documento.</li>
+        <li>No se puede facturar si el punto de emisión no está configurado.</li>
+        <li>Descuento no puede exceder el subtotal del producto (HR001).</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/invoices</span><span class="endpoint-desc">CreateInvoiceRequest → InvoiceResult</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/invoices/{invoiceId}/ticket</span><span class="endpoint-desc">List&lt;InvoiceTicketLine&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/invoices/{invoiceId}/cancel</span><span class="endpoint-desc">CancelInvoiceRequest → bool</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/invoices/suspended</span><span class="endpoint-desc">SuspendedSaleResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/invoices/suspend</span><span class="endpoint-desc">SuspendInvoiceRequest → bool</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/invoices/resume/{logId}</span><span class="endpoint-desc">ResumedInvoiceResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/invoices/last</span><span class="endpoint-desc">long (último número de factura)</span></div>
+      </div>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section class="doc-section" id="mod-payments">
+      <h1>💳 Módulo Payments</h1>
+      <p class="doc-lead">Soporte para múltiples medios de pago en una misma factura, validación de saldos y cálculo de cambio.</p>
+      <h3>Modos de Pago</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Código</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><code>CASH</code></td><td>Efectivo</td></tr>
+            <tr><td><code>CARD</code></td><td>Tarjeta de crédito/débito</td></tr>
+            <tr><td><code>CHECK</code></td><td>Cheque bancario</td></tr>
+            <tr><td><code>INTERNAL_CREDIT</code></td><td>Crédito interno (tarjeta interna)</td></tr>
+            <tr><td><code>GIFTCARD</code></td><td>Gift card</td></tr>
+            <tr><td><code>WITHHOLD</code></td><td>Retención fiscal</td></tr>
+            <tr><td><code>ADVANCE</code></td><td>Anticipo del cliente</td></tr>
+            <tr><td><code>RETURN</code></td><td>Devolución aplicada</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>La suma de pagos debe igualar o superar el total de la factura.</li>
+        <li>Gift card: validar vigencia y saldo suficiente.</li>
+        <li>Crédito interno: validar límite disponible.</li>
+        <li>Retención: solo si el cliente tiene <code>UseRetention = true</code>.</li>
+        <li>Anticipo: verificar que pertenece al cliente activo.</li>
+        <li>Cambio solo aplica para pago en efectivo.</li>
+        <li>Descuento dinámico según modo de pago (HR002).</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/payments/modes</span><span class="endpoint-desc">List&lt;PaymModeResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/payments/giftcard/validate</span><span class="endpoint-desc">GiftCardValidateRequest → GiftCardBalanceResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/payments/giftcard/redeem</span><span class="endpoint-desc">GiftCardRedeemRequest → RedeemResult</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/payments/internal-credit/{cardCode}</span><span class="endpoint-desc">InternalCreditBalanceResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/payments/advance/consult</span><span class="endpoint-desc">AdvanceConsultRequest → AdvanceResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/payments/withhold</span><span class="endpoint-desc">WithholdRequest → WithholdResult</span></div>
+      </div>
+    </section>
+
+    <!-- SALES ORDERS -->
+    <section class="doc-section" id="mod-salesorders">
+      <h1>🛒 Módulo Sales Orders</h1>
+      <p class="doc-lead">Gestión completa de órdenes de venta: creación, edición, copiado y conversión a factura.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">SalesOrder</span><span class="badge badge-blue">SalesOrderLine</span><span class="badge badge-blue">SalesOrderPayment</span><span class="badge badge-blue">SalesOrderText</span><span class="badge badge-blue">SalesOrderStatus</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Crear y actualizar órdenes de venta (<code>SP_SalesOrderOmnipos_Insert</code>).</li>
+        <li>Copiar una orden existente como nueva.</li>
+        <li>Convertir orden a factura (<code>SP_SalesOrderToInvoice_Insert</code>).</li>
+        <li>Consultar órdenes por estado y canal de venta.</li>
+        <li>Registrar texto libre en la orden (<code>SalesOrderText</code>).</li>
+        <li>Soporte para pagos anticipados en la orden.</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Orden debe tener al menos una línea.</li>
+        <li>No se puede convertir a factura una orden ya facturada.</li>
+        <li>El cliente de la orden debe existir y estar activo.</li>
+        <li><code>SalesOriginId</code> (canal de venta) es requerido.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/sales-orders</span><span class="endpoint-desc">filtros → List&lt;SalesOrderResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/sales-orders/{salesOrderId}</span><span class="endpoint-desc">SalesOrderDetailResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/sales-orders</span><span class="endpoint-desc">CreateSalesOrderRequest → SalesOrderResult</span></div>
+        <div class="endpoint"><span class="method method-put">PUT</span><span class="endpoint-path">/api/sales-orders/{salesOrderId}</span><span class="endpoint-desc">UpdateSalesOrderRequest → SalesOrderResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/sales-orders/{salesOrderId}/copy</span><span class="endpoint-desc">SalesOrderDetailResponse</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/sales-orders/{salesOrderId}/to-invoice</span><span class="endpoint-desc">InvoiceResult</span></div>
+      </div>
+    </section>
+
+    <!-- REMISSION -->
+    <section class="doc-section" id="mod-remission">
+      <h1>🚛 Módulo Remission Guide</h1>
+      <p class="doc-lead">Gestión de guías de remisión, desde órdenes pendientes hasta conversión a factura.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">SalesRemissionTable</span><span class="badge badge-blue">SalesRemissionLine</span><span class="badge badge-blue">Transport</span><span class="badge badge-blue">TransportDriver</span><span class="badge badge-blue">TransportReason</span>
+      </div>
+      <h3>Lógica de Negocio</h3>
+      <ul>
+        <li>Crear guía desde una orden de venta (<code>SP_RemissionGuideSalesOrder_Consult</code>).</li>
+        <li>Convertir guía a factura (<code>SP_RemissionGuideInvoice_Insert</code>).</li>
+        <li>Anular guía (<code>SP_RemissionGuide_Cancel</code>).</li>
+        <li>Consultar órdenes pendientes de remisión (<code>SP_RemissionPendingSalesOrder_Consult</code>).</li>
+      </ul>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Solo se puede crear guía desde una orden confirmada.</li>
+        <li>Transportista y motivo de traslado son requeridos.</li>
+        <li>No se puede anular una guía ya convertida a factura.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/remission-guides</span><span class="endpoint-desc">List&lt;RemissionGuideResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/remission-guides</span><span class="endpoint-desc">CreateRemissionRequest → RemissionResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/remission-guides/{id}/cancel</span><span class="endpoint-desc">CancelRemissionResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/remission-guides/{id}/to-invoice</span><span class="endpoint-desc">InvoiceResult</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/remission-guides/pending-orders</span><span class="endpoint-desc">List&lt;PendingSalesOrderResponse&gt;</span></div>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="doc-section" id="mod-closing">
+      <h1>🏦 Módulo Closing Cashier</h1>
+      <p class="doc-lead">Cierres de caja totales y parciales, anulación de cierres y gestión de denominaciones.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">ClosingCashierTable</span><span class="badge badge-blue">ClosingCashierLine</span><span class="badge badge-blue">ClosingCashierMoney</span><span class="badge badge-blue">CurrencyDenomination</span>
+      </div>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>Solo el cajero activo puede realizar el cierre.</li>
+        <li>No se puede realizar cierre total si hay facturas pendientes.</li>
+        <li>El cierre parcial requiere registrar el monto en bóveda.</li>
+        <li>Solo supervisor puede anular un cierre.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/closing/denominations</span><span class="endpoint-desc">List&lt;DenominationResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/closing/payments</span><span class="endpoint-desc">ClosingPaymentSummaryResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/closing/partials</span><span class="endpoint-desc">List&lt;PartialClosingResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/closing/full</span><span class="endpoint-desc">FullClosingRequest → ClosingResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/closing/partial</span><span class="endpoint-desc">PartialClosingRequest → ClosingResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/closing/void</span><span class="endpoint-desc">VoidClosingRequest → bool (requiere supervisor)</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/closing/ticket/{closingId}</span><span class="endpoint-desc">List&lt;ClosingTicketLine&gt;</span></div>
+      </div>
+    </section>
+
+    <!-- STOCK -->
+    <section class="doc-section" id="mod-stock">
+      <h1>📋 Módulo Physical Stock</h1>
+      <p class="doc-lead">Conteo físico de inventario por escaneo de productos.</p>
+      <h3>Reglas de Validación</h3>
+      <ul>
+        <li>No se puede iniciar conteo durante turno con ventas activas (según configuración).</li>
+        <li>Producto debe existir en la ubicación (<code>InventLocation</code>).</li>
+        <li>Cantidad contada no puede ser negativa.</li>
+      </ul>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/physical-stock</span><span class="endpoint-desc">List&lt;StockCountingResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/physical-stock</span><span class="endpoint-desc">CreateCountingRequest → CountingResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/physical-stock/{id}/lines</span><span class="endpoint-desc">AddStockLineRequest → StockLineResult</span></div>
+        <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/physical-stock/{id}/confirm</span><span class="endpoint-desc">ConfirmCountingResult</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/physical-stock/products</span><span class="endpoint-desc">List&lt;StockProductResponse&gt;</span></div>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section class="doc-section" id="mod-config">
+      <h1>⚙️ Módulo Configuration</h1>
+      <p class="doc-lead">Parámetros globales, punto de emisión, catálogos del sistema.</p>
+      <h3>Entidades</h3>
+      <div class="tag-list">
+        <span class="badge badge-blue">EmissionPoint</span><span class="badge badge-blue">GlobalParameter</span><span class="badge badge-blue">SalesOrigin</span><span class="badge badge-blue">TaxTable</span><span class="badge badge-blue">InventLocation</span><span class="badge badge-blue">Salesman</span>
+      </div>
+      <h3>Endpoints</h3>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/global-parameters</span><span class="endpoint-desc">List&lt;GlobalParameter&gt;</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/emission-point</span><span class="endpoint-desc">EmissionPointResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/sales-origins</span><span class="endpoint-desc">List&lt;SalesOriginResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/tax</span><span class="endpoint-desc">TaxResponse</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/salesmen</span><span class="endpoint-desc">List&lt;SalesmanResponse&gt;</span></div>
+        <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/config/locations</span><span class="endpoint-desc">List&lt;LocationResponse&gt;</span></div>
+      </div>
+    </section>
+
+    <!-- ───── MIGRATION ───── -->
+    <section class="doc-section" id="migration">
+      <h1>🚀 Plan de Migración</h1>
+      <p class="doc-lead">Migración en 3 fases para implementar Clean Architecture desde el inicio sin crear proxies temporales.</p>
+
+      <h2>Fases</h2>
+
+      <div class="phase-block phase-1">
+        <div class="phase-header">⚡ Fase 1 — Implementar Clean Architecture con API REST</div>
+        <div class="phase-body">
+          <p style="margin-bottom:10px;font-size:13.5px;color:var(--text-muted)"><strong>Objetivo:</strong> Construir el backend desde cero con arquitectura limpia, separando la lógica de negocio en capas bien definidas. NO hacer proxy de <code>POS.DLL</code>.</p>
+
+          <h4 style="margin-top:16px;margin-bottom:8px;color:var(--accent);">1.1 — Preparar la infraestructura base</h4>
+          <p style="font-size:13px;margin-bottom:6px;"><strong>POS.Domain</strong> (capa de dominio puro):</p>
+          <ol style="margin-bottom:12px;">
+            <li>Definir entidades de dominio en <code>POS.Domain/Entities/</code>: <code>Customer</code>, <code>Invoice</code>, <code>Product</code>, <code>SalesOrder</code>, <code>Payment</code>, etc.</li>
+            <li>Usar <strong>Value Objects</strong> para conceptos como <code>Identification</code>, <code>Money</code>, <code>Address</code>.</li>
+            <li>Crear interfaces de repositorio en <code>POS.Domain/Interfaces/Repositories/</code>.</li>
+            <li>Mover enumeraciones desde <code>POS.DLL/Enums/</code> a <code>POS.Domain/Enums/</code>.</li>
+            <li>No referenciar Entity Framework ni ninguna tecnología de infraestructura.</li>
+          </ol>
+
+          <p style="font-size:13px;margin-bottom:6px;"><strong>Domain.Application</strong> (casos de uso):</p>
+          <ol style="margin-bottom:12px;">
+            <li>Crear DTOs en <code>Domain.Application/DTOs/Requests/</code> y <code>.../Responses/</code>.</li>
+            <li>Crear Application Services: <code>AuthService</code>, <code>CustomerService</code>, <code>ProductService</code>, <code>InvoiceService</code>, etc.</li>
+            <li>Implementar validadores con <strong>FluentValidation</strong> en <code>Domain.Application/Validators/</code>.</li>
+            <li>Extraer y reescribir la lógica de negocio que hoy vive en:
+              <ul style="margin-top:4px;margin-left:20px;">
+                <li>Stored Procedures → métodos en los Services.</li>
+                <li>Forms de WinForms → Validators.</li>
+                <li>Repositorios de <code>POS.DLL</code> → Services.</li>
+              </ul>
+            </li>
+          </ol>
+
+          <h4 style="margin-top:16px;margin-bottom:8px;color:var(--accent);">1.2 — Implementar la capa de infraestructura</h4>
+          <p style="font-size:13px;margin-bottom:6px;"><strong>POS.Infrastructure</strong> (acceso a datos y servicios externos):</p>
+          <ol style="margin-bottom:12px;">
+            <li>Migrar el modelo de Entity Framework 6 a <strong>EF Core 8</strong> usando <code>scaffold-dbcontext</code>.</li>
+            <li>Crear <code>PosDbContext.cs</code> en <code>POS.Infrastructure/Persistence/</code>.</li>
+            <li>Implementar repositorios concretos que implementan las interfaces de <code>POS.Domain</code>.</li>
+            <li>Envolver llamadas a <strong>Stored Procedures</strong> con <code>FromSqlRaw</code> / <code>ExecuteSqlRaw</code>.</li>
+            <li>Crear servicios para periféricos en <code>POS.Infrastructure/ExternalServices/</code>: <code>PrinterService</code>, <code>ScaleService</code>, <code>ScannerService</code>.</li>
+            <li>Configurar <strong>Dependency Injection</strong> en <code>POS.Infrastructure/DependencyInjection.cs</code>.</li>
+          </ol>
+
+          <h4 style="margin-top:16px;margin-bottom:8px;color:var(--accent);">1.3 — Construir la API REST</h4>
+          <p style="font-size:13px;margin-bottom:6px;"><strong>POS.Api</strong> (capa de presentación HTTP):</p>
+          <ol style="margin-bottom:12px;">
+            <li>Configurar <code>Program.cs</code>: registrar servicios, <strong>JWT Authentication</strong>, <strong>Swagger/OpenAPI</strong>, <strong>Serilog</strong>.</li>
+            <li>Crear Middleware: <code>ErrorHandlingMiddleware</code> y <code>RequestLoggingMiddleware</code>.</li>
+            <li>Crear Controllers (uno por módulo): <code>AuthController</code>, <code>CustomersController</code>, <code>ProductsController</code>, <code>InvoicesController</code>, etc.</li>
+            <li>Los Controllers <strong>solo</strong> llaman a los Application Services, nunca a repositorios directamente.</li>
+            <li>Validar automáticamente los Requests con <code>FluentValidation.AspNetCore</code>.</li>
+          </ol>
+
+          <h4 style="margin-top:16px;margin-bottom:8px;color:var(--accent);">1.4 — Manejar la transición con WinForms</h4>
+          <p style="font-size:13px;margin-bottom:6px;"><strong>Estrategia de coexistencia:</strong></p>
+          <ul style="margin-bottom:12px;">
+            <li><code>POS.DLL</code> sigue funcionando para el WinForms actual.</li>
+            <li>La nueva API <strong>no referencia</strong> <code>POS.DLL</code>, es independiente.</li>
+            <li>Ambos sistemas apuntan a la <strong>misma base de datos</strong>.</li>
+            <li>Durante esta fase, <strong>no modificar</strong> el WinForms existente.</li>
+          </ul>
+
+          <div class="callout callout-ok" style="margin-top:12px">
+            <span class="callout-icon">✅</span>
+            <span><strong>Resultado:</strong> API REST funcional con Clean Architecture. WinForms sigue operando en paralelo sin cambios.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-block phase-2">
+        <div class="phase-header">🖥️ Fase 2 — Reemplazar el frontend WinForms</div>
+        <div class="phase-body">
+          <p style="margin-bottom:10px;font-size:13.5px;color:var(--text-muted)"><strong>Objetivo:</strong> Reemplazar WinForms con una interfaz moderna que consuma la API.</p>
+          <div class="table-wrap" style="margin-bottom:12px">
+            <table>
+              <thead><tr><th>Opción</th><th>Pro</th><th>Contra</th></tr></thead>
+              <tbody>
+                <tr><td>WinForms + HttpClient</td><td>Mínimo cambio, equipo lo conoce</td><td>Tecnología legada</td></tr>
+                <tr><td>Blazor WebAssembly</td><td>.NET puro, sin JS</td><td>Curva de aprendizaje UI</td></tr>
+                <tr><td>React + TypeScript</td><td>Ecosistema enorme, ideal para web/tablet</td><td>Requiere JS/TS</td></tr>
+                <tr><td>.NET MAUI</td><td>Cross-platform desktop/mobile</td><td>Complejo para POS táctil</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ol>
+            <li>Crear cliente HTTP tipado que consuma los endpoints de <code>POS.Api</code>.</li>
+            <li>Implementar pantalla de Login.</li>
+            <li>Implementar pantalla principal de venta.</li>
+            <li>Implementar flujo de pago.</li>
+            <li>Implementar gestión de clientes y órdenes.</li>
+            <li>Implementar cierre de caja.</li>
+            <li>Manejar impresión de tickets.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="phase-block phase-3">
+        <div class="phase-header">🧪 Fase 3 — Pruebas y CI/CD</div>
+        <div class="phase-body">
+          <ol>
+            <li>Agregar pruebas unitarias en <code>POS.Tests</code> para Application Services.</li>
+            <li>Agregar pruebas de integración para los Controllers.</li>
+            <li>Configurar GitHub Actions: Build + Test en cada PR, publicar artefactos.</li>
+            <li>Configurar Serilog con niveles configurables por ambiente.</li>
+          </ol>
+        </div>
+      </div>
+
+      <h2>Mapeo WinForms → API</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Form actual</th><th>Módulo API</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr><td><code>FrmLogin</code></td><td><code>POST /api/auth/login</code></td><td></td></tr>
+            <tr><td><code>FrmMenu</code></td><td><code>GET /api/config/*</code></td><td>Solo lectura de config</td></tr>
+            <tr><td><code>FrmMain</code></td><td><code>POST /api/invoices</code>, <code>GET /api/products/*</code></td><td>Flujo principal de venta</td></tr>
+            <tr><td><code>FrmCustomer</code></td><td><code>GET/POST/PUT /api/customers</code></td><td></td></tr>
+            <tr><td><code>FrmAddressPicker</code></td><td><code>GET/POST /api/customers/{id}/addresses</code></td><td></td></tr>
+            <tr><td><code>FrmPayment</code></td><td><code>POST /api/invoices</code></td><td>Con nodo Payment en XML</td></tr>
+            <tr><td><code>FrmPaymentCard</code></td><td><code>POST /api/payments/card</code></td><td></td></tr>
+            <tr><td><code>FrmPaymentCredit</code></td><td><code>GET/POST /api/payments/internal-credit</code></td><td></td></tr>
+            <tr><td><code>FrmPaymentGiftcard</code></td><td><code>POST /api/payments/giftcard/validate + /redeem</code></td><td></td></tr>
+            <tr><td><code>FrmPaymentWithhold</code></td><td><code>POST /api/payments/withhold</code></td><td></td></tr>
+            <tr><td><code>FrmPaymentAdvance</code></td><td><code>POST /api/payments/advance/consult</code></td><td></td></tr>
+            <tr><td><code>FrmSalesOrder</code></td><td><code>GET/POST/PUT /api/sales-orders</code></td><td></td></tr>
+            <tr><td><code>FrmRemissionGuide</code></td><td><code>POST /api/remission-guides</code></td><td></td></tr>
+            <tr><td><code>FrmClosingCashier</code></td><td><code>POST /api/closing/full</code></td><td></td></tr>
+            <tr><td><code>FrmPartialClosing</code></td><td><code>POST /api/closing/partial</code></td><td></td></tr>
+            <tr><td><code>FrmVoidClosing</code></td><td><code>POST /api/closing/void</code></td><td>Requiere supervisor</td></tr>
+            <tr><td><code>FrmInvoiceCancel</code></td><td><code>POST /api/invoices/{id}/cancel</code></td><td>Requiere supervisor</td></tr>
+            <tr><td><code>FrmProductSearch</code></td><td><code>GET /api/products/search</code></td><td></td></tr>
+            <tr><td><code>FrmProductChecker</code></td><td><code>GET /api/products/barcode/{barcode}</code></td><td>Modo verificador</td></tr>
+            <tr><td><code>FrmPhysicalStockCount</code></td><td><code>POST /api/physical-stock</code></td><td></td></tr>
+            <tr><td><code>FrmSupervisorAuth</code></td><td><code>POST /api/auth/supervisor</code></td><td></td></tr>
+            <tr><td><code>FrmKeyBoard / FrmKeyPad</code></td><td>—</td><td>Componentes UI puros</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───── DEBT ───── -->
+    <section class="doc-section" id="debt">
+      <h1>⚠️ Deuda Técnica</h1>
+      <p class="doc-lead">Problemas identificados en el análisis del código fuente que deben resolverse durante la migración.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Prioridad</th><th>Notas</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>ICustomerRepository</code> está vacía — no tiene métodos definidos</td>
+              <td><span class="priority-alta">Alta</span></td>
+              <td>El contrato no refleja la implementación real</td>
+            </tr>
+            <tr>
+              <td><code>CreateCustomerDeliveryAddress(CustomerAddress)</code> tiene código incompleto (<code>_dbContext.CustomerAddress.(newAddress)</code>)</td>
+              <td><span class="priority-alta">Alta</span></td>
+              <td>Error de compilación en <code>CustomerRepository.cs</code></td>
+            </tr>
+            <tr>
+              <td>Stored Procedures como única lógica transaccional</td>
+              <td><span class="priority-media">Media</span></td>
+              <td>Dificulta pruebas unitarias y portabilidad</td>
+            </tr>
+            <tr>
+              <td>XML como parámetro de entrada a SPs</td>
+              <td><span class="priority-media">Media</span></td>
+              <td>Reemplazar por parámetros tipados o JSON</td>
+            </tr>
+            <tr>
+              <td><code>Program.customConnectionString</code> global estático</td>
+              <td><span class="priority-media">Media</span></td>
+              <td>Reemplazar por DI con <code>IConfiguration</code></td>
+            </tr>
+            <tr>
+              <td>MVP pattern solo implementado para <code>Product</code></td>
+              <td><span class="priority-media">Media</span></td>
+              <td>Extender o migrar completamente a nueva arquitectura</td>
+            </tr>
+            <tr>
+              <td><code>TODO</code> comments en múltiples repositorios</td>
+              <td><span class="priority-baja">Baja</span></td>
+              <td>Registrar como issues en GitHub y priorizar</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───── SCREENS ───── -->
+    <section class="doc-section" id="screens">
+      <h1>🖥️ Prompts por Pantalla</h1>
+      <p class="doc-lead">21 prompts listos para usar en GitHub Copilot, Claude o GPT. Copia el prompt, ajusta la tecnología objetivo y ejecuta. Asume la existencia de un cliente HTTP tipado <code>PosApiClient</code>.</p>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">💡</span>
+        <span>Reemplaza <strong>[React/Blazor/WinForms]</strong> en cada prompt con tu tecnología elegida antes de usar.</span>
+      </div>
+
+      <div id="screen-list"></div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+  // ── Navigation ──
+  const titles = {
+    overview: 'Inicio',
+    architecture: 'Arquitectura General',
+    structure: 'Estructura de Proyectos',
+    'mod-auth': 'Módulo Auth',
+    'mod-customers': 'Módulo Customers',
+    'mod-products': 'Módulo Products',
+    'mod-invoices': 'Módulo Invoices',
+    'mod-payments': 'Módulo Payments',
+    'mod-salesorders': 'Módulo Sales Orders',
+    'mod-remission': 'Módulo Remission Guide',
+    'mod-closing': 'Módulo Closing Cashier',
+    'mod-stock': 'Módulo Physical Stock',
+    'mod-config': 'Módulo Configuration',
+    migration: 'Plan de Migración',
+    debt: 'Deuda Técnica',
+    screens: 'Prompts por Pantalla'
+  };
+
+  function show(id) {
+    document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const nav = document.getElementById('nav-' + id);
+    if (nav) nav.classList.add('active');
+    document.getElementById('topbar-title').textContent = titles[id] || id;
+    window.scrollTo(0, 0);
+    if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  // ── Screens data ──
+  const screens = [
+    {
+      num: '01', title: 'Login (FrmLogin)',
+      prompt: `Crea el componente de Login para un sistema POS llamado OmniPOS.
+
+Requisitos funcionales:
+- Campos: Usuario (texto), Contraseña (password).
+- Botón "Ingresar" y botón "Cancelar".
+- Al ingresar, llamar POST /api/auth/login con { username, password, workstation, ipAddress }.
+- Si la respuesta tiene error=true, mostrar mensaje de advertencia con el campo TextError.
+- Si el login es exitoso, navegar a la pantalla de Menú enviando { loginInfo, globalParams }.
+- Obtener la IP local de la máquina y el nombre de la workstation automáticamente.
+- Mostrar cursor de espera mientras se procesa.
+
+Validaciones:
+- Usuario y contraseña son requeridos.
+- Mostrar error específico si no hay conexión con la API.
+
+Tecnología: [React/Blazor/WinForms]. Usa el cliente HTTP PosApiClient.`
+    },
+    {
+      num: '02', title: 'Menú Principal (FrmMenu)',
+      prompt: `Crea el componente de Menú Principal del POS OmniPOS.
+
+Requisitos funcionales:
+- Mostrar botones de navegación: Venta, Órdenes de Venta, Guía de Remisión, Conteo Físico, Cierre de Caja, Salir.
+- El menú recibe loginInfo (usuario logueado) y globalParams (parámetros del sistema).
+- Cada botón abre la pantalla correspondiente pasando loginInfo y emissionPoint.
+- Botón "Salir" regresa a la pantalla de Login.
+- Mostrar el nombre del usuario logueado y el punto de emisión en la barra superior.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '03', title: 'Venta Principal (FrmMain)',
+      prompt: `Crea el componente principal de venta (POS terminal) para OmniPOS.
+
+Requisitos funcionales:
+- Área de ingreso de código de barras (campo de texto + Enter para buscar).
+- Grilla de líneas de venta: Descripción, Cantidad, Precio Unitario, Descuento, Total.
+- Panel de totales: Subtotal, IVA, IRBP, Descuento, TOTAL.
+- Botones: Pagar, Seleccionar Cliente, Buscar Producto, Suspender Venta, Limpiar.
+- Al iniciar, verificar si existe una venta suspendida (GET /api/invoices/suspended) y preguntar si reanudar.
+- Al escanear barcode: llamar POST /api/products/consult con { locationId, barcode, quantity, customerId, paymmodeId }.
+- Si el producto tiene precio=0, mostrar advertencia y no agregarlo.
+- Mostrar el cliente seleccionado (nombre e identificación).
+- Al presionar "Pagar", abrir pantalla de Pago con el XML de la factura construido.
+- Soporte para productos de peso variable: abrir diálogo de peso antes de agregar.
+- Al limpiar: confirmar acción antes de borrar todas las líneas.
+
+Estado: currentCustomer, invoiceLines[], invoiceXml, emissionPoint, loginInfo, salesOriginId.
+
+Validaciones:
+- No se puede pagar si no hay líneas en la factura.
+- No se puede agregar un producto sin cliente si el parámetro global lo requiere.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '04', title: 'Búsqueda de Producto (FrmProductSearch)',
+      prompt: `Crea el componente de búsqueda de productos para OmniPOS.
+
+Requisitos funcionales:
+- Campo de búsqueda por nombre o código.
+- Llamar GET /api/products/search?name={texto} al escribir (debounce 300ms).
+- Mostrar resultados en grilla: Código, Nombre, Precio, Unidad, Stock.
+- Al seleccionar un producto, retornarlo al componente padre.
+- Botón "Cancelar" para cerrar sin selección.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '05', title: 'Gestión de Cliente (FrmCustomer)',
+      prompt: `Crea el componente de gestión de clientes para OmniPOS.
+
+Requisitos funcionales:
+- Campos: Tipo de Identificación (dropdown), Número de Identificación, Nombres, Apellidos, Email, Teléfono, Dirección, Tipo de Cliente.
+- Modo "nuevo cliente" y modo "editar cliente existente".
+- Al ingresar identificación y presionar Tab/Enter: llamar GET /api/customers/{identification}.
+  - Si existe: cargar datos en formulario (modo edición).
+  - Si no existe: limpiar el formulario (modo nuevo).
+- Antes de guardar, llamar POST /api/customers/validate-identification.
+- Botón "Guardar": POST /api/customers (nuevo) o PUT /api/customers/{id} (edición).
+- Botón "Direcciones": abrir FrmAddressPicker.
+- Botón "Cancelar".
+
+Validaciones (inline):
+- Identificación: requerida, formato según tipo (CI=10 dígitos, RUC=13 dígitos).
+- Nombres y Apellidos: requeridos.
+- Email: formato válido si se ingresa.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '06', title: 'Selector de Direcciones (FrmAddressPicker)',
+      prompt: `Crea el componente de gestión de direcciones de entrega para OmniPOS.
+
+Requisitos funcionales:
+- Listar las direcciones del cliente: GET /api/customers/{customerId}/addresses.
+- Mostrar en lista: Dirección, Referencia, Teléfono.
+- Botón "Nueva Dirección": formulario inline. Guardar: POST /api/customers/{customerId}/addresses.
+- Botón "Editar": cargar en formulario. Guardar: PUT /api/customers/addresses/{addressId}.
+- Botón "Seleccionar": retornar la dirección elegida al componente padre.
+- Botón "Cancelar".
+
+Validaciones:
+- Dirección y Teléfono son requeridos.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '07', title: 'Pago (FrmPayment)',
+      prompt: `Crea el componente de pago para OmniPOS.
+
+Requisitos funcionales:
+- Panel de resumen: Base IVA 0%, Base IVA X%, IVA X%, IRBP, Descuento, Total.
+- Campo "Monto a pagar" con botones de método: Efectivo, Tarjeta, Cheque, Crédito Interno, Gift Card, Retención, Anticipo, Devolución.
+- Grilla de pagos registrados (múltiples medios de pago).
+- Indicadores: Monto Pendiente, Cambio.
+- Botón "Confirmar": solo habilitado cuando Pendiente = 0.
+- Si el cliente tiene UseRetention=true, preguntar al cargar si desea registrar retención.
+- Al confirmar: llamar POST /api/invoices con el XML completo.
+- Si exitoso, mostrar ticket de impresión.
+
+Sub-flujos:
+- Efectivo: calcular cambio automáticamente.
+- Tarjeta → FrmPaymentCard. Cheque → FrmPaymentCheck.
+- Crédito Interno → FrmPaymentCredit. Gift Card → FrmPaymentGiftcard.
+- Retención → FrmPaymentWithhold. Anticipo → FrmPaymentAdvance.
+
+Estado: paymentLines[], pendingAmount, changeAmount, paymentXml.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '08', title: 'Pago con Tarjeta (FrmPaymentCard)',
+      prompt: `Crea el componente de pago con tarjeta crédito/débito para OmniPOS.
+
+Requisitos funcionales:
+- Dropdown de bancos: GET /api/payments/modes?type=CARD.
+- Campos: Banco, Número de Lote, Número de Autorización, Monto.
+- Botón "Aceptar": retornar { bank, lot, authorization, amount } al componente FrmPayment.
+- Botón "Cancelar".
+
+Validaciones:
+- Banco y número de autorización requeridos. Monto > 0.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '09', title: 'Crédito Interno (FrmPaymentCredit)',
+      prompt: `Crea el componente de pago con crédito interno para OmniPOS.
+
+Requisitos funcionales:
+- Campo para código de tarjeta interna.
+- Al ingresar código: GET /api/payments/internal-credit/{cardCode}.
+- Mostrar: titular, saldo disponible, límite de crédito.
+- Campo de monto a aplicar (máximo = pendiente o saldo).
+- Botón "Aceptar" y "Cancelar".
+
+Validaciones:
+- Código requerido y debe existir.
+- Monto no puede exceder saldo disponible ni pendiente de pago.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '10', title: 'Gift Card (FrmPaymentGiftcard)',
+      prompt: `Crea el componente de pago con Gift Card para OmniPOS.
+
+Requisitos funcionales:
+- Campo para código de Gift Card.
+- Al ingresar: POST /api/payments/giftcard/validate con { code }.
+- Mostrar saldo disponible y vigencia.
+- Campo de monto a aplicar.
+- Botón "Aceptar": POST /api/payments/giftcard/redeem.
+- Botón "Cancelar".
+
+Validaciones:
+- Gift Card debe existir, tener saldo > 0 y no estar vencida.
+- Monto no puede exceder el saldo ni el pendiente.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '11', title: 'Retención (FrmPaymentWithhold)',
+      prompt: `Crea el componente de registro de retención fiscal para OmniPOS.
+
+Requisitos funcionales:
+- Campos: Número de Comprobante de Retención, Porcentaje, Monto (calculado automáticamente).
+- Botón "Aceptar" y "Cancelar".
+- Solo disponible para clientes con UseRetention=true.
+
+Validaciones:
+- Número de comprobante requerido. Porcentaje > 0.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '12', title: 'Anticipo (FrmPaymentAdvance)',
+      prompt: `Crea el componente de aplicación de anticipo para OmniPOS.
+
+Requisitos funcionales:
+- Llamar POST /api/payments/advance/consult con { customerId }.
+- Mostrar anticipos disponibles: Número, Fecha, Monto, Saldo.
+- Seleccionar anticipo(s) a aplicar.
+- Mostrar monto total a aplicar.
+- Botón "Aceptar" y "Cancelar".
+
+Validaciones:
+- Solo anticipos con saldo > 0.
+- Monto aplicado no puede exceder el pendiente de pago.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '13', title: 'Orden de Venta (FrmSalesOrder)',
+      prompt: `Crea el componente de gestión de orden de venta para OmniPOS.
+
+Requisitos funcionales:
+- Listar órdenes: GET /api/sales-orders con filtros de estado y fecha.
+- Grilla: Número, Fecha, Cliente, Canal, Estado, Total.
+- Botones: Nueva Orden, Editar, Copiar, Convertir a Factura, Cancelar.
+- "Copiar": POST /api/sales-orders/{id}/copy.
+- "Convertir a Factura": POST /api/sales-orders/{id}/to-invoice, navegar a FrmPayment.
+
+Validaciones:
+- Solo órdenes en estado "pendiente" pueden editarse o convertirse.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '14', title: 'Cabecera Orden de Venta (FrmSalesOrderHeader)',
+      prompt: `Crea el componente de cabecera de orden de venta para OmniPOS.
+
+Requisitos funcionales:
+- Campos: Cliente (búsqueda por identificación), Canal de Venta (GET /api/config/sales-origins), Vendedor (GET /api/config/salesmen), Fecha de Entrega, Observaciones.
+- Líneas de productos: igual que FrmMain (buscar, cantidad, precio).
+- Totales calculados en tiempo real.
+- Botón "Guardar": POST /api/sales-orders.
+- Botón "Cancelar".
+
+Validaciones:
+- Cliente, canal de venta y al menos una línea de producto son requeridos.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '15', title: 'Cierre de Caja (FrmClosingCashier)',
+      prompt: `Crea el componente de cierre de caja para OmniPOS.
+
+Requisitos funcionales:
+- Mostrar resumen de pagos del turno: GET /api/closing/payments.
+- Grilla de denominaciones para conteo: GET /api/closing/denominations.
+  - Por cada denominación: campo para cantidad contada, subtotal automático.
+- Mostrar diferencia sistema vs. contado.
+- Botón "Cierre Total": POST /api/closing/full.
+- Mostrar ticket de cierre al finalizar.
+- Requiere confirmación previa.
+
+Validaciones:
+- Solo ejecutable si hay pagos en el turno.
+- Confirmar si hay diferencia en efectivo.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '16', title: 'Cierre Parcial (FrmPartialClosing)',
+      prompt: `Crea el componente de cierre parcial de caja para OmniPOS.
+
+Requisitos funcionales:
+- Mostrar cierres parciales previos: GET /api/closing/partials.
+- Campo para monto a enviar a bóveda y observación.
+- Botón "Registrar Cierre Parcial": POST /api/closing/partial.
+- Imprimir ticket del cierre parcial.
+
+Validaciones:
+- Monto > 0 y no puede exceder el efectivo disponible.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '17', title: 'Anulación de Factura (FrmInvoiceCancel)',
+      prompt: `Crea el componente de anulación de factura para OmniPOS.
+
+Requisitos funcionales:
+- Campo para buscar factura por número.
+- Mostrar detalle de la factura encontrada.
+- Dropdown de motivo de anulación: GET /api/config/cancel-reasons.
+- Requerir autorización de supervisor: POST /api/auth/supervisor.
+- Botón "Anular": POST /api/invoices/{invoiceId}/cancel.
+- Imprimir comprobante de anulación.
+
+Validaciones:
+- Factura debe existir y estar activa.
+- Motivo requerido. Autorización de supervisor obligatoria.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '18', title: 'Guía de Remisión (FrmRemissionGuide)',
+      prompt: `Crea el componente de guía de remisión para OmniPOS.
+
+Requisitos funcionales:
+- Listar guías: GET /api/remission-guides.
+- "Nueva Guía": abrir selector de órdenes pendientes.
+- Campos: Transportista, Conductor, Placa, Motivo de Traslado, Dirección Destino.
+- Líneas de productos de la orden seleccionada.
+- "Guardar": POST /api/remission-guides.
+- "Convertir a Factura": POST /api/remission-guides/{id}/to-invoice.
+- "Anular": POST /api/remission-guides/{id}/cancel (requiere supervisor).
+
+Validaciones:
+- Transportista y motivo de traslado requeridos.
+- No anular una guía ya convertida.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '19', title: 'Conteo Físico (FrmPhysicalStockCount)',
+      prompt: `Crea el componente de conteo físico de inventario para OmniPOS.
+
+Requisitos funcionales:
+- Iniciar un nuevo conteo: POST /api/physical-stock.
+- Campo de código de barras para escanear.
+- Al escanear: GET /api/products/barcode/{barcode}, agregar a grilla (cantidad 1).
+- Si ya está en grilla, incrementar cantidad.
+- Campo editable de cantidad por línea.
+- Botón "Confirmar Conteo": POST /api/physical-stock/{id}/confirm.
+- Mostrar diferencias vs. stock del sistema.
+
+Validaciones:
+- Producto debe existir. Cantidad no negativa. Confirmar antes de finalizar.
+
+Tecnología: [React/Blazor/WinForms].`
+    },
+    {
+      num: '20', title: 'Auth Supervisor (FrmSupervisorAuth)',
+      prompt: `Crea el componente modal de autenticación de supervisor para OmniPOS.
+
+Requisitos funcionales:
+- Modal con campos: Usuario Supervisor y Contraseña.
+- Botón "Autorizar": POST /api/auth/supervisor. Si exitoso, retornar true.
+- Si falla, mostrar error y permitir reintentar.
+- Botón "Cancelar": retornar false.
+
+Validaciones:
+- Usuario y contraseña requeridos. Máximo 3 intentos antes de bloquear.
+
+Tecnología: [React/Blazor/WinForms]. Modal reutilizable.`
+    },
+    {
+      num: '21', title: 'Verificador de Precio (FrmProductChecker)',
+      prompt: `Crea el componente verificador de precios para OmniPOS (modo kiosko).
+
+Requisitos funcionales:
+- Campo de código de barras, se activa al escanear.
+- Llamar GET /api/products/barcode/{barcode} automáticamente.
+- Mostrar a pantalla completa: Nombre del producto, Precio, Código.
+- Limpiar automáticamente después de 5 segundos.
+- No requiere login (modo público).
+
+Tecnología: [React/Blazor/WinForms].`
+    }
+  ];
+
+  // ── Render screens ──
+  const list = document.getElementById('screen-list');
+  screens.forEach(s => {
+    list.innerHTML += `
+      <div class="screen-prompt">
+        <div class="screen-prompt-header">
+          <span class="sp-title">Pantalla ${s.num} — ${s.title}</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copiar</button>
+        </div>
+        <div class="screen-prompt-body">
+          <pre><code>${escHtml(s.prompt)}</code></pre>
+        </div>
+      </div>`;
+  });
+
+  function escHtml(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function copyPrompt(btn) {
+    const code = btn.closest('.screen-prompt').querySelector('pre code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar', 1800);
+    });
+  }
+</script>
+</body>
+</html>

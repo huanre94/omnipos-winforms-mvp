@@ -3,6 +3,7 @@ using POS.DLL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace POS.DLL.Repository
 {
@@ -110,11 +111,12 @@ namespace POS.DLL.Repository
         }
 
         //TODO: Nueva logica para insertar nuevas direcciones
-        public bool CreateCustomerDeliveryAddress(CustomerAddress newAddress)
+        public async Task<bool> CreateCustomerDeliveryAddress(CustomerAddress newAddress)
         {
             try
             {
                 POSEntities db = _dbContext;
+                await _dbContext.CustomerAddress.(newAddress);
                 db.CustomerAddress.Add(newAddress);
                 return db.SaveChanges() > 0;
             }

@@ -480,6 +480,7 @@
       <LastGenOutput>ModelPOS.Context.cs</LastGenOutput>
       <DependentUpon>ModelPOS.edmx</DependentUpon>
     </Content>
+    <Content Include="ModelPOS.edmx.sql" />
     <Content Include="ModelPOS.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelPOS.edmx</DependentUpon>
